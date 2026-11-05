@@ -112,3 +112,17 @@ npm run experiment:world-senses:none
 Modificações de modalidade, período de amostragem, posição das barreiras, quantização ou latência alteram as incidências sem alterar a dinâmica física. O cenário padrão produz 11 incidências, incluindo alterações ópticas durante a descida e o ressalto.
 
 [Modelo e critérios científicos da transdução](docs/world-sensing-v0.1.md).
+
+## Etapa 5 — campanha adversarial versionada
+
+Treze condições científicas, com verificação numérica independente da primeira colisão, auditoria das incidências e auditoria do motor diagnóstico. Um par especial contém duas instâncias físicas **sem interação**, cujos impactos podem cair no mesmo intervalo de amostragem; coincidência temporal não é demonstração de causa comum.
+
+~~~sh
+npm run test:scientific-controls
+npm run experiment:controls
+npm run experiment:controls:json > scientific-controls.json
+npm run experiment:controls:coincident
+npm run experiment:controls:staggered
+~~~
+
+Veja [protocolo completo e limitações](docs/scientific-controls-v0.1.md).

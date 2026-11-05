@@ -138,3 +138,29 @@ O acoplamento fica isolado em src/sensory/world-signals.js, enquanto src/sensory
 A especificação física completa fica no manifesto **do pesquisador**, não no objeto entregue ao domínio experimental.
 
 [Protocolo de transdução v0.1](world-sensing-v0.1.md).
+
+## Etapa 5 — validação independente do instrumento
+
+~~~text
+Mundo 1D A             Mundo 1D B (somente controles de duas fontes)
+   |                               |
+Acoplamento A                  Acoplamento B
+   |                               |
+   +----- relógio temporal --------+
+                 |
+         transdutores separados
+                 |
+             incidências
+                 |
+       motor diagnóstico sem aprender
+
+Pesquisador (sem acesso ao motor):
+- auditor numérico da colisão por mundo;
+- auditor de amostra → incidência → entrega;
+- auditor de entrega → ingestão diagnóstica;
+- manifesto com cada condição e origem física.
+~~~
+
+A simultaneidade no cenário duplo resulta de intervenção temporal do pesquisador. Os modelos físicos não trocam forças, objetos ou estados. O instrumento reconhece explicitamente o limite dessa noção de independência.
+
+Ver [controles científicos v0.1](scientific-controls-v0.1.md).
