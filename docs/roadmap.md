@@ -1,43 +1,20 @@
-# Incremental research implementation plan
+# EMERGENCE — Roteiro único de implementação (v0.3)
 
-Only development in **paulosince/emergence**. TEMPO is read-only.
+**Documento vigente.** Substitui as listas e cronogramas anteriores. Uma única sequência cumulativa; itens concluídos exigem código versionado, testes e registro de evidências. A numeração permanece estável. Não criar planos paralelos. Este roteiro pode ser atualizado quando requisitos científicos mudarem, preservando o histórico Git.
 
-## Phase 0 — foundation (this commit)
-- [x] Inspect `emergence` and pin TEMPO revision
-- [x] Record source modules, dependencies and limitations
-- [x] Copy reference source unchanged, including original tests and published outputs
-- [x] Define experimental boundaries and contracts
-- [x] Create baseline invocation, golden-result tests and CI
-- [x] Verify the CI workflow green on GitHub ([run 42056023091](https://github.com/paulosince/emergence/actions/runs/42056023091))
+**Repositórios:** desenvolver apenas em [EMERGENCE](https://github.com/paulosince/emergence); [TEMPO](https://github.com/paulosince/temporotopological-relations) é referência congelada e somente leitura (revisão `206611ec5e453fa66a78ad3f5f1650c5892d0b6d`). Stack: JavaScript ESM sem build; testes automatizados; separação entre mundo, transdução, domínio e avaliador.
 
-## Phase 1 — experimental runtime
-- [x] Simulated clock and stable time/sequence event ordering
-- [x] Synthetic scalar sensory environment and transducers with explicit information boundaries (physical modalities remain future work)
-- [x] Operational engine contract with diagnostic and fixed-node TEMPO controls (unit-formation candidates remain future work)
-- [x] Deterministic seeds, run manifests, observable event traces
+1. [x] **Fundação e referência TEMPO — CONCLUÍDA.** Estrutura modular, contratos iniciais, cópia atribuída e intacta de módulos do TEMPO, executor de comparação e regressões. Evidência: [fundação](https://github.com/paulosince/emergence/commit/a27953bb0212887f8a9d5ac3a9bf6f7be6f59e64).
+2. [x] **Motor temporal e incidências — CONCLUÍDA.** Relógio simulado, fila determinística, transdutores numéricos sintéticos, controles diagnóstico/TEMPO com nós fixos, rastros e manifesto inicial. **Não** constitui unidades autonomamente. Evidência: [31 testes aprovados na última verificação](https://github.com/paulosince/emergence/actions/runs/42071403535).
+3. [ ] **Mundo físico mínimo verificável — PRÓXIMA.** Definir contrato operacional do fenômeno, estado, intervenção e observável; implementar queda livre analítica 1D; calcular contato e, depois, colisão idealizada com hipóteses explícitas; validar por soluções independentes, limites e testes de falha deliberada. **Aceite:** referências matemáticas concordam dentro de tolerâncias justificadas e as transições físicas são auditáveis.
+4. [ ] **Transdução física e modalidades selecionáveis.** Substituir, neste cenário, valores arbitrários por grandezas efetivamente produzidas pelo mundo; configurar e desligar sensores, amostragem, resolução, campo de captação, ruído e atraso; adicionar modalidades gradualmente (primeira modalidade verificável, segunda para coerência intermodal; depois visual, auditiva e tátil quando houver modelos físicos suficientes). **Aceite:** mudança isolada de posição ou capacidade sensorial altera as incidências como previsto, sem alterar a física subjacente.
+5. [ ] **Controles científicos e validação adversarial.** Construir conjunto versionado de cenas analíticas, referência alternativa quando pertinente, casos-limite, artefatos induzidos, perda por subamostragem, eventos coincidentes e perturbações isoladas. Preservar verdade física para avaliação, fora do motor de aprendizagem. **Aceite:** os testes detectam falhas conhecidas e permitem separar erros do mundo, do sensor e do motor.
+6. [ ] **Corpo, propriocepção, interocepção e ação.** Implementar corpo mínimo, estados físicos internos, atuador, consumo de energia com modelo declarado, influências mútuas corpo–mundo e transdutores específicos; distinguir ação imposta, controlador fixo e ação autonomamente determinada. **Aceite:** um mesmo acontecimento gera consequências externas/internas físicas verificáveis, sem fornecer seus rótulos ao domínio.
+7. [ ] **Persistência e replicação científica.** IndexedDB com migrações; execuções e métricas versionadas; checkpoints que capturem mundo, sensores, filas, aleatoriedade e estado interno do motor; exportação CSV/JSON/ZIP, importação e validação; reexecução versus replay. **Aceite:** execução contínua e retomada a partir de checkpoint resultam em histórico equivalente e verificável.
+8. [ ] **Interface científica sincronizada.** Telas Preparar/Observar/Analisar; cena do mundo e domínio lado a lado; visualização de transduções e linha temporal única; visualização da malha com zoom/pan, formas por ciclo de vida, peso por espessura, direção, partículas de propagação e latências em ms; inspeção de causalidade operacional e legendas. **Aceite:** renderização é somente leitura e espelha eventos reais da simulação, sem inventar fenômenos ou estados.
+9. [ ] **Investigar candidatos à constituição autônoma de unidades.** Derivar candidatos de necessidades funcionais, manter alternativas concorrentes, implementar sem pré-programar entidades individuais; registrar individuação, transformações e falhas, inclusive sob informações insuficientes. **Aceite:** demonstrar condições em que unidades se constituem ou falham, com ablações e sem inferir automaticamente representação de uma estrutura de dados.
+10. [ ] **Relações temporotopológicas com unidades não predefinidas.** Integrar mecanismos de relação do TEMPO por adaptadores no EMERGENCE sem alterar o original; testar constituição conjunta de unidades/relações, orientação, pesos e tempo efetivo de percorrimento; verificar regressões e contraexemplos. **Aceite:** demonstrar operacionalmente os critérios escolhidos, com diferenças explícitas frente ao controle de nós fixos.
+11. [ ] **Constituição de organizações derivadas.** Investigar se organizações constituídas participam causalmente de novas constituições, inclusive processos internos e recursividade; distinguir codificação, agrupamento, recuperação e representação efetiva. **Aceite:** testes operacionais e ablações que sustentem ou refutem cada propriedade, com limitações registradas.
+12. [ ] **Campanha comparativa e resultados publicáveis.** Comparar mecanismos e antecedentes aplicáveis (GNG, GWR, SOINN, Gamma-GWR, etc.), variar mundos, sensores, parâmetros e sementes, testar necessidade/suficiência dentro de hipóteses delimitadas, revisar identificabilidade, gerar gráficos, tabelas e documentação reexecutável. **Aceite:** resultados e interpretações rastreáveis às execuções, sem reivindicação de originalidade ou generalidade não demonstrada.
 
-## Phase 2 — persistence and replication
-- [ ] IndexedDB schema migrations, records, checkpoints and resumable state
-- [ ] CSV event/structure/metric outputs with units and provenance
-- [ ] ZIP exports + validation, independent replay versus re-execution
-- [ ] Cross-browser and checkpoint determinism tests
-
-## Phase 3 — visualization
-- [ ] Zoom/pan fMRI-style network view, directed edges and ms labels
-- [ ] Node shapes (new, developing, consolidated, pruning-candidate)
-- [ ] Weight-scaled edge thickness and time-faithful traveling pulses
-- [ ] Accessible rich legends and structural inspector
-- [ ] Rendering never mutates research state
-
-## Phase 4 — experimental constitution
-- [ ] Candidate mechanisms for individuating units from transduced incidences
-- [ ] TEMPO relation constitution with evolving units, preserving regressions
-- [ ] Ablation and comparison to existing methods
-- [ ] Identification limits and counterexample tests
-
-## Phase 5 — derived constitution
-- [ ] Tests whether constituted structures contribute causally to further structures
-- [ ] Distinguish mere clustering, symbolic grouping and effective derived constitution
-- [ ] Record successful and failed conditions, statistical robustness
-
-All completed phase results must be reproducible from recorded data, code revision and inputs.
+**Regra de acompanhamento:** atualizar a caixa `[ ]` para `[x]` somente depois que o item estiver testado e a evidência estiver registrada; reportar o commit e o que foi verificado. Para cada etapa nova, executar os incrementos pequenos necessários **dentro do item correspondente**, sem criar outra lista concorrente. Etapas posteriores podem usar cenários mínimos validados e não dependem de um mundo 3D completo.
