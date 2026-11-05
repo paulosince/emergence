@@ -8,7 +8,7 @@ Only development in **paulosince/emergence**. TEMPO is read-only.
 - [x] Copy reference source unchanged, including original tests and published outputs
 - [x] Define experimental boundaries and contracts
 - [x] Create baseline invocation, golden-result tests and CI
-- [ ] Verify the CI workflow green on GitHub
+- [x] Verify the CI workflow green on GitHub ([run 42056023091](https://github.com/paulosince/emergence/actions/runs/42056023091))
 
 ## Phase 1 — experimental runtime
 - [ ] Simulated clock and stable time/sequence event ordering

@@ -29,8 +29,6 @@ Requires **Node.js 20+** to execute tests; the research runtime uses native ES m
 npm test                       # upstream TEMPO regression + EMERGENCE regression
 npm run test:tempo            # the original TEMPO tests, unchanged
 npm run baseline              # one reproducible TEMPO baseline case (JSON stdout)
-npm run tempo:predictions     # upstream P2–P5 experiment (writes under vendor/tempo/results/)
-npm run tempo:chains          # upstream P1 experiment (writes under vendor/tempo/results/)
 ```
 
 ## Architecture (foundation)

@@ -9,8 +9,6 @@
   "scripts": {
     "test": "node --test vendor/tempo/tests/core.test.js tests/*.test.js",
     "test:tempo": "node --test vendor/tempo/tests/core.test.js",
-    "baseline": "node experiments/tempo-baseline.js",
-    "tempo:predictions": "node vendor/tempo/experiments/predictions.js",
-    "tempo:chains": "node vendor/tempo/experiments/p1-chains.js"
+    "baseline": "node experiments/tempo-baseline.js"
   }
 }

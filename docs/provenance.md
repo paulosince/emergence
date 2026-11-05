@@ -30,3 +30,7 @@ The original core has:
 - `rng.js`: seeded pseudo-random source (mulberry32, uniform/normal/Poisson).
 - `protocols.js`: training, probes for the five-item test, reverse-order and persistence experiments.
 - `experiments/`: P1–P5 scripts; do not claim their reported results are independently replicated until verified.
+
+## Executable scripts
+
+The original `vendor/tempo/experiments/` scripts are preserved verbatim for audit, but running them directly writes result files under the frozen vendored snapshot. Use the new research runners outside `vendor/` for fresh executions instead; original scripts should be inspected, not used as the canonical way to record new EMERGENCE results.
