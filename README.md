@@ -147,3 +147,9 @@ npm run experiment:body:no-lift
 ~~~
 
 Ver [modelo do corpo, equações e limitações](docs/body-world-v0.1.md).
+
+### Controle de ação e verificação da interface
+
+Além da ação imposta pelo pesquisador, o cenário corporal aceita uma **regra fixa de limiar de tensão**. Essa regra mede operacionalmente a tensão inicial do capacitor e permite ou inibe a elevação. É um controle programado, não atividade autonomamente determinada pelo domínio.
+
+A interface inicial permite selecionar esses controles e as modalidades. Uma suíte de teste de DOM executa os módulos reais do experimento e verifica a navegação temporal e as ablações, **sem afirmar que isso substitui a inspeção visual em navegador real**.

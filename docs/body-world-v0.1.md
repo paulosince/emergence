@@ -11,7 +11,7 @@ A introdução de interocepção não pode ser um gerador independente de númer
 3. Energia elétrica armazenada e corrente consumida pelo motor (*interocepção*).
 4. Calor produzido pelo trabalho ineficiente e a mudança da temperatura interna (*interocepção*).
 
-O pesquisador especifica a ação "elevar e soltar" e seu instante de início; não existe política autônoma. A esfera não recebe um nome de objeto, nem o motor recebe rótulos físicos, no fluxo de incidências entregue ao domínio.
+O pesquisador configura o movimento pretendido e o momento da intervenção; o modo de regra fixa pode inibir a elevação com base na tensão física. Não existe política autônoma. A esfera não recebe um nome de objeto, nem o motor recebe rótulos físicos, no fluxo de incidências entregue ao domínio.
 
 ## Modelo físico delimitado
 
@@ -53,6 +53,16 @@ O consumo elétrico acumulado é We=Wm/eficiência. A energia do capacitor é E=
 A corrente calculada no instante é I=(Pm/eficiência)/V. Um controlador ideal mantém a trajetória comandada enquanto existe energia suficiente. O controlador não é modelado eletronicamente e é **externo** à arquitetura em investigação.
 
 Esse esquema conserva energia dentro de suas condições declaradas, mas NÃO demonstra que essas equações descrevam a fisiologia de um animal, um motor real ou uma bateria química.
+
+## Duas origens de ação experimentalmente distinguíveis
+
+**Intervenção do pesquisador:** o comando de elevação ocorre em um horário estabelecido externamente; o registro físico identifica o pesquisador como origem.
+
+**Regra fixa programada:** um controlador não-aprendiz mede a **tensão inicial do capacitor** por uma função do estado físico antes do comando. Se a medição for igual ou superior a um limiar explícito, ele autoriza o levantamento previamente especificado; caso contrário, a esfera permanece sustentada até o horário de soltura. O controlador determina efetivamente qual dinâmica será executada e registra sua avaliação. Não é somente uma descrição textual da ação.
+
+O controlador pode impedir um movimento para o qual a energia seria insuficiente. Caso o limiar permita uma ação que ainda exceda o limite de energia do modelo, a construção é rejeitada em vez de produzir uma trajetória fisicamente inconsistente.
+
+As opções iniciais da interface são 9,95 V (permite elevar com 10 V iniciais) ou 10,05 V (inibe elevação com 10 V iniciais), além das duas ações impostas pelo pesquisador. As regras são impostas pelo programador e **não constituídas autonomamente** pelo sistema experimental. Não existe ainda um mecanismo representacional capaz de selecionar ações, e não chamamos a regra fixa de autonomia.
 
 ## Acoplamentos e leituras
 
@@ -109,4 +119,4 @@ Os testes de regressão mantêm o TEMPO original somente leitura. Não se pode a
 
 ## Ponto de atenção científico
 
-A energia/corrente/tensão/temperatura aparecem como processos **internos ao corpo experimental**, não como constituições endógenas do sistema representacional. O controlador motor é determinado externamente. Não inferir que a existência de sinais interoceptivos obrigue a emergência de atividade endógena representacional. Esta questão deverá ser investigada, não programada como resposta.
+A energia/corrente/tensão/temperatura aparecem como processos **internos ao corpo experimental**, não como constituições endógenas do sistema representacional. O controle motor é externamente programado: pode ser uma intervenção direta ou uma regra fixa de limiar. Não inferir que a existência de sinais interoceptivos obrigue a emergência de atividade endógena representacional. Esta questão deverá ser investigada, não programada como resposta.
