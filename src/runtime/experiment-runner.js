@@ -9,7 +9,7 @@ import { TEMPO_SOURCE_COMMIT } from '../tempo/reference-runner.js';
 
 export function runExperiment({
   environment, transducers, engine, seed = 0, endTimeMs,
-  maxEvents = 100000,
+  maxEvents = 100000, softwareRevision = null,
 }) {
   assertExperimentEngine(engine);
   if (!environment || typeof environment.readAt !== 'function' ||
@@ -21,6 +21,10 @@ export function runExperiment({
   }
   if (!Number.isFinite(endTimeMs) || endTimeMs < 0) {
     throw new RangeError('endTimeMs must be finite and nonnegative');
+  }
+  if (softwareRevision !== null && (typeof softwareRevision !== 'string' ||
+      !softwareRevision.trim())) {
+    throw new TypeError('softwareRevision must be a non-empty string or null');
   }
   if (!Number.isInteger(maxEvents) || maxEvents < 1) {
     throw new RangeError('maxEvents must be a positive integer');
@@ -132,6 +136,7 @@ export function runExperiment({
 
   const manifest = {
     schemaVersion: '1.0.0',
+    software: { name: 'EMERGENCE', version: '0.2.0', revision: softwareRevision },
     execution: 'deterministic-event-simulation',
     seed, endTimeMs, maxEvents,
     tempoReferenceCommit: TEMPO_SOURCE_COMMIT,

@@ -80,3 +80,9 @@ Check out the exact EMERGENCE revision; run tests; execute the same scenario and
 - No hypotheses about individuation have been implemented.
 - No IndexedDB or fMRI-like visual interface yet.
 - No full schema-validated research archive yet.
+
+## Software provenance
+
+The JSON manifest records the TEMPO reference commit, the EMERGENCE version and an optional EMERGENCE Git revision. The command-line runner obtains the revision from GITHUB_SHA when set or from the locally checked-out Git commit. If the user executes a source ZIP without Git metadata, the revision is **null** rather than an invented commit.
+
+The fixed-node TEMPO control manifest also records nodeCount, seed, K, mode, eta and the explicit channel-to-node mapping. Reproducibility requires keeping the **software revision, seed and control parameters** together with the environmental signal description and sensor settings.

@@ -132,3 +132,35 @@ test('phase1 runner rejects invalid experiments before executing', () => {
   assert.throws(() => runExperiment({ ...scene, engine: new DiagnosticEngine(),
     transducers: [scene.transducers[0], scene.transducers[0]] }), /Duplicate/);
 });
+test('manifest identifies EMERGENCE revision and all fixed-node control parameters', () => {
+  const run = runExperiment({
+    ...createPhase1Scenario(),
+    engine: new TempoFixedNodesControl({
+      nodeCount: 3, transducerNodes: { A: 0, B: 1, C: 2 },
+      seed: 42, K: 2, mode: 'shift', eta: 0.1,
+    }),
+    softwareRevision: 'revision-for-test',
+  });
+  assert.deepEqual(run.manifest.software, {
+    name: 'EMERGENCE', version: '0.2.0', revision: 'revision-for-test',
+  });
+  assert.equal(run.manifest.engine.nodeCount, 3);
+  assert.equal(run.manifest.engine.seed, 42);
+  assert.equal(run.manifest.engine.K, 2);
+  assert.equal(run.manifest.engine.mode, 'shift');
+  assert.equal(run.manifest.engine.eta, 0.1);
+});
+
+test('TEMPO internal events record effective time separately from collection time', () => {
+  const scene = createPhase1Scenario();
+  const run = runExperiment({
+    ...scene, engine: new TempoFixedNodesControl({
+      nodeCount: 3, transducerNodes: { A: 0, B: 1, C: 2 },
+      seed: scene.seed,
+    }),
+  });
+  const events = run.trace.filter(x => x.type === 'engine.event');
+  assert.ok(events.length > 0);
+  assert.ok(events.every(x => Number.isFinite(x.timeMs) &&
+    x.recordedAtMs >= x.timeMs));
+});

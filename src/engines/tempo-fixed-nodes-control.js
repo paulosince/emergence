@@ -7,6 +7,7 @@ import { TEMPO_SOURCE_COMMIT } from '../tempo/reference-runner.js';
 export class TempoFixedNodesControl {
   #net;
   #mapping;
+  #settings;
   #fireCursor = 0;
   #timeMs = 0;
 
@@ -17,6 +18,13 @@ export class TempoFixedNodesControl {
     if (!transducerNodes || typeof transducerNodes !== 'object') {
       throw new TypeError('Explicit transducerNodes mapping is required');
     }
+    if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff ||
+        !Number.isInteger(K) || K < 1 ||
+        !['shift', 'select', 'fixed'].includes(mode) ||
+        !Number.isFinite(eta) || eta <= 0) {
+      throw new RangeError('Invalid TEMPO control parameters');
+    }
+    this.#settings = Object.freeze({ nodeCount, seed, K, mode, eta });
     this.#mapping = { ...transducerNodes };
     for (const [id, node] of Object.entries(this.#mapping)) {
       if (!id || !Number.isInteger(node) || node < 0 || node >= nodeCount) {
@@ -29,6 +37,7 @@ export class TempoFixedNodesControl {
   describe() {
     return {
       id: 'tempo-fixed-nodes-control',
+      ...this.#settings,
       pinnedSourceCommit: TEMPO_SOURCE_COMMIT,
       nodesArePredefined: true,
       measurementsIgnored: true,
