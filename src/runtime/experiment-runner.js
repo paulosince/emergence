@@ -75,13 +75,9 @@ export function runExperiment({
       const sensor = sensors[sensorIndex];
       const result = sensor.sampleAt(clock.timeMs, environment, streams.get(sensor.config.id));
       sampleCount++;
-      trace.push({
-        order: trace.length + 1, timeMs: clock.timeMs, type: 'sensor.sample',
-        transducerId: sensor.config.id, rawValue: result.rawValue,
-        measurement: result.measurement, emitted: result.emitted,
-      });
+      let incidence = null;
       if (result.emitted) {
-        const incidence = createIncidence({
+        incidence = createIncidence({
           incidenceId: 'i' + (++nextId), transducerId: sensor.config.id,
           observedAtMs: result.observedAtMs, arrivedAtMs: result.arrivedAtMs,
           measurement: result.measurement,
@@ -91,6 +87,13 @@ export function runExperiment({
       } else {
         suppressedCount++;
       }
+      trace.push({
+        order: trace.length + 1, timeMs: clock.timeMs, type: 'sensor.sample',
+        transducerId: sensor.config.id,
+        incidenceId: incidence?.incidenceId ?? null,
+        rawValue: result.rawValue,
+        measurement: result.measurement, emitted: result.emitted,
+      });
       // Derive from tick index to avoid cumulative floating-point drift.
       const nextTick = tickIndex + 1;
       const tNext = sensor.config.phaseMs + nextTick * sensor.config.periodMs;
@@ -99,12 +102,7 @@ export function runExperiment({
       }
     } else if (event.kind === 'deliver') {
       const { incidence } = event.payload;
-      // The engine sees ONLY the incidence and the current simulated time.
-      engine.ingest(incidence);
-      engine.advanceTo(clock.timeMs);
-      observeEngine();
-      incidences.push(incidence);
-      deliveredCount++;
+      // Record causal input before any response produced by the engine.
       trace.push({
         order: trace.length + 1, timeMs: clock.timeMs,
         type: 'incidence.delivered', incidenceId: incidence.incidenceId,
@@ -113,6 +111,12 @@ export function runExperiment({
         arrivedAtMs: incidence.arrivedAtMs,
         measurement: incidence.measurement,
       });
+      // The engine sees ONLY the incidence and the current simulated time.
+      engine.ingest(incidence);
+      engine.advanceTo(clock.timeMs);
+      observeEngine();
+      incidences.push(incidence);
+      deliveredCount++;
     } else {
       throw new Error('Unknown scheduled event: ' + event.kind);
     }
