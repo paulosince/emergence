@@ -14,3 +14,5 @@ jobs:
       - run: npm test
       - run: node experiments/phase1-inputs.js --json > /dev/null
       - run: node experiments/phase1-inputs.js --tempo-control > /dev/null
+      - run: node experiments/world-1d-baseline.js --json > /dev/null
+      - run: node experiments/world-1d-baseline.js --csv > /dev/null

@@ -73,3 +73,24 @@ npm run experiment:phase1:tempo
 In the initial 220-ms simulated interval, 30 numerical samples are taken, 29 incidences arrive by the cutoff, and one is still in transit at 222 ms. The diagnostic control forms **zero new units**. See the [Phase 1 scientific protocol](docs/phase1-protocol.md).
 
 **Not yet implemented:** autonomous unit constitution, derived representation, IndexedDB, complete import/export and interactive fMRI-style visualization.
+
+## Step 3 — controlled analytic world (separate from learning)
+
+A fixed plane and one rigid sphere are simulated in **one spatial dimension**.
+Gravity, contact and an optional single idealized collision are defined by analytical
+mechanics. This stage emits world states and physical events **only to the researcher**;
+no sensory transducer or learning engine receives the true world state.
+
+~~~sh
+npm run experiment:world1d
+npm run experiment:world1d:json > world-run.json
+npm run experiment:world1d:csv > world-states.csv
+npm run experiment:world1d:events > world-events.csv
+~~~
+
+The independent invariant verifier checks piecewise energy conservation, gravitational
+acceleration, geometry, impulse and restitution. Fault-injection tests ensure known
+errors are detected. Rebounds are supported up to—but **not including**—the second
+impact; the model rejects execution outside its declared scope.
+
+See [analytic world model and limitations](docs/world-physics-v0.1.md).

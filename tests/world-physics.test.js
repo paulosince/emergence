@@ -13,7 +13,7 @@ test('world interface and deterministic read-only states', () => {
   assert.deepEqual(a.describe(), b.describe());
   assert.deepEqual(a.stateAt(150), a.stateAt(150));
   assert.ok(Object.isFrozen(a.stateAt(0)));
-  assert.throws(() => assertPhysicalWorld({ stateAt() {} }), /eventsThrough/);
+  assert.throws(() => assertPhysicalWorld({ describe() {}, stateAt() {} }), /eventsThrough/);
 });
 
 test('analytic freefall: one metre at 9.81 m/s2, released from rest', () => {
