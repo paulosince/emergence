@@ -68,3 +68,22 @@ A visual packet traveling along an edge will reflect recorded traversal rather t
 ## Non-goals of foundation phase
 
 No assertion that a learned cluster is a representation; no implementation of derived representations; no universal minimality proof; no IndexedDB or fMRI renderer yet. Those are subsequent, testable milestones.
+
+## Implemented Phase 1 modules
+
+~~~text
+TraceEnvironment (hidden from the engine)
+  └─ NumericTransducer (sample, quantify, delay)
+      └─ EventScheduler (time + insertion order)
+          └─ runExperiment
+              ├─ trace + manifest (researcher side)
+              └─ experiment engine (receives incidences only)
+                  ├─ DiagnosticEngine (non-learning)
+                  └─ TempoFixedNodesControl (predefined units)
+~~~
+
+The scheduler reuses TEMPO's unchanged EventHeap instead of reimplementing a heap. The control reuses unchanged Net and makeRng. There are no DOM, IndexedDB or network dependencies in the experimental runtime.
+
+The engine interface can support future competing algorithms. Its existence **does not** prescribe any particular solution to sensor individuation or derived representation.
+
+TEMPO's internal queue and the external sensor queue are separate; events from inside TEMPO can be collected after their effective event time. Phase 1 records both event time and collection time. See [Phase 1 protocol](phase1-protocol.md).

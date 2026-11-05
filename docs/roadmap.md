@@ -11,10 +11,10 @@ Only development in **paulosince/emergence**. TEMPO is read-only.
 - [x] Verify the CI workflow green on GitHub ([run 42056023091](https://github.com/paulosince/emergence/actions/runs/42056023091))
 
 ## Phase 1 — experimental runtime
-- [ ] Simulated clock and stable time/sequence event ordering
-- [ ] Sensor environment and transducers with explicit information boundaries
-- [ ] Experimental engine candidates behind a common operational contract
-- [ ] Deterministic seeds, run manifests, observable event traces
+- [x] Simulated clock and stable time/sequence event ordering
+- [x] Synthetic scalar sensory environment and transducers with explicit information boundaries (physical modalities remain future work)
+- [x] Operational engine contract with diagnostic and fixed-node TEMPO controls (unit-formation candidates remain future work)
+- [x] Deterministic seeds, run manifests, observable event traces
 
 ## Phase 2 — persistence and replication
 - [ ] IndexedDB schema migrations, records, checkpoints and resumable state

@@ -46,8 +46,12 @@ export function runExperiment({
     if (!Array.isArray(events)) throw new TypeError('drainEvents() must return an array');
     for (const detail of events) {
       if (!detail || typeof detail !== 'object') throw new TypeError('Invalid engine event');
-      trace.push({ order: trace.length + 1, timeMs: clock.timeMs,
-        type: 'engine.event', detail: structuredClone(detail) });
+      trace.push({
+        order: trace.length + 1,
+        timeMs: Number.isFinite(detail.timeMs) ? detail.timeMs : clock.timeMs,
+        recordedAtMs: clock.timeMs,
+        type: 'engine.event', detail: structuredClone(detail),
+      });
       engineEventCount++;
     }
   };

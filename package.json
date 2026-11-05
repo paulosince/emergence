@@ -1,6 +1,6 @@
 {
   "name": "emergence-temporotopology",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -9,6 +9,11 @@
   "scripts": {
     "test": "node --test vendor/tempo/tests/core.test.js tests/*.test.js",
     "test:tempo": "node --test vendor/tempo/tests/core.test.js",
-    "baseline": "node experiments/tempo-baseline.js"
+    "baseline": "node experiments/tempo-baseline.js",
+    "experiment:phase1": "node experiments/phase1-inputs.js",
+    "experiment:phase1:json": "node experiments/phase1-inputs.js --json",
+    "experiment:phase1:csv": "node experiments/phase1-inputs.js --csv",
+    "experiment:phase1:trace": "node experiments/phase1-inputs.js --trace-csv",
+    "experiment:phase1:tempo": "node experiments/phase1-inputs.js --tempo-control"
   }
 }

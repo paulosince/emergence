@@ -51,3 +51,25 @@ The planned simulator, sensory transducers, unit constitution, derived constitut
 - Provenance, deterministic seeds and operational events must be auditable.
 - A node/edge stored in a data structure is not by itself a demonstrated representation.
 - Scientific reference source and empirical results remain distinguishable from new hypotheses.
+
+## Phase 1: deterministic sensory runtime
+
+Implemented in EMERGENCE:
+
+- **src/runtime/**: independent simulation clock, TEMPO-heap-backed event scheduler, independently seeded sensor streams and experimental runner.
+- **src/sensory/**: numerical signal environment, configurable scalar transducer and A/B/C reference scenario (100/37/11 ms).
+- **src/engines/**: diagnostic non-learning control and explicit fixed-node TEMPO control (not emergent units).
+- **experiments/phase1-inputs.js**: reproducible command-line experiment, full JSON output and preliminary CSV exports.
+- **tests/runtime.test.js** and **tests/sensory.test.js**: order, timing, reproducibility, boundaries, transport, regression and controls.
+
+~~~sh
+npm run experiment:phase1
+npm run experiment:phase1:json
+npm run experiment:phase1:csv
+npm run experiment:phase1:trace
+npm run experiment:phase1:tempo
+~~~
+
+In the initial 220-ms simulated interval, 30 numerical samples are taken, 29 incidences arrive by the cutoff, and one is still in transit at 222 ms. The diagnostic control forms **zero new units**. See the [Phase 1 scientific protocol](docs/phase1-protocol.md).
+
+**Not yet implemented:** autonomous unit constitution, derived representation, IndexedDB, complete import/export and interactive fMRI-style visualization.

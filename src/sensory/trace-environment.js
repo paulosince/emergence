@@ -10,7 +10,7 @@ export class TraceEnvironment {
       throw new TypeError('channels must contain time/value traces');
     }
     this.scenarioId = scenarioId;
-    this.#channels = {};
+    this.#channels = Object.create(null);
     for (const [channelId, points] of Object.entries(channels)) {
       if (!channelId || !Array.isArray(points) || !points.length) {
         throw new TypeError('Each channel needs a non-empty trace');

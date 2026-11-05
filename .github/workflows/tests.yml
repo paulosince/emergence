@@ -12,3 +12,5 @@ jobs:
         with:
           node-version: '22'
       - run: npm test
+      - run: node experiments/phase1-inputs.js --json > /dev/null
+      - run: node experiments/phase1-inputs.js --tempo-control > /dev/null
