@@ -48,6 +48,11 @@ Os testes também preservam equivalência da física em ablações sensoriais e 
 
 Cada mundo, inclusive cada uma das duas instâncias do controle de coincidência, passa por uma **auditoria física efetiva**. Evitamos declarações vazias de aprovação quando nenhum verificador foi executado.
 
+
+### Grade determinística de estresse físico
+
+Além dos 13 controles versionados, a suíte executa **54 combinações** (3 alturas × 3 gravidades × 3 coeficientes de restituição × 2 instantes de soltura). Em cada caso, confronta o primeiro contato por integração numérica independente e testa invariantes mecânicos em momentos antes e depois do impacto. Essas 54 combinações são variações de teste **dentro da mesma idealização**, não 54 replicações científicas independentes nem evidência estatística de generalidade física.
+
 ## Fronteiras informacionais
 
 1. Os mundos geram estados e eventos verdadeiros.

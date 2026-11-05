@@ -126,3 +126,5 @@ npm run experiment:controls:staggered
 ~~~
 
 Veja [protocolo completo e limitações](docs/scientific-controls-v0.1.md).
+
+A suíte da Etapa 5 inclui ainda uma grade determinística com **54 combinações físicas** para confrontar a solução analítica com integração numérica e invariantes mecânicos. Isso testa o código em condições variadas dentro da mesma idealização; não equivale a validação do mundo físico real.
