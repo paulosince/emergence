@@ -1,31 +1,62 @@
-// Local apparent solar geometry approximation, WITHOUT external ephemeris.
-// Solar hour is LOCAL SOLAR TIME, not a civil clock hour. Equation of time,
-// atmospheric refraction, terrain and timezone corrections are not included.
-// The day-of-year approximation is sufficiently bounded for the sunlit-room
-// control; it is NOT a precise sunrise/sunset service.
-const RAD=Math.PI/180;
-export function approximateSun({latitudeDeg,dayOfYear,solarHour}) {
-  if(!Number.isFinite(latitudeDeg)||latitudeDeg<-66||latitudeDeg>66||
-     !Number.isInteger(dayOfYear)||dayOfYear<1||dayOfYear>365||
-     !Number.isFinite(solarHour)||solarHour<0||solarHour>24) {
-    throw new RangeError('Sun geometry requires valid latitude, nonleap day and solar hour');
+// Solar geometry in local civil time; simplified declination + equation of time.
+// Environmental forcing only: never a learned event or a transduced label.
+// E/N/Up is a unit vector pointing FROM the room TOWARDS the Sun.
+const DEG = Math.PI / 180;
+export const DAY_MS = 86400000;
+
+export function describeSolarDay({
+  date = '2026-06-21',
+  latitudeDeg = -23.45,
+  longitudeDeg = -46.52,
+  utcOffsetHours = -3,
+} = {}) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+    throw new RangeError('Date must use YYYY-MM-DD');
   }
-  const phi=latitudeDeg*RAD;
-  const declinationRad=Math.asin(Math.sin(23.44*RAD)*
-    Math.sin(2*Math.PI*(dayOfYear-80)/365.2422));
-  const hourAngle=(solarHour-12)*15*RAD;
-  const east=-Math.cos(declinationRad)*Math.sin(hourAngle);
-  const north=Math.cos(phi)*Math.sin(declinationRad)-
-    Math.sin(phi)*Math.cos(declinationRad)*Math.cos(hourAngle);
-  const up=Math.sin(phi)*Math.sin(declinationRad)+
-    Math.cos(phi)*Math.cos(declinationRad)*Math.cos(hourAngle);
-  const length=Math.hypot(east,north,up);
-  const sun={
-    east:east/length,north:north/length,up:up/length,
-    altitudeDeg:Math.asin(Math.max(-1,Math.min(1,up/length)))/RAD,
-    azimuthDeg:(Math.atan2(east,north)/RAD+360)%360,
-    declinationDeg:declinationRad/RAD,solarHour,
-    aboveHorizon:up>0,
-  };
-  return Object.freeze(sun);
+  const parsed = new Date(date + 'T00:00:00.000Z');
+  if (!Number.isFinite(parsed.getTime()) ||
+      parsed.toISOString().slice(0, 10) !== date) {
+    throw new RangeError('Nonexistent civil calendar date');
+  }
+  for (const [name, v, lo, hi] of [
+    ['latitudeDeg', latitudeDeg, -90, 90],
+    ['longitudeDeg', longitudeDeg, -180, 180],
+    ['utcOffsetHours', utcOffsetHours, -12, 14],
+  ]) {
+    if (!Number.isFinite(v) || v < lo || v > hi)
+      throw new RangeError(name + ' out of range');
+  }
+  const yearStart = Date.UTC(parsed.getUTCFullYear(), 0, 1);
+  const dayOfYear = Math.round((parsed.getTime() - yearStart) / DAY_MS) + 1;
+  return Object.freeze({
+    date, latitudeDeg, longitudeDeg, utcOffsetHours, dayOfYear,
+    method: 'approximate declination and equation-of-time, no refraction',
+  });
+}
+
+export function solarAt(timeMs, day) {
+  if (!Number.isFinite(timeMs) || timeMs < 0 || timeMs > DAY_MS) {
+    throw new RangeError('Solar time outside one civil day');
+  }
+  const declination = 23.44 * DEG *
+    Math.sin((2 * Math.PI / 365) * (284 + day.dayOfYear));
+  const b = 2 * Math.PI * (day.dayOfYear - 81) / 364;
+  const equationOfTimeMin = 9.87 * Math.sin(2*b) -
+    7.53 * Math.cos(b) - 1.5 * Math.sin(b);
+  const civilHour = timeMs / 3600000;
+  const solarHour = civilHour +
+    (4 * (day.longitudeDeg - 15 * day.utcOffsetHours) +
+      equationOfTimeMin) / 60;
+  const hourAngle = (solarHour - 12) * 15 * DEG;
+  const phi = day.latitudeDeg * DEG;
+  const east = -Math.cos(declination) * Math.sin(hourAngle);
+  const north = Math.cos(phi) * Math.sin(declination) -
+    Math.sin(phi) * Math.cos(declination) * Math.cos(hourAngle);
+  const up = Math.sin(phi) * Math.sin(declination) +
+    Math.cos(phi) * Math.cos(declination) * Math.cos(hourAngle);
+  const altitudeDeg = Math.asin(Math.max(-1, Math.min(1, up))) / DEG;
+  return Object.freeze({
+    east, north, up, altitudeDeg, isAboveHorizon: up > 0,
+    localHour: civilHour, solarHour,
+  });
 }
