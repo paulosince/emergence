@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <title>EMERGENCE · Sala Experimental</title>
+  <meta name="description" content="Inspecione um mundo experimental independente: luz do Sol, janela, sombra, lâmpada, clima, temperatura e incidências."/>
+  <link rel="stylesheet" href="./app/room-inspector.css"/>
+  <script type="module" src="./app/room-inspector.js"></script>
+</head>
+<body>
+<header class="header">
+  <a class="brand" href="./index.html"><span class="brand-icon">◉</span>
+    <span><strong>EMERGENCE</strong><small>Laboratório de fenômenos</small></span>
+  </a>
+  <nav><a href="./index.html">Experimento corporal</a><a href="./docs/roadmap.md" target="_blank" rel="noopener">Roteiro</a></nav>
+</header>
+<main class="layout">
+  <div class="intro">
+    <div>
+      <p class="eyebrow">Ambiente externo · protótipo experimental</p>
+      <h1>A sala continua existindo.</h1>
+      <p>Um dia transcorre independentemente do sistema. A janela admite luz, a geometria produz áreas iluminadas e sombreadas, a lâmpada reage à iluminação e a temperatura interna responde a trocas de energia.</p>
+    </div>
+    <span class="health" id="runStatus" role="status">Preparando mundo físico</span>
+  </div>
+
+  <section class="card controls">
+    <div class="label-row"><h2>Condição experimental</h2><small>Alterações geram nova execução, com física rastreável</small></div>
+    <div class="control-grid">
+      <label>Estação / data
+        <select id="sceneDate">
+          <option value="2026-06-21">21 de junho · inverno</option>
+          <option value="2026-12-21">21 de dezembro · verão</option>
+          <option value="2026-03-20">20 de março · equinócio</option>
+        </select>
+      </label>
+      <label>Condição meteorológica
+        <select id="weatherMode">
+          <option value="clear">Céu predominantemente limpo · sintético</option>
+          <option value="overcast">Céu encoberto · sintético</option>
+        </select>
+      </label>
+      <fieldset>
+        <legend>Modalidades disponíveis ao sistema</legend>
+        <label><input type="checkbox" data-room-modality value="optical" checked/> Luz</label>
+        <label><input type="checkbox" data-room-modality value="thermal" checked/> Temperatura</label>
+        <label><input type="checkbox" data-room-modality value="electrical" checked/> Corrente da lâmpada</label>
+      </fieldset>
+      <button type="button" id="exportRoom" class="button neutral">Exportar resultados</button>
+    </div>
+    <p class="caveat">Os dados meteorológicos desta primeira versão são cenários sintéticos documentados, não a previsão do tempo atual. A porta está fechada e ainda não há simulação acústica ou de chuva. Ninguém está movendo a esfera neste ambiente.</p>
+  </section>
+
+  <div class="panels">
+    <section class="card map-panel">
+      <div class="label-row"><h2>Planta da sala</h2><small>Projeção da luz calculada sobre o piso · não é renderização 3D</small></div>
+      <svg id="roomPlan" viewBox="0 0 700 455" role="img" aria-label="Vista superior geométrica da sala com janela ao norte, porta fechada e área de luz solar">
+        <defs>
+          <linearGradient id="roomFloor" x1="0" x2="1" y1="0" y2="1">
+            <stop stop-color="#f9f5eb"/>
+            <stop offset="1" stop-color="#e9edf0"/>
+          </linearGradient>
+          <linearGradient id="sunlight" x1="0" x2="0" y1="0" y2="1">
+            <stop stop-color="#f6d47d" stop-opacity=".9"/>
+            <stop offset="1" stop-color="#ecbc66" stop-opacity=".56"/>
+          </linearGradient>
+        </defs>
+        <rect x="78" y="42" width="544" height="360" rx="4" class="floor"/>
+        <path d="M78 42 H260 M440 42 H622 V402 H78 V42" class="wall"/>
+        <path d="M260 42 H440" class="window"/>
+        <path d="M78 240 V321" class="door"/><path d="M78 240 Q154 242 160 321" class="door-swing"/>
+        <text x="350" y="25" class="north-label" text-anchor="middle">NORTE · JANELA</text>
+        <text x="350" y="426" class="floor-label" text-anchor="middle">SUL</text>
+        <text x="47" y="279" class="floor-label" text-anchor="middle" transform="rotate(-90 47 279)">PORTA FECHADA</text>
+        <polygon id="sunPatch" fill="url(#sunlight)" points="" stroke="#eab862" stroke-width="1.5"/>
+        <circle id="sensorNear" cx="350" cy="159" r="7" class="sensor" />
+        <circle id="sensorFar" cx="231" cy="159" r="7" class="sensor" />
+        <text x="364" y="151" class="sensor-label">S0</text><text x="246" y="151" class="sensor-label">S1</text>
+        <g id="lampMarker"><circle cx="350" cy="222" r="13" class="lamp-circle"/><path d="M345 222 H355 M350 217 V227" class="lamp-cross"/></g>
+        <path id="sunDirection" d="M350 75 L350 125" class="sun-ray"/>
+        <text id="sunText" x="470" y="73" class="sun-angle">Sol</text>
+        <text x="620" y="440" class="floor-label" text-anchor="end">6 × 4 m</text>
+      </svg>
+      <div class="legend"><span><i class="sample sun"></i> Luz solar direta</span><span><i class="sample shade"></i> Piso sem luz direta</span><span><i class="sample sensor"></i> Receptores</span><span><i class="sample lamp"></i> Lâmpada</span></div>
+      <p class="footnote">A área iluminada decorre da direção solar e da projeção geométrica da janela. As paredes bloqueiam a incidência direta fora dessa área. A iluminação difusa e a lâmpada também contribuem para os valores medidos.</p>
+    </section>
+
+    <section class="card readings">
+      <div class="label-row"><h2>Estado físico do ambiente</h2><small>Informação do avaliador</small></div>
+      <div class="measurements">
+        <div><small>Altura solar</small><strong id="solarAltitude">—</strong><span>Em relação ao horizonte</span></div>
+        <div><small>Luz exterior</small><strong id="outdoorLight">—</strong><span>W/m² · modelo aproximado</span></div>
+        <div><small>Luz no piso (S0)</small><strong id="nearLight">—</strong><span>W/m² · sensor na sala</span></div>
+        <div><small>Luz no piso (S1)</small><strong id="farLight">—</strong><span>W/m² · outro ponto</span></div>
+        <div><small>Temperatura externa</small><strong id="outsideTemp">—</strong><span>°C · cenário climático</span></div>
+        <div><small>Temperatura interna</small><strong id="insideTemp">—</strong><span>°C · balanço térmico</span></div>
+      </div>
+      <div class="lamp-state"><span>Lâmpada da sala</span><strong id="lampState">—</strong><span class="lamp-indicator" id="lampIndicator"></span></div>
+      <p class="footnote">A lâmpada utiliza um circuito de controle com dois limiares para evitar alternâncias rápidas. A temperatura evolui por trocas térmicas, radiação solar absorvida e calor elétrico.</p>
+    </section>
+  </div>
+
+  <section class="card clock-panel">
+    <div class="label-row"><h2>Linha temporal</h2><span id="timeDisplay" class="clock-output">00:00</span></div>
+    <div class="player">
+      <button id="playRoom" type="button" class="button">Reproduzir</button>
+      <button id="stepRoom" type="button" class="button neutral">+15 minutos</button>
+      <input id="roomTime" type="range" min="0" max="86399999" step="60000" value="43200000" aria-label="Horário do dia simulado"/>
+    </div>
+    <div class="time-labels"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+  </section>
+
+  <div class="panels lower">
+    <section class="card">
+      <div class="label-row"><h2>Incidências entregues</h2><small id="roomCount">—</small></div>
+      <p class="footnote">Os receptores captam números e tempos, não as palavras “Sol”, “janela”, “temperatura” ou “lâmpada”.</p>
+      <ol id="roomIncidences" class="event-list"></ol>
+    </section>
+    <section class="card">
+      <div class="label-row"><h2>História física</h2><small>Eventos do pesquisador</small></div>
+      <ol id="roomEvents" class="event-list"></ol>
+      <div class="domain-note"><strong>Domínio constitutivo: 0 unidades, 0 relações.</strong> O motor disponível apenas registra incidências. Nenhum conhecimento sobre a sala é presumido.</div>
+    </section>
+  </div>
+  <footer>EMERGENCE · cenário independente do sistema investigado · <a href="./docs/room-naturalistic-v0.1.md">Modelo e limites científicos</a></footer>
+</main>
+</body>
+</html>
