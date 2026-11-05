@@ -49,7 +49,15 @@ export function verifyVerticalTrajectory(world, sampleTimesMs, { tolerance = 1e-
       errors.push({ name: 'nonpenetration', timeMs, actual: state.clearanceM,
         expected: 'nonnegative' });
     }
-    if (state.phase === 'rest') {
+    if (state.phase === 'held') {
+      check('held velocity', state.verticalVelocityMps, 0, timeMs);
+      check('held acceleration', state.verticalAccelerationMps2, 0, timeMs);
+      check('held normal force', state.normalForceN, 0, timeMs);
+      check('holding constraint', state.supportForceN,
+        p.massKg * p.gravityMps2, timeMs);
+      check('held potential energy', state.potentialEnergyJ,
+        p.massKg * p.gravityMps2 * p.clearanceM, timeMs);
+    } else if (state.phase === 'rest') {
       check('rest clearance', state.clearanceM, 0, timeMs);
       check('rest velocity', state.verticalVelocityMps, 0, timeMs);
       check('support normal', state.normalForceN,
@@ -60,11 +68,12 @@ export function verifyVerticalTrajectory(world, sampleTimesMs, { tolerance = 1e-
       check('flight acceleration', state.verticalAccelerationMps2,
         -p.gravityMps2, timeMs);
       check('flight normal force', state.normalForceN, 0, timeMs);
+      const collision = world.eventsThrough(timeMs)
+        .find(event => event.type === 'collision.impact');
       const referenceEnergy = state.phase === 'flight-before-impact'
         ? initialEnergy
         : 0.5 * p.massKg *
-          (p.restitution * world.eventsThrough(timeMs)[0]
-            .verticalVelocityBeforeMps) ** 2;
+          (p.restitution * collision.verticalVelocityBeforeMps) ** 2;
       check('piecewise mechanical energy',
         state.kineticEnergyJ + state.potentialEnergyJ,
         referenceEnergy, timeMs);

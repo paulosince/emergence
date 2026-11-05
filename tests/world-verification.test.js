@@ -1,4 +1,5 @@
 import { test } from 'node:test';
+import { createReleaseControlledWorld } from '../src/world/release-control.js';
 import assert from 'node:assert/strict';
 import { createVerticalImpactWorld } from '../src/world/vertical-impact.js';
 import { verifyVerticalTrajectory } from '../src/world/trajectory-verifier.js';
@@ -79,4 +80,32 @@ test('verification parameters and sample ordering are validated', () => {
   assert.throws(() => verifyVerticalTrajectory(w, [0, 0]));
   assert.throws(() => verifyVerticalTrajectory(w, [0, 100], { tolerance: 0 }));
   assert.throws(() => verifyVerticalTrajectory(w, [0, 100], { tolerance: 1 }));
+});
+
+test('release is an operational experimental intervention, independent of representation', () => {
+  const world = createReleaseControlledWorld({
+    clearanceM: 1, massKg: 2, gravityMps2: 9.81,
+    restitution: 0, releaseAtMs: 120,
+  });
+  assert.equal(world.stateAt(119).phase, 'held');
+  assert.equal(world.stateAt(119).clearanceM, 1);
+  assert.equal(world.stateAt(119).supportForceN, 19.62);
+  assert.equal(world.stateAt(120).phase, 'flight-before-impact');
+  assert.equal(world.stateAt(120).supportForceN, 0);
+  assert.deepEqual(world.eventsThrough(119), []);
+  assert.equal(world.eventsThrough(120)[0].type, 'intervention.release');
+  assert.equal(world.eventsThrough(120)[0].imposedBy, 'experimenter');
+  const impactMs = 120 + 1000 * Math.sqrt(2 / 9.81);
+  assert.ok(Math.abs(world.describe().impactTimeMs - impactMs) < 1e-8);
+  assert.deepEqual(world.eventsThrough(impactMs).map(e => e.type),
+    ['intervention.release', 'collision.impact']);
+  const times = [0, 119, 120, 180, 320, impactMs, impactMs + 200];
+  const verification = verifyVerticalTrajectory(world, times);
+  assert.equal(verification.passed, true, JSON.stringify(verification.failures));
+});
+
+test('intervention rejects initial impulse disguised as release', () => {
+  assert.throws(() => createReleaseControlledWorld({
+    releaseAtMs: 20, initialVelocityMps: 2,
+  }), /zero initial velocity/);
 });

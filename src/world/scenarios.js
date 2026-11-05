@@ -1,7 +1,7 @@
-import { createVerticalImpactWorld } from './vertical-impact.js';
+import { createReleaseControlledWorld } from './release-control.js';
 
 export const DROP_V1 = Object.freeze({
-  scenarioId: 'single-sphere-freefall-impact-v1',
+  scenarioId: 'single-sphere-freefall-impact-v1', releaseAtMs: 0,
   clearanceM: 1, initialVelocityMps: 0,
   gravityMps2: 9.81, massKg: 1, radiusM: 0.05, restitution: 0.5,
   horizonMs: 800, sampleStepMs: 100,
@@ -9,7 +9,7 @@ export const DROP_V1 = Object.freeze({
 
 export function createDropV1() {
   const { scenarioId, horizonMs, sampleStepMs, ...params } = DROP_V1;
-  return createVerticalImpactWorld(params);
+  return createReleaseControlledWorld(params);
 }
 
 export function researchSampleTimes(world, { horizonMs, stepMs }) {
