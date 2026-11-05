@@ -90,6 +90,14 @@ export class BodySignalEnvironment {
     this.#world.bodyStateAt(endTimeMs);
   }
 
+  researcherCheckpointStateAt(timeMs) {
+    return structuredClone({
+      world:this.#world.stateAt(timeMs),
+      body:this.#world.bodyStateAt(timeMs),
+      physicalEvents:this.#world.eventsThrough(timeMs),
+    });
+  }
+
   specification() {
     return {
       model: 'physically-coupled-body-sensors-v1',

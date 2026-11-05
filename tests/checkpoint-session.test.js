@@ -144,3 +144,20 @@ test('session does not share mutable references with exported checkpoint',()=>{
   saved.sensorStates[0].rngState=88888;
   assert.deepEqual(second.finish(),runExperiment(scenario()));
 });
+
+
+test('actual world temperature, lamp events and solar state are captured at the boundary',()=>{
+  const scene=inputs(createRoomScenario,{});
+  const ses=new ExperimentSession(scene);
+  const at=12*3600000;
+  ses.advanceThrough(at);
+  const cp=ses.checkpoint();
+  assert.equal(cp.world.capturedAtMs,at);
+  assert.equal(cp.world.physicalState.world.timeMs,at);
+  assert.ok(Number.isFinite(cp.world.physicalState.world.thermal.indoorTemperatureC));
+  assert.ok(Array.isArray(cp.world.physicalState.physicalEvents));
+  const changed=structuredClone(cp);
+  changed.world.physicalState.world.thermal.indoorTemperatureC+=0.1;
+  assert.throws(()=>ExperimentSession.restore(changed,inputs(createRoomScenario,{})),
+    /physical state differs/);
+});

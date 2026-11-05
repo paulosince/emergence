@@ -61,6 +61,13 @@ export class RoomSensorEnvironment {
     }
   }
   validateHorizon(t) {this.#world.stateAt(t);}
+  researcherCheckpointStateAt(timeMs) {
+    return structuredClone({
+      world:this.#world.stateAt(timeMs),
+      physicalEvents:this.#world.eventsThrough(timeMs),
+    });
+  }
+
   specification() {
     return {
       model:'room-environmental-transductions-v1',

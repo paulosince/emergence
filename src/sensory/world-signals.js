@@ -102,6 +102,13 @@ export class WorldSignalEnvironment {
       .reduce((total, e) => total + e.normalImpulseNs, 0);
   }
 
+  researcherCheckpointStateAt(timeMs) {
+    return structuredClone({
+      world:this.#world.stateAt(timeMs),
+      physicalEvents:this.#world.eventsThrough(timeMs),
+    });
+  }
+
   specification() {
     return {
       model: 'analytic-world-sensory-coupling-v1',

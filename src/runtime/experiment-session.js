@@ -181,9 +181,13 @@ export class ExperimentSession {
       world: {
         kind:'immutable-analytic-world',
         specification:this.#environment.specification(),
-        // Analytic room world has no hidden mutable state; its day-specific
-        // thermal trajectory is a deterministic function of this manifest.
-        reference:'scenario constructor + physical parameters',
+        capturedAtMs:this.#lastBoundaryMs,
+        physicalState:this.#environment.researcherCheckpointStateAt?.(
+          this.#lastBoundaryMs)??null,
+        // Analytic world is functionally reconstructed from parameters.
+        // Its actual state/events at the boundary are also recorded and
+        // compared before continuing, rather than silently assumed equal.
+        reference:'versioned scenario constructor and physical parameters',
       },
       manifest:this.#manifest,
       cursor:{
@@ -216,6 +220,13 @@ export class ExperimentSession {
        !equal(instance.#environment.specification(),
          checkpoint.world?.specification)){
       throw new RangeError('Checkpoint world, engine or experiment configuration mismatch');
+    }
+    const researcherState=instance.#environment.researcherCheckpointStateAt?.(
+      checkpoint.world?.capturedAtMs)??null;
+    if(!equal(researcherState,checkpoint.world?.physicalState) ||
+       checkpoint.world?.capturedAtMs !==
+         checkpoint.cursor?.processedThroughMs) {
+      throw new RangeError('Captured world physical state differs from reconstructed dynamics');
     }
     const {clockMs,processedThroughMs,nextIncidenceNumber}
       =checkpoint.cursor;
