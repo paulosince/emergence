@@ -142,7 +142,7 @@ test('manifest identifies EMERGENCE revision and all fixed-node control paramete
     softwareRevision: 'revision-for-test',
   });
   assert.deepEqual(run.manifest.software, {
-    name: 'EMERGENCE', version: '0.4.0', revision: 'revision-for-test',
+    name: 'EMERGENCE', version: '0.5.0', revision: 'revision-for-test',
   });
   assert.equal(run.manifest.engine.nodeCount, 3);
   assert.equal(run.manifest.engine.seed, 42);
