@@ -27,6 +27,15 @@ export class NumericTransducer {
     });
   }
 
+  snapshot() { return {lastEmitted:this.#lastEmitted}; }
+  restore(snapshot) {
+    if(!snapshot || (snapshot.lastEmitted!==null &&
+       !Number.isFinite(snapshot.lastEmitted))) {
+      throw new RangeError('Invalid transducer emitted-value state');
+    }
+    this.#lastEmitted=snapshot.lastEmitted;
+  }
+
   sampleAt(observedAtMs, environment, rng) {
     const raw = environment.readAt(this.config.channelId, observedAtMs);
     const noisy = raw + (this.config.noiseStd ? this.config.noiseStd * rng.normal() : 0);

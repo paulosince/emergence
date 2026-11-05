@@ -5,6 +5,27 @@ export class DiagnosticEngine {
   #pending = [];
   #lastIncidence = null;
 
+  checkpoint() {
+    return {
+      timeMs:this.#timeMs,receivedCount:this.#count,
+      pending:structuredClone(this.#pending),
+      lastIncidence:this.#lastIncidence === null
+        ? null : structuredClone(this.#lastIncidence),
+    };
+  }
+  restore(state) {
+    if(!state || !Number.isFinite(state.timeMs) ||
+       state.timeMs<0 || !Number.isInteger(state.receivedCount) ||
+       state.receivedCount<0 || !Array.isArray(state.pending) ||
+       (state.lastIncidence!==null &&
+         (!state.lastIncidence || typeof state.lastIncidence!=='object'))) {
+      throw new RangeError('Invalid diagnostic engine checkpoint');
+    }
+    this.#timeMs=state.timeMs;this.#count=state.receivedCount;
+    this.#pending=structuredClone(state.pending);
+    this.#lastIncidence=state.lastIncidence===null?null:
+      structuredClone(state.lastIncidence);
+  }
   describe() {
     return { id: 'diagnostic-no-learning', learnsUnits: false, learnsRelations: false };
   }
