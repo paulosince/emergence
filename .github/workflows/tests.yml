@@ -24,3 +24,10 @@ jobs:
       - run: npm run experiment:controls:json > /dev/null
       - run: npm run experiment:controls:coincident > /dev/null
       - run: npm run experiment:controls:staggered > /dev/null
+      - run: npm run experiment:body:json > /dev/null
+      - run: npm run experiment:body:csv > /dev/null
+      - run: npm run experiment:body:extero > /dev/null
+      - run: npm run experiment:body:proprio > /dev/null
+      - run: npm run experiment:body:intero > /dev/null
+      - run: npm run experiment:body:none > /dev/null
+      - run: npm run experiment:body:no-lift > /dev/null

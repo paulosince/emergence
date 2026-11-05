@@ -1,6 +1,6 @@
 {
   "name": "emergence-temporotopology",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -30,6 +30,14 @@
     "experiment:controls": "node experiments/scientific-controls.js",
     "experiment:controls:json": "node experiments/scientific-controls.js --json",
     "experiment:controls:coincident": "node experiments/scientific-controls.js --condition=dual-noninteracting-coincident-v1",
-    "experiment:controls:staggered": "node experiments/scientific-controls.js --condition=dual-noninteracting-staggered-v1"
+    "experiment:controls:staggered": "node experiments/scientific-controls.js --condition=dual-noninteracting-staggered-v1",
+    "experiment:body": "node experiments/body-lift.js",
+    "experiment:body:json": "node experiments/body-lift.js --json",
+    "experiment:body:csv": "node experiments/body-lift.js --csv",
+    "experiment:body:extero": "node experiments/body-lift.js --optical-only",
+    "experiment:body:proprio": "node experiments/body-lift.js --proprio-only",
+    "experiment:body:intero": "node experiments/body-lift.js --intero-only",
+    "experiment:body:none": "node experiments/body-lift.js --no-sensors",
+    "experiment:body:no-lift": "node experiments/body-lift.js --no-lift"
   }
 }
