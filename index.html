@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <title>EMERGENCE — Inspetor experimental</title>
+  <meta name="description" content="Inspeção experimental do mundo físico, do corpo e das incidências efetivamente transduzidas no EMERGENCE."/>
+  <link rel="stylesheet" href="./app/inspector.css"/>
+  <script type="module" src="./app/inspector.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="identity"><span class="mark" aria-hidden="true">◉</span>
+      <span><strong>EMERGENCE</strong><small>Inspetor experimental · v0.6</small></span>
+    </div>
+    <div class="header-actions">
+      <span class="phase-pill">Instrumento de pesquisa</span>
+      <a href="./docs/roadmap.md" target="_blank" rel="noopener">Roteiro</a>
+      <a href="https://github.com/paulosince/emergence" target="_blank" rel="noopener">Código</a>
+    </div>
+  </header>
+  <main class="layout">
+    <div class="heading">
+      <div>
+        <p class="eyebrow">Corpo e mundo / experimento 01</p>
+        <h1>Uma ação, vários sinais.</h1>
+        <p>Um atuador físico eleva e solta uma esfera. O mesmo processo altera o movimento externo, a posição do atuador, a energia elétrica e a temperatura interna.</p>
+      </div>
+      <div class="status"><span class="status-dot" aria-hidden="true"></span><span id="runStatus">Iniciando simulação…</span></div>
+    </div>
+    <section class="config card" aria-label="Configurar observação">
+      <div class="section-label"><h2>Condição experimental</h2><span>Modificar modalidades não altera o mundo</span></div>
+      <div class="controls">
+        <fieldset><legend>Modalidades ativas</legend>
+          <label><input type="checkbox" value="optical" data-modality checked/> Óptica</label>
+          <label><input type="checkbox" value="mechanical" data-modality checked/> Mecânica</label>
+          <label><input type="checkbox" value="proprioceptive" data-modality checked/> Propriocepção</label>
+          <label><input type="checkbox" value="interoceptive" data-modality checked/> Interocepção</label>
+        </fieldset>
+        <label class="select-label" for="actionMode">Intervenção do pesquisador
+          <select id="actionMode"><option value="lift">Elevar 20 cm e soltar</option><option value="passive">Não elevar; somente soltar</option></select>
+        </label>
+        <button id="exportBtn" type="button" class="button secondary">Exportar JSON</button>
+      </div>
+      <p class="fine">A ação é determinada pelo experimentador. Não há controlador autônomo nem constituição de unidades nesta versão.</p>
+    </section>
+    <section class="panels">
+      <article class="card world-card">
+        <div class="section-label"><h2>Mundo físico</h2><span>Verdade disponível ao pesquisador</span></div>
+        <svg id="worldSvg" class="world-svg" viewBox="0 0 440 300" role="img" aria-label="Cena esquemática com esfera, atuador, superfície e barreiras ópticas">
+          <defs>
+            <linearGradient id="ground" x1="0" x2="1"><stop stop-color="#91a4b7"/><stop offset="1" stop-color="#536f8c"/></linearGradient>
+          </defs>
+          <path d="M22 258 H421" class="floor"/>
+          <path d="M24 263 H420" class="floor-fade"/>
+          <path id="beamUpper" d="M52 156 H398" class="beam"/>
+          <path id="beamLower" d="M52 213 H398" class="beam"/>
+          <text x="54" y="147" class="svg-label">Barreira 0,70 m</text>
+          <text x="54" y="204" class="svg-label">Barreira 0,30 m</text>
+          <path d="M224 250 V70" class="guide"/>
+          <rect id="arm" x="205" y="235" width="38" height="16" rx="3" class="arm"/>
+          <circle id="sphere" cx="224" cy="100" r="9" class="sphere"/>
+          <text x="287" y="28" class="svg-note">SIMULAÇÃO ANALÍTICA 1D</text>
+          <text id="sphereLabel" x="242" y="88" class="svg-note">Esfera</text>
+          <text x="25" y="281" class="svg-label">Superfície fixa</text>
+        </svg>
+        <div class="stats">
+          <div><small>Altura da esfera</small><strong id="heightValue">—</strong></div>
+          <div><small>Velocidade vertical</small><strong id="velocityValue">—</strong></div>
+          <div><small>Próxima referência física</small><strong id="impactValue">—</strong></div>
+        </div>
+      </article>
+      <article class="card body-card">
+        <div class="section-label"><h2>Corpo e processo interno</h2><span>Grandezas físicas · não são rótulos entregues ao domínio</span></div>
+        <div class="body-stats">
+          <div><small>Extensão do atuador</small><strong id="jointValue">—</strong><span>Propriocepção</span></div>
+          <div><small>Tensão do capacitor</small><strong id="voltageValue">—</strong><span>Interocepção</span></div>
+          <div><small>Temperatura interna</small><strong id="temperatureValue">—</strong><span>Interocepção</span></div>
+          <div><small>Corrente do motor</small><strong id="currentValue">—</strong><span>Interocepção</span></div>
+          <div><small>Energia armazenada</small><strong id="energyValue">—</strong><span>Processo físico</span></div>
+          <div><small>Calor produzido</small><strong id="heatValue">—</strong><span>Processo físico</span></div>
+        </div>
+        <div class="note" id="bodyPhase">—</div>
+      </article>
+    </section>
+    <section class="card timeline-card">
+      <div class="section-label"><h2>Tempo experimental</h2><span>Reprodução visual, sem alterar o cálculo</span></div>
+      <div class="timeline-row">
+        <button type="button" class="button" id="playBtn">Reproduzir</button>
+        <button type="button" class="button secondary" id="stepBtn">+ 10 ms</button>
+        <input id="timeRange" type="range" min="0" max="1700" value="0" step="1" aria-label="Tempo simulado em milissegundos"/>
+        <output for="timeRange" id="timeOutput">0 ms</output>
+      </div>
+      <div class="timeline-legend"><span>0 ms</span><span>Comando: 100 ms</span><span>Soltura: 900 ms</span><span>1700 ms</span></div>
+    </section>
+    <section class="panels lower-panels">
+      <article class="card incidences">
+        <div class="section-label"><h2>Incidências recebidas</h2><span id="incidenceCount">0 até agora</span></div>
+        <p class="fine">Aqui aparecem somente valores numéricos que efetivamente chegaram ao motor, com canal e tempo. Identidades físicas ficam fora da entrada do sistema.</p>
+        <ol id="incidenceList" class="event-list" aria-live="polite"></ol>
+      </article>
+      <article class="card domain-card">
+        <div class="section-label"><h2>Domínio experimental</h2><span>Controle diagnóstico, sem aprendizagem</span></div>
+        <div class="domain-numbers">
+          <div><strong>0</strong><small>Unidades constituídas</small></div>
+          <div><strong>0</strong><small>Relações constituídas</small></div>
+          <div><strong id="receivedValue">0</strong><small>Incidências entregues</small></div>
+        </div>
+        <p class="note">O sistema atual apenas registra entradas. Qualquer grafo representacional exibido aqui seria fictício. A visualização constitutiva será acrescentada quando houver um mecanismo real a inspecionar.</p>
+        <div class="section-label subheading"><h3>Acontecimentos físicos</h3><span>Registro do pesquisador</span></div>
+        <ol id="physicalEvents" class="event-list"></ol>
+      </article>
+    </section>
+    <footer>EMERGENCE · Inspetor preliminar, não protocolo de medição real · <a href="./docs/body-world-v0.1.md">Hipóteses e limites físicos</a></footer>
+  </main>
+</body>
+</html>
