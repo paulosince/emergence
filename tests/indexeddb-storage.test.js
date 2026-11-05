@@ -52,7 +52,7 @@ function makeDb({oldVersion=1}={}) {
             }),
             get:id=>schedule(()=>structuredClone(data.get(name).get(id))),
             getAll:()=>schedule(()=>
-              [...data.get(name).values()].map(structuredClone)),
+              [...data.get(name).values()].map(value=>structuredClone(value))),
             delete:id=>schedule(()=>{data.get(name).delete(id);return undefined;}),
           };
         },
