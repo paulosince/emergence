@@ -1,6 +1,7 @@
 // Replication campaign with explicit distinction between recorded replay,
 // fresh re-execution and checkpoint resumption.
 import {writeFileSync} from 'node:fs';
+import {readSourceRevision} from '../src/research/source-revision.js';
 import {buildRoomRecord,independentlyReexecute,
   resumeSavedCheckpoint} from '../src/persistence/records.js';
 import {exportScientificArchive,importScientificArchive}
@@ -16,7 +17,7 @@ const record=buildRoomRecord({
   sensorOverrides:{r0:{periodMs:630000,noiseStd:0.05,
     latencyMs:50000}},
   seed:42,
-});
+},{softwareRevision:readSourceRevision(new URL('../',import.meta.url))});
 const archive=await exportScientificArchive(record);
 const imported=await importScientificArchive(archive);
 const reexecution=independentlyReexecute(imported);
