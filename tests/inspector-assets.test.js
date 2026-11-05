@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 
-const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const html = readFileSync(new URL('../body.html', import.meta.url), 'utf8');
 const js = readFileSync(new URL('../app/inspector.js', import.meta.url), 'utf8');
 test('browser inspector contains operational controls and real science kernel imports', () => {
   assert.ok(html.includes('<script type="module" src="./app/inspector.js"></script>'));
