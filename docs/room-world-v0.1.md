@@ -92,3 +92,8 @@ As exportações atuais contêm a história de um experimento; checkpoints retom
 Antes de inserir ruídos de chuva, “sons da janela” ou objetos móveis, devemos definir um mecanismo físico para geração/propagação/captação que possa ser validado separadamente. Não adicionaremos relações de origem comum como metadados entregues aos sensores nem movimentos corporais prontos ao sistema investigado.
 
 O TEMPO original permanece congelado e sem alterações.
+
+
+### Continuidade experimental
+
+A etapa 7 acrescentou persistência, reexecução e checkpoints sem modificar o modelo físico. Estado térmico, óptico e histórico do mundo são capturados no limite da interrupção para verificação, sem transferir verdade física como entrada do motor. Veja [replicação](replication-v0.1.md).

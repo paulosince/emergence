@@ -172,3 +172,18 @@ npm run experiment:room:none
 ~~~
 
 **Não** há ainda som, chuva física, comportamento motor autônomo ou constituição de unidades. O projeto TEMPO original não é modificado.
+
+
+## Etapa 7 — checkpoints reais e replicação científica
+
+A Sala Experimental possui armazenamento IndexedDB local, histórico gravado, reexecução integral e continuação de checkpoints. São capturados estado físico, fila de eventos, relógio, sensores, geradores pseudoaleatórios e estado do controle diagnóstico. Os ZIPs exportados incluem JSON/CSV/estados e passam por verificações CRC32 e SHA-256 na importação.
+
+~~~sh
+npm test
+npm run experiment:room:replication
+npm run experiment:room:replication:zip
+~~~
+
+[Protocolo de checkpoint, importação, comparação e limites](docs/replication-v0.1.md).
+
+**Escopo:** os mundos determinísticos atuais e o motor diagnóstico, não futuros motores representacionais nem validade física real.

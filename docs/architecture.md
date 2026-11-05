@@ -189,3 +189,25 @@ Comando externo do pesquisador: ELEVAR, depois SOLTAR
 ~~~
 
 O mundo é um sistema físico compartilhado no código, não um conjunto de sequências sensoriais arbitrárias. As equações, os limites e os testes adversariais estão em [body-world-v0.1.md](body-world-v0.1.md). A interface inicial apenas inspeciona estados e rastros reais; a representação dinâmica de uma malha constituída continua pendente.
+
+
+## Etapa 7 — continuidade de estado real
+
+~~~text
+Mundo + sensores → relógio e fila → motor diagnóstico
+         |              |                  |
+      estado físico   eventos e RNGs     estado interno
+         +--------------+------------------+
+                        |
+            checkpoint real versionado
+                        |
+               IndexedDB / ZIP
+                        |
+             restaurar → continuar
+                        |
+             comparação integral
+
+Operação diferente: histórico gravado → visualização sem reexecutar.
+~~~
+
+Na Sala Experimental, o mundo é uma função determinística de condições e tempo. O checkpoint armazena as condições e o estado físico calculado, verificado ao restaurar. Mundo com memória mutável exigirá outro contrato de serialização; TEMPO com nós fixos não ganhou retomada nesta etapa. [Protocolo](replication-v0.1.md).
