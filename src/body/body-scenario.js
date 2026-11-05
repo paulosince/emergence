@@ -1,6 +1,7 @@
 // One causal physical world with independently selectable modalities.
 // The experimenter gives the action command; no autonomous controller exists.
 import { createActuatedWorld } from './actuated-world.js';
+import { createFixedThresholdBodyWorld } from './fixed-threshold-control.js';
 import { BodySignalEnvironment } from './body-signals.js';
 
 export const BODY_SCENARIO_ID = 'single-actuated-sphere-drop-v1';
@@ -31,6 +32,8 @@ const SENSOR_OVERRIDES = Object.freeze([
 export function createBodyScenario({
   modalities = ALL_MODALITIES,
   worldOptions = {},
+  controlMode = 'experimenter',
+  thresholdVoltageV = 9.95,
   sensorOverrides = {},
   seed = 42,
   endTimeMs = BODY_SCENARIO_HORIZON_MS,
@@ -45,6 +48,9 @@ export function createBodyScenario({
       !sensorOverrides || typeof sensorOverrides !== 'object' ||
       Array.isArray(sensorOverrides)) {
     throw new TypeError('World options and sensor overrides must be records');
+  }
+  if (!['experimenter', 'fixed-voltage-gate'].includes(controlMode)) {
+    throw new RangeError('Unknown action control mode');
   }
   const selected = REGISTRY.filter(x => modalities.includes(x.modality));
   const activeIds = new Set(selected.map(x => x.id));
@@ -69,7 +75,9 @@ export function createBodyScenario({
       ? { windowMs: transducers.find(s => s.id === x.id).periodMs } : {}),
   }));
   // The world has no dependency on sensor presence, order or sampling.
-  const world = createActuatedWorld(worldOptions);
+  const world = controlMode === 'experimenter'
+    ? createActuatedWorld(worldOptions)
+    : createFixedThresholdBodyWorld({ worldOptions, thresholdVoltageV });
   const environment = new BodySignalEnvironment({ world, couplings });
   return Object.freeze({
     environment, transducers, seed, endTimeMs,

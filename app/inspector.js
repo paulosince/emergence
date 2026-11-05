@@ -24,7 +24,8 @@ const sensorNames = {
 };
 const typeNames = {
   'intervention.motor-command': 'Comando externo: elevar',
-  'intervention.release': 'Comando externo: soltar',
+  'intervention.release': 'Soltura programada',
+  'control.fixed-voltage-threshold': 'Regra fixa: tensão permite ou inibe elevação',
   'collision.impact': 'Colisão física calculada',
   'contact.initial': 'Contato inicial',
 };
@@ -137,10 +138,14 @@ function startCondition() {
   try {
     const enabled = [...modalities]
       .filter(input => input.checked).map(input => input.value);
-    const height = byId('actionMode').value === 'passive' ? 0 : 0.2;
+    const mode = byId('actionMode').value;
+    const height = mode === 'passive' ? 0 : 0.2;
     scene = createBodyScenario({
       modalities: enabled,
       worldOptions: { liftHeightM: height },
+      controlMode: mode.startsWith('fixed-')
+        ? 'fixed-voltage-gate' : 'experimenter',
+      thresholdVoltageV: mode === 'fixed-block' ? 10.05 : 9.95,
     });
     result = runExperiment({
       ...scene, engine: new DiagnosticEngine(),

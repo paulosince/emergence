@@ -39,11 +39,11 @@
           <label><input type="checkbox" value="interoceptive" data-modality checked/> Interocepção</label>
         </fieldset>
         <label class="select-label" for="actionMode">Intervenção do pesquisador
-          <select id="actionMode"><option value="lift">Elevar 20 cm e soltar</option><option value="passive">Não elevar; somente soltar</option></select>
+          <select id="actionMode"><option value="lift">Pesquisador: elevar 20 cm e soltar</option><option value="passive">Pesquisador: só soltar</option><option value="fixed-allow">Regra fixa: elevar se tensão ≥ 9,95 V</option><option value="fixed-block">Regra fixa: impedir se tensão &lt; 10,05 V</option></select>
         </label>
         <button id="exportBtn" type="button" class="button secondary">Exportar JSON</button>
       </div>
-      <p class="fine">A ação é determinada pelo experimentador. Não há controlador autônomo nem constituição de unidades nesta versão.</p>
+      <p class="fine">A ação é imposta pelo pesquisador ou selecionada por uma regra fixa de tensão. Nenhum desses controles é autonomia representacional.</p>
     </section>
     <section class="panels">
       <article class="card world-card">
