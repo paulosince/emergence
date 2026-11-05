@@ -45,6 +45,33 @@ function operate(db,storeName,mode,action) {
   });
 }
 
+function atomicRunTransaction(db,operation,entryOrId) {
+  return new Promise((resolve,reject)=>{
+    try{
+      const tx=db.transaction(['runs','checkpoints'],'readwrite');
+      const runs=tx.objectStore('runs');
+      const checkpoints=tx.objectStore('checkpoints');
+      if(operation==='save'){
+        runs.put(clone(entryOrId));
+        if(entryOrId.record?.checkpoint) {
+          checkpoints.put({
+            id:entryOrId.id,savedAt:entryOrId.savedAt,
+            checkpoint:clone(entryOrId.record.checkpoint),
+          });
+        }else checkpoints.delete(entryOrId.id);
+      }else if(operation==='delete'){
+        runs.delete(entryOrId);
+        checkpoints.delete(entryOrId);
+      }else throw new RangeError('Unsupported atomic operation');
+      tx.oncomplete=()=>resolve();
+      tx.onerror=()=>reject(tx.error??
+        new Error('Atomic run/checkpoint transaction failed'));
+      tx.onabort=()=>reject(tx.error??
+        new Error('Atomic run/checkpoint transaction aborted'));
+    }catch(error){reject(error);}
+  });
+}
+
 export async function openExperimentStore(idb=globalThis.indexedDB) {
   const db=await openDb(idb);
   const assertId=id=>{
@@ -58,12 +85,7 @@ export async function openExperimentStore(idb=globalThis.indexedDB) {
       assertId(entry.id);
       if(!Number.isFinite(entry.savedAt))
         throw new RangeError('Invalid local save date');
-      await operate(db,'runs','readwrite',store=>store.put(clone(entry)));
-      if(entry.record?.checkpoint) {
-        await operate(db,'checkpoints','readwrite',store=>
-          store.put({id:entry.id,savedAt:entry.savedAt,
-            checkpoint:clone(entry.record.checkpoint)}));
-      }
+      await atomicRunTransaction(db,'save',entry);
       return entry.id;
     },
     loadRun:async id=>{
@@ -84,8 +106,7 @@ export async function openExperimentStore(idb=globalThis.indexedDB) {
     },
     deleteRun:async id=>{
       assertId(id);
-      await operate(db,'runs','readwrite',s=>s.delete(id));
-      await operate(db,'checkpoints','readwrite',s=>s.delete(id));
+      await atomicRunTransaction(db,'delete',id);
     },
     saveConfig:async entry=>{
       if(!entry || typeof entry!=='object')throw new TypeError('Config required');
