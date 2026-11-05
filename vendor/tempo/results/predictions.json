@@ -1,0 +1,354 @@
+{
+ "nSeeds": 10,
+ "P2": {
+  "0.4": [
+   9,
+   15,
+   7,
+   17,
+   18,
+   14,
+   9,
+   11,
+   24,
+   20
+  ],
+  "0.2": [
+   25,
+   28,
+   16,
+   35,
+   22,
+   31,
+   17,
+   37,
+   44,
+   40
+  ],
+  "0.1": [
+   79,
+   72,
+   null,
+   70,
+   53,
+   63,
+   32,
+   78,
+   62,
+   62
+  ],
+  "0.05": [
+   131,
+   132,
+   111,
+   139,
+   125,
+   116,
+   68,
+   135,
+   220,
+   142
+  ],
+  "0.025": [
+   235,
+   249,
+   197,
+   214,
+   238,
+   241,
+   131,
+   277,
+   278,
+   267
+  ]
+ },
+ "P3": {
+  "shift_K1": [
+   30,
+   29,
+   23,
+   31,
+   33,
+   61,
+   15,
+   41,
+   31,
+   35
+  ],
+  "shift_K2": [
+   30,
+   35,
+   22,
+   29,
+   31,
+   33,
+   17,
+   51,
+   51,
+   26
+  ],
+  "shift_K4": [
+   25,
+   28,
+   16,
+   35,
+   22,
+   31,
+   17,
+   37,
+   44,
+   40
+  ],
+  "shift_K8": [
+   28,
+   26,
+   16,
+   30,
+   55,
+   48,
+   17,
+   31,
+   36,
+   34
+  ],
+  "shift_K16": [
+   28,
+   26,
+   16,
+   31,
+   50,
+   41,
+   17,
+   42,
+   36,
+   33
+  ],
+  "shift_K32": [
+   28,
+   26,
+   16,
+   31,
+   50,
+   41,
+   17,
+   42,
+   36,
+   33
+  ],
+  "select_K1": [
+   30,
+   22,
+   69,
+   123,
+   16,
+   null,
+   null,
+   62,
+   27,
+   22
+  ],
+  "select_K2": [
+   18,
+   13,
+   45,
+   35,
+   32,
+   16,
+   8,
+   44,
+   22,
+   8
+  ],
+  "select_K4": [
+   20,
+   7,
+   19,
+   8,
+   null,
+   14,
+   8,
+   10,
+   20,
+   6
+  ],
+  "select_K8": [
+   8,
+   7,
+   23,
+   3,
+   18,
+   15,
+   5,
+   6,
+   13,
+   5
+  ],
+  "select_K16": [
+   7,
+   1,
+   66,
+   3,
+   null,
+   3,
+   3,
+   7,
+   2,
+   5
+  ],
+  "select_K32": [
+   2,
+   1,
+   null,
+   null,
+   4,
+   1,
+   2,
+   2,
+   4,
+   null
+  ]
+ },
+ "P3strict": {},
+ "ablation": {
+  "fixed_K1": {
+   "lenient": 0,
+   "strict": 0
+  },
+  "fixed_K4": {
+   "lenient": 3,
+   "strict": 0
+  },
+  "fixed_K16": {
+   "lenient": 8,
+   "strict": 0
+  },
+  "fixed_K32": {
+   "lenient": 10,
+   "strict": 0
+  },
+  "select_K1": {
+   "lenient": 8,
+   "strict": 8
+  },
+  "select_K4": {
+   "lenient": 8,
+   "strict": 6
+  },
+  "select_K16": {
+   "lenient": 7,
+   "strict": 2
+  },
+  "select_K32": {
+   "lenient": 7,
+   "strict": 1
+  },
+  "shift_K1": {
+   "lenient": 10,
+   "strict": 10
+  },
+  "shift_K4": {
+   "lenient": 10,
+   "strict": 10
+  },
+  "shift_K16": {
+   "lenient": 10,
+   "strict": 10
+  },
+  "shift_K32": {
+   "lenient": 10,
+   "strict": 10
+  }
+ },
+ "persistence": [
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true,
+  true
+ ],
+ "persistenceNoConsol": [
+  false,
+  false,
+  false,
+  false,
+  false,
+  false,
+  true,
+  false,
+  false,
+  false
+ ],
+ "P5": [
+  {
+   "forward": false,
+   "reverse": true
+  },
+  {
+   "forward": false,
+   "reverse": true
+  },
+  {
+   "forward": false,
+   "reverse": true
+  },
+  {
+   "forward": false,
+   "reverse": true
+  },
+  {
+   "forward": false,
+   "reverse": true
+  },
+  {
+   "forward": false,
+   "reverse": true
+  },
+  {
+   "forward": false,
+   "reverse": true
+  },
+  {
+   "forward": false,
+   "reverse": true
+  },
+  {
+   "forward": false,
+   "reverse": true
+  },
+  {
+   "forward": false,
+   "reverse": true
+  }
+ ],
+ "P4": {
+  "2": {
+   "forward": false,
+   "reverse": false
+  },
+  "5": {
+   "forward": true,
+   "reverse": false
+  },
+  "10": {
+   "forward": true,
+   "reverse": false
+  },
+  "20": {
+   "forward": true,
+   "reverse": false
+  },
+  "30": {
+   "forward": true,
+   "reverse": true
+  },
+  "50": {
+   "forward": true,
+   "reverse": true
+  }
+ }
+}
