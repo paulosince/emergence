@@ -5,7 +5,7 @@
 import { DAY_MS, describeSolarDay, solarAt } from './solar.js';
 import { createWeatherForcing } from './weather.js';
 import { ROOM_GEOMETRY_V1, floorReceivesDirectSun,
-  sunPatchOnFloor } from './geometry.js';
+  sunPatchOnFloor, boxShadowOnFloor, boxBlocksWindowRay } from './geometry.js';
 
 export const ROOM_MODEL_ID = 'naturalistic-room-thermal-optical-v1';
 const STEP_MS = 60000; // Temperature integration and controller sampling resolution.
@@ -32,6 +32,7 @@ export function createRoomWorld({
   lampVisibleRadiantFraction = 0.25,
   lampOnThresholdWm2 = 12,
   lampOffThresholdWm2 = 18,
+  opaqueObjectEnabled = true,
 } = {}) {
   const day = describeSolarDay({ date, latitudeDeg, longitudeDeg, utcOffsetHours });
   const weather = createWeatherForcing({
@@ -49,7 +50,12 @@ export function createRoomWorld({
   if (lampOffThresholdWm2 <= lampOnThresholdWm2)
     throw new RangeError('Lamp hysteresis must have off-threshold greater than on-threshold');
 
-  const geometry = ROOM_GEOMETRY_V1;
+  if (typeof opaqueObjectEnabled !== 'boolean') {
+    throw new TypeError('opaqueObjectEnabled must be boolean');
+  }
+  const geometry = opaqueObjectEnabled
+    ? ROOM_GEOMETRY_V1
+    : Object.freeze({...ROOM_GEOMETRY_V1,opaqueObject:null});
   const floorArea = geometry.widthM * geometry.depthM;
   const apertureArea = geometry.window.widthM * geometry.window.heightM;
   const opticalTransfer = geometry.window.transmittance;
@@ -174,6 +180,7 @@ export function createRoomWorld({
     const sky=skyAt(timeMs);
     const lampOn=lampAt(timeMs);
     const patch=sunPatchOnFloor(sky.sun,geometry);
+    const shadow=boxShadowOnFloor(sky.sun,geometry);
     const temperatureC=indoorTemperatureAt(timeMs);
     return Object.freeze({
       timeMs,
@@ -191,6 +198,7 @@ export function createRoomWorld({
         transmittedDiffusePowerW:sky.transmittedDiffusePowerW,
         indirectFloorIrradianceWm2:sky.indirectFloorIrradianceWm2,
         sunlightFloorPolygon:patch,
+        obstacleShadowFloorPolygon:shadow,
       }),
       thermal: Object.freeze({
         outdoorTemperatureC:sky.atmosphere.temperatureC,
@@ -205,7 +213,10 @@ export function createRoomWorld({
   function floorIrradianceAt(timeMs,eastM,northM) {
     checkTime(timeMs);
     const sky=skyAt(timeMs);
-    const direct=floorReceivesDirectSun(eastM,northM,sky.sun,geometry)
+    const illuminated=floorReceivesDirectSun(eastM,northM,sky.sun,geometry);
+    const blocked=illuminated &&
+      boxBlocksWindowRay(eastM,northM,sky.sun,geometry);
+    const direct=illuminated && !blocked
       ? sky.directNormalWm2*Math.max(0,sky.sun.up)*opticalTransfer : 0;
     const lampIrradiance=lampAt(timeMs) ?
       lampElectricalPowerW*lampVisibleRadiantFraction/floorArea : 0;
@@ -219,7 +230,7 @@ export function createRoomWorld({
     return Object.freeze({
       modelId:ROOM_MODEL_ID,version:'0.1.0',
       date:day.date,solarDay:day,
-      geometry, weather:weather.describe(),
+      geometry,opaqueObjectEnabled, weather:weather.describe(),
       initialIndoorTemperatureC,heatCapacityJPerK,
       envelopeConductanceWPerK,lampElectricalPowerW,
       lampVisibleRadiantFraction,

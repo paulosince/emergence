@@ -6,7 +6,7 @@ export const ROOM_SCENARIO_ID='guarulhos-winter-room-clear-v1';
 export const ROOM_HORIZON_MS=DAY_MS-1;
 const SENSORS=Object.freeze([
   {id:'r0',channelId:'c0',modality:'optical',periodMs:900000,latencyMs:200,
-   type:'floor-radiometer',eastM:0,northM:0.7},
+   type:'floor-radiometer',eastM:0.65,northM:0.7},
   {id:'r1',channelId:'c1',modality:'optical',periodMs:900000,latencyMs:300,
    type:'floor-radiometer',eastM:-1.3,northM:0.7},
   {id:'r2',channelId:'c2',modality:'optical',periodMs:900000,latencyMs:200,
