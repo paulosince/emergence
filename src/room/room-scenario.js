@@ -1,96 +1,62 @@
-// Each sensor is a physical coupling to the SAME world, with independent
-// sampling/latency. World truth is stored only in the researcher's manifest.
-import { createRoomWorld,ROOM_DAY_MS } from './room-world.js';
+import { createRoomWorld } from './room-world.js';
+import { RoomSensorEnvironment } from './room-sensors.js';
+import { DAY_MS } from './solar.js';
 
-const REGISTRY=Object.freeze([
-  Object.freeze({id:'s0',channelId:'c0',source:'floor-light',
-    modality:'optical',x:0,y:0.0,periodMs:900000,latencyMs:120}),
-  Object.freeze({id:'s1',channelId:'c1',source:'floor-light',
-    modality:'optical',x:1.25,y:-0.8,periodMs:900000,latencyMs:170}),
-  Object.freeze({id:'s2',channelId:'c2',source:'outdoor-photocell',
-    modality:'optical',periodMs:900000,latencyMs:90}),
-  Object.freeze({id:'s3',channelId:'c3',source:'lamp-current',
-    modality:'electrical',periodMs:900000,latencyMs:130}),
+export const ROOM_SCENARIO_ID='guarulhos-winter-room-clear-v1';
+export const ROOM_HORIZON_MS=DAY_MS-1;
+const SENSORS=Object.freeze([
+  {id:'r0',channelId:'c0',modality:'optical',periodMs:900000,latencyMs:200,
+   type:'floor-radiometer',eastM:0,northM:0.7},
+  {id:'r1',channelId:'c1',modality:'optical',periodMs:900000,latencyMs:300,
+   type:'floor-radiometer',eastM:-1.3,northM:0.7},
+  {id:'r2',channelId:'c2',modality:'optical',periodMs:900000,latencyMs:200,
+   type:'outdoor-radiometer'},
+  {id:'r3',channelId:'c3',modality:'thermal',periodMs:900000,latencyMs:400,
+   type:'indoor-temperature-voltage'},
+  {id:'r4',channelId:'c4',modality:'thermal',periodMs:900000,latencyMs:400,
+   type:'outdoor-temperature-voltage'},
+  {id:'r5',channelId:'c5',modality:'electrical',periodMs:900000,latencyMs:100,
+   type:'lamp-current'},
+].map(Object.freeze));
+const MODALITIES=['optical','thermal','electrical'];
+const ALLOWED_SENSOR_KEYS=new Set([
+  'periodMs','phaseMs','latencyMs','quantum','noiseStd','emitMode','minDelta',
 ]);
-export class RoomSignalEnvironment {
-  #world;
-  #channels;
-  constructor(world,couplings){
-    if(!world||typeof world.floorIlluminanceAt!=='function')
-      throw new TypeError('Requires an operational room model');
-    if(!Array.isArray(couplings))throw new TypeError('Couplings must be an array');
-    const map=new Map();
-    for(const c of couplings){
-      if(!c||typeof c.channelId!=='string'||!c.channelId.trim()||
-        map.has(c.channelId))throw new RangeError('Duplicate or invalid channel ID');
-      if(!['floor-light','outdoor-photocell','lamp-current'].includes(c.source))
-        throw new RangeError('Unknown room sensor coupling');
-      if(c.source==='floor-light'){
-        // Validation must not rely on whether the sensor ever actually samples.
-        world.floorIlluminanceAt(0,{x:c.x,y:c.y});
-      }
-      map.set(c.channelId,Object.freeze({...c}));
-    }
-    this.#world=world;this.#channels=map;
-  }
-  readAt(channelId,timeMs){
-    const c=this.#channels.get(channelId);
-    if(!c)throw new RangeError('Unknown room sensory channel');
-    if(c.source==='floor-light')
-      return this.#world.floorIlluminanceAt(timeMs,{x:c.x,y:c.y});
-    const state=this.#world.stateAt(timeMs);
-    if(c.source==='outdoor-photocell')return state.outdoorIlluminance;
-    return state.lampOn?1:0; // normalized lamp circuit current, ideal binary switch.
-  }
-  specification(){
-    return {model:'room-scalar-sensory-coupling-v1',
-      world:this.#world.describe(), // researcher only
-      couplings:[...this.#channels.values()].map(c=>({...c}))};
-  }
-  validateHorizon(endTimeMs){this.#world.stateAt(endTimeMs);}
-  validateTransducers(sensors){
-    for(const s of sensors){
-      if(!this.#channels.has(s.config.channelId))
-        throw new RangeError('Sensor has no physical room coupling');
-    }
-  }
-}
 export function createRoomScenario({
-  worldOptions={},
-  modalities=['optical','electrical'],
-  sensorOverrides={},
-  seed=42,
-  endTimeMs=ROOM_DAY_MS,
-}={}){
-  if(!Array.isArray(modalities)||modalities.some(x=>!['optical','electrical'].includes(x))||
-     new Set(modalities).size!==modalities.length)
-     throw new RangeError('Unknown or duplicate modality');
-  if(!sensorOverrides||typeof sensorOverrides!=='object'||Array.isArray(sensorOverrides))
-    throw new TypeError('Sensor overrides must be a record');
-  const selected=REGISTRY.filter(c=>modalities.includes(c.modality));
-  const allowedIds=new Set(selected.map(c=>c.id));
-  if(Object.keys(sensorOverrides).some(id=>!allowedIds.has(id)))
-    throw new RangeError('Unknown or disabled room sensor override');
-  const allowed=new Set(['periodMs','phaseMs','latencyMs','noiseStd','quantum',
-    'emitMode','minDelta']);
-  const sensors=selected.map(c=>{
-    const ov=sensorOverrides[c.id]??{};
-    if(!ov||typeof ov!=='object'||Array.isArray(ov)||
-       Object.keys(ov).some(x=>!allowed.has(x)))
-      throw new RangeError('Invalid sensor parameter override');
-    return {
-      id:c.id,channelId:c.channelId,periodMs:c.periodMs,
-      latencyMs:c.latencyMs,emitMode:'change',quantum:0.001,...ov,
-    };
+  modalities=MODALITIES,weatherPreset='clear',worldOptions={},
+  sensorOverrides={},seed=42,endTimeMs=ROOM_HORIZON_MS,
+}={}) {
+  if (!Array.isArray(modalities) ||
+      modalities.some(x=>!MODALITIES.includes(x)) ||
+      new Set(modalities).size!==modalities.length)
+    throw new RangeError('Invalid or repeated room modality');
+  if (!worldOptions || typeof worldOptions!=='object' ||
+      Array.isArray(worldOptions) ||
+      !sensorOverrides || typeof sensorOverrides!=='object' ||
+      Array.isArray(sensorOverrides))
+    throw new TypeError('World parameters and sensor overrides must be records');
+  const selected=SENSORS.filter(s=>modalities.includes(s.modality));
+  const ids=new Set(selected.map(s=>s.id));
+  if(Object.keys(sensorOverrides).some(id=>!ids.has(id)))
+    throw new RangeError('Override for missing/inactive sensor');
+  const world=createRoomWorld({...worldOptions,weatherPreset});
+  const transducers=selected.map(s=>{
+    const override=sensorOverrides[s.id]??{};
+    if (!override || typeof override!=='object' ||
+        Array.isArray(override) ||
+        Object.keys(override).some(k=>!ALLOWED_SENSOR_KEYS.has(k)))
+      throw new RangeError('Invalid room transducer override');
+    return {id:s.id,channelId:s.channelId,
+      periodMs:s.periodMs,latencyMs:s.latencyMs,
+      emitMode:'change',...override};
   });
-  const couplings=selected.map(c=>({
-    channelId:c.channelId,source:c.source,
-    modality:c.modality,...(c.source==='floor-light'?{x:c.x,y:c.y}:{}),
+  const couplings=selected.map(s=>({
+    channelId:s.channelId,type:s.type,
+    ...(s.type==='floor-radiometer'?
+      {eastM:s.eastM,northM:s.northM}:{}),
   }));
-  const world=createRoomWorld(worldOptions);
   return Object.freeze({
-    environment:new RoomSignalEnvironment(world,couplings),
-    transducers:sensors,endTimeMs,seed,world,
-    researchScenarioId:'north-window-solar-room-v1',
+    world,environment:new RoomSensorEnvironment({world,couplings}),
+    transducers,seed,endTimeMs,researchScenarioId:ROOM_SCENARIO_ID,
   });
 }
