@@ -88,4 +88,18 @@ assert.equal(byId('receivedValue').textContent, '0');
 assert.ok(byId('physicalEvents').children.length >= 3);
 assert.match(byId('runStatus').textContent, /0 incidências/);
 
+// Verify both operational fixed-rule outcomes in the actual UI module.
+for (const [mode, expectedExtension, expectedEnergy] of [
+  ['fixed-allow', '20 cm', '97,548 J'],
+  ['fixed-block', '0 cm', '100 J'],
+]) {
+  byId('actionMode').value = mode;
+  byId('actionMode').trigger('change');
+  byId('timeRange').value = '1000';
+  byId('timeRange').trigger('input');
+  assert.equal(byId('jointValue').textContent, expectedExtension);
+  assert.equal(byId('energyValue').textContent, expectedEnergy);
+  assert.ok(byId('physicalEvents').children.length >= 2);
+}
+
 console.log('EMERGENCE DOM behavioral inspector smoke passed; visual layout not assessed');
