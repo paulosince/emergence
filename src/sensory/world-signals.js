@@ -69,6 +69,10 @@ export class WorldSignalEnvironment {
     }
   }
 
+  validateHorizon(endTimeMs) {
+    this.#world.stateAt(endTimeMs);
+  }
+
   readAt(channelId, timeMs) {
     const coupling = this.#couplings.get(channelId);
     if (!coupling) throw new RangeError('Unknown physical channel');

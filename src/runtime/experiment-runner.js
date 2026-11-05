@@ -43,6 +43,9 @@ export function runExperiment({
   if (typeof environment.validateTransducers === 'function') {
     environment.validateTransducers(sensors);
   }
+  if (typeof environment.validateHorizon === 'function') {
+    environment.validateHorizon(endTimeMs);
+  }
   // State carried over from a prior run would be undeclared experimental input.
   // Resume will require a versioned checkpoint instead of silent object reuse.
   if (enginesAlreadyExecuted.has(engine)) {
