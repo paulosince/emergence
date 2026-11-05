@@ -133,7 +133,7 @@ A suíte da Etapa 5 inclui ainda uma grade determinística com **54 combinaçõe
 
 O mesmo processo físico agora liga elevação de esfera, atuação motora, energia elétrica interna e aquecimento. Um corpo de um eixo inclui um **capacitor ideal**, um motor com eficiência fixa, uma trava de sustentação e uma ação explicitamente **imposta pelo pesquisador**. Os sensores de propriocepção e interocepção compartilham a dinâmica com os sensores ópticos e mecânicos. Nada disso constitui unidades ou representações automaticamente.
 
-Foi adicionada uma **interface preliminar de inspeção**, diretamente em index.html, com linha temporal, cena física esquemática, grandezas do corpo, modalidades configuráveis, histórico real de incidências e exportação JSON. É uma interface de pesquisa, não a interface científica final prevista no roteiro.
+Foi adicionada uma **interface preliminar de inspeção corporal**, agora preservada em [body.html](body.html), com linha temporal, cena física esquemática, grandezas do corpo, modalidades configuráveis, histórico real de incidências e exportação JSON. A página inicial [index.html](index.html) é a Sala Experimental naturalística. É uma interface de pesquisa, não a interface científica final prevista no roteiro.
 
 ~~~sh
 npm test
