@@ -10,8 +10,8 @@ const values = (r, id) => r.incidences.filter(i => i.transducerId === id)
   .map(i => [i.observedAtMs, i.arrivedAtMs, i.measurement]);
 
 test('the complete versioned campaign runs and is reproducible', () => {
-  assert.equal(SCIENTIFIC_CONTROLS_V1.length, 10);
-  assert.equal(new Set(SCIENTIFIC_CONTROLS_V1.map(c => c.id)).size, 10);
+  assert.equal(SCIENTIFIC_CONTROLS_V1.length, 13);
+  assert.equal(new Set(SCIENTIFIC_CONTROLS_V1.map(c => c.id)).size, 13);
   for (const control of SCIENTIFIC_CONTROLS_V1) {
     const output = runScientificControl(control.id);
     assert.equal(output.condition.id, control.id);
@@ -142,4 +142,42 @@ test('diagnostic audit detects corrupted engine event history independently', ()
   const verdict = auditDiagnosticDelivery(tampered);
   assert.equal(verdict.passed, false);
   assert.ok(verdict.failures.some(x => x.includes('ingest event')));
+});
+
+
+test('equal sampling periods but different PHASES can reverse an aliasing failure', () => {
+  const aliased = run('upper-beam-aliasing-v1');
+  const phased = run('upper-beam-phase-shift-v1');
+  assert.deepEqual(aliased.manifest.environment.world,
+    phased.manifest.environment.world);
+  assert.equal(aliased.manifest.transducers.find(x => x.id === 's0').periodMs, 100);
+  assert.equal(phased.manifest.transducers.find(x => x.id === 's0').periodMs, 100);
+  assert.deepEqual(values(aliased, 's0').map(x => x[2]), [1]);
+  assert.ok(values(phased, 's0').some(x => x[2] === 0));
+  assert.deepEqual(values(aliased, 's1'), values(phased, 's1'));
+  assert.deepEqual(values(aliased, 's2'), values(phased, 's2'));
+});
+
+test('independent seeded noise changes only its declared sensor readings', () => {
+  const noNoise = run('single-baseline-v1');
+  const noiseA = runScientificControl('upper-beam-noise-v1', { seed: 123 }).result;
+  const noiseB = runScientificControl('upper-beam-noise-v1', { seed: 456 }).result;
+  assert.notDeepEqual(values(noiseA, 's0'), values(noiseB, 's0'));
+  assert.deepEqual(values(noiseA, 's1'), values(noNoise, 's1'));
+  assert.deepEqual(values(noiseA, 's2'), values(noNoise, 's2'));
+  assert.deepEqual(noiseA.manifest.environment.world,
+    noNoise.manifest.environment.world);
+});
+
+test('quantizing measured mechanical impulse does not change the actual collision', () => {
+  const baseline = run('single-baseline-v1');
+  const coarse = run('mechanical-quantization-v1');
+  assert.deepEqual(baseline.manifest.environment.world,
+    coarse.manifest.environment.world);
+  assert.deepEqual(values(baseline, 's0'), values(coarse, 's0'));
+  assert.deepEqual(values(baseline, 's1'), values(coarse, 's1'));
+  const physicalReading = values(baseline, 's2').find(x => x[2] > 0)[2];
+  const roundedReading = values(coarse, 's2').find(x => x[2] > 0)[2];
+  assert.equal(roundedReading, Math.round(physicalReading / 0.5) * 0.5);
+  assert.notEqual(physicalReading, roundedReading);
 });

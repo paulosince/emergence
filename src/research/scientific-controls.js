@@ -27,6 +27,14 @@ export const SCIENTIFIC_CONTROLS_V1 = Object.freeze([
     description: 'One verified world, all three instrumented channels' }),
   Object.freeze({ id: 'upper-beam-aliasing-v1', changedFactor: 's0 sampling period',
     description: 'Miss a brief obstruction without changing the world' }),
+  Object.freeze({ id: 'upper-beam-phase-shift-v1',
+    changedFactor: 's0 sampling phase relative to upper-beam-aliasing-v1',
+    description: 'Same slow sampling period but changed phase captures obstruction' }),
+  Object.freeze({ id: 'upper-beam-noise-v1', changedFactor: 's0 measurement noise',
+    description: 'Seeded optical noise with other sensor random streams unchanged' }),
+  Object.freeze({ id: 'mechanical-quantization-v1',
+    changedFactor: 's2 numeric quantization',
+    description: 'Quantize measured impulse without changing collision physics' }),
   Object.freeze({ id: 'upper-beam-position-v1', changedFactor: 's0 beam height',
     description: 'Move one sensor without moving the sphere' }),
   Object.freeze({ id: 'mechanical-delay-v1', changedFactor: 's2 delivery latency',
@@ -60,6 +68,18 @@ export function createScientificControl(id, { seed = 42 } = {}) {
     case 'upper-beam-aliasing-v1':
       scene = createWorldSensoryScenario({
         seed, sensorOverrides: { s0: { periodMs: 100 } },
+      }); break;
+    case 'upper-beam-phase-shift-v1':
+      scene = createWorldSensoryScenario({
+        seed, sensorOverrides: { s0: { periodMs: 100, phaseMs: 50 } },
+      }); break;
+    case 'upper-beam-noise-v1':
+      scene = createWorldSensoryScenario({
+        seed, sensorOverrides: { s0: { noiseStd: 0.08 } },
+      }); break;
+    case 'mechanical-quantization-v1':
+      scene = createWorldSensoryScenario({
+        seed, sensorOverrides: { s2: { quantum: 0.5 } },
       }); break;
     case 'upper-beam-position-v1':
       scene = createWorldSensoryScenario({
