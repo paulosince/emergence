@@ -8,10 +8,10 @@ import {buildRoomRecord} from '../src/persistence/records.js';
 // Includes version-1 migration, delayed asynchronous requests, keyPath and
 // a single multi-store transaction for run+checkpoint atomicity.
 function makeDb({oldVersion=1}={}) {
-  const data=new Map([
+  const data=new Map(oldVersion>=1 ? [
     ['runs',new Map()],
     ['configs',new Map()],
-  ]);
+  ] : []);
   const upgradeOperations=[],transactions=[];
   let currentVersion=oldVersion;
   const db={
