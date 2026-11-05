@@ -217,3 +217,23 @@ test('no gravity means no impact response in a stationary scene', () => {
   assert.ok(runResult.incidences.every(i => i.measurement === 0));
   assert.equal(world.describe().impactTimeMs, null);
 });
+
+test('inactive sensors reject overrides instead of silently ignoring them', () => {
+  assert.throws(() => createWorldSensoryScenario({
+    modalities: [],
+    sensorOverrides: { s0: { periodMs: 20 } },
+  }), /disabled sensor/);
+  assert.throws(() => createWorldSensoryScenario({
+    modalities: ['mechanical'],
+    couplingOverrides: { s1: { beamHeightM: 0.6 } },
+  }), /disabled sensor/);
+});
+
+test('normalized optical intensity remains within the stated physical range', () => {
+  assert.throws(() => new WorldSignalEnvironment({
+    world: createDropV1(), couplings: [{
+      channelId: 'light', type: 'photogate', beamHeightM: 0.5,
+      clearIntensity: 2,
+    }],
+  }), /Normalized optical intensity/);
+});

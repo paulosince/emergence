@@ -61,6 +61,11 @@ export function createWorldSensoryScenario({
     throw new RangeError('Unknown sensor identifier in override');
   }
   const selected = REGISTRY.filter(item => modalities.includes(item.modality));
+  const selectedIds = new Set(selected.map(item => item.sensor.id));
+  if ([...Object.keys(sensorOverrides), ...Object.keys(couplingOverrides)]
+    .some(id => !selectedIds.has(id))) {
+    throw new RangeError('Override refers to a disabled sensor');
+  }
   const transducers = selected.map(({ sensor }) => {
     const override = sensorOverrides[sensor.id] ?? {};
     if (!override || typeof override !== 'object' || Array.isArray(override)) {

@@ -32,6 +32,9 @@ export class WorldSignalEnvironment {
         const { clearIntensity = 1, blockedIntensity = 0 } = spec;
         nonnegativeFinite('clearIntensity', clearIntensity);
         nonnegativeFinite('blockedIntensity', blockedIntensity);
+        if (clearIntensity > 1 || blockedIntensity > 1) {
+          throw new RangeError('Normalized optical intensity must not exceed 1');
+        }
         if (blockedIntensity > clearIntensity) {
           throw new RangeError('Blocked beam cannot be brighter than unobstructed beam');
         }

@@ -16,3 +16,7 @@ jobs:
       - run: node experiments/phase1-inputs.js --tempo-control > /dev/null
       - run: node experiments/world-1d-baseline.js --json > /dev/null
       - run: node experiments/world-1d-baseline.js --csv > /dev/null
+      - run: node experiments/world-senses.js --json > /dev/null
+      - run: node experiments/world-senses.js --optical-only > /dev/null
+      - run: node experiments/world-senses.js --mechanical-only > /dev/null
+      - run: node experiments/world-senses.js --no-sensors > /dev/null
