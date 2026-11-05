@@ -2,3 +2,17 @@
 @media(max-width:1000px){.topbar{padding:0 18px}.topbar nav{gap:12px}.primary-grid{grid-template-columns:1fr}.secondary-grid{grid-template-columns:1fr 1fr}.scene-stage svg{max-height:480px}}
 @media(max-width:720px){main{padding:23px 12px}.topbar{height:auto;min-height:70px;display:block;padding:12px 15px}.topbar nav{overflow-x:auto;gap:17px;padding:9px 0 0}.hero{display:block}.live-status{display:inline-flex;margin-top:15px}.secondary-grid{grid-template-columns:1fr}.card{padding:15px}.timeline-top{flex-wrap:wrap}.timeline-top input{order:5;flex-basis:100%}.tick-labels{padding-left:0}.settings{align-items:start;gap:16px}.settings fieldset{flex-basis:100%}.scene-overlay{top:12px;right:12px}.measure-grid strong{font-size:19px}.section-title small{max-width:60%}}
 @media(prefers-color-scheme:dark){:root{background:#101c28;color:#e1ebf4}.topbar,.card{background:#1a2b3a;border-color:#2d4354}.brand small,.hero p:not(.eyebrow),.section-title small{color:#a3b4c3}.topbar nav a{color:#a3b6c5}.live-status{background:#243b32;color:#addabe;border-color:#355443}.input-label select,.measure-grid>div,.domain-counter div{background:#223647;color:#d6e7f3;border-color:#30465a}.scene-overlay{background:#203b50ee;color:#f1f5fa}.explainer{background:#3a352c;color:#e3cfa9}.research-note,.sensor-readings div{background:#254056;color:#c7dfed}.history li{border-color:#2d4354}.button.secondary{background:#2a465d;color:#e2edf6}}
+
+/* Research archive controls: compact with explicit replay/reexecution semantics */
+.replication-panel{border-top:1px solid #e8edf2;margin-top:16px;padding-top:17px}
+.replication-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:end}
+.replication-actions .input-label{min-width:220px;flex:1}
+.replication-status{margin:13px 0 7px;background:#eaf3f9;border-radius:9px;
+  color:#2d6481;font-size:12px;padding:10px 12px}
+.replication-panel .section-title{margin-bottom:12px}
+@media(prefers-color-scheme:dark){
+ .replication-panel{border-top-color:#304b60}
+ .replication-status{background:#28445a;color:#c3e4f8}
+}
+@media(max-width:720px){.replication-actions .button{flex:1 1 145px}
+ .replication-actions .input-label{flex-basis:100%}}

@@ -5,6 +5,13 @@ import { createRoomScenario } from '../src/room/room-scenario.js';
 import { runExperiment } from '../src/runtime/experiment-runner.js';
 import { DiagnosticEngine } from '../src/engines/diagnostic-engine.js';
 import { DAY_MS } from '../src/room/solar.js';
+import {buildRoomRecord,recordedPlayback,
+  independentlyReexecute,resumeSavedCheckpoint}
+  from '../src/persistence/records.js';
+import {exportScientificArchive,importScientificArchive}
+  from '../src/persistence/archive.js';
+import {openExperimentStore}
+  from '../src/persistence/indexeddb.js';
 
 const el=id=>document.getElementById(id);
 const sensors=document.querySelectorAll('[data-room-modality]');
@@ -31,6 +38,7 @@ const eventNames=Object.freeze({
   'lamp.toggle':'Fotocélula alterou a lâmpada',
 });
 let scene=null,result=null,tMs=0,playback=null;
+let currentOptions=null,currentRecord=null,db=null;
 
 function setText(id,value){el(id).textContent=value;}
 function setAttribute(id,name,value){el(id).setAttribute(name,String(value));}
@@ -221,14 +229,16 @@ function restart() {
   stop();
   try{
     const modalities=[...sensors].filter(x=>x.checked).map(x=>x.value);
-    scene=createRoomScenario({
+    currentOptions={
       modalities,
       weatherPreset:el('roomWeather').value,
       worldOptions:{
         date:el('roomDate').value,
         opaqueObjectEnabled:el('roomObstacle').checked,
       },
-    });
+    };
+    currentRecord=null;
+    scene=createRoomScenario(currentOptions);
     result=runExperiment({...scene,engine:new DiagnosticEngine()});
     drawGeometry(scene.world.describe().geometry);
     drawDayChart();
@@ -260,18 +270,127 @@ el('roomTimeline').addEventListener('input',()=>{
 for(const id of ['roomDate','roomWeather','roomObstacle'])
   el(id).addEventListener('change',restart);
 for(const m of sensors)m.addEventListener('change',restart);
-el('exportRoom').addEventListener('click',()=>{
-  if(!result)return;
-  const data={status:'researcher-only environment, no representation',
-    ...result,physicalEvents:scene.world.eventsThrough(scene.endTimeMs)};
-  const blob=new Blob([JSON.stringify(data,null,2)],{
-    type:'application/json',
-  });
+// Explicit operation modes: save, recorded playback and scientific
+// reexecution/resume have different meanings and report distinct outcomes.
+function archiveMessage(message){setText('roomArchiveStatus',message);}
+function recordForCurrent(){
+  if(currentRecord)return currentRecord;
+  if(!currentOptions)throw new Error('No active physical experiment');
+  return buildRoomRecord(currentOptions);
+}
+async function guardedArchiveAction(work){
+  try{await work();}
+  catch(error){
+    archiveMessage('Operação não concluída: '+error.message);
+    return false;
+  }
+  return true;
+}
+async function refreshRunList(){
+  if(!db)return;
+  const list=await db.listRuns();
+  const select=el('roomRecordList');
+  select.replaceChildren();
+  const empty=document.createElement('option');
+  empty.value='';empty.textContent='Escolha uma execução salva';
+  select.append(empty);
+  for(const entry of list){
+    const option=document.createElement('option');
+    option.value=entry.id;
+    option.textContent=new Date(entry.savedAt).toLocaleString('pt-BR')+
+      ' · '+(entry.date??'sem data')+
+      ' · '+entry.deliveredCount+' incidências';
+    select.append(option);
+  }
+}
+function displayRecorded(record){
+  stop();
+  const options=record.scenario.options;
+  currentOptions=structuredClone(options);
+  currentRecord=structuredClone(record);
+  const selected=new Set(options.modalities);
+  for(const input of sensors)input.checked=selected.has(input.value);
+  el('roomDate').value=options.worldOptions.date;
+  el('roomWeather').value=options.weatherPreset;
+  el('roomObstacle').checked=options.worldOptions.opaqueObjectEnabled;
+  scene=createRoomScenario(options); // deterministic world for visualization
+  const view=recordedPlayback(record);
+  result={...view,finalSnapshot:record.result.finalSnapshot};
+  drawGeometry(scene.world.describe().geometry);
+  drawDayChart();
+  el('roomTimeline').max=String(scene.endTimeMs);
+  setText('roomStatus','Registro gravado · '+view.incidences.length+
+    ' incidências (não reexecutado)');
+  redraw(0);
+}
+el('roomSave').addEventListener('click',()=>guardedArchiveAction(async()=>{
+  if(!db)throw new Error('IndexedDB indisponível. Use Exportar ZIP.');
+  const record=recordForCurrent();
+  const id=globalThis.crypto.randomUUID();
+  await db.saveRun({id,savedAt:Date.now(),record});
+  await db.saveConfig({id:'current-room',scenario:record.scenario});
+  await refreshRunList();
+  el('roomRecordList').value=id;
+  archiveMessage('Execução e checkpoint salvos localmente. Não foram enviados a servidor.');
+}));
+el('roomLoad').addEventListener('click',()=>guardedArchiveAction(async()=>{
+  if(!db)throw new Error('IndexedDB indisponível');
+  const id=el('roomRecordList').value;
+  if(!id)throw new Error('Selecione uma execução salva');
+  const stored=await db.loadRun(id);
+  if(!stored)throw new Error('Registro não encontrado');
+  displayRecorded(stored.record);
+  archiveMessage('Histórico gravado aberto, sem recalcular o experimento.');
+}));
+el('roomVerify').addEventListener('click',()=>guardedArchiveAction(async()=>{
+  const record=recordForCurrent();
+  const verdict=independentlyReexecute(record);
+  archiveMessage(verdict.equivalent
+    ? 'Reexecução independente equivalente: manifesto e incidências coincidem integralmente.'
+    : 'DIVERGÊNCIA na reexecução: '+JSON.stringify(verdict.firstDifference));
+}));
+el('roomResume').addEventListener('click',()=>guardedArchiveAction(async()=>{
+  const record=recordForCurrent();
+  const verdict=resumeSavedCheckpoint(record);
+  archiveMessage(verdict.equivalent
+    ? 'Checkpoint retomado com equivalência integral ao registro de 24 horas.'
+    : 'DIVERGÊNCIA na retomada: '+JSON.stringify(verdict.firstDifference));
+}));
+el('exportRoom').addEventListener('click',()=>guardedArchiveAction(async()=>{
+  const record=recordForCurrent();
+  const bytes=await exportScientificArchive(record);
+  const blob=new Blob([bytes],{type:'application/zip'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;a.download='emergence-room-experiment.json';a.click();
+  a.href=url;
+  a.download='emergence-room-'+record.scenario.options.worldOptions.date+
+    '.zip';
+  a.click();
   setTimeout(()=>URL.revokeObjectURL(url),500);
+  archiveMessage('Pacote ZIP científico exportado: JSON, CSV, eventos, checkpoint e SHA-256.');
+}));
+el('roomImport').addEventListener('click',()=>{
+  el('roomImportFile').click();
 });
+el('roomImportFile').addEventListener('change',()=>guardedArchiveAction(async()=>{
+  const input=el('roomImportFile');
+  const file=input.files?.[0];
+  if(!file)return;
+  const bytes=new Uint8Array(await file.arrayBuffer());
+  const record=await importScientificArchive(bytes);
+  displayRecorded(record);
+  archiveMessage('ZIP verificado (CRC32 e SHA-256); registro aberto apenas como histórico.');
+  input.value='';
+}));
+openExperimentStore().then(async store=>{
+  db=store;
+  await refreshRunList();
+  archiveMessage('Armazenamento local pronto. Checkpoints não saem deste dispositivo.');
+}).catch(error=>{
+  archiveMessage('Salvamento local indisponível: '+
+    error.message+'. Exportar ZIP continua disponível.');
+});
+
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden)stop();
 });

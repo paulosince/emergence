@@ -39,9 +39,25 @@
           <label><input data-room-modality type="checkbox" value="thermal" checked/> Térmicos</label>
           <label><input data-room-modality type="checkbox" value="electrical" checked/> Elétricos</label>
         </fieldset>
-        <button class="button secondary" type="button" id="exportRoom">Exportar histórico</button>
+        <button class="button secondary" type="button" id="exportRoom">Exportar ZIP científico</button>
       </div>
       <p class="annotation">Clima sintético, não previsão ou medição real. Posição solar aproximada; geometria, sombreamento e balanço térmico são calculados. Sons, chuva e vento ainda não foram implementados.</p>
+      <div class="replication-panel" aria-label="Persistência e replicação científica">
+        <div class="section-title"><h2>Histórico científico</h2><small>Salvamento local · histórico real · retomada verificável</small></div>
+        <div class="replication-actions">
+          <button type="button" id="roomSave" class="button">Salvar execução</button>
+          <label class="input-label" for="roomRecordList">Execuções deste navegador
+            <select id="roomRecordList"><option value="">Nenhuma selecionada</option></select>
+          </label>
+          <button type="button" id="roomLoad" class="button secondary">Abrir registro</button>
+          <button type="button" id="roomVerify" class="button secondary">Reexecutar e comparar</button>
+          <button type="button" id="roomResume" class="button secondary">Retomar checkpoint</button>
+          <button type="button" id="roomImport" class="button secondary">Importar ZIP</button>
+          <input type="file" id="roomImportFile" accept=".zip,application/zip" hidden aria-label="Selecionar pacote científico ZIP"/>
+        </div>
+        <p class="replication-status" id="roomArchiveStatus" role="status" aria-live="polite">O ambiente continua calculado localmente. Você pode exportar sem usar a nuvem.</p>
+        <p class="annotation">Reprodução de registro = exibição do histórico gravado. Reexecução = novo cálculo físico e confronto integral. O checkpoint preserva fila de eventos, sensores, estados aleatórios e motor diagnóstico; não representa aprendizagem autônoma.</p>
+      </div>
     </section>
     <div class="primary-grid">
       <section class="card scene-card">
