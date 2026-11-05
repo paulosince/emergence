@@ -102,9 +102,12 @@ export function runScientificControl(id, { seed = 42,
       JSON.stringify(diagnosticAudit.failures));
   }
   // Researcher-side physical validation, not supplied as an incidence.
-  const physicalAudits = scene.world
-    ? [auditFirstImpact(scene.world, { stepMs: 1, toleranceMs: 0.01 })]
-    : [];
+  const referenceWorlds = scene.world ? [scene.world] : scene.researchWorlds;
+  if (!Array.isArray(referenceWorlds) || referenceWorlds.length === 0) {
+    throw new Error('Scientific control must expose researcher-side physical references');
+  }
+  const physicalAudits = referenceWorlds.map(world =>
+    auditFirstImpact(world, { stepMs: 1, toleranceMs: 0.01 }));
   if (physicalAudits.some(x => !x.passed)) {
     throw new Error('Independent physical audit failed');
   }

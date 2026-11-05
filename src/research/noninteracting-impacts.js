@@ -102,5 +102,7 @@ export function createNoninteractingImpacts({
     ],
     seed, endTimeMs,
     researchConditionId: 'dual-noninteracting-' + arrangement + '-v1',
+    // Used only by independent research audits; never a sensory incidence.
+    researchWorlds: Object.freeze([worldA, worldB]),
   };
 }

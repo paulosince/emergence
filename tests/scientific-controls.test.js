@@ -17,6 +17,8 @@ test('the complete versioned campaign runs and is reproducible', () => {
     assert.equal(output.condition.id, control.id);
     assert.equal(output.incidenceAudit.passed, true);
     assert.equal(output.diagnosticAudit.passed, true);
+    assert.ok(output.physicalAudits.length >= 1,
+      'No physical audit actually executed');
     assert.ok(output.physicalAudits.every(x => x.passed));
     assert.deepEqual(output, runScientificControl(control.id));
   }
@@ -64,7 +66,10 @@ test('physical perturbations change predicted events without fabricating inputs'
 });
 
 test('coincident readings preserve distinct physical provenance for researcher only', () => {
-  const simultaneous = run('dual-noninteracting-coincident-v1');
+  const dualChecks = runScientificControl('dual-noninteracting-coincident-v1');
+  assert.equal(dualChecks.physicalAudits.length, 2);
+  assert.ok(dualChecks.physicalAudits.every(a => a.passed));
+  const simultaneous = dualChecks.result;
   const staggered = run('dual-noninteracting-staggered-v1');
   assert.equal(simultaneous.manifest.environment.physicalInteractionBetweenSources, false);
   assert.ok(Math.abs(simultaneous.manifest.environment.sources[0].world.impactTimeMs -
