@@ -10,8 +10,8 @@ import { auditIncidenceTrace } from './incidence-audit.js';
 import { runExperiment } from '../runtime/experiment-runner.js';
 import { DiagnosticEngine } from '../engines/diagnostic-engine.js';
 
-function alteredPhysicalWorld(properties) {
-  const baseline = createWorldSensoryScenario();
+function alteredPhysicalWorld(properties, seed) {
+  const baseline = createWorldSensoryScenario({ seed });
   const world = createReleaseControlledWorld(properties);
   const couplings = baseline.environment.specification().couplings;
   return {
@@ -47,6 +47,9 @@ export const SCIENTIFIC_CONTROLS_V1 = Object.freeze([
 ]);
 
 export function createScientificControl(id, { seed = 42 } = {}) {
+  if (!Number.isInteger(seed) || seed < 0 || seed > 0xffffffff) {
+    throw new RangeError('Seed must be a valid unsigned 32-bit integer');
+  }
   if (!SCIENTIFIC_CONTROLS_V1.some(entry => entry.id === id)) {
     throw new RangeError('Unknown or unversioned scientific control: ' + id);
   }
@@ -68,11 +71,11 @@ export function createScientificControl(id, { seed = 42 } = {}) {
     case 'no-sensors-v1':
       scene = createWorldSensoryScenario({ seed, modalities: [] }); break;
     case 'inelastic-collision-v1':
-      scene = alteredPhysicalWorld({ clearanceM: 1, restitution: 0 }); break;
+      scene = alteredPhysicalWorld({ clearanceM: 1, restitution: 0 }, seed); break;
     case 'zero-gravity-v1':
-      scene = alteredPhysicalWorld({ clearanceM: 1, gravityMps2: 0 }); break;
+      scene = alteredPhysicalWorld({ clearanceM: 1, gravityMps2: 0 }, seed); break;
     case 'delayed-release-v1':
-      scene = alteredPhysicalWorld({ clearanceM: 1, releaseAtMs: 100 }); break;
+      scene = alteredPhysicalWorld({ clearanceM: 1, releaseAtMs: 100 }, seed); break;
     case 'dual-noninteracting-coincident-v1':
       scene = createNoninteractingImpacts({ arrangement: 'coincident', seed }); break;
     case 'dual-noninteracting-staggered-v1':
