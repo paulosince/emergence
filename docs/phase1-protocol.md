@@ -86,3 +86,7 @@ Check out the exact EMERGENCE revision; run tests; execute the same scenario and
 The JSON manifest records the TEMPO reference commit, the EMERGENCE version and an optional EMERGENCE Git revision. The command-line runner obtains the revision from GITHUB_SHA when set or from the locally checked-out Git commit. If the user executes a source ZIP without Git metadata, the revision is **null** rather than an invented commit.
 
 The fixed-node TEMPO control manifest also records nodeCount, seed, K, mode, eta and the explicit channel-to-node mapping. Reproducibility requires keeping the **software revision, seed and control parameters** together with the environmental signal description and sensor settings.
+
+## Run isolation
+
+An engine instance can be used for **one** Phase 1 experiment only. Reusing the instance would leak prior internal state into a new run without recording it as part of the experimental configuration. The runner rejects this. To repeat a run, instantiate a new engine with the same declared parameters. Phase 2 will provide explicit checkpoint-based continuation with a separately versioned state.

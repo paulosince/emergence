@@ -7,6 +7,8 @@ import { EventScheduler } from './event-scheduler.js';
 import { SimulatedClock } from './simulated-clock.js';
 import { TEMPO_SOURCE_COMMIT } from '../tempo/reference-runner.js';
 
+const enginesAlreadyExecuted = new WeakSet();
+
 export function runExperiment({
   environment, transducers, engine, seed = 0, endTimeMs,
   maxEvents = 100000, softwareRevision = null,
@@ -35,6 +37,12 @@ export function runExperiment({
   const sensors = transducers.map(spec => new NumericTransducer(spec));
   const ids = sensors.map(s => s.config.id);
   if (new Set(ids).size !== ids.length) throw new RangeError('Duplicate transducer IDs');
+  // State carried over from a prior run would be undeclared experimental input.
+  // Resume will require a versioned checkpoint instead of silent object reuse.
+  if (enginesAlreadyExecuted.has(engine)) {
+    throw new Error('Engine already used: create a fresh instance per run');
+  }
+  enginesAlreadyExecuted.add(engine);
 
   const scheduler = new EventScheduler();
   const clock = new SimulatedClock();

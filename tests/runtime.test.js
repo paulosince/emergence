@@ -164,3 +164,10 @@ test('TEMPO internal events record effective time separately from collection tim
   assert.ok(events.every(x => Number.isFinite(x.timeMs) &&
     x.recordedAtMs >= x.timeMs));
 });
+
+test('a stateful engine instance cannot silently contaminate a subsequent run', () => {
+  const engine = new DiagnosticEngine();
+  const scene = createPhase1Scenario();
+  runExperiment({ ...scene, engine });
+  assert.throws(() => runExperiment({ ...scene, engine }), /fresh instance/);
+});
