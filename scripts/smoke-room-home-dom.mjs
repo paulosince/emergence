@@ -12,7 +12,7 @@ class Element {
   fire(name){
     assert.equal(typeof this.handlers[name],'function',
       this.id+' missing '+name+' callback');
-    this.handlers[name]();
+    return this.handlers[name]();
   }
   append(...children){this.children.push(...children);}
   replaceChildren(...children){this.children=[...children];}
@@ -87,3 +87,14 @@ assert.equal(byId('roomIncidenceList').children[0].textContent,
 byId('roomStep').fire('click');
 assert.match(byId('roomClock').textContent,/^\d{2}:\d{2}$/);
 console.log('Room homepage science + inputs + controls: DOM behavioral smoke passed (not visual QA)');
+
+
+await byId('roomVerify').fire('click');
+assert.match(byId('roomArchiveStatus').textContent,
+  /Reexecução independente equivalente/);
+await byId('roomResume').fire('click');
+assert.match(byId('roomArchiveStatus').textContent,
+  /Checkpoint retomado com equivalência integral/);
+await byId('roomSave').fire('click');
+assert.match(byId('roomArchiveStatus').textContent,
+  /IndexedDB indisponível/); // No fake store: fail visibly.

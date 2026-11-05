@@ -12,6 +12,7 @@ import {exportScientificArchive,importScientificArchive}
   from '../src/persistence/archive.js';
 import {openExperimentStore}
   from '../src/persistence/indexeddb.js';
+import {EMERGENCE_VERSION} from '../src/research/version.js';
 
 const el=id=>document.getElementById(id);
 const sensors=document.querySelectorAll('[data-room-modality]');
@@ -304,6 +305,10 @@ async function refreshRunList(){
   }
 }
 function displayRecorded(record){
+  if(record.result.manifest.software.version!==EMERGENCE_VERSION) {
+    throw new RangeError('A versão científica do arquivo difere da versão atual; '+
+      'não é seguro reconstruir a cena com equações alteradas.');
+  }
   stop();
   const options=record.scenario.options;
   currentOptions=structuredClone(options);

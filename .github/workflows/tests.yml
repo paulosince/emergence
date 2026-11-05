@@ -46,3 +46,6 @@ jobs:
       - run: node experiments/room-day.js --no-sensors > /dev/null
       - run: node --check app/room.js
       - run: node scripts/smoke-room-home-dom.mjs
+      - run: npm run experiment:room:replication > /dev/null
+      - run: node --check src/persistence/archive.js
+      - run: node --check src/runtime/experiment-session.js

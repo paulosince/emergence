@@ -1,6 +1,6 @@
 {
   "name": "emergence-temporotopology",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -43,6 +43,8 @@
     "experiment:room:json": "node experiments/room-day.js --json",
     "experiment:room:csv": "node experiments/room-day.js --csv",
     "experiment:room:overcast": "node experiments/room-day.js --overcast",
-    "experiment:room:none": "node experiments/room-day.js --no-sensors"
+    "experiment:room:none": "node experiments/room-day.js --no-sensors",
+    "experiment:room:replication": "node experiments/room-replication.js",
+    "experiment:room:replication:zip": "node experiments/room-replication.js --zip=room-replication.zip"
   }
 }

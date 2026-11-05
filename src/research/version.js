@@ -1,1 +1,1 @@
-export const EMERGENCE_VERSION = '0.6.0';
+export const EMERGENCE_VERSION = '0.7.0';
