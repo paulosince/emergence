@@ -16,8 +16,8 @@ export class WorldSignalEnvironment {
   #couplings;
   constructor({ world, couplings }) {
     assertPhysicalWorld(world);
-    if (!Array.isArray(couplings) || !couplings.length) {
-      throw new TypeError('Provide at least one physical coupling');
+    if (!Array.isArray(couplings)) {
+      throw new TypeError('Couplings must be an array (which may be empty)');
     }
     const map = new Map();
     for (const spec of couplings) {

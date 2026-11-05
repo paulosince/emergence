@@ -6,6 +6,7 @@ import { sensorRandomStream } from './seed-stream.js';
 import { EventScheduler } from './event-scheduler.js';
 import { SimulatedClock } from './simulated-clock.js';
 import { TEMPO_SOURCE_COMMIT } from '../tempo/reference-runner.js';
+import { EMERGENCE_VERSION } from '../research/version.js';
 
 const enginesAlreadyExecuted = new WeakSet();
 
@@ -31,12 +32,17 @@ export function runExperiment({
   if (!Number.isInteger(maxEvents) || maxEvents < 1) {
     throw new RangeError('maxEvents must be a positive integer');
   }
-  if (!Array.isArray(transducers) || !transducers.length) {
-    throw new TypeError('At least one transducer configuration is required');
+  if (!Array.isArray(transducers)) {
+    throw new TypeError('Transducers must be an array (which may be empty)');
   }
   const sensors = transducers.map(spec => new NumericTransducer(spec));
   const ids = sensors.map(s => s.config.id);
   if (new Set(ids).size !== ids.length) throw new RangeError('Duplicate transducer IDs');
+  // A physical channel can validate its coupling and integration window before
+  // the engine is marked as consumed. Synthetic traces need no such validation.
+  if (typeof environment.validateTransducers === 'function') {
+    environment.validateTransducers(sensors);
+  }
   // State carried over from a prior run would be undeclared experimental input.
   // Resume will require a versioned checkpoint instead of silent object reuse.
   if (enginesAlreadyExecuted.has(engine)) {
@@ -144,7 +150,7 @@ export function runExperiment({
 
   const manifest = {
     schemaVersion: '1.0.0',
-    software: { name: 'EMERGENCE', version: '0.2.0', revision: softwareRevision },
+    software: { name: 'EMERGENCE', version: EMERGENCE_VERSION, revision: softwareRevision },
     execution: 'deterministic-event-simulation',
     seed, endTimeMs, maxEvents,
     tempoReferenceCommit: TEMPO_SOURCE_COMMIT,

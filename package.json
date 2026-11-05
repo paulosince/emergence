@@ -1,6 +1,6 @@
 {
   "name": "emergence-temporotopology",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -18,6 +18,13 @@
     "experiment:world1d": "node experiments/world-1d-baseline.js",
     "experiment:world1d:json": "node experiments/world-1d-baseline.js --json",
     "experiment:world1d:csv": "node experiments/world-1d-baseline.js --csv",
-    "experiment:world1d:events": "node experiments/world-1d-baseline.js --events-csv"
+    "experiment:world1d:events": "node experiments/world-1d-baseline.js --events-csv",
+    "experiment:world-senses": "node experiments/world-senses.js",
+    "experiment:world-senses:json": "node experiments/world-senses.js --json",
+    "experiment:world-senses:csv": "node experiments/world-senses.js --csv",
+    "experiment:world-senses:trace": "node experiments/world-senses.js --trace-csv",
+    "experiment:world-senses:optical": "node experiments/world-senses.js --optical-only",
+    "experiment:world-senses:mechanical": "node experiments/world-senses.js --mechanical-only",
+    "experiment:world-senses:none": "node experiments/world-senses.js --no-sensors"
   }
 }

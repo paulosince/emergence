@@ -3,6 +3,7 @@
 import { createDropV1, DROP_V1, researchSampleTimes } from '../src/world/scenarios.js';
 import { verifyVerticalTrajectory } from '../src/world/trajectory-verifier.js';
 import { toCsv } from '../src/research/csv.js';
+import { EMERGENCE_VERSION } from '../src/research/version.js';
 import { readSourceRevision } from '../src/research/source-revision.js';
 
 const flags = process.argv.slice(2);
@@ -24,7 +25,7 @@ const result = {
   manifest: {
     scenarioId: DROP_V1.scenarioId,
     stage: 'world-only, no transduction or domain constitution',
-    software: { name: 'EMERGENCE', version: '0.3.0',
+    software: { name: 'EMERGENCE', version: EMERGENCE_VERSION,
       revision: readSourceRevision(new URL('../', import.meta.url)) },
     world: world.describe(),
     horizonMs: DROP_V1.horizonMs,
