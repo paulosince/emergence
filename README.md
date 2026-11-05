@@ -94,3 +94,21 @@ errors are detected. Rebounds are supported up to—but **not including**—the 
 impact; the model rejects execution outside its declared scope.
 
 See [analytic world model and limitations](docs/world-physics-v0.1.md).
+
+## Etapa 4 — acoplamento sensorial físico e modalidades selecionáveis
+
+O mundo 1D de queda e impacto agora alimenta sensores por mecanismos físicos explícitos. Existem duas barreiras ópticas que medem transmissão luminosa geométrica e uma placa de contato que integra o impulso mecânico em janelas temporais. **Não representam visão complexa, audição, interocepção ou aprendizagem.**
+
+~~~sh
+npm run experiment:world-senses
+npm run experiment:world-senses:json > physical-sensing.json
+npm run experiment:world-senses:csv > incidences.csv
+npm run experiment:world-senses:trace > event-trace.csv
+npm run experiment:world-senses:optical
+npm run experiment:world-senses:mechanical
+npm run experiment:world-senses:none
+~~~
+
+Modificações de modalidade, período de amostragem, posição das barreiras, quantização ou latência alteram as incidências sem alterar a dinâmica física. O cenário padrão produz 11 incidências, incluindo alterações ópticas durante a descida e o ressalto.
+
+[Modelo e critérios científicos da transdução](docs/world-sensing-v0.1.md).

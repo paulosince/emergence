@@ -109,3 +109,32 @@ trajectory-verifier.js (independent invariants for researcher ONLY)
 The physical truth is deliberately **not connected** to an incidence stream yet. Item 4 will implement sensory coupling to physical observables without passing object identity or world metadata to the learning engine. The current synthetic scalar transducers from item 2 remain as separate transport controls.
 
 The model and its domain, limitations and validation methods are documented in [world-physics-v0.1.md](world-physics-v0.1.md).
+
+## Etapa 4 — transdução de um mesmo mundo por modalidades independentes
+
+~~~text
+World analítico (verdade física; acessível ao pesquisador)
+      |                              |
+      v                              v
+barreira óptica                 colisão calculada
+(geometria da esfera)           (impulso normal)
+      |                              |
+transmissão de luz              placa: integral por janela
+      |                              |
+      +----------+-------------------+
+                 |
+            transdutores numéricos
+          (tempo, quantum, ruído, latência)
+                 |
+          incidências sem rótulo causal
+                 |
+        motor experimental diagnóstico
+                 |
+           nenhum aprendizado
+~~~
+
+O acoplamento fica isolado em src/sensory/world-signals.js, enquanto src/sensory/world-scenario.js define quais modalidades e canais existem em cada experimento. Reutilizamos o mesmo executor e transdutores da Etapa 1; não duplicamos o motor temporal. São permitidos zero canais e validação do horizonte físico mesmo sem incidências.
+
+A especificação física completa fica no manifesto **do pesquisador**, não no objeto entregue ao domínio experimental.
+
+[Protocolo de transdução v0.1](world-sensing-v0.1.md).
