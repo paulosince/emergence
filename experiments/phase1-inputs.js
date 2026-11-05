@@ -6,7 +6,7 @@ import { createPhase1Scenario } from '../src/sensory/scenarios.js';
 import { DiagnosticEngine } from '../src/engines/diagnostic-engine.js';
 import { TempoFixedNodesControl } from '../src/engines/tempo-fixed-nodes-control.js';
 import { toCsv } from '../src/research/csv.js';
-import { execFileSync } from 'node:child_process';
+import { readSourceRevision } from '../src/research/source-revision.js';
 
 const flags = new Set(process.argv.slice(2));
 const allowed = new Set(['--json', '--csv', '--trace-csv', '--tempo-control']);
@@ -23,17 +23,7 @@ const engine = flags.has('--tempo-control')
       seed: scene.seed,
     })
   : new DiagnosticEngine();
-let revision = process.env.GITHUB_SHA || null;
-if (!revision) {
-  try {
-    revision = execFileSync('git', ['rev-parse', 'HEAD'], {
-      encoding: 'utf8', cwd: new URL('../', import.meta.url),
-      stdio: ['ignore', 'pipe', 'ignore'],
-    }).trim();
-  } catch {
-    // A source ZIP without .git can still run, but provenance remains unverified.
-  }
-}
+const revision = readSourceRevision(new URL('../', import.meta.url));
 const result = runExperiment({ ...scene, engine, softwareRevision: revision });
 if (flags.has('--json')) {
   console.log(JSON.stringify(result, null, 2));

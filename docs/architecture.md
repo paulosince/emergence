@@ -87,3 +87,25 @@ The scheduler reuses TEMPO's unchanged EventHeap instead of reimplementing a hea
 The engine interface can support future competing algorithms. Its existence **does not** prescribe any particular solution to sensor individuation or derived representation.
 
 TEMPO's internal queue and the external sensor queue are separate; events from inside TEMPO can be collected after their effective event time. Phase 1 records both event time and collection time. See [Phase 1 protocol](phase1-protocol.md).
+
+## Implemented item 3 — Physical world as independent research truth
+
+~~~text
+Experimenter condition: HOLD -> RELEASE
+            |
+            v
+release-control.js (external constraint and intervention event)
+            |
+            v
+vertical-impact.js (analytical gravity/contact/one-impact dynamics)
+            |
+            +----> stateAt(t): clearance, velocity, force, energy
+            +----> eventsThrough(t): physical impact with timing and impulse
+            |
+            v
+trajectory-verifier.js (independent invariants for researcher ONLY)
+~~~
+
+The physical truth is deliberately **not connected** to an incidence stream yet. Item 4 will implement sensory coupling to physical observables without passing object identity or world metadata to the learning engine. The current synthetic scalar transducers from item 2 remain as separate transport controls.
+
+The model and its domain, limitations and validation methods are documented in [world-physics-v0.1.md](world-physics-v0.1.md).
