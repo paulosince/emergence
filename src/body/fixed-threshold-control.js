@@ -18,13 +18,12 @@ export function createFixedThresholdBodyWorld({
 
   // The controller operates on a sampled *physical* initial capacitor
   // voltage, not an interpretation or an experimenter-selected outcome.
-  const prospective = createActuatedWorld(worldOptions);
-  const p = prospective.describe().bodyParameters;
-  const measuredVoltageV = prospective.bodyStateAt(0).capacitorVoltageV;
+  const idleWorld = createActuatedWorld({ ...worldOptions, liftHeightM: 0 });
+  const requestedLiftHeightM = worldOptions.liftHeightM ?? 0.2;
+  const measuredVoltageV = idleWorld.bodyStateAt(0).capacitorVoltageV;
   const permitted = measuredVoltageV >= thresholdVoltageV;
-  const physical = permitted ? prospective
-    : createActuatedWorld({ ...worldOptions, liftHeightM: 0 });
-  const decisionAtMs = p.startAtMs;
+  const physical = permitted ? createActuatedWorld(worldOptions) : idleWorld;
+  const decisionAtMs = idleWorld.describe().bodyParameters.startAtMs;
 
   const decisionEvent = Object.freeze({
     eventId: 'fixed-voltage-decision-1',
@@ -54,7 +53,7 @@ export function createFixedThresholdBodyWorld({
         autonomouslyInitiated: false,
         measuredVoltageV,
         thresholdVoltageV,
-        requestedLiftHeightM: p.liftHeightM,
+        requestedLiftHeightM,
         permittedLift: permitted,
       }),
     });
