@@ -1,152 +1,150 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { approximateSun } from '../src/room/solar.js';
-import { createRoomWorld,ROOM_DAY_MS } from '../src/room/room-world.js';
-import { polygonArea,pointInPolygon,clipToFloor } from '../src/room/geometry.js';
-import { createRoomScenario } from '../src/room/room-scenario.js';
-import { runExperiment } from '../src/runtime/experiment-runner.js';
-import { DiagnosticEngine } from '../src/engines/diagnostic-engine.js';
+import { createRoomWorld } from '../src/room/room-world.js';
+import { solarAt,describeSolarDay,DAY_MS } from '../src/room/solar.js';
+import { createWeatherForcing } from '../src/room/weather.js';
+import { floorReceivesDirectSun,sunPatchOnFloor,
+  ROOM_GEOMETRY_V1 } from '../src/room/geometry.js';
+
 const H=3600000;
-const nearly=(a,b,err=1e-8)=>assert.ok(Math.abs(a-b)<=err,'Expected '+a+' = '+b);
-const run=opts=>runExperiment({...createRoomScenario(opts),engine:new DiagnosticEngine()});
+const nearly=(x,y,epsilon=1e-6)=>
+  assert.ok(Math.abs(x-y)<epsilon,'Expected '+x+' near '+y);
 
-test('solar frame: equinox noon overhead at equator and midnight below horizon',()=>{
-  const noon=approximateSun({latitudeDeg:0,dayOfYear:80,solarHour:12});
-  assert.ok(noon.altitudeDeg>89.9);
-  assert.ok(noon.up>0.999);
-  assert.ok(approximateSun({latitudeDeg:0,dayOfYear:80,solarHour:0}).up<0);
-  nearly(approximateSun({latitudeDeg:0,dayOfYear:80,solarHour:6}).up,0,1e-9);
-  const morning=approximateSun({latitudeDeg:0,dayOfYear:80,solarHour:9});
-  const evening=approximateSun({latitudeDeg:0,dayOfYear:80,solarHour:15});
-  assert.ok(morning.east>0);
-  assert.ok(evening.east<0);
-});
-
-test('northern-facing window admits midday winter sun in southern hemisphere',()=>{
-  const world=createRoomWorld();
-  const noon=world.stateAt(12*H);
-  assert.ok(noon.sun.altitudeDeg>35&&noon.sun.altitudeDeg<55);
-  assert.ok(noon.sun.north>0);
-  assert.ok(noon.projectedWindowAreaM2>0);
-  assert.ok(noon.projectedWindowPatch.every(p=>
-    Math.abs(p.x)<=2+1e-7&&Math.abs(p.y)<=1.5+1e-7));
-  assert.ok(world.floorIlluminanceAt(12*H,{x:0,y:0})>
-    world.floorIlluminanceAt(12*H,{x:1.8,y:-1.3}));
-});
-
-test('night has no direct sunlight or geometric solar shadow, but lamp responds',()=>{
-  const world=createRoomWorld();
-  for(const h of [0,2,23,24]){
-    const state=world.stateAt(h*H);
-    assert.equal(state.projectedWindowAreaM2,0);
-    assert.equal(state.projectedBoxShadowAreaM2,0);
-    assert.equal(state.lampOn,true);
-    assert.ok(world.floorIlluminanceAt(h*H,{x:0,y:0})>0);
+test('solar geometry produces night, sun above horizon and morning/afternoon directions',()=>{
+  const day=describeSolarDay();
+  const midnight=solarAt(0,day),morning=solarAt(9*H,day);
+  const noon=solarAt(12*H,day),afternoon=solarAt(15*H,day);
+  assert.equal(midnight.isAboveHorizon,false);
+  assert.equal(noon.isAboveHorizon,true);
+  assert.ok(noon.altitudeDeg>40 && noon.altitudeDeg<50);
+  assert.ok(morning.east>0 && afternoon.east<0);
+  assert.ok(noon.north>0); // June: winter Sun north of Guarulhos.
+  for(const sun of [midnight,morning,noon,afternoon]) {
+    nearly(sun.east**2+sun.north**2+sun.up**2,1,1e-12);
   }
-  assert.equal(world.stateAt(12*H).lampOn,false);
-  assert.ok(world.stateAt(12*H).outdoorIlluminance>0.4);
+  assert.throws(()=>describeSolarDay({date:'2026-02-30'}),RangeError);
+  assert.throws(()=>describeSolarDay({latitudeDeg:95}),RangeError);
+  assert.throws(()=>solarAt(DAY_MS+1,day),RangeError);
 });
 
-test('opaque box changes direct irradiance at shadowed floor points',()=>{
-  const world=createRoomWorld();
-  const state=world.stateAt(12*H);
-  assert.ok(state.projectedBoxShadow.length>=3);
-  assert.ok(state.projectedBoxShadowAreaM2>0);
-  const shadow=state.projectedBoxShadow;
-  assert.ok(pointInPolygon({x:world.describe().parameters.boxX,
-    y:world.describe().parameters.boxY},shadow));
-  const patch=state.projectedWindowPatch;
-  assert.ok(polygonArea(patch)>0);
-  assert.ok(clipToFloor([{x:-5,y:-5},{x:5,y:-5},{x:5,y:5},{x:-5,y:5}],
-    {widthM:4,depthM:3}).every(pt=>
-    Math.abs(pt.x)<=2+1e-6&&Math.abs(pt.y)<=1.5+1e-6));
-});
-
-test('cloud cover removes direct floor beam and shadow while leaving daytime ambient',()=>{
-  const clear=createRoomWorld({cloudCover:0});
-  const cloudy=createRoomWorld({cloudCover:1});
-  const a=clear.stateAt(12*H),b=cloudy.stateAt(12*H);
-  assert.ok(a.directStrength>0);
-  assert.equal(b.directStrength,0);
-  assert.ok(b.outdoorIlluminance>0);
-  assert.ok(clear.floorIlluminanceAt(12*H,{x:0,y:0})>
-    cloudy.floorIlluminanceAt(12*H,{x:0,y:0}));
-});
-
-test('photocell switches lamp twice as daylight crosses threshold',()=>{
-  const room=createRoomWorld();
-  const events=room.eventsThrough(ROOM_DAY_MS);
-  assert.equal(events.length,2);
-  assert.ok(events[0].timeMs<12*H);
-  assert.ok(events[1].timeMs>12*H);
-  assert.equal(events[0].lampOn,false);
-  assert.equal(events[1].lampOn,true);
-  for(const event of events){
-    assert.equal(room.stateAt(event.timeMs).lampOn,event.lampOn);
-    assert.notEqual(room.stateAt(event.timeMs-2).lampOn,event.lampOn);
+test('ray projection of a window casts a causal sun patch on room floor',()=>{
+  const day=describeSolarDay(),sun=solarAt(12*H,day),g=ROOM_GEOMETRY_V1;
+  const polygon=sunPatchOnFloor(sun,g);
+  assert.ok(polygon.length>=3);
+  for(const p of polygon) {
+    assert.ok(Math.abs(p.x)<=g.widthM/2+1e-9);
+    assert.ok(Math.abs(p.y)<=g.depthM/2+1e-9);
   }
-  assert.deepEqual(room.eventsThrough(10*H),events.filter(e=>e.timeMs<=10*H));
+  // Project a window-center light ray onto floor and reverse-ray-test it.
+  const z=g.window.sillM+g.window.heightM/2;
+  const x=g.window.centerEastM-z*sun.east/sun.up;
+  const y=g.depthM/2-z*sun.north/sun.up;
+  assert.ok(floorReceivesDirectSun(x,y,sun,g));
+  assert.equal(floorReceivesDirectSun(x,y,solarAt(0,day),g),false);
+  assert.equal(floorReceivesDirectSun(g.widthM/2,g.depthM/2,sun,g),false);
+  assert.deepEqual(sunPatchOnFloor(solarAt(0,day),g),[]);
 });
 
-test('sensor ablation does not change the room or its physical transitions',()=>{
-  const normal=run();
-  const optical=run({modalities:['optical']});
-  const none=run({modalities:[]});
-  assert.deepEqual(normal.manifest.environment.world,optical.manifest.environment.world);
-  assert.deepEqual(normal.manifest.environment.world,none.manifest.environment.world);
-  assert.ok(normal.incidences.length>0);
-  assert.ok(optical.incidences.every(i=>['s0','s1','s2'].includes(i.transducerId)));
-  assert.equal(none.summary.deliveredCount,0);
-  assert.equal(none.summary.sampleCount,0);
-  assert.equal(normal.finalSnapshot.nodeCount,0);
+test('photocell state changes at solar irradiance crossings, never fixed clock times',()=>{
+  const world=createRoomWorld();
+  const events=world.eventsThrough(DAY_MS);
+  assert.equal(events[0].type,'lamp.initial');
+  const changes=events.filter(e=>e.type==='lamp.toggle');
+  assert.equal(changes.length,2,'winter clear sky must produce dawn/dusk');
+  assert.equal(changes[0].stateOn,false);
+  assert.equal(changes[1].stateOn,true);
+  assert.ok(changes[0].timeMs>4*H && changes[0].timeMs<9*H);
+  assert.ok(changes[1].timeMs>16*H && changes[1].timeMs<21*H);
+  for(const change of changes) {
+    assert.equal(world.stateAt(change.timeMs).lighting.lampOn,change.stateOn);
+    assert.notEqual(world.stateAt(change.timeMs-1).lighting.lampOn,change.stateOn);
+  }
+  assert.equal(world.stateAt(0).lighting.lampOn,true);
+  assert.equal(world.stateAt(12*H).lighting.lampOn,false);
+  assert.equal(world.stateAt(23*H).lighting.lampOn,true);
 });
 
-test('physical room light changes are observed through numerical channels',()=>{
-  const full=run();
-  const s0=full.incidences.filter(i=>i.transducerId==='s0');
-  const s3=full.incidences.filter(i=>i.transducerId==='s3');
-  assert.ok(s0.length>=3);
-  assert.ok(s3.some(i=>i.measurement===0));
-  assert.ok(s3.some(i=>i.measurement===1));
-  assert.ok(full.incidences.every(i=>Object.keys(i).sort().join(',')===
-    ['arrivedAtMs','incidenceId','measurement','observedAtMs','transducerId'].join(',')));
+test('sun and geometry determine illumination; shaded positions differ',()=>{
+  const world=createRoomWorld();
+  const sunny=world.stateAt(12*H);
+  assert.ok(sunny.lighting.transmittedDirectPowerW>0);
+  assert.ok(sunny.lighting.sunlightFloorPolygon.length>=3);
+  const sun=sunny.sun,g=world.describe().geometry;
+  const centerHeight=g.window.sillM+g.window.heightM/2;
+  const x=g.window.centerEastM-centerHeight*sun.east/sun.up;
+  const y=g.depthM/2-centerHeight*sun.north/sun.up;
+  const direct=world.floorIrradianceAt(12*H,x,y);
+  const shaded=world.floorIrradianceAt(12*H,-2.5,-1.8);
+  assert.ok(direct>shaded+100);
+  assert.ok(world.floorIrradianceAt(0,x,y)>0);// electric lamp
+  assert.ok(world.floorIrradianceAt(12*H,x,y)>
+    world.floorIrradianceAt(0,x,y));
 });
 
-test('cloud change alters observation but does not introduce arbitrary event labels',()=>{
-  const clear=run();
-  const clouds=run({worldOptions:{cloudCover:1}});
-  assert.notDeepEqual(clear.incidences,clouds.incidences);
-  assert.equal(clear.manifest.environment.world.parameters.cloudCover,0);
-  assert.equal(clouds.manifest.environment.world.parameters.cloudCover,1);
-  const delivery=JSON.stringify(clouds.incidences);
-  assert.ok(!delivery.includes('sun')&&!delivery.includes('lamp.photocell-switch'));
+test('thermal capacity obeys finite, smooth energy balance under variable forcing',()=>{
+  const world=createRoomWorld();
+  assert.equal(world.stateAt(0).thermal.indoorTemperatureC,17);
+  const beginning=world.stateAt(6*H).thermal.indoorTemperatureC;
+  const midday=world.stateAt(12*H).thermal.indoorTemperatureC;
+  const evening=world.stateAt(18*H).thermal.indoorTemperatureC;
+  for(const t of [0,3,6,12,15,18,21,24].map(x=>x*H)) {
+    const s=world.stateAt(t);
+    assert.ok(Number.isFinite(s.thermal.indoorTemperatureC));
+    assert.ok(s.thermal.indoorTemperatureC>-30);
+    assert.ok(s.thermal.indoorTemperatureC<80);
+    const expectedEnvelope=120*(s.thermal.outdoorTemperatureC-
+      s.thermal.indoorTemperatureC);
+    nearly(s.thermal.conductivePowerIntoRoomW,expectedEnvelope,1e-7);
+  }
+  assert.notEqual(beginning,midday);
+  assert.notEqual(midday,evening);
+  // Output never depends on request order, playback order or sensor count.
+  const remembered=world.stateAt(12*H);
+  world.stateAt(23*H);
+  world.stateAt(2*H);
+  assert.deepEqual(world.stateAt(12*H),remembered);
 });
 
-test('sensor position and sampling shift readings without changing physics',()=>{
-  const defaultRun=run();
-  const late=run({sensorOverrides:{s0:{periodMs:3600000,phaseMs:600000}}});
-  assert.deepEqual(defaultRun.manifest.environment.world,late.manifest.environment.world);
-  assert.notDeepEqual(defaultRun.incidences.filter(x=>x.transducerId==='s0'),
-    late.incidences.filter(x=>x.transducerId==='s0'));
-  assert.deepEqual(defaultRun.incidences.filter(x=>x.transducerId==='s1'),
-    late.incidences.filter(x=>x.transducerId==='s1'));
+test('cloudier forcing reduces direct solar radiation without deleting daylight',()=>{
+  const clear=createRoomWorld({weatherPreset:'clear'});
+  const cloud=createRoomWorld({weatherPreset:'overcast'});
+  const a=clear.stateAt(12*H),b=cloud.stateAt(12*H);
+  assert.ok(a.lighting.transmittedDirectPowerW >
+    20*b.lighting.transmittedDirectPowerW);
+  assert.ok(b.lighting.diffuseHorizontalWm2>0);
+  assert.equal(a.sun.altitudeDeg,b.sun.altitudeDeg);
+  assert.notEqual(a.thermal.outdoorTemperatureC,b.thermal.outdoorTemperatureC);
+  assert.equal(cloud.describe().weather.kind,'synthetic-periodic');
+  assert.equal(cloud.describe().weather.explicitlyNotRealtime,true);
 });
 
-test('replay with same world, sensors and seed is deterministic',()=>{
-  assert.deepEqual(run(),run());
+test('imported weather is provenance-bound, interpolated and not a live query',()=>{
+  const series=[
+    {timeMs:0,temperatureC:10,cloudCover:1},
+    {timeMs:12*H,temperatureC:20,cloudCover:0.5},
+    {timeMs:DAY_MS,temperatureC:12,cloudCover:1},
+  ];
+  const weather=createWeatherForcing({series,source:'local synthetic test file'});
+  nearly(weather.at(6*H).temperatureC,15);
+  nearly(weather.at(6*H).cloudCover,0.75);
+  const world=createRoomWorld({weatherSeries:series,weatherSource:'test fixture'});
+  assert.equal(world.stateAt(6*H).weather.temperatureC,15);
+  assert.equal(world.describe().weather.source,'test fixture');
+  assert.throws(()=>createWeatherForcing({series}),TypeError);
+  assert.throws(()=>createWeatherForcing({series:[
+    {timeMs:0,temperatureC:20,cloudCover:0},
+    {timeMs:DAY_MS,temperatureC:20,cloudCover:2},
+  ],source:'bad'}),RangeError);
+  assert.throws(()=>createRoomWorld({weatherPreset:'unknown'}),RangeError);
 });
 
-test('invalid geometry, time and sensor assumptions are rejected',()=>{
-  assert.throws(()=>createRoomWorld({windowTopM:5}),RangeError);
-  assert.throws(()=>createRoomWorld({windowWidthM:5}),RangeError);
-  assert.throws(()=>createRoomWorld({latitudeDeg:85}),RangeError);
-  assert.throws(()=>createRoomWorld({unknownThing:123}),RangeError);
-  assert.throws(()=>createRoomWorld().stateAt(ROOM_DAY_MS+1),RangeError);
-  assert.throws(()=>createRoomWorld().floorIlluminanceAt(0,{x:100,y:0}),RangeError);
-  assert.throws(()=>createRoomScenario({modalities:['acoustic']}),RangeError);
-  assert.throws(()=>createRoomScenario({modalities:[],
-    sensorOverrides:{s0:{periodMs:1}}}),RangeError);
-  assert.throws(()=>runExperiment({
-    ...createRoomScenario({modalities:[],endTimeMs:ROOM_DAY_MS+1}),
-    engine:new DiagnosticEngine()}),RangeError);
+test('invalid room physics cannot silently create unsupported simulations',()=>{
+  for(const options of [
+    {heatCapacityJPerK:0},{envelopeConductanceWPerK:-1},
+    {lampOnThresholdWm2:20,lampOffThresholdWm2:10},
+    {lampVisibleRadiantFraction:1.1},
+    {initialIndoorTemperatureC:Infinity},
+  ]) assert.throws(()=>createRoomWorld(options),RangeError);
+  assert.throws(()=>createRoomWorld().stateAt(-1),RangeError);
+  assert.throws(()=>createRoomWorld().stateAt(DAY_MS+1),RangeError);
 });

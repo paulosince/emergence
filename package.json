@@ -38,6 +38,11 @@
     "experiment:body:proprio": "node experiments/body-lift.js --proprio-only",
     "experiment:body:intero": "node experiments/body-lift.js --intero-only",
     "experiment:body:none": "node experiments/body-lift.js --no-sensors",
-    "experiment:body:no-lift": "node experiments/body-lift.js --no-lift"
+    "experiment:body:no-lift": "node experiments/body-lift.js --no-lift",
+    "experiment:room": "node experiments/room-day.js",
+    "experiment:room:json": "node experiments/room-day.js --json",
+    "experiment:room:csv": "node experiments/room-day.js --csv",
+    "experiment:room:overcast": "node experiments/room-day.js --overcast",
+    "experiment:room:none": "node experiments/room-day.js --no-sensors"
   }
 }
