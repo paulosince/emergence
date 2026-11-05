@@ -4,7 +4,7 @@ import { createRoomWorld } from '../src/room/room-world.js';
 import { solarAt,describeSolarDay,DAY_MS } from '../src/room/solar.js';
 import { createWeatherForcing } from '../src/room/weather.js';
 import { floorReceivesDirectSun,sunPatchOnFloor,
-  ROOM_GEOMETRY_V1 } from '../src/room/geometry.js';
+  ROOM_GEOMETRY_V1, boxBlocksWindowRay } from '../src/room/geometry.js';
 
 const H=3600000;
 const nearly=(x,y,epsilon=1e-6)=>
@@ -73,12 +73,15 @@ test('sun and geometry determine illumination; shaded positions differ',()=>{
   const centerHeight=g.window.sillM+g.window.heightM/2;
   const x=g.window.centerEastM-centerHeight*sun.east/sun.up;
   const y=g.depthM/2-centerHeight*sun.north/sun.up;
-  const direct=world.floorIrradianceAt(12*H,x,y);
-  const shaded=world.floorIrradianceAt(12*H,-2.5,-1.8);
+  const noObject=createRoomWorld({opaqueObjectEnabled:false});
+  const direct=noObject.floorIrradianceAt(12*H,x,y);
+  const shaded=noObject.floorIrradianceAt(12*H,-2.5,-1.8);
   assert.ok(direct>shaded+100);
+  assert.ok(boxBlocksWindowRay(x,y,sun,g)); // Opaque object intercepts the central ray.
+  const occluded=world.floorIrradianceAt(12*H,x,y);
+  assert.ok(occluded<direct-100);
   assert.ok(world.floorIrradianceAt(0,x,y)>0);// electric lamp
-  assert.ok(world.floorIrradianceAt(12*H,x,y)>
-    world.floorIrradianceAt(0,x,y));
+  assert.ok(world.stateAt(12*H).lighting.obstacleShadowFloorPolygon.length>=3);
 });
 
 test('thermal capacity obeys finite, smooth energy balance under variable forcing',()=>{
@@ -147,4 +150,26 @@ test('invalid room physics cannot silently create unsupported simulations',()=>{
   ]) assert.throws(()=>createRoomWorld(options),RangeError);
   assert.throws(()=>createRoomWorld().stateAt(-1),RangeError);
   assert.throws(()=>createRoomWorld().stateAt(DAY_MS+1),RangeError);
+});
+
+
+test('opaque box casts shadow by ray intersections, not scripted timestamps',()=>{
+  const withObject=createRoomWorld();
+  const empty=createRoomWorld({opaqueObjectEnabled:false});
+  for(const hour of [10,12,14]) {
+    const timeMs=hour*H;
+    const a=withObject.stateAt(timeMs);
+    const b=empty.stateAt(timeMs);
+    assert.deepEqual(a.sun,b.sun);
+    assert.deepEqual(a.lighting.sunlightFloorPolygon,
+      b.lighting.sunlightFloorPolygon);
+    assert.deepEqual(b.lighting.obstacleShadowFloorPolygon,[]);
+  }
+  const morning=withObject.stateAt(11*H);
+  const afternoon=withObject.stateAt(13*H);
+  assert.notDeepEqual(morning.lighting.obstacleShadowFloorPolygon,
+    afternoon.lighting.obstacleShadowFloorPolygon);
+  assert.equal(withObject.describe().geometry.opaqueObject.type,
+    'axis-aligned-opaque-box');
+  assert.equal(empty.describe().geometry.opaqueObject,null);
 });
