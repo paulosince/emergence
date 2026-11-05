@@ -2,117 +2,124 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <meta name="color-scheme" content="light dark"/>
-  <title>EMERGENCE — Inspetor experimental</title>
-  <meta name="description" content="Inspeção experimental do mundo físico, do corpo e das incidências efetivamente transduzidas no EMERGENCE."/>
-  <link rel="stylesheet" href="./app/inspector.css"/>
-  <script type="module" src="./app/inspector.js"></script>
+  <meta name="description" content="EMERGENCE Sala Experimental: um mundo que se transforma independentemente do sistema investigado."/>
+  <title>EMERGENCE · Sala Experimental</title>
+  <link rel="stylesheet" href="./app/room.css"/>
+  <script type="module" src="./app/room.js"></script>
 </head>
 <body>
   <header class="topbar">
-    <div class="identity"><span class="mark" aria-hidden="true">◉</span>
-      <span><strong>EMERGENCE</strong><small>Inspetor experimental · v0.6</small></span>
+    <div class="brand"><span class="brand-symbol" aria-hidden="true">◉</span>
+      <div><strong>EMERGENCE</strong><small>Laboratório de constituição · Instrumentação</small></div>
     </div>
-    <div class="header-actions">
-      <span class="phase-pill">Instrumento de pesquisa</span>
-      <a href="./docs/roadmap.md" target="_blank" rel="noopener">Roteiro</a>
-      <a href="https://github.com/paulosince/emergence" target="_blank" rel="noopener">Código</a>
-    </div>
+    <nav aria-label="Navegação"><a class="active" aria-current="page" href="./">Sala Experimental</a><a href="./body.html">Controle corporal 1D</a><a href="./docs/roadmap.md">Roteiro</a><a href="https://github.com/paulosince/emergence" target="_blank" rel="noopener">GitHub</a></nav>
   </header>
-  <main class="layout">
-    <div class="heading">
-      <div>
-        <p class="eyebrow">Corpo e mundo / experimento 01</p>
-        <h1>Uma ação, vários sinais.</h1>
-        <p>Um atuador físico eleva e solta uma esfera. O mesmo processo altera o movimento externo, a posição do atuador, a energia elétrica e a temperatura interna.</p>
+  <main>
+    <section class="hero">
+      <div><p class="eyebrow">Cenário naturalístico · versão física 0.1</p>
+        <h1>O mundo não espera o observador.</h1>
+        <p>Uma sala, uma porta, uma janela e processos ambientais independentes. A luz entra conforme a posição do Sol; a sombra acompanha sua direção; a lâmpada responde à luminosidade externa.</p>
       </div>
-      <div class="status"><span class="status-dot" aria-hidden="true"></span><span id="runStatus">Iniciando simulação…</span></div>
-    </div>
-    <section class="config card" aria-label="Configurar observação">
-      <div class="section-label"><h2>Condição experimental</h2><span>Modificar modalidades não altera o mundo</span></div>
-      <div class="controls">
-        <fieldset><legend>Modalidades ativas</legend>
-          <label><input type="checkbox" value="optical" data-modality checked/> Óptica</label>
-          <label><input type="checkbox" value="mechanical" data-modality checked/> Mecânica</label>
-          <label><input type="checkbox" value="proprioceptive" data-modality checked/> Propriocepção</label>
-          <label><input type="checkbox" value="interoceptive" data-modality checked/> Interocepção</label>
-        </fieldset>
-        <label class="select-label" for="actionMode">Intervenção do pesquisador
-          <select id="actionMode"><option value="lift">Pesquisador: elevar 20 cm e soltar</option><option value="passive">Pesquisador: só soltar</option><option value="fixed-allow">Regra fixa: elevar se tensão ≥ 9,95 V</option><option value="fixed-block">Regra fixa: impedir se tensão &lt; 10,05 V</option></select>
+      <div class="live-status"><span class="dot"></span><span id="roomStatus">Inicializando o mundo…</span></div>
+    </section>
+    <section class="card config-card">
+      <div class="section-title"><h2>Preparar o mundo</h2><small>Alterações recomputam o cenário, preservando a mesma definição física.</small></div>
+      <div class="settings">
+        <label class="input-label">Dia do experimento
+          <select id="roomDate"><option value="2026-06-21">21 jun 2026 · inverno em Guarulhos</option><option value="2026-09-22">22 set 2026 · equinócio</option><option value="2026-12-21">21 dez 2026 · verão em Guarulhos</option></select>
         </label>
-        <button id="exportBtn" type="button" class="button secondary">Exportar JSON</button>
+        <label class="input-label">Céu / temperatura externa
+          <select id="roomWeather"><option value="clear">Céu aberto · condições sintéticas</option><option value="overcast">Encoberto · condições sintéticas</option></select>
+        </label>
+        <label class="check"><input id="roomObstacle" type="checkbox" checked/> Objeto opaco e sua sombra</label>
+        <fieldset><legend>Transdutores disponíveis</legend>
+          <label><input data-room-modality type="checkbox" value="optical" checked/> Ópticos</label>
+          <label><input data-room-modality type="checkbox" value="thermal" checked/> Térmicos</label>
+          <label><input data-room-modality type="checkbox" value="electrical" checked/> Elétricos</label>
+        </fieldset>
+        <button class="button secondary" type="button" id="exportRoom">Exportar histórico</button>
       </div>
-      <p class="fine">A ação é imposta pelo pesquisador ou selecionada por uma regra fixa de tensão. Nenhum desses controles é autonomia representacional.</p>
+      <p class="annotation">Clima sintético, não previsão ou medição real. Posição solar aproximada; geometria, sombreamento e balanço térmico são calculados. Sons, chuva e vento ainda não foram implementados.</p>
     </section>
-    <section class="panels">
-      <article class="card world-card">
-        <div class="section-label"><h2>Mundo físico</h2><span>Verdade disponível ao pesquisador</span></div>
-        <svg id="worldSvg" class="world-svg" viewBox="0 0 440 300" role="img" aria-label="Cena esquemática com esfera, atuador, superfície e barreiras ópticas">
-          <defs>
-            <linearGradient id="ground" x1="0" x2="1"><stop stop-color="#91a4b7"/><stop offset="1" stop-color="#536f8c"/></linearGradient>
-          </defs>
-          <path d="M22 258 H421" class="floor"/>
-          <path d="M24 263 H420" class="floor-fade"/>
-          <path id="beamUpper" d="M52 156 H398" class="beam"/>
-          <path id="beamLower" d="M52 213 H398" class="beam"/>
-          <text x="54" y="147" class="svg-label">Barreira 0,70 m</text>
-          <text x="54" y="204" class="svg-label">Barreira 0,30 m</text>
-          <path d="M224 250 V70" class="guide"/>
-          <rect id="arm" x="205" y="235" width="38" height="16" rx="3" class="arm"/>
-          <circle id="sphere" cx="224" cy="100" r="9" class="sphere"/>
-          <text x="287" y="28" class="svg-note">SIMULAÇÃO ANALÍTICA 1D</text>
-          <text id="sphereLabel" x="242" y="88" class="svg-note">Esfera</text>
-          <text x="25" y="281" class="svg-label">Superfície fixa</text>
-        </svg>
-        <div class="stats">
-          <div><small>Altura da esfera</small><strong id="heightValue">—</strong></div>
-          <div><small>Velocidade vertical</small><strong id="velocityValue">—</strong></div>
-          <div><small>Próxima referência física</small><strong id="impactValue">—</strong></div>
+    <div class="primary-grid">
+      <section class="card scene-card">
+        <div class="section-title"><h2>Mundo físico</h2><small>Visão do pesquisador · esquema geométrico, não imagem fotorrealista</small></div>
+        <div class="scene-stage">
+          <svg id="roomScene" viewBox="0 0 720 460" role="img" aria-label="Sala experimental tridimensional esquemática com janela, porta, objeto, luz, sombra e luminária">
+            <defs>
+              <radialGradient id="lampAura"><stop stop-color="#ffe2a1" stop-opacity=".9"/><stop offset="1" stop-color="#ffe2a1" stop-opacity="0"/></radialGradient>
+            </defs>
+            <rect id="skyBackdrop" x="0" y="0" width="720" height="460" rx="14" fill="#edf3f8"/>
+            <path id="wallNorth" class="north-wall"/>
+            <path id="wallWest" class="west-wall"/>
+            <path id="floorSurface" class="room-floor"/>
+            <path id="windowOpening" class="window-opening"/>
+            <path id="doorOpening" class="door-opening"/>
+            <path id="sunPatch" fill="#f4c878" fill-opacity=".76"/>
+            <path id="obstacleShadow" fill="#56718d" fill-opacity=".36"/>
+            <path id="objectLeft" class="object-side"/>
+            <path id="objectFront" class="object-front"/>
+            <path id="objectTop" class="object-top"/>
+            <circle id="lampAuraRing" cx="334" cy="130" r="85" fill="url(#lampAura)"/>
+            <circle id="lampFixture" cx="334" cy="130" r="10" class="lamp-fixture"/>
+            <text x="20" y="36" class="scene-caption">NORTE · JANELA</text>
+            <text x="20" y="434" class="scene-caption">DESENHO DERIVADO DO MODELO FÍSICO</text>
+          </svg>
+          <div class="scene-overlay">
+            <span id="phaseLabel" class="phase-label">—</span>
+            <strong id="roomClock">00:00</strong>
+          </div>
         </div>
-      </article>
-      <article class="card body-card">
-        <div class="section-label"><h2>Corpo e processo interno</h2><span>Grandezas físicas · não são rótulos entregues ao domínio</span></div>
-        <div class="body-stats">
-          <div><small>Extensão do atuador</small><strong id="jointValue">—</strong><span>Propriocepção</span></div>
-          <div><small>Tensão do capacitor</small><strong id="voltageValue">—</strong><span>Interocepção</span></div>
-          <div><small>Temperatura interna</small><strong id="temperatureValue">—</strong><span>Interocepção</span></div>
-          <div><small>Corrente do motor</small><strong id="currentValue">—</strong><span>Interocepção</span></div>
-          <div><small>Energia armazenada</small><strong id="energyValue">—</strong><span>Processo físico</span></div>
-          <div><small>Calor produzido</small><strong id="heatValue">—</strong><span>Processo físico</span></div>
+        <div class="scene-legend"><span><i class="swatch sunlight"></i> Luz direta na superfície</span><span><i class="swatch shadow"></i> Sombra do objeto</span><span><i class="swatch lamp"></i> Lâmpada</span></div>
+      </section>
+      <section class="card measures-card">
+        <div class="section-title"><h2>Processos do ambiente</h2><small>Grandezas físicas, separadas das incidências</small></div>
+        <div class="measure-grid">
+          <div><small>Elevação solar</small><strong id="sunElevation">—</strong><span>Geometria astronômica</span></div>
+          <div><small>Radiação externa</small><strong id="outdoorLight">—</strong><span>W/m² · modelo óptico</span></div>
+          <div><small>Luz no piso amostrado</small><strong id="floorLight">—</strong><span>W/m² · geometria e sombra</span></div>
+          <div><small>Lâmpada</small><strong id="lampState">—</strong><span>Fotocélula externa</span></div>
+          <div><small>Temperatura externa</small><strong id="outdoorTemp">—</strong><span>Condição meteorológica</span></div>
+          <div><small>Temperatura interna</small><strong id="indoorTemp">—</strong><span>Troca térmica da sala</span></div>
         </div>
-        <div class="note" id="bodyPhase">—</div>
-      </article>
-    </section>
+        <p class="explainer" id="roomExplanation">—</p>
+        <p class="technical">Local de referência: Guarulhos, SP (23,45° S; 46,52° O). Janela orientada ao norte. A lâmpada possui controle por limiar de iluminação externo, sem acesso ao sistema investigado.</p>
+      </section>
+    </div>
     <section class="card timeline-card">
-      <div class="section-label"><h2>Tempo experimental</h2><span>Reprodução visual, sem alterar o cálculo</span></div>
-      <div class="timeline-row">
-        <button type="button" class="button" id="playBtn">Reproduzir</button>
-        <button type="button" class="button secondary" id="stepBtn">+ 10 ms</button>
-        <input id="timeRange" type="range" min="0" max="1700" value="0" step="1" aria-label="Tempo simulado em milissegundos"/>
-        <output for="timeRange" id="timeOutput">0 ms</output>
+      <div class="section-title"><h2>Uma história física de 24 horas</h2><small>O tempo de reprodução não determina o tempo da simulação.</small></div>
+      <div class="timeline-top">
+        <button class="button" type="button" id="roomPlay">Reproduzir</button>
+        <button class="button secondary" type="button" id="roomStep">+ 30 min</button>
+        <input type="range" id="roomTimeline" aria-label="Tempo simulado" min="0" max="86399999" step="60000" value="0"/>
+        <output id="roomTimeOutput" for="roomTimeline">00:00</output>
       </div>
-      <div class="timeline-legend"><span>0 ms</span><span>Comando: 100 ms</span><span>Soltura: 900 ms</span><span>1700 ms</span></div>
+      <div class="tick-labels"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+      <div class="curve-head"><span>Radiação no piso (W/m²)</span><small>Curva calculada a cada 15 min</small></div>
+      <svg id="roomChart" viewBox="0 0 620 155" preserveAspectRatio="none" aria-label="Gráfico da radiação física no piso ao longo do dia">
+        <path d="M0 145 H620" stroke="currentColor" opacity=".15"/>
+        <polyline id="daylightCurve" points="" fill="none" stroke="#cd9b53" stroke-width="2.5" stroke-linejoin="round"/>
+        <line id="chartCursor" x1="0" x2="0" y1="0" y2="155" stroke="#487ea6" stroke-width="1.5" stroke-dasharray="4 4"/>
+      </svg>
     </section>
-    <section class="panels lower-panels">
-      <article class="card incidences">
-        <div class="section-label"><h2>Incidências recebidas</h2><span id="incidenceCount">0 até agora</span></div>
-        <p class="fine">Aqui aparecem somente valores numéricos que efetivamente chegaram ao motor, com canal e tempo. Identidades físicas ficam fora da entrada do sistema.</p>
-        <ol id="incidenceList" class="event-list" aria-live="polite"></ol>
-      </article>
-      <article class="card domain-card">
-        <div class="section-label"><h2>Domínio experimental</h2><span>Controle diagnóstico, sem aprendizagem</span></div>
-        <div class="domain-numbers">
-          <div><strong>0</strong><small>Unidades constituídas</small></div>
-          <div><strong>0</strong><small>Relações constituídas</small></div>
-          <div><strong id="receivedValue">0</strong><small>Incidências entregues</small></div>
-        </div>
-        <p class="note">O sistema atual apenas registra entradas. Qualquer grafo representacional exibido aqui seria fictício. A visualização constitutiva será acrescentada quando houver um mecanismo real a inspecionar.</p>
-        <div class="section-label subheading"><h3>Acontecimentos físicos</h3><span>Registro do pesquisador</span></div>
-        <ol id="physicalEvents" class="event-list"></ol>
-      </article>
-    </section>
-    <footer>EMERGENCE · Inspetor preliminar, não protocolo de medição real · <a href="./docs/body-world-v0.1.md">Hipóteses e limites físicos</a></footer>
+    <div class="secondary-grid">
+      <section class="card">
+        <div class="section-title"><h2>Transdução efetiva</h2><small id="roomIncidenceCount">—</small></div>
+        <p class="annotation">Somente as incidências entregues ao controle diagnóstico; os canais não recebem nomes de objetos, condições meteorológicas ou explicações causais.</p>
+        <div id="roomSensorReadings" class="sensor-readings"></div>
+        <ol id="roomIncidenceList" class="history"></ol>
+      </section>
+      <section class="card">
+        <div class="section-title"><h2>Observação e constituição</h2><small>Motor diagnóstico, sem aprendizagem</small></div>
+        <div class="domain-counter"><div><strong>0</strong><small>Unidades</small></div><div><strong>0</strong><small>Relações</small></div><div><strong id="roomDelivered">0</strong><small>Incidências</small></div></div>
+        <p class="research-note">Não exibimos uma malha que ainda não existe. O mundo evolui, os instrumentos transduzem e o domínio atual apenas registra entradas.</p>
+        <div class="section-title subheading"><h3>Acontecimentos físicos</h3><small>Visíveis somente ao pesquisador</small></div>
+        <ol id="roomEvents" class="history"></ol>
+      </section>
+    </div>
+    <footer>EMERGENCE · Mundo naturalístico v0.1 · <a href="./docs/room-world-v0.1.md">Hipóteses, equações e limitações</a> · <a href="./body.html">Abrir o experimento corporal 1D</a></footer>
   </main>
 </body>
 </html>
