@@ -153,3 +153,22 @@ Ver [modelo do corpo, equações e limitações](docs/body-world-v0.1.md).
 Além da ação imposta pelo pesquisador, o cenário corporal aceita uma **regra fixa de limiar de tensão**. Essa regra mede operacionalmente a tensão inicial do capacitor e permite ou inibe a elevação. É um controle programado, não atividade autonomamente determinada pelo domínio.
 
 A interface inicial permite selecionar esses controles e as modalidades. Uma suíte de teste de DOM executa os módulos reais do experimento e verifica a navegação temporal e as ablações, **sem afirmar que isso substitui a inspeção visual em navegador real**.
+
+
+## Sala Experimental — ambiente externo independente
+
+A página inicial passa a apresentar a **Sala Experimental** (ciclo de 24 h), com geometria da janela, projeção solar, sombreamento calculado por uma caixa, fotocélula que comanda uma lâmpada e balanço térmico da sala. Existem três modalidades de transdução física: óptica, térmica e elétrica, que podem ser desativadas sem afetar o ambiente. A meteorologia inicial é **sintética**, ou pode ser fornecida por uma série temporal importada com origem explícita — não consulta previsão ao vivo.
+
+- [Abrir Sala Experimental](https://paulosince.github.io/emergence/)
+- [Examinar a projeção em planta](https://paulosince.github.io/emergence/room.html)
+- [Controle físico corporal 1D](https://paulosince.github.io/emergence/body.html)
+- [Protocolo científico da sala](docs/room-world-v0.1.md)
+
+~~~sh
+npm run experiment:room
+npm run experiment:room:json > room-run.json
+npm run experiment:room:overcast
+npm run experiment:room:none
+~~~
+
+**Não** há ainda som, chuva física, comportamento motor autônomo ou constituição de unidades. O projeto TEMPO original não é modificado.
