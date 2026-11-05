@@ -43,7 +43,7 @@ test('body sensors use physical analog observables, not preexisting unit names',
   assert.equal(environment.readAt('c6', 500), bodyMid.motorCurrentA);
   assert.equal(environment.readAt('c6', 50), 0);
   assert.equal(environment.readAt('c6', 1000), 0);
-  assert.notEqual(environment.readAt('c0', 1400),
+  assert.notEqual(environment.readAt('c0', 1230),
     environment.readAt('c0', 0));
 });
 
