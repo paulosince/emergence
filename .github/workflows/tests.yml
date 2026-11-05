@@ -44,3 +44,5 @@ jobs:
       - run: node experiments/room-day.js --json > /dev/null
       - run: node experiments/room-day.js --overcast > /dev/null
       - run: node experiments/room-day.js --no-sensors > /dev/null
+      - run: node --check app/room.js
+      - run: node scripts/smoke-room-home-dom.mjs
