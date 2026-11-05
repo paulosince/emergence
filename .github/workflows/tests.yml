@@ -34,3 +34,4 @@ jobs:
       - run: node --check app/inspector.js
       - run: node --check src/body/actuated-world.js
       - run: node --check src/body/body-signals.js
+      - run: node scripts/smoke-browser.mjs
