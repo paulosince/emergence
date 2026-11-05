@@ -13,6 +13,14 @@ export function auditIncidenceTrace(result) {
   const errors = [];
   const seen = new Set();
   const deliveries = result.trace.filter(r => r.type === 'incidence.delivered');
+  const observed = new Map();
+  for (const sample of result.trace.filter(r => r.type === 'sensor.sample')) {
+    if (!sample.emitted) continue;
+    if (observed.has(sample.incidenceId)) {
+      errors.push('duplicated emitted sample ' + sample.incidenceId);
+    }
+    observed.set(sample.incidenceId, sample);
+  }
   let previousArrival = -Infinity;
   for (const [index, incidence] of result.incidences.entries()) {
     const keys = Object.keys(incidence).sort();
@@ -39,6 +47,12 @@ export function auditIncidenceTrace(result) {
       errors.push('delivered incidence order violates simulated time');
     }
     previousArrival = incidence.arrivedAtMs;
+    const sample = observed.get(incidence.incidenceId);
+    if (!sample || sample.transducerId !== incidence.transducerId ||
+        sample.timeMs !== incidence.observedAtMs ||
+        sample.measurement !== incidence.measurement) {
+      errors.push('sample-to-incidence inconsistency at index ' + index);
+    }
     const trace = deliveries[index];
     if (!trace || trace.incidenceId !== incidence.incidenceId ||
         trace.transducerId !== incidence.transducerId ||

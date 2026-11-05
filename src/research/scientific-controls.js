@@ -7,6 +7,7 @@ import { createReleaseControlledWorld } from '../world/release-control.js';
 import { createNoninteractingImpacts } from './noninteracting-impacts.js';
 import { auditFirstImpact } from './numeric-fall-oracle.js';
 import { auditIncidenceTrace } from './incidence-audit.js';
+import { auditDiagnosticDelivery } from './diagnostic-audit.js';
 import { runExperiment } from '../runtime/experiment-runner.js';
 import { DiagnosticEngine } from '../engines/diagnostic-engine.js';
 
@@ -95,6 +96,11 @@ export function runScientificControl(id, { seed = 42,
     throw new Error('Experiment incidence audit failed: ' +
       JSON.stringify(incidenceAudit.failures));
   }
+  const diagnosticAudit = auditDiagnosticDelivery(result);
+  if (!diagnosticAudit.passed) {
+    throw new Error('Diagnostic engine audit failed: ' +
+      JSON.stringify(diagnosticAudit.failures));
+  }
   // Researcher-side physical validation, not supplied as an incidence.
   const physicalAudits = scene.world
     ? [auditFirstImpact(scene.world, { stepMs: 1, toleranceMs: 0.01 })]
@@ -106,6 +112,7 @@ export function runScientificControl(id, { seed = 42,
     condition: SCIENTIFIC_CONTROLS_V1.find(x => x.id === id),
     result,
     incidenceAudit,
+    diagnosticAudit,
     physicalAudits,
   };
 }

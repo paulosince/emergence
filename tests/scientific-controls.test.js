@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { runScientificControl, createScientificControl,
   SCIENTIFIC_CONTROLS_V1 } from '../src/research/scientific-controls.js';
 import { auditIncidenceTrace } from '../src/research/incidence-audit.js';
+import { auditDiagnosticDelivery } from '../src/research/diagnostic-audit.js';
 
 const run = id => runScientificControl(id).result;
 const values = (r, id) => r.incidences.filter(i => i.transducerId === id)
@@ -15,6 +16,7 @@ test('the complete versioned campaign runs and is reproducible', () => {
     const output = runScientificControl(control.id);
     assert.equal(output.condition.id, control.id);
     assert.equal(output.incidenceAudit.passed, true);
+    assert.equal(output.diagnosticAudit.passed, true);
     assert.ok(output.physicalAudits.every(x => x.passed));
     assert.deepEqual(output, runScientificControl(control.id));
   }
@@ -101,4 +103,38 @@ test('unknown and unversioned control IDs cannot be executed', () => {
   assert.throws(() => runScientificControl('hacked-v1'), RangeError);
   assert.throws(() => createScientificControl('single-baseline-v1', { seed: -1 }),
     RangeError);
+});
+
+
+test('sample-to-incidence mutation is detected, even if delivery trace agrees', () => {
+  const tampered = structuredClone(run('single-baseline-v1'));
+  const incidence = tampered.incidences[0];
+  const delivery = tampered.trace.find(x => x.type === 'incidence.delivered' &&
+    x.incidenceId === incidence.incidenceId);
+  incidence.measurement = 0.123456;
+  delivery.measurement = 0.123456;
+  const verdict = auditIncidenceTrace(tampered);
+  assert.equal(verdict.passed, false);
+  assert.ok(verdict.failures.some(x => x.includes('sample-to-incidence')));
+});
+
+test('diagnostic audit detects a motor dropping inputs despite valid transport', () => {
+  const base = run('single-baseline-v1');
+  const tampered = structuredClone(base);
+  tampered.finalSnapshot.receivedCount -= 1;
+  assert.equal(auditIncidenceTrace(tampered).passed, true);
+  assert.equal(auditDiagnosticDelivery(tampered).passed, false);
+  assert.ok(auditDiagnosticDelivery(tampered).failures
+    .some(x => x.includes('receivedCount')));
+});
+
+test('diagnostic audit detects corrupted engine event history independently', () => {
+  const tampered = structuredClone(run('single-baseline-v1'));
+  const firstEngineEvent = tampered.trace.find(x =>
+    x.type === 'engine.event' && x.detail?.type === 'input.received');
+  firstEngineEvent.detail.transducerId = 'bogus';
+  assert.equal(auditIncidenceTrace(tampered).passed, true);
+  const verdict = auditDiagnosticDelivery(tampered);
+  assert.equal(verdict.passed, false);
+  assert.ok(verdict.failures.some(x => x.includes('ingest event')));
 });
