@@ -1,6 +1,6 @@
 {
   "name": "emergence-temporotopology",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -25,6 +25,11 @@
     "experiment:world-senses:trace": "node experiments/world-senses.js --trace-csv",
     "experiment:world-senses:optical": "node experiments/world-senses.js --optical-only",
     "experiment:world-senses:mechanical": "node experiments/world-senses.js --mechanical-only",
-    "experiment:world-senses:none": "node experiments/world-senses.js --no-sensors"
+    "experiment:world-senses:none": "node experiments/world-senses.js --no-sensors",
+    "test:scientific-controls": "node --test tests/numeric-oracle.test.js tests/noninteracting-impacts.test.js tests/scientific-controls.test.js",
+    "experiment:controls": "node experiments/scientific-controls.js",
+    "experiment:controls:json": "node experiments/scientific-controls.js --json",
+    "experiment:controls:coincident": "node experiments/scientific-controls.js --condition=dual-noninteracting-coincident-v1",
+    "experiment:controls:staggered": "node experiments/scientific-controls.js --condition=dual-noninteracting-staggered-v1"
   }
 }

@@ -20,3 +20,7 @@ jobs:
       - run: node experiments/world-senses.js --optical-only > /dev/null
       - run: node experiments/world-senses.js --mechanical-only > /dev/null
       - run: node experiments/world-senses.js --no-sensors > /dev/null
+      - run: npm run experiment:controls > /dev/null
+      - run: npm run experiment:controls:json > /dev/null
+      - run: npm run experiment:controls:coincident > /dev/null
+      - run: npm run experiment:controls:staggered > /dev/null
