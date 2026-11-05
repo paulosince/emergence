@@ -1,155 +1,233 @@
-import { approximateSun } from './solar.js';
-import { sunPatchOnFloor,boxShadowOnFloor,pointInPolygon,polygonArea } from './geometry.js';
+// Controlled naturalistic world: a persistent room independent of any learner.
+// Analytic sun geometry, aperture occlusion, a physical light-sensor controller,
+// and a 1-zone thermal energy balance. Researcher-only world truth.
+// All quantities are computed; there is no schedule of fabricated incidences.
+import { DAY_MS, describeSolarDay, solarAt } from './solar.js';
+import { createWeatherForcing } from './weather.js';
+import { ROOM_GEOMETRY_V1, floorReceivesDirectSun,
+  sunPatchOnFloor } from './geometry.js';
 
-// Naturalistic but BOUNDED scene: stationary shell, a north window, one box,
-// astronomical solar direction, a scalar illumination model and a binary lamp.
-// There is no raytraced radiance, dynamic weather, live meteorological feed,
-// heat, acoustics or free rigid-body dynamics in this first room slice.
-export const ROOM_WORLD_ID='bounded-daylit-room-v1';
-export const ROOM_DAY_MS=86400000;
-const ranges={
-  latitudeDeg:[-66,66],dayOfYear:[1,365],widthM:[2,10],
-  depthM:[2,10],heightM:[2,6],windowWidthM:[0.1,5],
-  windowSillM:[0,4],windowTopM:[0.1,5],
-  cloudCover:[0,1],lampThreshold:[0,1],
-  lampIlluminance:[0,2],boxWidthM:[0.05,1.5],
-  boxDepthM:[0.05,1.5],boxHeightM:[0.05,1.5],
-  boxX:[-4,4],boxY:[-4,4],
-};
-function validate(p) {
-  for(const [key,[min,max]] of Object.entries(ranges)){
-    if(!Number.isFinite(p[key])||p[key]<min||p[key]>max||
-      (key==='dayOfYear'&&!Number.isInteger(p[key])))
-      throw new RangeError('Invalid bounded room parameter: '+key);
+export const ROOM_MODEL_ID = 'naturalistic-room-thermal-optical-v1';
+const STEP_MS = 60000; // Temperature integration and controller sampling resolution.
+
+function bounded(name, value, low, high, strict = false) {
+  if (!Number.isFinite(value) ||
+      (strict ? value <= low : value < low) || value > high) {
+    throw new RangeError(name + ' outside physical domain');
   }
-  if(p.windowWidthM>=p.widthM||
-     p.windowTopM>=p.heightM||p.windowTopM<=p.windowSillM)
-    throw new RangeError('Window must fit inside north wall');
-  if(Math.abs(p.boxX)+p.boxWidthM/2>=p.widthM/2||
-     Math.abs(p.boxY)+p.boxDepthM/2>=p.depthM/2||
-     p.boxHeightM>=p.heightM)
-    throw new RangeError('Opaque box must fit entirely inside room');
 }
-export function createRoomWorld(options={}) {
-  if(!options||typeof options!=='object'||Array.isArray(options))
-    throw new TypeError('Room parameters must be an object');
-  const p=Object.freeze({
-    latitudeDeg:-23.55,dayOfYear:172,
-    widthM:4,depthM:3,heightM:2.7,
-    windowWidthM:1.8,windowSillM:0.8,windowTopM:2.1,
-    boxX:0.25,boxY:-0.25,boxWidthM:0.45,
-    boxDepthM:0.5,boxHeightM:0.7,
-    cloudCover:0,lampThreshold:0.05,lampIlluminance:0.4,
-    ...options,
-  });
-  if(Object.keys(options).some(x=>!Object.hasOwn(ranges,x)))
-    throw new RangeError('Unknown room configuration parameter');
-  validate(p);
-  const windowArea=p.windowWidthM*(p.windowTopM-p.windowSillM);
-  const floorArea=p.widthM*p.depthM;
 
-  function checkTime(timeMs){
-    if(!Number.isFinite(timeMs)||timeMs<0||timeMs>ROOM_DAY_MS)
-      throw new RangeError('Room observation time must fall within its 24h solar day');
+export function createRoomWorld({
+  date = '2026-06-21',
+  latitudeDeg = -23.45,
+  longitudeDeg = -46.52,
+  utcOffsetHours = -3,
+  weatherPreset = 'clear',
+  weatherSeries = null,
+  weatherSource = null,
+  initialIndoorTemperatureC = 17,
+  heatCapacityJPerK = 3_000_000,
+  envelopeConductanceWPerK = 120,
+  lampElectricalPowerW = 12,
+  lampVisibleRadiantFraction = 0.25,
+  lampOnThresholdWm2 = 12,
+  lampOffThresholdWm2 = 18,
+} = {}) {
+  const day = describeSolarDay({ date, latitudeDeg, longitudeDeg, utcOffsetHours });
+  const weather = createWeatherForcing({
+    preset: weatherPreset, series: weatherSeries, source: weatherSource,
+  });
+  for (const [key,x,a,b,strict] of [
+    ['initialIndoorTemperatureC', initialIndoorTemperatureC, -60, 80, false],
+    ['heatCapacityJPerK', heatCapacityJPerK, 1000, 1e9, true],
+    ['envelopeConductanceWPerK', envelopeConductanceWPerK, 0, 1e5, true],
+    ['lampElectricalPowerW', lampElectricalPowerW, 0, 1e4, false],
+    ['lampVisibleRadiantFraction', lampVisibleRadiantFraction, 0, 1, false],
+    ['lampOnThresholdWm2', lampOnThresholdWm2, 0, 200, false],
+    ['lampOffThresholdWm2', lampOffThresholdWm2, 0, 200, false],
+  ]) bounded(key,x,a,b,strict);
+  if (lampOffThresholdWm2 <= lampOnThresholdWm2)
+    throw new RangeError('Lamp hysteresis must have off-threshold greater than on-threshold');
+
+  const geometry = ROOM_GEOMETRY_V1;
+  const floorArea = geometry.widthM * geometry.depthM;
+  const apertureArea = geometry.window.widthM * geometry.window.heightM;
+  const opticalTransfer = geometry.window.transmittance;
+
+  function skyAt(timeMs) {
+    const sun = solarAt(timeMs, day);
+    const atmosphere = weather.at(timeMs);
+    const positiveUp = Math.max(0, sun.up);
+    const directNormalWm2 = 850 * (positiveUp ** 0.25) *
+      ((1 - atmosphere.cloudCover) ** 2);
+    const diffuseHorizontalWm2 = 120 * Math.sqrt(positiveUp) *
+      (0.55 + 0.45 * atmosphere.cloudCover);
+    const outdoorIrradianceWm2 =
+      directNormalWm2 * positiveUp + diffuseHorizontalWm2;
+    const northWindowIncidence = Math.max(0, sun.north);
+    const transmittedDirectPowerW =
+      directNormalWm2 * northWindowIncidence * apertureArea * opticalTransfer;
+    const transmittedDiffusePowerW =
+      diffuseHorizontalWm2 * 0.5 * apertureArea * opticalTransfer;
+    return {
+      sun, atmosphere, directNormalWm2, diffuseHorizontalWm2,
+      outdoorIrradianceWm2,
+      transmittedDirectPowerW, transmittedDiffusePowerW,
+      // First reflected approximation: 12% of the transmitted direct flux
+      // is spread uniformly over the floor. The remaining fate is NOT simulated.
+      indirectFloorIrradianceWm2:
+        (0.12 * transmittedDirectPowerW + transmittedDiffusePowerW) /
+        floorArea,
+      incomingWindowPowerW:
+        transmittedDirectPowerW + transmittedDiffusePowerW,
+    };
   }
-  function skyAt(tMs) {
-    const sun=approximateSun({
-      latitudeDeg:p.latitudeDeg,dayOfYear:p.dayOfYear,
-      solarHour:24*tMs/ROOM_DAY_MS,
-    });
-    const elev=Math.max(0,sun.up);
-    const cloud=p.cloudCover;
-    const clearFactor=(1-cloud)**2;
-    const outdoorIlluminance=elev*
-      (0.45*clearFactor+0.35*(1-0.55*cloud));
-    // Diffuse through window, spatially uniform INSIDE in this model.
-    // Direct beam is projected geometrically, separately.
-    const diffuseRoomIlluminance=elev*(0.12+0.25*cloud)*
-      (1-0.55*cloud)*windowArea/floorArea;
-    return {sun,outdoorIlluminance,diffuseRoomIlluminance,
-      directStrength:elev*clearFactor};
-  }
-  function lampOnAt(tMs){
-    checkTime(tMs);
-    return skyAt(tMs).outdoorIlluminance<p.lampThreshold;
-  }
-  // Events are independent of sensory sampling or UI. Seek state flips
-  // on a finite reference grid, then bisect within 1 ms. This is an
-  // instrument control, not a solar ephemeris.
-  const switchEvents=[];
-  let prev=lampOnAt(0);
-  const STEP=60000;
-  for(let t=STEP;t<=ROOM_DAY_MS;t+=STEP){
-    const now=lampOnAt(t);
-    if(now!==prev){
-      let lo=t-STEP,hi=t;
-      for(let i=0;i<20 && hi-lo>0.5;i++){
-        const mid=(lo+hi)/2;
-        if(lampOnAt(mid)===prev)lo=mid;
-        else hi=mid;
+
+  // Schmitt-style photocell: decisions happen because external irradiation
+  // crosses a threshold, never at a hard-coded 06:00/18:00.
+  const transitions = [];
+  let lamp = skyAt(0).outdoorIrradianceWm2 < lampOffThresholdWm2;
+  const initiallyOn = lamp;
+  for (let t = STEP_MS; t <= DAY_MS; t += STEP_MS) {
+    const irradiance = skyAt(t).outdoorIrradianceWm2;
+    const threshold = lamp ? lampOffThresholdWm2 : lampOnThresholdWm2;
+    const switches = lamp ? irradiance >= threshold : irradiance <= threshold;
+    if (!switches) continue;
+    let lower = t - STEP_MS, upper = t;
+    const lowerIrradiance = skyAt(lower).outdoorIrradianceWm2;
+    const isIncreasing = lamp;
+    // If the bracket is not monotonic, fall back to the minute boundary.
+    if ((isIncreasing && lowerIrradiance < threshold) ||
+        (!isIncreasing && lowerIrradiance > threshold)) {
+      for (let i=0; i<24; i++) {
+        const mid=(lower+upper)/2;
+        const midIrradiance=skyAt(mid).outdoorIrradianceWm2;
+        if (isIncreasing ? midIrradiance >= threshold :
+          midIrradiance <= threshold) upper=mid;
+        else lower=mid;
       }
-      switchEvents.push(Object.freeze({
-        eventId:'room-lamp-'+switchEvents.length,
-        type:'lamp.photocell-switch',
-        timeMs:hi,source:'fixed-outdoor-photocell',
-        lampOn:now,
-      }));
     }
-    prev=now;
+    lamp = !lamp;
+    transitions.push(Object.freeze({
+      type:'lamp.toggle',timeMs:upper, stateOn:lamp,
+      eventId:'lamp-toggle-'+transitions.length,
+      control:'exterior-irradiance-photocell',
+    }));
   }
-  const immutableEvents=Object.freeze(switchEvents);
-  function stateAt(timeMs){
+
+  function lampAt(timeMs) {
+    let on = initiallyOn;
+    for (const t of transitions) {
+      if (t.timeMs > timeMs) break;
+      on=t.stateOn;
+    }
+    return on;
+  }
+
+  // Thermal energy balance: C*dT/dt = UA*(Tout - Tin) + absorbed
+  // window solar flux + lamp electrical heat. Fixed 60s integration cells
+  // eliminate dependence on querying order, samples or GUI frame rate.
+  const temperatureGrid = [initialIndoorTemperatureC];
+  function forcingAt(t) {
+    const sky = skyAt(t);
+    const lampOn=lampAt(t);
+    const absorbedSolarPowerW=0.6 * sky.incomingWindowPowerW;
+    const lampHeatW=lampOn ? lampElectricalPowerW : 0;
+    return {
+      externalTemperatureC: sky.atmosphere.temperatureC,
+      absorbedSolarPowerW, lampHeatW,
+    };
+  }
+  function thermalAdvance(startC, midMs, dtSeconds) {
+    const forcing=forcingAt(midMs);
+    const totalHeatInput=forcing.absorbedSolarPowerW+forcing.lampHeatW;
+    const equilibriumC=forcing.externalTemperatureC +
+      totalHeatInput/envelopeConductanceWPerK;
+    const rate=envelopeConductanceWPerK/heatCapacityJPerK;
+    return equilibriumC+(startC-equilibriumC)*Math.exp(-rate*dtSeconds);
+  }
+  for (let t=0; t<DAY_MS; t+=STEP_MS) {
+    temperatureGrid.push(thermalAdvance(
+      temperatureGrid.at(-1), t+STEP_MS/2, STEP_MS/1000));
+  }
+  function indoorTemperatureAt(timeMs) {
+    const index=Math.min(Math.floor(timeMs/STEP_MS),
+      temperatureGrid.length-1);
+    const remainingMs=timeMs-index*STEP_MS;
+    if (!remainingMs) return temperatureGrid[index];
+    return thermalAdvance(temperatureGrid[index],
+      index*STEP_MS+remainingMs/2, remainingMs/1000);
+  }
+
+  const events = Object.freeze([
+    Object.freeze({type:'lamp.initial',timeMs:0,stateOn:initiallyOn,
+      eventId:'lamp-initial', control:'exterior-irradiance-photocell'}),
+    ...transitions,
+  ]);
+
+  function checkTime(t) {
+    if (!Number.isFinite(t) || t<0 || t>DAY_MS)
+      throw new RangeError('timeMs must be within this civil day');
+  }
+  function stateAt(timeMs) {
     checkTime(timeMs);
     const sky=skyAt(timeMs);
-    const patch=sunPatchOnFloor(sky.sun,p);
-    const shadow=boxShadowOnFloor(sky.sun,p);
-    const lampOn=lampOnAt(timeMs);
+    const lampOn=lampAt(timeMs);
+    const patch=sunPatchOnFloor(sky.sun,geometry);
+    const temperatureC=indoorTemperatureAt(timeMs);
     return Object.freeze({
-      timeMs,solarHour:24*timeMs/ROOM_DAY_MS,
-      sun:sky.sun,
-      cloudCover:p.cloudCover,
-      outdoorIlluminance:sky.outdoorIlluminance,
-      diffuseRoomIlluminance:sky.diffuseRoomIlluminance,
-      directStrength:sky.directStrength,
-      lampOn,
-      projectedWindowPatch:patch,
-      projectedBoxShadow:shadow,
-      projectedWindowAreaM2:polygonArea(patch),
-      projectedBoxShadowAreaM2:polygonArea(shadow),
+      timeMs,
+      sun: sky.sun,
+      weather: sky.atmosphere,
+      lighting: Object.freeze({
+        lampOn,
+        lampElectricalPowerW: lampOn ? lampElectricalPowerW : 0,
+        lampFloorIrradianceWm2: lampOn ?
+          lampElectricalPowerW*lampVisibleRadiantFraction/floorArea : 0,
+        outdoorIrradianceWm2:sky.outdoorIrradianceWm2,
+        directNormalWm2:sky.directNormalWm2,
+        diffuseHorizontalWm2:sky.diffuseHorizontalWm2,
+        transmittedDirectPowerW:sky.transmittedDirectPowerW,
+        transmittedDiffusePowerW:sky.transmittedDiffusePowerW,
+        indirectFloorIrradianceWm2:sky.indirectFloorIrradianceWm2,
+        sunlightFloorPolygon:patch,
+      }),
+      thermal: Object.freeze({
+        outdoorTemperatureC:sky.atmosphere.temperatureC,
+        indoorTemperatureC:temperatureC,
+        absorbedSolarPowerW:0.6*sky.incomingWindowPowerW,
+        lampHeatW:lampOn ? lampElectricalPowerW : 0,
+        conductivePowerIntoRoomW:envelopeConductanceWPerK *
+          (sky.atmosphere.temperatureC-temperatureC),
+      }),
     });
   }
-  function floorIlluminanceAt(timeMs,{x,y}){
-    if(!Number.isFinite(x)||!Number.isFinite(y)||
-       Math.abs(x)>p.widthM/2||Math.abs(y)>p.depthM/2)
-      throw new RangeError('Floor sensor must be inside room');
-    const state=stateAt(timeMs);
-    const inBeam=pointInPolygon({x,y},state.projectedWindowPatch);
-    const inShadow=pointInPolygon({x,y},state.projectedBoxShadow);
-    // Inverse-square attenuation from a ceiling lamp (deliberately not
-    // physically calibrated lux). Uses exactly the same state as UI.
-    const dist2=(x*x+y*y+p.heightM*p.heightM);
-    const artificial=state.lampOn
-      ? p.lampIlluminance*p.heightM*p.heightM/dist2 : 0;
-    return state.diffuseRoomIlluminance+
-      (inBeam&&!inShadow?state.directStrength:0)+artificial;
-  }
-  function eventsThrough(timeMs){
+  function floorIrradianceAt(timeMs,eastM,northM) {
     checkTime(timeMs);
-    return Object.freeze(immutableEvents.filter(e=>e.timeMs<=timeMs));
+    const sky=skyAt(timeMs);
+    const direct=floorReceivesDirectSun(eastM,northM,sky.sun,geometry)
+      ? sky.directNormalWm2*Math.max(0,sky.sun.up)*opticalTransfer : 0;
+    const lampIrradiance=lampAt(timeMs) ?
+      lampElectricalPowerW*lampVisibleRadiantFraction/floorArea : 0;
+    return direct+sky.indirectFloorIrradianceWm2+lampIrradiance;
   }
-  function describe(){
+  function eventsThrough(timeMs) {
+    checkTime(timeMs);
+    return Object.freeze(events.filter(e=>e.timeMs<=timeMs));
+  }
+  function describe() {
     return Object.freeze({
-      modelId:ROOM_WORLD_ID,modelVersion:'0.1.0',
-      units:{time:'ms',distance:'m',floorLight:'relative-normalized-intensity'},
-      axes:{x:'east',y:'north',z:'up'},
-      shell:{door:{wall:'south',open:false},
-        window:{wall:'north',widthM:p.windowWidthM,
-          sillM:p.windowSillM,topM:p.windowTopM}},
-      object:{type:'stationary-opaque-box',position:[p.boxX,p.boxY],
-        size:[p.boxWidthM,p.boxDepthM,p.boxHeightM]},
-      parameters:p,solarTimeConvention:'local solar time, 0 to 24; non-leap day',
-      modelScope:'window projection and box floor shadow, diffuse term, fixed photocell lamp; no realistic sky optics',
+      modelId:ROOM_MODEL_ID,version:'0.1.0',
+      date:day.date,solarDay:day,
+      geometry, weather:weather.describe(),
+      initialIndoorTemperatureC,heatCapacityJPerK,
+      envelopeConductanceWPerK,lampElectricalPowerW,
+      lampVisibleRadiantFraction,
+      lampOnThresholdWm2,lampOffThresholdWm2,
+      thermalIntegrationStepMs:STEP_MS,
+      validity:'one 24h civil day, static room geometry, no wind/sound/rain',
+      provenance:'room environmental truth is researcher-only',
     });
   }
-  return Object.freeze({stateAt,floorIlluminanceAt,eventsThrough,describe});
+  return Object.freeze({stateAt,eventsThrough,describe,floorIrradianceAt});
 }
