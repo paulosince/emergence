@@ -31,3 +31,6 @@ jobs:
       - run: npm run experiment:body:intero > /dev/null
       - run: npm run experiment:body:none > /dev/null
       - run: npm run experiment:body:no-lift > /dev/null
+      - run: node --check app/inspector.js
+      - run: node --check src/body/actuated-world.js
+      - run: node --check src/body/body-signals.js

@@ -164,3 +164,28 @@ Pesquisador (sem acesso ao motor):
 A simultaneidade no cenário duplo resulta de intervenção temporal do pesquisador. Os modelos físicos não trocam forças, objetos ou estados. O instrumento reconhece explicitamente o limite dessa noção de independência.
 
 Ver [controles científicos v0.1](scientific-controls-v0.1.md).
+
+## Etapa 6 — atuação, estado interno e acoplamentos multimodais
+
+~~~text
+Comando externo do pesquisador: ELEVAR, depois SOLTAR
+                           |
+                           v
+          Trajetória e força motora de 1 eixo
+                |                       |
+         Mundo externo              Corpo interno
+       esfera e contato        capacitor, corrente, calor
+                |                       |
+         sensores ópticos          potenciômetro
+           e mecânicos         tensão, corrente, termômetro
+                |                       |
+                +---------+-------------+
+                          |
+                 incidências numéricas
+                          |
+               motor diagnóstico (0 unidades)
+                          |
+           inspetor visual só de leitura (beta)
+~~~
+
+O mundo é um sistema físico compartilhado no código, não um conjunto de sequências sensoriais arbitrárias. As equações, os limites e os testes adversariais estão em [body-world-v0.1.md](body-world-v0.1.md). A interface inicial apenas inspeciona estados e rastros reais; a representação dinâmica de uma malha constituída continua pendente.

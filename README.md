@@ -128,3 +128,22 @@ npm run experiment:controls:staggered
 Veja [protocolo completo e limitações](docs/scientific-controls-v0.1.md).
 
 A suíte da Etapa 5 inclui ainda uma grade determinística com **54 combinações físicas** para confrontar a solução analítica com integração numérica e invariantes mecânicos. Isso testa o código em condições variadas dentro da mesma idealização; não equivale a validação do mundo físico real.
+
+## Etapa 6 — corpo mínimo e inspeção no navegador
+
+O mesmo processo físico agora liga elevação de esfera, atuação motora, energia elétrica interna e aquecimento. Um corpo de um eixo inclui um **capacitor ideal**, um motor com eficiência fixa, uma trava de sustentação e uma ação explicitamente **imposta pelo pesquisador**. Os sensores de propriocepção e interocepção compartilham a dinâmica com os sensores ópticos e mecânicos. Nada disso constitui unidades ou representações automaticamente.
+
+Foi adicionada uma **interface preliminar de inspeção**, diretamente em index.html, com linha temporal, cena física esquemática, grandezas do corpo, modalidades configuráveis, histórico real de incidências e exportação JSON. É uma interface de pesquisa, não a interface científica final prevista no roteiro.
+
+~~~sh
+npm test
+npm run experiment:body
+npm run experiment:body:json > body-run.json
+npm run experiment:body:extero
+npm run experiment:body:proprio
+npm run experiment:body:intero
+npm run experiment:body:none
+npm run experiment:body:no-lift
+~~~
+
+Ver [modelo do corpo, equações e limitações](docs/body-world-v0.1.md).
