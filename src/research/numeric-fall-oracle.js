@@ -56,9 +56,12 @@ export function auditFirstImpact(world, {
     throw new RangeError('Invalid audit tolerance');
   }
   const description = world.describe();
-  if (description.modelId !== 'analytic-vertical-sphere-plane') {
-    throw new TypeError('This audit requires the bounded sphere/plane model');
+  if (!['analytic-vertical-sphere-plane',
+    'analytic-actuated-sphere-plane'].includes(description.modelId)) {
+    throw new TypeError('This audit requires a bounded analytic sphere/plane model');
   }
+  // For the actuated case, description.parameters describes the release
+  // state (after lifting); the integrator must not audit the pre-release lift.
   const predictedRelativeMs = integrateFirstContact({
     ...description.parameters, stepMs, maxSteps,
   });
