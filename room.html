@@ -75,6 +75,9 @@
         <text x="350" y="426" class="floor-label" text-anchor="middle">SUL</text>
         <text x="47" y="279" class="floor-label" text-anchor="middle" transform="rotate(-90 47 279)">PORTA FECHADA</text>
         <polygon id="sunPatch" fill="url(#sunlight)" points="" stroke="#eab862" stroke-width="1.5"/>
+        <polygon id="objectShadow" points="" fill="#6b7885" fill-opacity=".43"/>
+        <rect x="327.5" y="136.5" width="45" height="45" rx="2" class="opaque-box"/>
+        <text x="350" y="192" text-anchor="middle" class="floor-label">Caixa opaca</text>
         <circle id="sensorNear" cx="350" cy="159" r="7" class="sensor" />
         <circle id="sensorFar" cx="231" cy="159" r="7" class="sensor" />
         <text x="364" y="151" class="sensor-label">S0</text><text x="246" y="151" class="sensor-label">S1</text>
@@ -84,7 +87,7 @@
         <text x="620" y="440" class="floor-label" text-anchor="end">6 × 4 m</text>
       </svg>
       <div class="legend"><span><i class="sample sun"></i> Luz solar direta</span><span><i class="sample shade"></i> Piso sem luz direta</span><span><i class="sample sensor"></i> Receptores</span><span><i class="sample lamp"></i> Lâmpada</span></div>
-      <p class="footnote">A área iluminada decorre da direção solar e da projeção geométrica da janela. As paredes bloqueiam a incidência direta fora dessa área. A iluminação difusa e a lâmpada também contribuem para os valores medidos.</p>
+      <p class="footnote">A área iluminada decorre da direção solar e da projeção geométrica da janela. A caixa opaca intercepta os raios solares e produz uma sombra calculada sobre o piso; as paredes bloqueiam a luz direta fora da abertura. A iluminação difusa e a lâmpada também contribuem para os valores medidos.</p>
     </section>
 
     <section class="card readings">

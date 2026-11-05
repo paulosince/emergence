@@ -3,3 +3,5 @@
 @media(max-width:850px){.panels,.lower{grid-template-columns:1fr}.intro{display:block}.health{display:inline-block;margin-top:14px}}
 @media(max-width:550px){.layout{padding:25px 12px}.card{padding:15px}.header{padding:0 14px}.header nav{gap:9px}.header nav a{font-size:11px}.control-grid select{max-width:100%;width:100%}.control-grid>label{width:100%}.player{flex-wrap:wrap}.player input[type=range]{order:3;flex-basis:100%}.time-labels{padding-left:0}.measurements strong{font-size:19px}.legend{font-size:10px}}
 @media(prefers-color-scheme:dark){:root{background:#101b26;color:#e6f0f8}.header,.card{background:#182a39;border-color:#304352}.intro p:not(.eyebrow),.label-row small,.footnote,.caveat{color:#a9b8c6}.health{background:#203e33;border-color:#34624a;color:#b7e2c3}.control-grid select{background:#223849;color:#e4edf6;border-color:#355369}.measurements>div{border-color:#314557}.lamp-state,.domain-note{background:#223748}.time-labels,.event-list li span:last-child{color:#adbfcb}.event-list li{border-color:#2a4154}.button.neutral{background:#2b485c;color:#d0e6f5}}
+
+.opaque-box{fill:#7d8891;stroke:#4f6577;stroke-width:2}
