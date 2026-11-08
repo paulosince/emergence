@@ -18,6 +18,7 @@ import {EMERGENCE_VERSION} from '../src/research/version.js';
 import {meshModel,firingsFromTrace,propagationAt,activityAt,firingCause,LIFECYCLE}
   from '../src/visualization/mesh-model.js';
 import {timelineModel,preciseClock} from '../src/visualization/timeline-model.js';
+import {domainLayout} from '../src/visualization/domain-layout.js';
 import {manifestDigest,metricsRow,metricsCsv,compareRuns}
   from '../src/research/run-comparison.js';
 
@@ -380,10 +381,18 @@ el('laneChart').addEventListener('click',event=>{
   stop();redraw((x-160)/600*DAY_MS);
 });
 
-// ---------------------------------------------------------------- mesh
+// ---------------------------------------------------------------- domain (3-D)
+// Read-only 3-D projection of the investigated domain. Positions come from
+// domainLayout(): recorded afferent provenance + recorded co-activity. The
+// camera, zoom and focus never touch the run.
 const canvas=el('meshView');
 const ctx=typeof canvas.getContext==='function'?canvas.getContext('2d'):null;
-let view={s:1,x:0,y:0},meshGeometry=null,selection=null,propagation=null;
+const CAMERA0=Object.freeze({yaw:-0.7,pitch:0.62,dist:3.3,tx:0,ty:0,tz:0.45});
+let cam={...CAMERA0},meshGeometry=null,selection=null,propagation=null;
+let layoutCache={key:null,layout:null};
+const CHANNEL_COLORS=Object.freeze({r0:'#f2d27a',r1:'#d9a05b',r2:'#b48ead',
+  r3:'#e06c6c',r4:'#8fbcbb',r5:'#a3be8c'});
+const channelColor=c=>CHANNEL_COLORS[c]??'#8a93a6';
 
 function firings(){
   const trace=result.trace??[];
@@ -405,6 +414,17 @@ function currentMesh(t){
   if(!at)return {model:meshModel(null),capturedAt:null};
   return {model:meshModel(at.snapshot,prev?.snapshot??null),capturedAt:at.t};
 }
+// Layout is recomputed per executed block (not per frame), so positions do
+// not jitter during playback and never use data after the cursor's block.
+function currentLayout(model,capturedAt,t){
+  const key=engineKind+'|'+capturedAt+'|'+Math.floor(t/RUN_STEP_MS)+'|'+(result.trace?.length??0);
+  if(layoutCache.key!==key){
+    layoutCache={key,layout:domainLayout({model,firings:firings(),
+      incidences:result.incidences,transducerNodes:ROOM_NODES,
+      channels:NODE_CHANNEL,timeMs:t})};
+  }
+  return layoutCache.layout;
+}
 function heatColor(a){
   const t=Math.min(1,a);
   const stops=[[58,36,20],[201,121,47],[245,194,107],[255,243,196]];
@@ -419,24 +439,23 @@ const edgeStyles={
   [LIFECYCLE.WEAK]:{c:'#3fb8a9',dash:[2,4],a:.75},
 };
 const lifecycleNames={weak:'nova ou fraca',strong:'forte',consolidated:'consolidada',pruning:'candidata à poda'};
-function meshLayout(w,h,n){
-  const cx=w/2,cy=h/2,R=Math.min(w,h)*.34,pos=[];
-  for(let k=0;k<n;k++){
-    const a=-Math.PI/2+2*Math.PI*k/n;
-    pos.push([cx+R*Math.cos(a),cy+R*Math.sin(a)]);
-  }
-  return pos;
+
+function project3(p,w,h){
+  const x=p.x-cam.tx,y=p.y-cam.ty,z=p.z-cam.tz;
+  const cy=Math.cos(cam.yaw),sy=Math.sin(cam.yaw);
+  const x1=x*cy-y*sy,y1=x*sy+y*cy;
+  const cp=Math.cos(cam.pitch),sp=Math.sin(cam.pitch);
+  const y2=y1*cp-z*sp,z2=y1*sp+z*cp;
+  const depth=cam.dist+y2;
+  const f=Math.min(w,h)*0.95/Math.max(0.15,depth);
+  return {x:w/2+x1*f,y:h/2-z2*f,depth,f};
 }
-function curve(p1,p2,idx){
-  const [x1,y1]=p1,[x2,y2]=p2;
-  const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len;
-  const bend=18+10*idx;
-  return {x1,y1,x2,y2,mx:(x1+x2)/2+nx*bend,my:(y1+y2)/2+ny*bend};
+function lerp3(a,b,u){return {x:a.x+(b.x-a.x)*u,y:a.y+(b.y-a.y)*u,z:a.z+(b.z-a.z)*u};}
+function hexAlpha(hex,a){
+  const n=parseInt(hex.slice(1),16);
+  return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;
 }
-function along(c,f){
-  const u=1-f;
-  return [u*u*c.x1+2*u*f*c.mx+f*f*c.x2,u*u*c.y1+2*u*f*c.my+f*f*c.y2];
-}
+
 function drawMesh(){
   const t=propagation?propagation.t:tMs;
   const {model,capturedAt}=currentMesh(t);
@@ -452,110 +471,157 @@ function drawMesh(){
   setText('unitCount',String(model.constitutedUnits));
   setText('nodeCount',String(model.nodeCount));
   setText('relationCount',String(model.relations.length));
+  const layout=empty?null:currentLayout(model,capturedAt,t);
   setText('meshCaption',empty?(engineKind==='diagnostic'||mode==='recorded'
     ?'motor diagnóstico · sem estrutura relacional':'sem estado registrado')
     :'controle TEMPO · estado capturado em '+clock(capturedAt)+
-      ' · '+model.newCount+' nova(s), '+model.removedCount+' removida(s) no bloco');
+      ' · '+model.newCount+' nova(s), '+model.removedCount+' removida(s) no bloco · '+
+      layout.clusters.length+' agrupamento(s) operacional(is)');
   meshGeometry=null;
-  if(!ctx)return;
+  if(!ctx){if(layout)meshGeometry={layout,model,projNodes:[],projEdges:[],clusters:[]};return;}
   const r=globalThis.devicePixelRatio||1,w=canvas.clientWidth||600,h=canvas.clientHeight||340;
   if(canvas.width!==w*r||canvas.height!==h*r){canvas.width=w*r;canvas.height=h*r;}
   ctx.setTransform(r,0,0,r,0,0);ctx.clearRect(0,0,w,h);
   if(empty)return;
-  ctx.save();
-  ctx.translate(w/2+view.x,h/2+view.y);ctx.scale(view.s,view.s);ctx.translate(-w/2,-h/2);
-  const pos=meshLayout(w,h,model.nodeCount);
+  const P=p=>project3(p,w,h);
+  const zoomedIn=cam.dist<2.4;
+
+  // ground ring (z = 0): transduction channels
+  ctx.strokeStyle='#262c38';ctx.lineWidth=1;ctx.beginPath();
+  for(let k=0;k<=72;k++){const a=2*Math.PI*k/72,q=P({x:Math.cos(a),y:Math.sin(a),z:0});
+    k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}
+  ctx.stroke();
+  for(const level of [1,2]){
+    ctx.strokeStyle='rgba(38,44,56,.45)';ctx.setLineDash([2,6]);ctx.beginPath();
+    for(let k=0;k<=72;k++){const a=2*Math.PI*k/72,q=P({x:.55*Math.cos(a),y:.55*Math.sin(a),z:.9*level});
+      k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}
+    ctx.stroke();ctx.setLineDash([]);
+  }
+  const anchors=layout.anchors.map(a=>({...a,q:P(a)}));
+  // afferent provenance (recorded): anchor -> node
+  const nodeP=layout.nodes.map(n=>({...n,q:P(n)}));
+  for(const n of nodeP)n.profile.forEach((wgt,c)=>{
+    if(wgt<.15)return;
+    const a=anchors[c];
+    ctx.strokeStyle=hexAlpha(channelColor(a.channel),.18+.35*wgt);ctx.setLineDash([3,5]);ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(a.q.x,a.q.y);ctx.lineTo(n.q.x,n.q.y);ctx.stroke();ctx.setLineDash([]);
+  });
+  for(const a of anchors){
+    const s=5;ctx.fillStyle=channelColor(a.channel);
+    ctx.beginPath();ctx.moveTo(a.q.x,a.q.y-s);ctx.lineTo(a.q.x+s,a.q.y);ctx.lineTo(a.q.x,a.q.y+s);ctx.lineTo(a.q.x-s,a.q.y);ctx.fill();
+    ctx.fillStyle='#8a93a6';ctx.font='10px system-ui';
+    ctx.fillText(a.channel+(zoomedIn?' · '+(channelNames[a.channel]??''):''),a.q.x+7,a.q.y+3);
+  }
+  // cluster halos
+  const clusters=layout.clusters.map(cl=>{
+    const q=P(cl.centroid),rad=Math.max(14,cl.radius*q.f);
+    const col=channelColor(cl.dominantChannel);
+    ctx.fillStyle=hexAlpha(col,.07);ctx.strokeStyle=hexAlpha(col,selection?.kind==='cluster'&&selection.id===cl.id?.8:.35);
+    ctx.lineWidth=1;ctx.beginPath();ctx.arc(q.x,q.y,rad,0,Math.PI*2);ctx.fill();ctx.stroke();
+    ctx.fillStyle=hexAlpha(col,.85);ctx.font='600 10px system-ui';
+    ctx.fillText('A'+(cl.id+1),q.x+rad*.72,q.y-rad*.72);
+    return {id:cl.id,x:q.x,y:q.y,r:rad};
+  });
+  // activity glow
   const fs=firings();
   const act=activityAt(fs,model.nodeCount,t,propagation?200:ACTIVITY_WINDOW_MS);
-  // activity glow (TEMPO "activity map")
   ctx.globalCompositeOperation='lighter';
-  act.forEach((a,k)=>{
-    if(a<.02)return;
-    const [x,y]=pos[k],rad=38/Math.sqrt(view.s)*(.6+a);
-    const g=ctx.createRadialGradient(x,y,0,x,y,rad);
+  nodeP.forEach(n=>{
+    const a=act[n.index];if(a<.02)return;
+    const rad=(26+30*a)*n.q.f/300;
+    const g=ctx.createRadialGradient(n.q.x,n.q.y,0,n.q.x,n.q.y,rad);
     g.addColorStop(0,heatColor(a));g.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.globalAlpha=.55;ctx.fillStyle=g;
-    ctx.beginPath();ctx.arc(x,y,rad,0,Math.PI*2);ctx.fill();
+    ctx.globalAlpha=.55;ctx.fillStyle=g;ctx.beginPath();ctx.arc(n.q.x,n.q.y,rad,0,Math.PI*2);ctx.fill();
   });
   ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
-  // relations
-  const groups=new Map(),curves=new Map();
-  for(const rel of model.relations){
-    const k=rel.source+'-'+rel.target;
-    (groups.get(k)||groups.set(k,[]).get(k)).push(rel);
-  }
-  for(const list of groups.values())list.forEach((rel,idx)=>{
-    const c=curve(pos[rel.source],pos[rel.target],idx);curves.set(rel.key,c);
-    const st=edgeStyles[rel.lifecycle];
+  // relations, far to near
+  const edges=model.relations.map(rel=>{
+    const a=layout.nodes[rel.source],b=layout.nodes[rel.target];
+    return {rel,a,b,qa:P(a),qb:P(b)};
+  }).sort((u,v)=>(v.qa.depth+v.qb.depth)-(u.qa.depth+u.qb.depth));
+  const projEdges=[];
+  for(const e of edges){
+    const {rel}=e,st=edgeStyles[rel.lifecycle];
     const selected=selection?.kind==='relation'&&selection.key===rel.key;
-    ctx.strokeStyle=st.c;ctx.globalAlpha=st.a;ctx.setLineDash(st.dash.map(v=>v/view.s));
-    ctx.lineWidth=(1+2.2*Math.min(rel.weight,1.2)/1.2+(selected?1.5:0))/view.s;
-    ctx.beginPath();ctx.moveTo(c.x1,c.y1);ctx.quadraticCurveTo(c.mx,c.my,c.x2,c.y2);ctx.stroke();
-    ctx.setLineDash([]);
-    if(rel.isNew){
-      ctx.strokeStyle='#fff3c4';ctx.lineWidth=1/view.s;ctx.globalAlpha=.9;
-      const [hx,hy]=along(c,.5);
-      ctx.beginPath();ctx.arc(hx,hy,7/view.s,0,Math.PI*2);ctx.stroke();
+    ctx.strokeStyle=st.c;ctx.globalAlpha=st.a;ctx.setLineDash(st.dash);
+    ctx.lineWidth=(1+2.2*Math.min(rel.weight,1.2)/1.2)*(e.qa.f+e.qb.f)/600+(selected?1.5:0);
+    ctx.beginPath();ctx.moveTo(e.qa.x,e.qa.y);ctx.lineTo(e.qb.x,e.qb.y);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=st.c;
+    const fj=rel.delaySourceMs/(rel.delaySourceMs+rel.delayTargetMs);
+    const j=P(lerp3(e.a,e.b,fj));ctx.beginPath();ctx.arc(j.x,j.y,2.4,0,Math.PI*2);ctx.fill();
+    const tip=P(lerp3(e.a,e.b,.86)),ang=Math.atan2(e.qb.y-tip.y,e.qb.x-tip.x),s=7;
+    ctx.beginPath();ctx.moveTo(tip.x+Math.cos(ang)*s,tip.y+Math.sin(ang)*s);
+    ctx.lineTo(tip.x+Math.cos(ang+2.5)*s,tip.y+Math.sin(ang+2.5)*s);
+    ctx.lineTo(tip.x+Math.cos(ang-2.5)*s,tip.y+Math.sin(ang-2.5)*s);ctx.fill();
+    if(rel.isNew){ctx.strokeStyle='#fff3c4';ctx.lineWidth=1;ctx.globalAlpha=.9;
+      const m=P(lerp3(e.a,e.b,.5));ctx.beginPath();ctx.arc(m.x,m.y,7,0,Math.PI*2);ctx.stroke();}
+    ctx.globalAlpha=1;
+    if(zoomedIn||selected){
+      const m=P(lerp3(e.a,e.b,.5));ctx.fillStyle='#d9dde6';ctx.font='10px system-ui';
+      ctx.fillText(num(rel.traversalMs)+' ms',m.x+5,m.y-5);
     }
-    ctx.globalAlpha=st.a;ctx.fillStyle=st.c;
-    const f=rel.delaySourceMs/(rel.delaySourceMs+rel.delayTargetMs);
-    const [jx,jy]=along(c,f);
-    ctx.beginPath();ctx.arc(jx,jy,2.4/view.s,0,Math.PI*2);ctx.fill();
-    const [ax,ay]=along(c,.9),ang=Math.atan2(c.y2-ay,c.x2-ax),s=7/view.s;
-    ctx.beginPath();ctx.moveTo(ax+Math.cos(ang)*s,ay+Math.sin(ang)*s);
-    ctx.lineTo(ax+Math.cos(ang+2.5)*s,ay+Math.sin(ang+2.5)*s);
-    ctx.lineTo(ax+Math.cos(ang-2.5)*s,ay+Math.sin(ang-2.5)*s);ctx.fill();
-    ctx.globalAlpha=1;ctx.fillStyle='#d9dde6';ctx.font=`${10/view.s}px system-ui`;
-    ctx.fillText(num(rel.traversalMs)+' ms',c.mx+4/view.s,c.my-4/view.s);
-  });
-  // propagation particles from recorded firings and recorded latencies only
+    projEdges.push({key:rel.key,x1:e.qa.x,y1:e.qa.y,x2:e.qb.x,y2:e.qb.y});
+  }
+  // propagation: recorded firing time + recorded traversal time only
   if(propagation){
     for(const p of propagationAt(propagation.firings,model.relations,t)){
-      const c=curves.get(p.key);if(!c)continue;
-      const [px,py]=along(c,p.fraction);
+      const rel=model.relations.find(x=>x.key===p.key);if(!rel)continue;
+      const q=P(lerp3(layout.nodes[rel.source],layout.nodes[rel.target],p.fraction));
       ctx.fillStyle='#fff3c4';ctx.shadowColor='#f5c26b';ctx.shadowBlur=10;
-      ctx.beginPath();ctx.arc(px,py,4/view.s,0,Math.PI*2);ctx.fill();
-      ctx.shadowBlur=0;
+      ctx.beginPath();ctx.arc(q.x,q.y,4,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;
     }
   }
-  // nodes
-  pos.forEach(([x,y],k)=>{
-    const a=act[k],selected=selection?.kind==='node'&&selection.index===k;
+  // nodes, far to near
+  const projNodes=[];
+  [...nodeP].sort((u,v)=>v.q.depth-u.q.depth).forEach(n=>{
+    const a=act[n.index],selected=selection?.kind==='node'&&selection.index===n.index;
+    const rad=Math.max(3,(selected?10:7.5)*n.q.f/300);
     ctx.fillStyle=a>.15?heatColor(a):'#5c6578';
-    ctx.beginPath();ctx.arc(x,y,(selected?10:8)/view.s,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#d9dde6';ctx.font=`600 ${11/view.s}px system-ui`;
-    ctx.fillText(NODE_CHANNEL[k]??String(k),x+11/view.s,y-9/view.s);
+    ctx.strokeStyle=channelColor(n.dominantChannel);ctx.lineWidth=n.dominantChannel?2:0;
+    ctx.beginPath();ctx.arc(n.q.x,n.q.y,rad,0,Math.PI*2);ctx.fill();if(n.dominantChannel)ctx.stroke();
+    ctx.fillStyle='#d9dde6';ctx.font='600 11px system-ui';
+    ctx.fillText(NODE_CHANNEL[n.index]??String(n.index),n.q.x+rad+3,n.q.y-rad);
+    projNodes.push({index:n.index,x:n.q.x,y:n.q.y,r:rad});
   });
-  ctx.restore();
-  meshGeometry={pos,curves,model,w,h};
+  meshGeometry={layout,model,projNodes,projEdges,clusters};
 }
-function toWorld(px,py){
-  const {w,h}=meshGeometry;
-  return [(px-w/2-view.x)/view.s+w/2,(py-h/2-view.y)/view.s+h/2];
+
+function segDist(px,py,e){
+  const dx=e.x2-e.x1,dy=e.y2-e.y1,l2=dx*dx+dy*dy||1;
+  const u=Math.max(0,Math.min(1,((px-e.x1)*dx+(py-e.y1)*dy)/l2));
+  return Math.hypot(px-(e.x1+u*dx),py-(e.y1+u*dy));
 }
-function inspectAt(px,py){
-  if(!meshGeometry)return;
-  const [x,y]=toWorld(px,py),{pos,curves,model}=meshGeometry;
-  const tol=10/view.s;
-  const k=pos.findIndex(([nx,ny])=>Math.hypot(nx-x,ny-y)<tol+4/view.s);
-  if(k>=0){selection={kind:'node',index:k};}
-  else{
-    selection=null;
-    for(const rel of model.relations){
-      const c=curves.get(rel.key);if(!c)continue;
-      for(let f=0;f<=1;f+=.04){const [cx,cy]=along(c,f);
-        if(Math.hypot(cx-x,cy-y)<tol){selection={kind:'relation',key:rel.key};break;}}
-      if(selection)break;
-    }
-  }
-  describeSelection();drawMesh();
+function hitTest(px,py){
+  if(!meshGeometry)return null;
+  const node=meshGeometry.projNodes.find(n=>Math.hypot(n.x-px,n.y-py)<n.r+5);
+  if(node)return {kind:'node',index:node.index};
+  const edge=meshGeometry.projEdges.find(e=>segDist(px,py,e)<6);
+  if(edge)return {kind:'relation',key:edge.key};
+  const cl=meshGeometry.clusters.find(c=>Math.hypot(c.x-px,c.y-py)<c.r);
+  if(cl)return {kind:'cluster',id:cl.id};
+  return null;
+}
+function inspectAt(px,py){selection=hitTest(px,py);describeSelection();drawMesh();}
+function focusAt(px,py){
+  const hit=hitTest(px,py);if(!hit||!meshGeometry)return;
+  const L=meshGeometry.layout;
+  const target=hit.kind==='node'?L.nodes[hit.index]:hit.kind==='cluster'?L.clusters[hit.id].centroid:null;
+  if(!target)return;
+  selection=hit;describeSelection();
+  const from={...cam},to={...cam,tx:target.x,ty:target.y,tz:target.z,dist:Math.min(cam.dist,1.7)};
+  let k=0;const steps=18;
+  const timer=setInterval(()=>{k++;const u=k/steps,s=u*u*(3-2*u);
+    for(const key of ['tx','ty','tz','dist'])cam[key]=from[key]+(to[key]-from[key])*s;
+    drawMesh();if(k>=steps)clearInterval(timer);},16);
 }
 function describeSelection(){
   const box=el('meshInspect');
-  if(!selection||!meshGeometry){box.textContent='Toque em um nó ou relação para inspecionar o que o motor registrou.';return;}
-  const {model}=meshGeometry;
+  if(!selection||!meshGeometry){box.textContent='Toque em um nó, relação ou agrupamento para inspecionar o que o motor registrou. Duplo toque aproxima.';return;}
+  const {model,layout}=meshGeometry;
+  const provenance=p=>p.map((v,c)=>[NODE_CHANNEL[c],v]).filter(([,v])=>v>.05)
+    .map(([c,v])=>c+' '+Math.round(100*v*v/p.reduce((s,x)=>s+x*x,0))+'%').join(', ')||'nenhuma registrada';
   if(selection.kind==='node'){
-    const k=selection.index,channel=NODE_CHANNEL[k];
+    const k=selection.index,channel=NODE_CHANNEL[k],L=layout.nodes[k];
     const fs=firings().filter(f=>f.node===k&&f.timeMs<=tMs);
     const lastFire=fs[fs.length-1];
     const inc=model.relations.filter(r=>r.target===k).length;
@@ -567,29 +633,42 @@ function describeSelection(){
         ?'forçado pela incidência '+c.incidenceId+' ('+c.transducerId+')'
         :'chegada interna por relação — o motor não registra qual relação';
     }
-    box.textContent='Nó '+k+' · predefinido para '+channel+' ('+(channelNames[channel]??'')+')\n'+
+    box.textContent='Nó '+k+' · predefinido para '+channel+' ('+(channelNames[channel]??'')+') · nível '+L.level+
+      (L.cluster>=0?' · agrupamento A'+(L.cluster+1):'')+'\n'+
       'Disparos até '+clock(tMs)+': '+fs.length+(lastFire?' · último em '+preciseClock(lastFire.timeMs):'')+'\n'+
       'Causa do último disparo: '+cause+'\n'+
+      'Proveniência aferente registrada: '+provenance(L.profile)+'\n'+
       'Relações: '+inc+' de entrada, '+out+' de saída. Não é unidade constituída.';
-  }else{
+  }else if(selection.kind==='relation'){
     const rel=model.relations.find(r=>r.key===selection.key);
     if(!rel){selection=null;describeSelection();return;}
     box.textContent='Relação '+NODE_CHANNEL[rel.source]+' → '+NODE_CHANNEL[rel.target]+' · '+lifecycleNames[rel.lifecycle]+(rel.isNew?' · surgiu neste bloco':'')+'\n'+
       'Peso '+rel.weight.toFixed(3)+' · percorrimento '+rel.traversalMs.toFixed(2)+' ms ('+
       rel.delaySourceMs.toFixed(2)+' + '+rel.delayTargetMs.toFixed(2)+' ms)\n'+
       'Valores do estado capturado ao fim do bloco ≤ cursor.';
+  }else{
+    const cl=layout.clusters[selection.id];
+    if(!cl){selection=null;describeSelection();return;}
+    box.textContent='Agrupamento operacional A'+(cl.id+1)+' · '+cl.members.length+' nó(s): '+
+      cl.members.map(m=>NODE_CHANNEL[m]).join(', ')+'\n'+
+      'Canal aferente dominante: '+(cl.dominantChannel?cl.dominantChannel+' ('+(channelNames[cl.dominantChannel]??'')+')':'—')+'\n'+
+      'Critério: distância operacional < '+layout.clusterThreshold+' (proveniência aferente + coatividade registradas). Não é categoria nem representação.';
   }
 }
-function zoom(f){view.s=Math.min(6,Math.max(.5,view.s*f));drawMesh();}
-el('meshIn').addEventListener('click',()=>zoom(1.3));
-el('meshOut').addEventListener('click',()=>zoom(1/1.3));
-el('meshFit').addEventListener('click',()=>{view={s:1,x:0,y:0};drawMesh();});
-canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY<0?1.12:1/1.12);},{passive:false});
+function zoom(f){cam.dist=Math.min(8,Math.max(.6,cam.dist/f));drawMesh();}
+el('meshIn').addEventListener('click',()=>zoom(1.25));
+el('meshOut').addEventListener('click',()=>zoom(1/1.25));
+el('meshFit').addEventListener('click',()=>{cam={...CAMERA0};selection=null;describeSelection();drawMesh();});
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY<0?1.1:1/1.1);},{passive:false});
+canvas.addEventListener('dblclick',e=>{
+  if(typeof canvas.getBoundingClientRect!=='function')return;
+  const b=canvas.getBoundingClientRect();focusAt(e.clientX-b.left,e.clientY-b.top);
+});
 {
-  const touches=new Map();let pinch0=null,drag0=null,moved=false;
+  const touches=new Map();let pinch0=null,last=null,moved=false,panMode=false,lastTap=0;
   canvas.addEventListener('pointerdown',e=>{
     canvas.setPointerCapture?.(e.pointerId);touches.set(e.pointerId,[e.clientX,e.clientY]);
-    moved=false;if(touches.size===1)drag0=[e.clientX-view.x,e.clientY-view.y,e.clientX,e.clientY];
+    moved=false;panMode=e.shiftKey||e.button===2;last=[e.clientX,e.clientY];
   });
   canvas.addEventListener('pointermove',e=>{
     if(!touches.has(e.pointerId))return;
@@ -597,18 +676,31 @@ canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY<0?1.12:1/1.
     const pts=[...touches.values()];
     if(pts.length===2){
       const dist=Math.hypot(pts[0][0]-pts[1][0],pts[0][1]-pts[1][1]);
-      if(pinch0)zoom(dist/pinch0);pinch0=dist;moved=true;
-    }else if(drag0&&Math.hypot(e.clientX-drag0[2],e.clientY-drag0[3])>4){
-      moved=true;view.x=e.clientX-drag0[0];view.y=e.clientY-drag0[1];drawMesh();
+      if(pinch0)zoom(dist/pinch0);pinch0=dist;moved=true;return;
     }
+    if(!last)return;
+    const dx=e.clientX-last[0],dy=e.clientY-last[1];
+    if(!moved&&Math.hypot(dx,dy)<4)return;
+    moved=true;last=[e.clientX,e.clientY];
+    if(panMode){
+      const s=cam.dist/400,cy=Math.cos(cam.yaw),sy=Math.sin(cam.yaw);
+      cam.tx-=(dx*cy)*s;cam.ty-=(-dx*sy)*s;cam.tz+=dy*s;
+    }else{
+      cam.yaw+=dx*0.01;cam.pitch=Math.max(0.05,Math.min(1.5,cam.pitch+dy*0.008));
+    }
+    drawMesh();
   });
   const end=e=>{
     if(touches.size===1&&!moved&&typeof canvas.getBoundingClientRect==='function'){
-      const b=canvas.getBoundingClientRect();inspectAt(e.clientX-b.left,e.clientY-b.top);
+      const b=canvas.getBoundingClientRect(),x=e.clientX-b.left,y=e.clientY-b.top;
+      const now=Date.now();
+      if(e.pointerType==='touch'&&now-lastTap<300)focusAt(x,y);else inspectAt(x,y);
+      lastTap=now;
     }
-    touches.delete(e.pointerId);if(touches.size<2)pinch0=null;if(!touches.size)drag0=null;
+    touches.delete(e.pointerId);if(touches.size<2)pinch0=null;if(!touches.size)last=null;
   };
   canvas.addEventListener('pointerup',end);canvas.addEventListener('pointercancel',end);
+  canvas.addEventListener('contextmenu',e=>e.preventDefault?.());
 }
 // Slow-motion view of ONE recorded firing: the clock below the mesh shows
 // simulated milliseconds; particle positions come from the recorded firing

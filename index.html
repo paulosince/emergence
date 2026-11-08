@@ -146,21 +146,30 @@
           <div><strong id="roomDelivered">0</strong><small>Incidências</small></div>
         </div>
         <div class="mesh-wrap">
-          <canvas id="meshView" aria-label="Malha do domínio investigado: nós e relações registrados pelo motor"></canvas>
+          <canvas id="meshView" aria-label="Domínio investigado em 3-D: canais aferentes, nós, relações e agrupamentos operacionais registrados pelo motor"></canvas>
           <div class="mesh-empty" id="meshEmpty" role="status">Não exibimos uma malha que não existe. O motor diagnóstico não constitui unidades nem relações; ele apenas registra as incidências que recebe.</div>
         </div>
         <div class="scale"><span>atividade recente</span><span class="grad"></span><span>baixa → alta</span></div>
         <div class="row" style="margin-top:8px">
           <button type="button" id="meshIn" aria-label="Aproximar">+</button><button type="button" id="meshOut" aria-label="Afastar">−</button><button type="button" id="meshFit">enquadrar</button>
           <button type="button" id="meshPropagate">ver propagação do último disparo</button>
+          <span class="stats">arraste: girar · shift+arraste: mover · roda/pinça: zoom · duplo clique: aproximar</span>
           <span class="stats" id="meshClock"></span>
         </div>
         <div class="inspect" id="meshInspect" aria-live="polite">Toque em um nó ou relação para inspecionar o que o motor registrou.</div>
         <details class="legend">
           <summary>Legenda</summary>
+          <div class="leghead">Espaço 3-D</div>
+          <div class="leg">
+            <span>◆</span><span>canal aferente (transdutor) no anel da base, z = 0; cor própria por canal</span>
+            <span>altura</span><span>nível: 1 = nó de primeira ordem; níveis acima só quando o motor registrar unidades cujas entradas incluem outras unidades</span>
+            <span class="sw" style="border-color:#8a93a6;border-top-style:dashed"></span><span>proveniência aferente registrada: de quais canais vieram as incidências que dispararam o nó (direto ou por uma relação)</span>
+            <span>proximidade</span><span><b>operacional</b>: proveniência aferente + coatividade registradas. Não é semântica atribuída pelo observador</span>
+            <span class="halo" style="border-color:#8fbcbb"></span><span>agrupamento operacional (A1, A2…), cor do canal dominante — não é categoria nem representação</span>
+          </div>
           <div class="leghead">Nós</div>
           <div class="leg">
-            <span class="dot" style="background:#5c6578"></span><span>nó <b>predefinido</b> pelo controle (um por transdutor) — não é unidade constituída</span>
+            <span class="dot" style="background:#5c6578;box-shadow:0 0 0 2px #8fbcbb"></span><span>nó <b>predefinido</b> pelo controle (um por transdutor) — não é unidade constituída; contorno = canal aferente dominante</span>
             <span class="dot" style="background:#f5c26b;box-shadow:0 0 8px #f5c26b"></span><span>nó que disparou recentemente — mais claro = mais disparos na janela</span>
           </div>
           <div class="leghead">Relações (regras de classificação do TEMPO)</div>
