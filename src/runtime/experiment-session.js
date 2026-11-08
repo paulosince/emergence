@@ -98,6 +98,13 @@ export class ExperimentSession {
       throw new RangeError('Invalid incidence index');
     return clone(this.#incidences.slice(start));
   }
+  traceFrom(start=0){
+    if(!Number.isInteger(start)||start<0)
+      throw new RangeError('Invalid trace index');
+    return clone(this.#trace.slice(start));
+  }
+  // Engine snapshot() is a read-only contract method; copied for observers.
+  engineSnapshot(){return clone(this.#engine.snapshot());}
 
   #collectEngineEvents(){
     const events=this.#engine.drainEvents();

@@ -2,72 +2,113 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <meta name="color-scheme" content="light dark"/>
-  <meta name="description" content="EMERGENCE Sala Experimental: um mundo que se transforma independentemente do sistema investigado."/>
-  <title>EMERGENCE · Sala Experimental</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="color-scheme" content="dark"/>
+  <meta name="description" content="EMERGENCE: laboratório de constituição autônoma de relações temporotopológicas. Sala experimental, execução real do motor, observação, análise e auditoria."/>
+  <title>EMERGENCE · Laboratório</title>
   <link rel="stylesheet" href="./app/room.css"/>
   <script type="module" src="./app/room.js"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand"><span class="brand-symbol" aria-hidden="true">◉</span>
-      <div><strong>EMERGENCE</strong><small>Laboratório de constituição · Instrumentação</small></div>
+<header class="brand-bar">
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 64 32" aria-hidden="true">
+      <defs><linearGradient id="emg" x1="0" x2="1"><stop offset="0" stop-color="#c9792f"/><stop offset="1" stop-color="#fff3c4"/></linearGradient></defs>
+      <path d="M8 22 Q24 4 40 14 T58 10" fill="none" stroke="url(#emg)" stroke-width="2.4" stroke-linecap="round"/>
+      <circle cx="8" cy="22" r="4.6" fill="#f5c26b"/>
+      <circle cx="40" cy="14" r="3.4" fill="#0d0f14" stroke="#f5c26b" stroke-width="1.4"/>
+      <circle cx="58" cy="10" r="4.6" fill="#fff3c4"/>
+    </svg>
+    <div>
+      <div class="word">EMERGENCE</div>
+      <div class="expand">laboratório de <b>constituição autônoma</b> de relações <b>temporotopológicas</b></div>
     </div>
-    <nav aria-label="Navegação"><a class="active" aria-current="page" href="./">Sala Experimental</a><a href="./body.html">Controle corporal 1D</a><a href="./docs/roadmap.md">Roteiro</a><a href="https://github.com/paulosince/emergence" target="_blank" rel="noopener">GitHub</a></nav>
-  </header>
-  <main>
-    <section class="hero">
-      <div><p class="eyebrow">Cenário naturalístico · versão física 0.1</p>
-        <h1>O mundo não espera o observador.</h1>
-        <p>Uma sala, uma porta, uma janela e processos ambientais independentes. A luz entra conforme a posição do Sol; a sombra acompanha sua direção; a lâmpada responde à luminosidade externa.</p>
-      </div>
-      <div class="live-status"><span class="dot"></span><span id="roomStatus">Inicializando o mundo…</span></div>
-    </section>
-    <section class="card config-card">
-      <div class="section-title"><h2>Preparar o mundo</h2><small>Alterações recomputam o cenário, preservando a mesma definição física.</small></div>
-      <div class="settings">
-        <label class="input-label">Dia do experimento
+  </div>
+  <nav aria-label="Navegação"><a class="active" aria-current="page" href="./">Laboratório</a><a href="./body.html">Corpo 1D</a><a href="./room.html">Planta da sala</a><a href="./docs/roadmap.md">Roteiro</a><a href="https://github.com/paulosince/temporotopological-relations" target="_blank" rel="noopener">TEMPO</a><a href="https://github.com/paulosince/emergence" target="_blank" rel="noopener">Código</a></nav>
+</header>
+<main>
+  <div class="tabs" role="tablist" aria-label="Fluxo científico">
+    <button type="button" role="tab" id="tabPrepare" aria-controls="panelPrepare" aria-selected="false">1 · Preparar</button>
+    <button type="button" role="tab" id="tabObserve" aria-controls="panelObserve" aria-selected="true">2 · Observar</button>
+    <button type="button" role="tab" id="tabAnalyze" aria-controls="panelAnalyze" aria-selected="false">3 · Analisar</button>
+    <button type="button" role="tab" id="tabAudit" aria-controls="panelAudit" aria-selected="false">4 · Auditoria</button>
+  </div>
+
+  <section class="card run-bar" aria-label="Execução real do motor">
+    <div class="row">
+      <button class="primary" type="button" id="roomRun">Executar motor</button>
+      <button type="button" id="roomRunAll">Executar até o fim</button>
+      <span id="roomMode" class="mode-badge" data-mode="prepared" role="status" aria-live="polite">PREPARADO · o motor ainda não processou nenhum evento</span>
+      <span class="stats" id="roomStatus">Inicializando o mundo…</span>
+    </div>
+  </section>
+
+  <!-- ===================== PREPARAR ===================== -->
+  <section id="panelPrepare" role="tabpanel" aria-labelledby="tabPrepare" hidden>
+    <div class="card">
+      <h2>Cenário e instrumentos</h2>
+      <p class="hint">Alterar qualquer campo desta seção prepara uma nova execução; nada é executado até você pressionar <b>Executar motor</b>.</p>
+      <div class="row settings">
+        <label>Dia do experimento
           <select id="roomDate"><option value="2026-06-21">21 jun 2026 · inverno em Guarulhos</option><option value="2026-09-22">22 set 2026 · equinócio</option><option value="2026-12-21">21 dez 2026 · verão em Guarulhos</option></select>
         </label>
-        <label class="input-label">Céu / temperatura externa
+        <label>Céu / temperatura externa
           <select id="roomWeather"><option value="clear">Céu aberto · condições sintéticas</option><option value="overcast">Encoberto · condições sintéticas</option></select>
         </label>
-        <label class="check"><input id="roomObstacle" type="checkbox" checked/> Objeto opaco e sua sombra</label>
-        <fieldset><legend>Transdutores disponíveis</legend>
-          <label><input data-room-modality type="checkbox" value="optical" checked/> Ópticos</label>
-          <label><input data-room-modality type="checkbox" value="thermal" checked/> Térmicos</label>
-          <label><input data-room-modality type="checkbox" value="electrical" checked/> Elétricos</label>
+        <label class="check"><span><input id="roomObstacle" type="checkbox" checked/> Objeto opaco e sua sombra</span></label>
+        <fieldset><legend>Transdutores</legend>
+          <label class="check"><span><input data-room-modality type="checkbox" value="optical" checked/> Ópticos</span></label>
+          <label class="check"><span><input data-room-modality type="checkbox" value="thermal" checked/> Térmicos</span></label>
+          <label class="check"><span><input data-room-modality type="checkbox" value="electrical" checked/> Elétricos</span></label>
         </fieldset>
-        <button class="button secondary" type="button" id="exportRoom">Exportar ZIP científico</button>
       </div>
-      <p class="annotation">Clima sintético, não previsão ou medição real. Posição solar aproximada; geometria, sombreamento e balanço térmico são calculados. Sons, chuva e vento ainda não foram implementados.</p>
-      <div class="replication-panel" aria-label="Persistência e replicação científica">
-        <div class="section-title"><h2>Histórico científico</h2><small>Salvamento local · histórico real · retomada verificável</small></div>
-        <div class="replication-actions">
-          <button type="button" id="roomSave" class="button">Salvar execução</button>
-          <label class="input-label" for="roomRecordList">Execuções deste navegador
-            <select id="roomRecordList"><option value="">Nenhuma selecionada</option></select>
-          </label>
-          <button type="button" id="roomLoad" class="button secondary">Abrir registro</button>
-          <button type="button" id="roomVerify" class="button secondary">Reexecutar e comparar</button>
-          <button type="button" id="roomResume" class="button secondary">Retomar checkpoint</button>
-          <button type="button" id="roomImport" class="button secondary">Importar ZIP</button>
-          <input type="file" id="roomImportFile" accept=".zip,application/zip" hidden aria-label="Selecionar pacote científico ZIP"/>
-        </div>
-        <p class="replication-status" id="roomArchiveStatus" role="status" aria-live="polite">O ambiente continua calculado localmente. Você pode exportar sem usar a nuvem.</p>
-        <p class="annotation">Reprodução de registro = exibição do histórico gravado. Reexecução = novo cálculo físico e confronto integral. O checkpoint preserva fila de eventos, sensores, estados aleatórios e motor diagnóstico; não representa aprendizagem autônoma.</p>
+      <p class="hint">Clima sintético, não previsão ou medição real. Posição solar aproximada; geometria, sombreamento e balanço térmico são calculados. Sons, chuva e vento ainda não foram implementados.</p>
+    </div>
+    <div class="card">
+      <h2>Motor, semente, horizonte e interrupção</h2>
+      <div class="row settings">
+        <label>Motor investigado
+          <select id="roomEngine">
+            <option value="diagnostic">Diagnóstico — sem aprendizagem; registra incidências</option>
+            <option value="tempo-fixed">Controle TEMPO — nós predefinidos; relações plásticas</option>
+          </select>
+        </label>
+        <label>Semente<input id="roomSeed" type="number" min="0" max="4294967295" step="1" value="42"/></label>
+        <label>Horizonte simulado
+          <select id="roomHorizon"><option value="6">6 h</option><option value="12">12 h</option><option value="24" selected>24 h</option></select>
+        </label>
+        <label>Interromper após (eventos)<input id="roomMaxEvents" type="number" min="1" step="1" value="100000"/></label>
       </div>
-    </section>
-    <div class="primary-grid">
-      <section class="card scene-card">
-        <div class="section-title"><h2>Mundo físico</h2><small>Visão do pesquisador · esquema geométrico, não imagem fotorrealista</small></div>
+      <p class="hint" id="roomEngineNote">O motor diagnóstico não constitui unidades nem relações.</p>
+    </div>
+    <div class="card">
+      <h2>Hipótese e comparador</h2>
+      <p class="hint">Somente pesquisador. Estes campos ficam no registro da execução e <b>nunca</b> são entregues ao motor.</p>
+      <div class="row settings">
+        <label class="wide">Hipótese desta execução<textarea id="roomHypothesis" rows="2" placeholder="Ex.: sem transdutores térmicos, o controle TEMPO não forma relações envolvendo r3/r4."></textarea></label>
+        <label>Comparar com
+          <select id="roomComparator"><option value="">Nenhuma execução anterior</option></select>
+        </label>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Manifesto da execução preparada</h2>
+      <p class="hint">Versão científica <b id="roomVersion">—</b> · revisão do código: <b id="roomRevision">não registrada na versão web</b>. O manifesto é o que o executor realmente recebeu.</p>
+      <pre class="manifest" id="roomManifest">—</pre>
+    </div>
+  </section>
+
+  <!-- ===================== OBSERVAR ===================== -->
+  <section id="panelObserve" role="tabpanel" aria-labelledby="tabObserve">
+    <div class="grid two">
+      <section class="card">
+        <div class="head"><h2>Mundo físico</h2><small>somente pesquisador · esquema geométrico</small></div>
         <div class="scene-stage">
           <svg id="roomScene" viewBox="0 0 720 460" role="img" aria-label="Sala experimental tridimensional esquemática com janela, porta, objeto, luz, sombra e luminária">
             <defs>
               <radialGradient id="lampAura"><stop stop-color="#ffe2a1" stop-opacity=".9"/><stop offset="1" stop-color="#ffe2a1" stop-opacity="0"/></radialGradient>
             </defs>
-            <rect id="skyBackdrop" x="0" y="0" width="720" height="460" rx="14" fill="#edf3f8"/>
+            <rect id="skyBackdrop" x="0" y="0" width="720" height="460" rx="14" fill="#25394e"/>
             <path id="wallNorth" class="north-wall"/>
             <path id="wallWest" class="west-wall"/>
             <path id="floorSurface" class="room-floor"/>
@@ -83,64 +124,144 @@
             <text x="20" y="36" class="scene-caption">NORTE · JANELA</text>
             <text x="20" y="434" class="scene-caption">DESENHO DERIVADO DO MODELO FÍSICO</text>
           </svg>
-          <div class="scene-overlay">
-            <span id="phaseLabel" class="phase-label">—</span>
-            <strong id="roomClock">00:00</strong>
-          </div>
+          <div class="scene-overlay"><span id="phaseLabel" class="phase-label">—</span><strong id="roomClock">00:00</strong></div>
         </div>
-        <div class="scene-legend"><span><i class="swatch sunlight"></i> Luz direta na superfície</span><span><i class="swatch shadow"></i> Sombra do objeto</span><span><i class="swatch lamp"></i> Lâmpada</span></div>
-      </section>
-      <section class="card measures-card">
-        <div class="section-title"><h2>Processos do ambiente</h2><small>Grandezas físicas, separadas das incidências</small></div>
         <div class="measure-grid">
-          <div><small>Elevação solar</small><strong id="sunElevation">—</strong><span>Geometria astronômica</span></div>
-          <div><small>Radiação externa</small><strong id="outdoorLight">—</strong><span>W/m² · modelo óptico</span></div>
-          <div><small>Luz no piso amostrado</small><strong id="floorLight">—</strong><span>W/m² · geometria e sombra</span></div>
-          <div><small>Lâmpada</small><strong id="lampState">—</strong><span>Fotocélula externa</span></div>
-          <div><small>Temperatura externa</small><strong id="outdoorTemp">—</strong><span>Condição meteorológica</span></div>
-          <div><small>Temperatura interna</small><strong id="indoorTemp">—</strong><span>Troca térmica da sala</span></div>
+          <div><small>Elevação solar</small><strong id="sunElevation">—</strong></div>
+          <div><small>Radiação externa</small><strong id="outdoorLight">—</strong></div>
+          <div><small>Luz no piso amostrado</small><strong id="floorLight">—</strong></div>
+          <div><small>Lâmpada</small><strong id="lampState">—</strong></div>
+          <div><small>Temperatura externa</small><strong id="outdoorTemp">—</strong></div>
+          <div><small>Temperatura interna</small><strong id="indoorTemp">—</strong></div>
         </div>
-        <p class="explainer" id="roomExplanation">—</p>
-        <p class="technical">Local de referência: Guarulhos, SP (23,45° S; 46,52° O). Janela orientada ao norte. A lâmpada possui controle por limiar de iluminação externo, sem acesso ao sistema investigado.</p>
+        <p class="hint" id="roomExplanation">—</p>
+      </section>
+
+      <section class="card">
+        <div class="head"><h2>Domínio investigado</h2><small id="meshCaption">—</small></div>
+        <div class="counters">
+          <div><strong id="unitCount">0</strong><small>Unidades constituídas</small></div>
+          <div><strong id="nodeCount">0</strong><small>Nós predefinidos</small></div>
+          <div><strong id="relationCount">0</strong><small>Relações</small></div>
+          <div><strong id="roomDelivered">0</strong><small>Incidências</small></div>
+        </div>
+        <div class="mesh-wrap">
+          <canvas id="meshView" aria-label="Malha do domínio investigado: nós e relações registrados pelo motor"></canvas>
+          <div class="mesh-empty" id="meshEmpty" role="status">Não exibimos uma malha que não existe. O motor diagnóstico não constitui unidades nem relações; ele apenas registra as incidências que recebe.</div>
+        </div>
+        <div class="scale"><span>atividade recente</span><span class="grad"></span><span>baixa → alta</span></div>
+        <div class="row" style="margin-top:8px">
+          <button type="button" id="meshIn" aria-label="Aproximar">+</button><button type="button" id="meshOut" aria-label="Afastar">−</button><button type="button" id="meshFit">enquadrar</button>
+          <button type="button" id="meshPropagate">ver propagação do último disparo</button>
+          <span class="stats" id="meshClock"></span>
+        </div>
+        <div class="inspect" id="meshInspect" aria-live="polite">Toque em um nó ou relação para inspecionar o que o motor registrou.</div>
+        <details class="legend">
+          <summary>Legenda</summary>
+          <div class="leghead">Nós</div>
+          <div class="leg">
+            <span class="dot" style="background:#5c6578"></span><span>nó <b>predefinido</b> pelo controle (um por transdutor) — não é unidade constituída</span>
+            <span class="dot" style="background:#f5c26b;box-shadow:0 0 8px #f5c26b"></span><span>nó que disparou recentemente — mais claro = mais disparos na janela</span>
+          </div>
+          <div class="leghead">Relações (regras de classificação do TEMPO)</div>
+          <div class="leg">
+            <span class="sw" style="border-color:var(--teal);border-top-style:dotted"></span><span>nova ou fraca — não dispara o alvo sozinha</span>
+            <span class="sw" style="border-color:var(--blue)"></span><span>forte — pode disparar o alvo sozinha</span>
+            <span class="sw" style="border-color:var(--orange)"></span><span>consolidada — forte e resistente a mudanças</span>
+            <span class="sw" style="border-color:var(--terra);border-top-style:dashed"></span><span>candidata à poda</span>
+            <span class="halo"></span><span>surgiu no último bloco executado</span>
+            <span>espessura</span><span>proporcional ao peso</span>
+            <span>▸</span><span>direção (origem → alvo)</span>
+            <span>•</span><span>junção entre os dois segmentos de latência</span>
+            <span>96,9 ms</span><span>tempo de percorrimento registrado</span>
+            <span class="pdot"></span><span>propagação: posição calculada só a partir do disparo registrado e da latência registrada</span>
+          </div>
+        </details>
       </section>
     </div>
-    <section class="card timeline-card">
-      <div class="section-title"><h2>Uma história física de 24 horas</h2><small>Executar processa eventos no motor; reproduzir apenas revê o que já foi executado.</small></div>
-      <div class="execution-controls" role="group" aria-label="Execução real do motor">
-        <button class="button" type="button" id="roomRun">Executar motor</button>
-        <button class="button secondary" type="button" id="roomRunAll">Executar até o fim</button>
-        <span id="roomMode" class="mode-badge" data-mode="prepared" role="status" aria-live="polite">PREPARADO · o motor ainda não processou nenhum evento</span>
-      </div>
-      <div class="timeline-top" role="group" aria-label="Reprodução do histórico executado">
-        <button class="button secondary" type="button" id="roomPlay">Reproduzir histórico</button>
-        <button class="button secondary" type="button" id="roomStep">+ 30 min</button>
+
+    <section class="card">
+      <div class="head"><h2>Linha temporal única</h2><small>Executar processa eventos no motor; reproduzir apenas revê o que já foi executado.</small></div>
+      <div class="row timeline-top" role="group" aria-label="Reprodução do histórico executado">
+        <button type="button" id="roomPlay">Reproduzir histórico</button>
+        <button type="button" id="roomStep">+ 30 min</button>
         <input type="range" id="roomTimeline" aria-label="Tempo simulado" min="0" max="86399999" step="60000" value="0"/>
         <output id="roomTimeOutput" for="roomTimeline">00:00</output>
       </div>
+      <svg id="laneChart" class="lanes" viewBox="0 0 760 140" preserveAspectRatio="none" role="img" aria-label="Eventos do mundo, amostras, entregas e eventos do motor no mesmo eixo de tempo"></svg>
       <div class="tick-labels"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
-      <div class="curve-head"><span>Radiação no piso (W/m²)</span><small>Mundo físico · visão do pesquisador · curva analítica do dia inteiro, não dados do motor</small></div>
-      <svg id="roomChart" viewBox="0 0 620 155" preserveAspectRatio="none" aria-label="Gráfico da radiação física no piso ao longo do dia">
-        <path d="M0 145 H620" stroke="currentColor" opacity=".15"/>
-        <polyline id="daylightCurve" points="" fill="none" stroke="#cd9b53" stroke-width="2.5" stroke-linejoin="round"/>
-        <line id="chartCursor" x1="0" x2="0" y1="0" y2="155" stroke="#487ea6" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <div class="head sub"><span>Radiação no piso (W/m²)</span><small>Mundo físico · visão do pesquisador · curva analítica do dia inteiro, não dados do motor</small></div>
+      <svg id="roomChart" viewBox="0 0 760 155" preserveAspectRatio="none" aria-label="Gráfico da radiação física no piso ao longo do dia">
+        <path d="M160 145 H760" stroke="currentColor" opacity=".25"/>
+        <polyline id="daylightCurve" points="" fill="none" stroke="#f5c26b" stroke-width="2" stroke-linejoin="round"/>
+        <line id="chartCursor" x1="0" x2="0" y1="0" y2="155" stroke="#5b8def" stroke-width="1.5" stroke-dasharray="4 4"/>
       </svg>
     </section>
-    <div class="secondary-grid">
+
+    <div class="grid two">
       <section class="card">
-        <div class="section-title"><h2>Transdução efetiva</h2><small id="roomIncidenceCount">—</small></div>
-        <p class="annotation">Somente as incidências entregues ao controle diagnóstico; os canais não recebem nomes de objetos, condições meteorológicas ou explicações causais.</p>
-        <div id="roomSensorReadings" class="sensor-readings"></div>
+        <div class="head"><h2>Recebido pelo motor</h2><small id="roomIncidenceCount">—</small></div>
+        <p class="hint">Somente as incidências entregues; os canais não recebem nomes de objetos, condições meteorológicas ou explicações causais.</p>
+        <div id="roomSensorReadings" class="readings"></div>
         <ol id="roomIncidenceList" class="history"></ol>
       </section>
       <section class="card">
-        <div class="section-title"><h2>Observação e constituição</h2><small>Motor diagnóstico, sem aprendizagem</small></div>
-        <div class="domain-counter"><div><strong>0</strong><small>Unidades</small></div><div><strong>0</strong><small>Relações</small></div><div><strong id="roomDelivered">0</strong><small>Incidências</small></div></div>
-        <p class="research-note">Não exibimos uma malha que ainda não existe. O mundo evolui, os instrumentos transduzem e o domínio atual apenas registra entradas.</p>
-        <div class="section-title subheading"><h3>Acontecimentos físicos</h3><small>Visíveis somente ao pesquisador</small></div>
+        <div class="head"><h2>Acontecimentos físicos</h2><small>visíveis somente ao pesquisador</small></div>
         <ol id="roomEvents" class="history"></ol>
       </section>
     </div>
-    <footer>EMERGENCE · Mundo naturalístico v0.1 · <a href="./docs/room-world-v0.1.md">Hipóteses, equações e limitações</a> · <a href="./body.html">Abrir o experimento corporal 1D</a></footer>
-  </main>
+  </section>
+
+  <!-- ===================== ANALISAR ===================== -->
+  <section id="panelAnalyze" role="tabpanel" aria-labelledby="tabAnalyze" hidden>
+    <div class="card">
+      <div class="head"><h2>Execuções concluídas nesta sessão</h2><small>cada linha está ligada ao manifesto (SHA-256) e à versão científica</small></div>
+      <p class="hint" id="analysisEmpty">Nenhuma execução concluída ainda. Conclua uma execução em <b>Observar</b>.</p>
+      <div class="table-wrap"><table class="data"><thead><tr><th>Execução</th><th>Motor</th><th>Transdutores</th><th>Clima</th><th>Dia</th><th>Semente</th><th>Entregues</th><th>Eventos do motor</th><th>Relações</th><th>Manifesto</th></tr></thead><tbody id="runTable"></tbody></table></div>
+      <div class="row" style="margin-top:10px"><button type="button" id="exportCsv">Exportar métricas CSV</button><button type="button" id="exportRoom">Exportar ZIP científico</button></div>
+    </div>
+    <div class="card">
+      <h2>Comparar duas execuções</h2>
+      <p class="hint">Diferenças de manifesto, mudança isolada (ablação), variação das métricas e primeira incidência divergente.</p>
+      <div class="row settings">
+        <label>Execução A<select id="cmpA"></select></label>
+        <label>Execução B<select id="cmpB"></select></label>
+        <button type="button" class="primary" id="cmpRun">Comparar</button>
+      </div>
+      <div id="cmpOut" class="compare" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- ===================== AUDITORIA ===================== -->
+  <section id="panelAudit" role="tabpanel" aria-labelledby="tabAudit" hidden>
+    <div class="card">
+      <div class="head"><h2>Registro de comandos de execução</h2><small>aceitos e recusados, com o efeito no motor</small></div>
+      <div class="table-wrap"><table class="data"><thead><tr><th>#</th><th>Comando</th><th>Aceito</th><th>Antes</th><th>Depois</th><th>Executado até</th><th>Eventos processados</th><th>Detalhe</th></tr></thead><tbody id="controlLog"></tbody></table></div>
+      <p class="hint">Este registro descreve o controle operacional da execução. Não é uma camada de governança ou contenção.</p>
+    </div>
+    <div class="card replication-panel" aria-label="Persistência e replicação científica">
+      <div class="head"><h2>Histórico científico</h2><small>salvamento local · reexecução · retomada verificável</small></div>
+      <div class="row">
+        <button type="button" id="roomSave" class="primary">Salvar execução</button>
+        <label>Execuções deste navegador
+          <select id="roomRecordList"><option value="">Nenhuma selecionada</option></select>
+        </label>
+        <button type="button" id="roomLoad">Abrir registro</button>
+        <button type="button" id="roomVerify">Reexecutar e comparar</button>
+        <button type="button" id="roomResume">Retomar checkpoint</button>
+        <button type="button" id="roomImport">Importar ZIP</button>
+        <input type="file" id="roomImportFile" accept=".zip,application/zip" hidden aria-label="Selecionar pacote científico ZIP"/>
+      </div>
+      <p class="status-line" id="roomArchiveStatus" role="status" aria-live="polite">O ambiente é calculado localmente. Você pode exportar sem usar a nuvem.</p>
+      <p class="hint">Reprodução de registro = exibição do histórico gravado. Reexecução = novo cálculo físico e confronto integral. Checkpoint e replicação estão implementados apenas para o motor diagnóstico; o controle TEMPO ainda não tem contrato de checkpoint.</p>
+    </div>
+    <div class="card">
+      <h2>Manifesto da execução atual</h2>
+      <pre class="manifest" id="auditManifest">—</pre>
+    </div>
+  </section>
+
+  <footer>EMERGENCE · <a href="./docs/room-world-v0.1.md">Sala: hipóteses, equações e limitações</a> · <a href="./docs/architecture.md">Arquitetura</a> · <a href="./body.html">Experimento corporal 1D</a> · Identidade visual compartilhada com o <a href="https://github.com/paulosince/temporotopological-relations">TEMPO</a></footer>
+</main>
 </body>
 </html>

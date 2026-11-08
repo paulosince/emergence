@@ -45,6 +45,10 @@ jobs:
       - run: node experiments/room-day.js --overcast > /dev/null
       - run: node experiments/room-day.js --no-sensors > /dev/null
       - run: node --check app/room.js
+      - run: node --check src/runtime/execution-controller.js
+      - run: node --check src/visualization/mesh-model.js
+      - run: node --check src/visualization/timeline-model.js
+      - run: node --check src/research/run-comparison.js
       - run: node scripts/smoke-room-home-dom.mjs
       - run: npm run experiment:room:replication > /dev/null
       - run: node --check src/persistence/archive.js

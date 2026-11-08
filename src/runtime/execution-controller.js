@@ -144,13 +144,18 @@ export class ExecutionController {
   }
 
   // Read-only observation of the executed portion. Never advances anything.
-  observe(fromIncidence = 0) {
-    return {
+  // `fromTrace` (optional) also returns the run trace from that index:
+  // sensor samples, deliveries and engine events with their own times.
+  observe(fromIncidence = 0, fromTrace = null) {
+    const view = {
       state: this.#state,
       progress: this.#session.progress(),
       incidences: this.#session.incidencesFrom(fromIncidence),
     };
+    if (fromTrace !== null) view.trace = this.#session.traceFrom(fromTrace);
+    return view;
   }
+  engineSnapshot() { return this.#session.engineSnapshot(); }
   manifest() { return this.#session.manifest(); }
   controlLog() { return this.#log.map(entry => structuredClone(entry)); }
 }

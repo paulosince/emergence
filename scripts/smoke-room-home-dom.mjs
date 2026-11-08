@@ -129,3 +129,36 @@ assert.match(byId('roomArchiveStatus').textContent,
 await byId('roomSave').fire('click');
 assert.match(byId('roomArchiveStatus').textContent,
   /IndexedDB indisponível/); // No fake store: fail visibly.
+
+// ---- Stage 8: tabs, engine choice, true empty mesh, analysis and audit ----
+byId('tabAudit').fire('click');
+assert.equal(byId('panelAudit').hidden,false);
+assert.equal(byId('panelObserve').hidden,true);
+assert.ok(byId('controlLog').children.length>0,'control log rendered');
+byId('tabObserve').fire('click');
+for(const m of modalities)m.checked=true;
+byId('roomEngine').value='diagnostic';
+byId('roomEngine').fire('change');
+runAll();
+assert.equal(byId('meshEmpty').hidden,false,'diagnostic engine: empty mesh state');
+assert.equal(byId('relationCount').textContent,'0');
+assert.equal(byId('unitCount').textContent,'0');
+byId('roomEngine').value='tempo-fixed';
+byId('roomEngine').fire('change');
+assert.match(byId('roomEngineNote').textContent,/nós fixos/);
+assert.match(byId('roomManifest').textContent,/tempo-fixed-nodes-control/);
+runAll();
+assert.equal(byId('relationCount').textContent,'0','at 00:00 nothing has formed yet');
+byId('roomTimeline').value=String(24*3600000);
+byId('roomTimeline').fire('input');
+assert.equal(byId('meshEmpty').hidden,true);
+assert.equal(byId('unitCount').textContent,'0','predefined nodes are never units');
+assert.equal(byId('nodeCount').textContent,'6');
+assert.ok(Number(byId('relationCount').textContent)>0,'real TEMPO relations');
+assert.match(byId('meshCaption').textContent,/controle TEMPO · estado capturado em 23:59/);
+await byId('roomVerify').fire('click');
+assert.match(byId('roomArchiveStatus').textContent,/apenas para o motor diagnóstico/);
+assert.ok(byId('runTable').children.length>=2,'completed runs registered');
+byId('cmpRun').fire('click');
+assert.ok(byId('cmpOut').children.length>0);
+console.log('Stage 8 flow (tabs, engines, empty mesh, analysis, audit): DOM smoke passed');

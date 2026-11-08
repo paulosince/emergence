@@ -164,7 +164,7 @@ function startCondition() {
 play.addEventListener('click', () => {
   if (playback !== null) { stopPlayback(); return; }
   if (displayTimeMs >= scene.endTimeMs) setVisualTime(0);
-  play.textContent = 'Pausar';
+  play.textContent = 'Parar reprodução';
   playback = setInterval(() => {
     setVisualTime(displayTimeMs + 20);
     if (displayTimeMs >= scene.endTimeMs) stopPlayback();
