@@ -2,7 +2,7 @@
 // source of visual quantities; the diagram merely projects their geometry.
 // Neither playback speed nor GUI state writes into the scientific engine.
 import { createRoomScenario } from '../src/room/room-scenario.js';
-import { runExperiment } from '../src/runtime/experiment-runner.js';
+import { ExecutionController } from '../src/runtime/execution-controller.js';
 import { DiagnosticEngine } from '../src/engines/diagnostic-engine.js';
 import { DAY_MS } from '../src/room/solar.js';
 import {buildRoomRecord,recordedPlayback,
@@ -38,8 +38,19 @@ const eventNames=Object.freeze({
   'lamp.initial':'Estado inicial da lâmpada',
   'lamp.toggle':'Fotocélula alterou a lâmpada',
 });
+// `result` is ALWAYS a read-only projection of what was actually executed
+// (live controller) or of a recorded history. The view never computes ahead.
 let scene=null,result=null,tMs=0,playback=null;
+let controller=null,runTimer=null,mode='prepared';
 let currentOptions=null,currentRecord=null,db=null;
+const RUN_STEP_MS=600000; // simulated minutes executed per real tick
+const modeText=Object.freeze({
+  prepared:'PREPARADO · o motor ainda não processou nenhum evento',
+  running:'EXECUÇÃO REAL · o motor está processando eventos',
+  paused:'EXECUÇÃO PAUSADA · nenhum evento é processado até retomar',
+  completed:'EXECUÇÃO CONCLUÍDA · navegação no histórico executado',
+  recorded:'REGISTRO GRAVADO · reprodução sem executar o motor',
+});
 
 function setText(id,value){el(id).textContent=value;}
 function setAttribute(id,name,value){el(id).setAttribute(name,String(value));}
@@ -103,14 +114,67 @@ function drawGeometry(geometry) {
   }
 }
 
+// Stops VISUAL playback only. It has no effect on the engine.
 function stop(){
   if(playback!==null) clearInterval(playback);
   playback=null;
-  setText('roomPlay','Reproduzir');
+  setText('roomPlay','Reproduzir histórico');
+  showMode();
+}
+function horizonMs(){
+  if(!scene)return 0;
+  return mode==='recorded'?scene.endTimeMs:controller.executedThroughMs;
+}
+function showMode(){
+  const replaying=playback!==null;
+  setText('roomMode',replaying
+    ?'REPRODUÇÃO · revendo o histórico já executado; o motor não avança'
+    :modeText[mode]);
+  el('roomMode').setAttribute('data-mode',replaying?'replay':mode);
+  const live=mode!=='recorded';
+  setText('roomRun',mode==='running'?'Pausar execução':
+    mode==='paused'?'Retomar execução':'Executar motor');
+  el('roomRun').disabled=!live||mode==='completed';
+  el('roomRunAll').disabled=!live||mode==='completed';
+}
+function pullExecuted(){
+  const fresh=controller.observe(result.incidences.length).incidences;
+  if(fresh.length)result.incidences.push(...fresh);
+  if(controller.state==='completed'){
+    result={...controller.result()};
+    mode='completed';
+  }else mode=controller.state;
+}
+function stopRunTimer(){
+  if(runTimer!==null)clearInterval(runTimer);
+  runTimer=null;
+}
+// Operational pause: the controller refuses to process events while paused.
+function pauseExecution(reason){
+  stopRunTimer();
+  if(controller && controller.state==='running')controller.pause(reason);
+  if(controller)pullExecuted();
+  showMode();
+}
+function executeTick(){
+  if(!controller || controller.state!=='running'){stopRunTimer();return;}
+  controller.advanceBy(RUN_STEP_MS);
+  pullExecuted();
+  if(mode==='completed')stopRunTimer();
+  redraw(controller.executedThroughMs);
+  setText('roomStatus',statusText());
+  showMode();
+}
+function statusText(){
+  if(mode==='recorded')return 'Registro gravado · '+result.incidences.length+
+    ' incidências (não reexecutado)';
+  return 'Motor executado até '+clock(controller.executedThroughMs)+' · '+
+    result.incidences.length+' incidências entregues';
 }
 function redraw(timeMs) {
   if(!scene) return;
-  tMs=Math.min(Math.max(0,timeMs),scene.endTimeMs);
+  // Never display world or domain beyond what was actually executed.
+  tMs=Math.min(Math.max(0,timeMs),horizonMs());
   el('roomTimeline').value=String(tMs);
   setText('roomTimeOutput',clock(tMs));
   setText('roomClock',clock(tMs));
@@ -228,6 +292,7 @@ function drawDayChart(){
 
 function restart() {
   stop();
+  stopRunTimer();
   try{
     const modalities=[...sensors].filter(x=>x.checked).map(x=>x.value);
     currentOptions={
@@ -240,12 +305,16 @@ function restart() {
     };
     currentRecord=null;
     scene=createRoomScenario(currentOptions);
-    result=runExperiment({...scene,engine:new DiagnosticEngine()});
+    // Prepare only: nothing is executed until the researcher starts the run.
+    controller=new ExecutionController({...createRoomScenario(currentOptions),
+      engine:new DiagnosticEngine()});
+    result={manifest:controller.manifest(),incidences:[]};
+    mode='prepared';
     drawGeometry(scene.world.describe().geometry);
     drawDayChart();
     el('roomTimeline').max=String(scene.endTimeMs);
-    setText('roomStatus','Simulação calculada · '+result.summary.deliveredCount+
-      ' incidências');
+    setText('roomStatus','Cenário preparado · motor ainda não executado');
+    showMode();
     redraw(0);
   }catch(error){
     setText('roomStatus','Erro na simulação: '+error.message);
@@ -253,14 +322,37 @@ function restart() {
   }
 }
 
+el('roomRun').addEventListener('click',()=>{
+  if(!controller||mode==='recorded'||mode==='completed')return;
+  stop();
+  if(mode==='running'){pauseExecution('pesquisador');return;}
+  if(mode==='prepared')controller.start();
+  else controller.resume();
+  pullExecuted();showMode();
+  runTimer=setInterval(executeTick,75);
+});
+el('roomRunAll').addEventListener('click',()=>{
+  if(!controller||mode==='recorded'||mode==='completed')return;
+  stop();stopRunTimer();
+  if(controller.state==='prepared')controller.start();
+  else if(controller.state==='paused')controller.resume();
+  controller.runToEnd();
+  pullExecuted();
+  setText('roomStatus',statusText());
+  showMode();
+  redraw(tMs);
+});
+// Visual playback of the ALREADY EXECUTED history; it never advances the engine.
 el('roomPlay').addEventListener('click',()=>{
   if(playback!==null){stop();return;}
-  if(tMs>=scene.endTimeMs)redraw(0);
-  setText('roomPlay','Pausar');
+  if(mode==='running')return; // live execution already drives the view
+  if(tMs>=horizonMs())redraw(0);
+  setText('roomPlay','Parar reprodução');
   playback=setInterval(()=>{
     redraw(tMs+600000); // Ten simulated minutes per visual tick.
-    if(tMs>=scene.endTimeMs)stop();
+    if(tMs>=horizonMs())stop();
   },75);
+  showMode();
 });
 el('roomStep').addEventListener('click',()=>{
   stop();redraw(tMs+1800000);
@@ -310,6 +402,9 @@ function displayRecorded(record){
       'não é seguro reconstruir a cena com equações alteradas.');
   }
   stop();
+  stopRunTimer();
+  if(controller && controller.state==='running')controller.pause('registro aberto');
+  mode='recorded';
   const options=record.scenario.options;
   currentOptions=structuredClone(options);
   currentRecord=structuredClone(record);
@@ -324,8 +419,8 @@ function displayRecorded(record){
   drawGeometry(scene.world.describe().geometry);
   drawDayChart();
   el('roomTimeline').max=String(scene.endTimeMs);
-  setText('roomStatus','Registro gravado · '+view.incidences.length+
-    ' incidências (não reexecutado)');
+  setText('roomStatus',statusText());
+  showMode();
   redraw(0);
 }
 el('roomSave').addEventListener('click',()=>guardedArchiveAction(async()=>{
@@ -397,6 +492,6 @@ openExperimentStore().then(async store=>{
 });
 
 document.addEventListener('visibilitychange',()=>{
-  if(document.hidden)stop();
+  if(document.hidden){stop();pauseExecution('página oculta');}
 });
 restart();

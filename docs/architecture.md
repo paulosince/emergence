@@ -84,6 +84,8 @@ TraceEnvironment (hidden from the engine)
 
 The scheduler reuses TEMPO's unchanged EventHeap instead of reimplementing a heap. The control reuses unchanged Net and makeRng. There are no DOM, IndexedDB or network dependencies in the experimental runtime.
 
+**Execution versus playback (stage 8, increment 8.1).** `src/runtime/execution-controller.js` wraps one `ExperimentSession` and is the only path by which the room page executes the engine. States: `prepared → running ⇄ paused → completed`. While `paused` (or `prepared`), every advance command fails closed and the scheduler, transducers and engine receive nothing; accepted and rejected commands are recorded in a control log with the executed horizon and processed-event count. Chunked/paused execution is tested to be byte-identical to `runExperiment`. Visual playback only navigates the already executed history and is clamped to it. This module is **not** a governance or containment layer: no PPC/ADCIF policy is implemented here.
+
 The engine interface can support future competing algorithms. Its existence **does not** prescribe any particular solution to sensor individuation or derived representation.
 
 TEMPO's internal queue and the external sensor queue are separate; events from inside TEMPO can be collected after their effective event time. Phase 1 records both event time and collection time. See [Phase 1 protocol](phase1-protocol.md).

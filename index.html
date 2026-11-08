@@ -105,15 +105,20 @@
       </section>
     </div>
     <section class="card timeline-card">
-      <div class="section-title"><h2>Uma história física de 24 horas</h2><small>O tempo de reprodução não determina o tempo da simulação.</small></div>
-      <div class="timeline-top">
-        <button class="button" type="button" id="roomPlay">Reproduzir</button>
+      <div class="section-title"><h2>Uma história física de 24 horas</h2><small>Executar processa eventos no motor; reproduzir apenas revê o que já foi executado.</small></div>
+      <div class="execution-controls" role="group" aria-label="Execução real do motor">
+        <button class="button" type="button" id="roomRun">Executar motor</button>
+        <button class="button secondary" type="button" id="roomRunAll">Executar até o fim</button>
+        <span id="roomMode" class="mode-badge" data-mode="prepared" role="status" aria-live="polite">PREPARADO · o motor ainda não processou nenhum evento</span>
+      </div>
+      <div class="timeline-top" role="group" aria-label="Reprodução do histórico executado">
+        <button class="button secondary" type="button" id="roomPlay">Reproduzir histórico</button>
         <button class="button secondary" type="button" id="roomStep">+ 30 min</button>
         <input type="range" id="roomTimeline" aria-label="Tempo simulado" min="0" max="86399999" step="60000" value="0"/>
         <output id="roomTimeOutput" for="roomTimeline">00:00</output>
       </div>
       <div class="tick-labels"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
-      <div class="curve-head"><span>Radiação no piso (W/m²)</span><small>Curva calculada a cada 15 min</small></div>
+      <div class="curve-head"><span>Radiação no piso (W/m²)</span><small>Mundo físico · visão do pesquisador · curva analítica do dia inteiro, não dados do motor</small></div>
       <svg id="roomChart" viewBox="0 0 620 155" preserveAspectRatio="none" aria-label="Gráfico da radiação física no piso ao longo do dia">
         <path d="M0 145 H620" stroke="currentColor" opacity=".15"/>
         <polyline id="daylightCurve" points="" fill="none" stroke="#cd9b53" stroke-width="2.5" stroke-linejoin="round"/>
