@@ -140,11 +140,21 @@ Os autores registram que k′ = Vmax/Km só vale com concentração bem abaixo d
 - **Definição de concentração:** a concentração fisiologicamente efetiva é a do **espaço extracelular** (C), não a do tecido inteiro (C₁ = αC). **Consequência para a unidade moduladora:** "partes por milhão" deve se referir ao **volume extracelular**, não ao volume total.
 - **Fórmula:** a equação de fonte pontual com remoção (equação 17 da revisão) é a mesma do núcleo analítico; a revisão dá a extensão anisotrópica (equação 18).
 
+### 7.8 Serotonina: Raghupathi et al. (2013), *Journal of Physiology* 591(23), 5959–5975 (enviado pelo responsável; lido)
+Modelo 3D de difusão de serotonina por diferenças finitas com recaptação saturável. O tecido é o **intestino** (células enterocromafins), mas os parâmetros do meio vêm de medidas no **sistema nervoso central**. Tabela 1:
+- D livre **5,4 × 10⁻⁶ cm²/s** (Gerhardt e Adams, 1982); D efetivo **1,98 × 10⁻⁶ cm²/s** com tortuosidade **1,65**; fração de volume **0,17** (Rice e Nicholson, 1986, sistema nervoso central).
+- Recaptação pelo transportador de serotonina: Km **605 nM**; Vmax 38 pmol/min por 10⁶ células (Miller et al., 2001).
+- Liberação por evento nas células enterocromafins: cerca de **9.000 moléculas** (célula endócrina, não neurônio).
+- Limiares de ativação de receptores citados: 1–10 nM e acima de 10 nM, conforme o tipo de receptor.
+- As concentrações relatadas são as do **compartimento extracelular**, como em Syková e Nicholson (2008).
+
+**Consequência:** com isso, a serotonina tem coeficiente de difusão e parâmetros do meio com fonte. Faltam noradrenalina e adenosina. O quantum por vesícula neuronal de serotonina continua sem fonte; o valor intestinal não deve ser transposto sem justificativa.
+
 ### 7.5 O que não consegui obter (para o responsável tentar)
 - ~~Husbands et al. (1998)~~ obtido pelo responsável.
 - ~~Philippides et al. (2005)~~ obtido pelo responsável ([leituras](literature-received-2026-11-09.md)).
 - Nicholson (1995): tabela de coeficientes de difusão de neurotransmissores (há registro: "Diffusion coefficients of neurotransmitters and their metabolites in brain extracellular fluid space", Universidade de Kentucky).
-- Coeficientes de difusão no cérebro de serotonina, noradrenalina e adenosina (não estão em Syková e Nicholson, 2008).
+- Coeficientes de difusão no cérebro de noradrenalina e adenosina (serotonina obtida: seção 7.8).
 - Josselyn, Köhler e Frankland (2015), texto integral (o acesso foi negado).
 - ~~Porkka-Heiskanen et al. (1997)~~ obtido pelo responsável. ~~Rakic (1972)~~ obtido pelo responsável.
 
