@@ -22,6 +22,51 @@
 9. [ ] **Investigar candidatos à constituição autônoma de unidades.** *Proposta de desenho para as etapas 9–11, não aprovada: [research-design-v0.1.md](research-design-v0.1.md).* Derivar candidatos de necessidades funcionais, manter alternativas concorrentes, implementar sem pré-programar entidades individuais; registrar individuação, transformações e falhas, inclusive sob informações insuficientes. **Aceite:** demonstrar condições em que unidades se constituem ou falham, com ablações e sem inferir automaticamente representação de uma estrutura de dados.
 10. [ ] **Relações temporotopológicas com unidades não predefinidas.** Integrar mecanismos de relação do TEMPO por adaptadores no EMERGENCE sem alterar o original; testar constituição conjunta de unidades/relações, orientação, pesos e tempo efetivo de percorrimento; verificar regressões e contraexemplos. **Aceite:** demonstrar operacionalmente os critérios escolhidos, com diferenças explícitas frente ao controle de nós fixos.
 11. [ ] **Constituição de organizações derivadas.** Investigar se organizações constituídas participam causalmente de novas constituições, inclusive processos internos e recursividade; distinguir codificação, agrupamento, recuperação e representação efetiva. **Aceite:** testes operacionais e ablações que sustentem ou refutem cada propriedade, com limitações registradas.
+
+   **Acompanhamento das etapas 9–11** (lista única; aprovada pelo responsável em 09/11/2026; desenho em [research-design-v0.1.md](research-design-v0.1.md)). Legenda: `[x]` concluído com evidência · `[~]` em andamento · `[ ]` a fazer · **I** = investigação bibliográfica, no momento em que é necessária.
+
+   *Fase 0 — preparação*
+   - [x] **P0.1** Controle de latências no controle TEMPO: artefato de instrumento confirmado ([relatório](latency-control-v0.1.md); commits `de1fb61`, `0f946de`).
+   - [ ] **P0.2** Mundo episódico 1D sem corpo: quedas repetidas com altura variável escolhida pelo pesquisador, validado como os mundos anteriores (física, verificador, testes).
+   - [ ] **I1** Precedentes do MCM: PARSER, grupos policrônicos, versões temporais de GNG/GWR, Gamma-GWR, SOINN, ART, HTM e afins. *Em paralelo a P0.2–P0.5; concluída antes de F1.1.*
+   - [ ] **P0.3** Sala em vários dias: sequências de datas, climas e objeto.
+   - [ ] **P0.4** Nulos e bancada de avaliação: dados substitutos, remoção causal, covariância com o referente.
+   - [ ] **P0.5** Métricas topológicas com nulos para H-ORG (grau preservado, taxa e duração, idade).
+   - [ ] **I2** Operacionalização de entidade, evento e memória episódica: permanência do objeto, aprendizagem centrada em objetos. *Antes de P0.6.*
+   - [ ] **P0.6** Mundo com entidades: mesa 2-D com objetos, oclusão e transformações graduais; retina não interpretada; bancos de limiares.
+   - [ ] **P0.7** Pré-registro v1: limiares propostos com justificativa e aprovados pelo responsável; datado.
+
+   *Fase 1 — motor constitutivo mínimo (MCM v0)*
+   - [ ] **F1.1** Primitivas do MCM (incidência, traços multiescala, coincidência, criação por novidade, ciclo de vida, corrigibilidade) com testes.
+   - [ ] **F1.2** Contrato de checkpoint do MCM.
+   - [ ] **F1.3** Monitor: executor de campanhas sem interface, detectores U1–U3 e X1, parada que falha fechada.
+   - [ ] **F1.4** Alertas: canal A (GitHub Actions + issue) e canal B (tarefa agendada do Claude) ativados.
+   - [ ] **F1.5** Campanha D1–D6 com ablações e comparadores (GWR/GNG, controle TEMPO).
+   - [ ] **F1.6** Variantes de calibração de latência (recalibração, calibração cruzada) e teste N5.
+   - [ ] **F1.7** Relatório da Fase 1 e validação do responsável.
+
+   *Fase 2 — níveis superiores, entidades e organização do domínio*
+   - [ ] **I3** Antecipação e hierarquia temporal (chunking, SFA hierárquico, predição local). *Antes de F2.1.*
+   - [ ] **F2.1** Recursão, antecipação (M2) e categorização (variante).
+   - [ ] **F2.2** Detectores L1, E1–E4 e O1 (H-ORG) no monitor.
+   - [ ] **F2.3** Campanhas H1–H6, E1–E4 e ORG-1 a ORG-7.
+   - [ ] **F2.4** Entidade biográfica (B1, navio de Teseu) após memória episódica.
+   - [ ] **F2.5** Relatório da Fase 2 e validação do responsável.
+
+   *Fase C — controle motor (degraus de risco crescente)*
+   - [ ] **I4** Sensório-motor sem valor: balbucio motor, modelos diretos, reaferência. *Antes de C1.*
+   - [ ] **C1** Atuadores que só afetam o mundo externo, sem custo de energia.
+   - [ ] **C2** Eferência como incidência; detector S1 (self) com parada e revisão.
+   - [ ] **C3** Balbucio motor; reconstrução autônoma da topologia de sensores (T2).
+   - [ ] **C4** Desenho fatorial riqueza × ação (H-AMB × H-AÇÃO).
+
+   *Fase 3 — Orientação e valia (parada que falha fechada)*
+   - [ ] **P3.1** Pré-registro da Fase 3 (bifurcação de checkpoint, dissociação evidência × Orientação).
+   - [ ] **F3A** Detecção de Orientação sem corpo (V1–V2).
+   - [ ] **I5** Homeostase, valência e revisão ética do envelope. *Antes de F3B.*
+   - [ ] **F3B-sa** "3B sem acesso" (controle obrigatório).
+   - [ ] **F3B** 3B reduzida, nas condições registradas.
+
 12. [ ] **Campanha comparativa e resultados publicáveis.** Comparar mecanismos e antecedentes aplicáveis (GNG, GWR, SOINN, Gamma-GWR, etc.), variar mundos, sensores, parâmetros e sementes, testar necessidade/suficiência dentro de hipóteses delimitadas, revisar identificabilidade, gerar gráficos, tabelas e documentação reexecutável. **Aceite:** resultados e interpretações rastreáveis às execuções, sem reivindicação de originalidade ou generalidade não demonstrada.
 
 **Regra de acompanhamento:** atualizar a caixa `[ ]` para `[x]` somente depois que o item estiver testado e a evidência estiver registrada; reportar o commit e o que foi verificado. Para cada etapa nova, executar os incrementos pequenos necessários **dentro do item correspondente**, sem criar outra lista concorrente. Etapas posteriores podem usar cenários mínimos validados e não dependem de um mundo 3D completo.

@@ -193,6 +193,8 @@ Qualquer resultado é teoricamente informativo.
 
 ## 6. Ordem de execução proposta (incrementos pequenos e testados)
 
+**Acompanhamento oficial:** a lista detalhada e o estado de cada item ficam no roteiro único, [roadmap.md](roadmap.md), sob a etapa 11. Esta seção registra só a lógica da ordem.
+
 1. **P0.1** Controle de latências igualadas e embaralhadas no controle TEMPO (teste do N5). **Concluído 09/11/2026:** artefato de instrumento confirmado ([relatório](latency-control-v0.1.md)).
 2. **P0.2** Mundo episódico 1D sem corpo.
 3. **P0.3** Execuções da sala em vários dias.
