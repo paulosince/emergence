@@ -1,0 +1,75 @@
+{
+  "sequence-learner": {
+    "decision": {
+      "passedSeeds": 10,
+      "pass": true
+    },
+    "example": {
+      "pass": true,
+      "parts": {
+        "fixedMatures": true,
+        "cycleImproves": true,
+        "orderedByRandomness": true,
+        "beatsShuffled": true
+      },
+      "final": {
+        "fixed": 0,
+        "cycle": 0,
+        "cycleShuffled": 0.7,
+        "random": 0.9
+      }
+    }
+  },
+  "frozen": {
+    "decision": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "example": {
+      "pass": false,
+      "parts": {
+        "fixedMatures": true,
+        "cycleImproves": false,
+        "orderedByRandomness": true,
+        "beatsShuffled": false
+      },
+      "final": {
+        "fixed": 0,
+        "cycle": 0.65,
+        "cycleShuffled": 0.65,
+        "random": 0.8
+      }
+    }
+  },
+  "random-guess": {
+    "decision": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "example": {
+      "pass": false,
+      "parts": {
+        "fixedMatures": false,
+        "cycleImproves": false,
+        "orderedByRandomness": false,
+        "beatsShuffled": true
+      },
+      "final": {
+        "fixed": 0.8,
+        "cycle": 0.65,
+        "cycleShuffled": 0.95,
+        "random": 0.85
+      }
+    }
+  },
+  "create-always": {
+    "decision": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "example": {
+      "pass": false,
+      "reason": "window without expectations"
+    }
+  }
+}

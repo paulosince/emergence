@@ -29,7 +29,7 @@ export class ConstitutiveEngine {
   #lastValue = new Map(); #sources = new Map(); // id -> {last, traces[], tTrace, pos}
   #elements; #grid = new Map(); #cell;
   #units = []; #unitByKey = new Map(); #byPair = new Map(); #n = 0; #failed = 0;
-  #tags = []; #react = []; #pm; #lastBurst = -Infinity; #expect = []; #surprises = 0;
+  #tags = []; #react = []; #pm; #lastBurst = -Infinity; #expect = []; #surprises = 0; #fulfilled = 0;
   #clock = null; #clockPm = null; #rateEma = 0; #lastClockSpike = null; #clockSpikes = 0; #state = 'awake'; #sleepEpisodes = 0;
   #nextReact = 0; #reactivations = 0; #ach = 0; #tAch = 0; #recentDis = 0; #recentSur = 0; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
   constructor(options = {}) {
@@ -125,7 +125,9 @@ export class ConstitutiveEngine {
       u.discharges++; u.lastDischargeMs = t;
       if (p.cascade) { u.strength = 1; u.tTouch = t; this.#react.push({ u, t }); }
       // any discharge of the pair fulfils the pair's expectation (even by a not-yet-consolidated unit)
+      const before = this.#expect.length;
       this.#expect = this.#expect.filter(x => !(x.first === u.afferents[0] && x.second === u.afferents[1] && t >= x.from));
+      this.#fulfilled += before - this.#expect.length;
       this.#pending.push({ type: 'unit.discharge', unit: u.key, delayMs: u.delayMs, livedMs: lived, timeMs: t });
     }
     candidates.sort((a, b) => a.lived - b.lived);
@@ -336,7 +338,7 @@ export class ConstitutiveEngine {
   snapshot() {
     return { timeMs: this.#t, units: this.#units.map(u => ({ ...u, afferents: [...u.afferents], elements: [...u.elements] })),
       substrate: { size: this.#elements.length, occupied: this.#elements.filter(e => e.units > 0).length, recruitmentFailures: this.#failed },
-      modulator: { novelty: { spikes: this.#spikes, concentrationNM: this.#conc(this.#t), desensitization: this.#des } }, pendingTags: this.#tags.length, pruned: this.#pruned, surprises: this.#surprises,
+      modulator: { novelty: { spikes: this.#spikes, concentrationNM: this.#conc(this.#t), desensitization: this.#des } }, pendingTags: this.#tags.length, pruned: this.#pruned, surprises: this.#surprises, fulfilledExpectations: this.#fulfilled,
       state: this.#state, sleepEpisodes: this.#sleepEpisodes, reactivations: this.#reactivations, expectedUncertainty: this.#ach,
       sources: [...this.#sources.keys()] };
   }

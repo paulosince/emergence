@@ -82,3 +82,23 @@ O controle aleatório **passa no critério de perda de função específica em 6
 - TEMPO não declara `ablate`, então critério de perda de função específica não pôde ser testado nele; ele já falha no critério de reativação específica e critério de persistência e retorno.
 - O "responder" do TEMPO é a relação 0→1 mais forte no fim do episódio (ele não emite eventos de unidade); a leitura é aproximada.
 - Os controles são deliberadamente simples. A calibração mostra que os critérios **separam** os casos previstos; não garante que separem casos mais sutis, como um motor que forme unidades por canal e não por conteúdo.
+
+## Critério de maturação (09/11/2026)
+**Desvio registrado em relação ao texto aprovado** (cláusula 26 do PPC): a medida "falhas de espera por descarga" permitia que um sistema **sem nenhuma espera** passasse com surpresa zero. Ela foi substituída pela **fração de esperas que falharam**, falhas ÷ (falhas + cumpridas). Uma janela sem esperas fica indefinida, e o critério falha. Componentes:
+1. **Altura fixa:** fração final ≤ 0,05 e nenhuma criação nas duas últimas janelas.
+2. **Ciclo de 3 alturas:** fração final ≤ 0,05 **ou** Spearman (janela × fração) ≤ −0,5.
+3. **Ordem pela aleatoriedade:** fixa ≤ ciclo ≤ aleatória.
+4. **Ciclo abaixo do ciclo embaralhado:** o nulo.
+
+Decisão: ≥ 8 de 10 sementes. Código em `src/research/criteria/maturation.js`; calibração em `experiments/calibrate-maturation.js` ([dados](calibration/maturation.json)).
+
+**Calibração.** São controles, não o motor candidato. A sequência de atrasos vem da física das quedas: 200 episódios em janelas de 20, com tolerância de 5%.
+
+| Controle | Papel | Resultado | Onde falha |
+|---|---|---|---|
+| Aprendiz de sequência (contexto dos 3 últimos) | positivo | **passa 10/10** | — |
+| Congelado (prevê sempre o primeiro atraso) | negativo | falha 0/10 | ciclo não melhora; não supera o embaralhado |
+| Chute aleatório | negativo | falha 0/10 | altura fixa não amadurece; ordem |
+| Criar sempre (nunca espera) | negativo | falha 0/10 | janelas sem esperas |
+
+**Leitura:** o critério separa quem aprende sequência de quem não aprende. Ressalva honesta: o motor candidato, com esperas por pares, provavelmente **não** passará no componente do ciclo, como a observação exploratória já indicou, porque falta contexto de sequência. Isso seria um resultado negativo informativo.
