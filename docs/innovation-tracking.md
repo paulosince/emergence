@@ -86,6 +86,7 @@
 - **O que existe:** sinapses baseadas em corrente com peso com sinal; princípio de Dale; modulação pré-sináptica multiplicativa da liberação. Tudo padrão na literatura.
 - **O que seria novo (hipótese, não verificado):** a formulação da CLEAR em que Utrd, Upro e Uint podem todas acrescentar efeito e magnitude à mesma incidência, separando sinal (soma) e magnitude (0–1). Provavelmente equivalente a formulações conhecidas; não alegar novidade sem busca.
 - **Falta:** busca de precedentes; aprovação da [proposta](effects-v0.1.md).
+- **Atualização (09/11/2026):** integrado ao [desenho da versão 2](engine-v2-design-proposal.md). A medida de surpresa por contexto negativo (seção 8) pode ser candidata a contribuição; precisa de busca sobre medidas de surpresa sem predição explícita.
 
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
