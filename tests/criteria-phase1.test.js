@@ -16,8 +16,10 @@ test('D3 decisions respect magnitude, correction and seed count',()=>{
   assert.equal(d3aDecision(strong.map(x=>({...x,rho:-0.5}))).pass,false,'rho below 0.6');
   assert.equal(d3aDecision(strong.map((x,i)=>i<3?{...x,p:0.2}:x)).pass,false,'only 7 of 10 seeds');
   assert.equal(d3bDecision(strong.map(x=>({...x,rho:0.05}))).pass,true);
-  assert.equal(d3cDecision(strong,strong.map(x=>({...x,rho:-0.85}))).pass,true);
-  assert.equal(d3cDecision(strong,strong.map(x=>({...x,rho:-0.3}))).pass,false);
+  assert.equal(d3cDecision(strong,strong.map(x=>({...x,rho:-0.85})),{primaryPass:true}).pass,true);
+  assert.equal(d3cDecision(strong,strong.map(x=>({...x,rho:-0.3})),{primaryPass:true}).pass,false);
+  assert.equal(d3cDecision(strong,strong,{primaryPass:false}).pass,false,'no effect to retain');
+  assert.throws(()=>d3cDecision(strong,strong));
 });
 test('D2 needs ratio and exceeding the null maximum; D5 needs persistence and plasticity',()=>{
   const seeds=k=>Array.from({length:10},()=>k);
@@ -37,4 +39,17 @@ test('oracle control declares designer knowledge and is never a candidate',()=>{
   o.ablate('u1');assert.equal(o.snapshot().units.length,0);
   const s=d3Seeds([{seed:1,heights:[1,2,3,4,5,6],delays:[6,5,4,3,2,1]}],{permutations:200});
   assert.equal(s[0].rho,-1);
+});
+
+import {episodicHeights} from '../src/world/episodic-drops.js';
+import {spearman} from '../src/research/criteria/phase1.js';
+test('negative control stream is independent of the world schedule (calibration v1 defect)',()=>{
+  for(const seed of [1,2,3]){
+    const h=episodicHeights({episodes:40,scheduleSeed:seed});
+    const o=new OracleIntervalControl({randomDelays:true,seed});const d=[];
+    h.forEach((_,k)=>{o.ingest({transducerId:'s0',measurement:0,arrivedAtMs:k*3000});
+      o.ingest({transducerId:'s1',measurement:0,arrivedAtMs:k*3000+100});});
+    for(const e of o.drainEvents())if(e.type==='unit.discharge')d.push(e.delayMs);
+    assert.ok(Math.abs(spearman(h,d))<0.5,'seed '+seed+': '+spearman(h,d));
+  }
 });

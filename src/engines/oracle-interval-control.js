@@ -5,14 +5,17 @@
 // (tolerance tolMs) and discharges the matching unit. It exists to check that
 // pre-registered thresholds are attainable (positive control).
 // With randomDelays:true it assigns random delays instead (negative control).
-import { makeRng } from '../../vendor/tempo/core/rng.js';
+// Independent stream: must NOT share the world's schedule stream (a shared
+// seed made 'random' delays an affine function of the heights; caught in
+// calibration v1).
+import { sensorRandomStream } from '../runtime/seed-stream.js';
 
 export class OracleIntervalControl {
   #first; #second; #blocked; #tol; #units = []; #pending = []; #last = null; #time = 0; #n = 0;
   #random; #rng;
   constructor({ first = 's0', second = 's1', blockedValue = 0, tolMs = 5, randomDelays = false, seed = 0 } = {}) {
     this.#first = first; this.#second = second; this.#blocked = blockedValue; this.#tol = tolMs;
-    this.#random = randomDelays; this.#rng = makeRng(seed);
+    this.#random = randomDelays; this.#rng = sensorRandomStream(seed, 'oracle-random-delays');
   }
   describe() { return { id: this.#random ? 'oracle-random-delay-negative-control' : 'oracle-interval-positive-control',
     designerKnowledge: ['relevant channel pair', 'blocked value'], candidate: false }; }

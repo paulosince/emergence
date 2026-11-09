@@ -29,10 +29,12 @@ export function d3bDecision(stats, { rhoMax = 0.2, seedsRequired = 8 } = {}) {
   const ok = stats.map(s => Math.abs(s.rho) < rhoMax);
   return { passedSeeds: ok.filter(Boolean).length, pass: ok.filter(Boolean).length >= seedsRequired };
 }
-export function d3cDecision(original, equalized, { retainMin = 0.8 } = {}) {
+// D3c is only meaningful when D3a passed: there must be an effect to retain.
+export function d3cDecision(original, equalized, { retainMin = 0.8, primaryPass } = {}) {
+  if (typeof primaryPass !== 'boolean') throw new TypeError('D3c requires the D3a decision (primaryPass)');
   const mean = a => a.reduce((s, x) => s + Math.abs(x.rho), 0) / a.length;
   const ratio = mean(original) ? mean(equalized) / mean(original) : 0;
-  return { retained: ratio, pass: ratio >= retainMin };
+  return { retained: ratio, applicable: primaryPass, pass: primaryPass && ratio >= retainMin };
 }
 // D2: per seed, observed consolidated-unit count vs surrogate counts.
 export function d2Decision(perSeed, { ratioMin = 2, seedsRequired = 8 } = {}) {

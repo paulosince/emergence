@@ -46,7 +46,12 @@ function perEpisode(kind, seed, scenarioOptions) {
   }
   return { heights, delays, final: r };
 }
-const unitCount = (kind, snap) => kind === 'tempo' ? snap.relations.length : snap.units.length;
+// CONSOLIDATED units: reused (oracle: >= 3 discharges) or strong (TEMPO:
+// weight >= threshold 1.0). Raw counts are invalid for D2: surrogates are
+// LESS regular, hence MORE novel, hence produce MORE raw units (calibration v1).
+const CONSOLIDATION_MIN_DISCHARGES = 3;
+const unitCount = (kind, snap) => kind === 'tempo' ? snap.relations.filter(r => r.weight >= 1.0).length
+  : snap.units.filter(u => u.discharges >= CONSOLIDATION_MIN_DISCHARGES).length;
 
 const out = {};
 for (const kind of Object.keys(ENGINES)) {
@@ -55,8 +60,11 @@ for (const kind of Object.keys(ENGINES)) {
     const v = perEpisode(kind, seed, { episodes: 40, scheduleSeed: seed });
     variable.push({ seed, heights: v.heights, delays: v.delays });
     const f = perEpisode(kind, seed, { heightsM: new Array(40).fill(1.4) });
-    // fixed height: correlate delay with the (tiny jittered) episode index heights; height constant -> rho ~ 0
-    fixed.push({ seed, heights: f.heights.map((h, i) => h + i * 1e-9), delays: f.delays });
+    // fixed height: correlate delays with PSEUDO-heights (the variable schedule
+    // this world did NOT have). Using the episode index would confound a time
+    // trend with height (calibration v1 defect).
+    const pseudo = episodicHeights({ episodes: 40, scheduleSeed: seed }).slice(0, f.delays.length);
+    fixed.push({ seed, heights: pseudo, delays: f.delays });
     const q = perEpisode(kind, seed, { episodes: 40, scheduleSeed: seed, sensorOverrides: EQ });
     equal.push({ seed, heights: q.heights, delays: q.delays });
     // D2: units on real stream vs 30 circular-shift surrogates
@@ -86,7 +94,7 @@ for (const kind of Object.keys(ENGINES)) {
   const sv = d3Seeds(variable), sf = d3Seeds(fixed), se = d3Seeds(equal);
   out[kind] = {
     d3aStats: sv.map(s => ({ seed: s.seed, rho: +s.rho.toFixed(3), p: +s.p.toFixed(4), n: s.n })),
-    d3a: d3aDecision(sv), d3b: d3bDecision(sf), d3c: d3cDecision(sv, se), d2: d2Decision(d2),
+    d3a: d3aDecision(sv), d3b: d3bDecision(sf), d3c: d3cDecision(sv, se, { primaryPass: d3aDecision(sv).pass }), d2: d2Decision(d2),
     d2Example: { observed: d2[0].observed, nullMax: Math.max(...d2[0].nulls), nullMean: d2[0].nulls.reduce((a, b) => a + b, 0) / 30 },
     d5: { pass: d5.filter(x => x.pass).length >= Math.ceil(0.8 * SEEDS), persistMean: d5.reduce((a, x) => a + x.persist, 0) / SEEDS,
       rateMean: d5.reduce((a, x) => a + x.rate, 0) / SEEDS },
