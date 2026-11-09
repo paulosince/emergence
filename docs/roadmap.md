@@ -34,7 +34,7 @@
    - [x] **P0.5** Métricas topológicas com nulos ([relatório](topology-v0.1.md); 7 testes): grau, força, *k-core*, intermediação, comunidades, participação, *rich club* normalizado; nulo de crescimento por idade adiado para F2.3 (depende do MCM).
    - [x] **I2** Operacionalização de entidade, evento e memória episódica ([relatório](entity-event-memory-ops-v0.1.md)): testes para E1–E4 e B1 (inclusive dissociação espaço-temporal × características) e 7 requisitos para o mundo com objetos.
    - [x] **P0.6** Mundo com entidades: mesa 2-D ([relatório](tabletop-world-v0.1.md); 7 testes): física por eventos exatos verificada de forma independente (mais de 200 mil verificações; defeitos injetados detectados); anteparo, repousos silenciosos, deriva gradual, troca escondida, teletransporte; 84 canais opacos (retina, tato, térmico com bancos de limiares).
-   - [~] **P0.7** Pré-registro v1: limiares propostos com justificativa e aprovados pelo responsável; datado.
+   - [~] **P0.7** Pré-registro v1: [minuta](preregistration-v1.md) com limiares justificados, **aguardando aprovação do responsável**.
 
    *Fase 1 — motor constitutivo mínimo (MCM v0)*
    - [ ] **F1.1** Primitivas do MCM (incidência, traços multiescala, coincidência, criação por novidade, ciclo de vida, corrigibilidade) com testes.

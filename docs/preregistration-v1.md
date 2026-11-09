@@ -1,0 +1,75 @@
+# Pré-registro v1 — Fase 1 (MCM v0) e previsões direcionais H-ORG
+
+**Estado:** MINUTA, aguardando aprovação do responsável. Datada de 09/11/2026. Após a aprovação, qualquer alteração é registrada como **desvio** (PPC-26), com data e justificativa, sem apagar o texto aprovado.
+
+**Escopo:** critérios D1–D6 (objetivo 1, seção 2 do [desenho](research-design-v0.1.md)). As previsões H-ORG ficam registradas aqui com **direção**; seus limiares serão fixados antes de F2.3.
+
+## 1. Hipóteses
+- **H1 (formação):** o MCM v0 constitui unidades a partir das incidências, acima do que constitui em dados substitutos que preservam taxas e tempos internos de cada canal.
+- **H2 (ancoragem):** propriedades temporais das unidades acompanham a variável física do mundo (altura da queda), não as latências dos instrumentos.
+- **H3 (papel interno):** remover uma unidade consolidada altera o que o próprio sistema constitui depois, mais do que remover unidades aleatórias.
+- **H4 (continuidade):** novas regularidades não apagam as unidades consolidadas e não esgotam a plasticidade.
+
+## 2. Mundos, condições e sementes
+| Mundo | Condição | Sementes |
+|---|---|---|
+| Quedas episódicas (P0.2) | 40 episódios, alturas U(0,8; 2,0) m, amostragem de 1 ms | cronograma 1–10 |
+| Quedas, controle de altura fixa | 40 episódios a 1,4 m | 1–10 |
+| Quedas, latências | igualadas (todas 3 ms) e embaralhadas | 1–10 |
+| Mesa (P0.6) | protocolo `standard-v1`, 300 s | idSeed e lançamento 1–10 |
+| Sala multi-dia (P0.3) | 7 dias, cronograma sorteado | 1–5 |
+
+## 3. Comparadores e ablações
+- **Comparadores** (mesma informação de entrada): controle TEMPO de nós fixos; GWR; Gamma-GWR ou Merge GNG; PARSER adaptado a eventos discretizados.
+- **Ablações do MCM:** exigência de duas ou mais fontes reduzida a uma; uma escala de traço só; sem consolidação; sem corrigibilidade; sem recalibração; criar sempre (sem critério de novidade).
+
+## 4. Nulos
+Deslocamento circular por canal; embaralhamento de intervalos por canal; permutação de rótulos de canal; latências igualadas e embaralhadas (no mundo); remoção aleatória de unidades. **Exigência:** um critério só é satisfeito se superar **todos** os nulos pertinentes (lição do [P0.4](bench-v0.1.md)).
+
+## 5. Critérios e limiares
+| ID | Medida | Sucesso | Justificativa do limiar |
+|---|---|---|---|
+| D1 | Proporção de unidades com registro de criação (incidências causadoras) | 100% | Verificação determinística; qualquer exceção é defeito |
+| D2 | Unidades consolidadas no mundo real ÷ média de 30 substitutos, por semente | Razão ≥ 2 **e** observado > máximo do nulo em ≥ 8 de 10 sementes | Com 30 substitutos, superar o máximo equivale a p ≤ 1/31; exigir 8/10 sementes protege contra sorte em poucas sementes |
+| D3a | Spearman entre a propriedade de atraso da unidade e a altura (quedas variáveis) | \|ρ\| ≥ 0,6 com p < 0,01 após correção de Holm entre sementes, em ≥ 8 de 10 sementes | 0,6 é forte o bastante para não ser artefato de amostragem de 1 ms; a variável física em si tem \|ρ\| ≈ 0,997 com o intervalo vivido |
+| D3b | Mesma medida com altura fixa | \|ρ\| < 0,2 em ≥ 8 de 10 sementes | Sem variação no mundo não pode haver covariância genuína |
+| D3c | Efeito D3a com latências igualadas | Retém ≥ 80% de \|ρ\| | Se depender das latências, é instrumento, não mundo (P0.1) |
+| D4 | Efeito da remoção das 10 unidades consolidadas mais antigas × 30 remoções aleatórias | Efeito > máximo do nulo em ≥ 7 de 10 unidades | Piso de p = 1/31 por unidade; 7/10 admite unidades redundantes, previstas pela leitura de padrão do preprint |
+| D5 | Após nova faixa de alturas (U(2,0; 3,0) m), unidades consolidadas anteriores que persistem; taxa de criação | ≥ 80% persistem **e** a taxa não cai abaixo de 10% da inicial | Admite poda seletiva; exclui esquecimento catastrófico e perda de plasticidade |
+| D6 | MCM × comparadores nas mesmas condições | MCM supera o controle TEMPO em D3a **e** iguala ou supera o GWR em D2 | Mínimo para justificar o mecanismo novo; todos os resultados são relatados, inclusive derrotas |
+
+**Comparações múltiplas:** correção de Holm-Bonferroni dentro de cada critério.
+
+## 6. Previsões das ablações (refutáveis)
+| Ablação | Previsão |
+|---|---|
+| Fonte única | Unidades tornam-se cópias de canais; D3a falha |
+| Escala única (rápida) | Unidades da sala desaparecem (escala de horas inalcançável); quedas mantêm-se |
+| Sem consolidação | D5 falha (persistência) |
+| Sem corrigibilidade | D3a enfraquece: atrasos não acompanham a altura |
+| Criar sempre | D2 falha: unidades também nos substitutos |
+
+## 7. Refutação
+- **H1 refutada** se D2 falhar no mundo de quedas **e** na mesa.
+- **H2 refutada** se D3a falhar, ou se D3b ou D3c indicarem artefato.
+- **H3 refutada** se D4 falhar.
+- **H4 refutada** se D5 falhar.
+- O MCM v0 é considerado **sem vantagem** se D6 falhar, mesmo que D1–D5 passem.
+
+## 8. Envelope da Fase 1 (X1, parada que falha fechada)
+| Limite | Valor proposto |
+|---|---|
+| Unidades por execução | 5.000 |
+| Taxa de criação | 50 unidades por segundo simulado |
+| Duração simulada por execução | 7 dias |
+| Descargas de Uint por execução | 10.000.000 |
+| Instâncias simultâneas | 1 (bifurcações contam como instâncias) |
+| Corpo, atuação, variável regulatória | Nenhum |
+
+Detectores S1, V1 e V2 não são esperados na Fase 1 (sem corpo e sem ação). São implementados a partir de F2.2 e C2; até lá, qualquer sinal de Orientação observado manualmente é tratado como PARAR.
+
+## 9. Previsões direcionais H-ORG (registradas agora; limiares antes de F2.3)
+ORG-1 (fundação por escalas lentas, acima do nulo de taxa e duração); ORG-2 (intensidade só com bancos de limiares); ORG-3 (grandeza intermodal desaparece quando luz e calor são descorrelacionados); ORG-4 (comunidades por canal aferente acima do nulo); ORG-5A × 5B (a regra de categorização decide entre periferia e integração); ORG-6 (migração dos hubs); ORG-7 (estrutura × acesso, acima do nulo de idade). Detalhes na seção 5 do desenho.
+
+## 10. Plano de análise
+Scripts versionados no repositório, executados pelo monitor (F1.3); relatório da Fase 1 (F1.7) com tabelas por semente, todos os nulos e todas as ablações, inclusive resultados negativos.
