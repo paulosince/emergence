@@ -29,7 +29,7 @@ export const DEFAULTS = Object.freeze({
   maxCandidatesPerEvent: 64,
   // increment 2 (three-factor gate, cascade stability, capacity)
   gating: true, eligibilityMs: 2000, maxTags: 5000,
-  noveltyPacemaker: { tauMs: 500, threshold: 1, refractoryMs: 30, drive: 0.0021 }, noveltyInput: 2.5,
+  noveltyPacemaker: { tauMs: 500, threshold: 1, refractoryMs: 30, drive: 0.0021 }, noveltyInput: 2.5, burstRefractoryMs: 500, maxAllocationsPerGate: 4,
   modulatorPerSpikeNM: 15, modulatorClearancePerS: 20,
   receptorHalfNM: 20, desensitizationTauMs: 60000, desensitizationGain: 1,
   cascade: true, cascadeBaseTauMs: 600000, cascadeFactor: 4, cascadeMaxLevel: 5, pruneBelow: 0.05,
@@ -41,7 +41,7 @@ export class ConstitutiveEngine {
   #lastValue = new Map(); #sources = new Map(); // id -> {last, traces[], tTrace, pos}
   #elements; #grid = new Map(); #cell;
   #units = []; #byPair = new Map(); #n = 0; #failed = 0;
-  #tags = []; #react = []; #pm; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
+  #tags = []; #react = []; #pm; #lastBurst = -Infinity; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
   constructor(options = {}) {
     this.#p = Object.freeze({ ...DEFAULTS, ...options });
     const p = this.#p;
@@ -124,8 +124,8 @@ export class ConstitutiveEngine {
       // signal (nothing accommodated the coincidence) drives the novelty source
       for (const c of chosen) this.#tags.push({ first: c.rid, second: sourceId, lived: c.lived, scaleMs: c.scaleMs, t, cause });
       if (this.#tags.length > p.maxTags) this.#tags.splice(0, this.#tags.length - p.maxTags);
-      this.#pm.input(p.noveltyInput);
-      this.#modulator(t);
+      // phasic novelty response; a minimum interval between bursts (proposal)
+      if (t - this.#lastBurst >= p.burstRefractoryMs) { this.#lastBurst = t; this.#pm.input(p.noveltyInput); this.#modulator(t); }
     }
     // 3. update own trace and last time
     this.#decay(s, t);
@@ -134,8 +134,9 @@ export class ConstitutiveEngine {
   }
   #nearElements(center, radius) {
     const out = [], c = center.map(v => Math.floor(v / this.#cell)), span = Math.ceil(radius / this.#cell);
-    for (let dx = -span; dx <= span; dx++) for (let dy = -span; dy <= span; dy++) for (let dz = -span; dz <= span; dz++) {
-      for (const e of this.#grid.get([c[0] + dx, c[1] + dy, c[2] + dz].join(',')) ?? []) {
+    const maxI = Math.floor(this.#p.substrateSideUm / this.#cell), lo = v => Math.max(0, v - span), hi = v => Math.min(maxI, v + span);
+    for (let x = lo(c[0]); x <= hi(c[0]); x++) for (let y = lo(c[1]); y <= hi(c[1]); y++) for (let z = lo(c[2]); z <= hi(c[2]); z++) {
+      for (const e of this.#grid.get(x + ',' + y + ',' + z) ?? []) {
         if (Math.hypot(e.pos[0] - center[0], e.pos[1] - center[1], e.pos[2] - center[2]) <= radius) out.push(e);
       }
     }
@@ -145,7 +146,7 @@ export class ConstitutiveEngine {
     const p = this.#p, a = this.#sources.get(first).pos, b = this.#sources.get(second).pos;
     const center = [0, 1, 2].map(k => (a[k] + b[k]) / 2);
     let pool = [], radius = p.recruitRadiusUm;
-    while (pool.length < p.unitSize && radius <= p.substrateSideUm * 2) { pool = this.#nearElements(center, radius).filter(e => e.units < p.maxUnitsPerElement); radius *= 2; }
+    while (pool.length < p.unitSize && radius <= p.substrateSideUm * 1.8) { pool = this.#nearElements(center, radius).filter(e => e.units < p.maxUnitsPerElement); radius *= 2; }
     if (pool.length < p.unitSize) { this.#failed++; this.#pending.push({ type: 'recruitment.failed', timeMs: t, reason: 'substrate exhausted near sources' }); return; }
     const ex = new Map(pool.map(e => [e, this.#excitability(e, t)]));
     pool.sort((x, y) => ex.get(y) - ex.get(x) || x.id - y.id);
@@ -201,10 +202,15 @@ export class ConstitutiveEngine {
       // expired tags are dropped; live tags wait for an open gate within their window
       this.#tags = this.#tags.filter(g => g.t >= ts - p.eligibilityMs && !(open && g.t <= ts));
       if (live.length && open) {
+        // competitive, sparse allocation: only the most recent eligible
+        // coincidences win per gate opening (Rashid et al. 2016; Josselyn and Tonegawa 2020)
         const seen = new Set();
+        live.sort((x, y) => y.t - x.t || x.lived - y.lived);
+        let won = 0;
         for (const g of live) {
+          if (won >= p.maxAllocationsPerGate) break;
           const key = g.first + '>' + g.second + ':' + Math.round(g.lived);
-          if (seen.has(key)) continue; seen.add(key);
+          if (seen.has(key)) continue; seen.add(key); won++;
           this.#recruit(g.first, g.second, g.lived, g.scaleMs, ts, { ...g.cause, gatedAtMs: ts });
         }
       }

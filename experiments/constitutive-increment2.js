@@ -13,7 +13,7 @@ const rec = make => { const { world, ...cfg } = make(); const r = runExperiment(
 const streams = { 'quedas, 40 episódios': rec(() => createEpisodicDropScenario({ episodes: 40, scheduleSeed: 1, sensorOverrides: FAST })),
   'mesa, 120 s': rec(() => createTabletopScenario({ horizonMs: 120000, protocol: 'free', launchSeed: 1 })) };
 const out = [];
-for (const [name, s] of Object.entries(streams)) for (const gating of [false, true]) {
+for (const [name, s] of Object.entries(streams)) for (const gating of (process.argv.includes("--with-ungated") ? [false, true] : [true])) {
   const t0 = Date.now(), e = new ConstitutiveEngine({ seed: 1, substrateSize: 10000, substrateSideUm: 860, gating, cascade: gating });
   const r = replayIncidences(e, s.inc, { endTimeMs: s.end }), snap = r.finalSnapshot, n = t => r.events.filter(x => x.detail.type === t).length;
   out.push({ stream: name, gate: gating, created: n('unit.created'), perSecond: +(n('unit.created') / (s.end / 1000)).toFixed(1),
