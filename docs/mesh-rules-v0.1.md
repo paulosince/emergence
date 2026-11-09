@@ -25,6 +25,7 @@
 | Criação | Criação por não acomodação | Cria unidade só se nenhuma existente responde; a unidade exige as duas fontes | Literatura (rede que cresce quando necessário; teoria da ressonância adaptativa); CLEAR | aprovada |
 | Criação | Limiar de vigilância com habituação | Rigor do teste de novidade ajustável; contador de habituação controla a taxa | Literatura (as mesmas) | sugestão |
 | Ciclo de vida | Consolidação por recorrência | Provisória → consolidada após confirmações; consolidada resiste | Programa TEMPO, transposto | aprovada |
+| Ciclo de vida | Estabilidade em cascata (proposta de substituição) | Níveis de estabilidade; o decaimento desacelera a cada nível, sem parar; subir exige reativação com portão modulador; manutenção por reativação; decaimento regulado no sono ([consolidação e decaimento](consolidation-decay-v0.1.md)) | Literatura (Fusi et al., 2005; Hardt et al., 2013) | proposta |
 | Poda | Poda por desuso ou contradição persistente | Provisória não confirmada ou contrariada é removida | Programa TEMPO; Perruchet e Vinter (1998) | aprovada |
 | Adequação | Ajuste de atraso por chegada fora da janela | Corrige o atraso quando o sinal chega um pouco fora | Inferência nossa (corrigibilidade da CLEAR) | aprovada |
 | Adequação | Revisão seletiva | Discrepância persistente: nova unidade, a antiga é preservada | Inferência nossa (correção assimétrica da CLEAR) | aprovada |
