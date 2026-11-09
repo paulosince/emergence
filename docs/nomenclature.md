@@ -94,3 +94,21 @@ P0.1 controle de latências · P0.2 mundo de quedas · P0.3 sala em vários dias
 
 ## Regras de malha
 Os nomes das regras (criação por coatividade ordenada, reforço por concordância de intervalo, poda por peso mínimo etc.) estão no [inventário de regras](mesh-rules-v0.1.md), com origem e motivação, e as divergências da neurobiologia na [revisão](neurobiological-divergence-review-v0.1.md).
+
+## Termos da CLEAR que diferem da literatura (registro do responsável, 09/11/2026)
+A CLEAR separa três operações que a maior parte da literatura chama indistintamente de "predição" ou "previsão":
+- **Projeção:** alocação de um estado em um ponto futuro.
+- **Previsão:** alocação de uma projeção de acordo com cálculos probabilísticos de tendência em dados passados.
+- **Preparação do campo representacional relacional:** distinta das duas anteriores. Definição completa a obter do responsável ou dos textos da CLEAR.
+
+**Regra:** nos documentos do EMERGENCE, "previsão" só é usada no sentido da CLEAR. Termos da literatura, como "erro de predição de recompensa" e "codificação preditiva", são citados como termos **da literatura**, entre aspas ou com a indicação "no sentido da literatura".
+
+**Classificação do que está implementado (proposta minha, aguardando confirmação do responsável):**
+
+| Mecanismo implementado | Nome atual | Classificação proposta | Por quê |
+|---|---|---|---|
+| Quando a primeira fonte de um par dispara, registra-se um prazo até o qual alguma unidade do par deve descarregar | "estado de espera", "espera", "expectation" | **Projeção** | Aloca um estado (descarga do par) em um ponto futuro (até o prazo); não há cálculo probabilístico de tendência |
+| Falha da espera no prazo | "surpresa", "falha de espera" | **Projeção não cumprida** | Decorre da projeção, não de uma previsão |
+| Incerteza esperada (média das falhas) | "incerteza esperada" | Estatística de **projeções não cumpridas**; não é previsão | Média móvel de frequência, sem alocação de estado futuro |
+| Pré-ativação de sucessores (proposta do desenho, ainda **não implementada**) | "antecipação", "estado de espera" (memória temporal hierárquica) | Provavelmente **preparação do campo representacional relacional** | Prepara o campo sem alocar um estado num ponto futuro; a confirmar |
+| Nenhum mecanismo atual faz **previsão** no sentido da CLEAR | — | — | Não há cálculo probabilístico de tendência sobre dados passados |
