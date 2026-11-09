@@ -39,3 +39,4 @@ O **oráculo** que calibrou os critérios também cria **uma unidade por faixa d
 - **Neurobiologia:** um neurônio recebe de centenas a milhares de sinapses (ordem de grandeza; confiança moderada, varia muito por tipo celular).
 - **Classificação:** erro de implementação (restrição não declarada). Também obriga a criar uma unidade nova para cada par, o que reforça o erro 1 (criar em vez de alcançar).
 - **Correção a desenhar:** a Uint soma as contribuições (magnitude × efeito) de **n ≥ 2** aferências de fontes distintas; duas aferências da mesma fonte não satisfazem a condição.
+- **Fontes distintas (responsável, 09/11/2026):** significa **Upro diferentes**, mesmo que venham da mesma origem transdutiva. Não exige Utrd distintas. (A leitura sugerida por nós, de Utrd distintas a partir da linha 68, foi rejeitada.)
