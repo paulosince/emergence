@@ -82,3 +82,15 @@ Correto: sortear uma Uint pela força e fazê-la disparar é uma escolha do moto
 - **Calibração inicial do impulso [declarado]:** só Uint com excitabilidade > 1,09 atingem o limiar, cerca de 10% das Uint sem reforço recente. Referência: ≈10% das piramidais disparam numa onda aguda (Ylinen et al. 1995, **citado por fonte secundária**, não lido; confiança moderada a baixa).
 - **Correção encontrada:** o relógio, o interruptor e a poda só eram amostrados quando havia incidência; em longos períodos sem entrada o sono não começava. Agora são amostrados ao menos a cada minuto.
 - **Observação para a calibração:** num cenário de teste com 5 Uint recém-alocadas, todas disparam em todos os estados ativos durante horas, porque o reforço de excitabilidade da alocação recente (+0,3, τ = 6 h) as coloca acima de 1,09. Isso favorece a reativação do recente (compatível com Yang et al. 2024), mas também impede o decaimento dessas Uint durante o sono. A fração real de participação precisa ser medida nos mundos e calibrada.
+
+## 15. Surpresa: definição do responsável e operacionalização proposta (09/11/2026)
+Definição: ver [nomenclatura](nomenclature.md). Diferenças em relação à seção 8 (implementada antes):
+- a seção 8 só contava Uint **inibidas** pelo contexto e só disparos provocados por **transdução**;
+- a definição do responsável inclui também Uint apenas **não favorecidas** (sem incidências) e disparos provocados por **outra unidade** (causa interna).
+
+**Operacionalização proposta [Nossa], aguardando aprovação:**
+1. **Esperada:** uma Uint é esperada no instante t se, logo antes do conjunto de incidências que a fez disparar, a soma das suas contribuições ainda disponíveis (excitatórias + inibitórias) era ≥ um mínimo de favorecimento (sugestão: 0,2 do limiar). Isso é a preparação do campo no sentido do responsável.
+2. **"Logo antes":** conta-se o que chegou antes de uma janela curta que antecede a descarga (sugestão: a janela de acomodação da própria Uint, 2 × tolerância de atraso). Incidências dentro da janela são a "virada repentina".
+3. **Surpresa:** descarga de Uint não esperada. Intensidade: quanto faltava (1 − favorecimento prévio, maior quando havia inibição).
+4. **Causa:** transdutiva, se a incidência que completou o limiar veio de uma Utrd; interna, se veio de outra Uint.
+5. A surpresa por contexto inibitório (seção 8) vira um caso particular (favorecimento prévio negativo).
