@@ -44,7 +44,7 @@ Deslocamento circular por canal; embaralhamento de intervalos por canal; permuta
 
 **Análise de sensibilidade (secundária, não muda a decisão):** D3a relatado na grade ρ mínimo ∈ {0,3; …; 0,9} × sementes exigidas ∈ {6; …; 10}; D2 com consolidação em {2, 3, 5} descargas.
 
-**Calibração dos limiares (antes da aprovação):** controle positivo (oráculo que recebe do projetista o par de canais) e controles negativos (controle TEMPO; oráculo com atrasos aleatórios em fluxo independente). Ver [relatório de calibração](calibration-v1.md).
+**Calibração dos limiares (antes da aprovação):** controle positivo (oráculo que recebe do projetista o par de canais) e controles negativos (controle TEMPO; oráculo com atrasos aleatórios em fluxo independente). Ver [relatório de calibração](calibration-v1.md). **Resultado (rodada 2):** D3a e D3c validados e robustos na grade; D3b é salvaguarda (só pode derrubar D3a); **D2 inválido** (TEMPO passa, oráculo falha) e **D5 não discrimina** (negativo aleatório passa) — ambos aguardam decisão do responsável; D4 e D6 não calibrados (exigem o MCM).
 
 ## 6. Previsões das ablações (refutáveis)
 | Ablação | Previsão |
