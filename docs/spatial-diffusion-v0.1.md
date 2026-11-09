@@ -51,12 +51,71 @@ Com coordenadas, a latência de condução pode derivar do comprimento da ligaç
 4. Latência derivada da distância: variante agora ou depois?
 5. Aprofundar antes: coeficientes de difusão por modulador, posicionamento no desenvolvimento e GasNets em texto integral.
 
+## 6. Decisões do responsável (09/11/2026)
+1. **Coordenadas constitutivas: sim.** As geometrias do observador continuam separadas.
+2. **Unidades novas nascem perto das fontes aferentes: sim.**
+3. Difusão: explicação do núcleo analítico pedida; decisão pendente.
+4. **Latência derivada da distância: agora** (como variante, com o controle de latências igualadas).
+5. Aprofundamento: pedido; resultado abaixo.
+
+## 7. Aprofundamento (09/11/2026)
+
+### 7.1 O mecanismo do GasNets (texto lido)
+Lido em texto integral: Husbands, *Evolving robot behaviours with diffusing gas networks* (Universidade de Sussex, por volta de 1998). É um trabalho irmão do artigo da *Connection Science*, que **não consegui obter**.
+- Nós num **plano 2D**, com posições definidas pelo genótipo.
+- Um nó emite um de quatro gases quando sua ativação passa de um limiar **ou** quando a concentração de outro gás no local passa de um limiar.
+- O autor chama de "modelo muito abstrato de difusão": perfil **gaussiano** centrado no nó, nulo além de um raio de influência; acúmulo e decaimento **lineares** no tempo, saturando entre 0 e 1.
+- O gás 1 aumenta e o gás 2 diminui o **ganho** da função de transferência dos nós atingidos.
+
+**Consequência:** o GasNets não resolve a física da difusão. O núcleo analítico proposto aqui é **mais próximo do substrato** que o precedente.
+
+### 7.2 Parâmetros reais da dopamina (texto integral lido)
+Rice e Cragg (2008), *Brain Research Reviews* 58, 303–313, equação 1 (de Nicholson, 1985):
+
+C(r, t) = Q / (α (4π D* t)^{3/2}) · exp(−r² / (4 D* t)) · exp(−k′ t), com D* = D/λ²
+
+| Parâmetro | Estriado | Substância negra | Fonte citada pelos autores |
+|---|---|---|---|
+| D livre (37 °C) | 7,63 × 10⁻⁶ cm²/s | 7,63 × 10⁻⁶ cm²/s | Nicholson (1995) |
+| Tortuosidade λ | 1,54 | 1,58 | Rice e Nicholson (1991); Cragg et al. (2001) |
+| Fração de volume α | 0,21 | 0,30 | idem |
+| Quantum Q | 9.800 moléculas | 14.000 moléculas | Jaffe et al. (1998); Cragg et al. (2001) |
+| Remoção linear k′ | 20 s⁻¹ (= Vmax/Km = 4,1 μM/s ÷ 0,21 μM) | 0,12 s⁻¹ | Ross (1991); Cragg et al. (2001) |
+
+Os autores registram que k′ = Vmax/Km só vale com concentração bem abaixo de Km. Resultados: raio de influência ≈ 7 μm para receptores de alta afinidade (10 nM) e ≈ 2 μm para os de baixa afinidade (1 μM); pico a 5 μm cerca de 10 ms após a liberação.
+
+**Reprodução por nós (estriado, com remoção):** D* = 322 μm²/s. Pico a 5 μm em 11,3 ms, com 36 nM; a 10 μm, 2,5 nM. O limiar de 10 nM é cruzado entre 5 e 10 μm, coerente com o raio de ≈ 7 μm. A 20 μm o nosso pico sai em 93 ms, e o artigo cita ≈ 250 ms. Não sei explicar a diferença; talvez a condição seja outra (sem remoção, o pico teórico é r²/6D* ≈ 207 ms).
+
+**Discordância a registrar:** uma medida in vivo recente dá 1,05 × 10⁻⁶ cm²/s para a dopamina no cérebro de camundongo, cerca de 3 vezes menor que o D* acima. Só li o resumo, citado por terceiros.
+
+### 7.3 Outros moduladores
+- **Acetilcolina:** a remoção é dominada pela **hidrólise enzimática** (acetilcolinesterase), não pela difusão. Única medida encontrada: 4 × 10⁻⁶ cm²/s na fenda (lagarto, via BioNumbers). Sarter, Parikh e Howe (2009) contestam que a acetilcolina cortical aja por volume: o sinal fásico seria mais localizado. **Consequência:** a acetilcolina pode exigir remoção rápida e alcance curto, não o mesmo núcleo da dopamina.
+- **Serotonina, noradrenalina e adenosina:** **não encontrei** coeficientes confiáveis. Segundo o resumo de um estudo de voltametria, espécies catiônicas difundem cerca de 3 vezes mais devagar que as aniônicas no cérebro.
+
+### 7.4 Posicionamento no desenvolvimento
+- **Migração radial guiada pela glia radial**, com camadas formadas de dentro para fora; interneurônios chegam por migração tangencial (Rakic, 1972; revisões de 2015 a 2024, por resumo).
+- **Economia de fiação:** os circuitos tendem a minimizar comprimento de fio e atrasos de condução (Chklovskii, Schikorski e Stevens, 2002), num compromisso com eficiência topológica (Bullmore e Sporns, 2012).
+
+**Consequência para a regra aprovada:** "nascer perto das fontes aferentes" é uma forma de **economia de fiação**. A migração radial sugere uma variante: **crescer a partir de uma região de origem**, com posições organizadas por ordem de criação.
+- Não encontrei literatura sobre posicionamento **dependente de atividade**.
+
+### 7.5 O que não consegui obter (para o responsável tentar)
+- Husbands et al. (1998), *Connection Science* 10(3–4): texto integral.
+- Nicholson (1995): tabela de coeficientes de difusão de neurotransmissores (há registro: "Diffusion coefficients of neurotransmitters and their metabolites in brain extracellular fluid space", Universidade de Kentucky).
+- Coeficientes de difusão no cérebro de serotonina, noradrenalina e adenosina.
+- Josselyn, Köhler e Frankland (2015), texto integral (o acesso foi negado).
+- Porkka-Heiskanen et al. (1997) e Rakic (1972), textos integrais.
+
 ## Referências (verificadas quanto à existência; leitura por resumo)
 - Andrews, S. S., e Bray, D. (2004). *Physical Biology* 1, 137–151; Andrews et al. (2010). Detailed simulations of cell biology with Smoldyn 2.1. *PLoS Computational Biology* 6, e1000705.
 - Cragg, S. J., e Rice, M. E. (2004). *Trends in Neurosciences* 27, 270–277.
 - Fields, R. D. (2015). *Nature Reviews Neuroscience* 16, 756–767.
 - Husbands, P., Smith, T., Jakobi, N., e O'Shea, M. (1998). Better living through chemistry: evolving GasNets for robot control. *Connection Science* 10(3–4), 185–210.
 - Kerr, R. A. et al. (2008). Fast Monte Carlo simulation methods for biological reaction-diffusion systems in solution and on surfaces. *SIAM Journal on Scientific Computing* 30, 3126–3149 (MCell).
+- Bullmore, E., e Sporns, O. (2012). The economy of brain network organization. *Nature Reviews Neuroscience* 13, 336–349.
+- Chklovskii, D. B., Schikorski, T., e Stevens, C. F. (2002). Wiring optimization in cortical circuits. *Neuron* 34, 341–347.
+- Rice, M. E., e Cragg, S. J. (2008). Dopamine spillover after quantal release. *Brain Research Reviews* 58, 303–313 (texto integral lido).
+- Sarter, M., Parikh, V., e Howe, W. M. (2009). Phasic acetylcholine release and the volume transmission hypothesis: time to move on. *Nature Reviews Neuroscience* 10, 383–390.
 - Syková, E., e Nicholson, C. (2008). Diffusion in brain extracellular space. *Physiological Reviews* 88(4), 1277–1340.
 
 Números de volume e página de Andrews e Bray, Andrews et al., Husbands et al. (páginas) e Kerr et al. foram escritos de memória e precisam ser conferidos.
