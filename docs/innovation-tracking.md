@@ -82,6 +82,11 @@
 - **Novo possível:** detectores **pré-registrados e calibrados**, derivados de uma teoria específica (CLEAR, VALORE, ANCHOR), que **param o experimento** em vez de apenas avaliar.
 - **Para alegar:** levantar protocolos de pesquisa com sistemas potencialmente sencientes.
 
+## 9. Efeito com sinal acrescentado por qualquer unidade do caminho
+- **O que existe:** sinapses baseadas em corrente com peso com sinal; princípio de Dale; modulação pré-sináptica multiplicativa da liberação. Tudo padrão na literatura.
+- **O que seria novo (hipótese, não verificado):** a formulação da CLEAR em que Utrd, Upro e Uint podem todas acrescentar efeito e magnitude à mesma incidência, separando sinal (soma) e magnitude (0–1). Provavelmente equivalente a formulações conhecidas; não alegar novidade sem busca.
+- **Falta:** busca de precedentes; aprovação da [proposta](effects-v0.1.md).
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
