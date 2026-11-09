@@ -14,7 +14,7 @@
 | Critérios de engrama calibrados com controles positivos e negativos para sistemas artificiais constitutivos | Método de avaliação | implementado e calibrado | média | Metodologia de avaliação |
 | "Necessidade sem conteúdo não é representação" e contagem de unidades invertida | Achado metodológico | demonstrado na calibração | média | Metodologia de avaliação |
 | Motor constitutivo mínimo (combinação de mecanismos) | Mecanismo | proposta | média (combinação), baixa (partes) | Motor constitutivo |
-| Volume transmission física (núcleo de fonte pontual com α, λ e remoção), avaliado por eventos, como terceiro fator num sistema constitutivo | Mecanismo | proposta | média | Neuromodulação espacial |
+| Volume transmission física (núcleo de fonte pontual com α, λ e remoção), avaliado por eventos, como terceiro fator num sistema constitutivo | Mecanismo | difusão implementada e validada; uso como terceiro fator ainda em proposta | média | Neuromodulação espacial |
 | Coordenadas constitutivas com posicionamento por economia de fiação e latência derivada da distância, num sistema que aprende | Mecanismo | proposta | baixa a média | Motor constitutivo ou neuromodulação espacial |
 | Família epistêmica × valorativa de neuromodulação como estágio de segurança | Desenho e ética | proposta | baixa a média | Ética e monitoramento |
 | Ciclo sono-vigília com pressão glial territorial, interruptor biestável e renormalização num sistema constitutivo | Mecanismo | proposta | baixa a média | Modulação cíclica |

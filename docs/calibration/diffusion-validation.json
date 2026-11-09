@@ -1,0 +1,126 @@
+{
+  "substance": "dopamine-striatum",
+  "source": "Rice and Cragg 2008, Table 1 (striatum); uptake linearised as Vmax/Km, valid only far below Km",
+  "effectiveDiffusionUm2PerS": 321.7237308146399,
+  "influence10nM": [
+    {
+      "ms": 1,
+      "radiusUm": 2.97
+    },
+    {
+      "ms": 5,
+      "radiusUm": 5.29
+    },
+    {
+      "ms": 10,
+      "radiusUm": 6.42
+    },
+    {
+      "ms": 20,
+      "radiusUm": 7.11
+    },
+    {
+      "ms": 40,
+      "radiusUm": 5.21
+    },
+    {
+      "ms": 60,
+      "radiusUm": 0
+    }
+  ],
+  "peaks": [
+    {
+      "rUm": 1,
+      "peakMs": 0.6,
+      "peakNM": 5550.35
+    },
+    {
+      "rUm": 5,
+      "peakMs": 11.2,
+      "peakNM": 35.88
+    },
+    {
+      "rUm": 10,
+      "peakMs": 35.2,
+      "peakNM": 2.48
+    },
+    {
+      "rUm": 20,
+      "peakMs": 92.6,
+      "peakNM": 0.06
+    }
+  ],
+  "equivalence": [
+    {
+      "rMid": 0.5,
+      "count": 529,
+      "particlesNM": 244.66,
+      "kernelNM": 242.06
+    },
+    {
+      "rMid": 1.5,
+      "count": 3026,
+      "particlesNM": 199.93,
+      "kernelNM": 207.22
+    },
+    {
+      "rMid": 2.5,
+      "count": 6174,
+      "particlesNM": 150.29,
+      "kernelNM": 151.86
+    },
+    {
+      "rMid": 3.5,
+      "count": 7534,
+      "particlesNM": 94.17,
+      "kernelNM": 95.27
+    },
+    {
+      "rMid": 4.5,
+      "count": 6653,
+      "particlesNM": 50.44,
+      "kernelNM": 51.16
+    },
+    {
+      "rMid": 5.5,
+      "count": 4574,
+      "particlesNM": 23.25,
+      "kernelNM": 23.52
+    },
+    {
+      "rMid": 6.5,
+      "count": 2501,
+      "particlesNM": 9.11,
+      "kernelNM": 9.26
+    },
+    {
+      "rMid": 7.5,
+      "count": 1154,
+      "particlesNM": 3.16,
+      "kernelNM": 3.12
+    },
+    {
+      "rMid": 9,
+      "count": 561,
+      "particlesNM": 0.53,
+      "kernelNM": 0.46
+    }
+  ],
+  "latticeTortuosity": [
+    {
+      "alpha": 0.2,
+      "tortuosity": 1.238,
+      "rmsUm": 2.84
+    },
+    {
+      "alpha": 0.3,
+      "tortuosity": 1.17,
+      "rmsUm": 4.69
+    },
+    {
+      "alpha": 0.5,
+      "tortuosity": 1.152,
+      "rmsUm": 8.78
+    }
+  ]
+}

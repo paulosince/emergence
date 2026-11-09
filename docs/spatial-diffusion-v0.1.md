@@ -158,6 +158,17 @@ Modelo 3D de difusão de serotonina por diferenças finitas com recaptação sat
 - Josselyn, Köhler e Frankland (2015), texto integral (o acesso foi negado).
 - ~~Porkka-Heiskanen et al. (1997)~~ obtido pelo responsável. ~~Rakic (1972)~~ obtido pelo responsável.
 
+## 8. Implementação (09/11/2026)
+Módulo `src/space/diffusion.js`, com testes em `tests/diffusion.test.js` (8 testes) e validação em `experiments/diffusion-validation.js` ([resultado](calibration/diffusion-validation.json)).
+- **Núcleo analítico:** concentração extracelular em nM; raio de influência por fórmula fechada; campo por eventos com superposição de liberações e poda das que já caíram abaixo do corte em todo o espaço; **recusa** substâncias com remoção saturável.
+- **Conjuntos de parâmetros com fonte:** dopamina no estriado e na substância negra compacta (Rice e Cragg, 2008); serotonina (Raghupathi et al., 2013, remoção saturável, por isso ainda não utilizável no núcleo).
+- **Validação:**
+  - **Conservação de massa:** a integral da concentração devolve Q·e^(−kt) com erro < 0,1%.
+  - **Rice e Cragg reproduzido:** raio máximo de influência a 10 nM de 7,11 μm (por volta de 20 ms); pico a 5 μm em 11,2 ms.
+  - **Equivalência com partículas** em meio livre (40.000 partículas, 10 ms): concordância de 1% a 3% entre 1 e 8 μm. Nas cascas externas, onde há poucas partículas, a diferença relativa cresce.
+  - **Tortuosidade geométrica de cubos convexos:** 1,24 (α = 0,2), 1,17 (α = 0,3), 1,15 (α = 0,5). Fica perto do limite teórico de cerca de 1,225, com ruído de amostragem de alguns centésimos e viés do passo. **Confirma que obstáculos convexos não chegam a 1,6.**
+- **Pendente:** variante numérica com remoção saturável (estriado, serotonina); bolsões sem saída na variante de partículas; anisotropia ao longo das arestas.
+
 ## Referências (verificadas quanto à existência; leitura por resumo)
 - Andrews, S. S., e Bray, D. (2004). *Physical Biology* 1, 137–151; Andrews et al. (2010). Detailed simulations of cell biology with Smoldyn 2.1. *PLoS Computational Biology* 6, e1000705.
 - Cragg, S. J., e Rice, M. E. (2004). *Trends in Neurosciences* 27, 270–277.

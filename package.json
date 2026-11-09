@@ -52,6 +52,8 @@
     "experiment:episodic:json": "node experiments/episodic-drops.js --json",
     "experiment:bench-demo": "node experiments/bench-demo.js",
     "experiment:tabletop": "node experiments/tabletop.js",
-    "experiment:tabletop:json": "node experiments/tabletop.js --json"
+    "experiment:tabletop:json": "node experiments/tabletop.js --json",
+    "experiment:diffusion": "node experiments/diffusion-validation.js",
+    "experiment:diffusion:json": "node experiments/diffusion-validation.js --json"
   }
 }
