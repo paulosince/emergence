@@ -27,3 +27,29 @@ Hipótese de artefato de instrumento **confirmada** dentro deste cenário: as re
 
 ## Limites
 Um cenário (sala), um mecanismo (TEMPO com nós fixos, modo `shift`, K = 4, η = 0,2) e transdutores sem ruído. Não generaliza para o MCM nem para outros mundos.
+
+## Literatura: o problema é conhecido, sob vários nomes (busca de 09/11/2026; leitura de resumos e registros)
+
+| Área | Achado | Referência |
+|---|---|---|
+| Conectividade cerebral (fMRI) | Granger aplicado a fMRI falha porque o atraso hemodinâmico difere entre regiões; o "motor" só foi identificado depois de modelar e remover a hemodinâmica. Uma região que influencia outra, mas tem resposta hemodinâmica mais lenta, pode aparecer com a direção invertida | David et al. 2008 (PLoS Biol.); Smith et al. 2011 (NeuroImage); objeção de Deshpande et al. 2010 |
+| Descoberta causal | A amostragem do processo de medida faz o Granger falhar; identificabilidade só sob hipóteses adicionais | Gong et al. 2015 (ICML) |
+| Plasticidade por tempo de disparo | O STDP concentra peso nas aferências que chegam primeiro: transforma latência em peso por si só | Guyonneau, VanRullen e Thorpe 2005 (Neural Comput.) |
+| Percepção | Atributos com latências de processamento diferentes são percebidos fora de sincronia (cor cerca de 100 ms antes de movimento), efeito contestado por manipulações de estímulo | Moutoussis e Zeki 1997 (Proc. R. Soc. B) |
+| Compensação biológica | Constância de simultaneidade; recalibração de defasagens constantes; recalibração motor-sensorial que chega a inverter a ordem percebida; visão calibrando a audição no desenvolvimento; seleção de atrasos por aprendizagem hebbiana | Kopinska e Harris 2004; Fujisaki et al. 2004; Stetson et al. 2006 (Neuron); Knudsen e Knudsen 1989 (J. Neurosci.); Gerstner et al. 1996 (Nature) |
+| Robótica | Calibração temporal entre sensores: o deslocamento é estimado como variável de estado, com análise de identificabilidade; exige excitação por movimento | Furgale, Rehder e Siegwart 2013 (IROS, Kalibr); Li e Mourikis 2014 (IJRR) |
+| Filosofia | Não confundir o tempo do representar com o tempo representado | Dennett e Kinsbourne 1992 (BBS) |
+
+**Analogia mais próxima:** o caso do fMRI. Lá a direção inferida segue o instrumento mais rápido, exatamente como aqui (100% das relações do canal mais rápido para o mais lento).
+
+**Não encontrado:** um sistema auto-organizado que constitui relações temporais **como conteúdo** e absorve a latência do instrumento como conteúdo, discutido explicitamente. Não encontrar não significa que não exista.
+
+**Implicação teórica para a CLEAR:** a tese de que tempos de chegada e integração participam do conteúdo precisa distinguir o tempo do veículo (inclui a latência da via) do tempo do referente. Proposta de critério: o conteúdo temporal só é ancorado se covaria com condições do referente que variam de forma independente; o tempo invariante entre condições pertence à via.
+
+**Soluções candidatas para o MCM:**
+1. Recalibração de defasagens constantes (regra neutra quanto ao conteúdo).
+2. Calibração cruzada entre modalidades.
+3. Calibração pela ação, com cópia eferente.
+4. Seleção de atrasos.
+
+**Ambiguidade de fundo:** um atraso constante do mundo é indistinguível de uma latência de instrumento sem variação ou intervenção. Isso reforça N2 e a hipótese concorrente H-AÇÃO (seção 11.1 do desenho de pesquisa).
