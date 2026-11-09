@@ -46,8 +46,13 @@
   - **MCell e Smoldyn:** difusão física por partículas, sem rede que aprende.
   - **Cx3D** (Zubler e Douglas, 2009): **desenvolvimento cortical em espaço 3D físico, com difusão de substâncias no espaço extracelular.** É o precedente mais próximo do conjunto espaço + difusão; o foco é crescimento e desenvolvimento, não neuromodulação da plasticidade.
   - Uma perspectiva de 2025 sobre regras de três fatores em redes de disparos aponta os **aspectos espaciais e temporais do terceiro fator como questão em aberto** (por resumo).
+- **Atualização (textos integrais):**
+  - o GasNets de 1998 é declaradamente "only analogy";
+  - o Cx3D não tem atividade elétrica, plasticidade nem neuromodulação;
+  - o **método** do núcleo analítico com superposição já é usado para óxido nítrico por Philippides et al., com base em Crank (1980). Não alegar novidade de método.
+  - O precedente mais próximo da combinação é Philippides et al. (2005), com modelo de plexo e modelo de receptores no GasNets; **ler o texto integral antes de alegar**.
 - **Novo (não encontrado):** concentração calculada pelo **núcleo de fonte pontual com α, λ e remoção** (parâmetros medidos, Rice e Cragg, 2008), avaliada **só nos eventos**, servindo de **terceiro fator** num sistema que **constitui** suas unidades, com **perfil receptor** por unidade e coordenadas constitutivas.
-- **Para alegar:** busca dirigida por "reaction-diffusion neuromodulator spiking", "volume transmission model plasticity"; leitura integral do Cx3D, do transmissor de volume e da perspectiva de 2025.
+- **Para alegar:** texto integral de Philippides et al. (2005); busca dirigida por "reaction-diffusion neuromodulator spiking", "volume transmission model plasticity"; leitura integral do Cx3D, do transmissor de volume e da perspectiva de 2025.
 
 ## 5. Coordenadas constitutivas e latência derivada da distância
 - **Precedentes:** Cx3D (crescimento em 3D físico); economia de fiação (Chklovskii et al., 2002; Bullmore e Sporns, 2012); GasNets (posições no plano dadas pelo genótipo); plasticidade de mielina (Fields, 2015).

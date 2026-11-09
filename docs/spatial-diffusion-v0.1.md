@@ -99,12 +99,43 @@ Os autores registram que k′ = Vmax/Km só vale com concentração bem abaixo d
 **Consequência para a regra aprovada:** "nascer perto das fontes aferentes" é uma forma de **economia de fiação**. A migração radial sugere uma variante: **crescer a partir de uma região de origem**, com posições organizadas por ordem de criação.
 - Não encontrei literatura sobre posicionamento **dependente de atividade**.
 
+### 7.6 Textos integrais obtidos depois (09/11/2026)
+**Husbands, Smith, Jakobi e O'Shea (1998), *Connection Science* 10(3–4)** (enviado pelo responsável; lido):
+- Os autores avisam: "the physical language used in this paper (gas, diffusion etc.) is again only analogy"; "there is no modelling involved".
+- Difusão: C(d, t) = C₀ · e^(−2d/r) · T(t) dentro do raio r e zero fora. T(t) sobe e desce **linearmente** até saturar em 0 e 1; as fontes somam. Limiares: emissão a 0,5 de ativação ou 0,1 de concentração de outro gás.
+- O gás 1 aumenta e o gás 2 diminui o parâmetro da função de transferência (ganho).
+- Nós num plano 2D; não há aprendizado durante a vida, só evolução.
+- Resultado: com o gás ativo, a evolução chega a controladores bem-sucedidos muito mais rápido, "often by an order of magnitude" mais rápido que redes convencionais.
+- Os próprios autores preveem: "different, less arbitrary, abstractions may be used in the future, guided by the results of the detailed computational modelling". **É o espaço que a nossa proposta ocupa.**
+
+**Zubler e Douglas (2009), Cx3D** (texto integral lido na página da revista, cerca de 80%):
+- Espaço 3D contínuo, com vizinhança dada por triangulação de Delaunay. O espaço extracelular é dividido em pequenos volumes, com fluxo pela lei de Fick resolvido analiticamente entre vizinhos. Há difusão e degradação por substância.
+- Substâncias secretadas por células e cones de crescimento servem para **quimiotaxia, ramificação e agregação**.
+- Mecânica de molas e massas, forças de repulsão e atração, movimento superamortecido.
+- Citação: "our program does not yet incorporate electrophysiology"; as sinapses "are not functional". **Não há plasticidade, aprendizado nem neuromodulação.**
+- **Consequência:** Cx3D é o precedente de espaço 3D físico com difusão, mas para **desenvolvimento morfológico**, não para modulação da aprendizagem.
+
+**Philippides, Husbands, Smith e O'Shea, "Structure based models of NO diffusion in the nervous system"** (preprint da Universidade de Sussex; lido em parte):
+- Usa a **mesma solução analítica de fonte pontual** que propusemos: C = S₀/(8(πDt)^{3/2}) · exp(−r²/4Dt) · e^(−λt), de Crank (1980), com **superposição** de pulsos para fontes contínuas e estruturas 3D (esferas, tubos).
+- Os autores defendem a solução analítica sempre que tratável, por ser exata e mais barata, e usam diferenças finitas para estruturas irregulares.
+- **Consequência:** o **método** do núcleo analítico é estabelecido (Crank; Nicholson; Philippides et al.). A novidade possível não está no método.
+
+**Philippides, Husbands, Smith e O'Shea (2005), *Artificial Life* 11, 139–160**: extensões do GasNets com um **modelo de plexo** (inspirado na difusão de óxido nítrico em plexos corticais) e um **modelo de receptores**. Ambos melhoram a evolvabilidade. **Só li o resumo; o texto integral não foi obtido** e é o precedente mais próximo da combinação "difusão mais realista + receptores numa rede artificial".
+
+**Porkka-Heiskanen et al. (1997), *Science* 276, 1265–1268** (enviado pelo responsável; lido):
+- No prosencéfalo basal colinérgico de gatos, a adenosina extracelular foi de 30,6 ± 5,1 nM na vigília e 24,1 ± 4,4 nM no sono de ondas lentas (21% menor).
+- Subiu progressivamente até cerca do dobro (58,9 ± 15,7 nM) em 6 h de vigília prolongada e caiu lentamente no sono de recuperação, sem voltar à base em 3 h.
+- O efeito sobre o sono foi **específico do local**: aumentar a adenosina no prosencéfalo basal mudou o sono; no tálamo, não. A adenosina inibe os neurônios colinérgicos do despertar.
+- Mecanismo sugerido: a produção acompanha o **metabolismo** neuronal.
+- **Consequência para a proposta de pressão de sono:** a substância de pressão é produzida em proporção à atividade e age **inibindo a fonte de despertar** (equivalente da acetilcolina). As constantes de subida e descida podem ser ajustadas a esses dados.
+
 ### 7.5 O que não consegui obter (para o responsável tentar)
-- Husbands et al. (1998), *Connection Science* 10(3–4): texto integral.
+- ~~Husbands et al. (1998)~~ obtido pelo responsável.
+- Philippides et al. (2005), *Artificial Life* 11, 139–160: texto integral.
 - Nicholson (1995): tabela de coeficientes de difusão de neurotransmissores (há registro: "Diffusion coefficients of neurotransmitters and their metabolites in brain extracellular fluid space", Universidade de Kentucky).
 - Coeficientes de difusão no cérebro de serotonina, noradrenalina e adenosina.
 - Josselyn, Köhler e Frankland (2015), texto integral (o acesso foi negado).
-- Porkka-Heiskanen et al. (1997) e Rakic (1972), textos integrais.
+- ~~Porkka-Heiskanen et al. (1997)~~ obtido pelo responsável. Rakic (1972): texto integral.
 
 ## Referências (verificadas quanto à existência; leitura por resumo)
 - Andrews, S. S., e Bray, D. (2004). *Physical Biology* 1, 137–151; Andrews et al. (2010). Detailed simulations of cell biology with Smoldyn 2.1. *PLoS Computational Biology* 6, e1000705.
