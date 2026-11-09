@@ -36,6 +36,7 @@ export const DEFAULTS = Object.freeze({
   maxUnitsPerElement: 20,
   // increment 3
   gradedNovelty: true, surprise: true, surpriseInput: 2.5, maxDischargesPerEvent: 8,
+  contradictionFactor: 0.5, // approved rule: pruning by persistent contradiction (failed expectations weaken the units)
   maxLevel: 2, // predefined levels: channels 0, units up to maxLevel (Infinity = free recursion variant)
 });
 
@@ -128,7 +129,8 @@ export class ConstitutiveEngine {
     for (const { u, lived } of winners) {
       u.discharges++; u.lastDischargeMs = t;
       if (p.cascade) { u.strength = 1; u.tTouch = t; this.#react.push({ u, t }); }
-      this.#expect = this.#expect.filter(x => !x.units.has(u));
+      // any discharge of the pair fulfils the pair's expectation (even by a not-yet-consolidated unit)
+      this.#expect = this.#expect.filter(x => !(x.first === u.afferents[0] && x.second === u.afferents[1] && t >= x.from));
       this.#pending.push({ type: 'unit.discharge', unit: u.key, delayMs: u.delayMs, livedMs: lived, timeMs: t });
     }
     candidates.sort((a, b) => a.lived - b.lived);
@@ -164,7 +166,10 @@ export class ConstitutiveEngine {
     if (!missed.length) return;
     this.#expect = this.#expect.filter(x => t <= x.due + x.tol);
     this.#surprises += missed.length;
-    for (const x of missed) this.#pending.push({ type: 'expectation.failed', pair: [x.first, x.second], timeMs: x.due });
+    for (const x of missed) {
+      this.#pending.push({ type: 'expectation.failed', pair: [x.first, x.second], timeMs: x.due });
+      for (const u of x.units) { u.strength *= p.contradictionFactor; u.contradictions = (u.contradictions ?? 0) + 1; }
+    }
     if (t - this.#lastBurst >= p.burstRefractoryMs) { this.#lastBurst = t; this.#pm.input(p.surpriseInput); this.#modulator(t); }
   }
   #nearElements(center, radius) {

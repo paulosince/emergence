@@ -89,3 +89,21 @@ Sem portão (incremento 1), a mesa dava cerca de 1.700 por segundo.
    - o modulador de **incerteza esperada** (equivalente da acetilcolina), aprovado e ainda não implementado;
    - habituação específica do estímulo;
    - o ciclo de sono (incremento 4).
+
+## Observação: a surpresa diminui com o tempo? (09/11/2026)
+Pedido do responsável. Observação exploratória, sem critério pré-registrado. Script `experiments/surprise-over-time.js`; dados em [surprise-over-time.txt](calibration/surprise-over-time.txt).
+
+**Antes, a surpresa não caía:** nas quedas aleatórias ficava estável e na mesa crescia. A causa era que a regra aprovada de **poda por contradição persistente** ainda não estava implementada. **Implementada agora:** cada espera que falha reduz pela metade a força das unidades do par. A espera também passou a ser cumprida por qualquer descarga do par.
+
+| Mundo (600 s) | Surpresa por descarga, primeiro minuto → último | Criação |
+|---|---|---|
+| Quedas, altura fixa | **0 → 0** | 26 unidades no 1º minuto, **depois nenhuma** |
+| Quedas, alturas aleatórias | **0,66 → 0,39** (cai) | estável (~80/min) |
+| Quedas, ciclo de 3 alturas | 0,40 → 0,32 (estabiliza) | cai e oscila |
+| Mesa (colisões) | 3,0 → 3,3 (estável) | no teto (8/s) |
+
+**Leitura:**
+1. **Num mundo previsível, o sistema amadurece:** a surpresa é nula e a criação para. Num mundo aleatório, a surpresa cai, mas não some, porque a altura sorteada é imprevisível por definição.
+2. **No ciclo de 3 alturas, a surpresa estabiliza sem zerar.** As falhas vêm quase todas de pares que envolvem unidades de nível 2: canal → unidade, 570 de 770 falhas após 200 s; unidade → unidade, 111. Uma espera **por pares** não codifica o **contexto da sequência** (qual altura vem depois de qual). Reduzir essa surpresa exige memória de sequência com contexto, que é tema da fase dos níveis superiores (investigação de antecipação e hierarquia; precedentes: memória temporal hierárquica e blocos de PARSER).
+3. **A mesa não amadurece em 10 minutos.** Colisões tornam o mundo pouco previsível no nível de pares de canais, e a criação continua no teto declarado.
+4. **Implicação para o pré-registro:** "a surpresa diminui em mundos previsíveis e se estabiliza no nível da aleatoriedade do mundo" é uma previsão testável. Pode entrar como **critério de maturação**, com nulo de mundo embaralhado, se o responsável quiser.
