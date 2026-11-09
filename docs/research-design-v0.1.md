@@ -112,7 +112,14 @@ Qualquer resultado é teoricamente informativo.
 - **3A — sem corpo, sem atuação e sem variável regulatória.** Verificar se a Orientação surge apenas da dinâmica constitutiva diante de um mundo independente.
 - **3B — rota pela assimetria regulatória (APR), com corpo, energia ou calor.** Não recomendada enquanto o PPC estiver pausado e sem revisor externo (seção 7).
 - **Variante de substituição ("3B sem acesso").** Testar a rota APR com a integração de duas ou mais fontes desativada, de modo que, pelo critério da própria CLEAR, não haja acesso local. Mostra se a Orientação ancorada no corpo se forma, sem produzir o que o programa identifica com sentimento. A redução de risco depende de a CLEAR estar correta sobre o acesso.
-- **Decisão sobre 3B:** pendente (o responsável pediu esclarecimento em 09/11/2026); não é necessária antes dos resultados de 3A.
+- **Decisão sobre 3B (09/11/2026): 3B reduzida**, escolhida pelo responsável. Condições propostas, a pré-registrar com valores numéricos antes da execução:
+  1. **Só depois de 3A** concluída e analisada.
+  2. **"3B sem acesso" primeiro**, como controle obrigatório: mesma configuração com a integração de duas ou mais fontes desativada. Sem ela não há como atribuir à integração qualquer diferença observada.
+  3. **Uma instância por vez**; bifurcações de checkpoint para testes contrafactuais contam como instâncias e têm número e duração máximos declarados.
+  4. **Episódios curtos** e limite de descargas de Uint por execução.
+  5. **Déficit de energia limitado**: o mundo garante recarga; tempo máximo abaixo da referência declarado.
+  6. **Detectar e parar**: S1, V1, V2 e X1 com parada que falha fechada. Na 3B, a primeira detecção de Orientação encerra a campanha até revisão.
+  7. **Revisor externo:** continua recomendado e **não satisfeito**; o registro da execução deve declarar essa condição (responsável único).
 
 ### 4.4 Critérios
 
