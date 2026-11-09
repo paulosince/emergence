@@ -20,6 +20,8 @@
 import { makeRng } from '../../../vendor/tempo/core/rng.js';
 import { PacemakerUnit } from '../../rhythm/pacemaker.js';
 import { createClockEnsemble } from '../../rhythm/clock.js';
+import { checkpointSensorRng } from '../../runtime/checkpoint-rng.js';
+export const ENGINE_CHECKPOINT_SCHEMA = 'emergence-constitutive-engine-checkpoint-v1';
 
 export { DEFAULTS, PARAMETERS } from './parameters.js';
 import { DEFAULTS, checkOverrides } from './parameters.js';
@@ -36,7 +38,7 @@ export class ConstitutiveEngine {
     this.#check = checkOverrides(options);
     this.#p = Object.freeze({ ...DEFAULTS, ...options });
     const p = this.#p;
-    this.#rng = makeRng(options.seed ?? 1);
+    this.#rng = checkpointSensorRng(options.seed ?? 1, 'constitutive-engine');
     this.#cell = p.recruitRadiusUm;
     this.#pm = new PacemakerUnit(p.noveltyPacemaker);
     if (p.clock) {
@@ -342,6 +344,52 @@ export class ConstitutiveEngine {
         this.#pending.push({ type: 'unit.pruned', unit: u.key, level: u.level, timeMs: t });
       }
     }
+  }
+  // --- checkpoint contract -------------------------------------------------
+  // Captures the COMPLETE state; restoring and continuing must reproduce the
+  // uninterrupted run exactly (tests/constitutive-checkpoint.test.js).
+  // Pending events must be drained first (checkpoint at an event boundary).
+  checkpoint() {
+    if (this.#pending.length) throw new RangeError('Drain events before checkpoint');
+    const units = this.#units.map(u => ({ ...u, afferents: [...u.afferents], elements: [...u.elements], position: u.position && [...u.position] }));
+    return structuredClone({ schema: ENGINE_CHECKPOINT_SCHEMA, params: this.#p, rng: this.#rng.state(), t: this.#t,
+      lastValue: [...this.#lastValue], sources: [...this.#sources].map(([k, v]) => [k, { ...v, traces: [...v.traces], pos: [...v.pos] }]),
+      elements: this.#elements.map(e => ({ id: e.id, pos: [...e.pos], base: e.base, lastAlloc: e.lastAlloc, units: e.units })),
+      units, n: this.#n, failed: this.#failed,
+      tags: this.#tags.map(g => ({ ...g })), react: this.#react.map(r => ({ key: r.u.key, t: r.t })),
+      expect: this.#expect.map(x => ({ first: x.first, second: x.second, from: x.from, due: x.due, tol: x.tol, units: [...x.units].map(u => u.key) })),
+      pm: this.#pm.getState(), lastBurst: this.#lastBurst, c: this.#c, tc: this.#tc, des: this.#des, tdes: this.#tdes,
+      pruned: this.#pruned, lastSweep: this.#lastSweep, spikes: this.#spikes, surprises: this.#surprises, fulfilled: this.#fulfilled,
+      surpriseSum: this.#surpriseSum, firings: this.#firings,
+      clock: this.#clock ? this.#clock.getState() : null, clockPm: this.#clockPm ? this.#clockPm.getState() : null,
+      rateEma: this.#rateEma, lastClockSpike: this.#lastClockSpike, clockSpikes: this.#clockSpikes, state: this.#state,
+      sleepEpisodes: this.#sleepEpisodes, nextReact: this.#nextReact, reactivations: this.#reactivations,
+      ach: this.#ach, tAch: this.#tAch, recentDis: this.#recentDis, recentSur: this.#recentSur });
+  }
+  static restore(ck) {
+    if (ck?.schema !== ENGINE_CHECKPOINT_SCHEMA) throw new RangeError('Not a constitutive-engine checkpoint');
+    const e = new ConstitutiveEngine({ ...ck.params, substrateSize: 0 });
+    e.#p = Object.freeze({ ...ck.params });
+    e.#rng = checkpointSensorRng(ck.params.seed ?? 1, 'constitutive-engine', ck.rng);
+    e.#t = ck.t; e.#lastValue = new Map(ck.lastValue); e.#sources = new Map(ck.sources);
+    e.#elements = ck.elements.map(x => ({ ...x })); e.#grid = new Map();
+    for (const el of e.#elements) { const k = e.#cellKey(el.pos); if (!e.#grid.has(k)) e.#grid.set(k, []); e.#grid.get(k).push(el); }
+    e.#units = ck.units.map(u => ({ ...u })); e.#unitByKey = new Map(e.#units.map(u => [u.key, u])); e.#byPair = new Map();
+    for (const u of e.#units) {
+      if (!e.#byPair.has(u.afferents[1])) e.#byPair.set(u.afferents[1], new Map());
+      const m = e.#byPair.get(u.afferents[1]); if (!m.has(u.afferents[0])) m.set(u.afferents[0], []); m.get(u.afferents[0]).push(u);
+    }
+    e.#n = ck.n; e.#failed = ck.failed; e.#tags = ck.tags.map(g => ({ ...g }));
+    e.#react = ck.react.map(r => ({ u: e.#unitByKey.get(r.key), t: r.t })).filter(r => r.u);
+    e.#expect = ck.expect.map(x => ({ ...x, units: new Set(x.units.map(k => e.#unitByKey.get(k)).filter(Boolean)) }));
+    e.#pm.setState(ck.pm); e.#lastBurst = ck.lastBurst; e.#c = ck.c; e.#tc = ck.tc; e.#des = ck.des; e.#tdes = ck.tdes;
+    e.#pruned = ck.pruned; e.#lastSweep = ck.lastSweep; e.#spikes = ck.spikes; e.#surprises = ck.surprises; e.#fulfilled = ck.fulfilled;
+    e.#surpriseSum = ck.surpriseSum; e.#firings = ck.firings;
+    if (ck.clock) { e.#clock.setState(ck.clock); e.#clockPm.setState(ck.clockPm); }
+    e.#rateEma = ck.rateEma; e.#lastClockSpike = ck.lastClockSpike; e.#clockSpikes = ck.clockSpikes; e.#state = ck.state;
+    e.#sleepEpisodes = ck.sleepEpisodes; e.#nextReact = ck.nextReact; e.#reactivations = ck.reactivations;
+    e.#ach = ck.ach; e.#tAch = ck.tAch; e.#recentDis = ck.recentDis; e.#recentSur = ck.recentSur;
+    return e;
   }
   advanceTo(t) {
     if (t < this.#t) throw new RangeError('Engine time reversal');

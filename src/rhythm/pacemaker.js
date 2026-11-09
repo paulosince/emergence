@@ -42,4 +42,6 @@ export class PacemakerUnit {
   // Modulation: change drive from now on (e.g. clock phase, neuromodulators).
   setDrive(drive) { if (!(drive >= 0)) throw new RangeError('drive must be >= 0'); this.#drive = drive; }
   spikes() { return [...this.#spikes]; }
+  getState() { return { v: this.#v, t: this.#t, refUntil: this.#refUntil, drive: this.#drive }; }
+  setState(x) { this.#v = x.v; this.#t = x.t; this.#refUntil = x.refUntil; this.#drive = x.drive; }
 }

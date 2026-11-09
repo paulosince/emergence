@@ -57,6 +57,8 @@ export function createClockEnsemble({ cells = 20, seed = 1, periodSd = 0.05, cou
     unitX() { return units.map(u => u.s[0]); },
     intrinsicFactors() { return units.map(u => u.tau); },
     snapshot() { return { timeHours: tH, light, units: units.map(u => ({ tau: u.tau, state: [...u.s] })) }; },
+    getState() { return { tH, light, states: units.map(u => [...u.s]) }; },
+    setState(x) { tH = x.tH; light = x.light; x.states.forEach((st, i) => { units[i].s = [...st]; }); },
   };
 }
 

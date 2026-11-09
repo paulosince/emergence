@@ -38,7 +38,7 @@
 
    *Fase do motor constitutivo mínimo (primeira versão)*
    - [~] Primitivas do motor constitutivo (em andamento: difusão, relógio, marca-passo, espaço constitutivo e substrato com recrutamento prontos; ver [diário](constitutive-engine-v0.md)) (incidência, traços multiescala, coincidência, criação por novidade, ciclo de vida, corrigibilidade) com testes.
-   - [ ] Contrato de checkpoint do motor constitutivo.
+   - [~] Contrato de checkpoint do motor constitutivo (implementado: captura completa, restauração e continuação **idênticas** à execução ininterrupta, inclusive com relógio e sono; `tests/constitutive-checkpoint.test.js`; aguarda validação do responsável).
    - [ ] Monitor: executor de campanhas sem interface, detectores de unidades e detector de envelope, parada que falha fechada.
    - [ ] Alertas: canal do GitHub (GitHub Actions + issue) e canal do Claude (tarefa agendada) ativados.
    - [ ] Campanha dos critérios do motor constitutivo com ablações e comparadores (rede que cresce quando necessário e gás neural crescente, controle TEMPO).
