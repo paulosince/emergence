@@ -5,6 +5,9 @@
 // (tolerance tolMs) and discharges the matching unit. It exists to check that
 // pre-registered thresholds are attainable (positive control).
 // With randomDelays:true it assigns random delays instead (negative control).
+// With createAlways:true it never reuses a unit: one new unit per interval
+// (negative control for FORMATION: tracks the referent but constitutes nothing
+// reusable; the 'criar sempre' ablation of the pre-registration).
 // Independent stream: must NOT share the world's schedule stream (a shared
 // seed made 'random' delays an affine function of the heights; caught in
 // calibration v1).
@@ -12,12 +15,13 @@ import { sensorRandomStream } from '../runtime/seed-stream.js';
 
 export class OracleIntervalControl {
   #first; #second; #blocked; #tol; #units = []; #pending = []; #last = null; #time = 0; #n = 0;
-  #random; #rng;
-  constructor({ first = 's0', second = 's1', blockedValue = 0, tolMs = 5, randomDelays = false, seed = 0 } = {}) {
+  #random; #rng; #always;
+  constructor({ first = 's0', second = 's1', blockedValue = 0, tolMs = 5, randomDelays = false, createAlways = false, seed = 0 } = {}) {
+    this.#always = createAlways;
     this.#first = first; this.#second = second; this.#blocked = blockedValue; this.#tol = tolMs;
     this.#random = randomDelays; this.#rng = sensorRandomStream(seed, 'oracle-random-delays');
   }
-  describe() { return { id: this.#random ? 'oracle-random-delay-negative-control' : 'oracle-interval-positive-control',
+  describe() { return { id: this.#always ? 'oracle-create-always-negative-control' : this.#random ? 'oracle-random-delay-negative-control' : 'oracle-interval-positive-control',
     designerKnowledge: ['relevant channel pair', 'blocked value'], candidate: false }; }
   ingest(i) {
     if (i.measurement !== this.#blocked) return;
@@ -25,7 +29,7 @@ export class OracleIntervalControl {
     if (i.transducerId !== this.#second || this.#last === null) return;
     const lived = this.#random ? this.#rng.uniform(70, 175) : i.arrivedAtMs - this.#last;
     this.#last = null;
-    let u = this.#units.find(x => Math.abs(x.delayMs - lived) <= this.#tol);
+    let u = this.#always ? null : this.#units.find(x => Math.abs(x.delayMs - lived) <= this.#tol);
     if (!u) {
       u = { key: 'u' + (++this.#n), delayMs: lived, createdAtMs: i.arrivedAtMs, discharges: 0 };
       this.#units.push(u);

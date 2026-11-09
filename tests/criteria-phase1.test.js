@@ -53,3 +53,15 @@ test('negative control stream is independent of the world schedule (calibration 
     assert.ok(Math.abs(spearman(h,d))<0.5,'seed '+seed+': '+spearman(h,d));
   }
 });
+
+
+test('oracle createAlways never reuses a unit', () => {
+  const e = new OracleIntervalControl({ createAlways: true });
+  for (let k = 0; k < 3; k++) {
+    e.ingest({ transducerId: 's0', measurement: 0, arrivedAtMs: 1000 * k });
+    e.ingest({ transducerId: 's1', measurement: 0, arrivedAtMs: 1000 * k + 100 });
+  }
+  const u = e.snapshot().units;
+  assert.equal(u.length, 3);
+  assert.ok(u.every(x => x.discharges === 1));
+});

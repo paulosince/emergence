@@ -40,3 +40,24 @@ Revelou cinco defeitos do **desenho**, não do motor: (1) o negativo aleatório 
    Qualquer opção exige nova rodada de calibração de D2 (~20 min).
 2. **D5:** aceitar como critério só de H4 (continuidade), com nota de que não discrimina ancoragem; ou acrescentar exigência de que as unidades persistentes **mantenham** D3a após a mudança de faixa.
 3. **D4 e D6** não foram calibrados (exigem o MCM e os comparadores). Ficam marcados como não calibrados.
+
+## Teste da opção (c): retirar D2 e apoiar H1 em D3a + D4
+**Script:** `experiments/calibrate-option-c.js` (~15 s; 10 sementes). **Dados:** [option-c.json](calibration/option-c.json). Novo controle negativo `oracle-create-always`: acompanha a altura, mas nunca reutiliza unidade (é a ablação "criar sempre", que D2 deveria pegar). Remoção no início do episódio 20 de 40; alvos = até 10 unidades consolidadas (≥ 3 descargas) mais antigas; 30 remoções aleatórias entre as unidades existentes. **Desfecho provisório de D4** (operacionalização minha, não aprovada): descargas depois da remoção atribuídas a unidades constituídas antes dela.
+
+| Controle | D3a | D4 | (c) apoia H1? | Esperado |
+|---|---|---|---|---|
+| oracle | passa 10/10 | **falha 0/10** | não | sim |
+| oracle-random | falha | falha 0/10 | não | não |
+| oracle-create-always | **passa 10/10** | falha (0 consolidadas) | não | não |
+| tempo | — | não testável (sem `ablate`) | — | — |
+
+### Leitura
+1. **A opção (c), como está, não funciona:** o controle positivo falha em D4.
+2. **Por que D4 falha no oráculo:** (i) com alturas sorteadas independentemente, uma unidade antiga não tem mais futuro que uma qualquer; (ii) o oráculo tem só 7–10 unidades, então o máximo de 30 remoções aleatórias é praticamente a unidade mais usada de todas, e o alvo teria de superá-la. D4 com nulo "unidades aleatórias do mesmo sistema" testa se **algumas unidades importam mais que outras**, não se as unidades têm papel causal. Confiança: média-alta.
+3. **Achado que vale para qualquer opção:** o controle "criar sempre" **passa em D3a** em 10/10 sementes. D3a mede ancoragem, não formação. Retirar D2 sem um D4 que funcione deixaria a ablação "criar sempre" sem detector.
+4. **Consequência para a opção (a):** informação mútua entre unidade e altura também precisa ser calibrada contra "criar sempre": com uma unidade nova por episódio, a identidade da unidade "informa" tudo trivialmente. A medida teria de ser validada fora da amostra (unidades formadas numa metade, avaliadas na outra).
+
+### Opções para D4 (decisão do responsável)
+- (d1) nulo **entre sistemas**: comparar o efeito da remoção com o mesmo procedimento no controle "criar sempre" (efeito ≈ 0);
+- (d2) nulo de **remoção de traço equivalente**: remover incidências da mesma quantidade em vez de uma unidade;
+- (d3) manter o nulo atual, mas exigir mundos com estrutura temporal (unidades antigas com futuro previsível), o que as quedas i.i.d. não têm.

@@ -1,0 +1,832 @@
+{
+  "oracle": {
+    "d3a": {
+      "passedSeeds": 10,
+      "pass": true
+    },
+    "d4": {
+      "testable": true,
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "optionC": false,
+    "seeds": [
+      {
+        "seed": 1,
+        "preUnits": 7,
+        "consolidated": 3,
+        "passedUnits": 1,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 4,
+            "reuseEffect": 4,
+            "reuseNullMax": 6,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u2",
+            "discharges": 6,
+            "reuseEffect": 3,
+            "reuseNullMax": 6,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u4",
+            "discharges": 6,
+            "reuseEffect": 6,
+            "reuseNullMax": 4,
+            "passed": true,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 2,
+        "preUnits": 7,
+        "consolidated": 2,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u2",
+            "discharges": 7,
+            "reuseEffect": 1,
+            "reuseNullMax": 7,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u6",
+            "discharges": 6,
+            "reuseEffect": 1,
+            "reuseNullMax": 7,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 3,
+        "preUnits": 7,
+        "consolidated": 2,
+        "passedUnits": 1,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 8,
+            "reuseEffect": 2,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u5",
+            "discharges": 4,
+            "reuseEffect": 4,
+            "reuseNullMax": 3,
+            "passed": true,
+            "createdEffect": 1,
+            "createdNullMax": 2
+          }
+        ]
+      },
+      {
+        "seed": 4,
+        "preUnits": 9,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u2",
+            "discharges": 7,
+            "reuseEffect": 1,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u5",
+            "discharges": 3,
+            "reuseEffect": 0,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u7",
+            "discharges": 3,
+            "reuseEffect": 0,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 2
+          }
+        ]
+      },
+      {
+        "seed": 5,
+        "preUnits": 10,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u2",
+            "discharges": 3,
+            "reuseEffect": 3,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u5",
+            "discharges": 4,
+            "reuseEffect": 1,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u9",
+            "discharges": 3,
+            "reuseEffect": 0,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 2
+          }
+        ]
+      },
+      {
+        "seed": 6,
+        "preUnits": 7,
+        "consolidated": 4,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 5,
+            "reuseEffect": 0,
+            "reuseNullMax": 5,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u2",
+            "discharges": 4,
+            "reuseEffect": 0,
+            "reuseNullMax": 5,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u4",
+            "discharges": 3,
+            "reuseEffect": 1,
+            "reuseNullMax": 5,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u6",
+            "discharges": 4,
+            "reuseEffect": 3,
+            "reuseNullMax": 5,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 7,
+        "preUnits": 9,
+        "consolidated": 1,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 8,
+            "reuseEffect": 1,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 2
+          }
+        ]
+      },
+      {
+        "seed": 8,
+        "preUnits": 7,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 5,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u2",
+            "discharges": 3,
+            "reuseEffect": 0,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u3",
+            "discharges": 7,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 9,
+        "preUnits": 9,
+        "consolidated": 3,
+        "passedUnits": 1,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 5,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u2",
+            "discharges": 4,
+            "reuseEffect": 1,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u4",
+            "discharges": 3,
+            "reuseEffect": 3,
+            "reuseNullMax": 2,
+            "passed": true,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 10,
+        "preUnits": 8,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 7,
+            "reuseEffect": 3,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u3",
+            "discharges": 4,
+            "reuseEffect": 1,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u4",
+            "discharges": 3,
+            "reuseEffect": 3,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 2,
+            "createdNullMax": 1
+          }
+        ]
+      }
+    ]
+  },
+  "oracle-random": {
+    "d3a": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d4": {
+      "testable": true,
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "optionC": false,
+    "seeds": [
+      {
+        "seed": 1,
+        "preUnits": 10,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 3,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u3",
+            "discharges": 3,
+            "reuseEffect": 0,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u6",
+            "discharges": 3,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 2,
+        "preUnits": 11,
+        "consolidated": 3,
+        "passedUnits": 1,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 3,
+            "reuseEffect": 3,
+            "reuseNullMax": 2,
+            "passed": true,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u2",
+            "discharges": 4,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u5",
+            "discharges": 3,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 3,
+        "preUnits": 9,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 3,
+            "reuseEffect": 2,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u2",
+            "discharges": 5,
+            "reuseEffect": 1,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u5",
+            "discharges": 3,
+            "reuseEffect": 1,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 4,
+        "preUnits": 10,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u7",
+            "discharges": 3,
+            "reuseEffect": 1,
+            "reuseNullMax": 5,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u9",
+            "discharges": 3,
+            "reuseEffect": 3,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 2,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u10",
+            "discharges": 3,
+            "reuseEffect": 3,
+            "reuseNullMax": 5,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 2
+          }
+        ]
+      },
+      {
+        "seed": 5,
+        "preUnits": 10,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u3",
+            "discharges": 3,
+            "reuseEffect": 3,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u4",
+            "discharges": 5,
+            "reuseEffect": 1,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u7",
+            "discharges": 3,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 6,
+        "preUnits": 10,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u2",
+            "discharges": 3,
+            "reuseEffect": 3,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u3",
+            "discharges": 3,
+            "reuseEffect": 1,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u6",
+            "discharges": 3,
+            "reuseEffect": 0,
+            "reuseNullMax": 4,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 7,
+        "preUnits": 9,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u2",
+            "discharges": 5,
+            "reuseEffect": 2,
+            "reuseNullMax": 2,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u4",
+            "discharges": 4,
+            "reuseEffect": 2,
+            "reuseNullMax": 2,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u7",
+            "discharges": 3,
+            "reuseEffect": 1,
+            "reuseNullMax": 2,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 8,
+        "preUnits": 11,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u3",
+            "discharges": 3,
+            "reuseEffect": 1,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u5",
+            "discharges": 3,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 2,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u8",
+            "discharges": 3,
+            "reuseEffect": 1,
+            "reuseNullMax": 2,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 2
+          }
+        ]
+      },
+      {
+        "seed": 9,
+        "preUnits": 10,
+        "consolidated": 4,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u1",
+            "discharges": 4,
+            "reuseEffect": 0,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u2",
+            "discharges": 3,
+            "reuseEffect": 1,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u3",
+            "discharges": 4,
+            "reuseEffect": 0,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 1
+          },
+          {
+            "key": "u4",
+            "discharges": 3,
+            "reuseEffect": 1,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 1
+          }
+        ]
+      },
+      {
+        "seed": 10,
+        "preUnits": 12,
+        "consolidated": 3,
+        "passedUnits": 0,
+        "pass": false,
+        "units": [
+          {
+            "key": "u3",
+            "discharges": 4,
+            "reuseEffect": 2,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 1,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u4",
+            "discharges": 3,
+            "reuseEffect": 0,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 2
+          },
+          {
+            "key": "u6",
+            "discharges": 4,
+            "reuseEffect": 0,
+            "reuseNullMax": 3,
+            "passed": false,
+            "createdEffect": 0,
+            "createdNullMax": 2
+          }
+        ]
+      }
+    ]
+  },
+  "oracle-create-always": {
+    "d3a": {
+      "passedSeeds": 10,
+      "pass": true
+    },
+    "d4": {
+      "testable": true,
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "optionC": false,
+    "seeds": [
+      {
+        "seed": 1,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      },
+      {
+        "seed": 2,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      },
+      {
+        "seed": 3,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      },
+      {
+        "seed": 4,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      },
+      {
+        "seed": 5,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      },
+      {
+        "seed": 6,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      },
+      {
+        "seed": 7,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      },
+      {
+        "seed": 8,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      },
+      {
+        "seed": 9,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      },
+      {
+        "seed": 10,
+        "preUnits": 20,
+        "consolidated": 0,
+        "passedUnits": 0,
+        "pass": false,
+        "units": []
+      }
+    ]
+  },
+  "tempo": {
+    "d4": {
+      "testable": false,
+      "reason": "engine declares no ablate(unitKey)"
+    }
+  }
+}
