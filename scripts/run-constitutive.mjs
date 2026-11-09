@@ -11,10 +11,13 @@ import { createTabletopScenario } from '../src/sensory/tabletop-scenario.js';
 import { runExperiment } from '../src/runtime/experiment-runner.js';
 import { replayIncidences } from '../src/research/bench/replay.js';
 import { ConstitutiveEngine } from '../src/engines/constitutive/engine.js';
-import { PARAMETERS, checkOverrides } from '../src/engines/constitutive/parameters.js';
+import { PARAMETERS as P1, checkOverrides as C1 } from '../src/engines/constitutive/parameters.js';
+import { ConstitutiveEngineV2 } from '../src/engines/constitutive/engine-v2.js';
+import { PARAMETERS as P2, checkOverrides as C2 } from '../src/engines/constitutive/parameters-v2.js';
 import { OracleIntervalControl } from '../src/engines/oracle-interval-control.js';
 
 const args = process.argv.slice(2), arg = n => args.find(a => a.startsWith('--' + n + '='))?.split('=').slice(1).join('=');
+const V2 = arg('engine') === 'v2', PARAMETERS = V2 ? P2 : P1, checkOverrides = V2 ? C2 : C1; // --engine=v2: version 2 (docs/engine-v2-design-proposal.md)
 if (args.includes('--list')) {
   for (const p of PARAMETERS) console.log(`${p.name} = ${JSON.stringify(p.value)} ${p.unit} [${p.status}] ${p.source}`);
   process.exit(0);
@@ -33,13 +36,13 @@ const makers = {
 if (!makers[world]) throw new RangeError('Unknown world: ' + world);
 const { world: w, ...cfg } = makers[world]();
 const rec = runExperiment({ ...cfg, engine: new OracleIntervalControl() });
-const engine = new ConstitutiveEngine({ seed, ...overrides });
+const engine = V2 ? new ConstitutiveEngineV2({ seed, ...overrides }) : new ConstitutiveEngine({ seed, ...overrides });
 const t0 = Date.now(), r = replayIncidences(engine, rec.incidences, { endTimeMs: cfg.endTimeMs }), snap = r.finalSnapshot;
 const count = t => r.events.filter(x => x.detail.type === t).length;
 const out = { world, seconds: cfg.endTimeMs / 1000, seed, exploratory: check.exploratory, changed: Object.fromEntries(check.changed.map(k => [k, overrides[k]])),
   created: count('unit.created'), alive: snap.units.length, consolidated: snap.units.filter(u => u.level > 0).length,
-  level2: snap.units.filter(u => u.hierLevel >= 2).length, pruned: snap.pruned, discharges: count('unit.discharge'),
-  surprises: snap.surprises, releases: count('modulator.release'), sleepEpisodes: snap.sleepEpisodes, runMs: Date.now() - t0 };
+  level2: snap.units.filter(u => u.hierLevel >= 2).length, pruned: V2 ? snap.stats.pruned : snap.pruned, discharges: count('unit.discharge'),
+  surprises: V2 ? snap.stats.surprises : snap.surprises, ...(V2 ? { stats: JSON.stringify(snap.stats), inhibitoryUpro: snap.upros.inhibitory } : {}), releases: count('modulator.release'), sleepEpisodes: snap.sleepEpisodes, runMs: Date.now() - t0 };
 if (args.includes('--json')) console.log(JSON.stringify(out, null, 2));
 else {
   console.log(out.exploratory ? 'EXECUÇÃO EXPLORATÓRIA (valores diferentes do pré-registro):' : 'Parâmetros do pré-registro.', JSON.stringify(out.changed));

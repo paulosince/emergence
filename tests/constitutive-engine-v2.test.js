@@ -1,0 +1,118 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { ConstitutiveEngineV2 } from '../src/engines/constitutive/engine-v2.js';
+import { assertExperimentEngine } from '../src/contracts/engine.js';
+
+const NOW = { gating: false, cascade: false }; // immediate constitution, no decay (controls)
+function feeder(e) {
+  const v = {};
+  return list => {
+    for (const [ch, t] of list) { v[ch] = v[ch] === 'on' ? 'off' : 'on'; e.ingest({ transducerId: ch, arrivedAtMs: t, measurement: v[ch] }); }
+    return e.drainEvents();
+  };
+}
+const created = (ev, aff) => ev.filter(x => x.type === 'unit.created' && (!aff || x.afferents.join() === aff));
+const fired = ev => ev.filter(x => x.type === 'unit.discharge');
+
+test('contract; only changes are incidences; nothing is constituted without coincidence', () => {
+  const e = assertExperimentEngine(new ConstitutiveEngineV2({ ...NOW, seed: 1 }));
+  e.ingest({ transducerId: 'a', arrivedAtMs: 0, measurement: 1 });
+  e.ingest({ transducerId: 'a', arrivedAtMs: 5, measurement: 1 });
+  assert.equal(e.snapshot().units.length, 0);
+});
+
+test('a coincidence constitutes a Uint with Upro delay lines; the same interval later makes it discharge without new units', () => {
+  const e = new ConstitutiveEngineV2({ ...NOW, seed: 2 }), f = feeder(e);
+  f([['a', 0], ['b', 1]]);
+  const ev1 = f([['a', 1000], ['b', 1040]]);
+  const c = created(ev1, 'b,a');
+  assert.equal(c.length, 1);
+  assert.deepEqual(c[0].delaysMs, [1, 41]); // both arrive together after the conduction delay
+  const ev2 = f([['a', 5000], ['b', 5041]]);
+  e.advanceTo(5100); const ev2b = [...ev2, ...e.drainEvents()];
+  assert.equal(created(ev2b, 'b,a').length, 0, 'accommodated: no new unit for the same interval');
+  assert.ok(fired(ev2b).some(x => x.unit === c[0].unit));
+});
+
+test('a single afferent never reaches threshold (Uint needs at least two contributions)', () => {
+  const e = new ConstitutiveEngineV2({ ...NOW, seed: 3 }), f = feeder(e);
+  f([['a', 0], ['b', 1], ['a', 1000], ['b', 1040]]);
+  const u = e.snapshot().units.find(x => x.afferents.join() === 'b,a').key;
+  const ev = f([['a', 20000]]); e.advanceTo(20200);
+  assert.ok(!fired([...ev, ...e.drainEvents()]).some(x => x.unit === u));
+});
+
+test('confirmation strengthens the contributing Upro (favoured pathway)', () => {
+  const e = new ConstitutiveEngineV2({ ...NOW, seed: 4 }), f = feeder(e);
+  f([['a', 0], ['b', 1], ['a', 1000], ['b', 1040]]);
+  const g0 = e.snapshot().units.find(x => x.afferents.join() === 'b,a').gains;
+  f([['a', 5000], ['b', 5040]]); e.advanceTo(5100); e.drainEvents();
+  const g1 = e.snapshot().units.find(x => x.afferents.join() === 'b,a').gains;
+  assert.ok(g1[0] > g0[0] && g1[1] > g0[1]);
+});
+
+test('a late incidence weakens its Upro and shortens its delay (L81)', () => {
+  const e = new ConstitutiveEngineV2({ ...NOW, seed: 5 }), f = feeder(e);
+  f([['a', 0], ['b', 1], ['c', 2]]);
+  f([['a', 1000], ['b', 1040], ['c', 1041]]); // Uint with afferents c, b, a
+  const u0 = e.snapshot().units.find(x => x.afferents.length === 3);
+  assert.ok(u0, 'three-afferent unit constituted');
+  const iA = u0.afferents.indexOf('a'), dA = u0.delaysMs[iA], gA = u0.gains[iA];
+  // b and c coincide at the unit (discharge at 9002); a's incidence arrives 3 ms later
+  f([['a', 8963], ['b', 9000], ['c', 9001]]); e.advanceTo(9200); const ev = e.drainEvents();
+  assert.ok(ev.some(x => x.type === 'upro.late' && x.unit === u0.key));
+  const u1 = e.snapshot().units.find(x => x.key === u0.key);
+  assert.ok(u1.gains[iA] < gA && u1.delaysMs[iA] < dA);
+});
+
+test('competitors are linked by inhibitory Upro; a transduced input that fires an inhibited unit counts as surprise', () => {
+  const e = new ConstitutiveEngineV2({ ...NOW, seed: 6, surpriseInhibitionMin: 0.1, inhibitoryGain: 0.3 }), f = feeder(e);
+  f([['a', 0], ['b', 1], ['c', 2]]);
+  f([['a', 1000], ['b', 1040]]);           // U1: a then b (40 ms)
+  const ev = f([['a', 3000], ['c', 3045]]); // U2: a then c (45 ms), competitor of U1 (shares a)
+  const u2 = created(ev, 'c,a')[0];
+  assert.ok(u2 && u2.competitors.length >= 1);
+  assert.ok(e.snapshot().upros.inhibitory >= 2);
+  // context: U1 fires at 5041 and inhibits U2 (5042); c's transduced incidence then completes U2 at 5046
+  const ev2 = f([['a', 5000], ['b', 5040], ['c', 5045]]); e.advanceTo(5300);
+  const all = [...ev2, ...e.drainEvents()];
+  const d2 = fired(all).find(x => x.unit === u2.unit);
+  assert.ok(d2, 'inhibited unit still fired');
+  assert.ok(d2.contextInhibition >= 0.1 && d2.surprise, 'counted as surprise');
+});
+
+test('no incidence without a source: magnitude 0 never contributes and an idle engine stays silent', () => {
+  const e = new ConstitutiveEngineV2({ ...NOW, seed: 7 }), f = feeder(e);
+  f([['a', 0], ['b', 1], ['a', 1000], ['b', 1040]]);
+  e.drainEvents(); e.advanceTo(3600000);
+  assert.equal(fired(e.drainEvents()).length, 0);
+});
+
+test('checkpoint and restore reproduce the uninterrupted run exactly', () => {
+  const script = [['a', 0], ['b', 1], ['c', 2]];
+  for (let k = 1; k <= 40; k++) script.push(['a', k * 700], ['b', k * 700 + 40], ['c', k * 700 + 40 + (k % 3) * 20]);
+  const run = cut => {
+    let e = new ConstitutiveEngineV2({ seed: 8 }); const v = {}, out = [];
+    for (let i = 0; i < script.length; i++) {
+      const [ch, t] = script[i]; v[ch] = v[ch] === 'on' ? 'off' : 'on';
+      e.ingest({ transducerId: ch, arrivedAtMs: t, measurement: v[ch] }); out.push(...e.drainEvents());
+      if (i === cut) e = ConstitutiveEngineV2.restore(JSON.parse(JSON.stringify(e.checkpoint())));
+    }
+    e.advanceTo(40000); out.push(...e.drainEvents());
+    return { out, snap: e.snapshot() };
+  };
+  const a = run(-1), b = run(60);
+  assert.deepEqual(b.out, a.out);
+  assert.deepEqual(b.snap, a.snap);
+});
+
+test('sleep: reactivation is an intrinsic discharge that propagates; no strength is added without discharge', () => {
+  const e = new ConstitutiveEngineV2({ seed: 9, clock: { cells: 4, timeScale: 1 } }), f = feeder(e);
+  f([['a', 0], ['b', 1]]);
+  for (let k = 1; k <= 30; k++) f([['a', k * 2000], ['b', k * 2000 + 40]]);
+  e.advanceTo(30 * 3600000);
+  const ev = e.drainEvents();
+  const re = ev.filter(x => x.type === 'unit.reactivated');
+  if (re.length) for (const r of re) assert.ok(ev.some(x => x.type === 'unit.discharge' && x.intrinsic && x.unit === r.unit && x.timeMs === r.timeMs));
+  assert.ok(ev.some(x => x.type === 'state.asleep'), 'the clock produced at least one sleep episode');
+});
