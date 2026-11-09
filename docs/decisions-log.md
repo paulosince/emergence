@@ -26,3 +26,9 @@ Decisões anteriores do mesmo dia: coordenadas constitutivas; unidades novas nas
 ## 09/11/2026: marca-passos
 - **Unidade marca-passo aprovada:** integrador com impulso intrínseco constante, limiar e reinício; entradas deslocam a fase; moduladores mudam a frequência; variante sem marca-passos (ritmo da rede por inibição recíproca) para comparação.
 - **Unidade de relógio do tipo Goodwin:** detalhamento pedido ([marca-passos, seção 6](pacemakers-v0.1.md)); decisão pendente.
+
+## 09/11/2026: tamanho e envelope
+- **Separar** o tamanho do **substrato** (parâmetro por fase) do **envelope de segurança** (unidades recrutadas, taxa de criação, descargas, instâncias; parada que falha fechada; por fase).
+- **Teste de desempenho** depois do incremento de substrato e recrutamento.
+- **Série de escala** na fase do motor: substratos de 1.000, 10.000 e 100.000 elementos, para medir como os critérios variam com o tamanho.
+- Envelope reavaliado a cada fase com o responsável; valores no pré-registro revisado.
