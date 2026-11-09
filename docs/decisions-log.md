@@ -22,3 +22,7 @@
 | Nomes | Renomear as etapas numeradas do roteiro agora; identificadores de código quando cada módulo for reescrito | [nomenclatura](nomenclature.md) |
 
 Decisões anteriores do mesmo dia: coordenadas constitutivas; unidades novas nascem perto das fontes aferentes; latência derivada da distância como variante já agora; núcleo analítico como implementação principal, sem colisões mecânicas, com partículas como variante de validação.
+
+## 09/11/2026: marca-passos
+- **Unidade marca-passo aprovada:** integrador com impulso intrínseco constante, limiar e reinício; entradas deslocam a fase; moduladores mudam a frequência; variante sem marca-passos (ritmo da rede por inibição recíproca) para comparação.
+- **Unidade de relógio do tipo Goodwin:** detalhamento pedido ([marca-passos, seção 6](pacemakers-v0.1.md)); decisão pendente.
