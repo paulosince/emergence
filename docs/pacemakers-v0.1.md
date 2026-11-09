@@ -120,6 +120,22 @@ Parâmetros da figura 1 (lidos):
 - Gonze, D., e Abou-Jaoudé, W. (2013). The Goodwin model: behind the Hill function. *PLoS ONE* 8, e69573 (lido em parte).
 - Thron, C. D. (1991/1992). The secant condition for instability in biochemical feedback control. I. *Bulletin of Mathematical Biology* (registro lido; periódico e ano a conferir).
 
+## 7. Implementação (09/11/2026)
+- **Unidade de relógio** (`src/rhythm/clock.js`): conjunto de unidades do modelo de Gonze et al. (2005) integrado por Runge-Kutta de quarta ordem. Validação (`tests/rhythm.test.js`):
+  - **unidade isolada: 23,7 h** (publicado: 23,5 h);
+  - **população acoplada de 50 unidades: 26,9 h** (publicado: cerca de 26,5 h, com 10.000 células);
+  - degradação linear com n = 4 **amortece** até parar, conforme a condição de Griffith;
+  - **sem acoplamento**, cada unidade continua oscilando, mas a média da população se achata, como em Welsh et al. (1995);
+  - com ciclo claro-escuro (L = 0,01 no claro), o período fica **arrastado em 24,00 h**.
+
+  Esses resultados conferem a reconstrução das equações, já que as do artigo estão em imagem: as duas medidas publicadas são reproduzidas.
+- **Unidade marca-passo** (`src/rhythm/pacemaker.js`): integrador com impulso intrínseco; próximo disparo calculado em forma fechada (por eventos). Testes:
+  - período intrínseco exato;
+  - uma entrada excitatória adianta o disparo;
+  - mais impulso dá mais frequência;
+  - abaixo do limiar de recrutamento, não dispara.
+- **Ainda não feito:** ligar a fase do relógio ao impulso dos marca-passos e estes ao interruptor de estado; isso entra com o motor.
+
 ## Referências
 - Buzsáki, G. (2002). Theta oscillations in the hippocampus. *Neuron* 33, 325–340.
 - Guzman, J. N. et al. (2009). Robust pacemaking in substantia nigra dopaminergic neurons. *Journal of Neuroscience* 29(35), 11011–11019.

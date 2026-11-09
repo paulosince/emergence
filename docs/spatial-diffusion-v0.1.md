@@ -167,6 +167,7 @@ Módulo `src/space/diffusion.js`, com testes em `tests/diffusion.test.js` (8 tes
   - **Rice e Cragg reproduzido:** raio máximo de influência a 10 nM de 7,11 μm (por volta de 20 ms); pico a 5 μm em 11,2 ms.
   - **Equivalência com partículas** em meio livre (40.000 partículas, 10 ms): concordância de 1% a 3% entre 1 e 8 μm. Nas cascas externas, onde há poucas partículas, a diferença relativa cresce.
   - **Tortuosidade geométrica de cubos convexos:** 1,24 (α = 0,2), 1,17 (α = 0,3), 1,15 (α = 0,5). Fica perto do limite teórico de cerca de 1,225, com ruído de amostragem de alguns centésimos e viés do passo. **Confirma que obstáculos convexos não chegam a 1,6.**
+- **Espaço constitutivo** (`src/space/constitutive-space.js`, 4 testes): canais por anatomia, com controle opaco que embaralha a atribuição; unidades novas perto do centro das fontes aferentes, com dispersão sorteada e **origem registrada**; sítios fixos de arquitetura; latência = distância/velocidade + atraso sináptico (variante aprovada); nulo de posições embaralhadas.
 - **Pendente:** variante numérica com remoção saturável (estriado, serotonina); bolsões sem saída na variante de partículas; anisotropia ao longo das arestas.
 
 ## Referências (verificadas quanto à existência; leitura por resumo)
