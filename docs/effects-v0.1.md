@@ -45,4 +45,9 @@ Se alguma dessas perdas se mostrar necessária, entra como termo adicional, regi
 - Consequência para a magnitude: a regra multiplicativa é obrigatória; nenhuma Upro ou Uint cria incidência a partir de magnitude 0.
 - Paralelo biológico: atividade espontânea vem de células com atividade intrínseca (marca-passos) ou de transdução sensorial.
 - **Violação encontrada no motor atual:** a reativação no sono (`engine.js`, linhas 220–231) fortalece unidades (+0,5 de força) a 1 Hz sem nenhuma incidência de origem; é atividade inventada. Precisa passar a ser dirigida por um marca-passo e propagada como incidência, fortalecendo só por participação.
-- Em aberto: a emissão da Uint (v43, linha 131) é derivada das incidências que ela integrou, não uma origem nova. Sua magnitude pode ser maior que a das incidências recebidas?
+- **Ampliação (responsável, 09/11/2026):** as unidades podem ampliar; a emissão da Uint pode ter magnitude maior que a das incidências recebidas (sempre ≤ 1 e nunca a partir de magnitude 0).
+- **Uint com atividade intrínseca (responsável, 09/11/2026, extraído de pesquisas dele):** uma mesma unidade pode ser marca-passo e integradora. Conferido na literatura (resumos lidos, não texto integral):
+  - Häusser e Clark (1997), *Neuron* 19(3), 665–678: neurônios inibitórios do córtex cerebelar disparam de forma espontânea e regular sem entrada sináptica; a inibição sináptica tônica torna o disparo irregular e muda a janela temporal de integração.
+  - Bevan e Wilson (1999), *J. Neurosci.* 19(17), 7617–7628: neurônios do núcleo subtalâmico oscilam espontaneamente (corrente persistente de sódio) com a transmissão excitatória bloqueada, e respondem a entradas.
+  - Guzman et al. (2009), *J. Neurosci.* 29(35), 11011–11019: marca-passo robusto nos neurônios dopaminérgicos da substância negra.
+  - Consequência para o motor: "marca-passo" é uma propriedade que qualquer unidade pode ter, não um tipo à parte; e a inibição sobre um marca-passo-integrador regula a janela de integração (Häusser e Clark), o que liga efeito e tempo.
