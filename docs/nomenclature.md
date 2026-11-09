@@ -101,6 +101,8 @@ A CLEAR separa três operações que a maior parte da literatura chama indistint
 - **Previsão:** alocação de uma projeção de acordo com cálculos probabilísticos de tendência em dados passados.
 - **Preparação do campo representacional relacional:** acontece pelas **incidências dos nós que estão sendo acessados** num dado momento. A relação entre os nós faz com que alguns sejam **favorecidos ao acesso porque já estão recebendo incidências**, enquanto outros ainda não (responsável, 09/11/2026). Não aloca estado em ponto futuro.
 
+- **Efeito:** nome que a CLEAR dá à **excitação e à inibição** em conjunto (responsável, 09/11/2026). A v43 fala em "effects" que permanecem disponíveis no intervalo relevante e em "effective contributions" que satisfazem o limiar da Uint; a v43 extraída não usa as palavras "inibição" nem "excitação". Leitura nossa, aguardando confirmação: o efeito tem **sinal**, e a soma dos efeitos (positivos e negativos) é o que se compara ao limiar. O motor atual só tem efeitos positivos.
+
 **Regra:** nos documentos do EMERGENCE, "previsão" só é usada no sentido da CLEAR. Termos da literatura, como "erro de predição de recompensa" e "codificação preditiva", são citados como termos **da literatura**, entre aspas ou com a indicação "no sentido da literatura".
 
 **Classificação do que está implementado (proposta minha, aguardando confirmação do responsável):**
