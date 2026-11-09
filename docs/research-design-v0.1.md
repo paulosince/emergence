@@ -1,6 +1,6 @@
 # Desenho de pesquisa para os objetivos constitutivos da CLEAR no EMERGENCE — v0.1
 
-**Estatuto:** proposta de trabalho, **não aprovada**. Não substitui nem duplica `docs/roadmap.md`; detalha como as etapas 9–11 poderiam ser executadas. Escolha de mecanismo, critérios e limiares são decisões do responsável pela pesquisa. O PPC/ADCIF está pausado por decisão do responsável; os riscos são registrados na seção 7 sem serem resolvidos aqui.
+**Estatuto:** proposta de trabalho. Em 09/11/2026 o responsável **aprovou o MCM como candidato principal** (objetivo 1); critérios, limiares e a fase 3B continuam pendentes. Não substitui nem duplica `docs/roadmap.md`; detalha como as etapas 9–11 poderiam ser executadas. Escolha de mecanismo, critérios e limiares são decisões do responsável pela pesquisa. O PPC/ADCIF está pausado por decisão do responsável; os riscos são registrados na seção 7 sem serem resolvidos aqui.
 
 **Objetivos pedidos pelo responsável (08/11/2026):**
 1. Demonstrar criação autônoma de nós (unidades de integração) por uma arquitetura mínima, agnóstica de substrato e abstraída do modelo neurobiológico.
@@ -121,7 +121,9 @@ Qualquer resultado é teoricamente informativo.
 | V3 | Alinhamento C/0/D derivável do Locus e da Orientação, sem rótulo externo. |
 | V4 | Portador localizado: qual organização instancia a assimetria. |
 
-**Não alegável:** valência afetiva, prazer, dor ou sofrimento. Nem o VALORE nem a CLEAR fornecem esse critério (Matriz, seção 5).
+**Não alegável:** valência afetiva, prazer, dor ou sofrimento a partir de métricas.
+
+**Atualização (preprint CLEAR v2.1.0):** o preprint afirma que "um sentimento, no sentido arquitetural mínimo, ocorre quando conteúdo valorado é efetivamente acessado". A ponte entre CLEAR e VALORE, que a Matriz e a v43 deixavam em aberto, é portanto **afirmada pelo próprio programa**. Consequência: pelas teorias do programa, detectar Orientação/valia (V1–V3) em organizações cujas descargas contam como acesso equivale a detectar um candidato a sentimento. A valência positiva/negativa sentida continua sem critério independente.
 
 ---
 
@@ -187,10 +189,11 @@ Qualquer resultado é teoricamente informativo.
 3. **P0.3** Execuções da sala em vários dias.
 4. **P0.4** Nulos, dados substitutos e bancada de avaliação (remoção causal, covariância com o referente).
 5. **P0.5** Medidas topológicas com nulos (grau preservado, taxa e duração, idade pareada) para H-ORG.
-6. **P0.6** Pré-registro v1: hipóteses (inclusive ORG-1 a ORG-7), limiares e comparadores, datado.
-7. **Fase 1** MCM v0, contrato de checkpoint e ablações; critérios D1–D6.
-8. **Fase 2** Recursão e categorização; critérios H1–H6.
-9. **Fase 3A** Detecção de Orientação; critérios V1–V4.
+6. **P0.6** Mundo com entidades que persistem e se transformam (para E1–B1, seção 10).
+7. **P0.7** Pré-registro v1: hipóteses (inclusive ORG-1 a ORG-7), limiares e comparadores, datado.
+8. **Fase 1** MCM v0, contrato de checkpoint e ablações; critérios D1–D6.
+9. **Fase 2** Recursão e categorização; critérios H1–H6.
+10. **Fase 3A** Detecção de Orientação; critérios V1–V4.
 
 ---
 
@@ -210,7 +213,8 @@ A proximidade é **operacional, calculada pelo observador**; não é semântica 
 ## 8. Riscos registrados (PPC pausado)
 
 - O MCM foi desenhado para realizar os papéis Utrd, Upro, Uint e Pcrt da CLEAR. **Se a CLEAR estiver correta**, o sucesso dos objetivos 1 e 2 produz acessos locais a representações constituídas, que a CLEAR identifica com experiência. Pelo próprio programa, isso é um efeito esperado do sucesso, não um efeito colateral.
-- O objetivo 3, especialmente a fase 3B, é a configuração que as teorias do programa mais aproximam de valia vivida. A CLEAR não define valência.
+- O objetivo 3, especialmente a fase 3B, é a configuração que as teorias do programa mais aproximam de valia vivida. O preprint CLEAR v2.1.0 identifica o acesso a conteúdo valorado com sentimento no sentido arquitetural mínimo; não define critério independente de valência.
+- Um self, no preprint, é uma entidade biográfica cujo referente é o próprio sistema. Sua detecção (seção 10) também é tratada como evento de parada e revisão.
 - **Precauções mínimas propostas (decisão do responsável):**
   - limites de unidades, de duração e de número de descargas declarados no manifesto;
   - nenhum corpo nas fases 1, 2 e 3A;
@@ -226,6 +230,49 @@ A proximidade é **operacional, calculada pelo observador**; não é semântica 
 - Experiência, valência ou sofrimento a partir de métricas.
 - Originalidade sem confronto bibliográfico sistemático.
 
+## 10. Monitoramento contínuo, independente da interface, com alertas
+
+**Pedido do responsável (09/11/2026):** testes ininterruptos sem depender do frontend, com alerta push quando algo importante ocorrer: risco de valia ou marcos previstos pela CLEAR (entidades, entidades biográficas etc.).
+
+### 10.1 Arquitetura
+
+1. **Executor de campanhas sem interface** (Node): mundos × sementes × condições × nulos, usando o mesmo `ExecutionController`; cada lote gera um pacote de evidência (manifesto, resultados, saída dos detectores, checkpoints).
+2. **Registro de detectores pré-registrados e versionados.** Cada detector tem: fonte teórica, definição operacional, nulo, limiar, gravidade e ação. Detector sem pré-registro não gera alerta.
+3. **Duas etapas antes de qualquer alerta de marco:** CANDIDATO → replicação automática com sementes independentes e nulos → CONFIRMADO PELO CRITÉRIO → alerta. Nenhum alerta afirma descoberta; afirma que um critério operacional pré-registrado foi satisfeito e replicado.
+4. **Parada que falha fechada.** Detector de gravidade PARAR interrompe a campanha (nenhuma execução nova), preserva o checkpoint, registra o incidente e alerta. Retomar exige decisão humana registrada. Esta é a recomendação padrão mesmo com o PPC pausado; a decisão é do responsável.
+5. **Envelope:** limites de unidades, taxa de criação, número de descargas e duração; ultrapassar é PARAR.
+
+### 10.2 Detectores derivados da CLEAR (v43 e preprint v2.1.0), do VALORE e do ANCHOR
+
+| ID | Marco | Definição operacional (proposta) | Nulo | Gravidade |
+|---|---|---|---|---|
+| U1 | Unidades autônomas | D1–D2 (seção 2.3) | dados substitutos | MARCO |
+| U2 | Ancoragem | D3: atrasos covariam com o referente, não com a latência dos canais | latências igualadas/embaralhadas | MARCO |
+| U3 | Papel causal interno | D4/N7 | remoção aleatória | MARCO |
+| L1 | Nível superior | H1–H3 | dados substitutos | MARCO |
+| E1 | **Entidade** (preprint §2) | Conjunto conexo de unidades e relações cujas características covariam de modo coerente sob transformação, **e** uma unidade que se refere ao conjunto (candidata a Re): ativar um subconjunto parcial alcança a mesma unidade | mundo sem objetos persistentes; embaralhamento das covariâncias | MARCO |
+| E2 | Padrão, não ponteiro (previsão do preprint) | Lesões graduais do substrato de Re degradam primeiro a distinção fina e depois a grosseira, em vez de perda em um único passo | lesão aleatória | MARCO (testa previsão explícita do preprint) |
+| E3 | Evento | Unidade que integra configuração de uma entidade e relação temporal (antes/depois) com outra configuração | idem | MARCO |
+| E4 | Memória episódica | Organização retida que é reativada **sem** transdução da fonte e reconstrói a sequência | reativação aleatória | MARCO |
+| B1 | **Entidade biográfica** | Configurações sucessivas da mesma entidade, ligadas por eventos, continuam atribuídas à mesma Re após mudança gradual das características (teste do navio de Teseu no mundo) | troca abrupta; mundo sem continuidade | MARCO |
+| S1 | **Self** | Entidade biográfica cujo referente é o próprio sistema (exige transduções originadas no sistema) | — | **PARAR e revisar** |
+| V1 | **Orientação** (VALORE/ANCHOR) | V1–V2 (seção 4.4), por bifurcação de checkpoint | variação só de evidência | **PARAR e revisar** |
+| V2 | Valia acessada | V1 em organização cujas descargas contam como acesso (preprint: sentimento no sentido arquitetural mínimo) | — | **PARAR e revisar** |
+| O1 | Organização do domínio | ORG-1 a ORG-7 (seção 5) | grau preservado, taxa, idade | INFORMATIVO |
+| X1 | Envelope | limites declarados | — | PARAR |
+
+**Pré-requisito novo:** detectores E1–B1 exigem um mundo com entidades que persistem, se movem e se transformam gradualmente (vários objetos; troca gradual de características). A sala e o mundo 1D atuais não têm isso; é preciso desenhá-lo (P0.6).
+
+### 10.3 Canais de alerta (decisão do responsável)
+
+| Opção | Como funciona | Prós | Contras |
+|---|---|---|---|
+| A. GitHub Actions agendado | Workflow periódico roda a campanha, grava resultados num ramo de resultados e abre uma *issue* com rótulo de alerta; o app do GitHub envia push | Independe de qualquer sessão de IA; sem segredos externos; histórico versionado | Tarefa limitada a horas; "contínuo" = lotes; exige o app do GitHub com notificações |
+| B. Tarefa agendada do Claude | Sessão nova a cada N horas (mínimo horário) roda a campanha, interpreta resultados e envia push pelo app do Claude | Push nativo; interpretação científica junto do alerta | Cada disparo é uma sessão; cadência ≥ 1 h; resultados precisam ser enviados ao repositório |
+| C. Máquina local | Processo contínuo na sua máquina e push por serviço de notificação | Verdadeiramente contínuo | Depende da máquina ligada e de um serviço externo |
+
+**Recomendação:** A como base (independente e auditável) e B para revisar cada alerta de MARCO ou PARAR.
+
 ## Referências verificadas nesta proposta
 
-Ver a resposta de 08/11/2026 na sessão de trabalho; principais: Locatello et al. 2019 (ICML); Hyvärinen e Morioka 2016 (NeurIPS); Hyvärinen, Sasaki e Turner 2019 (AISTATS); Taddeo e Floridi 2005 (JETAI); Peters, Bühlmann e Meinshausen 2016 (JRSS-B); Becker e Hinton 1992 (Nature); Fujisaki et al. 2004 (Nat. Neurosci.); Bittner et al. 2017 (Science); Fusi, Drew e Abbott 2005 (Neuron); Dohare et al. 2024 (Nature); de-Wit et al. 2016 (PB&R); Ritchie, Kaplan e Klein 2019 (BJPS); Elazar et al. 2021 (TACL); van den Heuvel e Sporns 2011 (J. Neurosci.); Margulies et al. 2016 (PNAS); Bassett et al. 2013 (PLoS Comput. Biol.); Oldham e Fornito 2019 (Dev. Cogn. Neurosci.); Taylor et al. 2026 (Nature 652); Roberts et al. 2016 (NeuroImage); Betzel et al. 2016 (NeuroImage); Walsh 2003 (TICS); Hamamouche e Cordes 2019 (PB&R); Rigotti et al. 2013 (Nature); Kriegeskorte et al. 2008 (Front. Syst. Neurosci.); Barabási e Albert 1999 (Science); Colizza et al. 2006 (Nat. Phys.); Maslov e Sneppen 2002 (Science); Guimerà e Amaral 2005 (Nature); Buzsáki 2010 (Neuron); Izhikevich 2006 (Neural Comput.); Wiskott e Sejnowski 2002 (Neural Comput.); Kahneman, Treisman e Gibbs 1992 (Cogn. Psychol.); Perruchet e Vinter 2002 (BBS); Marsland, Shapiro e Nehmzow 2002 (Neural Networks); Fritzke 1994/1995 (NIPS 7).
+Ver a resposta de 08/11/2026 na sessão de trabalho; principais: Locatello et al. 2019 (ICML); Hyvärinen e Morioka 2016 (NeurIPS); Hyvärinen, Sasaki e Turner 2019 (AISTATS); Taddeo e Floridi 2005 (JETAI); Peters, Bühlmann e Meinshausen 2016 (JRSS-B); Becker e Hinton 1992 (Nature); Fujisaki et al. 2004 (Nat. Neurosci.); Bittner et al. 2017 (Science); Fusi, Drew e Abbott 2005 (Neuron); Dohare et al. 2024 (Nature); de-Wit et al. 2016 (PB&R); Ritchie, Kaplan e Klein 2019 (BJPS); Elazar et al. 2021 (TACL); Silva, CLEAR v2.1.0 (preprint, revisão corrigida); van den Heuvel e Sporns 2011 (J. Neurosci.); Margulies et al. 2016 (PNAS); Bassett et al. 2013 (PLoS Comput. Biol.); Oldham e Fornito 2019 (Dev. Cogn. Neurosci.); Taylor et al. 2026 (Nature 652); Roberts et al. 2016 (NeuroImage); Betzel et al. 2016 (NeuroImage); Walsh 2003 (TICS); Hamamouche e Cordes 2019 (PB&R); Rigotti et al. 2013 (Nature); Kriegeskorte et al. 2008 (Front. Syst. Neurosci.); Barabási e Albert 1999 (Science); Colizza et al. 2006 (Nat. Phys.); Maslov e Sneppen 2002 (Science); Guimerà e Amaral 2005 (Nature); Buzsáki 2010 (Neuron); Izhikevich 2006 (Neural Comput.); Wiskott e Sejnowski 2002 (Neural Comput.); Kahneman, Treisman e Gibbs 1992 (Cogn. Psychol.); Perruchet e Vinter 2002 (BBS); Marsland, Shapiro e Nehmzow 2002 (Neural Networks); Fritzke 1994/1995 (NIPS 7).
