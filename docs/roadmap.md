@@ -27,8 +27,8 @@
 
    *Fase 0 — preparação*
    - [x] **P0.1** Controle de latências no controle TEMPO: artefato de instrumento confirmado ([relatório](latency-control-v0.1.md); commits `de1fb61`, `0f946de`).
-   - [ ] **P0.2** Mundo episódico 1D sem corpo: quedas repetidas com altura variável escolhida pelo pesquisador, validado como os mundos anteriores (física, verificador, testes).
-   - [ ] **I1** Precedentes do MCM: PARSER, grupos policrônicos, versões temporais de GNG/GWR, Gamma-GWR, SOINN, ART, HTM e afins. *Em paralelo a P0.2–P0.5; concluída antes de F1.1.*
+   - [x] **P0.2** Mundo episódico 1D sem corpo: quedas repetidas com altura variável escolhida pelo pesquisador, validado como os mundos anteriores ([relatório](episodic-world-v0.1.md); 7 testes). Prévia: a transdução carrega a altura (Spearman −0,996 a −0,999), mas o controle TEMPO não a acompanha.
+   - [~] **I1** Precedentes do MCM: PARSER, grupos policrônicos, versões temporais de GNG/GWR, Gamma-GWR, SOINN, ART, HTM e afins. *Em paralelo a P0.2–P0.5; concluída antes de F1.1.*
    - [ ] **P0.3** Sala em vários dias: sequências de datas, climas e objeto.
    - [ ] **P0.4** Nulos e bancada de avaliação: dados substitutos, remoção causal, covariância com o referente.
    - [ ] **P0.5** Métricas topológicas com nulos para H-ORG (grau preservado, taxa e duração, idade).

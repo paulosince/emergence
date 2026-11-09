@@ -47,6 +47,8 @@
     "experiment:room:replication": "node experiments/room-replication.js",
     "experiment:room:replication:zip": "node experiments/room-replication.js --zip=room-replication.zip",
     "experiment:latency-control": "node experiments/latency-control.js",
-    "experiment:latency-control:json": "node experiments/latency-control.js --json"
+    "experiment:latency-control:json": "node experiments/latency-control.js --json",
+    "experiment:episodic": "node experiments/episodic-drops.js",
+    "experiment:episodic:json": "node experiments/episodic-drops.js --json"
   }
 }

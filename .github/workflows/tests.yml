@@ -51,6 +51,8 @@ jobs:
       - run: node --check src/visualization/domain-layout.js
       - run: node experiments/embedding-centrality-artifact.mjs > /dev/null
       - run: npm run experiment:latency-control > /dev/null
+      - run: node experiments/episodic-drops.js --episodes=10 > /dev/null
+      - run: node --check src/world/episodic-drops.js
       - run: node --check src/research/run-comparison.js
       - run: node scripts/smoke-room-home-dom.mjs
       - run: npm run experiment:room:replication > /dev/null
