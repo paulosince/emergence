@@ -18,3 +18,8 @@ Data: 09/11/2026. Fonte: texto extraído da v43 (trechos lidos integralmente: li
 
 ## Ponto que não está na v43
 - **Surpresa:** a v43 extraída não usa o termo. A definição em uso no EMERGENCE é do responsável ("nó sem incidências que de repente recebe muitas e dispara"). O critério de maturação (surpresa média por disparo) é, portanto, proposta nossa apoiada nessa definição, não exigência da v43.
+
+## Respostas do responsável (09/11/2026)
+- **A confirmação fortalece? Sim (leitura b):** convergência dentro dos parâmetros estabelecidos, por caminhos já favorecidos, **reforça o favorecimento** sem constituir revisão. Paralelo biológico: potenciação por participação. O motor precisa de uma rota de fortalecimento por acesso confirmado, além do portão de novidade.
+- **Surpresa:** "era uma previsão da CLEAR". Está no preprint v2.1.0 (linhas 414–415 e 566 do texto extraído): a surpresa pode ocorrer "when a transduced input favors a representation that the current context had strongly inhibited", sem previsão explícita. Não está no texto da v43.
+- **Consequência para a rodada 1 (inferência nossa):** nessa formulação a surpresa depende de o contexto ter **inibido** a representação. O motor da rodada 1 não tinha efeitos negativos, então a "surpresa" medida (1 − preparação) era só ausência de preparação, não o que a previsão descreve. O critério de maturação testou uma versão empobrecida da previsão.
