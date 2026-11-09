@@ -99,7 +99,7 @@ Os nomes das regras (criação por coatividade ordenada, reforço por concordân
 A CLEAR separa três operações que a maior parte da literatura chama indistintamente de "predição" ou "previsão":
 - **Projeção:** alocação de um estado em um ponto futuro.
 - **Previsão:** alocação de uma projeção de acordo com cálculos probabilísticos de tendência em dados passados.
-- **Preparação do campo representacional relacional:** distinta das duas anteriores. Definição completa a obter do responsável ou dos textos da CLEAR.
+- **Preparação do campo representacional relacional:** acontece pelas **incidências dos nós que estão sendo acessados** num dado momento. A relação entre os nós faz com que alguns sejam **favorecidos ao acesso porque já estão recebendo incidências**, enquanto outros ainda não (responsável, 09/11/2026). Não aloca estado em ponto futuro.
 
 **Regra:** nos documentos do EMERGENCE, "previsão" só é usada no sentido da CLEAR. Termos da literatura, como "erro de predição de recompensa" e "codificação preditiva", são citados como termos **da literatura**, entre aspas ou com a indicação "no sentido da literatura".
 
@@ -110,5 +110,5 @@ A CLEAR separa três operações que a maior parte da literatura chama indistint
 | Quando a primeira fonte de um par dispara, registra-se um prazo até o qual alguma unidade do par deve descarregar | "estado de espera", "espera", "expectation" | **Projeção** | Aloca um estado (descarga do par) em um ponto futuro (até o prazo); não há cálculo probabilístico de tendência |
 | Falha da espera no prazo | "surpresa", "falha de espera" | **Projeção não cumprida** | Decorre da projeção, não de uma previsão |
 | Incerteza esperada (média das falhas) | "incerteza esperada" | Estatística de **projeções não cumpridas**; não é previsão | Média móvel de frequência, sem alocação de estado futuro |
-| Pré-ativação de sucessores (proposta do desenho, ainda **não implementada**) | "antecipação", "estado de espera" (memória temporal hierárquica) | Provavelmente **preparação do campo representacional relacional** | Prepara o campo sem alocar um estado num ponto futuro; a confirmar |
+| Pré-ativação de sucessores (proposta do desenho, ainda **não implementada**) | "antecipação" | **Preparação do campo representacional relacional** (definição confirmada) | Incidências dos nós acessados favorecem o acesso dos nós relacionados |
 | Nenhum mecanismo atual faz **previsão** no sentido da CLEAR | — | — | Não há cálculo probabilístico de tendência sobre dados passados |
