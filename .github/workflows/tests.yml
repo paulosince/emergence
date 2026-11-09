@@ -54,6 +54,7 @@ jobs:
       - run: node experiments/episodic-drops.js --episodes=10 > /dev/null
       - run: node --check src/world/episodic-drops.js
       - run: node --check src/room/multi-day-room.js
+      - run: node --check src/research/bench/stats.js
       - run: node --check src/research/run-comparison.js
       - run: node scripts/smoke-room-home-dom.mjs
       - run: npm run experiment:room:replication > /dev/null
