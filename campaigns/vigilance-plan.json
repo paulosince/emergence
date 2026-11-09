@@ -1,0 +1,6 @@
+[
+  { "id": "quedas-aleatorias-s1", "world": "quedas", "seconds": 600, "seed": 1, "params": { "substrateSize": 10000, "substrateSideUm": 860 } },
+  { "id": "quedas-fixa-s1", "world": "quedas-fixa", "seconds": 600, "seed": 1, "params": { "substrateSize": 10000, "substrateSideUm": 860 } },
+  { "id": "quedas-ciclo-s1", "world": "quedas-ciclo", "seconds": 600, "seed": 1, "params": { "substrateSize": 10000, "substrateSideUm": 860 } },
+  { "id": "mesa-padrao-s1", "world": "mesa", "seconds": 300, "seed": 1, "params": { "substrateSize": 10000, "substrateSideUm": 860 } }
+]
