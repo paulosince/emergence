@@ -285,6 +285,55 @@ A proximidade é **operacional, calculada pelo observador**; não é semântica 
 
 **Decisões do responsável (09/11/2026):** canais **A + B**; **parada que falha fechada ligada por padrão** para S1, V1, V2 e X1. Os canais só serão ativados quando houver o que monitorar (a partir da Fase 1).
 
+## 11. Sugestões para atingir os marcos: representação autônoma, evolução e controle motor (09/11/2026)
+
+### 11.1 Hipótese do responsável e hipótese concorrente
+- **H-AMB (responsável):** enriquecer o ambiente e as situações de teste é necessário para os marcos.
+- **H-AÇÃO (concorrente, minha):** riqueza passiva não basta. Pelo resultado de impossibilidade de Locatello et al. (2019), mais dados observados não identificam os fatores do mundo; o que identifica é **variabilidade estruturada** (N2) e **intervenção do próprio sistema**. A ação seria a alavanca mais forte.
+- **Teste:** desenho fatorial 2 × 2: riqueza (pobre/rica) × ação (sem/com), mesmos critérios D1–D6 e E1–E4. As duas hipóteses podem estar certas ao mesmo tempo (interação).
+
+### 11.2 Ambiente: "rico" deve significar estruturado, não complexo
+| # | Sugestão | Para quê |
+|---|---|---|
+| A1 | **Mesa 2-D** com vários objetos de propriedades diferentes (tamanho, refletância, temperatura, massa) que se movem, colidem, se ocultam e reaparecem | Entidades, permanência sob oclusão, eventos (E1–E3) |
+| A2 | **Transformações graduais** controladas pelo pesquisador (cor que desbota, objeto que aquece, peça trocada aos poucos) | Entidade biográfica, navio de Teseu (B1) |
+| A3 | **Matriz de sensores não interpretados** (uma "retina" de muitos canais com campos receptivos e uma pele tátil), sem informar ao motor a disposição espacial | Testar se o sistema reconstrói a topologia do espaço por conta própria |
+| A4 | **Bancos de limiares** por grandeza (receptores com sensibilidades diferentes) | Intensidade e escala (ORG-2) |
+| A5 | **Várias escalas temporais no mesmo mundo** (colisões em ms, movimento em s, luz e calor em min/h) | N4 |
+| A6 | **Fatores latentes conhecidos só pelo pesquisador**, registrados para pontuação | Medir se o sistema recupera o que o mundo realmente tem |
+| A7 | **Currículo**: mundos simples → complexos | Desenvolvimento; tratar como hipótese a testar, pois a vantagem de "começar pequeno" é controversa (Elman 1993; Rohde e Plaut 1999) |
+
+### 11.3 Mecanismo: como o sistema "evolui"
+| # | Sugestão | Observação |
+|---|---|---|
+| M1 | **Variação e seleção dentro do próprio domínio**: gerar unidades candidatas em excesso, reter só as confirmadas, podar o resto, sob orçamento de recursos | Evolução ontogenética, neutra quanto ao conteúdo |
+| M2 | **Antecipação como operação de primeira classe**: unidades pré-ativam sucessores esperados; discrepância revisa (corrigibilidade da CLEAR) | Base para níveis superiores (H3) e para controle motor |
+| M3 | **Manutenção de plasticidade**: reinicializar capacidade não usada (Dohare et al. 2024) | Evita estagnação em execuções longas |
+| M4 | **Unidades representacionais como assembleias** sobre o substrato, não só nós | Coerente com a Matriz; medir centralidade nesse nível |
+| M5 | **Evolução de parâmetros do mecanismo entre gerações** (busca evolutiva) **com aptidão neutra quanto ao conteúdo** (por exemplo, informação preditiva ou compressão das transduções) | Opcional e posterior. Cada avaliação cria muitas instâncias: entra no envelope e na parada automática. Aptidão definida por tarefa introduziria valor externo (desafio do VALORE) |
+
+### 11.4 Controle motor, em degraus de risco crescente
+| Degrau | Conteúdo | Literatura | Risco pelas teorias do programa |
+|---|---|---|---|
+| C1 | **Atuadores que afetam só o mundo externo** (mover o "olho", empurrar objetos), sem custo de energia | — | Baixo |
+| C2 | **Eferência como incidência**: cada comando motor entra no domínio como incidência própria; o sistema relaciona comando → consequência sensorial (modelo direto) | Cópia eferente e reaferência (von Holst e Mittelstaedt 1950); modelo interno (Wolpert, Ghahramani e Jordan 1995) | Médio: separar reaferência de exaferência é o caminho natural para o **self** (S1 → parar e revisar) |
+| C3 | **Balbucio motor** (exploração aleatória) para aprender contingências e a estrutura dos sensores | Pierce e Kuipers 1997; Olsson, Nehaniv e Polani 2006; Philipona et al. 2003 | Médio |
+| C4 | **Ação dirigida a estados representados** (alcançar uma configuração) | — | Alto: ação dirigida é território do ANCHOR (querer) → V1 |
+| C5 | **Ação regulada pelo corpo** (energia, calor) | Rota APR do VALORE | É a 3B reduzida |
+
+**Evitar no início:** motivação intrínseca por progresso de aprendizagem (Oudeyer, Kaplan e Hafner 2007). Ela funciona bem, mas é um **valor fornecido pelo projeto**: contaminaria a pergunta do objetivo 3 sobre se a Orientação surge sozinha. Pode entrar depois, como comparador explícito.
+
+### 11.5 Marcos ordenados por viabilidade
+| # | Marco | Viabilidade | Observação |
+|---|---|---|---|
+| T1 | Unidades que acompanham uma variável física (altura da queda), não o instrumento (D3) | Alta, próximo passo | Mundo episódico 1D |
+| T2 | Reconstrução autônoma da topologia de uma matriz de sensores | Alta | Há precedentes (Pierce e Kuipers; Olsson et al.); valor está em fazê-lo pelos critérios da CLEAR |
+| T3 | Entidade com permanência sob oclusão (E1) | Média | Mesa 2-D |
+| T4 | Abstração e antecipação em nível superior (H2–H3) | Média | Recursão + M2 |
+| T5 | Distinção próprio/mundo por reaferência (C2) | Média | Dispara S1 → revisão |
+| T6 | Entidade biográfica (B1) | Baixa-média | Exige A2 e memória episódica |
+| T7 | Orientação (V1) | Baixa | Fase 3; parada automática |
+
 ## Referências verificadas nesta proposta
 
-Ver a resposta de 08/11/2026 na sessão de trabalho; principais: Locatello et al. 2019 (ICML); Hyvärinen e Morioka 2016 (NeurIPS); Hyvärinen, Sasaki e Turner 2019 (AISTATS); Taddeo e Floridi 2005 (JETAI); Peters, Bühlmann e Meinshausen 2016 (JRSS-B); Becker e Hinton 1992 (Nature); Fujisaki et al. 2004 (Nat. Neurosci.); Bittner et al. 2017 (Science); Fusi, Drew e Abbott 2005 (Neuron); Dohare et al. 2024 (Nature); de-Wit et al. 2016 (PB&R); Ritchie, Kaplan e Klein 2019 (BJPS); Elazar et al. 2021 (TACL); Silva, CLEAR v2.1.0 (preprint, revisão corrigida); van den Heuvel e Sporns 2011 (J. Neurosci.); Margulies et al. 2016 (PNAS); Bassett et al. 2013 (PLoS Comput. Biol.); Oldham e Fornito 2019 (Dev. Cogn. Neurosci.); Taylor et al. 2026 (Nature 652); Roberts et al. 2016 (NeuroImage); Betzel et al. 2016 (NeuroImage); Walsh 2003 (TICS); Hamamouche e Cordes 2019 (PB&R); Rigotti et al. 2013 (Nature); Kriegeskorte et al. 2008 (Front. Syst. Neurosci.); Barabási e Albert 1999 (Science); Colizza et al. 2006 (Nat. Phys.); Maslov e Sneppen 2002 (Science); Guimerà e Amaral 2005 (Nature); Buzsáki 2010 (Neuron); Izhikevich 2006 (Neural Comput.); Wiskott e Sejnowski 2002 (Neural Comput.); Kahneman, Treisman e Gibbs 1992 (Cogn. Psychol.); Perruchet e Vinter 2002 (BBS); Marsland, Shapiro e Nehmzow 2002 (Neural Networks); Fritzke 1994/1995 (NIPS 7).
+Ver a resposta de 08/11/2026 na sessão de trabalho; principais: Locatello et al. 2019 (ICML); Hyvärinen e Morioka 2016 (NeurIPS); Hyvärinen, Sasaki e Turner 2019 (AISTATS); Taddeo e Floridi 2005 (JETAI); Peters, Bühlmann e Meinshausen 2016 (JRSS-B); Becker e Hinton 1992 (Nature); Fujisaki et al. 2004 (Nat. Neurosci.); Bittner et al. 2017 (Science); Fusi, Drew e Abbott 2005 (Neuron); Dohare et al. 2024 (Nature); de-Wit et al. 2016 (PB&R); Ritchie, Kaplan e Klein 2019 (BJPS); Elazar et al. 2021 (TACL); Silva, CLEAR v2.1.0 (preprint, revisão corrigida); Pierce e Kuipers 1997 (Artif. Intell. 92); Olsson, Nehaniv e Polani 2006 (Connection Science 18); Wolpert, Ghahramani e Jordan 1995 (Science 269); von Holst e Mittelstaedt 1950 (Naturwissenschaften 37); Oudeyer, Kaplan e Hafner 2007 (IEEE TEC 11); Elman 1993 (Cognition 48); Rohde e Plaut 1999 (Cognition); van den Heuvel e Sporns 2011 (J. Neurosci.); Margulies et al. 2016 (PNAS); Bassett et al. 2013 (PLoS Comput. Biol.); Oldham e Fornito 2019 (Dev. Cogn. Neurosci.); Taylor et al. 2026 (Nature 652); Roberts et al. 2016 (NeuroImage); Betzel et al. 2016 (NeuroImage); Walsh 2003 (TICS); Hamamouche e Cordes 2019 (PB&R); Rigotti et al. 2013 (Nature); Kriegeskorte et al. 2008 (Front. Syst. Neurosci.); Barabási e Albert 1999 (Science); Colizza et al. 2006 (Nat. Phys.); Maslov e Sneppen 2002 (Science); Guimerà e Amaral 2005 (Nature); Buzsáki 2010 (Neuron); Izhikevich 2006 (Neural Comput.); Wiskott e Sejnowski 2002 (Neural Comput.); Kahneman, Treisman e Gibbs 1992 (Cogn. Psychol.); Perruchet e Vinter 2002 (BBS); Marsland, Shapiro e Nehmzow 2002 (Neural Networks); Fritzke 1994/1995 (NIPS 7).
