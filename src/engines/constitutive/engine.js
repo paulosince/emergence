@@ -18,6 +18,7 @@
 // Not yet (later increments): cascade stability and decay, modulatory gate,
 // receptors, lateral inhibition, predefined levels, sleep phase.
 import { makeRng } from '../../../vendor/tempo/core/rng.js';
+import { PacemakerUnit } from '../../rhythm/pacemaker.js';
 
 export const DEFAULTS = Object.freeze({
   substrateSize: 1000, substrateSideUm: 400, unitSize: 4,
@@ -26,6 +27,13 @@ export const DEFAULTS = Object.freeze({
   recruitRadiusUm: 60, excitabilitySd: 0.1, recentBoost: 0.3, recentTauMs: 6 * 3600 * 1000,
   fluctuationSd: 0.1, fluctuationPeriodMs: 12 * 3600 * 1000,
   maxCandidatesPerEvent: 64,
+  // increment 2 (three-factor gate, cascade stability, capacity)
+  gating: true, eligibilityMs: 2000, maxTags: 5000,
+  noveltyPacemaker: { tauMs: 500, threshold: 1, refractoryMs: 30, drive: 0.0021 }, noveltyInput: 2.5,
+  modulatorPerSpikeNM: 15, modulatorClearancePerS: 20,
+  receptorHalfNM: 20, desensitizationTauMs: 60000, desensitizationGain: 1,
+  cascade: true, cascadeBaseTauMs: 600000, cascadeFactor: 4, cascadeMaxLevel: 5, pruneBelow: 0.05,
+  maxUnitsPerElement: 20,
 });
 
 export class ConstitutiveEngine {
@@ -33,11 +41,13 @@ export class ConstitutiveEngine {
   #lastValue = new Map(); #sources = new Map(); // id -> {last, traces[], tTrace, pos}
   #elements; #grid = new Map(); #cell;
   #units = []; #byPair = new Map(); #n = 0; #failed = 0;
+  #tags = []; #react = []; #pm; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
   constructor(options = {}) {
     this.#p = Object.freeze({ ...DEFAULTS, ...options });
     const p = this.#p;
     this.#rng = makeRng(options.seed ?? 1);
     this.#cell = p.recruitRadiusUm;
+    this.#pm = new PacemakerUnit(p.noveltyPacemaker);
     this.#elements = Array.from({ length: p.substrateSize }, (_, i) => {
       const pos = [0, 1, 2].map(() => this.#rng.random() * p.substrateSideUm);
       const e = { id: i, pos, base: 1 + p.excitabilitySd * this.#rng.normal(), lastAlloc: -Infinity, units: 0 };
@@ -47,7 +57,7 @@ export class ConstitutiveEngine {
       return e;
     });
   }
-  describe() { return { id: 'constitutive-engine-v0-increment-1', candidate: true, parameters: { ...this.#p } }; }
+  describe() { return { id: 'constitutive-engine-v0-increment-2', candidate: true, parameters: { ...this.#p } }; }
   #cellKey(pos) { return pos.map(v => Math.floor(v / this.#cell)).join(','); }
   #fluctuation(e, t) {
     const epoch = Math.floor(t / this.#p.fluctuationPeriodMs);
@@ -72,6 +82,7 @@ export class ConstitutiveEngine {
   ingest(i) {
     if (i.arrivedAtMs < this.#t) throw new RangeError('Incidence in the past');
     this.#t = i.arrivedAtMs;
+    this.#modulator(i.arrivedAtMs);
     const prev = this.#lastValue.get(i.transducerId);
     this.#lastValue.set(i.transducerId, i.measurement);
     if (prev === undefined || prev === i.measurement) return; // only changes are events
@@ -92,6 +103,11 @@ export class ConstitutiveEngine {
       for (const u of pairs?.get(rid) ?? []) {
         if (Math.abs(lived - u.delayMs) <= Math.max(p.delayTolMinMs, p.delayTolFrac * u.delayMs)) {
           u.discharges++; u.lastDischargeMs = t; matched = true;
+          if (p.cascade) {
+            // reactivation refreshes the trace and leaves an eligibility mark;
+            // the level rises only if the modulator gate opens within the window
+            u.strength = 1; u.tTouch = t; this.#react.push({ u, t });
+          }
           this.#pending.push({ type: 'unit.discharge', unit: u.key, delayMs: u.delayMs, livedMs: lived, timeMs: t });
         }
       }
@@ -101,7 +117,16 @@ export class ConstitutiveEngine {
       if (k >= 0) candidates.push({ rid, lived, scaleMs: p.traceScalesMs[k] });
     }
     candidates.sort((a, b) => a.lived - b.lived);
-    for (const c of candidates.slice(0, p.maxCandidatesPerEvent)) this.#recruit(c.rid, sourceId, c.lived, c.scaleMs, t, cause);
+    const chosen = candidates.slice(0, p.maxCandidatesPerEvent);
+    if (!p.gating) for (const c of chosen) this.#recruit(c.rid, sourceId, c.lived, c.scaleMs, t, cause);
+    else if (chosen.length) {
+      // three-factor rule: coincidence leaves an eligibility tag; a novelty
+      // signal (nothing accommodated the coincidence) drives the novelty source
+      for (const c of chosen) this.#tags.push({ first: c.rid, second: sourceId, lived: c.lived, scaleMs: c.scaleMs, t, cause });
+      if (this.#tags.length > p.maxTags) this.#tags.splice(0, this.#tags.length - p.maxTags);
+      this.#pm.input(p.noveltyInput);
+      this.#modulator(t);
+    }
     // 3. update own trace and last time
     this.#decay(s, t);
     s.traces = s.traces.map(v => v + 1);
@@ -120,7 +145,7 @@ export class ConstitutiveEngine {
     const p = this.#p, a = this.#sources.get(first).pos, b = this.#sources.get(second).pos;
     const center = [0, 1, 2].map(k => (a[k] + b[k]) / 2);
     let pool = [], radius = p.recruitRadiusUm;
-    while (pool.length < p.unitSize && radius <= p.substrateSideUm * 2) { pool = this.#nearElements(center, radius); radius *= 2; }
+    while (pool.length < p.unitSize && radius <= p.substrateSideUm * 2) { pool = this.#nearElements(center, radius).filter(e => e.units < p.maxUnitsPerElement); radius *= 2; }
     if (pool.length < p.unitSize) { this.#failed++; this.#pending.push({ type: 'recruitment.failed', timeMs: t, reason: 'substrate exhausted near sources' }); return; }
     const ex = new Map(pool.map(e => [e, this.#excitability(e, t)]));
     pool.sort((x, y) => ex.get(y) - ex.get(x) || x.id - y.id);
@@ -128,7 +153,7 @@ export class ConstitutiveEngine {
     const shared = chosen.filter(e => e.units > 0).length;
     for (const e of chosen) { e.lastAlloc = t; e.units++; }
     const u = { key: 'u' + (++this.#n), afferents: [first, second], delayMs: lived, scaleMs, elements: chosen.map(e => e.id),
-      createdAtMs: t, discharges: 0, level: 0, origin: { cause, sharedElements: shared } };
+      createdAtMs: t, discharges: 0, level: 0, strength: 1, tTouch: t, origin: { cause, sharedElements: shared } };
     this.#units.push(u);
     if (!this.#byPair.has(second)) this.#byPair.set(second, new Map());
     const m = this.#byPair.get(second);
@@ -136,7 +161,71 @@ export class ConstitutiveEngine {
     m.get(first).push(u);
     this.#pending.push({ type: 'unit.created', unit: u.key, delayMs: lived, afferents: [first, second], elements: u.elements, timeMs: t });
   }
-  advanceTo(t) { if (t < this.#t) throw new RangeError('Engine time reversal'); this.#t = t; }
+  // Novelty modulator: a pacemaker source (tonic single spikes stay below the
+  // receptor's half-effect; a phasic burst crosses it) releasing into a
+  // uniformly innervated volume. For a uniform density of release sites the
+  // diffusion kernel integrates to a spatially uniform concentration away from
+  // the edges (mass conservation), so the field reduces to one concentration
+  // with first-order clearance (declared equivalence; explicit varicosities
+  // are a later variant).
+  #conc(t) { return this.#c * Math.exp(-this.#p.modulatorClearancePerS * (t - this.#tc) / 1000); }
+  #desensitize(t) {
+    const p = this.#p, dt = t - this.#tdes;
+    if (dt <= 0) return;
+    const k = p.modulatorClearancePerS / 1000, c0 = this.#conc(this.#tdes);
+    const meanC = k > 0 ? (c0 * (1 - Math.exp(-k * dt))) / (k * dt) : c0;
+    const target = meanC / p.receptorHalfNM, e = Math.exp(-dt / p.desensitizationTauMs);
+    this.#des = target + (this.#des - target) * e; this.#tdes = t;
+  }
+  #gateOpen(t) {
+    const p = this.#p; this.#desensitize(t);
+    const K = p.receptorHalfNM * (1 + p.desensitizationGain * this.#des), c = this.#conc(t);
+    return c / (c + K) >= 0.5;
+  }
+  #modulator(t) {
+    const p = this.#p;
+    for (const ts of this.#pm.advanceTo(t)) {
+      this.#desensitize(ts);
+      this.#c = this.#conc(ts) + p.modulatorPerSpikeNM; this.#tc = ts; this.#spikes++;
+      this.#pending.push({ type: 'modulator.release', substance: 'novelty', timeMs: ts, concentrationNM: this.#c });
+      if (!p.gating) continue;
+      const liveR = this.#react.filter(r => r.t >= ts - p.eligibilityMs && r.t <= ts);
+      const open = this.#gateOpen(ts);
+      this.#react = this.#react.filter(r => r.t >= ts - p.eligibilityMs && !(open && r.t <= ts));
+      if (liveR.length && open) {
+        for (const u of new Set(liveR.map(r => r.u))) {
+          if (u.level < p.cascadeMaxLevel && this.#units.includes(u)) { u.level++; this.#pending.push({ type: 'unit.consolidated', unit: u.key, level: u.level, timeMs: ts }); }
+        }
+      }
+      const live = this.#tags.filter(g => g.t >= ts - p.eligibilityMs && g.t <= ts);
+      // expired tags are dropped; live tags wait for an open gate within their window
+      this.#tags = this.#tags.filter(g => g.t >= ts - p.eligibilityMs && !(open && g.t <= ts));
+      if (live.length && open) {
+        const seen = new Set();
+        for (const g of live) {
+          const key = g.first + '>' + g.second + ':' + Math.round(g.lived);
+          if (seen.has(key)) continue; seen.add(key);
+          this.#recruit(g.first, g.second, g.lived, g.scaleMs, ts, { ...g.cause, gatedAtMs: ts });
+        }
+      }
+    }
+  }
+  #sweep(t) {
+    const p = this.#p;
+    if (!p.cascade || t - this.#lastSweep < 60000) return;
+    this.#lastSweep = t;
+    for (const u of [...this.#units]) {
+      const tau = p.cascadeBaseTauMs * p.cascadeFactor ** u.level;
+      if (u.strength * Math.exp(-(t - u.tTouch) / tau) < p.pruneBelow) {
+        this.ablate(u.key); this.#pruned++;
+        this.#pending.push({ type: 'unit.pruned', unit: u.key, level: u.level, timeMs: t });
+      }
+    }
+  }
+  advanceTo(t) {
+    if (t < this.#t) throw new RangeError('Engine time reversal');
+    this.#t = t; this.#modulator(t); this.#sweep(t);
+  }
   drainEvents() { return this.#pending.splice(0); }
   ablate(key) {
     const u = this.#units.find(x => x.key === key);
@@ -149,6 +238,7 @@ export class ConstitutiveEngine {
   snapshot() {
     return { timeMs: this.#t, units: this.#units.map(u => ({ ...u, afferents: [...u.afferents], elements: [...u.elements] })),
       substrate: { size: this.#elements.length, occupied: this.#elements.filter(e => e.units > 0).length, recruitmentFailures: this.#failed },
+      modulator: { novelty: { spikes: this.#spikes, concentrationNM: this.#conc(this.#t), desensitization: this.#des } }, pendingTags: this.#tags.length, pruned: this.#pruned,
       sources: [...this.#sources.keys()] };
   }
 }

@@ -32,7 +32,8 @@ export class PacemakerUnit {
       if (this.#t < this.#refUntil) { if (tMs <= this.#refUntil) { this.#t = tMs; break; } this.#t = this.#refUntil; }
       const ts = this.#t + this.#timeToThreshold(this.#v);
       if (ts > tMs) { this.#evolve(tMs - this.#t); this.#t = tMs; break; }
-      this.#t = ts; this.#v = 0; this.#refUntil = ts + this.#ref; out.push(ts); this.#spikes.push(ts);
+      // reset by subtraction: a large input yields a burst separated by the refractory period
+      this.#t = ts; this.#v = this.#v >= this.#theta ? this.#v - this.#theta : 0; this.#refUntil = ts + this.#ref; out.push(ts); this.#spikes.push(ts);
     }
     return out;
   }

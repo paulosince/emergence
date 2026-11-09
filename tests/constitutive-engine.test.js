@@ -2,6 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { ConstitutiveEngine } from '../src/engines/constitutive/engine.js';
 import { assertExperimentEngine } from '../src/contracts/engine.js';
+// Increment-1 semantics (immediate recruitment, no decay) = ablation of the gate and cascade.
+const I1 = { gating: false, cascade: false };
 
 // Each "pulse" is a change of a channel's measurement.
 const VALUES = new WeakMap();
@@ -18,7 +20,7 @@ const prime = ch => [[ch, 0]]; // first sample is not an event (no previous valu
 const ab = ev => ev.filter(x => x.afferents?.join() === 'a,b');
 
 test('starts with no units; only measurement changes are events; contract satisfied', () => {
-  const e = assertExperimentEngine(new ConstitutiveEngine({ seed: 1 }));
+  const e = assertExperimentEngine(new ConstitutiveEngine({ ...I1, seed: 1 }));
   assert.equal(e.snapshot().units.length, 0);
   e.ingest({ transducerId: 'a', arrivedAtMs: 0, measurement: 1 });
   e.ingest({ transducerId: 'a', arrivedAtMs: 5, measurement: 1 });
@@ -27,7 +29,7 @@ test('starts with no units; only measurement changes are events; contract satisf
 });
 
 test('a coincidence of distinct sources recruits a unit with recorded allocation; the same delay later discharges it', () => {
-  const e = new ConstitutiveEngine({ seed: 2 });
+  const e = new ConstitutiveEngine({ ...I1, seed: 2 });
   feed(e, [...prime('a'), ...prime('b')]);
   const ev1 = feed(e, [['a', 1000], ['b', 1040]]);
   const created = ev1.filter(x => x.type === 'unit.created');
@@ -46,7 +48,7 @@ test('a coincidence of distinct sources recruits a unit with recorded allocation
 });
 
 test('finite substrate: recruitment fails when elements run out', () => {
-  const e = new ConstitutiveEngine({ seed: 3, substrateSize: 3, unitSize: 4 });
+  const e = new ConstitutiveEngine({ ...I1, seed: 3, substrateSize: 3, unitSize: 4 });
   feed(e, [...prime('a'), ...prime('b')]);
   const ev = feed(e, [['a', 1000], ['b', 1040]]);
   assert.equal(ev.filter(x => x.type === 'recruitment.failed').length, 1);
@@ -55,7 +57,7 @@ test('finite substrate: recruitment fails when elements run out', () => {
 
 test('allocation by excitability: memories close in time share elements; distant ones mostly do not', () => {
   const share = gapMs => {
-    const e = new ConstitutiveEngine({ seed: 4, substrateSize: 4000, unitSize: 10, substrateSideUm: 200, recruitRadiusUm: 200,
+    const e = new ConstitutiveEngine({ ...I1, seed: 4, substrateSize: 4000, unitSize: 10, substrateSideUm: 200, recruitRadiusUm: 200,
       channelAnatomy: { a: [100, 100, 100], b: [100, 100, 100], c: [100, 100, 100], d: [100, 100, 100] } });
     feed(e, [...prime('a'), ...prime('b'), ...prime('c'), ...prime('d')]);
     feed(e, [['a', 1000], ['b', 1040]]);
@@ -69,13 +71,59 @@ test('allocation by excitability: memories close in time share elements; distant
 });
 
 test('ablation removes the unit and releases its elements', () => {
-  const e = new ConstitutiveEngine({ seed: 5 });
+  const e = new ConstitutiveEngine({ ...I1, seed: 5 });
   feed(e, [...prime('a'), ...prime('b')]);
-  feed(e, [['a', 1000], ['b', 1040]]);
+  feed(e, [['a', 1000], ['b', 1040]]); e.advanceTo(1300);
   const key = e.snapshot().units[0].key;
   e.ablate(key);
   assert.equal(e.snapshot().units.length, 0);
   assert.equal(e.snapshot().substrate.occupied, 0);
   const ev = feed(e, [['a', 5000], ['b', 5040]]);
   assert.equal(ab(ev.filter(x => x.type === 'unit.created')).length, 1, 're-created after removal');
+});
+
+test('three-factor gate: a coincidence is only recruited when the novelty modulator arrives within the eligibility window', () => {
+  const e = new ConstitutiveEngine({ seed: 6 });
+  feed(e, [...prime('a'), ...prime('b')]);
+  feed(e, [['a', 1000], ['b', 1040]]);
+  e.advanceTo(1300); // the phasic burst completes after the event
+  const ev = e.drainEvents();
+  const c = ab(ev.filter(x => x.type === 'unit.created'));
+  assert.equal(c.length, 1);
+  assert.ok(ev.some(x => x.type === 'modulator.release'));
+  assert.ok(Number.isFinite(e.snapshot().units.find(u => u.afferents.join() === 'a,b').origin.cause.gatedAtMs));
+  const weak = new ConstitutiveEngine({ seed: 6, modulatorPerSpikeNM: 5 });
+  feed(weak, [...prime('a'), ...prime('b')]);
+  feed(weak, [['a', 1000], ['b', 1040]]);
+  weak.advanceTo(1300);
+  const ev2 = weak.drainEvents();
+  assert.equal(ev2.filter(x => x.type === 'unit.created').length, 0, 'no third factor, no unit');
+});
+
+test('cascade stability: unused units are pruned; reactivation with the gate raises the level and slows decay', () => {
+  const e = new ConstitutiveEngine({ seed: 7, cascadeBaseTauMs: 60000 });
+  feed(e, [...prime('a'), ...prime('b')]);
+  feed(e, [['a', 1000], ['b', 1040]]); e.advanceTo(1300);
+  const key = e.snapshot().units.find(u => u.afferents.join() === 'a,b').key;
+  e.advanceTo(400000);
+  assert.ok(!e.snapshot().units.some(u => u.key === key), 'pruned after ~6 time constants without use');
+  assert.ok(e.snapshot().pruned >= 1);
+  const f = new ConstitutiveEngine({ seed: 7, cascadeBaseTauMs: 60000 });
+  feed(f, [...prime('a'), ...prime('b'), ...prime('c')]);
+  feed(f, [['a', 1000], ['b', 1040]]); f.advanceTo(1300);
+  // reactivate a->b while novelty is high (an unaccommodated c event drives the source)
+  feed(f, [['a', 20000], ['c', 20039], ['b', 20040]]); f.advanceTo(20300);
+  const u = f.snapshot().units.find(x => x.afferents.join() === 'a,b' && x.delayMs === 40);
+  assert.ok(u.level >= 1, `level ${u.level}`);
+  f.advanceTo(400000);
+  assert.ok(f.snapshot().units.some(x => x.key === u.key), 'consolidated unit survives');
+});
+
+test('capacity per element is respected', () => {
+  const e = new ConstitutiveEngine({ ...I1, seed: 8, substrateSize: 8, unitSize: 4, maxUnitsPerElement: 1, recruitRadiusUm: 1000 });
+  feed(e, [...prime('a'), ...prime('b')]);
+  feed(e, [['a', 1000], ['b', 1040]]);
+  feed(e, [['a', 2000], ['b', 2090]]);
+  const ev = feed(e, [['a', 3000], ['b', 3150]]);
+  assert.ok(ev.some(x => x.type === 'recruitment.failed'));
 });

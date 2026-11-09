@@ -64,3 +64,12 @@ test('pacemaker: excitatory input advances the next spike; drive changes the fre
   assert.equal(silent.intrinsicPeriodMs(), Infinity);
   assert.equal(silent.advanceTo(5000).length, 0);
 });
+
+test('pacemaker: a large input produces a burst separated by the refractory period', () => {
+  const p = new PacemakerUnit({ tauMs: 500, threshold: 1, refractoryMs: 30, drive: 0.0021 });
+  p.advanceTo(10);
+  p.input(2.5);
+  const s = p.advanceTo(100);
+  assert.ok(s.length >= 2, `burst of ${s.length}`);
+  assert.ok(Math.abs(s[1] - s[0] - 30) < 1e-9);
+});
