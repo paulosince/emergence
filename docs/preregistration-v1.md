@@ -1,6 +1,6 @@
 # Pré-registro v1 — Fase 1 (MCM v0) e previsões direcionais H-ORG
 
-**Estado:** MINUTA, aguardando aprovação do responsável. Datada de 09/11/2026. Após a aprovação, qualquer alteração é registrada como **desvio** (PPC-26), com data e justificativa, sem apagar o texto aprovado.
+**Estado:** MINUTA revisada pela calibração (09/11/2026), aguardando aprovação do responsável. Datada de 09/11/2026. Após a aprovação, qualquer alteração é registrada como **desvio** (PPC-26), com data e justificativa, sem apagar o texto aprovado.
 
 **Escopo:** critérios D1–D6 (objetivo 1, seção 2 do [desenho](research-design-v0.1.md)). As previsões H-ORG ficam registradas aqui com **direção**; seus limiares serão fixados antes de F2.3.
 
@@ -30,15 +30,21 @@ Deslocamento circular por canal; embaralhamento de intervalos por canal; permuta
 | ID | Medida | Sucesso | Justificativa do limiar |
 |---|---|---|---|
 | D1 | Proporção de unidades com registro de criação (incidências causadoras) | 100% | Verificação determinística; qualquer exceção é defeito |
-| D2 | Unidades consolidadas no mundo real ÷ média de 30 substitutos, por semente | Razão ≥ 2 **e** observado > máximo do nulo em ≥ 8 de 10 sementes | Com 30 substitutos, superar o máximo equivale a p ≤ 1/31; exigir 8/10 sementes protege contra sorte em poucas sementes |
+| D2 | Unidades **consolidadas** (reutilizadas: ≥ 3 descargas; para relações, peso ≥ limiar de disparo) no mundo real ÷ média de 30 substitutos, por semente | Razão ≥ 2 **e** observado > máximo do nulo em ≥ 8 de 10 sementes | Com 30 substitutos, superar o máximo equivale a p ≤ 1/31; exigir 8/10 sementes protege contra sorte em poucas sementes |
 | D3a | Spearman entre a propriedade de atraso da unidade e a altura (quedas variáveis) | \|ρ\| ≥ 0,6 com p < 0,01 após correção de Holm entre sementes, em ≥ 8 de 10 sementes | 0,6 é forte o bastante para não ser artefato de amostragem de 1 ms; a variável física em si tem \|ρ\| ≈ 0,997 com o intervalo vivido |
-| D3b | Mesma medida com altura fixa | \|ρ\| < 0,2 em ≥ 8 de 10 sementes | Sem variação no mundo não pode haver covariância genuína |
-| D3c | Efeito D3a com latências igualadas | Retém ≥ 80% de \|ρ\| | Se depender das latências, é instrumento, não mundo (P0.1) |
+| D3b | Atrasos do mundo com altura fixa (1,4 m) correlacionados com **pseudo-alturas** (o cronograma variável que esse mundo não teve) | \|ρ\| < 0,2 em ≥ 8 de 10 sementes | Sem variação no mundo não pode haver covariância genuína; usar o índice do episódio confundiria tendência temporal com altura |
+| D3c | Efeito D3a com latências igualadas; **só aplicável se D3a passar** | Retém ≥ 80% de \|ρ\| | Se depender das latências, é instrumento, não mundo (P0.1) |
 | D4 | Efeito da remoção das 10 unidades consolidadas mais antigas × 30 remoções aleatórias | Efeito > máximo do nulo em ≥ 7 de 10 unidades | Piso de p = 1/31 por unidade; 7/10 admite unidades redundantes, previstas pela leitura de padrão do preprint |
 | D5 | Após nova faixa de alturas (U(2,0; 3,0) m), unidades consolidadas anteriores que persistem; taxa de criação | ≥ 80% persistem **e** a taxa não cai abaixo de 10% da inicial | Admite poda seletiva; exclui esquecimento catastrófico e perda de plasticidade |
 | D6 | MCM × comparadores nas mesmas condições | MCM supera o controle TEMPO em D3a **e** iguala ou supera o GWR em D2 | Mínimo para justificar o mecanismo novo; todos os resultados são relatados, inclusive derrotas |
 
-**Comparações múltiplas:** correção de Holm-Bonferroni dentro de cada critério.
+**Comparações múltiplas:** correção de Holm-Bonferroni dentro de cada critério. **Testes de permutação com no mínimo 2.000 permutações**: com 10 sementes e α = 0,01, o p mínimo de 1.000 permutações (≈ 0,001) não passa no primeiro degrau de Holm (0,001).
+
+**Independência das sementes:** todo fluxo aleatório (mundo, sensores, motor, controles, substitutos) deriva de semente própria por função de dispersão; nenhum fluxo pode compartilhar sequência com outro.
+
+**Análise de sensibilidade (secundária, não muda a decisão):** D3a relatado na grade ρ mínimo ∈ {0,3; …; 0,9} × sementes exigidas ∈ {6; …; 10}; D2 com consolidação em {2, 3, 5} descargas.
+
+**Calibração dos limiares (antes da aprovação):** controle positivo (oráculo que recebe do projetista o par de canais) e controles negativos (controle TEMPO; oráculo com atrasos aleatórios em fluxo independente). Ver [relatório de calibração](calibration-v1.md).
 
 ## 6. Previsões das ablações (refutáveis)
 | Ablação | Previsão |
