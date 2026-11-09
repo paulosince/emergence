@@ -107,3 +107,25 @@ Pedido do responsável. Observação exploratória, sem critério pré-registrad
 2. **No ciclo de 3 alturas, a surpresa estabiliza sem zerar.** As falhas vêm quase todas de pares que envolvem unidades de nível 2: canal → unidade, 570 de 770 falhas após 200 s; unidade → unidade, 111. Uma espera **por pares** não codifica o **contexto da sequência** (qual altura vem depois de qual). Reduzir essa surpresa exige memória de sequência com contexto, que é tema da fase dos níveis superiores (investigação de antecipação e hierarquia; precedentes: memória temporal hierárquica e blocos de PARSER).
 3. **A mesa não amadurece em 10 minutos.** Colisões tornam o mundo pouco previsível no nível de pares de canais, e a criação continua no teto declarado.
 4. **Implicação para o pré-registro:** "a surpresa diminui em mundos previsíveis e se estabiliza no nível da aleatoriedade do mundo" é uma previsão testável. Pode entrar como **critério de maturação**, com nulo de mundo embaralhado, se o responsável quiser.
+
+## Incremento 4: ciclo imposto de sono e vigília; incerteza esperada (09/11/2026)
+**Testes:** 2 novos (260 no total).
+- **Ciclo** (opção `clock`; sem ela o motor fica sempre em vigília):
+  - as unidades de relógio (Gonze et al., 2005) acionam um **marca-passo do relógio** cujo impulso acompanha a fase;
+  - um **interruptor com histerese** troca o estado (equivalente da inibição mútua; Saper et al., 2001);
+  - a luz pode arrastar o relógio por um canal declarado como projeção anatômica (`lightChannel`);
+  - o ciclo **não tem ponto de ajuste**, portanto não é variável regulada.
+- **Sono:**
+  - entrada sensorial atenuada (eventos não processados);
+  - sem novas marcas, sem esperas e sem salvas de novidade;
+  - **renormalização** proporcional das forças no início de cada episódio (×0,8; Tononi e Cirelli, 2014);
+  - **reativação espontânea** de unidades consolidadas (1 Hz), sorteadas em proporção à força: mantém as reativadas, e as demais decaem (decaimento regulado; Hardt et al., 2013).
+- **Incerteza esperada** (equivalente da acetilcolina; Yu e Dayan, 2005): média exponencial das falhas de espera por descarga (60 s). Quando as falhas são esperadas, a salva fásica a cada falha é reduzida, dividida por (1 + 2 × incerteza).
+- **Teste com relógio comprimido** (fator 3.600, ciclo de cerca de 24 s): depois da sincronização inicial, os episódios de sono se repetem a cada 22 a 26 s, com um salto ocasional (57 s). Durante o sono, uma coincidência não cria unidades, e as reativações ocorrem.
+- **Parâmetros sem fonte**, a declarar no pré-registro:
+  - faixa de saída do relógio usada para o impulso (média de X entre 0,08 e 0,18);
+  - limiares do interruptor (0,45 e 0,55);
+  - taxa de reativação no sono;
+  - fator de renormalização;
+  - constantes da incerteza esperada.
+- **Pendente:** distinguir sono REM e não REM; pressão homeostática (só depois da fase do motor, por decisão do responsável).

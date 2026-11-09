@@ -164,3 +164,34 @@ test('surprise: a consolidated unit whose expected event does not occur produces
   assert.ok(e.drainEvents().some(x => x.type === 'expectation.failed'));
   assert.ok(e.snapshot().surprises >= 1);
 });
+
+test('imposed sleep-wake cycle (compressed clock): alternates states; in sleep input is gated, units are reactivated and renormalised', () => {
+  const e = new ConstitutiveEngine({ seed: 1, clock: { cells: 10, timeScale: 3600 }, cascadeBaseTauMs: 600000 });
+  feed(e, [...prime('a'), ...prime('b'), ...prime('c')]);
+  feed(e, [['a', 1000], ['b', 1040]]); e.advanceTo(1300);
+  feed(e, [['a', 5000], ['c', 5039], ['b', 5040]]); e.advanceTo(5300); // consolidate a->b
+  const states = [];
+  for (let t = 6000; t <= 300000; t += 500) { e.advanceTo(t); for (const x of e.drainEvents()) if (x.type.startsWith('state.')) states.push(x.type); }
+  assert.ok(states.filter(x => x === 'state.asleep').length >= 3, 'several sleep episodes');
+  assert.ok(states.includes('state.awake'));
+  const snap = e.snapshot();
+  assert.ok(snap.reactivations > 0, 'spontaneous reactivation without transduction');
+  assert.ok(snap.sleepEpisodes >= 3);
+  // gating: while asleep, a coincidence does not create units
+  let t = 300000; while (e.snapshot().state !== 'asleep') { t += 200; e.advanceTo(t); }
+  const before = e.snapshot().units.length;
+  feed(e, [['a', t + 10], ['b', t + 77]]);
+  e.advanceTo(t + 400);
+  assert.equal(e.snapshot().units.length, before);
+});
+
+test('expected uncertainty rises with repeated expectation failures', () => {
+  const e = new ConstitutiveEngine({ seed: 11 });
+  feed(e, [...prime('a'), ...prime('b'), ...prime('c')]);
+  feed(e, [['a', 1000], ['b', 1040]]); e.advanceTo(1300);
+  feed(e, [['a', 20000], ['c', 20039], ['b', 20040]]); e.advanceTo(20300);
+  for (let k = 0; k < 6; k++) { feed(e, [['a', 40000 + k * 3000]]); e.advanceTo(40500 + k * 3000); }
+  e.advanceTo(200000);
+  assert.ok(e.snapshot().surprises >= 1);
+  assert.ok(e.snapshot().expectedUncertainty > 0);
+});

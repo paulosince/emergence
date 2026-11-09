@@ -19,6 +19,7 @@
 // receptors, lateral inhibition, predefined levels, sleep phase.
 import { makeRng } from '../../../vendor/tempo/core/rng.js';
 import { PacemakerUnit } from '../../rhythm/pacemaker.js';
+import { createClockEnsemble } from '../../rhythm/clock.js';
 
 export const DEFAULTS = Object.freeze({
   substrateSize: 1000, substrateSideUm: 400, unitSize: 4,
@@ -37,6 +38,11 @@ export const DEFAULTS = Object.freeze({
   // increment 3
   gradedNovelty: true, surprise: true, surpriseInput: 2.5, maxDischargesPerEvent: 8,
   contradictionFactor: 0.5, // approved rule: pruning by persistent contradiction (failed expectations weaken the units)
+  // increment 4: imposed sleep-wake cycle and expected uncertainty
+  clock: null, // e.g. { cells: 10, timeScale: 1, lightChannel: null, lightGain: 0.01 }; null = always awake
+  switchHigh: 0.55, switchLow: 0.45, // hysteresis of the state switch on the normalised clock-pacemaker rate
+  sleepReactivationHz: 1, sleepDownscale: 0.8, // per sleep episode (synaptic homeostasis)
+  achTauMs: 60000, achGain: 2, // expected uncertainty (ACh-like): EMA of surprises per discharge
   maxLevel: 2, // predefined levels: channels 0, units up to maxLevel (Infinity = free recursion variant)
 });
 
@@ -45,13 +51,19 @@ export class ConstitutiveEngine {
   #lastValue = new Map(); #sources = new Map(); // id -> {last, traces[], tTrace, pos}
   #elements; #grid = new Map(); #cell;
   #units = []; #unitByKey = new Map(); #byPair = new Map(); #n = 0; #failed = 0;
-  #tags = []; #react = []; #pm; #lastBurst = -Infinity; #expect = []; #surprises = 0; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
+  #tags = []; #react = []; #pm; #lastBurst = -Infinity; #expect = []; #surprises = 0;
+  #clock = null; #clockPm = null; #rateEma = 0; #lastClockSpike = null; #clockSpikes = 0; #state = 'awake'; #sleepEpisodes = 0;
+  #nextReact = 0; #reactivations = 0; #ach = 0; #tAch = 0; #recentDis = 0; #recentSur = 0; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
   constructor(options = {}) {
     this.#p = Object.freeze({ ...DEFAULTS, ...options });
     const p = this.#p;
     this.#rng = makeRng(options.seed ?? 1);
     this.#cell = p.recruitRadiusUm;
     this.#pm = new PacemakerUnit(p.noveltyPacemaker);
+    if (p.clock) {
+      this.#clock = createClockEnsemble({ cells: p.clock.cells ?? 10, seed: options.seed ?? 1, timeScale: p.clock.timeScale ?? 1 });
+      this.#clockPm = new PacemakerUnit({ tauMs: 200, threshold: 1, refractoryMs: 5, drive: 0.01 });
+    }
     this.#elements = Array.from({ length: p.substrateSize }, (_, i) => {
       const pos = [0, 1, 2].map(() => this.#rng.random() * p.substrateSideUm);
       const e = { id: i, pos, base: 1 + p.excitabilitySd * this.#rng.normal(), lastAlloc: -Infinity, units: 0 };
@@ -61,7 +73,7 @@ export class ConstitutiveEngine {
       return e;
     });
   }
-  describe() { return { id: 'constitutive-engine-v0-increment-3', candidate: true, parameters: { ...this.#p } }; }
+  describe() { return { id: 'constitutive-engine-v0-increment-4', candidate: true, parameters: { ...this.#p } }; }
   #cellKey(pos) { return pos.map(v => Math.floor(v / this.#cell)).join(','); }
   #fluctuation(e, t) {
     const epoch = Math.floor(t / this.#p.fluctuationPeriodMs);
@@ -90,7 +102,10 @@ export class ConstitutiveEngine {
     this.#t = i.arrivedAtMs;
     this.#modulator(i.arrivedAtMs);
     this.#checkExpectations(i.arrivedAtMs);
+    this.#cycle(i.arrivedAtMs);
+    if (this.#clock && i.transducerId === this.#p.clock.lightChannel) this.#clock.setLight(Number(i.measurement) > 0 ? (this.#p.clock.lightGain ?? 0.01) : 0);
     const prev = this.#lastValue.get(i.transducerId);
+    if (this.#state === 'asleep') { this.#lastValue.set(i.transducerId, i.measurement); return; } // sensory gating in sleep
     this.#lastValue.set(i.transducerId, i.measurement);
     if (prev === undefined || prev === i.measurement) return; // only changes are events
     this.#event(i.transducerId, i.arrivedAtMs, { incidence: { transducerId: i.transducerId, arrivedAtMs: i.arrivedAtMs } });
@@ -126,6 +141,7 @@ export class ConstitutiveEngine {
       perPair.add(pk); winners.push(m);
       if (winners.length >= p.maxDischargesPerEvent) break;
     }
+    this.#recentDis += winners.length;
     for (const { u, lived } of winners) {
       u.discharges++; u.lastDischargeMs = t;
       if (p.cascade) { u.strength = 1; u.tTouch = t; this.#react.push({ u, t }); }
@@ -160,17 +176,72 @@ export class ConstitutiveEngine {
     // recursion: a unit's discharge is an event of the same kind, up to the predefined level
     for (const { u } of winners) if (u.hierLevel < p.maxLevel) this.#event(u.key, t, { unitDischarge: u.key });
   }
+  // Expected uncertainty (ACh-like; Yu and Dayan 2005): exponential average of
+  // surprises per discharge. When failures are expected, each failure is less
+  // informative, so the phasic (NE-like) response to it is reduced.
+  #achLevel(t) {
+    const dt = t - this.#tAch;
+    if (dt > 0) {
+      const e = Math.exp(-dt / this.#p.achTauMs), x = this.#recentDis ? this.#recentSur / this.#recentDis : (this.#recentSur ? 1 : 0);
+      this.#ach = this.#ach * e + (1 - e) * Math.min(x, 10); this.#tAch = t; this.#recentDis = 0; this.#recentSur = 0;
+    }
+    return this.#state === 'asleep' ? 0 : this.#ach;
+  }
+  // Imposed cycle: clock units -> clock pacemaker (drive follows the clock) ->
+  // state switch with hysteresis (mutual inhibition, Saper et al. 2001).
+  #cycle(t) {
+    const p = this.#p; if (!this.#clock) return;
+    this.#clock.advanceTo(t / 3600000);
+    const x = this.#clock.meanX();
+    // clock output range calibrated on the Gonze ensemble (mean X ~0.08-0.18): declared, no source
+    const xn = Math.max(0, Math.min(1, (x - 0.08) / 0.10));
+    this.#clockPm.setDrive(0.0055 + 0.02 * xn);
+    for (const ts of this.#clockPm.advanceTo(t)) {
+      if (this.#lastClockSpike !== null) { const isi = ts - this.#lastClockSpike; this.#rateEma = 0.9 * this.#rateEma + 0.1 * (1000 / isi); }
+      this.#lastClockSpike = ts; this.#clockSpikes++;
+    }
+    if (this.#clockSpikes < 20) return; // warm-up
+    const rmin = 1000 / this.#clockPm.intrinsicPeriodMs(0.0055), rmax = 1000 / this.#clockPm.intrinsicPeriodMs(0.0255);
+    const norm = (this.#rateEma - rmin) / (rmax - rmin);
+    if (this.#state === 'awake' && norm < p.switchLow) this.#enterSleep(t);
+    else if (this.#state === 'asleep' && norm > p.switchHigh) { this.#state = 'awake'; this.#pending.push({ type: 'state.awake', timeMs: t }); }
+    if (this.#state === 'asleep') this.#sleepWork(t);
+  }
+  #enterSleep(t) {
+    const p = this.#p;
+    this.#state = 'asleep'; this.#sleepEpisodes++; this.#nextReact = t;
+    this.#tags = []; this.#expect = []; // no new learning and no expectations without input
+    // synaptic homeostasis: proportional renormalisation at sleep onset (Tononi and Cirelli 2014)
+    for (const u of this.#units) { u.strength *= p.sleepDownscale; }
+    this.#pending.push({ type: 'state.asleep', timeMs: t });
+  }
+  // spontaneous reactivation without transduction: maintains reactivated units;
+  // the rest decays (regulated decay in sleep, Hardt et al. 2013)
+  #sleepWork(t) {
+    const p = this.#p, period = 1000 / p.sleepReactivationHz;
+    while (this.#nextReact <= t && this.#units.length) {
+      const pool = this.#units.filter(u => u.level >= 1);
+      if (pool.length) {
+        const w = pool.map(u => u.strength * Math.exp(-(this.#nextReact - u.tTouch) / (p.cascadeBaseTauMs * p.cascadeFactor ** u.level)));
+        let r = this.#rng.random() * w.reduce((a, b) => a + b, 0), k = 0;
+        while (k < w.length - 1 && r > w[k]) { r -= w[k]; k++; }
+        const u = pool[k]; u.strength = Math.min(1, u.strength + 0.5); u.tTouch = this.#nextReact; this.#reactivations++;
+        this.#pending.push({ type: 'unit.reactivated', unit: u.key, timeMs: this.#nextReact });
+      }
+      this.#nextReact += period;
+    }
+  }
   #checkExpectations(t) {
     const p = this.#p; if (!p.surprise || !this.#expect.length) return;
     const missed = this.#expect.filter(x => t > x.due + x.tol);
     if (!missed.length) return;
     this.#expect = this.#expect.filter(x => t <= x.due + x.tol);
-    this.#surprises += missed.length;
+    this.#surprises += missed.length; this.#recentSur += missed.length;
     for (const x of missed) {
       this.#pending.push({ type: 'expectation.failed', pair: [x.first, x.second], timeMs: x.due });
       for (const u of x.units) { u.strength *= p.contradictionFactor; u.contradictions = (u.contradictions ?? 0) + 1; }
     }
-    if (t - this.#lastBurst >= p.burstRefractoryMs) { this.#lastBurst = t; this.#pm.input(p.surpriseInput); this.#modulator(t); }
+    if (this.#state === 'awake' && t - this.#lastBurst >= p.burstRefractoryMs) { this.#lastBurst = t; this.#pm.input(p.surpriseInput / (1 + p.achGain * this.#achLevel(t))); this.#modulator(t); }
   }
   #nearElements(center, radius) {
     const out = [], c = center.map(v => Math.floor(v / this.#cell)), span = Math.ceil(radius / this.#cell);
@@ -272,7 +343,7 @@ export class ConstitutiveEngine {
   }
   advanceTo(t) {
     if (t < this.#t) throw new RangeError('Engine time reversal');
-    this.#t = t; this.#modulator(t); this.#checkExpectations(t); this.#sweep(t);
+    this.#t = t; this.#modulator(t); this.#checkExpectations(t); this.#cycle(t); this.#sweep(t);
   }
   drainEvents() { return this.#pending.splice(0); }
   ablate(key) {
@@ -287,6 +358,7 @@ export class ConstitutiveEngine {
     return { timeMs: this.#t, units: this.#units.map(u => ({ ...u, afferents: [...u.afferents], elements: [...u.elements] })),
       substrate: { size: this.#elements.length, occupied: this.#elements.filter(e => e.units > 0).length, recruitmentFailures: this.#failed },
       modulator: { novelty: { spikes: this.#spikes, concentrationNM: this.#conc(this.#t), desensitization: this.#des } }, pendingTags: this.#tags.length, pruned: this.#pruned, surprises: this.#surprises,
+      state: this.#state, sleepEpisodes: this.#sleepEpisodes, reactivations: this.#reactivations, expectedUncertainty: this.#ach,
       sources: [...this.#sources.keys()] };
   }
 }

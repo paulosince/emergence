@@ -29,9 +29,10 @@ Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 09/11/2026.
 - **Pré-registro** ([docs/preregistration-v1.md](docs/preregistration-v1.md)): calibrado ([docs/calibration-v1.md](docs/calibration-v1.md)). Critérios de engrama validados. **Precisa ser revisado** com as decisões de 09/11 (recrutamento, estabilidade em cascata, portão modulador, separação substrato × envelope, série de escala) e **aprovado** pelo responsável.
 - **Primitivas do motor (em andamento):**
   - prontos e testados: difusão (`src/space/diffusion.js`); espaço constitutivo (`src/space/constitutive-space.js`); relógio do tipo Goodwin (`src/rhythm/clock.js`); marca-passo (`src/rhythm/pacemaker.js`); motor, incremento 1 (`src/engines/constitutive/engine.js`).
-  - **Achado do incremento 1:** sem portão e sem poda, a mesa gera cerca de 1.700 unidades por segundo. Os mecanismos do incremento 2 são necessários.
+  - Incrementos 1 a 4 do motor implementados (substrato e recrutamento; portão de três fatores e cascata; novidade graduada, surpresa, contradição, inibição lateral e níveis; ciclo de sono e incerteza esperada). Ver o diário do motor.
 
 ## 4. Próximos passos, em ordem
+(Os incrementos 1 a 4 abaixo já foram feitos. O próximo é a revisão do pré-registro.)
 1. **Incremento 2:** estabilidade em cascata ([docs/consolidation-decay-v0.1.md](docs/consolidation-decay-v0.1.md)) e portão modulador de três fatores. Inclui:
    - fontes de novidade e de incerteza esperada como **marca-passos** que liberam no campo de difusão;
    - receptores por tipo e nível, com dessensibilização e regulação lenta;
