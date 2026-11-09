@@ -38,5 +38,16 @@
 | Modulação | Regra de três fatores com modulação epistêmica | Marca de elegibilidade no traço; sinal global de novidade ou surpresa gerado pelo próprio sistema; mudança duradoura só se o sinal chegar dentro da janela | Literatura (Frémaux e Gerstner, 2016; Gerstner et al., 2018; Yu e Dayan, 2005; Takeuchi et al., 2016) | proposta ([neuromodulação](neuromodulation-v0.1.md)) |
 | Criação | Alocação por excitabilidade relativa | Entra na representação a candidata mais excitável no momento | Literatura (Josselyn e Tonegawa, 2020; Rashid et al., 2016) | candidata |
 
+## 2b. Propostas: modulação ([unidades moduladoras](modulatory-units-v0.1.md))
+| Tipo | Regra | Heurística | Origem | Estado |
+|---|---|---|---|---|
+| Substância | Concentração por compartimento | Partes por milhão da capacidade; quantum por descarga; remoção com meia-vida; difusão entre compartimentos | Proposta nossa (transmissão por volume; Cragg e Rice, 2004) | proposta |
+| Fonte | Fonte neuronal predefinida com entradas constituídas | Tônica e fásica; fásica disparada por novidade ou surpresa; entradas aprendidas pelas regras da malha | Proposta nossa (Aston-Jones e Cohen, 2005; Schultz et al., 1997) | proposta |
+| Fonte | Território glial | Integra lentamente a atividade do território e libera substância de pressão; divide-se ao exceder a capacidade | Proposta nossa (Bushong et al., 2002; Halassa et al., 2009) | proposta |
+| Receptor | Perfil receptor por tipo e nível | Efeito saturante; dessensibilização rápida; regulação lenta da densidade (homeostase) | Proposta nossa (farmacologia-padrão; Marder, 2012) | proposta |
+| Ciclo | Oscilador com retroalimentação negativa atrasada | Cerca de 24 h; ajustável pela luz do mundo | Proposta nossa (Takahashi, 2017) | proposta |
+| Ciclo | Interruptor de estado | Dois conjuntos que se inibem mutuamente, com estabilizador; entradas: pressão e oscilador | Proposta nossa (Saper et al., 2001, 2005; Borbély, 1982) | proposta |
+| Ciclo | Fase de sono | Entrada atenuada; reativação espontânea; renormalização dos pesos; poda do não confirmado | Proposta nossa (Tononi e Cirelli, 2014; Rasch e Born, 2013) | proposta |
+
 ## 3. Não são regras da malha
 Classificação de ciclo de vida na visualização (exibição), disposição 3D e agrupamento do domínio (lado do pesquisador), oráculo e "criar sempre" (controles de calibração).
