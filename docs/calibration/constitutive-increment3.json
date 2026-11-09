@@ -1,0 +1,30 @@
+[
+  {
+    "stream": "quedas, 40 episódios",
+    "gate": true,
+    "created": 140,
+    "perSecond": 1.2,
+    "alive": 140,
+    "consolidated": 93,
+    "pruned": 0,
+    "releases": 151,
+    "surprises": 541,
+    "level2": 130,
+    "desensitization": 0.04,
+    "runMs": 35
+  },
+  {
+    "stream": "mesa, 120 s",
+    "gate": true,
+    "created": 960,
+    "perSecond": 8,
+    "alive": 960,
+    "consolidated": 723,
+    "pruned": 0,
+    "releases": 719,
+    "surprises": 56573,
+    "level2": 335,
+    "desensitization": 0.19,
+    "runMs": 3101
+  }
+]

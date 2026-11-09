@@ -18,7 +18,7 @@ for (const [name, s] of Object.entries(streams)) for (const gating of (process.a
   const r = replayIncidences(e, s.inc, { endTimeMs: s.end }), snap = r.finalSnapshot, n = t => r.events.filter(x => x.detail.type === t).length;
   out.push({ stream: name, gate: gating, created: n('unit.created'), perSecond: +(n('unit.created') / (s.end / 1000)).toFixed(1),
     alive: snap.units.length, consolidated: snap.units.filter(u => u.level > 0).length, pruned: n('unit.pruned'),
-    releases: n('modulator.release'), desensitization: +snap.modulator.novelty.desensitization.toFixed(2), runMs: Date.now() - t0 });
+    releases: n('modulator.release'), surprises: snap.surprises ?? 0, level2: snap.units.filter(u => u.hierLevel >= 2).length, desensitization: +snap.modulator.novelty.desensitization.toFixed(2), runMs: Date.now() - t0 });
 }
 if (process.argv.includes('--json')) console.log(JSON.stringify(out, null, 2));
 else for (const o of out) console.log(Object.entries(o).map(([k, v]) => `${k}=${v}`).join(' '));

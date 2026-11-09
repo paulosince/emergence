@@ -34,14 +34,17 @@ export const DEFAULTS = Object.freeze({
   receptorHalfNM: 20, desensitizationTauMs: 60000, desensitizationGain: 1,
   cascade: true, cascadeBaseTauMs: 600000, cascadeFactor: 4, cascadeMaxLevel: 5, pruneBelow: 0.05,
   maxUnitsPerElement: 20,
+  // increment 3
+  gradedNovelty: true, surprise: true, surpriseInput: 2.5, maxDischargesPerEvent: 8,
+  maxLevel: 2, // predefined levels: channels 0, units up to maxLevel (Infinity = free recursion variant)
 });
 
 export class ConstitutiveEngine {
   #p; #rng; #t = 0; #pending = [];
   #lastValue = new Map(); #sources = new Map(); // id -> {last, traces[], tTrace, pos}
   #elements; #grid = new Map(); #cell;
-  #units = []; #byPair = new Map(); #n = 0; #failed = 0;
-  #tags = []; #react = []; #pm; #lastBurst = -Infinity; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
+  #units = []; #unitByKey = new Map(); #byPair = new Map(); #n = 0; #failed = 0;
+  #tags = []; #react = []; #pm; #lastBurst = -Infinity; #expect = []; #surprises = 0; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
   constructor(options = {}) {
     this.#p = Object.freeze({ ...DEFAULTS, ...options });
     const p = this.#p;
@@ -57,7 +60,7 @@ export class ConstitutiveEngine {
       return e;
     });
   }
-  describe() { return { id: 'constitutive-engine-v0-increment-2', candidate: true, parameters: { ...this.#p } }; }
+  describe() { return { id: 'constitutive-engine-v0-increment-3', candidate: true, parameters: { ...this.#p } }; }
   #cellKey(pos) { return pos.map(v => Math.floor(v / this.#cell)).join(','); }
   #fluctuation(e, t) {
     const epoch = Math.floor(t / this.#p.fluctuationPeriodMs);
@@ -70,8 +73,10 @@ export class ConstitutiveEngine {
   #source(id) {
     if (!this.#sources.has(id)) {
       // channels without declared anatomy: opaque random site (seeded)
-      const pos = this.#p.channelAnatomy?.[id] ?? [0, 1, 2].map(() => this.#rng.random() * this.#p.substrateSideUm);
-      this.#sources.set(id, { last: -Infinity, traces: this.#p.traceScalesMs.map(() => 0), tTrace: 0, pos });
+      const unit = this.#unitByKey?.get(id);
+      const pos = unit ? [0, 1, 2].map(k => unit.elements.reduce((a, e) => a + this.#elements[e].pos[k], 0) / unit.elements.length)
+        : this.#p.channelAnatomy?.[id] ?? [0, 1, 2].map(() => this.#rng.random() * this.#p.substrateSideUm);
+      this.#sources.set(id, { last: -Infinity, traces: this.#p.traceScalesMs.map(() => 0), tTrace: 0, pos, level: unit ? unit.hierLevel : 0 });
     }
     return this.#sources.get(id);
   }
@@ -83,6 +88,7 @@ export class ConstitutiveEngine {
     if (i.arrivedAtMs < this.#t) throw new RangeError('Incidence in the past');
     this.#t = i.arrivedAtMs;
     this.#modulator(i.arrivedAtMs);
+    this.#checkExpectations(i.arrivedAtMs);
     const prev = this.#lastValue.get(i.transducerId);
     this.#lastValue.set(i.transducerId, i.measurement);
     if (prev === undefined || prev === i.measurement) return; // only changes are events
@@ -94,27 +100,36 @@ export class ConstitutiveEngine {
     // delay of the pair (r -> s)? If yes it discharges; if not, and r's trace
     // is above threshold at some scale, the coincidence recruits a new unit.
     const pairs = this.#byPair.get(sourceId);
-    const candidates = [];
+    const candidates = [], matches = [];
+    let accommodatedPairs = 0;
     for (const [rid, r] of this.#sources) {
       if (rid === sourceId || !Number.isFinite(r.last)) continue;
       const lived = t - r.last;
       if (lived <= 0 || lived > p.maxDelayMs) continue;
       let matched = false;
       for (const u of pairs?.get(rid) ?? []) {
-        if (Math.abs(lived - u.delayMs) <= Math.max(p.delayTolMinMs, p.delayTolFrac * u.delayMs)) {
-          u.discharges++; u.lastDischargeMs = t; matched = true;
-          if (p.cascade) {
-            // reactivation refreshes the trace and leaves an eligibility mark;
-            // the level rises only if the modulator gate opens within the window
-            u.strength = 1; u.tTouch = t; this.#react.push({ u, t });
-          }
-          this.#pending.push({ type: 'unit.discharge', unit: u.key, delayMs: u.delayMs, livedMs: lived, timeMs: t });
-        }
+        const err = Math.abs(lived - u.delayMs);
+        if (err <= Math.max(p.delayTolMinMs, p.delayTolFrac * u.delayMs)) { matches.push({ u, lived, err: err / Math.max(1, u.delayMs) }); matched = true; }
       }
-      if (matched) continue;
+      if (matched) { accommodatedPairs++; continue; }
       this.#decay(r, t);
       const k = r.traces.findIndex(v => v >= p.traceThreshold);
-      if (k >= 0) candidates.push({ rid, lived, scaleMs: p.traceScalesMs[k] });
+      if (k >= 0 && (r.level ?? 0) < p.maxLevel) candidates.push({ rid, lived, scaleMs: p.traceScalesMs[k] });
+    }
+    // lateral inhibition: only the best-matching units discharge (at most one per pair)
+    matches.sort((x, y) => x.err - y.err);
+    const perPair = new Set(), winners = [];
+    for (const m of matches) {
+      const pk = m.u.afferents[0];
+      if (perPair.has(pk)) continue;
+      perPair.add(pk); winners.push(m);
+      if (winners.length >= p.maxDischargesPerEvent) break;
+    }
+    for (const { u, lived } of winners) {
+      u.discharges++; u.lastDischargeMs = t;
+      if (p.cascade) { u.strength = 1; u.tTouch = t; this.#react.push({ u, t }); }
+      this.#expect = this.#expect.filter(x => !x.units.has(u));
+      this.#pending.push({ type: 'unit.discharge', unit: u.key, delayMs: u.delayMs, livedMs: lived, timeMs: t });
     }
     candidates.sort((a, b) => a.lived - b.lived);
     const chosen = candidates.slice(0, p.maxCandidatesPerEvent);
@@ -125,12 +140,32 @@ export class ConstitutiveEngine {
       for (const c of chosen) this.#tags.push({ first: c.rid, second: sourceId, lived: c.lived, scaleMs: c.scaleMs, t, cause });
       if (this.#tags.length > p.maxTags) this.#tags.splice(0, this.#tags.length - p.maxTags);
       // phasic novelty response; a minimum interval between bursts (proposal)
-      if (t - this.#lastBurst >= p.burstRefractoryMs) { this.#lastBurst = t; this.#pm.input(p.noveltyInput); this.#modulator(t); }
+      const novelty = p.gradedNovelty ? chosen.length / (chosen.length + accommodatedPairs) : 1;
+      if (t - this.#lastBurst >= p.burstRefractoryMs) { this.#lastBurst = t; this.#pm.input(p.noveltyInput * novelty); this.#modulator(t); }
     }
     // 3. update own trace and last time
     this.#decay(s, t);
     s.traces = s.traces.map(v => v + 1);
     s.last = t;
+    // expectations (estado de espera): consolidated units whose first afferent fired
+    // one expectation per (pair, occurrence): fulfilled if ANY consolidated unit of the pair discharges
+    if (p.surprise) for (const [second, m] of this.#byPair) {
+      const us = (m.get(sourceId) ?? []).filter(u => u.level >= 1);
+      if (!us.length) continue;
+      const due = Math.max(...us.map(u => u.delayMs + Math.max(p.delayTolMinMs, p.delayTolFrac * u.delayMs)));
+      this.#expect.push({ first: sourceId, second, from: t, due: t + due, tol: 0, units: new Set(us) });
+    }
+    // recursion: a unit's discharge is an event of the same kind, up to the predefined level
+    for (const { u } of winners) if (u.hierLevel < p.maxLevel) this.#event(u.key, t, { unitDischarge: u.key });
+  }
+  #checkExpectations(t) {
+    const p = this.#p; if (!p.surprise || !this.#expect.length) return;
+    const missed = this.#expect.filter(x => t > x.due + x.tol);
+    if (!missed.length) return;
+    this.#expect = this.#expect.filter(x => t <= x.due + x.tol);
+    this.#surprises += missed.length;
+    for (const x of missed) this.#pending.push({ type: 'expectation.failed', pair: [x.first, x.second], timeMs: x.due });
+    if (t - this.#lastBurst >= p.burstRefractoryMs) { this.#lastBurst = t; this.#pm.input(p.surpriseInput); this.#modulator(t); }
   }
   #nearElements(center, radius) {
     const out = [], c = center.map(v => Math.floor(v / this.#cell)), span = Math.ceil(radius / this.#cell);
@@ -154,7 +189,9 @@ export class ConstitutiveEngine {
     const shared = chosen.filter(e => e.units > 0).length;
     for (const e of chosen) { e.lastAlloc = t; e.units++; }
     const u = { key: 'u' + (++this.#n), afferents: [first, second], delayMs: lived, scaleMs, elements: chosen.map(e => e.id),
-      createdAtMs: t, discharges: 0, level: 0, strength: 1, tTouch: t, origin: { cause, sharedElements: shared } };
+      createdAtMs: t, discharges: 0, level: 0, strength: 1, tTouch: t, origin: { cause, sharedElements: shared },
+      hierLevel: 1 + Math.max(this.#sources.get(first).level ?? 0, this.#sources.get(second).level ?? 0) };
+    this.#unitByKey.set(u.key, u);
     this.#units.push(u);
     if (!this.#byPair.has(second)) this.#byPair.set(second, new Map());
     const m = this.#byPair.get(second);
@@ -230,13 +267,13 @@ export class ConstitutiveEngine {
   }
   advanceTo(t) {
     if (t < this.#t) throw new RangeError('Engine time reversal');
-    this.#t = t; this.#modulator(t); this.#sweep(t);
+    this.#t = t; this.#modulator(t); this.#checkExpectations(t); this.#sweep(t);
   }
   drainEvents() { return this.#pending.splice(0); }
   ablate(key) {
     const u = this.#units.find(x => x.key === key);
     if (!u) return;
-    this.#units = this.#units.filter(x => x !== u);
+    this.#units = this.#units.filter(x => x !== u); this.#unitByKey.delete(key); for (const x of this.#expect) x.units.delete(u); this.#expect = this.#expect.filter(x => x.units.size);
     const list = this.#byPair.get(u.afferents[1])?.get(u.afferents[0]);
     if (list) list.splice(list.indexOf(u), 1);
     for (const id of u.elements) this.#elements[id].units--;
@@ -244,7 +281,7 @@ export class ConstitutiveEngine {
   snapshot() {
     return { timeMs: this.#t, units: this.#units.map(u => ({ ...u, afferents: [...u.afferents], elements: [...u.elements] })),
       substrate: { size: this.#elements.length, occupied: this.#elements.filter(e => e.units > 0).length, recruitmentFailures: this.#failed },
-      modulator: { novelty: { spikes: this.#spikes, concentrationNM: this.#conc(this.#t), desensitization: this.#des } }, pendingTags: this.#tags.length, pruned: this.#pruned,
+      modulator: { novelty: { spikes: this.#spikes, concentrationNM: this.#conc(this.#t), desensitization: this.#des } }, pendingTags: this.#tags.length, pruned: this.#pruned, surprises: this.#surprises,
       sources: [...this.#sources.keys()] };
   }
 }

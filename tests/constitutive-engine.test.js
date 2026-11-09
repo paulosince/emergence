@@ -127,3 +127,40 @@ test('capacity per element is respected', () => {
   const ev = feed(e, [['a', 3000], ['b', 3150]]);
   assert.ok(ev.some(x => x.type === 'recruitment.failed'));
 });
+
+test('lateral inhibition: two units of the same pair matching the same event -> only the best one discharges', () => {
+  const e = new ConstitutiveEngine({ ...I1, seed: 9, delayTolFrac: 0.2 });
+  feed(e, [...prime('a'), ...prime('b')]);
+  feed(e, [['a', 1000], ['b', 1040]]);
+  feed(e, [['a', 3000], ['b', 3050]]); // 50 is within 20% of 40 -> accommodated, no new unit
+  e.drainEvents();
+  const ev = feed(e, [['a', 6000], ['b', 6045]]);
+  assert.equal(ab(ev.filter(x => x.type === 'unit.discharge')).length + ev.filter(x => x.type === 'unit.discharge').length > 0, true);
+  const dis = ev.filter(x => x.type === 'unit.discharge');
+  const byPair = new Set(dis.map(x => e.snapshot().units.find(u => u.key === x.unit).afferents.join()));
+  assert.equal(byPair.size, dis.length, 'at most one discharge per pair');
+});
+
+test('recursion up to the predefined level: unit discharges become sources; levels are capped', () => {
+  const run = maxLevel => {
+    const e = new ConstitutiveEngine({ ...I1, seed: 10, maxLevel });
+    feed(e, [...prime('a'), ...prime('b'), ...prime('c'), ...prime('d')]);
+    for (let k = 0; k < 4; k++) feed(e, [['a', 1000 + k * 5000], ['b', 1040 + k * 5000], ['c', 1100 + k * 5000], ['d', 1170 + k * 5000]]);
+    return Math.max(...e.snapshot().units.map(u => u.hierLevel));
+  };
+  assert.equal(run(1), 1);
+  assert.equal(run(2), 2);
+});
+
+test('surprise: a consolidated unit whose expected event does not occur produces an expectation failure', () => {
+  const e = new ConstitutiveEngine({ seed: 11, cascadeBaseTauMs: 600000 });
+  feed(e, [...prime('a'), ...prime('b'), ...prime('c')]);
+  feed(e, [['a', 1000], ['b', 1040]]); e.advanceTo(1300);
+  feed(e, [['a', 20000], ['c', 20039], ['b', 20040]]); e.advanceTo(20300); // reactivation with gate -> level 1
+  assert.ok(e.snapshot().units.some(u => u.afferents.join() === 'a,b' && u.level >= 1));
+  e.drainEvents();
+  feed(e, [['a', 40000]]); // b should follow at +40 ms but does not
+  e.advanceTo(40500);
+  assert.ok(e.drainEvents().some(x => x.type === 'expectation.failed'));
+  assert.ok(e.snapshot().surprises >= 1);
+});

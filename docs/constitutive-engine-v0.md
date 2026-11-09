@@ -68,3 +68,24 @@ Sem portão (incremento 1), a mesa dava cerca de 1.700 por segundo.
    - **inibição lateral**.
 3. Uma tentativa anterior, sem competição na alocação, mostrou que o portão global sozinho não reduz a criação: cada salva convertia todas as marcas pendentes. A competição é necessária.
 4. Os parâmetros do modulador (quantidade por disparo, meia-eficácia, intervalo entre salvas) **não têm fonte**. Precisam ser declarados no pré-registro ou calibrados.
+
+## Incremento 3: novidade graduada, surpresa, inibição lateral e níveis predefinidos (09/11/2026)
+**Testes:** 3 novos (11 no motor). **Resultado:** [constitutive-increment3.json](calibration/constitutive-increment3.json).
+- **Novidade graduada:** é a fração das coincidências do evento que nenhuma unidade acomodou, e cai com a familiaridade. É proposta nossa, coerente com o critério de criação da CLEAR.
+- **Surpresa (estado de espera):** quando a primeira fonte de um par com unidades consolidadas dispara, cria-se **uma espera por par e por ocorrência**. Se nenhuma unidade do par se cumprir no prazo, ocorre uma falha de espera, que provoca uma salva da fonte. A primeira versão, com uma espera por unidade, gerava falhas espúrias, porque cada par tem várias unidades de atrasos diferentes e só uma pode se cumprir.
+- **Inibição lateral:** por evento, só a unidade de melhor ajuste de cada par descarrega, com no máximo 8 descargas.
+- **Níveis predefinidos:** canais são o nível 0. As descargas das unidades viram eventos da mesma regra até o nível máximo, que é 2 na versão principal; nível infinito é a variante de recursão livre.
+
+| Fluxo | Criadas | Por segundo | Consolidadas | Nível 2 | Falhas de espera |
+|---|---|---|---|---|---|
+| Quedas, 40 episódios | 140 | 1,2 | 93 (66%) | 130 | 541 |
+| Mesa, 120 s | 960 | 8 | 723 (75%; eram 93%) | 335 | 56.573 |
+
+**Leitura:**
+1. A consolidação ficou um pouco mais seletiva na mesa (de 93% para 75%), mas continua alta.
+2. A mesa **surpreende o tempo todo**: as colisões tornam o mundo pouco previsível no nível de pares de canais. Isso pode ser o comportamento correto (um mundo imprevisível mantém o portão aberto), ou pode indicar que a espera por pares é grosseira demais.
+3. A maioria das unidades está no **nível 2**, formado por descargas de unidades. É preciso avaliar se isso é composição real ou um eco das próprias descargas; os critérios de níveis superiores, já pré-registrados, decidirão.
+4. **Pendentes:**
+   - o modulador de **incerteza esperada** (equivalente da acetilcolina), aprovado e ainda não implementado;
+   - habituação específica do estímulo;
+   - o ciclo de sono (incremento 4).
