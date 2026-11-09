@@ -106,13 +106,20 @@ test('checkpoint and restore reproduce the uninterrupted run exactly', () => {
   assert.deepEqual(b.snap, a.snap);
 });
 
-test('sleep: reactivation is an intrinsic discharge that propagates; no strength is added without discharge', () => {
+test('sleep: up-states drive every Uint equally; discharges follow excitability and Upro, none is invented', () => {
   const e = new ConstitutiveEngineV2({ seed: 9, clock: { cells: 4, timeScale: 1 } }), f = feeder(e);
   f([['a', 0], ['b', 1]]);
-  for (let k = 1; k <= 30; k++) f([['a', k * 2000], ['b', k * 2000 + 40]]);
-  e.advanceTo(30 * 3600000);
+  const T0 = 20 * 3600000; e.advanceTo(T0); e.drainEvents();
+  for (let k = 1; k <= 30; k++) f([['a', T0 + k * 2000], ['b', T0 + k * 2000 + 40]]);
+  e.advanceTo(21.2 * 3600000);
   const ev = e.drainEvents();
-  const re = ev.filter(x => x.type === 'unit.reactivated');
-  if (re.length) for (const r of re) assert.ok(ev.some(x => x.type === 'unit.discharge' && x.intrinsic && x.unit === r.unit && x.timeMs === r.timeMs));
-  assert.ok(ev.some(x => x.type === 'state.asleep'), 'the clock produced at least one sleep episode');
+  const sleep = ev.find(x => x.type === 'state.asleep');
+  assert.ok(sleep, 'the clock produced at least one sleep episode');
+  const P = e.describe().parameters;
+  for (const r of ev.filter(x => x.type === 'unit.reactivated')) {
+    assert.ok(ev.some(x => x.type === 'unit.discharge' && x.unit === r.unit && x.timeMs === r.timeMs));
+    if (r.intrinsic) { const ph = (r.timeMs - sleep.timeMs) % P.upStatePeriodMs; assert.ok(ph <= P.upStateDurationMs + 1e-6, 'intrinsic only inside up-states'); }
+  }
+  assert.ok(ev.some(x => x.type === 'unit.reactivated' && x.intrinsic), 'up-states produced intrinsic discharges');
+  assert.ok(!('sleepReactivationHz' in P));
 });

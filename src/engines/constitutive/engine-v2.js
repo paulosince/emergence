@@ -15,8 +15,8 @@
 // competitors (units sharing afferent sources). Plasticity: confirmation
 // strengthens contributing Upro; late incidences weaken and shorten delays;
 // failed convergence moves delays together; the modulator multiplies rates.
-// Sleep: consolidated Uint discharge intrinsically (pacemaker property); no
-// activity is created without a source.
+// Sleep: population up-states (slow oscillation) give every Uint the same intrinsic
+// subthreshold drive; selection is emergent; no activity is created without a source.
 import { makeRng } from '../../../vendor/tempo/core/rng.js';
 import { PacemakerUnit } from '../../rhythm/pacemaker.js';
 import { createClockEnsemble } from '../../rhythm/clock.js';
@@ -50,7 +50,7 @@ export class ConstitutiveEngineV2 {
       base: 1 + p.excitabilitySd * this.#rng.normal(), lastAlloc: -Infinity, units: 0 }));
     this.#S = { t: 0, lastValue: {}, sources: {}, elements, units: {}, order: [], upros: {}, out: {}, nU: 0, nP: 0, seq: 0,
       queue: [], tags: [], react: [], lastBurst: -Infinity, c: 0, tc: 0, des: 0, tdes: 0, spikes: 0, lastSweep: 0,
-      rateEma: 0, lastClockSpike: null, clockSpikes: 0, state: 'awake', sleepEpisodes: 0, nextReact: 0, ach: 0, tAch: 0,
+      rateEma: 0, lastClockSpike: null, clockSpikes: 0, state: 'awake', sleepEpisodes: 0, nextUp: 0, up: null, ach: 0, tAch: 0, lastTick: 0,
       stats: { failed: 0, pruned: 0, firings: 0, intrinsic: 0, surprises: 0, surpriseSum: 0, confirmations: 0, late: 0,
         delayAdjusts: 0, accommodated: 0, created: 0 } };
     this.#indexElements();
@@ -131,12 +131,28 @@ export class ConstitutiveEngineV2 {
     const K = p.receptorHalfNM * (1 + p.desensitizationGain * this.#S.des), c = this.#conc(t);
     return c / (c + K);
   }
+  // up-state drive: intrinsic depolarization integrated since the up-state onset
+  // (leaky integrator, as the pacemaker unit); one discharge per unit per up-state
+  #upDrive(u, t) {
+    const S = this.#S, p = this.#p, up = S.up;
+    if (!up || t < up.t0 || t > up.end || u.lastDis >= up.t0) return 0;
+    return p.upStateDrive * this.#unitExcitability(u, up.t0) * p.upStateTauMs * (1 - Math.exp(-(t - up.t0) / p.upStateTauMs));
+  }
+  #unitExcitability(u, t) { return u.elements.reduce((a, id) => a + this.#excitability(this.#S.elements[id], t), 0) / u.elements.length; }
   #arrive(a) {
-    const S = this.#S, p = this.#p, pr = S.upros[a.upro];
+    const S = this.#S, p = this.#p;
+    if (a.intrinsic) { // scheduled threshold crossing of the up-state drive
+      const u = S.units[a.intrinsic];
+      if (u && S.state === 'asleep' && S.up && u.lastDis < S.up.t0 && a.t >= u.refUntil) { this.#decayV(u, a.t); this.#discharge(u, a.t, null, true); }
+      return;
+    }
+    const pr = S.upros[a.upro];
     if (!pr) return;
     const u = S.units[pr.to]; if (!u) return;
     const t = a.t;
-    const e = clamp(a.e + pr.dEffect, -1, 1), m = Math.min(1, a.m * pr.gain), c = m * e; // Uint adds no effect or gain by default
+    // in slow-wave sleep, low acetylcholine releases recurrent (Uint -> Uint) excitatory transmission (Hasselmo 1999)
+    const sleepGain = S.state === 'asleep' && pr.dEffect > 0 && S.units[pr.from] ? p.sleepRecurrentGain : 1;
+    const e = clamp(a.e + pr.dEffect, -1, 1), m = Math.min(1, a.m * pr.gain * sleepGain), c = m * e; // Uint adds no effect or gain by default
     if (c === 0) return;
     this.#decayV(u, t);
     // late incidence (CLEAR v43 L81): arrives after the discharge it missed
@@ -151,7 +167,7 @@ export class ConstitutiveEngineV2 {
     const inhBefore = u.vI;
     if (c > 0) u.vE += c; else u.vI += c;
     if (c > 0) { u.arrivals.push({ upro: pr.id, t, c }); if (u.arrivals.length > 32) u.arrivals.shift(); }
-    if (u.vE + u.vI >= 1) { this.#discharge(u, t, { trigger: pr, inhBefore }); return; }
+    if (u.vE + u.vI + this.#upDrive(u, t) >= 1) { this.#discharge(u, t, { trigger: pr, inhBefore }); return; }
     // failed convergence (L81): the closest other excitatory arrival within the window
     // moves both delays toward coincidence, half each (the mismatch does not say which to change)
     if (c > 0) {
@@ -196,6 +212,7 @@ export class ConstitutiveEngineV2 {
       }
     }
     this.#pending.push({ type: 'unit.discharge', unit: u.key, timeMs: t, intrinsic, surprise, contextInhibition: ctx });
+    if (S.state === 'asleep') this.#pending.push({ type: 'unit.reactivated', unit: u.key, intrinsic, timeMs: t });
     this.#emit(u.key, t);
     if (u.hierLevel < p.maxLevel && S.state === 'awake') this.#originEvent(u.key, t, { unitDischarge: u.key });
   }
@@ -343,23 +360,25 @@ export class ConstitutiveEngineV2 {
     const rmin = 1000 / this.#clockPm.intrinsicPeriodMs(0.0055), rmax = 1000 / this.#clockPm.intrinsicPeriodMs(0.0255);
     const norm = (S.rateEma - rmin) / (rmax - rmin);
     if (S.state === 'awake' && norm < p.switchLow) {
-      S.state = 'asleep'; S.sleepEpisodes++; S.nextReact = t; S.tags = [];
+      S.state = 'asleep'; S.sleepEpisodes++; S.nextUp = t; S.tags = [];
       for (const k of S.order) S.units[k].strength *= p.sleepDownscale; // synaptic homeostasis (Tononi and Cirelli 2014)
       this.#pending.push({ type: 'state.asleep', timeMs: t });
-    } else if (S.state === 'asleep' && norm > p.switchHigh) { S.state = 'awake'; this.#pending.push({ type: 'state.awake', timeMs: t }); }
+    } else if (S.state === 'asleep' && norm > p.switchHigh) { S.state = 'awake'; S.up = null; this.#pending.push({ type: 'state.awake', timeMs: t }); }
   }
-  // D4: in sleep, a consolidated Uint chosen with probability proportional to its
-  // remaining strength fires intrinsically; its incidences propagate normally
-  #sleepTick(tk) {
+  // D4' (validated against neurobiology, 09/11/2026): slow oscillation of the
+  // population (Steriade et al. 1993): at each up-state every Uint receives the same
+  // intrinsic subthreshold drive; which units fire is not chosen by the engine:
+  // more excitable units cross threshold first and their incidences propagate
+  // through the learned Upro (strong pathways recruit the next units).
+  #upState(t0) {
     const S = this.#S, p = this.#p;
-    const pool = S.order.map(k => S.units[k]).filter(u => u.level >= 1 && tk >= u.refUntil);
-    if (!pool.length) return;
-    const w = pool.map(u => u.strength * Math.exp(-(tk - u.tTouch) / (p.cascadeBaseTauMs * p.cascadeFactor ** u.level)));
-    let r = this.#rng.random() * w.reduce((a, b) => a + b, 0), k = 0;
-    while (k < w.length - 1 && r > w[k]) { r -= w[k]; k++; }
-    this.#decayV(pool[k], tk);
-    this.#discharge(pool[k], tk, null, true);
-    this.#pending.push({ type: 'unit.reactivated', unit: pool[k].key, timeMs: tk });
+    S.up = { t0, end: t0 + p.upStateDurationMs };
+    for (const k of S.order) {
+      const u = S.units[k], vInf = p.upStateDrive * this.#unitExcitability(u, t0) * p.upStateTauMs;
+      if (vInf <= 1) continue;
+      const tc = -p.upStateTauMs * Math.log(1 - 1 / vInf);
+      if (tc <= p.upStateDurationMs) this.#push({ t: t0 + tc, intrinsic: k });
+    }
   }
   #sweep(t) {
     const S = this.#S, p = this.#p;
@@ -374,14 +393,16 @@ export class ConstitutiveEngineV2 {
     }
   }
   #advance(t) {
-    const S = this.#S, period = 1000 / this.#p.sleepReactivationHz;
+    const S = this.#S;
     for (;;) {
       const nA = S.queue.length ? S.queue[0].t : Infinity;
-      const nR = S.state === 'asleep' ? S.nextReact : Infinity;
-      const n = Math.min(nA, nR);
+      const nU = S.state === 'asleep' ? S.nextUp : Infinity;
+      const nT = (S.lastTick ?? 0) + 60000; // state, clock and decay are sampled at least every minute
+      const n = Math.min(nA, nU, nT);
       if (n > t) break;
       this.#modulator(n); this.#cycle(n);
-      if (S.state === 'asleep' && S.nextReact <= n && S.nextReact <= nA) { this.#sleepTick(S.nextReact); S.nextReact += period; }
+      if (n === nT && nT < nA && nT < nU) { S.lastTick = nT; this.#sweep(nT); }
+      else if (S.state === 'asleep' && S.nextUp <= n && S.nextUp <= nA) { this.#upState(S.nextUp); S.nextUp += this.#p.upStatePeriodMs; }
       else if (nA <= n) this.#arrive(this.#pop());
     }
     this.#modulator(t); this.#cycle(t);

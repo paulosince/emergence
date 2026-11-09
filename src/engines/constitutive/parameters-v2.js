@@ -5,7 +5,7 @@
 import { PARAMETERS as V1 } from './parameters.js';
 
 const REMOVED = new Set(['firstWeightInit', 'firstWeightPerLevel', 'secondWeight', 'integration', 'projection',
-  'contradictionFactor', 'maxDischargesPerEvent']);
+  'contradictionFactor', 'maxDischargesPerEvent', 'sleepReactivationHz']);
 
 const NEW = [
   ['conductionDelayMs', 1, 'ms', 'declarado', 'Atraso mínimo de uma Upro (a coincidência constituída chega ao mesmo tempo após este atraso)'],
@@ -21,12 +21,16 @@ const NEW = [
   ['inhibitoryGain', 0.5, '', 'declarado', 'D2: magnitude das Upro inibitórias entre Uint concorrentes'],
   ['inhibitoryDelayMs', 1, 'ms', 'declarado', 'D2: atraso das Upro inibitórias (dissináptico)'],
   ['maxCompetitors', 16, 'Uint', 'declarado', 'D2: concorrentes ligadas por inibição a cada Uint constituída'],
+  ['upStatePeriodMs', 1500, 'ms', 'declarado', "D4': período da oscilação lenta do sono (< 1 Hz; 0,3–1 Hz em Steriade, Nuñez e Amzica 1993, sob anestesia)"],
+  ['upStateDurationMs', 500, 'ms', 'declarado', "D4': duração do estado ativo (fase hiperpolarizante de ~1 s no resumo de Steriade et al. 1993)"],
+  ['upStateTauMs', 20, 'ms', 'declarado', "D4': constante de integração do impulso intrínseco (ordem da constante de membrana)"],
+  ['upStateDrive', 0.04587, '1/ms', 'declarado', "D4': impulso intrínseco do estado ativo; com τ = 20 ms só Uint com excitabilidade > 1,09 atingem o limiar, ~10% das Uint sem reforço recente (≈10% das piramidais disparam numa onda aguda: Ylinen et al. 1995, citado por fonte secundária; confiança moderada a baixa)"],
+  ['sleepRecurrentGain', 1.5, '', 'declarado', "D4': ganho das Upro excitatórias entre Uint no sono (acetilcolina baixa libera o retorno; Hasselmo 1999)"],
   ['surpriseInhibitionMin', 0.2, 'limiar', 'declarado', 'Surpresa: inibição de contexto mínima sobre a Uint antes da descarga provocada por transdução'],
 ];
 
 export const PARAMETERS = Object.freeze([
-  ...V1.filter(p => !REMOVED.has(p.name)).map(p => p.name === 'sleepReactivationHz'
-    ? Object.freeze({ ...p, source: 'D4: frequência dos disparos intrínsecos (marca-passo) de Uint consolidadas no sono' }) : p),
+  ...V1.filter(p => !REMOVED.has(p.name)),
   ...NEW.map(([name, value, unit, status, source]) => Object.freeze({ name, value, unit, status, source })),
 ]);
 
