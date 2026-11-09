@@ -61,3 +61,24 @@ Revelou cinco defeitos do **desenho**, não do motor: (1) o negativo aleatório 
 - (d1) nulo **entre sistemas**: comparar o efeito da remoção com o mesmo procedimento no controle "criar sempre" (efeito ≈ 0);
 - (d2) nulo de **remoção de traço equivalente**: remover incidências da mesma quantidade em vez de uma unidade;
 - (d3) manter o nulo atual, mas exigir mundos com estrutura temporal (unidades antigas com futuro previsível), o que as quedas i.i.d. não têm.
+
+## Critérios de engrama: D2-R, D4-S, D5-D
+**Base:** [investigação de engramas](engram-criteria-v0.1.md). **Código:** `src/research/criteria/engram.js`, `experiments/calibrate-engram.js` (10 sementes, 2.000 permutações, 30 remoções aleatórias; ~20 min com o TEMPO). **Dados:** [engram.json](calibration/engram.json) (rodada completa) e [engram-d4s-fix.txt](calibration/engram-d4s-fix.txt) (D4-S depois da correção abaixo).
+
+| Critério | oracle (deve passar) | oracle-random | create-always | tempo | Válido? |
+|---|---|---|---|---|---|
+| D2-R reativação específica (observado/acaso) | **passa 10/10** (0,65–0,85 / 0,11–0,25) | falha 0/10 (≤ 0,15 / ~0,08) | falha 0/10 (0 / 0) | falha 0/10 (1 / 1: a mesma relação para toda altura) | **Sim** |
+| D4-S perda de função específica | **passa 10/10**; 100% das unidades-alvo acima do nulo; especificidade 1,0 | não aplicável (D2-R falhou); sem a condição, passaria em 6/10 | falha (nenhum alvo) | não testável (sem `ablate`) | **Sim, condicionado a D2-R** |
+| D5-D persistência, dormência, ecforia | **passa 10/10** (ecforia 0,73–0,93 / 0,12–0,20) | falha 0/10 | falha 0/10 (ecforia 0) | falha 0/10 (taxa de criação 0; ecforia 1 / 1) | **Sim** |
+| Grade de ganho mínimo 0,1–0,4 (D2-R e D5-D) | passa em todas | falha em todas | falha em todas | falha em todas | **Robusto** |
+
+### Defeito encontrado e corrigido (D4-S, rodada 1)
+Na primeira rodada, o oráculo falhou em D4-S (6/10) por especificidade entre 0,82 e 0,90. Causa: depois de remover uma unidade, o oráculo cria uma substituta, e **todas as unidades criadas depois recebem outro número de identificação**. Episódios respondidos por unidades novas pareciam "alterados" sem que nada funcional tivesse mudado. Correção, alinhada à leitura de Han et al. (2009), em que o controle de especificidade é a preservação de **outras memórias já formadas**: a especificidade conta só episódios recuperados por outras unidades que já existiam na codificação. Depois da correção, especificidade 1,0 em todas as sementes. Confiança no diagnóstico: alta (a especificidade foi exatamente a 1 com a mudança, sem outra alteração).
+
+### Achado
+O controle aleatório **passa em D4-S em 6/10 sementes quando a condição é retirada**: as unidades dele têm papel causal (removê-las muda a resposta), mas não têm conteúdo. Isso confirma a sequência da área: primeiro mostrar o engrama (reativação específica), depois a necessidade. Necessidade sem conteúdo não é representação.
+
+### Limites
+- TEMPO não declara `ablate`, então D4-S não pôde ser testado nele; ele já falha em D2-R e D5-D.
+- O "responder" do TEMPO é a relação 0→1 mais forte no fim do episódio (ele não emite eventos de unidade); a leitura é aproximada.
+- Os controles são deliberadamente simples. A calibração mostra que os critérios **separam** os casos previstos; não garante que separem casos mais sutis, como um motor que forme unidades por canal e não por conteúdo.

@@ -30,12 +30,12 @@ Deslocamento circular por canal; embaralhamento de intervalos por canal; permuta
 | ID | Medida | Sucesso | Justificativa do limiar |
 |---|---|---|---|
 | D1 | Proporção de unidades com registro de criação (incidências causadoras) | 100% | Verificação determinística; qualquer exceção é defeito |
-| D2 | Unidades **consolidadas** (reutilizadas: ≥ 3 descargas; para relações, peso ≥ limiar de disparo) no mundo real ÷ média de 30 substitutos, por semente | Razão ≥ 2 **e** observado > máximo do nulo em ≥ 8 de 10 sementes | Com 30 substitutos, superar o máximo equivale a p ≤ 1/31; exigir 8/10 sementes protege contra sorte em poucas sementes |
+| D2-R | Reativação específica (critério observacional de engrama): episódios 1–20 = codificação, 21–40 = teste; acerto = a unidade que responde no teste é a que respondeu à altura mais próxima na codificação; nulo = 2.000 permutações do pareamento altura–unidade | p < 0,01 após Holm entre sementes **e** ganho ≥ 0,2 sobre a média do nulo, em ≥ 8 de 10 sementes | Substitui a contagem de unidades (invertida na calibração). Ver [engramas](engram-criteria-v0.1.md) |
 | D3a | Spearman entre a propriedade de atraso da unidade e a altura (quedas variáveis) | \|ρ\| ≥ 0,6 com p < 0,01 após correção de Holm entre sementes, em ≥ 8 de 10 sementes | 0,6 é forte o bastante para não ser artefato de amostragem de 1 ms; a variável física em si tem \|ρ\| ≈ 0,997 com o intervalo vivido |
 | D3b | Atrasos do mundo com altura fixa (1,4 m) correlacionados com **pseudo-alturas** (o cronograma variável que esse mundo não teve) | \|ρ\| < 0,2 em ≥ 8 de 10 sementes | Sem variação no mundo não pode haver covariância genuína; usar o índice do episódio confundiria tendência temporal com altura |
 | D3c | Efeito D3a com latências igualadas; **só aplicável se D3a passar** | Retém ≥ 80% de \|ρ\| | Se depender das latências, é instrumento, não mundo (P0.1) |
-| D4 | Efeito da remoção das 10 unidades consolidadas mais antigas × 30 remoções aleatórias | Efeito > máximo do nulo em ≥ 7 de 10 unidades | Piso de p = 1/31 por unidade; 7/10 admite unidades redundantes, previstas pela leitura de padrão do preprint |
-| D5 | Após nova faixa de alturas (U(2,0; 3,0) m), unidades consolidadas anteriores que persistem; taxa de criação | ≥ 80% persistem **e** a taxa não cai abaixo de 10% da inicial | Admite poda seletiva; exclui esquecimento catastrófico e perda de plasticidade |
+| D4-S | Perda de função específica (Han et al., 2009): remover cada unidade (até 10) no fim da codificação; desfecho = queda na recuperação do conteúdo dela no teste; nulo = 30 remoções de uma unidade aleatória; especificidade = outras memórias já formadas preservadas. **Só aplicável se D2-R passar** | ≥ 70% das unidades acima do máximo do nulo **e** especificidade ≥ 0,9, em ≥ 8 de 10 sementes | Necessidade sem conteúdo não é representação: o controle aleatório passaria sem a condição |
+| D5-D | Persistência, dormência e ecforia: regimes A (0,8–2,0 m), B (2,0–3,0 m), A' (nova sequência de A) | Unidades de A presentes no fim de B ≥ 80%; criação em B ≥ 10% da de A; reativação de A em A' com p < 0,01 (Holm) e ganho ≥ 0,2; em ≥ 8 de 10 sementes | Persistência só não discrimina; o traço deve sobreviver sem uso e ser despertado pelo conteúdo |
 | D6 | MCM × comparadores nas mesmas condições | MCM supera o controle TEMPO em D3a **e** iguala ou supera o GWR em D2 | Mínimo para justificar o mecanismo novo; todos os resultados são relatados, inclusive derrotas |
 
 **Comparações múltiplas:** correção de Holm-Bonferroni dentro de cada critério. **Testes de permutação com no mínimo 2.000 permutações**: com 10 sementes e α = 0,01, o p mínimo de 1.000 permutações (≈ 0,001) não passa no primeiro degrau de Holm (0,001).
@@ -44,22 +44,22 @@ Deslocamento circular por canal; embaralhamento de intervalos por canal; permuta
 
 **Análise de sensibilidade (secundária, não muda a decisão):** D3a relatado na grade ρ mínimo ∈ {0,3; …; 0,9} × sementes exigidas ∈ {6; …; 10}; D2 com consolidação em {2, 3, 5} descargas.
 
-**Calibração dos limiares (antes da aprovação):** controle positivo (oráculo que recebe do projetista o par de canais) e controles negativos (controle TEMPO; oráculo com atrasos aleatórios em fluxo independente). Ver [relatório de calibração](calibration-v1.md). **Resultado (rodada 2):** D3a e D3c validados e robustos na grade; D3b é salvaguarda (só pode derrubar D3a); **D2 inválido** (TEMPO passa, oráculo falha) e **D5 não discrimina** (negativo aleatório passa) — ambos aguardam decisão do responsável; D4 e D6 não calibrados (exigem o MCM).
+**Calibração dos limiares (antes da aprovação):** controle positivo (oráculo que recebe do projetista o par de canais) e controles negativos (controle TEMPO; oráculo com atrasos aleatórios em fluxo independente). Ver [relatório de calibração](calibration-v1.md). **Resultado (rodada 2):** D3a e D3c validados e robustos na grade; D3b é salvaguarda (só pode derrubar D3a); D2 e D5 originais eram inválidos e foram **substituídos por D2-R, D4-S e D5-D** (critérios de engrama), validados contra um positivo e três negativos; D6 não calibrado (exige o MCM e os comparadores). D3a, D3b e D3c permanecem.
 
 ## 6. Previsões das ablações (refutáveis)
 | Ablação | Previsão |
 |---|---|
 | Fonte única | Unidades tornam-se cópias de canais; D3a falha |
 | Escala única (rápida) | Unidades da sala desaparecem (escala de horas inalcançável); quedas mantêm-se |
-| Sem consolidação | D5 falha (persistência) |
+| Sem consolidação | D5-D falha (persistência ou ecforia) |
 | Sem corrigibilidade | D3a enfraquece: atrasos não acompanham a altura |
-| Criar sempre | D2 falha: unidades também nos substitutos |
+| Criar sempre | D2-R e D5-D falham: nada é reativado |
 
 ## 7. Refutação
-- **H1 refutada** se D2 falhar no mundo de quedas **e** na mesa.
+- **H1 refutada** se D2-R falhar no mundo de quedas **e** na mesa.
 - **H2 refutada** se D3a falhar, ou se D3b ou D3c indicarem artefato.
-- **H3 refutada** se D4 falhar.
-- **H4 refutada** se D5 falhar.
+- **H3 refutada** se D4-S falhar (ou não for aplicável por falha de D2-R).
+- **H4 refutada** se D5-D falhar.
 - O MCM v0 é considerado **sem vantagem** se D6 falhar, mesmo que D1–D5 passem.
 
 ## 8. Envelope da Fase 1 (X1, parada que falha fechada)

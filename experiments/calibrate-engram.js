@@ -79,7 +79,11 @@ for (const kind of KINDS) {
         const base = retrieval(t.u, t.idx, split.testR);
         const ablated = runWith(t.u);
         const effect = base - retrieval(t.u, t.idx, ablated);
-        const others = split.testR.map((_, j) => j).filter(j => !t.idx.includes(j));
+        // other MEMORIES: test episodes retrieved (intact run) by another unit that
+        // already existed at encoding. Episodes answered by units created after
+        // the removal are excluded: their keys are renumbered by the extra
+        // re-creation, a labelling artifact (calibration, run 1 of D4-S).
+        const others = split.testR.map((_, j) => j).filter(j => !t.idx.includes(j) && pre.includes(split.testR[j]) && split.testR[j] !== t.u);
         const specificity = others.length ? others.filter(j => ablated[j] === split.testR[j]).length / others.length : 1;
         const pool = pre.filter(x => x !== t.u), nulls = [];
         for (let k = 0; k < RANDOM && pool.length; k++) nulls.push(base - retrieval(t.u, t.idx, runWith(pool[Math.floor(rng.random() * pool.length)])));

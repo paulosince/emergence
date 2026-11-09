@@ -1,0 +1,912 @@
+{
+  "oracle": {
+    "d2r": {
+      "passedSeeds": 10,
+      "pass": true
+    },
+    "d2rStats": [
+      {
+        "seed": 1,
+        "observed": 0.85,
+        "nullMean": 0.245,
+        "p": 0.0005
+      },
+      {
+        "seed": 2,
+        "observed": 0.8,
+        "nullMean": 0.19,
+        "p": 0.0005
+      },
+      {
+        "seed": 3,
+        "observed": 0.85,
+        "nullMean": 0.194,
+        "p": 0.0005
+      },
+      {
+        "seed": 4,
+        "observed": 0.75,
+        "nullMean": 0.107,
+        "p": 0.0005
+      },
+      {
+        "seed": 5,
+        "observed": 0.7,
+        "nullMean": 0.131,
+        "p": 0.0005
+      },
+      {
+        "seed": 6,
+        "observed": 0.75,
+        "nullMean": 0.17,
+        "p": 0.0005
+      },
+      {
+        "seed": 7,
+        "observed": 0.65,
+        "nullMean": 0.115,
+        "p": 0.0005
+      },
+      {
+        "seed": 8,
+        "observed": 0.75,
+        "nullMean": 0.159,
+        "p": 0.0005
+      },
+      {
+        "seed": 9,
+        "observed": 0.75,
+        "nullMean": 0.153,
+        "p": 0.0005
+      },
+      {
+        "seed": 10,
+        "observed": 0.8,
+        "nullMean": 0.228,
+        "p": 0.0005
+      }
+    ],
+    "d4s": {
+      "passedSeedsUnconditional": 6,
+      "applicable": true,
+      "pass": false
+    },
+    "d4sUnits": [
+      {
+        "seed": 1,
+        "n": 4,
+        "passed": 4,
+        "specificity": 0.952
+      },
+      {
+        "seed": 2,
+        "n": 6,
+        "passed": 6,
+        "specificity": 0.872
+      },
+      {
+        "seed": 3,
+        "n": 6,
+        "passed": 6,
+        "specificity": 0.971
+      },
+      {
+        "seed": 4,
+        "n": 8,
+        "passed": 8,
+        "specificity": 0.895
+      },
+      {
+        "seed": 5,
+        "n": 6,
+        "passed": 6,
+        "specificity": 0.947
+      },
+      {
+        "seed": 6,
+        "n": 6,
+        "passed": 6,
+        "specificity": 0.905
+      },
+      {
+        "seed": 7,
+        "n": 6,
+        "passed": 6,
+        "specificity": 0.97
+      },
+      {
+        "seed": 8,
+        "n": 7,
+        "passed": 7,
+        "specificity": 0.87
+      },
+      {
+        "seed": 9,
+        "n": 6,
+        "passed": 6,
+        "specificity": 0.82
+      },
+      {
+        "seed": 10,
+        "n": 4,
+        "passed": 4,
+        "specificity": 0.952
+      }
+    ],
+    "d5d": {
+      "passedSeeds": 10,
+      "pass": true
+    },
+    "d5dStats": [
+      {
+        "seed": 1,
+        "persist": 1,
+        "rate": 0.25,
+        "ecphory": 0.925,
+        "null": 0.179,
+        "p": 0.0005
+      },
+      {
+        "seed": 2,
+        "persist": 1,
+        "rate": 0.18,
+        "ecphory": 0.725,
+        "null": 0.117,
+        "p": 0.0005
+      },
+      {
+        "seed": 3,
+        "persist": 1,
+        "rate": 0.22,
+        "ecphory": 0.75,
+        "null": 0.165,
+        "p": 0.0005
+      },
+      {
+        "seed": 4,
+        "persist": 1,
+        "rate": 0.18,
+        "ecphory": 0.8,
+        "null": 0.145,
+        "p": 0.0005
+      },
+      {
+        "seed": 5,
+        "persist": 1,
+        "rate": 0.18,
+        "ecphory": 0.825,
+        "null": 0.128,
+        "p": 0.0005
+      },
+      {
+        "seed": 6,
+        "persist": 1,
+        "rate": 0.3,
+        "ecphory": 0.85,
+        "null": 0.201,
+        "p": 0.0005
+      },
+      {
+        "seed": 7,
+        "persist": 1,
+        "rate": 0.17,
+        "ecphory": 0.925,
+        "null": 0.181,
+        "p": 0.0005
+      },
+      {
+        "seed": 8,
+        "persist": 1,
+        "rate": 0.27,
+        "ecphory": 0.8,
+        "null": 0.175,
+        "p": 0.0005
+      },
+      {
+        "seed": 9,
+        "persist": 1,
+        "rate": 0.18,
+        "ecphory": 0.825,
+        "null": 0.127,
+        "p": 0.0005
+      },
+      {
+        "seed": 10,
+        "persist": 1,
+        "rate": 0.22,
+        "ecphory": 0.9,
+        "null": 0.187,
+        "p": 0.0005
+      }
+    ],
+    "grid": [
+      {
+        "minGain": 0.1,
+        "d2r": true,
+        "d5d": true
+      },
+      {
+        "minGain": 0.2,
+        "d2r": true,
+        "d5d": true
+      },
+      {
+        "minGain": 0.3,
+        "d2r": true,
+        "d5d": true
+      },
+      {
+        "minGain": 0.4,
+        "d2r": true,
+        "d5d": true
+      }
+    ]
+  },
+  "oracle-random": {
+    "d2r": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d2rStats": [
+      {
+        "seed": 1,
+        "observed": 0.05,
+        "nullMean": 0.066,
+        "p": 0.7736
+      },
+      {
+        "seed": 2,
+        "observed": 0,
+        "nullMean": 0.077,
+        "p": 1
+      },
+      {
+        "seed": 3,
+        "observed": 0,
+        "nullMean": 0.096,
+        "p": 1
+      },
+      {
+        "seed": 4,
+        "observed": 0.15,
+        "nullMean": 0.125,
+        "p": 0.4643
+      },
+      {
+        "seed": 5,
+        "observed": 0.1,
+        "nullMean": 0.077,
+        "p": 0.4778
+      },
+      {
+        "seed": 6,
+        "observed": 0,
+        "nullMean": 0.079,
+        "p": 1
+      },
+      {
+        "seed": 7,
+        "observed": 0.1,
+        "nullMean": 0.076,
+        "p": 0.4553
+      },
+      {
+        "seed": 8,
+        "observed": 0.1,
+        "nullMean": 0.088,
+        "p": 0.5477
+      },
+      {
+        "seed": 9,
+        "observed": 0,
+        "nullMean": 0.05,
+        "p": 1
+      },
+      {
+        "seed": 10,
+        "observed": 0.15,
+        "nullMean": 0.069,
+        "p": 0.1464
+      }
+    ],
+    "d4s": {
+      "passedSeedsUnconditional": 2,
+      "applicable": false,
+      "pass": false
+    },
+    "d4sUnits": [
+      {
+        "seed": 1,
+        "n": 1,
+        "passed": 1,
+        "specificity": 0.714
+      },
+      {
+        "seed": 2,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 3,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 4,
+        "n": 3,
+        "passed": 3,
+        "specificity": 0.795
+      },
+      {
+        "seed": 5,
+        "n": 2,
+        "passed": 2,
+        "specificity": 0.785
+      },
+      {
+        "seed": 6,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 7,
+        "n": 2,
+        "passed": 2,
+        "specificity": 0.616
+      },
+      {
+        "seed": 8,
+        "n": 2,
+        "passed": 2,
+        "specificity": 0.906
+      },
+      {
+        "seed": 9,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 10,
+        "n": 3,
+        "passed": 3,
+        "specificity": 0.924
+      }
+    ],
+    "d5d": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d5dStats": [
+      {
+        "seed": 1,
+        "persist": 1,
+        "rate": 0.18,
+        "ecphory": 0.15,
+        "null": 0.099,
+        "p": 0.2059
+      },
+      {
+        "seed": 2,
+        "persist": 1,
+        "rate": 0.25,
+        "ecphory": 0.075,
+        "null": 0.103,
+        "p": 0.8071
+      },
+      {
+        "seed": 3,
+        "persist": 1,
+        "rate": 0.27,
+        "ecphory": 0,
+        "null": 0.096,
+        "p": 1
+      },
+      {
+        "seed": 4,
+        "persist": 1,
+        "rate": 0.25,
+        "ecphory": 0.075,
+        "null": 0.085,
+        "p": 0.6832
+      },
+      {
+        "seed": 5,
+        "persist": 1,
+        "rate": 0.25,
+        "ecphory": 0.125,
+        "null": 0.105,
+        "p": 0.4113
+      },
+      {
+        "seed": 6,
+        "persist": 1,
+        "rate": 0.14,
+        "ecphory": 0.075,
+        "null": 0.092,
+        "p": 0.7391
+      },
+      {
+        "seed": 7,
+        "persist": 1,
+        "rate": 0.15,
+        "ecphory": 0.125,
+        "null": 0.067,
+        "p": 0.1199
+      },
+      {
+        "seed": 8,
+        "persist": 1,
+        "rate": 0.15,
+        "ecphory": 0.05,
+        "null": 0.069,
+        "p": 0.7801
+      },
+      {
+        "seed": 9,
+        "persist": 1,
+        "rate": 0.08,
+        "ecphory": 0.075,
+        "null": 0.095,
+        "p": 0.7636
+      },
+      {
+        "seed": 10,
+        "persist": 1,
+        "rate": 0.17,
+        "ecphory": 0,
+        "null": 0.068,
+        "p": 1
+      }
+    ],
+    "grid": [
+      {
+        "minGain": 0.1,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.2,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.3,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.4,
+        "d2r": false,
+        "d5d": false
+      }
+    ]
+  },
+  "oracle-create-always": {
+    "d2r": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d2rStats": [
+      {
+        "seed": 1,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      },
+      {
+        "seed": 2,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      },
+      {
+        "seed": 3,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      },
+      {
+        "seed": 4,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      },
+      {
+        "seed": 5,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      },
+      {
+        "seed": 6,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      },
+      {
+        "seed": 7,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      },
+      {
+        "seed": 8,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      },
+      {
+        "seed": 9,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      },
+      {
+        "seed": 10,
+        "observed": 0,
+        "nullMean": 0,
+        "p": 1
+      }
+    ],
+    "d4s": {
+      "passedSeedsUnconditional": 0,
+      "applicable": false,
+      "pass": false
+    },
+    "d4sUnits": [
+      {
+        "seed": 1,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 2,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 3,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 4,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 5,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 6,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 7,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 8,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 9,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      },
+      {
+        "seed": 10,
+        "n": 0,
+        "passed": 0,
+        "specificity": null
+      }
+    ],
+    "d5d": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d5dStats": [
+      {
+        "seed": 1,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      },
+      {
+        "seed": 2,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      },
+      {
+        "seed": 3,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      },
+      {
+        "seed": 4,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      },
+      {
+        "seed": 5,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      },
+      {
+        "seed": 6,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      },
+      {
+        "seed": 7,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      },
+      {
+        "seed": 8,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      },
+      {
+        "seed": 9,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      },
+      {
+        "seed": 10,
+        "persist": 1,
+        "rate": 1,
+        "ecphory": 0,
+        "null": 0,
+        "p": 1
+      }
+    ],
+    "grid": [
+      {
+        "minGain": 0.1,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.2,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.3,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.4,
+        "d2r": false,
+        "d5d": false
+      }
+    ]
+  },
+  "tempo": {
+    "d2r": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d2rStats": [
+      {
+        "seed": 1,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 2,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 3,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 4,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 5,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 6,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 7,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 8,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 9,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 10,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      }
+    ],
+    "d4s": {
+      "testable": false,
+      "reason": "engine declares no ablate(unitKey)"
+    },
+    "d4sUnits": [],
+    "d5d": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d5dStats": [
+      {
+        "seed": 1,
+        "persist": 1,
+        "rate": 0,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 2,
+        "persist": 1,
+        "rate": 0,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 3,
+        "persist": 1,
+        "rate": 0,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 4,
+        "persist": 1,
+        "rate": 0,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 5,
+        "persist": 1,
+        "rate": 0.33,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 6,
+        "persist": 1,
+        "rate": 0,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 7,
+        "persist": 1,
+        "rate": 0.33,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 8,
+        "persist": 1,
+        "rate": 0,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 9,
+        "persist": 0.75,
+        "rate": 0,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 10,
+        "persist": 1,
+        "rate": 0,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      }
+    ],
+    "grid": [
+      {
+        "minGain": 0.1,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.2,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.3,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.4,
+        "d2r": false,
+        "d5d": false
+      }
+    ]
+  }
+}
