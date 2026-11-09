@@ -6,6 +6,8 @@ import { createEpisodicDropScenario } from '../src/sensory/episodic-drop-scenari
 import { episodicHeights } from '../src/world/episodic-drops.js';
 import { runExperiment } from '../src/runtime/experiment-runner.js';
 import { ExecutionController } from '../src/runtime/execution-controller.js';
+import { ConstitutiveEngine } from '../src/engines/constitutive/engine.js';
+import { GwrComparator } from '../src/engines/comparators/gwr.js';
 import { OracleIntervalControl } from '../src/engines/oracle-interval-control.js';
 import { TempoFixedNodesControl } from '../src/engines/tempo-fixed-nodes-control.js';
 import { replayIncidences } from '../src/research/bench/replay.js';
@@ -16,12 +18,16 @@ const SEEDS = Number(process.argv.find(a => a.startsWith('--seeds='))?.split('='
 const FAST = { s0: { periodMs: 1 }, s1: { periodMs: 1 }, s2: { periodMs: 1 } };
 const E = 3000, N = 40, HALF = 20, RANDOM = 30, TARGETS = 10, PERM = 2000;
 const ENGINES = {
+  constitutive: seed => new ConstitutiveEngine({ seed, substrateSize: 10000, substrateSideUm: 860 }),
+  gwr: () => new GwrComparator(),
+
   oracle: seed => new OracleIntervalControl({ seed }),
   'oracle-random': seed => new OracleIntervalControl({ randomDelays: true, seed }),
   'oracle-create-always': seed => new OracleIntervalControl({ createAlways: true, seed }),
   tempo: seed => new TempoFixedNodesControl({ nodeCount: 3, transducerNodes: { s0: 0, s1: 1, s2: 2 }, seed }),
 };
-const KINDS = Object.keys(ENGINES).filter(k => !(k === 'tempo' && process.argv.includes('--no-tempo')));
+const ONLY = process.argv.find(a => a.startsWith('--only='))?.split('=')[1]?.split(',');
+const KINDS = Object.keys(ENGINES).filter(k => !(k === 'tempo' && process.argv.includes('--no-tempo'))).filter(k => !ONLY || ONLY.includes(k));
 
 // Responder of each episode: first discharging unit (oracle family) or the
 // strongest 0->1 relation at the episode end (TEMPO emits no unit events).

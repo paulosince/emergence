@@ -9,6 +9,7 @@ import { episodicHeights } from '../src/world/episodic-drops.js';
 import { runExperiment } from '../src/runtime/experiment-runner.js';
 import { ExecutionController } from '../src/runtime/execution-controller.js';
 import { TempoFixedNodesControl } from '../src/engines/tempo-fixed-nodes-control.js';
+import { ConstitutiveEngine } from '../src/engines/constitutive/engine.js';
 import { OracleIntervalControl } from '../src/engines/oracle-interval-control.js';
 import { replayIncidences } from '../src/research/bench/replay.js';
 import { circularShift } from '../src/research/bench/surrogates.js';
@@ -19,6 +20,8 @@ const FAST = { s0: { periodMs: 1 }, s1: { periodMs: 1 }, s2: { periodMs: 1 } };
 const EQ = { s0: { periodMs: 1, latencyMs: 3 }, s1: { periodMs: 1, latencyMs: 3 }, s2: { periodMs: 1, latencyMs: 3 } };
 const MAP = { s0: 0, s1: 1, s2: 2 };
 const ENGINES = {
+  constitutive: seed => new ConstitutiveEngine({ seed, substrateSize: 10000, substrateSideUm: 860 }),
+
   oracle: seed => new OracleIntervalControl({ seed }),
   'oracle-random': seed => new OracleIntervalControl({ randomDelays: true, seed }),
   tempo: seed => new TempoFixedNodesControl({ nodeCount: 3, transducerNodes: MAP, seed }),
@@ -54,7 +57,8 @@ const unitCount = (kind, snap) => kind === 'tempo' ? snap.relations.filter(r => 
   : snap.units.filter(u => u.discharges >= CONSOLIDATION_MIN_DISCHARGES).length;
 
 const out = {};
-for (const kind of Object.keys(ENGINES)) {
+const ONLY = process.argv.find(a => a.startsWith('--only='))?.split('=')[1]?.split(',');
+for (const kind of Object.keys(ENGINES).filter(k => !ONLY || ONLY.includes(k))) {
   const variable = [], fixed = [], equal = [], d2 = [], d5 = [];
   for (let seed = 1; seed <= SEEDS; seed++) {
     const v = perEpisode(kind, seed, { episodes: 40, scheduleSeed: seed });
