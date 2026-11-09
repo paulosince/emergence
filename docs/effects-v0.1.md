@@ -1,6 +1,6 @@
 # Efeitos (excitação e inibição) e magnitude da incidência — proposta v0.1
 
-Situação: **magnitude multiplicativa aprovada pelo responsável** (09/11/2026; "temia ter confundido a soma e a multiplicação"). Limite do efeito e perdas ainda em aberto. Nada implementado.
+Situação: **magnitude multiplicativa aprovada pelo responsável** (09/11/2026; "temia ter confundido a soma e a multiplicação"). Efeito limitado de −1 a +1 por incidência e as três perdas fora da primeira versão (responsável, 09/11/2026). Nada implementado.
 
 ## 1. O que o responsável definiu (registro de 09/11/2026)
 - Excitação e inibição se chamam **efeito** na CLEAR.
@@ -51,3 +51,7 @@ Se alguma dessas perdas se mostrar necessária, entra como termo adicional, regi
   - Bevan e Wilson (1999), *J. Neurosci.* 19(17), 7617–7628: neurônios do núcleo subtalâmico oscilam espontaneamente (corrente persistente de sódio) com a transmissão excitatória bloqueada, e respondem a entradas.
   - Guzman et al. (2009), *J. Neurosci.* 29(35), 11011–11019: marca-passo robusto nos neurônios dopaminérgicos da substância negra.
   - Consequência para o motor: "marca-passo" é uma propriedade que qualquer unidade pode ter, não um tipo à parte; e a inibição sobre um marca-passo-integrador regula a janela de integração (Häusser e Clark), o que liga efeito e tempo.
+
+## 7. Decisões de 09/11/2026 (responsável)
+- **Limite do efeito:** o efeito de cada incidência fica entre −1 e +1 (saturação após a soma). A soma das contribuições na Uint pode ultrapassar esse intervalo; é ela que se compara ao limiar. Assim nenhuma incidência sozinha, com magnitude ≤ 1, passa do limiar 1, e a exigência de pelo menos duas aferências continua valendo na prática.
+- **Perdas (seção 5):** as três ficam **fora por ora** (inibição por desvio de corrente, dependência de voltagem, cursos temporais por sinal). Cada unidade terá uma constante de disponibilidade própria, sem diferença imposta por sinal. A inclusão posterior de qualquer perda entra como desvio registrado. Acompanhar de perto a dependência de voltagem, pela relação com a preparação do campo.
