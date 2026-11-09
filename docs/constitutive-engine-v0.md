@@ -129,3 +129,19 @@ Pedido do responsável. Observação exploratória, sem critério pré-registrad
   - fator de renormalização;
   - constantes da incerteza esperada.
 - **Pendente:** distinguir sono REM e não REM; pressão homeostática (só depois da fase do motor, por decisão do responsável).
+
+## Interface: painel de parâmetros e coordenadas reais (09/11/2026)
+Página `constitutive.html` (link no laboratório):
+- **Painel:** os 46 parâmetros com situação e fonte, editáveis; indica **EXPLORATÓRIO** quando algum valor difere do pré-registro; botão para voltar aos valores do pré-registro.
+- **Execução no navegador:** quatro mundos (quedas aleatórias, fixa, ciclo, mesa).
+- **Vista 3D nas coordenadas constitutivas do motor**, não na disposição do observador:
+  - substrato em cubo;
+  - unidades no centro dos seus elementos (cor = nível de estabilidade; tamanho = nível hierárquico);
+  - aferentes em linhas; canais em quadrados;
+  - descargas e reativações piscam.
+- **Modulação:**
+  - brilho ambiente proporcional à concentração de novidade (a equivalente uniforme que o motor usa);
+  - tom azul no sono;
+  - **partículas ilustrativas** em sítios de liberação sorteados, com nuvem de raio √(6D*t) dos parâmetros da dopamina, ampliada 20 vezes. São rotuladas como ilustração, porque o motor não simula partículas nesta versão.
+- **Reprodução** no tempo e contadores.
+- Verificado em Chromium sem interface: 46 parâmetros e execução sem erros.

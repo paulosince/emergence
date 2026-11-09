@@ -254,7 +254,9 @@ export class ConstitutiveEngine {
     const m = this.#byPair.get(second);
     if (!m.has(first)) m.set(first, []);
     m.get(first).push(u);
-    this.#pending.push({ type: 'unit.created', unit: u.key, delayMs: lived, afferents: [first, second], elements: u.elements, timeMs: t });
+    u.position = [0, 1, 2].map(k => chosen.reduce((a, e) => a + e.pos[k], 0) / chosen.length); // real constitutive coordinates (um)
+    this.#pending.push({ type: 'unit.created', unit: u.key, delayMs: lived, afferents: [first, second], elements: u.elements,
+      position: u.position, level: u.hierLevel, timeMs: t });
   }
   // Novelty modulator: a pacemaker source (tonic single spikes stay below the
   // receptor's half-effect; a phasic burst crosses it) releasing into a
@@ -336,10 +338,11 @@ export class ConstitutiveEngine {
     for (const id of u.elements) this.#elements[id].units--;
   }
   snapshot() {
-    return { timeMs: this.#t, units: this.#units.map(u => ({ ...u, afferents: [...u.afferents], elements: [...u.elements] })),
+    return { timeMs: this.#t, units: this.#units.map(u => ({ ...u, afferents: [...u.afferents], elements: [...u.elements], position: u.position && [...u.position] })),
       substrate: { size: this.#elements.length, occupied: this.#elements.filter(e => e.units > 0).length, recruitmentFailures: this.#failed },
       modulator: { novelty: { spikes: this.#spikes, concentrationNM: this.#conc(this.#t), desensitization: this.#des } }, pendingTags: this.#tags.length, pruned: this.#pruned, surprises: this.#surprises, fulfilledExpectations: this.#fulfilled,
       state: this.#state, sleepEpisodes: this.#sleepEpisodes, reactivations: this.#reactivations, expectedUncertainty: this.#ach,
-      sources: [...this.#sources.keys()] };
+      sources: [...this.#sources.keys()], sourcePositions: Object.fromEntries([...this.#sources].map(([k, v]) => [k, v.pos])),
+      substrateSideUm: this.#p.substrateSideUm };
   }
 }
