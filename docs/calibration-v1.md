@@ -102,3 +102,17 @@ Decisão: ≥ 8 de 10 sementes. Código em `src/research/criteria/maturation.js`
 | Criar sempre (nunca espera) | negativo | falha 0/10 | janelas sem esperas |
 
 **Leitura:** o critério separa quem aprende sequência de quem não aprende. Ressalva honesta: o motor candidato, com esperas por pares, provavelmente **não** passará no componente do ciclo, como a observação exploratória já indicou, porque falta contexto de sequência. Isso seria um resultado negativo informativo.
+
+### Recalibração depois do desvio 2 (09/11/2026)
+- **Medida:** surpresa média por disparo = 1 − preparação.
+- **Mínimo possível** com os pesos pré-registrados: 0,1 (nível 5; peso da primeira aferente 0,9).
+- **Margem:** 0,05.
+
+| Controle | Papel | Resultado | Valores finais (fixa / ciclo / aleatória) |
+|---|---|---|---|
+| Relações que se fortalecem com o uso | positivo | **passa 10/10** | 0,10 / 0,10 / 0,13 |
+| Relações congeladas | negativo | falha 0/10 | 0,70 / 0,70 / 0,70 |
+| Preparação aleatória | negativo | falha 0/10 | 0,49 / 0,54 / 0,57 |
+| Criar sempre (sem disparos) | negativo | falha 0/10 | — |
+
+**Ressalva:** no mundo aleatório, o controle positivo também chega perto do mínimo (0,13), porque com 200 episódios os atrasos acabam se repetindo dentro da tolerância. A ordem se mantém, mas a separação entre os mundos é pequena para quem aprende bem. A campanha mostrará se o motor separa melhor.

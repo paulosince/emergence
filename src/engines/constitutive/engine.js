@@ -143,7 +143,7 @@ export class ConstitutiveEngine {
       const before = this.#expect.length;
       this.#expect = this.#expect.filter(x => !(x.first === u.afferents[0] && x.second === u.afferents[1] && t >= x.from));
       this.#fulfilled += before - this.#expect.length;
-      this.#pending.push({ type: 'unit.discharge', unit: u.key, delayMs: u.delayMs, livedMs: lived, timeMs: t });
+      this.#pending.push({ type: 'unit.discharge', unit: u.key, delayMs: u.delayMs, livedMs: lived, timeMs: t, surprise: prep !== null ? Math.max(0, 1 - prep) : null });
     }
     candidates.sort((a, b) => a.lived - b.lived);
     const chosen = candidates.slice(0, p.maxCandidatesPerEvent);

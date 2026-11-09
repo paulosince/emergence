@@ -1,5 +1,5 @@
 {
-  "sequence-learner": {
+  "strengthening": {
     "decision": {
       "passedSeeds": 10,
       "pass": true
@@ -8,15 +8,13 @@
       "pass": true,
       "parts": {
         "fixedMatures": true,
-        "cycleImproves": true,
-        "orderedByRandomness": true,
-        "beatsShuffled": true
+        "structuredImprove": true,
+        "orderedByRandomness": true
       },
       "final": {
-        "fixed": 0,
-        "cycle": 0,
-        "cycleShuffled": 0.7,
-        "random": 0.9
+        "fixed": 0.10000000000000009,
+        "cycle": 0.10000000000000009,
+        "random": 0.13000000000000006
       }
     }
   },
@@ -28,20 +26,18 @@
     "example": {
       "pass": false,
       "parts": {
-        "fixedMatures": true,
-        "cycleImproves": false,
-        "orderedByRandomness": true,
-        "beatsShuffled": false
+        "fixedMatures": false,
+        "structuredImprove": false,
+        "orderedByRandomness": true
       },
       "final": {
-        "fixed": 0,
-        "cycle": 0.65,
-        "cycleShuffled": 0.65,
-        "random": 0.8
+        "fixed": 0.6999999999999997,
+        "cycle": 0.6999999999999997,
+        "random": 0.6999999999999997
       }
     }
   },
-  "random-guess": {
+  "random-prep": {
     "decision": {
       "passedSeeds": 0,
       "pass": false
@@ -50,15 +46,13 @@
       "pass": false,
       "parts": {
         "fixedMatures": false,
-        "cycleImproves": false,
-        "orderedByRandomness": false,
-        "beatsShuffled": true
+        "structuredImprove": false,
+        "orderedByRandomness": true
       },
       "final": {
-        "fixed": 0.8,
-        "cycle": 0.65,
-        "cycleShuffled": 0.95,
-        "random": 0.85
+        "fixed": 0.49480245873564854,
+        "cycle": 0.5390887976391241,
+        "random": 0.5722162806312554
       }
     }
   },
@@ -69,7 +63,7 @@
     },
     "example": {
       "pass": false,
-      "reason": "window without expectations"
+      "reason": "window without firings"
     }
   }
 }

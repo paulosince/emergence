@@ -1,37 +1,33 @@
-// Calibration of the maturation criterion with controls (no candidate engine).
-// Worlds = sequences of lived delays from the drops world physics (impact time
-// after release for each height). Controls predict the next delay; a
-// prediction fails if it misses the actual delay by more than the tolerance.
-//   positive  'sequence-learner': learns next delay given the last 3 (online table)
-//   negative  'frozen':           predicts the first delay forever (no learning)
-//   negative  'random-guess':     predicts a random delay in the physical range
-//   negative  'create-always':    never predicts (no expectations); creates a unit per episode
+// Calibration of the maturation criterion (deviation 2) with controls.
+// Episodes produce lived delays from the drops physics. A control keeps units
+// (one per delay, tolerance 5%); when a unit exists for the delay it FIRES with
+// surprise = 1 - preparation (preparation = first-afferent weight).
+//   positive  'strengthening':  relation weight grows with each firing (0.3 + 0.12 per level, max level 5)
+//   negative  'frozen':         weight never grows
+//   negative  'random-prep':    preparation drawn at random at each firing
+//   negative  'create-always':  never reuses a unit (no firings)
 import { makeRng } from '../vendor/tempo/core/rng.js';
 import { maturationSeed, maturationDecision } from '../src/research/criteria/maturation.js';
 
-const G = 9.81, delay = h => Math.sqrt(2 * h / G) * 1000, TOL = 0.05;
-const EPI = 200, WIN = 20;
-function worlds(seed) {
-  const r = makeRng(1000 + seed), cyc = Array.from({ length: EPI }, (_, k) => [1.0, 1.5, 2.0][k % 3]);
-  const sh = cyc.slice(); for (let i = sh.length - 1; i > 0; i--) { const j = Math.floor(r.random() * (i + 1)); [sh[i], sh[j]] = [sh[j], sh[i]]; }
-  return { fixed: new Array(EPI).fill(1.4), cycle: cyc, cycleShuffled: sh, random: Array.from({ length: EPI }, () => 0.8 + 1.2 * r.random()) };
-}
+const G = 9.81, delay = h => Math.sqrt(2 * h / G) * 1000, TOL = 0.05, EPI = 200, WIN = 20;
+const worlds = seed => { const r = makeRng(1000 + seed);
+  return { fixed: new Array(EPI).fill(1.4), cycle: Array.from({ length: EPI }, (_, k) => [1.0, 1.5, 2.0][k % 3]), random: Array.from({ length: EPI }, () => 0.8 + 1.2 * r.random()) }; };
 const CONTROLS = {
-  'sequence-learner': () => { const table = new Map(), seen = []; return { predict: () => { const k = seen.slice(-3).join(); return table.has(k) ? table.get(k) : (seen.length ? seen[seen.length - 1] : null); }, learn: d => { const k = seen.slice(-3).join(); table.set(k, d); seen.push(Math.round(d)); }, creates: d => !seen.includes(Math.round(d)) }; },
-  frozen: () => { let first = null; return { predict: () => first, learn: d => { if (first === null) first = d; }, creates: () => false }; },
-  'random-guess': seed => { const r = makeRng(seed + 77); return { predict: () => delay(0.8 + 1.2 * r.random()), learn: () => {}, creates: () => false }; },
-  'create-always': () => ({ predict: () => null, learn: () => {}, creates: () => true }),
+  strengthening: () => ({ grow: true }), frozen: () => ({ grow: false }),
+  'random-prep': seed => ({ rnd: makeRng(seed + 99) }), 'create-always': () => ({ never: true }),
 };
 function run(kind, seed) {
   const out = {};
   for (const [name, hs] of Object.entries(worlds(seed))) {
-    const c = CONTROLS[kind](seed), wins = [];
+    const c = CONTROLS[kind](seed), units = [], wins = [];
     hs.forEach((h, k) => {
-      if (k % WIN === 0) wins.push({ failures: 0, fulfilled: 0, created: 0 });
-      const w = wins[wins.length - 1], d = delay(h), pr = c.predict();
-      if (c.creates(d)) w.created++;
-      if (pr !== null) { if (Math.abs(pr - d) <= Math.max(2, TOL * d)) w.fulfilled++; else w.failures++; }
-      c.learn(d);
+      if (k % WIN === 0) wins.push({ surpriseSum: 0, firings: 0, created: 0 });
+      const w = wins[wins.length - 1], d = delay(h);
+      const u = c.never ? null : units.find(x => Math.abs(x.d - d) <= Math.max(2, TOL * x.d));
+      if (!u) { units.push({ d, level: 0 }); w.created++; return; }
+      const prep = c.rnd ? c.rnd.random() : Math.min(0.95, 0.3 + 0.12 * u.level);
+      w.surpriseSum += 1 - prep; w.firings++;
+      if (c.grow && u.level < 5) u.level++;
     });
     out[name] = wins;
   }
