@@ -50,7 +50,7 @@
   - o GasNets de 1998 é declaradamente "only analogy";
   - o Cx3D não tem atividade elétrica, plasticidade nem neuromodulação;
   - o **método** do núcleo analítico com superposição já é usado para óxido nítrico por Philippides et al., com base em Crank (1980). Não alegar novidade de método.
-  - O precedente mais próximo da combinação é Philippides et al. (2005), com modelo de plexo e modelo de receptores no GasNets; **ler o texto integral antes de alegar**.
+  - **Philippides et al. (2005), texto integral lido:** já tem **receptores por nó** (quantidade × concentração), com ações de ganho, constante de tempo e troca de função; mediana de 47 gerações contra 1.201 do original. É em 2D, com difusão abstrata, parâmetros evolutivos e **sem aprendizado durante a vida**. **O perfil receptor por unidade não é novo.** A combinação que continua não encontrada: difusão física 3D com parâmetros medidos + receptores por tipo e nível com dessensibilização e regulação lenta + modulação da **plasticidade** num sistema que **constitui** unidades.
 - **Novo (não encontrado):** concentração calculada pelo **núcleo de fonte pontual com α, λ e remoção** (parâmetros medidos, Rice e Cragg, 2008), avaliada **só nos eventos**, servindo de **terceiro fator** num sistema que **constitui** suas unidades, com **perfil receptor** por unidade e coordenadas constitutivas.
 - **Para alegar:** texto integral de Philippides et al. (2005); busca dirigida por "reaction-diffusion neuromodulator spiking", "volume transmission model plasticity"; leitura integral do Cx3D, do transmissor de volume e da perspectiva de 2025.
 
@@ -58,6 +58,14 @@
 - **Precedentes:** Cx3D (crescimento em 3D físico); economia de fiação (Chklovskii et al., 2002; Bullmore e Sporns, 2012); GasNets (posições no plano dadas pelo genótipo); plasticidade de mielina (Fields, 2015).
 - **Novo possível:** posição dada pela regra de nascimento perto das fontes aferentes, num sistema **que aprende em tempo real**, com a latência como **variante controlada** pelo controle de latências.
 - **Confiança baixa a média:** modelos de desenvolvimento podem já fazer isso; ainda não lidos.
+
+## 5b. Representação do tempo: atrasos constitutivos × estado da rede
+- **Precedentes:** seleção de atrasos (Gerstner et al., 1996, texto lido); computação dependente de estado (Buonomano e Maass, 2009, texto lido).
+- **Posição:** o programa aposta em atrasos constitutivos. Para alegar vantagem, comparar com uma rede dependente de estado nas mesmas condições.
+
+## 5c. Reconstrução da topologia por coatividade
+- **Precedente:** Curto e Itskov (2008, texto lido) reconstroem o espaço a partir de quais grupos disparam juntos.
+- **Novo possível:** obter essa reconstrução de **unidades constituídas autonomamente** a partir de sensores opacos, como teste do marco da topologia dos sensores.
 
 ## 6. Família epistêmica × valorativa
 - **Precedentes:** neuromodulação por incerteza (Yu e Dayan, 2005); erro de predição de recompensa (Schultz et al., 1997); motivação intrínseca (Oudeyer et al., 2007).

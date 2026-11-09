@@ -131,11 +131,11 @@ Os autores registram que k′ = Vmax/Km só vale com concentração bem abaixo d
 
 ### 7.5 O que não consegui obter (para o responsável tentar)
 - ~~Husbands et al. (1998)~~ obtido pelo responsável.
-- Philippides et al. (2005), *Artificial Life* 11, 139–160: texto integral.
+- ~~Philippides et al. (2005)~~ obtido pelo responsável ([leituras](literature-received-2026-11-09.md)).
 - Nicholson (1995): tabela de coeficientes de difusão de neurotransmissores (há registro: "Diffusion coefficients of neurotransmitters and their metabolites in brain extracellular fluid space", Universidade de Kentucky).
 - Coeficientes de difusão no cérebro de serotonina, noradrenalina e adenosina.
 - Josselyn, Köhler e Frankland (2015), texto integral (o acesso foi negado).
-- ~~Porkka-Heiskanen et al. (1997)~~ obtido pelo responsável. Rakic (1972): texto integral.
+- ~~Porkka-Heiskanen et al. (1997)~~ obtido pelo responsável. ~~Rakic (1972)~~ obtido pelo responsável.
 
 ## Referências (verificadas quanto à existência; leitura por resumo)
 - Andrews, S. S., e Bray, D. (2004). *Physical Biology* 1, 137–151; Andrews et al. (2010). Detailed simulations of cell biology with Smoldyn 2.1. *PLoS Computational Biology* 6, e1000705.
