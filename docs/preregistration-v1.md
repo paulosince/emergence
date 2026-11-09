@@ -1,6 +1,6 @@
 # Pré-registro v1 — fase do motor constitutivo e previsões direcionais da hipótese de organização do domínio
 
-**Estado:** MINUTA **revisada em 09/11/2026** com as decisões do desenho do motor (registro em [decisões](decisions-log.md)), **aguardando aprovação do responsável**. Após a aprovação, qualquer alteração é registrada como **desvio** (cláusula 26 do PPC), com data e justificativa, sem apagar o texto aprovado.
+**Estado:** MINUTA **revisada em 09/11/2026** com as decisões do desenho do motor (registro em [decisões](decisions-log.md)), **APROVADO pelo responsável em 09/11/2026**. Após a aprovação, qualquer alteração é registrada como **desvio** (cláusula 26 do PPC), com data e justificativa, sem apagar o texto aprovado.
 
 **Escopo:** critérios do motor constitutivo (objetivo de criação autônoma, seção 2 do [desenho](research-design-v0.1.md)). As previsões da hipótese de organização do domínio ficam registradas aqui com **direção**; seus limiares serão fixados antes de campanhas de níveis superiores.
 

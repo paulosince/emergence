@@ -21,33 +21,11 @@ import { makeRng } from '../../../vendor/tempo/core/rng.js';
 import { PacemakerUnit } from '../../rhythm/pacemaker.js';
 import { createClockEnsemble } from '../../rhythm/clock.js';
 
-export const DEFAULTS = Object.freeze({
-  substrateSize: 1000, substrateSideUm: 400, unitSize: 4,
-  traceScalesMs: [100, 3000, 90000, 2700000], traceThreshold: 0.2,
-  delayTolFrac: 0.05, delayTolMinMs: 2, maxDelayMs: 2700000 * 2,
-  recruitRadiusUm: 60, excitabilitySd: 0.1, recentBoost: 0.3, recentTauMs: 6 * 3600 * 1000,
-  fluctuationSd: 0.1, fluctuationPeriodMs: 12 * 3600 * 1000,
-  maxCandidatesPerEvent: 64,
-  // increment 2 (three-factor gate, cascade stability, capacity)
-  gating: true, eligibilityMs: 2000, maxTags: 5000,
-  noveltyPacemaker: { tauMs: 500, threshold: 1, refractoryMs: 30, drive: 0.0021 }, noveltyInput: 2.5, burstRefractoryMs: 500, maxAllocationsPerGate: 4,
-  modulatorPerSpikeNM: 15, modulatorClearancePerS: 20,
-  receptorHalfNM: 20, desensitizationTauMs: 60000, desensitizationGain: 1,
-  cascade: true, cascadeBaseTauMs: 600000, cascadeFactor: 4, cascadeMaxLevel: 5, pruneBelow: 0.05,
-  maxUnitsPerElement: 20,
-  // increment 3
-  gradedNovelty: true, surprise: true, surpriseInput: 2.5, maxDischargesPerEvent: 8,
-  contradictionFactor: 0.5, // approved rule: pruning by persistent contradiction (failed expectations weaken the units)
-  // increment 4: imposed sleep-wake cycle and expected uncertainty
-  clock: null, // e.g. { cells: 10, timeScale: 1, lightChannel: null, lightGain: 0.01 }; null = always awake
-  switchHigh: 0.55, switchLow: 0.45, // hysteresis of the state switch on the normalised clock-pacemaker rate
-  sleepReactivationHz: 1, sleepDownscale: 0.8, // per sleep episode (synaptic homeostasis)
-  achTauMs: 60000, achGain: 2, // expected uncertainty (ACh-like): EMA of surprises per discharge
-  maxLevel: 2, // predefined levels: channels 0, units up to maxLevel (Infinity = free recursion variant)
-});
+export { DEFAULTS, PARAMETERS } from './parameters.js';
+import { DEFAULTS, checkOverrides } from './parameters.js';
 
 export class ConstitutiveEngine {
-  #p; #rng; #t = 0; #pending = [];
+  #p; #check; #rng; #t = 0; #pending = [];
   #lastValue = new Map(); #sources = new Map(); // id -> {last, traces[], tTrace, pos}
   #elements; #grid = new Map(); #cell;
   #units = []; #unitByKey = new Map(); #byPair = new Map(); #n = 0; #failed = 0;
@@ -55,6 +33,7 @@ export class ConstitutiveEngine {
   #clock = null; #clockPm = null; #rateEma = 0; #lastClockSpike = null; #clockSpikes = 0; #state = 'awake'; #sleepEpisodes = 0;
   #nextReact = 0; #reactivations = 0; #ach = 0; #tAch = 0; #recentDis = 0; #recentSur = 0; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
   constructor(options = {}) {
+    this.#check = checkOverrides(options);
     this.#p = Object.freeze({ ...DEFAULTS, ...options });
     const p = this.#p;
     this.#rng = makeRng(options.seed ?? 1);
@@ -73,7 +52,7 @@ export class ConstitutiveEngine {
       return e;
     });
   }
-  describe() { return { id: 'constitutive-engine-v0-increment-4', candidate: true, parameters: { ...this.#p } }; }
+  describe() { return { id: 'constitutive-engine-v0-increment-4', candidate: true, parameters: { ...this.#p }, changedFromPreregistration: this.#check.changed, exploratory: this.#check.exploratory }; }
   #cellKey(pos) { return pos.map(v => Math.floor(v / this.#cell)).join(','); }
   #fluctuation(e, t) {
     const epoch = Math.floor(t / this.#p.fluctuationPeriodMs);

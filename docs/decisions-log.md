@@ -32,3 +32,8 @@ Decisões anteriores do mesmo dia: coordenadas constitutivas; unidades novas nas
 - **Teste de desempenho** depois do incremento de substrato e recrutamento.
 - **Série de escala** na fase do motor: substratos de 1.000, 10.000 e 100.000 elementos, para medir como os critérios variam com o tamanho.
 - Envelope reavaliado a cada fase com o responsável; valores no pré-registro revisado.
+
+## 09/11/2026: pré-registro e parâmetros abertos
+- **Pré-registro aprovado** (versão revisada, com critério de maturação, envelope de 50.000 unidades vivas e 100 milhões de descargas, e tabela de parâmetros declarados).
+- **Critério de maturação:** formulado depois de observar o motor. Minha recomendação registrada é **calibrá-lo com controles antes da campanha**; o responsável aprovou o texto sem objeção explícita a isso, então farei a calibração, salvo instrução contrária.
+- **Parâmetros abertos a todos:** fonte única em `src/engines/constitutive/parameters.js`, executor configurável `scripts/run-constitutive.mjs`, tabela em [parâmetros](parameters.md). Mudar valor pré-registrado torna a execução exploratória.

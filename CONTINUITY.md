@@ -25,7 +25,7 @@ Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 09/11/2026.
 - Diário do motor: [docs/constitutive-engine-v0.md](docs/constitutive-engine-v0.md).
 
 ## 3. Onde estamos
-- **8 de 32 itens concluídos** (fase de preparação, exceto o pré-registro).
+- **9 de 32 itens concluídos** (fase de preparação, exceto o pré-registro).
 - **Pré-registro** ([docs/preregistration-v1.md](docs/preregistration-v1.md)): calibrado ([docs/calibration-v1.md](docs/calibration-v1.md)). Critérios de engrama validados. **Precisa ser revisado** com as decisões de 09/11 (recrutamento, estabilidade em cascata, portão modulador, separação substrato × envelope, série de escala) e **aprovado** pelo responsável.
 - **Primitivas do motor (em andamento):**
   - prontos e testados: difusão (`src/space/diffusion.js`); espaço constitutivo (`src/space/constitutive-space.js`); relógio do tipo Goodwin (`src/rhythm/clock.js`); marca-passo (`src/rhythm/pacemaker.js`); motor, incremento 1 (`src/engines/constitutive/engine.js`).
