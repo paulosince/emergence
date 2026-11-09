@@ -4,7 +4,7 @@ import { DAY_MS } from './solar.js';
 
 export const ROOM_SCENARIO_ID='guarulhos-winter-room-clear-v1';
 export const ROOM_HORIZON_MS=DAY_MS-1;
-const SENSORS=Object.freeze([
+export const ROOM_SENSORS=Object.freeze([
   {id:'r0',channelId:'c0',modality:'optical',periodMs:900000,latencyMs:200,
    type:'floor-radiometer',eastM:0.65,northM:0.7},
   {id:'r1',channelId:'c1',modality:'optical',periodMs:900000,latencyMs:300,
@@ -35,7 +35,7 @@ export function createRoomScenario({
       !sensorOverrides || typeof sensorOverrides!=='object' ||
       Array.isArray(sensorOverrides))
     throw new TypeError('World parameters and sensor overrides must be records');
-  const selected=SENSORS.filter(s=>modalities.includes(s.modality));
+  const selected=ROOM_SENSORS.filter(s=>modalities.includes(s.modality));
   const ids=new Set(selected.map(s=>s.id));
   if(Object.keys(sensorOverrides).some(id=>!ids.has(id)))
     throw new RangeError('Override for missing/inactive sensor');
