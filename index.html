@@ -153,6 +153,12 @@
         <div class="row" style="margin-top:8px">
           <button type="button" id="meshIn" aria-label="Aproximar">+</button><button type="button" id="meshOut" aria-label="Afastar">−</button><button type="button" id="meshFit">enquadrar</button>
           <button type="button" id="meshPropagate">ver propagação do último disparo</button>
+          <label class="inline">geometria
+            <select id="meshGeometryMode">
+              <option value="stratified">estratificada (canais na base, altura = nível)</option>
+              <option value="neutral">neutra (só distância operacional, MDS 3-D)</option>
+            </select>
+          </label>
           <span class="stats">arraste: girar · shift+arraste: mover · roda/pinça: zoom · duplo clique: aproximar</span>
           <span class="stats" id="meshClock"></span>
         </div>
@@ -162,7 +168,7 @@
           <div class="leghead">Espaço 3-D</div>
           <div class="leg">
             <span>◆</span><span>canal aferente (transdutor) no anel da base, z = 0; cor própria por canal</span>
-            <span>altura</span><span>nível: 1 = nó de primeira ordem; níveis acima só quando o motor registrar unidades cujas entradas incluem outras unidades</span>
+            <span>altura</span><span>na geometria <b>estratificada</b>: nível (1 = primeira ordem). Essa geometria <b>impõe</b> a estratificação; para testar hipóteses de centralidade ou estratificação use a <b>neutra</b> e as medidas topológicas, não a posição na tela</span>
             <span class="sw" style="border-color:#8a93a6;border-top-style:dashed"></span><span>proveniência aferente registrada: de quais canais vieram as incidências que dispararam o nó (direto ou por uma relação)</span>
             <span>proximidade</span><span><b>operacional</b>: proveniência aferente + coatividade registradas. Não é semântica atribuída pelo observador</span>
             <span class="halo" style="border-color:#8fbcbb"></span><span>agrupamento operacional (A1, A2…), cor do canal dominante — não é categoria nem representação</span>

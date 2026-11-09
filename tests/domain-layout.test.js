@@ -71,3 +71,17 @@ test('real TEMPO room run: every node position derives from recorded data',()=>{
   assert.ok(L.clusters.length>=1);
   for(const cl of L.clusters)for(const m of cl.members)assert.equal(L.nodes[m].cluster,cl.id);
 });
+
+test('neutral geometry: no level axis and no channel pull; clusters unchanged',()=>{
+  const model=meshModel({nodeCount:3,relations:[rel(0,1,1.2)]});
+  const incidences=[inc('a','r0',1000),inc('b','r0',5000),inc('c','r3',90000)];
+  const firings=[{timeMs:1000,node:0},{timeMs:1000,node:1},{timeMs:5000,node:0},
+    {timeMs:5000,node:1},{timeMs:90000,node:2}];
+  const args={model,firings,incidences,transducerNodes:{r0:0,r3:2},channels:CH,timeMs:1e9};
+  const S=domainLayout(args),N=domainLayout({...args,geometry:'neutral'});
+  assert.equal(N.geometry,'neutral');
+  assert.ok(N.nodes.some(n=>Math.abs(n.z-0.9*n.level)>1e-6),'height is not the level');
+  assert.deepEqual(N.nodes.map(n=>n.cluster),S.nodes.map(n=>n.cluster));
+  assert.deepEqual(N.distance,S.distance,'geometry choice never changes measured distances');
+  assert.throws(()=>domainLayout({...args,geometry:'radial'}));
+});

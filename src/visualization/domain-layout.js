@@ -56,16 +56,16 @@ function topEigen(M, k, iterations = 300) {
   return { vecs, vals };
 }
 
-function classicalMds2(D) {
+function classicalMds(D, k = 2) {
   const n = D.length;
   if (n === 0) return [];
-  if (n === 1) return [[0, 0]];
+  if (n === 1) return [new Array(k).fill(0)];
   const D2 = D.map(r => r.map(x => x * x));
   const rowMean = D2.map(r => r.reduce((s, x) => s + x, 0) / n);
   const all = rowMean.reduce((s, x) => s + x, 0) / n;
   const B = D2.map((r, i) => r.map((x, j) => -0.5 * (x - rowMean[i] - rowMean[j] + all)));
-  const { vecs, vals } = topEigen(B, 2);
-  return Array.from({ length: n }, (_, i) => [0, 1].map(d =>
+  const { vecs, vals } = topEigen(B, k);
+  return Array.from({ length: n }, (_, i) => vecs.map((_, d) =>
     vals[d] > 1e-12 ? vecs[d][i] * Math.sqrt(vals[d]) : 0));
 }
 
@@ -78,7 +78,14 @@ function classicalMds2(D) {
  * @param timeMs         cursor: nothing after it is used
  */
 export function domainLayout({ model, firings, incidences, transducerNodes = {},
-  channels, timeMs, coactivityBinMs = 1000, alpha = 0.5, clusterThreshold = 0.35 }) {
+  channels, timeMs, coactivityBinMs = 1000, alpha = 0.5, clusterThreshold = 0.35,
+  geometry = 'stratified' }) {
+  // geometry 'stratified': channels ring at z = 0, height = level, x,y pulled
+  //   toward afferent channels (a DISPLAY CHOICE that imposes stratification).
+  // geometry 'neutral': 3-D classical MDS of the operational distance only;
+  //   no level axis, no channel pull. Use it when testing hypotheses about
+  //   centrality or stratification, so the layout does not build them in.
+  if (!['stratified', 'neutral'].includes(geometry)) throw new RangeError('Unknown geometry');
   const C = channels.length;
   const anchors = channels.map((channel, i) => {
     const a = -Math.PI / 2 + (2 * Math.PI * i) / Math.max(1, C);
@@ -124,21 +131,22 @@ export function domainLayout({ model, firings, incidences, transducerNodes = {},
   }));
 
   // geometry
-  const mds = classicalMds2(distance);
-  const maxR = Math.max(1e-9, ...mds.map(([x, y]) => Math.hypot(x, y)));
+  const mds = classicalMds(distance, geometry === 'neutral' ? 3 : 2);
+  const maxR = Math.max(1e-9, ...mds.map(v => Math.hypot(...v)));
   const nodes = Array.from({ length: n }, (_, i) => {
     let ax = 0, ay = 0, wsum = 0;
     profileN[i].forEach((w, c) => { ax += w * anchors[c].x; ay += w * anchors[c].y; wsum += w; });
     if (wsum > 0) { ax /= wsum; ay /= wsum; }
-    const [mx, my] = mds[i].map(v => (0.8 * v) / maxR);
+    const [mx, my, mz = 0] = mds[i].map(v => (0.8 * v) / maxR);
     const dominant = profileN[i].some(v => v > 0)
       ? channels[profileN[i].indexOf(Math.max(...profileN[i]))] : null;
     const level = model.nodes[i]?.level ?? 1;
+    const neutral = geometry === 'neutral';
     return {
       index: i, level, fired: fireCount[i], profile: profileN[i], dominantChannel: dominant,
-      x: wsum > 0 ? 0.5 * mx + 0.5 * ax : 0.5 * mx,
-      y: wsum > 0 ? 0.5 * my + 0.5 * ay : 0.5 * my,
-      z: 0.9 * level, cluster: -1,
+      x: neutral ? mx : (wsum > 0 ? 0.5 * mx + 0.5 * ax : 0.5 * mx),
+      y: neutral ? my : (wsum > 0 ? 0.5 * my + 0.5 * ay : 0.5 * my),
+      z: neutral ? 0.45 + mz : 0.9 * level, cluster: -1,
     };
   });
 
@@ -170,6 +178,6 @@ export function domainLayout({ model, firings, incidences, transducerNodes = {},
   });
   return {
     anchors, nodes, clusters, distance,
-    basis: 'afferent-provenance+co-activity', alpha, coactivityBinMs, clusterThreshold,
+    basis: 'afferent-provenance+co-activity', geometry, alpha, coactivityBinMs, clusterThreshold,
   };
 }

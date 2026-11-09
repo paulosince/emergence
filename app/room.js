@@ -417,11 +417,12 @@ function currentMesh(t){
 // Layout is recomputed per executed block (not per frame), so positions do
 // not jitter during playback and never use data after the cursor's block.
 function currentLayout(model,capturedAt,t){
-  const key=engineKind+'|'+capturedAt+'|'+Math.floor(t/RUN_STEP_MS)+'|'+(result.trace?.length??0);
+  const geometry=el('meshGeometryMode').value||'stratified';
+  const key=engineKind+'|'+geometry+'|'+capturedAt+'|'+Math.floor(t/RUN_STEP_MS)+'|'+(result.trace?.length??0);
   if(layoutCache.key!==key){
     layoutCache={key,layout:domainLayout({model,firings:firings(),
       incidences:result.incidences,transducerNodes:ROOM_NODES,
-      channels:NODE_CHANNEL,timeMs:t})};
+      channels:NODE_CHANNEL,timeMs:t,geometry})};
   }
   return layoutCache.layout;
 }
@@ -491,7 +492,7 @@ function drawMesh(){
   for(let k=0;k<=72;k++){const a=2*Math.PI*k/72,q=P({x:Math.cos(a),y:Math.sin(a),z:0});
     k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}
   ctx.stroke();
-  for(const level of [1,2]){
+  if(layout.geometry==='stratified')for(const level of [1,2]){
     ctx.strokeStyle='rgba(38,44,56,.45)';ctx.setLineDash([2,6]);ctx.beginPath();
     for(let k=0;k<=72;k++){const a=2*Math.PI*k/72,q=P({x:.55*Math.cos(a),y:.55*Math.sin(a),z:.9*level});
       k?ctx.lineTo(q.x,q.y):ctx.moveTo(q.x,q.y);}
@@ -657,6 +658,7 @@ function describeSelection(){
 }
 function zoom(f){cam.dist=Math.min(8,Math.max(.6,cam.dist/f));drawMesh();}
 el('meshIn').addEventListener('click',()=>zoom(1.25));
+el('meshGeometryMode').addEventListener('change',()=>{layoutCache={key:null,layout:null};drawMesh();});
 el('meshOut').addEventListener('click',()=>zoom(1/1.25));
 el('meshFit').addEventListener('click',()=>{cam={...CAMERA0};selection=null;describeSelection();drawMesh();});
 canvas.addEventListener('wheel',e=>{e.preventDefault();zoom(e.deltaY<0?1.1:1/1.1);},{passive:false});

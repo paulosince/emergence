@@ -122,3 +122,4 @@ footer{text-align:center;color:var(--muted);font-size:12px;margin-top:24px}
 
 @media(max-width:860px){.grid.two{grid-template-columns:1fr}.measure-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.tick-labels{padding-left:0}}
 @media(max-width:520px){.word{font-size:24px;letter-spacing:.24em}.expand{font-size:11.5px}.counters{grid-template-columns:repeat(2,1fr)}#meshView{height:280px}.run-bar .stats{flex-basis:100%}}
+label.inline{flex:none;flex-direction:row;align-items:center;gap:6px;min-width:0}label.inline select{padding:6px 8px}

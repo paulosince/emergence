@@ -125,32 +125,89 @@ Qualquer resultado é teoricamente informativo.
 
 ---
 
-## 5. Ordem de execução proposta (incrementos pequenos e testados)
+## 5. Hipótese de organização do domínio (H-ORG) — proposta pelo responsável, 09/11/2026
+
+**Hipótese original.** Num domínio constituído autonomamente, representações básicas e referenciais (intensidade, escala, referências temporais) tornar-se-iam centrais e densamente conectadas. Representações agrupar-se-iam por afinidade e por canal aferente. Representações de nível muito superior afastar-se-iam do centro.
+
+### 5.1 Três correções metodológicas antes de qualquer previsão
+
+1. **A posição geométrica não é evidência.** Num embedding construído a partir de relações, os nós mais conectados tendem ao centro por construção. Verificação reprodutível (`experiments/embedding-centrality-artifact.mjs`, MDS clássico 3-D da distância de caminho mínimo, 150 nós, 20 sementes; correlação de Spearman entre grau e distância ao centro):
+
+   | Tipo de rede | Mediana | Faixa | Correlações negativas |
+   |---|---|---|---|
+   | Ligação preferencial | −0,09 | −0,20 a −0,03 | 20/20 |
+   | **Nulo com grau preservado** | −0,23 | −0,30 a −0,08 | 20/20 |
+   | Grafo geométrico aleatório | −0,66 | −0,82 a −0,52 | 20/20 |
+
+   Logo, "hubs no centro da imagem" aparece em qualquer rede, inclusive aleatória. **As previsões são testadas em medidas topológicas comparadas com nulos; a visualização apenas exibe.** O laboratório tem agora a geometria **neutra** (MDS 3-D, sem eixo de nível e sem atração por canal). A geometria **estratificada** impõe a estratificação e não serve para testar H-ORG.
+2. **Nó não é representação.** Representações podem ser distribuídas, com seletividade mista (Rigotti et al. 2013), e a Matriz admite unidades representacionais sobre nós preexistentes. A centralidade deve ser medida também no nível das unidades representacionais (organizações individuadas pelo critério N7), não só no de nós.
+3. **Nomes não são conteúdo.** Uma unidade só conta como "intensidade" ou "escala" pelo seu funcionamento: invariância à magnitude através de canais e efeito causal interno. Nunca pelo nome dado pelo pesquisador. O motor não recebe categorias.
+
+### 5.2 Confundidores mecânicos que imitam a hipótese
+
+- **Taxa e duração do traço.** No MCM, fontes com mais incidências ou traços mais longos (escalas lentas) participam de mais coincidências e ganham mais relações, sem relação com papel representacional. Nulo: dados substitutos com deslocamento circular que preserva taxas e durações por fonte.
+- **Idade.** Em redes que crescem, unidades antigas acumulam relações por terem existido mais tempo (Barabási e Albert 1999). Nulo: crescimento com idade pareada.
+- **Distribuição de grau.** Um coeficiente de rich club cresce até em redes aleatórias; deve ser normalizado por um nulo com o mesmo grau (Colizza et al. 2006; religação com grau preservado, na linha de Maslov e Sneppen 2002).
+- **Regras genéricas.** Hubs e rich club surgem de regras simples de custo e homofilia (Betzel et al. 2016). Sua mera existência não indica representação.
+
+### 5.3 Previsões derivadas do mecanismo (condicionais ao MCM; não são consequências necessárias da CLEAR)
+
+| ID | Previsão | Manipulação discriminante | Refutada se |
+|---|---|---|---|
+| ORG-1 Fundação | Unidades de escala lenta e contexto (referências temporais) terão maior centralidade (grau, força, *k-core*) **além** do nulo de taxa e duração | Comparar com dados substitutos; ablar escalas lentas | Centralidade explicada pelo nulo, ou desaparece sem mudança de conteúdo |
+| ORG-2 Intensidade/escala | Sem transdutores com limiares diferentes por grandeza, **nenhuma** unidade de intensidade se constitui. Com bancos de limiares (diversidade de receptores, neutra quanto ao conteúdo), surgem unidades que agrupam limiares de uma mesma grandeza e são compartilhadas por muitas unidades superiores | Ligar e desligar os bancos de limiares | Unidades "de intensidade" surgem sem bancos, ou não surgem com eles |
+| ORG-3 Grandeza intermodal | No MCM, uma unidade de "mais" compartilhada entre luz e calor surge só quando o mundo correlaciona as modalidades (o Sol aquece e ilumina). **Quando a correlação é desfeita** (lâmpada à noite, céu encoberto), ela não persiste, ao contrário do que prevê um sistema comum de grandeza (Walsh 2003; ver Hamamouche e Cordes 2019) | Descorrelacionar luz e temperatura | Unidade intermodal persiste após a descorrelação: indicaria mecanismo além da coincidência |
+| ORG-4 Afinidade | Comunidades alinhadas aos canais aferentes acima do nulo; unidades conectoras (alto coeficiente de participação, Guimerà e Amaral 2005) onde o mundo acopla modalidades | Variar o acoplamento físico entre modalidades | Comunidades independentes dos canais e do acoplamento |
+| ORG-5 Estratificação, versão A | Sem regra de categorização, unidades de nível superior têm **menor** grau (conjunções mais raras): periféricas na topologia | Ablação da categorização | — |
+| ORG-5 Estratificação, versão B (concorrente) | Com a regra de categorização (unidades disjuntivas), unidades superiores tornam-se **conectoras de integração**, como os hubs associativos do cérebro | Ligar a categorização | Sem diferença entre A e B: a categorização não governa a estratificação |
+| ORG-6 Desenvolvimento | Hubs surgem primeiro em fontes rápidas e primárias; com a categorização, migram para unidades integradoras, como os hubs funcionais que passam das áreas primárias às associativas na infância (Oldham e Fornito 2019) | Séries longas, várias "estações" | Identidade dos hubs estática |
+| ORG-7 Estrutura × acesso | Unidades antigas e consolidadas mantêm centralidade estrutural enquanto a frequência de descargas cai (dissociação entre estrutura e acesso, no sentido da CLEAR) | Nulo de idade; comparar com a contagem de descargas | Centralidade acompanha só a idade, ou só a frequência de acesso |
+
+**Medidas, todas comparadas com nulos:** grau e força; *k-core*; centralidade de intermediação; coeficiente de participação e grau intramódulo; rich club normalizado; separação núcleo-periferia; nível hierárquico; idade; persistência; frequência de descargas.
+
+### 5.4 Confronto com o cérebro (literatura verificada; leitura de resumos, salvo indicação)
+
+| Achado | Referência | Relação com H-ORG |
+|---|---|---|
+| Núcleo de hubs mais interligados do que o grau prevê: precuneus, córtex frontal e parietal superior, hipocampo, putâmen, tálamo | van den Heuvel e Sporns 2011 | Apoia "núcleo denso", mas os membros são integradores **associativos e subcorticais**, não representações sensoriais básicas: contraria a versão forte "básico = central" |
+| Gradiente principal do córtex primário sensório-motor ao transmodal (rede de modo padrão), com a rede de modo padrão na maior distância geodésica das áreas primárias | Margulies et al. 2016 | Apoia "nível superior longe das âncoras sensoriais", mas como **eixo**, não como centro versus periferia |
+| Núcleo temporalmente estável (sensório-motor e visual) e periferia flexível (associativa) durante aprendizagem motora | Bassett et al. 2013 | Apoia a hipótese na forma **dinâmica**: estabilidade, não posição |
+| Hubs funcionais passam das áreas primárias às associativas na infância; hubs estruturais estáveis desde cedo | Oldham e Fornito 2019 | Duas centralidades em tempos diferentes; base de ORG-6 |
+| Gradientes funcionais mudam de forma não linear do nascimento aos 100 anos | Taylor et al., Nature 2026 | A previsão precisa ser dinâmica |
+| Hubs reais deslocados do centro geométrico previsto pela geometria | Roberts et al. 2016 | Posição física não é centralidade |
+| Sistema comum de grandeza (tempo, espaço, número) versus dissociações após a infância | Walsh 2003; Hamamouche e Cordes 2019 | Base de ORG-3; questão aberta |
+| Geometria representacional comparável entre cérebro e modelo | Kriegeskorte et al. 2008 | Método para comparar o domínio do MCM com dados cerebrais, nas mesmas condições |
+
+**Avaliação:** a hipótese é compatível com vários padrões cerebrais, mas o cérebro sugere **duas centralidades**: uma de fundamentação (núcleo estável e primário) e outra de integração (hubs associativos). A versão "superior = periférico" é contrariada pelo rich club e pela migração dos hubs. O MCM permite um teste raro: ORG-5A contra ORG-5B mostra se a regra de categorização decide qual das duas organizações aparece. Nenhum resultado no MCM demonstraria equivalência com o cérebro; no máximo, semelhança estrutural sob condições declaradas.
+
+## 6. Ordem de execução proposta (incrementos pequenos e testados)
 
 1. **P0.1** Controle de latências igualadas e embaralhadas no controle TEMPO (teste do N5).
 2. **P0.2** Mundo episódico 1D sem corpo.
 3. **P0.3** Execuções da sala em vários dias.
 4. **P0.4** Nulos, dados substitutos e bancada de avaliação (remoção causal, covariância com o referente).
-5. **P0.5** Pré-registro v1: hipóteses, limiares e comparadores, datado.
-6. **Fase 1** MCM v0, contrato de checkpoint e ablações; critérios D1–D6.
-7. **Fase 2** Recursão e categorização; critérios H1–H6.
-8. **Fase 3A** Detecção de Orientação; critérios V1–V4.
+5. **P0.5** Medidas topológicas com nulos (grau preservado, taxa e duração, idade pareada) para H-ORG.
+6. **P0.6** Pré-registro v1: hipóteses (inclusive ORG-1 a ORG-7), limiares e comparadores, datado.
+7. **Fase 1** MCM v0, contrato de checkpoint e ablações; critérios D1–D6.
+8. **Fase 2** Recursão e categorização; critérios H1–H6.
+9. **Fase 3A** Detecção de Orientação; critérios V1–V4.
 
 ---
 
-## 6. Visualização do domínio em 3-D (implementada)
+## 7. Visualização do domínio em 3-D (implementada)
 
 - **Anel da base:** canais aferentes.
 - **Altura:** nível.
 - **Posição:** proveniência aferente registrada combinada com coatividade registrada, por escalonamento multidimensional clássico determinístico.
 - **Agrupamentos operacionais:** ligação simples abaixo de um limiar de distância.
 - **Interação:** girar, mover, aproximar e focar com duplo clique.
+- **Duas geometrias:** *estratificada* (canais na base, altura = nível; impõe estratificação) e *neutra* (MDS 3-D da distância operacional apenas). Hipóteses de organização são testadas em medidas topológicas, não na posição exibida (seção 5.1).
 
 A proximidade é **operacional, calculada pelo observador**; não é semântica atribuída nem constituída pelo motor. Ver `src/visualization/domain-layout.js`.
 
 ---
 
-## 7. Riscos registrados (PPC pausado)
+## 8. Riscos registrados (PPC pausado)
 
 - O MCM foi desenhado para realizar os papéis Utrd, Upro, Uint e Pcrt da CLEAR. **Se a CLEAR estiver correta**, o sucesso dos objetivos 1 e 2 produz acessos locais a representações constituídas, que a CLEAR identifica com experiência. Pelo próprio programa, isso é um efeito esperado do sucesso, não um efeito colateral.
 - O objetivo 3, especialmente a fase 3B, é a configuração que as teorias do programa mais aproximam de valia vivida. A CLEAR não define valência.
@@ -162,7 +219,7 @@ A proximidade é **operacional, calculada pelo observador**; não é semântica 
 
 ---
 
-## 8. O que não se pode alegar mesmo com sucesso
+## 9. O que não se pode alegar mesmo com sucesso
 
 - Necessidade universal dos mecanismos (somente dentro das famílias comparadas).
 - Representação em sentido pleno sem D3, D4, H4 e H6.
@@ -171,4 +228,4 @@ A proximidade é **operacional, calculada pelo observador**; não é semântica 
 
 ## Referências verificadas nesta proposta
 
-Ver a resposta de 08/11/2026 na sessão de trabalho; principais: Locatello et al. 2019 (ICML); Hyvärinen e Morioka 2016 (NeurIPS); Hyvärinen, Sasaki e Turner 2019 (AISTATS); Taddeo e Floridi 2005 (JETAI); Peters, Bühlmann e Meinshausen 2016 (JRSS-B); Becker e Hinton 1992 (Nature); Fujisaki et al. 2004 (Nat. Neurosci.); Bittner et al. 2017 (Science); Fusi, Drew e Abbott 2005 (Neuron); Dohare et al. 2024 (Nature); de-Wit et al. 2016 (PB&R); Ritchie, Kaplan e Klein 2019 (BJPS); Elazar et al. 2021 (TACL); Buzsáki 2010 (Neuron); Izhikevich 2006 (Neural Comput.); Wiskott e Sejnowski 2002 (Neural Comput.); Kahneman, Treisman e Gibbs 1992 (Cogn. Psychol.); Perruchet e Vinter 2002 (BBS); Marsland, Shapiro e Nehmzow 2002 (Neural Networks); Fritzke 1994/1995 (NIPS 7).
+Ver a resposta de 08/11/2026 na sessão de trabalho; principais: Locatello et al. 2019 (ICML); Hyvärinen e Morioka 2016 (NeurIPS); Hyvärinen, Sasaki e Turner 2019 (AISTATS); Taddeo e Floridi 2005 (JETAI); Peters, Bühlmann e Meinshausen 2016 (JRSS-B); Becker e Hinton 1992 (Nature); Fujisaki et al. 2004 (Nat. Neurosci.); Bittner et al. 2017 (Science); Fusi, Drew e Abbott 2005 (Neuron); Dohare et al. 2024 (Nature); de-Wit et al. 2016 (PB&R); Ritchie, Kaplan e Klein 2019 (BJPS); Elazar et al. 2021 (TACL); van den Heuvel e Sporns 2011 (J. Neurosci.); Margulies et al. 2016 (PNAS); Bassett et al. 2013 (PLoS Comput. Biol.); Oldham e Fornito 2019 (Dev. Cogn. Neurosci.); Taylor et al. 2026 (Nature 652); Roberts et al. 2016 (NeuroImage); Betzel et al. 2016 (NeuroImage); Walsh 2003 (TICS); Hamamouche e Cordes 2019 (PB&R); Rigotti et al. 2013 (Nature); Kriegeskorte et al. 2008 (Front. Syst. Neurosci.); Barabási e Albert 1999 (Science); Colizza et al. 2006 (Nat. Phys.); Maslov e Sneppen 2002 (Science); Guimerà e Amaral 2005 (Nature); Buzsáki 2010 (Neuron); Izhikevich 2006 (Neural Comput.); Wiskott e Sejnowski 2002 (Neural Comput.); Kahneman, Treisman e Gibbs 1992 (Cogn. Psychol.); Perruchet e Vinter 2002 (BBS); Marsland, Shapiro e Nehmzow 2002 (Neural Networks); Fritzke 1994/1995 (NIPS 7).
