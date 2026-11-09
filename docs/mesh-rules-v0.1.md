@@ -35,6 +35,7 @@
 | Limite | Orçamento de unidades | Até 5.000 unidades e 50 criações por segundo; parada automática | Proposta nossa (segurança) | no pré-registro |
 | Evolução | Variação e seleção interna | Candidatas em excesso; retém confirmadas; poda o resto | Proposta nossa | sugestão |
 | Plasticidade | Manutenção de plasticidade | Reinicializa capacidade não usada | Literatura de inteligência artificial (Dohare et al., 2024) | sugestão |
+| Modulação | Regra de três fatores com modulação epistêmica | Marca de elegibilidade no traço; sinal global de novidade ou surpresa gerado pelo próprio sistema; mudança duradoura só se o sinal chegar dentro da janela | Literatura (Frémaux e Gerstner, 2016; Gerstner et al., 2018; Yu e Dayan, 2005; Takeuchi et al., 2016) | proposta ([neuromodulação](neuromodulation-v0.1.md)) |
 | Criação | Alocação por excitabilidade relativa | Entra na representação a candidata mais excitável no momento | Literatura (Josselyn e Tonegawa, 2020; Rashid et al., 2016) | candidata |
 
 ## 3. Não são regras da malha

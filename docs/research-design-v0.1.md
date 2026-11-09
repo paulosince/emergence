@@ -323,7 +323,7 @@ A proximidade é **operacional, calculada pelo observador**; não é semântica 
 | Degrau da ação dirigida | **Ação dirigida a estados representados** (alcançar uma configuração) | — | Alto: ação dirigida é território do ANCHOR (querer) → detector de Orientação |
 | Degrau da ação regulada pelo corpo | **Ação regulada pelo corpo** (energia, calor) | Rota APR do VALORE | É a fase com corpo reduzida |
 
-**Evitar no início:** motivação intrínseca por progresso de aprendizagem (Oudeyer, Kaplan e Hafner 2007). Ela funciona bem, mas é um **valor fornecido pelo projeto**: contaminaria a pergunta do objetivo de valia sobre se a Orientação surge sozinha. Pode entrar depois, como comparador explícito.
+**Evitar no início:** motivação intrínseca por progresso de aprendizagem (Oudeyer, Kaplan e Hafner 2007). Ela funciona bem, mas é um **valor fornecido pelo projeto**: contaminaria a pergunta do objetivo de valia sobre se a Orientação surge sozinha. Pode entrar depois, como comparador explícito. **Nota (09/11/2026):** esta recomendação é minha e trata de um algoritmo específico; **não exclui a neuromodulação**, que o responsável considera central no motor constitutivo (ver [neuromodulação](neuromodulation-v0.1.md)).
 
 ### 11.5 Marcos ordenados por viabilidade
 | Nome | Marco | Viabilidade | Observação |

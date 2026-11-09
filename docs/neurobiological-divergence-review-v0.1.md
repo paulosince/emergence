@@ -22,7 +22,7 @@
 | **Magnitude omitida** (incidência binária) | motor proposto | A taxa de disparo importa: mais disparos aumentam a probabilidade e reduzem o atraso da resposta (Henze et al., 2002) | Proposta nossa | Engenharia | Incidências com intensidade ou trens, como variante |
 | **Manutenção de plasticidade por reinicialização** | motor proposto (sugestão) | Origem em aprendizado contínuo artificial (Dohare et al., 2024), não em neurobiologia; análogo biológico não verificado | Literatura de inteligência artificial | Engenharia | A verificar (neurogênese ou recrutamento de elementos ociosos) |
 | **Revisão seletiva** (nova unidade, antiga preservada) | motor proposto | **Misto.** A extinção forma memória nova e não apaga a original (Bouton, via fontes secundárias); a reconsolidação mostra que a memória reativada pode ser modificada (Nader, Schafe e LeDoux, 2000, via fontes secundárias) | Inferência nossa (CLEAR) | Inferência do mecanismo | Duas vias: revisão seletiva para contradição persistente; modificação durante a reativação para ajuste fino |
-| **Ausência de neuromodulação** | ambas | Plasticidade cerebral é modulada por sinais de valor e novidade (a verificar) | ausência deliberada | **Segurança:** valor externo é o risco de valia registrado no programa | Manter ausente até a fase de valia, por decisão do responsável |
+| **Ausência de neuromodulação** | TEMPO | Plasticidade modulada por novidade, surpresa e valor (ver [neuromodulação](neuromodulation-v0.1.md)) | fora do escopo do TEMPO, por decisão do responsável | **Escopo**, não ausência: no motor constitutivo a neuromodulação é central | Regra de três fatores com modulação epistêmica ([proposta](neuromodulation-v0.1.md)) |
 
 ## 2. Regras coerentes com a literatura
 
@@ -58,7 +58,7 @@ A [metodologia](program-methodology.md) admite divergir do cérebro só com **si
 | Ajuste rápido de latência | Mielinização dependente de atividade, lenta | **Compressão do tempo**: equivalente se a **ordem** das escalas for preservada (ajuste de latência mais lento que o de peso) | No TEMPO a ordem não é preservada (mesma taxa). Teste: taxa de latência menor que a de peso | **Justificável** se a ordem das escalas for respeitada |
 | Intensidade omitida (incidência binária) | Taxa e trens de disparos codificam intensidade | **Bancos de limiares** = recrutamento de receptores com sensibilidades diferentes (codificação por população); incidência = evento discreto | Codificação temporal fina dentro de um trem | **Justificável** quando há bancos de limiares |
 | Janela de 120 ms | Janela clássica ≈ 20 ms; escalas de segundos também existem | Parâmetro de escala, não mecanismo | — | **Justificável** |
-| Ausência de neuromodulação | Plasticidade modulada por valor e novidade | Não é simplificação; é **decisão de segurança** | — | Registrada como decisão do responsável |
+| Ausência de neuromodulação | Plasticidade modulada por novidade, surpresa e valor | **Correção:** foi decisão de **escopo do TEMPO**, não de ausência. No motor constitutivo é central | — | Ver [proposta de neuromodulação](neuromodulation-v0.1.md) |
 
 ## Referências (verificadas quanto à existência)
 - Bi, G., e Poo, M. (1998). *Journal of Neuroscience* 18(24), 10464–10472.
