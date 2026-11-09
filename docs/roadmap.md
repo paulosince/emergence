@@ -37,7 +37,7 @@
    - [~] Pré-registro v1: [minuta](preregistration-v1.md) com limiares justificados, **aguardando aprovação do responsável**.
 
    *Fase do motor constitutivo mínimo (primeira versão)*
-   - [ ] Primitivas do motor constitutivo (incidência, traços multiescala, coincidência, criação por novidade, ciclo de vida, corrigibilidade) com testes.
+   - [~] Primitivas do motor constitutivo (em andamento: difusão, relógio, marca-passo, espaço constitutivo e substrato com recrutamento prontos; ver [diário](constitutive-engine-v0.md)) (incidência, traços multiescala, coincidência, criação por novidade, ciclo de vida, corrigibilidade) com testes.
    - [ ] Contrato de checkpoint do motor constitutivo.
    - [ ] Monitor: executor de campanhas sem interface, detectores de unidades e detector de envelope, parada que falha fechada.
    - [ ] Alertas: canal do GitHub (GitHub Actions + issue) e canal do Claude (tarefa agendada) ativados.
