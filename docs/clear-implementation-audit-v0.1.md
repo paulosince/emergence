@@ -32,3 +32,10 @@ O **oráculo** que calibrou os critérios também cria **uma unidade por faixa d
 - **Lacunas** (a CLEAR descreve, o motor ainda não tem): 3, 7 e 8.
 - **Simplificação nossa a declarar:** 6.
 - **Teoria:** nada no resultado negativo refuta a CLEAR, porque o motor testado não realizava o que ela descreve nos pontos 1 e 2.
+
+## Adendo (09/11/2026): número de aferências da Uint
+- **CLEAR v43 (linha 73):** a Uint produz um resultado determinado por incidências de **pelo menos duas fontes distintas**. Correção do responsável: "ao menos duas, não necessariamente duas".
+- **Motor atual:** toda unidade tem **exatamente duas** aferências (primeira e segunda), com pesos fixos. É uma restrição de implementação, não da teoria.
+- **Neurobiologia:** um neurônio recebe de centenas a milhares de sinapses (ordem de grandeza; confiança moderada, varia muito por tipo celular).
+- **Classificação:** erro de implementação (restrição não declarada). Também obriga a criar uma unidade nova para cada par, o que reforça o erro 1 (criar em vez de alcançar).
+- **Correção a desenhar:** a Uint soma as contribuições (magnitude × efeito) de **n ≥ 2** aferências de fontes distintas; duas aferências da mesma fonte não satisfazem a condição.
