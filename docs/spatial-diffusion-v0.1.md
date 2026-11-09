@@ -54,7 +54,7 @@ Com coordenadas, a latência de condução pode derivar do comprimento da ligaç
 ## 6. Decisões do responsável (09/11/2026)
 1. **Coordenadas constitutivas: sim.** As geometrias do observador continuam separadas.
 2. **Unidades novas nascem perto das fontes aferentes: sim.**
-3. Difusão: explicação do núcleo analítico pedida; decisão pendente.
+3. **Difusão: núcleo analítico como implementação principal, sem colisões mecânicas.** Os obstáculos do tecido entram em média por α e λ. Os nós atuam como **sensores** (receptores), **fontes** (liberação) e, quando for o caso, **sumidouros** (recaptação ou degradação local). **Variante de partículas** com obstáculos esféricos refletores, ajustados para α ≈ 0,2: deve **fazer emergir** a tortuosidade de cerca de 1,6 e concordar com o núcleo no limite de muitas partículas (teste de equivalência). Difusão anisotrópica ao longo das arestas fica como variante futura. Aprovado pelo responsável em 09/11/2026.
 4. **Latência derivada da distância: agora** (como variante, com o controle de latências igualadas).
 5. Aprofundamento: pedido; resultado abaixo.
 
