@@ -1,6 +1,6 @@
 # Efeitos (excitação e inibição) e magnitude da incidência — proposta v0.1
 
-Situação: **proposta, aguardando aprovação do responsável** (09/11/2026). Nada implementado.
+Situação: **magnitude multiplicativa aprovada pelo responsável** (09/11/2026; "temia ter confundido a soma e a multiplicação"). Limite do efeito e perdas ainda em aberto. Nada implementado.
 
 ## 1. O que o responsável definiu (registro de 09/11/2026)
 - Excitação e inibição se chamam **efeito** na CLEAR.
@@ -39,3 +39,10 @@ O efeito continua aditivo, como definido. Se o efeito tem limite (por exemplo �
 3. **Cursos temporais diferentes por sinal:** na biologia a inibição costuma durar mais que a excitação rápida (GABA-A dezenas de ms; GABA-B centenas de ms; confiança moderada nos valores). Sugestão: constante de disponibilidade por unidade, sem impor diferença por sinal até haver motivo.
 
 Se alguma dessas perdas se mostrar necessária, entra como termo adicional, registrado como desvio.
+
+## 6. Origem das incidências (regra do responsável, 09/11/2026)
+"Incidências são o combustível da dinâmica do domínio. Só podem surgir de transdução ou marca-passos."
+- Consequência para a magnitude: a regra multiplicativa é obrigatória; nenhuma Upro ou Uint cria incidência a partir de magnitude 0.
+- Paralelo biológico: atividade espontânea vem de células com atividade intrínseca (marca-passos) ou de transdução sensorial.
+- **Violação encontrada no motor atual:** a reativação no sono (`engine.js`, linhas 220–231) fortalece unidades (+0,5 de força) a 1 Hz sem nenhuma incidência de origem; é atividade inventada. Precisa passar a ser dirigida por um marca-passo e propagada como incidência, fortalecendo só por participação.
+- Em aberto: a emissão da Uint (v43, linha 131) é derivada das incidências que ela integrou, não uma origem nova. Sua magnitude pode ser maior que a das incidências recebidas?
