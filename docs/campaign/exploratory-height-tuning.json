@@ -1,0 +1,72 @@
+[
+ {
+  "seed": 1,
+  "units": 31,
+  "tested": 13,
+  "tuned": 6,
+  "episodesWhoseFirstResponderIsTuned": 0
+ },
+ {
+  "seed": 2,
+  "units": 55,
+  "tested": 27,
+  "tuned": 6,
+  "episodesWhoseFirstResponderIsTuned": 4
+ },
+ {
+  "seed": 3,
+  "units": 60,
+  "tested": 24,
+  "tuned": 19,
+  "episodesWhoseFirstResponderIsTuned": 32
+ },
+ {
+  "seed": 4,
+  "units": 23,
+  "tested": 12,
+  "tuned": 9,
+  "episodesWhoseFirstResponderIsTuned": 1
+ },
+ {
+  "seed": 5,
+  "units": 51,
+  "tested": 25,
+  "tuned": 9,
+  "episodesWhoseFirstResponderIsTuned": 9
+ },
+ {
+  "seed": 6,
+  "units": 46,
+  "tested": 20,
+  "tuned": 7,
+  "episodesWhoseFirstResponderIsTuned": 8
+ },
+ {
+  "seed": 7,
+  "units": 22,
+  "tested": 16,
+  "tuned": 9,
+  "episodesWhoseFirstResponderIsTuned": 0
+ },
+ {
+  "seed": 8,
+  "units": 96,
+  "tested": 41,
+  "tuned": 15,
+  "episodesWhoseFirstResponderIsTuned": 28
+ },
+ {
+  "seed": 9,
+  "units": 50,
+  "tested": 25,
+  "tuned": 7,
+  "episodesWhoseFirstResponderIsTuned": 0
+ },
+ {
+  "seed": 10,
+  "units": 36,
+  "tested": 21,
+  "tuned": 7,
+  "episodesWhoseFirstResponderIsTuned": 7
+ }
+]
