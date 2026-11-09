@@ -23,7 +23,7 @@
 10. [ ] **Relações temporotopológicas com unidades não predefinidas.** Integrar mecanismos de relação do TEMPO por adaptadores no EMERGENCE sem alterar o original; testar constituição conjunta de unidades/relações, orientação, pesos e tempo efetivo de percorrimento; verificar regressões e contraexemplos. **Aceite:** demonstrar operacionalmente os critérios escolhidos, com diferenças explícitas frente ao controle de nós fixos.
 11. [ ] **Constituição de organizações derivadas.** Investigar se organizações constituídas participam causalmente de novas constituições, inclusive processos internos e recursividade; distinguir codificação, agrupamento, recuperação e representação efetiva. **Aceite:** testes operacionais e ablações que sustentem ou refutem cada propriedade, com limitações registradas.
 
-   **Acompanhamento das etapas 9–11** (lista única; aprovada pelo responsável em 09/11/2026; desenho em [research-design-v0.1.md](research-design-v0.1.md)). **Progresso: 7/32 concluídos.** Legenda: `[x]` concluído com evidência · `[~]` em andamento · `[ ]` a fazer · **I** = investigação bibliográfica, no momento em que é necessária.
+   **Acompanhamento das etapas 9–11** (lista única; aprovada pelo responsável em 09/11/2026; desenho em [research-design-v0.1.md](research-design-v0.1.md)). **Progresso: 8/32 concluídos.** Legenda: `[x]` concluído com evidência · `[~]` em andamento · `[ ]` a fazer · **I** = investigação bibliográfica, no momento em que é necessária.
 
    *Fase 0 — preparação*
    - [x] **P0.1** Controle de latências no controle TEMPO: artefato de instrumento confirmado ([relatório](latency-control-v0.1.md); commits `de1fb61`, `0f946de`).
@@ -33,8 +33,8 @@
    - [x] **P0.4** Nulos e bancada de avaliação ([relatório](bench-v0.1.md); 4 testes): o reprodutor reproduz a execução completa exatamente; superar um nulo isolado não prova ancoragem; o controle TEMPO não satisfaz D3.
    - [x] **P0.5** Métricas topológicas com nulos ([relatório](topology-v0.1.md); 7 testes): grau, força, *k-core*, intermediação, comunidades, participação, *rich club* normalizado; nulo de crescimento por idade adiado para F2.3 (depende do MCM).
    - [x] **I2** Operacionalização de entidade, evento e memória episódica ([relatório](entity-event-memory-ops-v0.1.md)): testes para E1–E4 e B1 (inclusive dissociação espaço-temporal × características) e 7 requisitos para o mundo com objetos.
-   - [ ] **P0.6** Mundo com entidades: mesa 2-D com objetos, oclusão e transformações graduais; retina não interpretada; bancos de limiares.
-   - [ ] **P0.7** Pré-registro v1: limiares propostos com justificativa e aprovados pelo responsável; datado.
+   - [x] **P0.6** Mundo com entidades: mesa 2-D ([relatório](tabletop-world-v0.1.md); 7 testes): física por eventos exatos verificada de forma independente (mais de 200 mil verificações; defeitos injetados detectados); anteparo, repousos silenciosos, deriva gradual, troca escondida, teletransporte; 84 canais opacos (retina, tato, térmico com bancos de limiares).
+   - [~] **P0.7** Pré-registro v1: limiares propostos com justificativa e aprovados pelo responsável; datado.
 
    *Fase 1 — motor constitutivo mínimo (MCM v0)*
    - [ ] **F1.1** Primitivas do MCM (incidência, traços multiescala, coincidência, criação por novidade, ciclo de vida, corrigibilidade) com testes.
