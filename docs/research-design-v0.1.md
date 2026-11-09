@@ -194,6 +194,7 @@ Qualquer resultado é teoricamente informativo.
 8. **Fase 1** MCM v0, contrato de checkpoint e ablações; critérios D1–D6.
 9. **Fase 2** Recursão e categorização; critérios H1–H6.
 10. **Fase 3A** Detecção de Orientação; critérios V1–V4.
+11. **Monitoramento contínuo:** executor de campanhas, detectores e alertas (seção 10), crescendo junto com as fases.
 
 ---
 
