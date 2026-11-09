@@ -129,11 +129,22 @@ Os autores registram que k′ = Vmax/Km só vale com concentração bem abaixo d
 - Mecanismo sugerido: a produção acompanha o **metabolismo** neuronal.
 - **Consequência para a proposta de pressão de sono:** a substância de pressão é produzida em proporção à atividade e age **inibindo a fonte de despertar** (equivalente da acetilcolina). As constantes de subida e descida podem ser ajustadas a esses dados.
 
+### 7.7 Syková e Nicholson (2008), texto integral (enviado pelo responsável)
+- **Dopamina** (tabela 2, cobaias, fatias, 32 °C; Cragg et al., 2001): D livre = **6,90 × 10⁻⁶ cm²/s**; tortuosidade **1,68 (SNc), 1,80 (SNr), 1,72 (área tegmental ventral)**, um pouco acima da medida com o íon de referência nas mesmas regiões. É consistente com 7,63 × 10⁻⁶ a 37 °C (correção por temperatura usada por Rice e Cragg).
+- **Remoção da dopamina:** no mesbencéfalo basta remoção proporcional à concentração, com k′ = **0,085 s⁻¹ (SNc)**, **0,093 s⁻¹ (área tegmental ventral)** e **0,006 s⁻¹ (SNr)**. No **estriado domina a cinética de Michaelis-Menten**. **Consequência:** a remoção linear do núcleo analítico serve ao mesencéfalo; para regiões tipo estriado é preciso a variante com recaptação saturável (numérica).
+- **Cátions:** em estriado, D* foi cerca de **3 vezes menor** para compostos catiônicos (dopamina, α-metildopamina) que para aniônicos; os autores dizem que a interpretação (interação com a matriz extracelular com carga negativa) **continua controversa**.
+- **Serotonina:** só um estudo breve, que mediu α = 0,17 e λ = 1,65 no cerebelo isolado de tartaruga; **sem coeficiente de difusão da serotonina**. Os autores pedem mais estudos de dopamina "e possivelmente serotonina".
+- **Noradrenalina e adenosina:** **não aparecem** nas tabelas. Continuam sem fonte.
+- **Anisotropia:** em feixes de axônios (corpo caloso) a difusão é mais fácil ao longo do feixe; D* e λ viram **tensores**; α é sempre escalar. Isso dá base à variante futura de difusão anisotrópica ao longo das arestas.
+- **Microdomínios sem saída** (bolsões onde as moléculas se demoram) compõem a tortuosidade; podem ser absorvidos nela.
+- **Definição de concentração:** a concentração fisiologicamente efetiva é a do **espaço extracelular** (C), não a do tecido inteiro (C₁ = αC). **Consequência para a unidade moduladora:** "partes por milhão" deve se referir ao **volume extracelular**, não ao volume total.
+- **Fórmula:** a equação de fonte pontual com remoção (equação 17 da revisão) é a mesma do núcleo analítico; a revisão dá a extensão anisotrópica (equação 18).
+
 ### 7.5 O que não consegui obter (para o responsável tentar)
 - ~~Husbands et al. (1998)~~ obtido pelo responsável.
 - ~~Philippides et al. (2005)~~ obtido pelo responsável ([leituras](literature-received-2026-11-09.md)).
 - Nicholson (1995): tabela de coeficientes de difusão de neurotransmissores (há registro: "Diffusion coefficients of neurotransmitters and their metabolites in brain extracellular fluid space", Universidade de Kentucky).
-- Coeficientes de difusão no cérebro de serotonina, noradrenalina e adenosina.
+- Coeficientes de difusão no cérebro de serotonina, noradrenalina e adenosina (não estão em Syková e Nicholson, 2008).
 - Josselyn, Köhler e Frankland (2015), texto integral (o acesso foi negado).
 - ~~Porkka-Heiskanen et al. (1997)~~ obtido pelo responsável. ~~Rakic (1972)~~ obtido pelo responsável.
 

@@ -46,7 +46,7 @@
 
 ### 2.1 Unidade moduladora (a "molécula")
 - **Mecanismo:** substância liberada que se difunde, é removida e age por receptores.
-- **Simplificação:** cada modulador *m* é uma **concentração adimensional** em compartimentos, em **partes por X** da capacidade do compartimento (proposta: X = 10⁶, partes por milhão). O compartimento é a região em que a substância se mistura antes de ser removida.
+- **Simplificação:** cada modulador *m* é uma **concentração adimensional** em compartimentos, em **partes por X** da capacidade do compartimento (proposta: X = 10⁶, partes por milhão). O compartimento é a região em que a substância se mistura antes de ser removida. **Atualização:** os compartimentos foram substituídos pelo espaço 3D com núcleo analítico ([difusão espacial](spatial-diffusion-v0.1.md)); "partes por milhão" refere-se ao **volume extracelular** (Syková e Nicholson, 2008).
 - **Dinâmica proposta:** a cada descarga da fonte, soma-se um quantum *q* à concentração dos compartimentos que ela alcança; a concentração cai por remoção de primeira ordem com meia-vida τ (variante: recaptação saturável); compartimentos vizinhos trocam por difusão com acoplamento *D*.
 - **Equivalência:** quando a mistura no compartimento é mais rápida que a remoção, o compartimento bem misturado equivale ao campo de difusão (apoio: a difusão domina o alcance, Cragg e Rice, 2004).
 - **Perdas:** gradientes espaciais finos, o tempo de chegada de fontes pontuais e diferenças regionais de remoção. **Teste:** variante com vários compartimentos e difusão explícita.
