@@ -65,20 +65,26 @@ test('a late incidence weakens its Upro and shortens its delay (L81)', () => {
   assert.ok(u1.gains[iA] < gA && u1.delaysMs[iA] < dA);
 });
 
-test('competitors are linked by inhibitory Upro; a transduced input that fires an inhibited unit counts as surprise', () => {
-  const e = new ConstitutiveEngineV2({ ...NOW, seed: 6, surpriseInhibitionMin: 0.1, inhibitoryGain: 0.3 }), f = feeder(e);
+test('competitors are linked by inhibitory Upro', () => {
+  const e = new ConstitutiveEngineV2({ ...NOW, seed: 6 }), f = feeder(e);
   f([['a', 0], ['b', 1], ['c', 2]]);
-  f([['a', 1000], ['b', 1040]]);           // U1: a then b (40 ms)
-  const ev = f([['a', 3000], ['c', 3045]]); // U2: a then c (45 ms), competitor of U1 (shares a)
-  const u2 = created(ev, 'c,a')[0];
+  f([['a', 1000], ['b', 1040]]);
+  const u2 = created(f([['a', 3000], ['c', 3045]]), 'c,a')[0];
   assert.ok(u2 && u2.competitors.length >= 1);
   assert.ok(e.snapshot().upros.inhibitory >= 2);
-  // context: U1 fires at 5041 and inhibits U2 (5042); c's transduced incidence then completes U2 at 5046
-  const ev2 = f([['a', 5000], ['b', 5040], ['c', 5045]]); e.advanceTo(5300);
-  const all = [...ev2, ...e.drainEvents()];
-  const d2 = fired(all).find(x => x.unit === u2.unit);
-  assert.ok(d2, 'inhibited unit still fired');
-  assert.ok(d2.contextInhibition >= 0.1 && d2.surprise, 'counted as surprise');
+});
+
+test('surprise: a favoured unit firing is expected; a unit with no prior favour fired by a sudden change is a surprise', () => {
+  const e = new ConstitutiveEngineV2({ ...NOW, seed: 10 }), f = feeder(e);
+  f([['a', 0], ['b', 1], ['c', 2], ['d', 3]]);
+  f([['a', 1000], ['b', 1040]]);  // interval unit: a's incidence is emitted 40 ms before (favour)
+  f([['c', 3000], ['d', 3001]]);  // near-simultaneous onset: nothing emitted before the window
+  const ev = [...f([['a', 6000], ['b', 6040], ['c', 9000], ['d', 9001]]), ...(e.advanceTo(9100), e.drainEvents())];
+  const ab = e.snapshot().units.find(u => u.afferents.join() === 'b,a').key;
+  const cd = e.snapshot().units.find(u => u.afferents.join() === 'd,c').key;
+  const dab = fired(ev).find(x => x.unit === ab), dcd = fired(ev).find(x => x.unit === cd);
+  assert.ok(dab && !dab.surprise && dab.favour >= 0.2, 'favoured: expected');
+  assert.ok(dcd && dcd.surprise && dcd.cause === 'transdutiva', 'sudden change: surprise');
 });
 
 test('no incidence without a source: magnitude 0 never contributes and an idle engine stays silent', () => {

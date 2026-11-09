@@ -51,7 +51,7 @@ export class ConstitutiveEngineV2 {
     this.#S = { t: 0, lastValue: {}, sources: {}, elements, units: {}, order: [], upros: {}, out: {}, nU: 0, nP: 0, seq: 0,
       queue: [], tags: [], react: [], lastBurst: -Infinity, c: 0, tc: 0, des: 0, tdes: 0, spikes: 0, lastSweep: 0,
       rateEma: 0, lastClockSpike: null, clockSpikes: 0, state: 'awake', sleepEpisodes: 0, nextUp: 0, up: null, ach: 0, tAch: 0, lastTick: 0,
-      stats: { failed: 0, pruned: 0, firings: 0, intrinsic: 0, surprises: 0, surpriseSum: 0, confirmations: 0, late: 0,
+      stats: { failed: 0, pruned: 0, firings: 0, intrinsic: 0, surprises: 0, surprisesTransduced: 0, surprisesInternal: 0, surpriseSum: 0, confirmations: 0, late: 0,
         delayAdjusts: 0, accommodated: 0, created: 0 } };
     this.#indexElements();
   }
@@ -117,7 +117,7 @@ export class ConstitutiveEngineV2 {
   #emit(fromId, t) {
     for (const id of this.#S.out[fromId] ?? []) {
       const pr = this.#S.upros[id];
-      if (pr) this.#push({ t: t + pr.delayMs, upro: id, m: 1, e: 0 });
+      if (pr) this.#push({ t: t + pr.delayMs, te: t, upro: id, m: 1, e: 0 });
     }
   }
 
@@ -164,10 +164,10 @@ export class ConstitutiveEngineV2 {
       this.#pending.push({ type: 'upro.late', upro: pr.id, unit: u.key, gain: pr.gain, delayMs: pr.delayMs, timeMs: t });
     }
     if (t < u.refUntil) return; // refractory: not integrated
-    const inhBefore = u.vI;
     if (c > 0) u.vE += c; else u.vI += c;
+    u.hist.push({ t, te: a.te ?? t, c }); if (u.hist.length > 64) u.hist.shift(); // all contributions, for the expected set
     if (c > 0) { u.arrivals.push({ upro: pr.id, t, c }); if (u.arrivals.length > 32) u.arrivals.shift(); }
-    if (u.vE + u.vI + this.#upDrive(u, t) >= 1) { this.#discharge(u, t, { trigger: pr, inhBefore }); return; }
+    if (u.vE + u.vI + this.#upDrive(u, t) >= 1) { this.#discharge(u, t, { trigger: pr }); return; }
     // failed convergence (L81): the closest other excitatory arrival within the window
     // moves both delays toward coincidence, half each (the mismatch does not say which to change)
     if (c > 0) {
@@ -192,26 +192,33 @@ export class ConstitutiveEngineV2 {
       if (u.discharges > 0) S.stats.confirmations++;
     }
     u.lastContrib = contrib; u.lastDis = t; u.refUntil = t + p.refractoryMs; u.vE = 0; u.vI = 0; u.tV = t; u.arrivals = [];
+    const hist = u.hist; u.hist = [];
     u.discharges++;
     if (p.cascade) { u.strength = 1; u.tTouch = t; S.react.push({ key: u.key, t }); }
-    // surprise (CLEAR prediction, preprint L415): a transduced incidence makes fire a
-    // unit that the active context was inhibiting
-    let surprise = false, ctx = 0;
+    // surprise (responsible's definition, 09/11/2026; docs/nomenclature.md): at each
+    // moment the units favoured by the accessed units (incidences received or already
+    // emitted toward them) are the expected ones; the discharge of a unit that was NOT
+    // expected is a surprise. "Before" excludes the incidences emitted inside the unit's
+    // accommodation window: those are the sudden change that made it fire.
+    let surprise = false, favour = null, cause = null;
     if (intrinsic) S.stats.intrinsic++;
     else {
       S.stats.firings++;
-      ctx = -info.inhBefore;
-      surprise = !S.units[info.trigger.from] && ctx >= p.surpriseInhibitionMin;
+      const W = this.#window(u);
+      favour = hist.filter(h => h.te < t - W).reduce((a, h) => a + h.c * Math.exp(-(t - h.t) / u.tau), 0);
+      cause = S.units[info.trigger.from] ? 'interna' : 'transdutiva';
+      surprise = S.state === 'awake' && favour < p.surpriseFavourMin;
       const dt = t - S.tAch, k = dt > 0 ? 1 - Math.exp(-dt / p.achTauMs) : 0;
       S.ach += ((surprise ? 1 : 0) - S.ach) * k; S.tAch = t;
       if (surprise) {
-        S.stats.surprises++; S.stats.surpriseSum += ctx;
-        if (p.surprise && S.state === 'awake' && t - S.lastBurst >= p.burstRefractoryMs) {
+        const intensity = Math.max(0, 1 - favour);
+        S.stats.surprises++; S.stats.surpriseSum += intensity; S.stats[cause === 'interna' ? 'surprisesInternal' : 'surprisesTransduced']++;
+        if (p.surprise && t - S.lastBurst >= p.burstRefractoryMs) {
           S.lastBurst = t; this.#pm.input(p.surpriseInput / (1 + p.achGain * S.ach)); this.#modulator(t);
         }
       }
     }
-    this.#pending.push({ type: 'unit.discharge', unit: u.key, timeMs: t, intrinsic, surprise, contextInhibition: ctx });
+    this.#pending.push({ type: 'unit.discharge', unit: u.key, timeMs: t, intrinsic, surprise, favour, cause });
     if (S.state === 'asleep') this.#pending.push({ type: 'unit.reactivated', unit: u.key, intrinsic, timeMs: t });
     this.#emit(u.key, t);
     if (u.hierLevel < p.maxLevel && S.state === 'awake') this.#originEvent(u.key, t, { unitDischarge: u.key });
@@ -284,7 +291,7 @@ export class ConstitutiveEngineV2 {
     const lead = Math.max(p.delayTolMinMs, p.delayTolFrac * span);
     const key = 'u' + (++S.nU);
     const u = { key, upIn: [], elements: chosen.map(e => e.id), createdAtMs: t, span, tau: p.availabilityFactor * lead,
-      vE: 0, vI: 0, tV: t, refUntil: -Infinity, lastDis: -Infinity, lastContrib: [], arrivals: [], discharges: 0,
+      vE: 0, vI: 0, tV: t, refUntil: -Infinity, lastDis: -Infinity, lastContrib: [], arrivals: [], hist: [], discharges: 0,
       level: 0, strength: 1, tTouch: t, origin: { cause, sharedElements: shared },
       hierLevel: 1 + Math.max(...members.map(x => this.#source(x.rid).level ?? 0)),
       position: [0, 1, 2].map(k => chosen.reduce((a, e) => a + e.pos[k], 0) / chosen.length) };

@@ -94,3 +94,7 @@ Definição: ver [nomenclatura](nomenclature.md). Diferenças em relação à se
 3. **Surpresa:** descarga de Uint não esperada. Intensidade: quanto faltava (1 − favorecimento prévio, maior quando havia inibição).
 4. **Causa:** transdutiva, se a incidência que completou o limiar veio de uma Utrd; interna, se veio de outra Uint.
 5. A surpresa por contexto inibitório (seção 8) vira um caso particular (favorecimento prévio negativo).
+- **Aprovado e implementado (09/11/2026; "Perfeito. Prossiga"):** mínimo de favorecimento 0,2 do limiar; janela = janela de acomodação da Uint (2 × tolerância).
+- **Inferência nossa a confirmar:** com as Upro como linhas de atraso, a incidência de um nó acessado fica "em trânsito" até chegar. Contamos como favorecimento prévio toda contribuição **emitida** antes da janela, mesmo que chegue dentro dela; sem isso, todo reconhecimento de intervalo seria surpresa, porque as aferências chegam juntas por construção.
+- Eventos `unit.discharge` passam a trazer `surprise`, `favour` (favorecimento prévio) e `cause` (transdutiva ou interna); a seção 8 fica substituída.
+- **Fumaça (120 s, semente 1; não interpretar):** altura fixa, 12 Uint, 403 descargas, 0 surpresas; alturas aleatórias, 7 Uint, 240 descargas, 9 surpresas (8 transdutivas, 1 interna). Com menos surpresas há menos salvas do modulador e menos alocações, por isso há menos Uint do que na fumaça anterior.
