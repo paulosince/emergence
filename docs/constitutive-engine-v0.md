@@ -145,3 +145,14 @@ Página `constitutive.html` (link no laboratório):
   - **partículas ilustrativas** em sítios de liberação sorteados, com nuvem de raio √(6D*t) dos parâmetros da dopamina, ampliada 20 vezes. São rotuladas como ilustração, porque o motor não simula partículas nesta versão.
 - **Reprodução** no tempo e contadores.
 - Verificado em Chromium sem interface: 46 parâmetros e execução sem erros.
+
+## Unidades integradoras, preparação do campo e surpresa (09/11/2026; definição do responsável)
+- **Unidades como integradoras com limiar** (soma do neurônio), opção `integration`, ligada na versão principal:
+  - a incidência da primeira aferente chega pela latência da relação (atraso − margem) e deixa a unidade **preparada**: um potencial abaixo do limiar, que decai;
+  - a incidência da segunda aferente soma; a unidade dispara se a soma ultrapassa o limiar.
+- **Pesos:** primeira aferente 0,3 + 0,12 × nível de estabilidade (até 0,95); segunda 0,8. Cada peso fica abaixo do limiar; a soma o ultrapassa. A janela de disparo é simétrica em torno do atraso no nível 0.
+- **Preparação favorece o acesso:** na inibição lateral, vence a unidade mais preparada do par. Relações consolidadas preparam mais.
+- **Surpresa** = disparo **sem preparação**, medida como 1 − preparação no momento do disparo. Disparos com surpresa > 0,5 acionam a fonte (salva), modulada pela incerteza esperada.
+- **Projeção desligada nesta camada** (opção `projection`, agora variante): os prazos explícitos são operação de nível superior.
+- **Teste:** depois da consolidação, a surpresa do mesmo disparo cai; fora da janela, a unidade não dispara.
+- **Pendente (decisão do responsável):** o critério de maturação precisa de nova medida (surpresa média por disparo) e de recalibração. O componente "ciclo abaixo do ciclo embaralhado" provavelmente não se aplica, porque a preparação é relacional e não sequencial.

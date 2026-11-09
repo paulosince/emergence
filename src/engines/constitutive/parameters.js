@@ -52,6 +52,11 @@ export const PARAMETERS = Object.freeze([
   ['sleepDownscale', 0.8, '', 'declarado', 'Renormalização por episódio de sono (forma: Tononi e Cirelli, 2014)'],
   ['achTauMs', 60000, 'ms', 'declarado', 'Incerteza esperada: constante de tempo'],
   ['achGain', 2, '', 'declarado', 'Incerteza esperada: redução da resposta fásica'],
+  ['integration', true, '', 'decisão', 'Unidades integradoras com limiar (soma do neurônio; CLEAR, responsável 09/11/2026)'],
+  ['firstWeightInit', 0.3, 'limiar', 'declarado', 'Peso inicial da relação da primeira aferente (abaixo do limiar)'],
+  ['firstWeightPerLevel', 0.12, 'limiar', 'declarado', 'Fortalecimento da relação por nível de estabilidade (mais preparação)'],
+  ['secondWeight', 0.8, 'limiar', 'declarado', 'Peso da segunda aferente (abaixo do limiar; a soma ultrapassa)'],
+  ['projection', false, '', 'decisão', 'Prazos explícitos (projeção) nesta camada: desligado (variante); a projeção é de nível superior'],
   ['maxLevel', 2, '', 'decisão', 'Níveis predefinidos (Infinity = recursão livre, variante)'],
 ].map(([name, value, unit, status, source]) => Object.freeze({ name, value, unit, status, source })));
 

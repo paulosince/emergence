@@ -29,7 +29,7 @@ export class ConstitutiveEngine {
   #lastValue = new Map(); #sources = new Map(); // id -> {last, traces[], tTrace, pos}
   #elements; #grid = new Map(); #cell;
   #units = []; #unitByKey = new Map(); #byPair = new Map(); #n = 0; #failed = 0;
-  #tags = []; #react = []; #pm; #lastBurst = -Infinity; #expect = []; #surprises = 0; #fulfilled = 0;
+  #tags = []; #react = []; #pm; #lastBurst = -Infinity; #expect = []; #surprises = 0; #fulfilled = 0; #surpriseSum = 0; #firings = 0;
   #clock = null; #clockPm = null; #rateEma = 0; #lastClockSpike = null; #clockSpikes = 0; #state = 'awake'; #sleepEpisodes = 0;
   #nextReact = 0; #reactivations = 0; #ach = 0; #tAch = 0; #recentDis = 0; #recentSur = 0; #c = 0; #tc = 0; #des = 0; #tdes = 0; #pruned = 0; #lastSweep = 0; #spikes = 0;
   constructor(options = {}) {
@@ -54,6 +54,7 @@ export class ConstitutiveEngine {
   }
   describe() { return { id: 'constitutive-engine-v0-increment-4', candidate: true, parameters: { ...this.#p }, changedFromPreregistration: this.#check.changed, exploratory: this.#check.exploratory }; }
   #cellKey(pos) { return pos.map(v => Math.floor(v / this.#cell)).join(','); }
+  #firstWeight(u) { const p = this.#p; return Math.min(0.95, p.firstWeightInit + p.firstWeightPerLevel * u.level); }
   #fluctuation(e, t) {
     const epoch = Math.floor(t / this.#p.fluctuationPeriodMs);
     const r = makeRng((this.#p.seed ?? 1) * 1000003 + e.id * 7919 + epoch * 104729);
@@ -103,15 +104,26 @@ export class ConstitutiveEngine {
       if (lived <= 0 || lived > p.maxDelayMs) continue;
       let matched = false;
       for (const u of pairs?.get(rid) ?? []) {
-        const err = Math.abs(lived - u.delayMs);
-        if (err <= Math.max(p.delayTolMinMs, p.delayTolFrac * u.delayMs)) { matches.push({ u, lived, err: err / Math.max(1, u.delayMs) }); matched = true; }
+        if (p.integration) {
+          // integrating unit (soma): the first afferent's incidence arrived via the
+          // relation's latency (delay - lead) and left the unit PREPARED; the second
+          // afferent's incidence adds now; the unit fires if the sum crosses threshold
+          const lead = Math.max(p.delayTolMinMs, p.delayTolFrac * u.delayMs), tau = 4.93 * lead;
+          const arrival = r.last + u.delayMs - lead, since = t - arrival;
+          if (since < 0) continue;
+          const prep = this.#firstWeight(u) * Math.exp(-since / tau);
+          if (prep + p.secondWeight >= 1) { matches.push({ u, lived, err: -prep, prep }); matched = true; }
+        } else {
+          const err = Math.abs(lived - u.delayMs);
+          if (err <= Math.max(p.delayTolMinMs, p.delayTolFrac * u.delayMs)) { matches.push({ u, lived, err: err / Math.max(1, u.delayMs), prep: null }); matched = true; }
+        }
       }
       if (matched) { accommodatedPairs++; continue; }
       this.#decay(r, t);
       const k = r.traces.findIndex(v => v >= p.traceThreshold);
       if (k >= 0 && (r.level ?? 0) < p.maxLevel) candidates.push({ rid, lived, scaleMs: p.traceScalesMs[k] });
     }
-    // lateral inhibition: only the best-matching units discharge (at most one per pair)
+    // lateral inhibition: the most PREPARED (best-matching) unit of each pair wins
     matches.sort((x, y) => x.err - y.err);
     const perPair = new Set(), winners = [];
     for (const m of matches) {
@@ -121,7 +133,10 @@ export class ConstitutiveEngine {
       if (winners.length >= p.maxDischargesPerEvent) break;
     }
     this.#recentDis += winners.length;
-    for (const { u, lived } of winners) {
+    let unprepared = 0;
+    for (const { u, lived, prep } of winners) {
+      // surprise = firing without preparation (CLEAR): 1 - preparation before the volley
+      if (prep !== null) { const sur = Math.max(0, 1 - prep); /* threshold = 1 */ u.lastSurprise = sur; this.#surpriseSum += sur; this.#firings++; if (sur > 0.5) unprepared++; }
       u.discharges++; u.lastDischargeMs = t;
       if (p.cascade) { u.strength = 1; u.tTouch = t; this.#react.push({ u, t }); }
       // any discharge of the pair fulfils the pair's expectation (even by a not-yet-consolidated unit)
@@ -147,8 +162,12 @@ export class ConstitutiveEngine {
     s.traces = s.traces.map(v => v + 1);
     s.last = t;
     // expectations (estado de espera): consolidated units whose first afferent fired
+    if (p.integration && unprepared && this.#state === 'awake' && t - this.#lastBurst >= p.burstRefractoryMs) {
+      this.#lastBurst = t; this.#recentSur += unprepared;
+      this.#pm.input(p.surpriseInput / (1 + p.achGain * this.#achLevel(t))); this.#modulator(t);
+    }
     // one expectation per (pair, occurrence): fulfilled if ANY consolidated unit of the pair discharges
-    if (p.surprise) for (const [second, m] of this.#byPair) {
+    if (p.surprise && p.projection) for (const [second, m] of this.#byPair) {
       const us = (m.get(sourceId) ?? []).filter(u => u.level >= 1);
       if (!us.length) continue;
       const due = Math.max(...us.map(u => u.delayMs + Math.max(p.delayTolMinMs, p.delayTolFrac * u.delayMs)));
@@ -340,7 +359,8 @@ export class ConstitutiveEngine {
   snapshot() {
     return { timeMs: this.#t, units: this.#units.map(u => ({ ...u, afferents: [...u.afferents], elements: [...u.elements], position: u.position && [...u.position] })),
       substrate: { size: this.#elements.length, occupied: this.#elements.filter(e => e.units > 0).length, recruitmentFailures: this.#failed },
-      modulator: { novelty: { spikes: this.#spikes, concentrationNM: this.#conc(this.#t), desensitization: this.#des } }, pendingTags: this.#tags.length, pruned: this.#pruned, surprises: this.#surprises, fulfilledExpectations: this.#fulfilled,
+      modulator: { novelty: { spikes: this.#spikes, concentrationNM: this.#conc(this.#t), desensitization: this.#des } }, pendingTags: this.#tags.length, pruned: this.#pruned, surprises: this.#surprises, fulfilledExpectations: this.#fulfilled, firings: this.#firings,
+      meanSurprise: this.#firings ? this.#surpriseSum / this.#firings : null,
       state: this.#state, sleepEpisodes: this.#sleepEpisodes, reactivations: this.#reactivations, expectedUncertainty: this.#ach,
       sources: [...this.#sources.keys()], sourcePositions: Object.fromEntries([...this.#sources].map(([k, v]) => [k, v.pos])),
       substrateSideUm: this.#p.substrateSideUm };

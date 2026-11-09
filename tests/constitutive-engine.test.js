@@ -152,8 +152,8 @@ test('recursion up to the predefined level: unit discharges become sources; leve
   assert.equal(run(2), 2);
 });
 
-test('surprise: a consolidated unit whose expected event does not occur produces an expectation failure', () => {
-  const e = new ConstitutiveEngine({ seed: 11, cascadeBaseTauMs: 600000 });
+test('projection variant: a consolidated unit whose projected event does not occur produces a failure', () => {
+  const e = new ConstitutiveEngine({ seed: 11, cascadeBaseTauMs: 600000, projection: true, integration: false });
   feed(e, [...prime('a'), ...prime('b'), ...prime('c')]);
   feed(e, [['a', 1000], ['b', 1040]]); e.advanceTo(1300);
   feed(e, [['a', 20000], ['c', 20039], ['b', 20040]]); e.advanceTo(20300); // reactivation with gate -> level 1
@@ -185,8 +185,8 @@ test('imposed sleep-wake cycle (compressed clock): alternates states; in sleep i
   assert.equal(e.snapshot().units.length, before);
 });
 
-test('expected uncertainty rises with repeated expectation failures', () => {
-  const e = new ConstitutiveEngine({ seed: 11 });
+test('expected uncertainty rises with repeated failures (projection variant)', () => {
+  const e = new ConstitutiveEngine({ seed: 11, projection: true, integration: false });
   feed(e, [...prime('a'), ...prime('b'), ...prime('c')]);
   feed(e, [['a', 1000], ['b', 1040]]); e.advanceTo(1300);
   feed(e, [['a', 20000], ['c', 20039], ['b', 20040]]); e.advanceTo(20300);
@@ -194,4 +194,20 @@ test('expected uncertainty rises with repeated expectation failures', () => {
   e.advanceTo(200000);
   assert.ok(e.snapshot().surprises >= 1);
   assert.ok(e.snapshot().expectedUncertainty > 0);
+});
+
+test('integrating units: the first afferent prepares the unit; stronger (consolidated) relations prepare more, so firing is less surprising', () => {
+  const e = new ConstitutiveEngine({ seed: 12, cascadeBaseTauMs: 600000 });
+  feed(e, [...prime('a'), ...prime('b'), ...prime('c')]);
+  feed(e, [['a', 1000], ['b', 1040]]); e.advanceTo(1300);
+  feed(e, [['a', 5000], ['b', 5041]]); e.advanceTo(5300); // fires within the integration window
+  const u = e.snapshot().units.find(x => x.afferents.join() === 'a,b' && x.delayMs === 40);
+  assert.ok(u.discharges >= 1);
+  const s0 = u.lastSurprise;
+  feed(e, [['a', 20000], ['c', 20039], ['b', 20040]]); e.advanceTo(20300); // consolidation with the gate
+  feed(e, [['a', 40000], ['b', 40040]]); e.advanceTo(40300);
+  const u2 = e.snapshot().units.find(x => x.key === u.key);
+  assert.ok(u2.level >= 1 && u2.lastSurprise < s0, `surprise ${s0} -> ${u2.lastSurprise}`);
+  const late = feed(e, [['a', 60000], ['b', 60090]]); // outside the window: no discharge of u
+  assert.ok(!late.some(x => x.type === 'unit.discharge' && x.unit === u.key));
 });
