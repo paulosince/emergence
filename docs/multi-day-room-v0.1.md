@@ -1,9 +1,9 @@
-# P0.3 — Sala em vários dias — v0.1
+# sala em vários dias — Sala em vários dias — v0.1
 
 **Data:** 09/11/2026 · **Código:** `src/room/multi-day-room.js`, `src/room/multi-day-room-scenario.js` · **Testes:** `tests/multi-day-room.test.js`
 
 ## O que é
-A mesma sala ao longo de dias civis **consecutivos**. Cada dia é o modelo de um dia já validado (`createRoomWorld`), com clima (céu aberto ou encoberto) e presença do objeto definidos por dia: lista explícita ou sorteio com semente declarada. Os mesmos seis transdutores da sala. Atende ao requisito N2 (variabilidade estruturada): as datas variam a geometria solar; o clima e o objeto variam por dia.
+A mesma sala ao longo de dias civis **consecutivos**. Cada dia é o modelo de um dia já validado (`createRoomWorld`), com clima (céu aberto ou encoberto) e presença do objeto definidos por dia: lista explícita ou sorteio com semente declarada. Os mesmos seis transdutores da sala. Atende ao requisito princípio da variabilidade do mundo (variabilidade estruturada): as datas variam a geometria solar; o clima e o objeto variam por dia.
 
 ## Continuidade
 | Grandeza | Na meia-noite | Como |

@@ -1,4 +1,4 @@
-# P0.1 — Controle de latências no controle TEMPO de nós fixos (sala) — v0.1
+# controle de latências — Controle de latências no controle TEMPO de nós fixos (sala) — v0.1
 
 **Data:** 09/11/2026 · **Script:** `experiments/latency-control.js` · **Teste:** `tests/latency-control.test.js`
 
@@ -19,14 +19,14 @@ As 7 relações formadas pelo controle TEMPO de nós fixos na sala refletem a es
 - A única variação entre sementes é a direção entre r3 e r4, que têm a mesma latência (400 ms).
 
 ## Conclusão
-Hipótese de artefato de instrumento **confirmada** dentro deste cenário: as relações temporotopológicas formadas pelo controle TEMPO na sala têm como conteúdo a assinatura temporal dos canais de transdução, não processos do mundo. Coerente com o critério N5 e com a recalibração de defasagens constantes (Fujisaki et al. 2004).
+Hipótese de artefato de instrumento **confirmada** dentro deste cenário: as relações temporotopológicas formadas pelo controle TEMPO na sala têm como conteúdo a assinatura temporal dos canais de transdução, não processos do mundo. Coerente com o critério princípio da separação entre canal e referente e com a recalibração de defasagens constantes (Fujisaki et al. 2004).
 
-## Implicações para o MCM
-- Relações invariantes entre condições do mundo devem ser atribuídas à via de transdução (N5). O critério D3 da etapa 9 exige covariância com o referente, não com os canais.
-- A escala do TEMPO (janela de 120 ms) não alcança os processos da sala (minutos e horas): a única estrutura sub-120 ms disponível é a latência dos instrumentos (N4).
+## Implicações para o motor constitutivo
+- Relações invariantes entre condições do mundo devem ser atribuídas à via de transdução (princípio da separação entre canal e referente). O critério de ancoragem da etapa 9 exige covariância com o referente, não com os canais.
+- A escala do TEMPO (janela de 120 ms) não alcança os processos da sala (minutos e horas): a única estrutura sub-120 ms disponível é a latência dos instrumentos (princípio das múltiplas escalas).
 
 ## Limites
-Um cenário (sala), um mecanismo (TEMPO com nós fixos, modo `shift`, K = 4, η = 0,2) e transdutores sem ruído. Não generaliza para o MCM nem para outros mundos.
+Um cenário (sala), um mecanismo (TEMPO com nós fixos, modo `shift`, K = 4, η = 0,2) e transdutores sem ruído. Não generaliza para o motor constitutivo nem para outros mundos.
 
 ## Literatura: o problema é conhecido, sob vários nomes (busca de 09/11/2026; leitura de resumos e registros)
 
@@ -46,10 +46,10 @@ Um cenário (sala), um mecanismo (TEMPO com nós fixos, modo `shift`, K = 4, η 
 
 **Implicação teórica para a CLEAR:** a tese de que tempos de chegada e integração participam do conteúdo precisa distinguir o tempo do veículo (inclui a latência da via) do tempo do referente. Proposta de critério: o conteúdo temporal só é ancorado se covaria com condições do referente que variam de forma independente; o tempo invariante entre condições pertence à via.
 
-**Soluções candidatas para o MCM:**
+**Soluções candidatas para o motor constitutivo:**
 1. Recalibração de defasagens constantes (regra neutra quanto ao conteúdo).
 2. Calibração cruzada entre modalidades.
 3. Calibração pela ação, com cópia eferente.
 4. Seleção de atrasos.
 
-**Ambiguidade de fundo:** um atraso constante do mundo é indistinguível de uma latência de instrumento sem variação ou intervenção. Isso reforça N2 e a hipótese concorrente H-AÇÃO (seção 11.1 do desenho de pesquisa).
+**Ambiguidade de fundo:** um atraso constante do mundo é indistinguível de uma latência de instrumento sem variação ou intervenção. Isso reforça princípio da variabilidade do mundo e a hipótese concorrente hipótese da ação (seção 11.1 do desenho de pesquisa).

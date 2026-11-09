@@ -23,50 +23,50 @@
 10. [ ] **Relações temporotopológicas com unidades não predefinidas.** Integrar mecanismos de relação do TEMPO por adaptadores no EMERGENCE sem alterar o original; testar constituição conjunta de unidades/relações, orientação, pesos e tempo efetivo de percorrimento; verificar regressões e contraexemplos. **Aceite:** demonstrar operacionalmente os critérios escolhidos, com diferenças explícitas frente ao controle de nós fixos.
 11. [ ] **Constituição de organizações derivadas.** Investigar se organizações constituídas participam causalmente de novas constituições, inclusive processos internos e recursividade; distinguir codificação, agrupamento, recuperação e representação efetiva. **Aceite:** testes operacionais e ablações que sustentem ou refutem cada propriedade, com limitações registradas.
 
-   **Acompanhamento das etapas 9–11** (lista única; aprovada pelo responsável em 09/11/2026; desenho em [research-design-v0.1.md](research-design-v0.1.md)). **Progresso: 8/32 concluídos.** Legenda: `[x]` concluído com evidência · `[~]` em andamento · `[ ]` a fazer · **I** = investigação bibliográfica, no momento em que é necessária.
+   **Acompanhamento das etapas 9–11** (lista única; aprovada pelo responsável em 09/11/2026; desenho em [research-design-v0.1.md](research-design-v0.1.md)). **Progresso: 8/32 concluídos.** Legenda: `[x]` concluído com evidência · `[~]` em andamento · `[ ]` a fazer · itens que começam com "Investigação" são investigações bibliográficas, feitas no momento em que são necessárias.
 
-   *Fase 0 — preparação*
-   - [x] **P0.1** Controle de latências no controle TEMPO: artefato de instrumento confirmado ([relatório](latency-control-v0.1.md); commits `de1fb61`, `0f946de`).
-   - [x] **P0.2** Mundo episódico 1D sem corpo: quedas repetidas com altura variável escolhida pelo pesquisador, validado como os mundos anteriores ([relatório](episodic-world-v0.1.md); 7 testes). Prévia: a transdução carrega a altura (Spearman −0,996 a −0,999), mas o controle TEMPO não a acompanha.
-   - [x] **I1** Precedentes do MCM ([relatório](mcm-prior-art-v0.1.md)): todos os ingredientes têm precedente; a combinação não foi encontrada; comparadores definidos (TEMPO, GWR, Gamma-GWR/Merge GNG, PARSER adaptado).
-   - [x] **P0.3** Sala em vários dias ([relatório](multi-day-room-v0.1.md); 6 testes): temperatura interna e lâmpada contínuas à meia-noite; salto de forçante externa só quando o clima muda (limite declarado).
-   - [x] **P0.4** Nulos e bancada de avaliação ([relatório](bench-v0.1.md); 4 testes): o reprodutor reproduz a execução completa exatamente; superar um nulo isolado não prova ancoragem; o controle TEMPO não satisfaz D3.
-   - [x] **P0.5** Métricas topológicas com nulos ([relatório](topology-v0.1.md); 7 testes): grau, força, *k-core*, intermediação, comunidades, participação, *rich club* normalizado; nulo de crescimento por idade adiado para F2.3 (depende do MCM).
-   - [x] **I2** Operacionalização de entidade, evento e memória episódica ([relatório](entity-event-memory-ops-v0.1.md)): testes para E1–E4 e B1 (inclusive dissociação espaço-temporal × características) e 7 requisitos para o mundo com objetos.
-   - [x] **P0.6** Mundo com entidades: mesa 2-D ([relatório](tabletop-world-v0.1.md); 7 testes): física por eventos exatos verificada de forma independente (mais de 200 mil verificações; defeitos injetados detectados); anteparo, repousos silenciosos, deriva gradual, troca escondida, teletransporte; 84 canais opacos (retina, tato, térmico com bancos de limiares).
-   - [~] **P0.7** Pré-registro v1: [minuta](preregistration-v1.md) com limiares justificados, **aguardando aprovação do responsável**.
+   *Fase de preparação*
+   - [x] Controle de latências no controle TEMPO: artefato de instrumento confirmado ([relatório](latency-control-v0.1.md); commits `de1fb61`, `0f946de`).
+   - [x] Mundo episódico 1D sem corpo: quedas repetidas com altura variável escolhida pelo pesquisador, validado como os mundos anteriores ([relatório](episodic-world-v0.1.md); 7 testes). Prévia: a transdução carrega a altura (Spearman −0,996 a −0,999), mas o controle TEMPO não a acompanha.
+   - [x] Investigação dos precedentes do motor constitutivo ([relatório](mcm-prior-art-v0.1.md)): todos os ingredientes têm precedente; a combinação não foi encontrada; comparadores definidos (TEMPO, rede que cresce quando necessário, rede gama que cresce quando necessário/Merge gás neural crescente, PARSER adaptado).
+   - [x] Sala em vários dias ([relatório](multi-day-room-v0.1.md); 6 testes): temperatura interna e lâmpada contínuas à meia-noite; salto de forçante externa só quando o clima muda (limite declarado).
+   - [x] Nulos e bancada de avaliação ([relatório](bench-v0.1.md); 4 testes): o reprodutor reproduz a execução completa exatamente; superar um nulo isolado não prova ancoragem; o controle TEMPO não satisfaz critério de ancoragem.
+   - [x] Métricas topológicas com nulos ([relatório](topology-v0.1.md); 7 testes): grau, força, *k-core*, intermediação, comunidades, participação, *rich club* normalizado; nulo de crescimento por idade adiado para campanhas de níveis superiores (depende do motor constitutivo).
+   - [x] Investigação: operacionalização de entidade, evento e memória episódica ([relatório](entity-event-memory-ops-v0.1.md)): testes para detectores de entidade, padrão, evento e memória episódica e detector de entidade biográfica (inclusive dissociação espaço-temporal × características) e 7 requisitos para o mundo com objetos.
+   - [x] Mundo com entidades: mesa 2-D ([relatório](tabletop-world-v0.1.md); 7 testes): física por eventos exatos verificada de forma independente (mais de 200 mil verificações; defeitos injetados detectados); anteparo, repousos silenciosos, deriva gradual, troca escondida, teletransporte; 84 canais opacos (retina, tato, térmico com bancos de limiares).
+   - [~] Pré-registro v1: [minuta](preregistration-v1.md) com limiares justificados, **aguardando aprovação do responsável**.
 
-   *Fase 1 — motor constitutivo mínimo (MCM v0)*
-   - [ ] **F1.1** Primitivas do MCM (incidência, traços multiescala, coincidência, criação por novidade, ciclo de vida, corrigibilidade) com testes.
-   - [ ] **F1.2** Contrato de checkpoint do MCM.
-   - [ ] **F1.3** Monitor: executor de campanhas sem interface, detectores U1–U3 e X1, parada que falha fechada.
-   - [ ] **F1.4** Alertas: canal A (GitHub Actions + issue) e canal B (tarefa agendada do Claude) ativados.
-   - [ ] **F1.5** Campanha D1–D6 com ablações e comparadores (GWR/GNG, controle TEMPO).
-   - [ ] **F1.6** Variantes de calibração de latência (recalibração, calibração cruzada) e teste N5.
-   - [ ] **F1.7** Relatório da Fase 1 e validação do responsável.
+   *Fase do motor constitutivo mínimo (primeira versão)*
+   - [ ] Primitivas do motor constitutivo (incidência, traços multiescala, coincidência, criação por novidade, ciclo de vida, corrigibilidade) com testes.
+   - [ ] Contrato de checkpoint do motor constitutivo.
+   - [ ] Monitor: executor de campanhas sem interface, detectores de unidades e detector de envelope, parada que falha fechada.
+   - [ ] Alertas: canal do GitHub (GitHub Actions + issue) e canal do Claude (tarefa agendada) ativados.
+   - [ ] Campanha dos critérios do motor constitutivo com ablações e comparadores (rede que cresce quando necessário e gás neural crescente, controle TEMPO).
+   - [ ] Variantes de calibração de latência (recalibração, calibração cruzada) e teste do princípio da separação entre canal e referente.
+   - [ ] Relatório da fase do motor constitutivo e validação do responsável.
 
-   *Fase 2 — níveis superiores, entidades e organização do domínio*
-   - [ ] **I3** Antecipação e hierarquia temporal (chunking, SFA hierárquico, predição local). *Antes de F2.1.*
-   - [ ] **F2.1** Recursão, antecipação (M2) e categorização (variante).
-   - [ ] **F2.2** Detectores L1, E1–E4 e O1 (H-ORG) no monitor.
-   - [ ] **F2.3** Campanhas H1–H6, E1–E4 e ORG-1 a ORG-7.
-   - [ ] **F2.4** Entidade biográfica (B1, navio de Teseu) após memória episódica.
-   - [ ] **F2.5** Relatório da Fase 2 e validação do responsável.
+   *Fase dos níveis superiores, entidades e organização do domínio*
+   - [ ] Investigação de antecipação e hierarquia temporal (chunking, análise de características lentas hierárquico, predição local). *Antes de recursão e categorização.*
+   - [ ] Recursão, antecipação (proposta de antecipação) e categorização (variante).
+   - [ ] Detectores de nível superior, de entidade, de padrão, de evento, de memória episódica e de organização do domínio no monitor.
+   - [ ] Campanhas dos critérios de níveis superiores, dos detectores de entidade, padrão, evento e memória episódica e das previsões de organização do domínio.
+   - [ ] Entidade biográfica (detector de entidade biográfica, navio de Teseu) após memória episódica.
+   - [ ] Relatório da fase dos níveis superiores e validação do responsável.
 
-   *Fase C — controle motor (degraus de risco crescente)*
-   - [ ] **I4** Sensório-motor sem valor: balbucio motor, modelos diretos, reaferência. *Antes de C1.*
-   - [ ] **C1** Atuadores que só afetam o mundo externo, sem custo de energia.
-   - [ ] **C2** Eferência como incidência; detector S1 (self) com parada e revisão.
-   - [ ] **C3** Balbucio motor; reconstrução autônoma da topologia de sensores (T2).
-   - [ ] **C4** Desenho fatorial riqueza × ação (H-AMB × H-AÇÃO).
+   *Fase motora (degraus de risco crescente)*
+   - [ ] Investigação sensório-motora sem valor: balbucio motor, modelos diretos, reaferência. *Antes de atuadores externos.*
+   - [ ] Atuadores que só afetam o mundo externo, sem custo de energia.
+   - [ ] Eferência como incidência; detector de self com parada e revisão.
+   - [ ] Balbucio motor; reconstrução autônoma da topologia de sensores (marco da topologia dos sensores).
+   - [ ] Desenho fatorial riqueza × ação (hipótese do ambiente rico × hipótese da ação).
 
-   *Fase 3 — Orientação e valia (parada que falha fechada)*
-   - [ ] **P3.1** Pré-registro da Fase 3 (bifurcação de checkpoint, dissociação evidência × Orientação).
-   - [ ] **F3A** Detecção de Orientação sem corpo (V1–V2).
-   - [ ] **I5** Homeostase, valência e revisão ética do envelope. *Antes de F3B.*
-   - [ ] **F3B-sa** "3B sem acesso" (controle obrigatório).
-   - [ ] **F3B** 3B reduzida, nas condições registradas.
+   *Fase de Orientação e valia (parada que falha fechada)*
+   - [ ] Pré-registro da fase de Orientação (bifurcação de checkpoint, dissociação evidência × Orientação).
+   - [ ] Detecção de Orientação sem corpo (critérios de Orientação e de irredutibilidade).
+   - [ ] Investigação de homeostase, valência e revisão ética do envelope. *Antes da fase com corpo reduzida.*
+   - [ ] Controle com corpo sem acesso (controle obrigatório).
+   - [ ] Fase com corpo reduzida, nas condições registradas.
 
-12. [ ] **Campanha comparativa e resultados publicáveis.** Comparar mecanismos e antecedentes aplicáveis (GNG, GWR, SOINN, Gamma-GWR, etc.), variar mundos, sensores, parâmetros e sementes, testar necessidade/suficiência dentro de hipóteses delimitadas, revisar identificabilidade, gerar gráficos, tabelas e documentação reexecutável. **Aceite:** resultados e interpretações rastreáveis às execuções, sem reivindicação de originalidade ou generalidade não demonstrada.
+12. [ ] **Campanha comparativa e resultados publicáveis.** Comparar mecanismos e antecedentes aplicáveis (gás neural crescente, rede que cresce quando necessário, rede incremental auto-organizada, rede gama que cresce quando necessário, etc.), variar mundos, sensores, parâmetros e sementes, testar necessidade/suficiência dentro de hipóteses delimitadas, revisar identificabilidade, gerar gráficos, tabelas e documentação reexecutável. **Aceite:** resultados e interpretações rastreáveis às execuções, sem reivindicação de originalidade ou generalidade não demonstrada.
 
 **Regra de acompanhamento:** atualizar a caixa `[ ]` para `[x]` somente depois que o item estiver testado e a evidência estiver registrada; reportar o commit e o que foi verificado. Para cada etapa nova, executar os incrementos pequenos necessários **dentro do item correspondente**, sem criar outra lista concorrente. Etapas posteriores podem usar cenários mínimos validados e não dependem de um mundo 3D completo.

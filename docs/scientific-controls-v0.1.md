@@ -18,7 +18,7 @@ O método numérico de verificação integra velocidade/posição em passos fini
 
 ## Matriz versionada de 13 controles
 
-| ID | Variação intencional | Questão do teste |
+| Nome | Variação intencional | Questão do teste |
 | --- | --- | --- |
 | single-baseline-v1 | Nenhuma | Referência com três sensores |
 | upper-beam-aliasing-v1 | Período óptico s0: 10 → 100 ms | Fenômeno real pode ser perdido por subamostragem |
