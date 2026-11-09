@@ -23,13 +23,13 @@
 10. [ ] **Relações temporotopológicas com unidades não predefinidas.** Integrar mecanismos de relação do TEMPO por adaptadores no EMERGENCE sem alterar o original; testar constituição conjunta de unidades/relações, orientação, pesos e tempo efetivo de percorrimento; verificar regressões e contraexemplos. **Aceite:** demonstrar operacionalmente os critérios escolhidos, com diferenças explícitas frente ao controle de nós fixos.
 11. [ ] **Constituição de organizações derivadas.** Investigar se organizações constituídas participam causalmente de novas constituições, inclusive processos internos e recursividade; distinguir codificação, agrupamento, recuperação e representação efetiva. **Aceite:** testes operacionais e ablações que sustentem ou refutem cada propriedade, com limitações registradas.
 
-   **Acompanhamento das etapas 9–11** (lista única; aprovada pelo responsável em 09/11/2026; desenho em [research-design-v0.1.md](research-design-v0.1.md)). Legenda: `[x]` concluído com evidência · `[~]` em andamento · `[ ]` a fazer · **I** = investigação bibliográfica, no momento em que é necessária.
+   **Acompanhamento das etapas 9–11** (lista única; aprovada pelo responsável em 09/11/2026; desenho em [research-design-v0.1.md](research-design-v0.1.md)). **Progresso: 3/32 concluídos.** Legenda: `[x]` concluído com evidência · `[~]` em andamento · `[ ]` a fazer · **I** = investigação bibliográfica, no momento em que é necessária.
 
    *Fase 0 — preparação*
    - [x] **P0.1** Controle de latências no controle TEMPO: artefato de instrumento confirmado ([relatório](latency-control-v0.1.md); commits `de1fb61`, `0f946de`).
    - [x] **P0.2** Mundo episódico 1D sem corpo: quedas repetidas com altura variável escolhida pelo pesquisador, validado como os mundos anteriores ([relatório](episodic-world-v0.1.md); 7 testes). Prévia: a transdução carrega a altura (Spearman −0,996 a −0,999), mas o controle TEMPO não a acompanha.
-   - [~] **I1** Precedentes do MCM: PARSER, grupos policrônicos, versões temporais de GNG/GWR, Gamma-GWR, SOINN, ART, HTM e afins. *Em paralelo a P0.2–P0.5; concluída antes de F1.1.*
-   - [ ] **P0.3** Sala em vários dias: sequências de datas, climas e objeto.
+   - [x] **I1** Precedentes do MCM ([relatório](mcm-prior-art-v0.1.md)): todos os ingredientes têm precedente; a combinação não foi encontrada; comparadores definidos (TEMPO, GWR, Gamma-GWR/Merge GNG, PARSER adaptado).
+   - [~] **P0.3** Sala em vários dias: sequências de datas, climas e objeto.
    - [ ] **P0.4** Nulos e bancada de avaliação: dados substitutos, remoção causal, covariância com o referente.
    - [ ] **P0.5** Métricas topológicas com nulos para H-ORG (grau preservado, taxa e duração, idade).
    - [ ] **I2** Operacionalização de entidade, evento e memória episódica: permanência do objeto, aprendizagem centrada em objetos. *Antes de P0.6.*
