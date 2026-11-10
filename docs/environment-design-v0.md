@@ -39,3 +39,13 @@ Sala de 6 × 4 × 2,8 m; janela ao norte de 2 m de largura, peitoril a 0,9 m, 1,
 - Lua: precisa de um modelo de fase (ciclo sinódico de ~29,53 dias) e posição; luz de lua cheia é da ordem de décimos de lux, contra dezenas de milhares de lux do sol (ordens de grandeza de conhecimento geral; confiança moderada).
 - O rato chega às 22h00 (lâmpada apaga); o sono do robô precisa começar depois disso pelo arrastamento do relógio à luz.
 - Despertar sensorial: no motor, incidências de magnitude acima de um limiar atravessam o bloqueio do sono e empurram o interruptor para a vigília (paralelo: sistemas de despertar e interruptor biestável, Saper et al. 2001, já usado no motor). A desenhar.
+
+## Passo 2 implementado: sala no MuJoCo (10/11/2026)
+Arquivos: `src/robot/world/room.js` (paredes, janela, porta, buraco, objetos, queijo), `src/robot/world/sky.js` (sol, lua, lâmpada), `src/robot/world/robot-world.js` (robô + sala + céu; evento do queijo), `tests/robot-world.test.js`.
+- **Sala** de 3,0 m (norte–sul) × 2,5 m (leste–oeste) × 2,5 m, paredes de 10 cm. Robô no centro, de frente para o norte.
+- **Janela baixa** na parede norte: peitoril a 0,20 m, 1,2 × 1,5 m, vidro (colide, quase transparente). A linha de visão horizontal à altura dos olhos (0,37 m) passa pela janela.
+- **Porta** na parede oeste, 0,8 × 2,0 m, fechada, com **fresta de 1 cm** embaixo. **Buraco do rato** de 4 × 3 cm no rodapé da parede leste.
+- **Objetos padrão** em posições semeadas, longe do robô: 2 peças tipo Lego 2 × 4 (vermelha e azul, 2,5 g), bolinha de pingue-pongue (40 mm, 2,7 g), bolinha maciça de borracha (30 mm, 15 g). Lista configurável.
+- **Queijo:** pedaço de 3 × 2 × 0,8 cm (mais fino que a fresta) empurrado por baixo da porta ao anoitecer, uma vez por dia; termina dentro da sala (testado).
+- **Céu:** sol pela geometria solar já existente (latitude de Guarulhos); **lua** com fase pela lunação média (29,53 dias, a partir de uma lua nova de referência em 06/01/2000 18h14 UTC, **a verificar**) e posição aproximada pelo caminho do sol atrasado pela fase (perda declarada: sem declinação própria da lua); **lâmpada** acende ao pôr do sol e apaga às 22h. Iluminâncias de ordem de grandeza declaradas (sol 110.000 lux no zênite, lua cheia 0,25 lux, lâmpada 300 lux), sem fonte.
+- Ainda não: imagem das câmeras (passo 3), temperatura do ar e das superfícies, o rato (passo 5), o lado de fora visível além do chão.
