@@ -197,3 +197,16 @@ A tabela ([neuromoduladores](neuromodulators-sources-v0.md)) mostra que **a imen
 | Achado | Fonte | Leitura |
 |---|---|---|
 | O equilíbrio entre excitação e inibição pode ser estabelecido e mantido **pela experiência**, por plasticidade nas sinapses inibitórias. Isso explica o disparo esparso, dá um mecanismo homeostático e permite guardar memórias que ficam indistinguíveis do fundo, mas podem ser reativadas. | Vogels, Sprekeler, Zenke, Clopath e Gerstner (2011), *Science* 334, 1569–1573 | resumo |
+
+### 2.5 Decisão U3 (responsável, 10/11/2026, 20h09)
+O **sinal fica na Upro** (como está). Perda declarada: a restrição biológica típica de populações excitatórias e inibitórias separadas (princípio de Dale), que tem exceções conhecidas.
+
+### 2.6 U4 — forma da regra de Vogels et al. (2011), lida no código de exemplo do simulador Brian
+- A cada disparo da origem inibitória: peso += taxa × (traço recente do alvo − α), em que α corresponde a uma taxa-alvo de disparo.
+- A cada disparo do alvo: peso += taxa × (traço recente da origem).
+- Em palavras: a inibição **cresce** quando o alvo dispara perto da inibição (excitação demais) e **diminui um pouco** a cada disparo da origem com o alvo calado. O alvo tende a uma taxa-alvo.
+
+**Opções:**
+1. Manter a criação na constituição (D2) e tornar o ganho **plástico** por essa regra. Recomendada.
+2. Manter tudo fixo (como está).
+3. Não criar inibitórias na constituição; elas nasceriam só pela experiência. Exigiria um mecanismo que ainda não pesquisei.
