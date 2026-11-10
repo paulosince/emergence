@@ -1,0 +1,43 @@
+# Robô experimental — especificação v1 (simulação)
+
+Data: 10/11/2026. Base: CLEAR Robotics V0.7 (outra conversa; revisão em [robot-spec-v0.7-review.md](robot-spec-v0.7-review.md)) + decisões desta sessão. **Diretrizes do responsável (10/11/2026):** ignorar custos por ora; só simulação nesta etapa; considerar o que o experimento precisa, sem concessões; o robô precisa poder se tocar. Nos conflitos da revisão, valem as decisões desta sessão.
+
+Situação: **proposta a aprovar**. Itens marcados [Decisão] esperam o responsável.
+
+## 1. Fronteiras (da V0.7, mantidas)
+Sistema físico S (corpo, ambiente, reflexos, proteções) · Utrd · processos constitutivos (Pcrt) · Sdom. Começa sem nenhuma representação; o Sdom não é um objeto criado de antemão (v43 L77). Sem semântica injetada; identificadores opacos para o domínio; nomes de modalidade só na documentação.
+
+## 2. Corpo
+- Altura total 40 cm; tronco cúbico de 25 cm (2,5–27,5 cm do chão); rodas de 15 cm × 5 cm, eixo 5 cm acima da base; sem apoio permanente; contenção externa disponível na simulação.
+- **Braços (alcance para tocar o próprio corpo):** ombro com 3 eixos (flexão, abdução, rotação), cotovelo 1, punho 2; braço 12 cm, antebraço 12 cm, mão 5 cm. Requisito verificável: as pontas dos dedos de cada mão alcançam as faces frontal, lateral do mesmo lado e superior do tronco, a outra mão e o rosto.
+- **Mãos:** 3 dedos, cada um com 2 falanges acopladas por tendão; um atuador por dedo com tambor duplo e tendões antagonistas (V0.7).
+- **Pescoço:** guinada e arfagem. [Decisão] rolagem.
+- **Olhos:** duas câmeras em tubos. [Decisão] movimento próprio dos olhos (convergência e sacadas), como na biologia, ou câmeras fixas na cabeça (V0.7).
+- Atuadores: 2 rodas + 2 × (3 + 1 + 2) braços + 6 dedos + 2 pescoço = **22** (+1 rolagem do pescoço, +2 a 4 nos olhos, conforme as decisões).
+
+## 3. Canais sensoriais (o que o experimento precisa)
+| Sentido | Especificação | Origem |
+|---|---|---|
+| Visão | 2 câmeras, 320 × 240, cor, 30 Hz; granularidade das Utrd configurável (ex.: campos receptivos por blocos 4 × 4 → 80 × 60 por olho); emissão só acima de variação mínima, magnitude proporcional à variação | V0.7 + revisão |
+| Audição | 2 microfones sincronizados no mesmo conversor, 48 kHz; cóclea de 64 faixas por ouvido (gamatone de 4ª ordem, escala ERB); uma Utrd por faixa | decisões da sessão |
+| Tato | pele no corpo inteiro: pontas dos dedos densas (espaçamento ~2–3 mm), falanges e palmas (~5–8 mm), braços (~15–20 mm), tronco em todas as faces e cabeça (~20–30 mm); pressão graduada; leitura nula, ausente e sensor com defeito distintas | revisão (limites do corpo) |
+| Propriocepção | por articulação: ângulo, velocidade, comando aplicado, corrente/torque; por tendão: tensão | V0.7 |
+| Vestíbulo | IMU de 6 eixos (aceleração e velocidade angular) | V0.7 |
+| Interocepção | tensão, corrente e carga da bateria; temperatura dos motores e da eletrônica | V0.7 + sessão |
+| Eferência | comandos de cada fonte (reflexos, movimentos espontâneos, mecanismos experimentais) como incidências para o domínio | decisão da sessão |
+[Decisão] tato térmico e de vibração; nocicepção (a V0.7, R-10, exclui dor como objetivo; sentir não é o mesmo que ser penalizado).
+
+## 4. Movimento nesta fase (decisão da sessão)
+- **R1 equilíbrio:** entradas inclinação, velocidade angular e velocidade das rodas (calculadas dentro de S, não entregues ao domínio como aferência pronta); suas saídas viram incidências para o domínio.
+- **Reflexos primitivos:** preensão (toque na palma → flexão dos dedos); retirada (pressão forte → recuo do membro). [Decisão] orientação (som ou toque → virar a cabeça).
+- **Movimentos espontâneos:** marca-passos por grupo de atuadores (paralelo: movimentos espontâneos gerais do bebê; fonte a buscar).
+- **Proteções** R2–R4 (corrente, limite articular, perda de comunicação), fora do experimento.
+- Via do domínio para os atuadores: **em aberto**.
+
+## 5. Simulação
+- Física: MuJoCo (articulações, contatos, tendões e sensores de toque nativos); ligações oficiais em JavaScript/WebAssembly (`@mujoco/mujoco`, em desenvolvimento). A verificar: acesso a tendões e sensores pelas ligações JS; determinismo para o checkpoint.
+- Som: fora do MuJoCo; propagação com atraso e atenuação até cada microfone, a partir de fontes no mundo e de contatos.
+- Interface única para simulado e físico (V0.7, R-02).
+
+## 6. Requisitos e testes
+R-01 a R-12 e T01–T12 da V0.7, mantidos, mais: T13 toque em si mesmo (alcance e contato registrado pelas duas peles).
