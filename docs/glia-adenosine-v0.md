@@ -69,6 +69,20 @@ A adenosina **não carrega conteúdo**: é um **subproduto da atividade** (ATP g
 4. **Duas fontes de mudança de tempo:** adaptativa (constitui) e perturbadora (distorce). Só a primeira entra como plasticidade; a segunda poderia ser modelada como ruído ou dano, para testar a ancoragem.
 5. **Escala:** mielina nova e compacta leva **dias a semanas**; o ajuste atual do motor (a cada evento) está rápido demais.
 
+## 3c. A mielina acelera ou atrasa? Conferência do motor (10/11/2026, 19h13)
+**Hipótese do responsável:** a mielina serve para **acelerar**, não atrasar; os nervos partem de um **tempo basal** relacionado à **distância**, que pode ser acelerado. O motor trabalha com "atraso" — erramos?
+
+**Literatura:**
+- A mielinização **acelera** a condução (Arancibia-Cárcamo et al. 2017, *eLife* 6:e23329; resumo e trechos). A velocidade cresce de modo aproximadamente linear com o diâmetro, em axônios mielinizados e não mielinizados (Wang et al. 2008, *J. Neurosci.* 28:4047–4056; trecho).
+- **Tempo basal = distância ÷ velocidade:** as diferenças de atraso entre axônios vêm de velocidade e distância; os atrasos vão de menos de 100 µs (axônios muito curtos) a **mais de 100 ms** (axônios centrais longos não mielinizados) (Swadlow e Waxman 2012, *Scholarpedia* 7(6):1451, via BioNumbers; trecho).
+- **Isocronia por aceleração seletiva:** no caminho tálamo → córtex, a latência é quase constante (~2 ms) apesar das distâncias diferentes, porque o trecho longo até a substância branca é ~10 vezes mais rápido por mielinização seletiva (Salami et al. 2003, *PNAS* 100:6174–6179; resumo e trechos). O mesmo ocorre na localização do som (Seidl et al. 2010).
+- **Ajuste fino nos dois sentidos, dentro do mielinizado:** variar o comprimento do nódulo de Ranvier muda a velocidade em ~20%, para mais ou para menos (Arancibia-Cárcamo et al. 2017; modelagem). Mesmo assim, a referência continua sendo o tempo basal: a mielina não deixa um axônio mais lento que sem ela; a perda de mielina devolve o axônio ao basal (leitura nossa; demielinização = condução mais lenta, Pulfrich).
+
+**Veredito (nosso):** a hipótese do responsável é **sustentada**. E o motor v2 **diverge em três pontos**:
+1. **Origem do atraso:** a Upro nasce com atraso = intervalo vivido entre as fontes + 1 ms (`engine-v2.js`, linha 300). Ou seja, o atraso é escolhido para produzir a coincidência, **não vem da distância**. A variante "latência derivada da distância" (aprovada em 09/11; `constitutive-space.js`: latência = distância ÷ velocidade + atraso sináptico) **não está ligada ao motor v2**.
+2. **Direção do ajuste:** o motor **alonga e encurta** livremente (convergência falha empurra um atraso para cima; incidência tardia encurta até 1 ms). Pelo modelo biológico, o ajuste é **aceleração a partir do basal**, com teto no basal e piso na aceleração máxima; alongar só voltando ao basal (perda de mielina).
+3. **Alcance:** o motor aceita intervalos de até **90 min** (`maxDelayMs`) como atraso de Upro. Atrasos de condução reais chegam a **dezenas a pouco mais de 100 ms**. Intervalos de segundos a horas **não podem** ser tempo de percurso de uma Upro; precisam ser representados de outro modo (por exemplo, por relações entre várias unidades). **Ponto mais grave; pesquisar como a biologia representa intervalos longos antes de propor.**
+
 ## 4. Proposta mínima agnóstica (nossa; a decidir)
 1. **Adenosina como subproduto da atividade das próprias unidades:** cada descarga deixa uma pequena quantidade no local; ela se difunde (difusão espacial aprovada) e é removida devagar, mais depressa no sono. Efeitos: (a) **freio local** (A1: sobe o limiar ou reduz a magnitude onde há muita atividade); (b) o **nível acumulado** alimenta a propensão ao sono (processo S). Fonte neuronal como principal (Lovatt 2012; Peng 2020); mediação por astrócitos ou micróglia como variantes.
    - **Conflito com a decisão de 09/11** ("fontes gliais por território"): a evidência nova aponta fonte principalmente neuronal no prosencéfalo basal. Decisão do responsável.
