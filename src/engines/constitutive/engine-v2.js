@@ -114,10 +114,10 @@ export class ConstitutiveEngineV2 {
     return top;
   }
   // an origin emits an incidence (m = 1, e = 0: D1) through all its outgoing Upro
-  #emit(fromId, t) {
+  #emit(fromId, t, expected = false) {
     for (const id of this.#S.out[fromId] ?? []) {
       const pr = this.#S.upros[id];
-      if (pr) this.#push({ t: t + pr.delayMs, te: t, upro: id, m: 1, e: 0 });
+      if (pr) this.#push({ t: t + pr.delayMs, te: t, upro: id, m: 1, e: 0, ...(expected ? { x: 1 } : {}) });
     }
   }
 
@@ -165,7 +165,7 @@ export class ConstitutiveEngineV2 {
     }
     if (t < u.refUntil) return; // refractory: not integrated
     if (c > 0) u.vE += c; else u.vI += c;
-    u.hist.push({ t, te: a.te ?? t, c }); if (u.hist.length > 64) u.hist.shift(); // all contributions, for the expected set
+    u.hist.push({ t, te: a.te ?? t, c, x: a.x ? 1 : 0 }); if (u.hist.length > 64) u.hist.shift(); // all contributions, for the expected set
     if (c > 0) { u.arrivals.push({ upro: pr.id, t, c }); if (u.arrivals.length > 32) u.arrivals.shift(); }
     if (u.vE + u.vI + this.#upDrive(u, t) >= 1) { this.#discharge(u, t, { trigger: pr }); return; }
     // failed convergence (L81): the closest other excitatory arrival within the window
@@ -188,7 +188,7 @@ export class ConstitutiveEngineV2 {
     if (!intrinsic) {
       // confirmation strengthens the favoured pathways (responsible: answer b; L82)
       const M = 1 + p.plasticityModGain * this.#occupancy(t);
-      for (const id of contrib) { const pr = S.upros[id]; if (pr) pr.gain = Math.min(1, pr.gain + p.potentiationRate * M * (1 - pr.gain)); }
+      for (const id of contrib) { const pr = S.upros[id]; if (pr) pr.gain = Math.min(p.uproMaxGain, pr.gain + p.potentiationRate * M * (p.uproMaxGain - pr.gain)); }
       if (u.discharges > 0) S.stats.confirmations++;
     }
     u.lastContrib = contrib; u.lastDis = t; u.refUntil = t + p.refractoryMs; u.vE = 0; u.vI = 0; u.tV = t; u.arrivals = [];
@@ -205,7 +205,7 @@ export class ConstitutiveEngineV2 {
     else {
       S.stats.firings++;
       const W = this.#window(u);
-      favour = hist.filter(h => h.te < t - W).reduce((a, h) => a + h.c * Math.exp(-(t - h.t) / u.tau), 0);
+      favour = hist.filter(h => h.te < t - W || (p.expectationPropagates && h.x)).reduce((a, h) => a + h.c * Math.exp(-(t - h.t) / u.tau), 0);
       cause = S.units[info.trigger.from] ? 'interna' : 'transdutiva';
       surprise = S.state === 'awake' && favour < p.surpriseFavourMin;
       const dt = t - S.tAch, k = dt > 0 ? 1 - Math.exp(-dt / p.achTauMs) : 0;
@@ -220,7 +220,7 @@ export class ConstitutiveEngineV2 {
     }
     this.#pending.push({ type: 'unit.discharge', unit: u.key, timeMs: t, intrinsic, surprise, favour, cause });
     if (S.state === 'asleep') this.#pending.push({ type: 'unit.reactivated', unit: u.key, intrinsic, timeMs: t });
-    this.#emit(u.key, t);
+    this.#emit(u.key, t, !intrinsic && !surprise);
     if (u.hierLevel < p.maxLevel && S.state === 'awake') this.#originEvent(u.key, t, { unitDischarge: u.key });
   }
 

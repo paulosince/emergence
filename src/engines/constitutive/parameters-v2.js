@@ -26,6 +26,8 @@ const NEW = [
   ['upStateTauMs', 20, 'ms', 'declarado', "D4': constante de integração do impulso intrínseco (ordem da constante de membrana)"],
   ['upStateDrive', 0.04587, '1/ms', 'declarado', "D4': impulso intrínseco do estado ativo; com τ = 20 ms só Uint com excitabilidade > 1,09 atingem o limiar, ~10% das Uint sem reforço recente (≈10% das piramidais disparam numa onda aguda: Ylinen et al. 1995, citado por fonte secundária; confiança moderada a baixa)"],
   ['sleepRecurrentGain', 1.5, '', 'declarado', "D4': ganho das Upro excitatórias entre Uint no sono (acetilcolina baixa libera o retorno; Hasselmo 1999)"],
+  ['uproMaxGain', 1, '', 'declarado', 'Ganho máximo de uma Upro excitatória (1 = uma única incidência pode atingir o limiar; ver relatório dos controles)'],
+  ['expectationPropagates', false, '', 'declarado', 'Se true, a incidência emitida por uma Uint que descarregou de forma esperada conta como favorecimento (o esperado se propaga pelas relações)'],
   ['surpriseFavourMin', 0.2, 'limiar', 'decisão', 'Surpresa: Uint esperada se o favorecimento prévio (contribuições emitidas antes da janela de acomodação) for ≥ 0,2 do limiar (responsável, 09/11/2026)'],
 ];
 
