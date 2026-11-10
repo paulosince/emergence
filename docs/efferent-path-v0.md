@@ -18,3 +18,9 @@ Leitura (a confirmar): (1) os reflexos produzem movimentos e suas incidências (
 3. **Via final comum:** o comando aplicado ao atuador é a soma do comando do reflexo e do comando vindo do domínio, com os limites de segurança.
 4. **Origem da exploração:** atividade espontânea do domínio (marca-passos) e estados ativos do sono acessando representações de movimento; possivelmente espasmos no sono.
 5. **Descarga corolária:** as consequências de um movimento produzido pelo domínio seriam esperadas (favorecidas), portanto não surpreendentes; casa com a propagação do esperado já aprovada.
+
+## Decisões do responsável (10/11/2026)
+1. **Via inversa por Upro recíprocas**, constituídas junto com as aferentes.
+2. **O domínio pode inibir o reflexo** na via final comum (o comando aplicado é a soma, com efeitos de sinal).
+3. **Origem da exploração:** "deve provir da relação criada entre algo que acontece e a consequência; quando a dinâmica interna gera novos candidatos a acesso por exploração ativa". Leitura nossa a confirmar: antes de existir relação movimento → consequência, só há reflexos e movimentos espontâneos do corpo (marca-passos em S); depois, quando a dinâmica interna favorece representações ligadas a movimentos (preparação do campo), o acesso delas percorre a via inversa e produz o movimento. Não há marca-passo motor dentro do domínio dedicado a gerar movimentos ao acaso.
+4. **Espasmos no sono: sim** (estados ativos do sono acessando representações de movimento pela via inversa).
