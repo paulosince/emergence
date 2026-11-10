@@ -2,6 +2,11 @@
 
 Data: 10/11/2026 (18h54, pedido do responsável). Situação: pesquisa e propostas nossas; **nada decidido**. Conecta-se a: [unidades moduladoras v0.1](modulatory-units-v0.1.md) (decisão de 09/11: "fontes gliais por território, com divisão por capacidade"; ciclo imposto agora, pressão homeostática depois), [texto-guia dos limites do Sdom](sdom-boundaries-guide.md) (hipóteses G1, G2, G3) e [tabela dos neuromoduladores](neuromodulators-sources-v0.md).
 
+## 0. Decisão do responsável (10/11/2026, 19h02)
+"Não temos, até o momento, base forte o suficiente que nos obrigue a postular unidades fora do domínio representacional para produzirem neuromodulação para regular o próprio domínio. Não estou dizendo que não existe nem que não acontece; no momento não temos base." **Escolha atual: usar as próprias unidades (no nosso caso, as Uint) para fazer a regulação.**
+- Isto **substitui**, por ora, a decisão de 09/11 "fontes gliais por território" (que fica como variante de comparação).
+- Cuidados levantados (a confirmar): (1) duas formas — propriedade de liberação em algumas Uint (equivalentes de noradrenalina, dopamina, acetilcolina) e subproduto da atividade de **todas** as unidades (equivalente da adenosina); (2) perdas declaradas: astrócito como componente do homeostato do sono (Ingiosi 2020) e portão territorial (Paukert 2014); freio microglial (Badimon 2020); variante glial para teste; (3) consequência: a detecção de novidade e de surpresa, hoje calculada de forma central pelo motor, terá de vir de unidades.
+
 ## 1. Adenosina
 
 ### 1.1 O que é e como se comporta no tempo
