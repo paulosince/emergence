@@ -143,12 +143,17 @@ Leitura que a pesquisa assumiu: "domínio ≈ córtex". **Corrigida em 10/11/202
 
 **Conclusão (b):** são **duas ligações diferentes**. A ligação final (motoneurônio → músculo) é **dada pelo corpo**, com poda que só refina. A ligação de cima (córtex → circuitos motores) **forma-se pela atividade e pela experiência**, com competição, e o córtex motor primeiro representa o movimento produzido pelo corpo e só depois passa a produzi-lo. Isso bate com a decisão de 10/11 sobre a via eferente ("representação criada a partir do representado pelos movimentos reflexos").
 
+### Objeção do responsável à proposta (a) (10/11/2026, 17h56)
+"Se uma unidade transdutora faz via eferente para uma unidade neuromoduladora, isso significa que já estamos pressupondo que são fora do domínio representacional. E eu ainda não tenho certeza quanto a isso."
+- Procede: a linha "sistema modulador entra já como destino da Utrd eferente" pressupõe que ele está fora do Sdom, contra o princípio "nada incluído nem excluído por antecipação". **Essa linha fica suspensa.**
+- Alternativa (proposta nossa, a decidir): tratar a liberação de modulador como uma **propriedade** que uma unidade pode ter (como a propriedade marca-passo), alcançada por Upro; se essa unidade pertence ou não ao Sdom passa a ser uma questão **empírica** (a tríade), não de desenho. Pesquisa sugerida antes de decidir: os núcleos moduladores mostram organização diferenciada e aprendida (respostas específicas a estímulos, plasticidade das entradas, módulos com alvos próprios)?
+
 ### Proposta mínima agnóstica de substrato (proposta nossa; aguardando decisão)
 **(a) Destinos da Utrd eferente**
 | Destino | Recomendação | Motivo | Perda declarada se ficar fora |
 |---|---|---|---|
 | Atuadores, pela via final comum (soma com o reflexo; pode inibir o reflexo) | **Entra já** | Sem ela não há movimento a partir do domínio; já decidido em [via eferente](efferent-path-v0.md) | — |
-| Sistema modulador | **Entra já** | O sistema modulador está fora do domínio; hoje o motor liga a surpresa ao marca-passo da novidade por dentro, sem Utrd. Com a difusão espacial aprovada, o caminho domínio → moduladores precisa ser explícito | — |
+| Sistema modulador | **Suspenso (17h56)** — ver objeção acima | O sistema modulador está fora do domínio; hoje o motor liga a surpresa ao marca-passo da novidade por dentro, sem Utrd. Com a difusão espacial aprovada, o caminho domínio → moduladores precisa ser explícito | — |
 | Sentidos (ganho e bloqueio da entrada) | **Depois** | Útil, mas não necessário para os primeiros testes; o robô pode começar com ganho fixo; os movimentos dos olhos já são atuadores | Sem cancelamento periférico da retroaferência; o cancelamento fica só pela expectativa (descarga corolária) dentro do domínio. Teste: comparar com e sem ganho eferente quando entrar |
 | Autônomo e interocepção (bateria, temperatura) | **Depois, com alerta** | O robô não tem atuador autônomo hoje; ligar o domínio à própria homeostase toca o alerta de ANCHOR ("querer mínimo") | Sem regulação do próprio corpo pelo domínio; registrar no pré-registro |
 
