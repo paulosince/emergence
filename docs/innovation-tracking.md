@@ -103,6 +103,11 @@
 - **O que seria novo (hipótese, não verificado):** num sistema constitutivo que nasce vazio, a pressão de sono emergir da conta de gasto das próprias unidades (sem variável de sono imposta) e o astrócito atuar como portão territorial de plasticidade; e a pergunta teórica sobre a mielina participar da parte temporal do conteúdo relacional.
 - **Falta:** decisão do responsável ([glias e adenosina](glia-adenosine-v0.md)); busca de modelos computacionais de adenosina e de astrócitos em redes que aprendem.
 
+## 13. Consolidação por reativação de marcas numa malha em que o tempo é conteúdo (10/11/2026)
+- **O que existe:** sistemas complementares (McClelland et al. 1995); reexecução comprimida e seu papel causal (Nádasdy et al. 1999; Girardeau et al. 2009); seleção da reexecução por fraqueza e valor (Schapiro et al. 2018; Ambrose et al. 2016); reforço retroativo (Dunsmoor et al. 2015); reexecução tipo sono em redes artificiais (Tadros et al. 2022). Na aprendizagem por reforço há reexecução de experiências com prioridade (conhecimento geral; **não conferido nesta sessão**).
+- **O que seria novo (hipótese, não verificado):** reativação espontânea de relações marcadas, sem segunda regra de aprendizado, numa malha que nasce vazia e em que o tempo de percurso é conteúdo. A marca carregaria o estado das unidades lentas como carimbo. A compressão serviria de ponte para intervalos acima da janela da regra. E a pergunta sobre o que a compressão preserva (proporção ou ordem).
+- **Falta:** decisão do responsável ([aprendizado diferido](deferred-learning-v0.md), seção 4); busca de modelos computacionais de reexecução que preservem proporções temporais; busca sobre reexecução com prioridade em aprendizagem por reforço.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).

@@ -23,6 +23,7 @@ Data: 10/11/2026 (19h21). Pedido do responsável: entender, pelo método, como a
 ## 3. Consequências possíveis para o motor (propostas nossas; decisão do responsável)
 - **C1.** Atraso da Upro = basal pela distância − aceleração lenta (dias a semanas), dentro da faixa real (até ~100 ms ou pouco mais).
 - **C2.** Coocorrência acima dessa faixa **não vira atraso**; vira relação mediada por (a) qual escala de traço fez a ponte, (b) unidades intermediárias que se encadeiam (como células de tempo), e/ou (c) unidades de dinâmica lenta cujo estado no momento do evento funciona como carimbo (como a deriva do entorrinal lateral e do hipocampo).
+- **C2(d)** (acrescentada após a pesquisa de [aprendizado diferido](deferred-learning-v0.md)): a relação se forma **depois**, por reexecução comprimida de padrões marcados, que põe eventos separados por segundos dentro da janela de plasticidade.
 - **C3.** Escalas de dias a eras **não recebem mecanismo próprio**: devem emergir como representação derivada (marcos, ciclos do ambiente). Isso vira **critério a observar**, não regra do motor.
 - Perguntas ao responsável: (i) qual de C2(a), C2(b), C2(c) — ou combinação — entra; (ii) C2(b) e C2(c) podem surgir sozinhos da dinâmica (sem unidades dedicadas), o que seria preferível pela regra de não entregar pronto o que é constitutivo.
 
