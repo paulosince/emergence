@@ -3,13 +3,15 @@ import assert from 'node:assert/strict';
 import { RobotSimulation } from '../src/robot/body/simulation.js';
 
 const floorContactOtherThanWheels = sim => {
-  const { mj, model: m, data: d } = sim;
-  for (let c = 0; c < d.ncon; c++) {
-    const k = d.contact.get(c), b1 = m.geom_bodyid[k.geom1], b2 = m.geom_bodyid[k.geom2];
+  const { mj, model: m, data: d } = sim, con = d.contact; // the contact vector is a copy: free it
+  let found = false;
+  for (let c = 0; c < d.ncon && !found; c++) {
+    const k = con.get(c), b1 = m.geom_bodyid[k.geom1], b2 = m.geom_bodyid[k.geom2]; k.delete?.();
     if (b1 !== 0 && b2 !== 0) continue;
-    if (!mj.mj_id2name(m, 1, b1 === 0 ? b2 : b1).startsWith('wheel')) return true;
+    found = !mj.mj_id2name(m, 1, b1 === 0 ? b2 : b1).startsWith('wheel');
   }
-  return false;
+  con.delete?.();
+  return found;
 };
 
 test('robot model: 27 actuators, whole-body skin, IMU, joint and tendon sensors', async () => {
@@ -21,37 +23,47 @@ test('robot model: 27 actuators, whole-body skin, IMU, joint and tendon sensors'
   sim.dispose();
 });
 
-test('balance reflex R1: stands on two wheels only and recovers from a push', async () => {
-  const sim = await RobotSimulation.create();
-  for (let i = 0; i < 4000; i++) {
-    sim.step(); if (i === 1500) sim.push(3, 25);
-    if (i % 20 === 0) assert.ok(!floorContactOtherThanWheels(sim), 'only the wheels touch the floor at t=' + sim.time.toFixed(2));
-  }
-  assert.ok(Math.abs(sim.tilt()) < 0.2);
+test('R1 is only a reflex: it slows a fall but does not hold the posture', async () => {
+  const fall = async off => { const sim = await RobotSimulation.create(); if (off) sim.setR1(false); let t = null;
+    for (let i = 0; i < 5000 && t === null; i++) { sim.step(); if (i % 10 === 0 && floorContactOtherThanWheels(sim)) t = sim.time; } sim.dispose(); return t; };
+  const withReflex = await fall(false), without = await fall(true);
+  assert.ok(withReflex !== null, 'falls even with the reflex');
+  assert.ok(without !== null && withReflex > without, `reflex slows the fall (${withReflex} s vs ${without} s)`);
+});
+
+test('engineering control only: the postural controller (never used in experiments) keeps the body up on two wheels', async () => {
+  const sim = await RobotSimulation.create({ r1: { mode: 'postural' } });
+  for (let i = 0; i < 4000; i++) { sim.step(); if (i === 1500) sim.push(3, 25); if (i % 20 === 0) assert.ok(!floorContactOtherThanWheels(sim)); }
   sim.dispose();
 });
 
-test('without R1 the body falls (control: the reflex is what keeps it up)', async () => {
-  const sim = await RobotSimulation.create(); sim.setR1(false);
-  let touched = false;
-  for (let i = 0; i < 2500 && !touched; i++) { sim.step(); if (i % 20 === 0) touched = floorContactOtherThanWheels(sim); }
-  assert.ok(touched);
-  sim.dispose();
+test('support (walker) keeps the body up without any controller', async () => {
+  const sim = await RobotSimulation.create({ support: true }); sim.setR1(false);
+  let maxTilt = 0; for (let i = 0; i < 5000; i++) { sim.step(); maxTilt = Math.max(maxTilt, Math.abs(sim.tilt())); }
+  assert.ok(maxTilt < 0.05); sim.dispose();
 });
 
-test('T13 self-touch: the right hand touches the trunk front while balancing; both skins register the contact', async () => {
-  const sim = await RobotSimulation.create(), names = sim.sensorNames();
-  const q = [0.82, -0.87, 0.32, -2.46, 0.55, 0.22], J = ['shoulder_flex', 'shoulder_abd', 'shoulder_rot', 'elbow', 'wrist_flex', 'wrist_dev'];
-  sim.step(500);
-  let both = false;
-  for (let i = 0; i < 2000 && !both; i++) {
-    const a = Math.min(1, i / 1000); J.forEach((j, k) => sim.setCtrl(j + '_R', (j === 'elbow' ? -Math.PI / 2 : 0) * (1 - a) + q[k] * a));
+// T13 self-touch (postures found by contact-aware sampling, 10/11/2026); both skins must register the contact
+const J = ['shoulder_flex', 'shoulder_abd', 'shoulder_rot', 'elbow', 'wrist_flex', 'wrist_dev'];
+async function selfTouch(targets, bodyPattern, handPattern) {
+  const sim = await RobotSimulation.create({ support: true }), names = sim.sensorNames();
+  let hit = false;
+  for (let i = 0; i < 3000 && !hit; i++) {
+    const a = Math.min(1, i / 1500);
+    for (const [s, q] of Object.entries(targets)) J.forEach((j, k) => sim.setCtrl(j + '_' + s, (j === 'elbow' ? -Math.PI / 2 : 0) * (1 - a) + q[k] * a));
     sim.step();
-    if (i % 10 === 0) both = names.some(n => n.startsWith('skin_trunk') && sim.sensor(n) > 0) && names.some(n => /^skin_(finger|palm)_R/.test(n) && sim.sensor(n) > 0);
-    assert.ok(Math.abs(sim.tilt()) < 0.6, 'did not fall');
+    if (i % 10 === 0) hit = names.some(n => bodyPattern.test(n) && sim.sensor(n) > 0) && names.some(n => handPattern.test(n) && sim.sensor(n) > 0);
   }
-  assert.ok(both);
-  sim.dispose();
+  sim.dispose(); return hit;
+}
+test('T13 self-touch: right hand on the trunk front', async () => {
+  assert.ok(await selfTouch({ R: [0.82, -0.87, 0.32, -2.46, 0.55, 0.22] }, /^skin_trunk/, /^skin_(finger|palm)_R/));
+});
+test('T13 self-touch: right hand on the head', async () => {
+  assert.ok(await selfTouch({ R: [-2.59, 0.04, 0.64, -1.79, 0.47, -0.32] }, /^skin_head/, /^skin_(finger|palm)_R/));
+});
+test('T13 self-touch: the two hands touch each other', async () => {
+  assert.ok(await selfTouch({ R: [-2.82, -0.2, 1.42, -2.15, -0.1, -0.54], L: [-2.82, 0.2, -1.42, -2.15, -0.1, 0.54] }, /^skin_(finger|palm)_L/, /^skin_(finger|palm)_R/));
 });
 
 test('determinism: two identical runs give identical sensor readings', async () => {

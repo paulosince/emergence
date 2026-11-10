@@ -64,3 +64,9 @@ Arquivos: `src/robot/body/robot-model.js` (gera o modelo MJCF a partir dos parâ
 - **T13 autotoque:** com a mão direita, toques na frente, na lateral direita e no topo do tronco registrados ao mesmo tempo pela pele do tronco e pela da mão, sem cair. O rosto ainda não foi alcançado na simulação dinâmica; a outra mão não foi testada.
 - **Determinismo:** execuções repetidas dão leituras idênticas.
 - **Custo:** 60 s simulados em ~3,4 s de processamento (passo de 2 ms), ~18 vezes mais rápido que o tempo real, sem câmeras e sem som.
+
+## 10. Decisões de 10/11/2026 e mudanças (passo 1, continuação)
+1. **Eixo à frente: aprovado.**
+2. **Reflexo de equilíbrio é só reflexo** (responsável: "não uma sustentação da posição ereta; o robô é quem tem que aprender a se sustentar"). R1 passa a ser **fásico**: quando a velocidade angular do tronco passa de 0,3 rad/s, um torque breve nas rodas oposto a ela (resposta de endireitamento de tipo vestibular; ganho e limiar declarados). Medido: o robô cai com e sem o reflexo; com o reflexo, cai mais devagar (0,83 s contra 0,69 s até 0,35 rad, ganho 0,6). O controlador postural completo fica só como **controle de engenharia**, nunca nos experimentos.
+3. **Apoio removível (andador):** dois apoios deslizantes, à frente e atrás, que mantêm o corpo de pé sem controlador. Opção do modelo, desligada por padrão. Quando usar é decisão em aberto (ver conversa).
+4. **Autotoque aprimorado:** posturas encontradas por amostragem com contato; confirmados com física e pele: mão direita no tronco, mão direita na cabeça e as duas mãos entre si. Para isso a pele dos dedos passou a cobrir todos os lados das falanges e a ponta (taxels: 814 → 844). Observado durante os movimentos: dedos encostam nos olhos e braços nas rodas.

@@ -23,7 +23,9 @@ export const ROBOT_PARAMS = Object.freeze({
 const f = v => +v.toFixed(5);
 const v3 = a => a.map(f).join(' ');
 
-export function buildRobotMJCF(P = ROBOT_PARAMS, { extraWorld = '' } = {}) {
+// support: removable front and back sliding supports (researcher-side, like a walker) so that
+// the body can stay upright while the domain does not yet sustain it (option, off by default)
+export function buildRobotMJCF(P = ROBOT_PARAMS, { extraWorld = '', support = false } = {}) {
   const sensors = [], actuators = [], tendons = [], taxels = [];
   const T = P.trunkHalf, zTrunk = P.clearance + T;
   const taxelSite = (name, pos, size, region) => { taxels.push({ name, region }); sensors.push(`<touch name="${name}" site="${name}"/>`); return `<site name="${name}" type="box" pos="${v3(pos)}" size="${v3(size)}" rgba="1 .5 0 .15" group="3"/>`; };
@@ -109,10 +111,15 @@ export function buildRobotMJCF(P = ROBOT_PARAMS, { extraWorld = '' } = {}) {
         ${joint(`${name}_prox`, ax, '0 1.4')}
         <geom type="capsule" fromto="0 0 0 0 0 ${-ph}" size="${P.fingerRadius}" mass="${P.phalanxMass}" rgba=".8 .8 .8 1"/>
         ${taxelSite(`skin_${name}_prox`, [-dir * 0.0035, 0, -ph / 2], [0.002, 0.004, ph / 2], `finger-${s}${k}`)}
+        ${taxelSite(`skin_${name}_prox_dorsal`, [dir * 0.0035, 0, -ph / 2], [0.002, 0.004, ph / 2], `finger-${s}${k}`)}
         <body name="${name}_dist" pos="0 0 ${-ph}">
           ${joint(`${name}_dist`, ax, '0 1.4')}
           <geom type="capsule" fromto="0 0 0 0 0 ${-ph}" size="${P.fingerRadius}" mass="${P.phalanxMass}" rgba=".9 .9 .9 1"/>
           ${tip.join('\n')}
+          ${taxelSite(`skin_${name}_dist_dorsal`, [dir * 0.0035, 0, -ph / 2], [0.002, 0.004, ph / 2], `finger-${s}${k}`)}
+          ${taxelSite(`skin_${name}_dist_side_a`, [0, 0.0035, -ph / 2], [0.004, 0.002, ph / 2], `finger-${s}${k}`)}
+          ${taxelSite(`skin_${name}_dist_side_b`, [0, -0.0035, -ph / 2], [0.004, 0.002, ph / 2], `finger-${s}${k}`)}
+          ${taxelSite(`skin_${name}_tip_end`, [0, 0, -ph - 0.002], [0.004, 0.004, 0.003], `fingertip-${s}${k}`)}
         </body>
       </body>`;
     };
@@ -150,6 +157,7 @@ export function buildRobotMJCF(P = ROBOT_PARAMS, { extraWorld = '' } = {}) {
       <site name="imu" pos="0 0 0" size="0.005"/>
       ${trunkSkin}
       ${wheel('L', 1)}${wheel('R', -1)}
+      ${support ? [-1, 1].map(sx => `<body name="support_${sx > 0 ? 'front' : 'back'}"><geom type="capsule" fromto="${f(sx * T)} 0 ${f(-T + 0.02)} ${f(sx * (T + 0.03))} 0 ${f(0.02 - zTrunk)}" size="0.006" mass="0.02" rgba=".9 .3 .3 1"/><geom type="sphere" pos="${f(sx * (T + 0.03))} 0 ${f(0.02 - zTrunk)}" size="0.02" mass="0.01" friction="0.05 0.001 0.001" rgba=".9 .3 .3 1"/></body>`).join('') : ''}
       <body name="neck" pos="0 0 ${T}">
         ${joint('neck_yaw', '0 0 1', '-1.6 1.6')}${joint('neck_pitch', '0 1 0', '-0.8 0.8')}${joint('neck_roll', '1 0 0', '-0.8 0.8')}
         <geom type="capsule" fromto="0 0 0 0 0 0.035" size="0.015" mass="${P.neckMass}" rgba=".4 .4 .45 1"/>

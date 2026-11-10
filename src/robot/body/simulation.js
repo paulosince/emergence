@@ -8,16 +8,21 @@ import { buildRobotMJCF, ROBOT_PARAMS } from './robot-model.js';
 let MJ = null;
 export async function mujoco() { return MJ ??= await loadMujoco(); }
 
-// Balance reflex R1 (docs/robot-spec-v1.md): inputs computed inside S (tilt,
-// tilt rate, wheel speed and travel); output = common wheel torque. Gains are
-// declared and tuned on the model, not taken from a source.
-export const R1_DEFAULTS = Object.freeze({ kTilt: 12, kRate: 3, kSpeed: 0.8, kTravel: 0.3 }); // grid search 10/11/2026 (60 s, 3 N push for 50 ms): only wheels touch the floor, largest displacement 0.23 m; only 1 of 72 combinations passed: fragile, to calibrate
+// Balance reflex R1. Decision of the researcher (10/11/2026): "the reflex has to
+// be only a reflex, not a support of the upright posture; the robot is the one
+// that has to learn to sustain itself". Default mode 'phasic': a brief wheel
+// torque opposing the trunk's angular velocity when it exceeds a threshold
+// (vestibular-like righting response); it slows a fall but cannot hold the
+// posture. Mode 'postural' (full tilt/speed/travel controller, grid search
+// 10/11/2026) is kept ONLY as an engineering control, never in experiments.
+export const R1_DEFAULTS = Object.freeze({ mode: 'phasic', kPhasic: 0.6, thresholdRadS: 0.3,
+  kTilt: 12, kRate: 3, kSpeed: 0.8, kTravel: 0.3 });
 
 export class RobotSimulation {
   #mj; #m; #d; #id = {}; #sens = {}; #act = {}; #jnt = {}; #r1; #travel0 = null;
-  static async create({ params = ROBOT_PARAMS, r1 = R1_DEFAULTS, extraWorld = '' } = {}) {
+  static async create({ params = ROBOT_PARAMS, r1 = R1_DEFAULTS, extraWorld = '', support = false } = {}) {
     const mj = await mujoco();
-    return new RobotSimulation(mj, buildRobotMJCF(params, { extraWorld }), r1);
+    return new RobotSimulation(mj, buildRobotMJCF(params, { extraWorld, support }), { ...R1_DEFAULTS, ...r1 });
   }
   constructor(mj, built, r1) {
     this.#mj = mj; this.built = built; this.#r1 = { ...r1, enabled: true };
@@ -44,6 +49,10 @@ export class RobotSimulation {
   #reflex() {
     const k = this.#r1; if (!k.enabled) return;
     const rate = this.sensor('imu_gyro')[1];
+    if (k.mode === 'phasic') {
+      const u = Math.abs(rate) > k.thresholdRadS ? k.kPhasic * rate : 0;
+      this.lastR1 = u; this.setCtrl('wheel_L', u); this.setCtrl('wheel_R', u); return;
+    }
     const speed = (this.sensor('wheel_L_vel') + this.sensor('wheel_R_vel')) / 2;
     const travel = (this.sensor('wheel_L_pos') + this.sensor('wheel_R_pos')) / 2;
     this.#travel0 ??= travel;
