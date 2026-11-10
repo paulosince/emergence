@@ -48,7 +48,12 @@ Guia: [texto do responsável sobre os limites do Sdom](sdom-boundaries-guide.md)
 - Logo, **a primeira coisa que surge são as Upro**, que culminam na integração do sinal, isto é, numa **Uint**. "Daí vêm os nomes": transdução → propagação → integração.
 - **Diferença do motor v2:** hoje a Pcrt cria a Uint e as Upro ao mesmo tempo, quando há coincidência; não existe Upro antes de Uint.
 - **Resposta (17h08):** a Utrd é uma **unidade especializada**: age num domínio físico específico e promove transduções específicas, para incidências e vice-versa. Mas **não pode decidir de antemão quais sinais receberá do mundo**; logo a necessidade de "fibras propagadoras" não é conhecida previamente. **As Upro se criam conforme as transduções acontecem**, em relação com as regras de criação (Pcrt). Isto responde à pergunta (1) e, em parte, à (3).
-- A confirmar: (2) antes de haver Uint, onde a Upro termina, e a Uint nasce onde Upro de fontes distintas convergem?
+- **Resposta à (2) (17h24):**
+  - **Uma Upro só existe se já tem destino.** Sem destino, ela está sendo criada naquele momento.
+  - Se a incidência da Utrd **encontra** uma Upro, já há caminho para convergir. Se **não encontra**, aquele sinal nunca foi transduzido daquela forma: é criação nova, e a nova Upro **tem de convergir numa Uint**.
+  - A Utrd pode ter **mais de uma saída ao mesmo tempo**. Saídas dentro de um **limiar de tempo** integram no mesmo ponto; ou vale **outro tipo de regra**, por exemplo numa Utrd visual: todas as linhas convergem para um ponto, todas as colunas para outro (coluna 1, coluna 2...).
+  - Portanto, **Upro que provém da Utrd + regra determinam a Uint inicial.**
+  - O responsável pediu verificação na literatura (17h24).
 - A verificar pela metodologia (hipótese, não decisão): na biologia, fibras aferentes parecem existir antes da experiência, refinadas depois pela atividade (de memória; pesquisar). Se for assim, "Upro criadas conforme as transduções" precisa da justificativa de simplificação agnóstica (mecanismo, equivalência, perdas).
 - **Princípio do responsável (17h10):** seres biológicos são darwinianos e nascem com arquitetura herdada; o sistema agnóstico de substrato não se vale disso ([metodologia](program-methodology.md)). Rascunho da justificativa (proposta nossa): **mecanismo** — fibras aferentes presentes antes da experiência, pela herança; **equivalência** — o sistema não herda caminhos, então as Upro surgem das transduções pela Pcrt; **perdas** — organização inicial pronta (por exemplo, tonotópica) e o ganho de tempo que ela dá; **teste** — variante com Upro pré-existentes (aleatórias ou ordenadas) como comparação.
 
