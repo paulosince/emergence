@@ -13,7 +13,8 @@ Iniciada em 10/11/2026 com o responsável. Passamos unidade por unidade: o que o
 
 ### Conferência com a teoria
 - CLEAR v43 (trechos lidos pela busca do projeto): a Utrd "realizes the conversion between media"; rotas aferentes exógenas e endógenas até o Sdom (Figura 1). **Compatível.**
-- O sentido eferente aparece explícito no preprint v2.1.0 (processo de transdução eferente, Ptef), desatualizado; nos trechos da v43 lidos, a figura mostra só rotas aferentes. A definição acima é do responsável.
+- Nos trechos da v43 lidos, a figura mostra só rotas aferentes; o sentido eferente vem da definição do responsável. (O preprint v2.1.0 não serve de referência para a arquitetura; ver [metodologia](program-methodology.md), versões da CLEAR.)
+- A v43 dá o norte, mas está em revisão pelo responsável; "compatível" aqui não é veredito.
 
 ### O motor v2 hoje (diferenças)
 1. A Utrd não é uma unidade: é só um identificador de canal; a conversão acontece fora do motor.
