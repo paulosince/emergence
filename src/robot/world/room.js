@@ -19,6 +19,7 @@ export const ROOM_DEFAULTS = Object.freeze({
     { kind: 'ball', radius: 0.015, mass: 0.015, rgba: '0.95 0.8 0.1 1', friction: '1.2 0.01 0.001' },
   ],
   cheese: { size: [0.03, 0.02, 0.008], mass: 0.005, rgba: '0.98 0.85 0.35 1', parkedAt: [0, 4, 0.004] }, // thinner than the door gap
+  tree: { at: [4.0, 0.6], trunkRadius: 0.12, trunkHeight: 1.8, canopy: [1.3, 1.3, 1.1] },
   objectSeed: 1, keepClearOfRobot: 0.35,
 });
 
@@ -33,7 +34,7 @@ export function buildRoomMJCF(R = ROOM_DEFAULTS) {
   parts.push(box('wall_north_low', [x, 0, wn.sill / 2], [t, W + R.wall, wn.sill / 2], wallRgba));
   parts.push(box('wall_north_high', [x, 0, (wn.sill + wn.height + H) / 2], [t, W + R.wall, (H - wn.sill - wn.height) / 2], wallRgba));
   for (const s of [1, -1]) parts.push(box(`wall_north_side_${s > 0 ? 'w' : 'e'}`, [x, s * (wn.width / 2 + (W - wn.width / 2) / 2), wn.sill + wn.height / 2], [t, (W - wn.width / 2) / 2, wn.height / 2], wallRgba));
-  parts.push(box('window_glass', [x, 0, wn.sill + wn.height / 2], [0.003, wn.width / 2, wn.height / 2], 'rgba=".7 .85 1 .12"'));
+  parts.push(box('window_glass', [x, 0, wn.sill + wn.height / 2], [0.003, wn.width / 2, wn.height / 2], 'rgba=".7 .85 1 .12" group="3"')); // group 3: transparent to camera rays
   parts.push(box('wall_south', [-L - t, 0, H / 2], [t, W + R.wall, H / 2], wallRgba));
   // west wall (y = +W) with the door; the door leaves a gap above the floor
   const d = R.door, yW = W + t, a = d.along;
@@ -46,6 +47,11 @@ export function buildRoomMJCF(R = ROOM_DEFAULTS) {
   parts.push(box('wall_east_n', [(b + h.width / 2 + L) / 2, yE, H / 2], [(L - b - h.width / 2) / 2, t, H / 2], wallRgba));
   parts.push(box('wall_east_s', [(b - h.width / 2 - L) / 2, yE, H / 2], [(b - h.width / 2 + L) / 2, t, H / 2], wallRgba));
   parts.push(box('wall_east_above_hole', [b, yE, (h.height + H) / 2], [h.width / 2, t, (H - h.height) / 2], wallRgba));
+  // outside, seen through the window (decision 10/11/2026: tree and sky): grass and one tree
+  const T = R.tree;
+  parts.push(box('grass', [(L + R.wall + 6) / 2, 0, 0.0005], [(6 - L - R.wall) / 2, 6, 0.0005], 'rgba=".3 .55 .2 1" contype="0" conaffinity="0"'));
+  parts.push(`<geom name="tree_trunk" type="cylinder" pos="${f(T.at[0])} ${f(T.at[1])} ${f(T.trunkHeight / 2)}" size="${T.trunkRadius} ${f(T.trunkHeight / 2)}" rgba=".4 .28 .16 1" contype="0" conaffinity="0"/>`);
+  parts.push(`<geom name="tree_canopy" type="ellipsoid" pos="${f(T.at[0])} ${f(T.at[1])} ${f(T.trunkHeight + T.canopy[2] * 0.7)}" size="${T.canopy.join(' ')}" rgba=".2 .45 .18 1" contype="0" conaffinity="0"/>`);
   // loose objects at seeded positions, away from the robot and the walls
   const rng = makeRng(R.objectSeed), placed = [];
   R.objects.forEach((o, k) => {

@@ -14,6 +14,7 @@ export class RobotWorld {
     return new RobotWorld(sim, new Sky(sky), room, built);
   }
   constructor(sim, sky, room, built) { this.sim = sim; this.sky = sky; this.#room = room; this.objects = built.objects; }
+  get roomConfig() { return this.#room; }
   get time() { return this.sim.time; }
   #bodyQ(name) { const { mj, model: m } = this.sim; const j = mj.mj_name2id(m, mj.mjtObj.mjOBJ_JOINT.value, name); return { q: m.jnt_qposadr[j], v: m.jnt_dofadr[j] }; }
   bodyPosition(name) { const { mj, model: m, data: d } = this.sim, b = mj.mj_name2id(m, mj.mjtObj.mjOBJ_BODY.value, name); return [0, 1, 2].map(k => d.xpos[3 * b + k]); }
