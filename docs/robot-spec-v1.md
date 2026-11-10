@@ -51,3 +51,6 @@ R-01 a R-12 e T01–T12 da V0.7, mantidos, mais: T13 toque em si mesmo (alcance 
 6. **Via do domínio para os atuadores fica em aberto** nesta fase; os movimentos vêm de reflexos e marca-passos.
 
 **Total de atuadores: 27** (2 rodas + 12 braços + 6 dedos + 3 pescoço + 4 olhos).
+
+## 8. Verificação do MuJoCo em JavaScript (10/11/2026)
+Pacote oficial `@mujoco/mujoco` 4.0.0 (Node, linha única de execução). Teste mínimo: caixa de 1 kg caindo num plano, braço articulado, tendão espacial; sensores de toque, comprimento de tendão, acelerômetro e giroscópio. Resultados: o sensor de toque lê 0 antes do contato e 9,81 N com a caixa em repouso (peso de 1 kg); o comprimento do tendão é lido; **duas execuções idênticas dão leituras idênticas** (determinismo dentro do mesmo ambiente; entre máquinas e navegadores ainda não verificado). A renderização das câmeras não foi testada (provável caminho: three.js no navegador).
