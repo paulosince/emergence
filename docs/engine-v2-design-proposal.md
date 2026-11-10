@@ -101,3 +101,4 @@ Definição: ver [nomenclatura](nomenclature.md). Diferenças em relação à se
 
 ## 16. Consequência para o critério de maturação (10/11/2026)
 Com a incidência em trânsito contando como favorecimento (confirmado), toda Uint de intervalo já nasce esperada: no mundo fixo a taxa de surpresa é zero desde o primeiro quinto (relatório exploratório dos controles). O critério de maturação da rodada 1 (surpresa média por disparo que diminui com o tempo) **não se aplica** a esta medida. Proposta a decidir: medir a maturação pela **queda das constituições novas** (no mundo fixo, 12 no primeiro quinto e 0 no último) junto com a **ordem da surpresa pela aleatoriedade** do mundo.
+- **Aprovado pelo responsável (10/11/2026: "Sim, podemos seguir dessa forma"):** a maturação na versão 2 é medida pela queda das constituições novas e pela ordem da surpresa conforme a aleatoriedade do mundo (fixo < ciclo < aleatório < embaralhado). Limiares e janelas serão fixados no pré-registro v2.
