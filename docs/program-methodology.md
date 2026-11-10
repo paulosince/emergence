@@ -23,6 +23,11 @@ Não mudou do preprint até hoje:
 - **Preprint (v2.1.0):** muito desatualizado. Serve **única e exclusivamente** para as previsões do que deve ser formado de forma autônoma pelo domínio representacional (entidades biográficas; o self como mais um tipo de entidade, não algo especial), e ainda assim **com ressalvas**.
 - **Versão 43:** a última feita, mas **não está pronta nem cristalizada**; o responsável a está revisando, e este trabalho ajuda a revisão. **Dá um norte, mas não é a última palavra.** Em dúvida, perguntar ao responsável.
 
+## Arquitetura herdada (responsável, 10/11/2026, 17h10)
+"Seres biológicos são darwinianos": nascem com **arquitetura pronta herdada**, coisa de que o sistema agnóstico de substrato **não se vale**. Quando a biologia mostra uma estrutura que já existe antes da experiência por herança evolutiva, isso por si só não obriga o sistema a tê-la pronta.
+- Leitura nossa (a confirmar): o sistema começa com o que é **sistema e predisposição** (corpo, Utrd especializadas, reflexos, regras e processos da Pcrt) e sem nada que pré-especifique caminhos ou conteúdos representacionais. A herança evolutiva carrega uma história que o sistema não teve; tê-la pronta seria injetar de fora o que deveria ser constituído.
+- A regra de divergência continua valendo: declarar o mecanismo herdado, a equivalência e o que se perde (por exemplo, organização inicial pronta como a tonotopia), com teste quando possível.
+
 ## Regra de divergência
 É permitido ir "contra" a literatura neurobiológica **somente** quando a divergência for uma **simplificação agnóstica de substrato justificada**. A justificativa exige:
 - **entender o mecanismo** neurobiológico: o que ele faz e qual função cumpre;
