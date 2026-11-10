@@ -7,6 +7,9 @@ Data: 10/11/2026. Situação: concepção do responsável registrada; arquitetur
 - O **experimento roda ininterruptamente**; a interface mostra só a **gravação**. Sem "executar": selecionar visões; selecionar métricas; data, hora, play, pause, avançar e retroceder.
 - **Trilhas como num editor de vídeo:** camada por camada, com métricas, legendas, áudio, animações; algumas trilhas exibem logs com valores e informações; seleção de canais (visual, auditivo etc.).
 - **Painel do domínio representacional:** mapa tridimensional com disparos; surgimento e modificação de nós; surgimento e modificação de arestas; surgimento e modificação de outras unidades (marca-passos, gliais etc.); dispersão de neuromoduladores, com seleção do neuromodulador.
+- **Mapa com seleção do que se vê (10/11/2026, 15h41):** o usuário dá play e escolhe o que o mapa mostra, em qualquer combinação. Exemplos do responsável: só o surgimento de novos nós; novos nós e arestas; novos nós, arestas e disparos; só a difusão de neuromoduladores, um de cada vez (só acetilcolina, só noradrenalina etc.).
+  - A confirmar com o responsável: (a) o que já existe fica visível como fundo esmaecido ou some; (b) mais de um neuromodulador ao mesmo tempo (cores diferentes) ou só um; (c) a seleção pode mudar durante a reprodução, sem pausar.
+  - Consequência (proposta nossa): cada tipo de evento gravado separadamente e marcado por categoria, para filtrar sem recalcular. Hoje o motor tem um único modulador (novidade); acetilcolina e noradrenalina como moduladores separados ainda não existem.
 
 ## Consequências de arquitetura (propostas nossas)
 1. **Separar execução e visualização:** um processo contínuo roda robô, sala e domínio e grava; a interface só lê a gravação.
