@@ -52,7 +52,9 @@ for (const seed of SEEDS) for (const w of WORLDS) {
   const { inc, endTimeMs } = worldInc(w, seed);
   for (const [v, o] of Object.entries(VARIANTS)) {
     if (v !== 'completo' && w !== 'fixa') continue; // ablations on the fixed world only
+    const t0 = Date.now();
     (results[w + '/' + v] ??= []).push({ seed, ...run(inc, endTimeMs, seed, o) });
+    console.error(`seed ${seed} ${w}/${v} ${Date.now() - t0} ms`);
   }
 }
 const mean = a => { const x = a.filter(v => v !== null); return x.length ? +(x.reduce((s, v) => s + v, 0) / x.length).toFixed(3) : null; };
