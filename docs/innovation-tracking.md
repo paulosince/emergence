@@ -88,6 +88,11 @@
 - **Falta:** busca de precedentes; aprovação da [proposta](effects-v0.1.md).
 - **Atualização (09/11/2026):** integrado ao [desenho da versão 2](engine-v2-design-proposal.md). A medida de surpresa por contexto negativo (seção 8) pode ser candidata a contribuição; precisa de busca sobre medidas de surpresa sem predição explícita.
 
+## 10. Utrd eferente: destinos e ligação fixa × formada (10/11/2026)
+- **O que existe:** robótica do desenvolvimento com "motor babbling" e esquemas corporais aprendidos (conhecimento geral, sem busca registrada); espasmos imitados em robô levando à auto-organização de circuitos (Blumberg, Marques e Iida 2013, *Current Biology*; resumo).
+- **O que seria novo (hipótese, não verificado):** saída do domínio que nasce do movimento reflexo já representado (via inversa), com ligação final fixa ao atuador e ligação de cima formada pela experiência, e com o sistema modulador como destino eferente explícito do domínio.
+- **Falta:** busca em robótica do desenvolvimento (babbling, aprendizado de modelo inverso, teoria ideomotora em robôs); decisão do responsável ([revisão da arquitetura](architecture-review-v0.md), seção 1).
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
