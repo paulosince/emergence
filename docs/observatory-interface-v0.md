@@ -8,7 +8,10 @@ Data: 10/11/2026. Situação: concepção do responsável registrada; arquitetur
 - **Trilhas como num editor de vídeo:** camada por camada, com métricas, legendas, áudio, animações; algumas trilhas exibem logs com valores e informações; seleção de canais (visual, auditivo etc.).
 - **Painel do domínio representacional:** mapa tridimensional com disparos; surgimento e modificação de nós; surgimento e modificação de arestas; surgimento e modificação de outras unidades (marca-passos, gliais etc.); dispersão de neuromoduladores, com seleção do neuromodulador.
 - **Mapa com seleção do que se vê (10/11/2026, 15h41):** o usuário dá play e escolhe o que o mapa mostra, em qualquer combinação. Exemplos do responsável: só o surgimento de novos nós; novos nós e arestas; novos nós, arestas e disparos; só a difusão de neuromoduladores, um de cada vez (só acetilcolina, só noradrenalina etc.).
-  - A confirmar com o responsável: (a) o que já existe fica visível como fundo esmaecido ou some; (b) mais de um neuromodulador ao mesmo tempo (cores diferentes) ou só um; (c) a seleção pode mudar durante a reprodução, sem pausar.
+  - **Decisão (15h45):** a interface tem **dois tipos de visualização**: (1) **câmeras**, várias ao mesmo tempo (topo, lado, a que segue o robô, olhos do robô); (2) **mapa interativo do domínio representacional**, com os filtros dentro dele.
+  - **Tudo é gravado em trilhas individualizadas**; o mapa mostra cada coisa de forma independente, sem recalcular.
+  - **Tudo está sempre no mapa; o filtro controla a opacidade.** O que não está selecionado fica com opacidade reduzida, para dar contexto; **o quão transparente fica é parametrizável**, assim como o quão opaco fica cada filtro selecionado.
+  - A confirmar: (b) mais de um neuromodulador ao mesmo tempo (cores diferentes) ou só um; (c) a seleção pode mudar durante a reprodução, sem pausar.
   - Consequência (proposta nossa): cada tipo de evento gravado separadamente e marcado por categoria, para filtrar sem recalcular. Hoje o motor tem um único modulador (novidade); acetilcolina e noradrenalina como moduladores separados ainda não existem.
 
 ## Consequências de arquitetura (propostas nossas)
