@@ -8,7 +8,7 @@ Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 10/11/2026 (fim da
 3. **Nunca inventar fontes nem números.** Dizer se leu resumo ou texto integral e a confiança de cada número.
 4. **Nomes, não códigos** ([docs/nomenclature.md](docs/nomenclature.md)); indicar se cada regra vem da literatura ou é proposta/inferência nossa.
 5. **Não alterar o repositório TEMPO** (paulosince/temporotopological-relations); só leitura.
-6. **A CLEAR atual é a versão 43.** O preprint v2.1.0 está desatualizado; em dúvida sobre a teoria, **perguntar ao responsável**.
+6. **Versões da CLEAR** ([docs/program-methodology.md](docs/program-methodology.md), 10/11/2026): a **v43** é a última, mas está em revisão pelo responsável: **dá o norte, não é a última palavra**. O **preprint v2.1.0** serve só para as previsões do que o domínio deve formar de forma autônoma (entidades biográficas, self como mais um tipo de entidade), com ressalvas. Em dúvida, **perguntar ao responsável**. O estudo é sobre **consciência** (CLEAR); querer, valia etc. são ramos e instrumentos.
 7. Não marcar item do roteiro como concluído sem evidência e validação do responsável.
 8. Separação observador × motor: nada calculado pelo pesquisador entra no motor; identificadores dos canais opacos; nenhuma semântica injetada (robô: R-01 a R-12 de [docs/robot-spec-v0.7-review.md](docs/robot-spec-v0.7-review.md)).
 9. A cada proposta ou precedente novo, atualizar [docs/innovation-tracking.md](docs/innovation-tracking.md).
