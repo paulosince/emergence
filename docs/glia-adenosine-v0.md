@@ -50,6 +50,25 @@ A adenosina **não carrega conteúdo**: é um **subproduto da atividade** (ATP g
 | Astrócitos | **G1** sustentada; **G2** possível | Integram muitos sinais de um território e são controlados por estado; participação na especificação de conteúdo **não demonstrada** |
 | Oligodendrócitos | **Pergunta aberta para o responsável** | Na CLEAR, o **tempo de percurso** faz parte do conteúdo da relação (malha temporotopológica). Se a mielina ajusta esse tempo, ela altera **a parte temporal do conteúdo** — isso é regular uma condição (G1) ou participar da constituição (G2)? |
 
+## 3b. Tempo, mielina e conteúdo — aplicação do método (10/11/2026, 19h07)
+**Afirmação do responsável:** o tempo é codificado nas malhas temporotopológicas e faz parte do conteúdo; mudar o tempo muda o conteúdo; portanto, mexer na mielina (ou em qualquer coisa que altere o tempo de resposta) mexe no conteúdo representado.
+
+**Hipóteses derivadas:**
+- **H1:** mudar o tempo de condução muda o conteúdo (o que é representado).
+- **H2:** o ajuste do tempo pela mielina participa da **constituição** (aprendizagem e consolidação), não só das condições.
+
+**Literatura:**
+- **H1 — fenômeno de Pulfrich:** com um atraso num dos olhos (filtro ou desmielinização do nervo óptico), um pêndulo que oscila num plano é percebido numa **trajetória elíptica em profundidade**; o córtex interpreta a diferença de tempo entre os olhos como diferença de distância (Scotcher et al. 1997, *Br. J. Ophthalmol.*; Farr et al. 2018, *Neuro-Ophthalmology* 42:349–355; trechos do texto integral). Em pacientes com neurite óptica, o desempenho em movimento em profundidade piora com a diferença de latência entre os olhos (resumo de congresso da AAN; fraco).
+- **H1 — localização do som:** a posição de uma fonte é codificada por diferenças de **microssegundos** entre os ouvidos; o comprimento dos axônios sozinho tornaria a codificação impossível, e o diâmetro e a distância entre nódulos de Ranvier (mielina) **compensam** (Seidl, Rubel e Harris 2010, *J. Neurosci.* 30:70–80; Seidl 2014, PMC3849146; resumos e trechos).
+- **H2 — aprender exige mielina nova:** sem novos oligodendrócitos, camundongos não aprendem uma nova habilidade motora, mas executam as já aprendidas (McKenzie et al. 2014, *Science* 346:318–322; trechos do texto integral); bloquear a formação de oligodendrócitos durante ou logo após o treino prejudica a **consolidação** de memória espacial e de medo e impede o aumento do acoplamento entre ondas do hipocampo e fusos corticais (Steadman et al. 2020, *Neuron* 105:150–164; resumo); a preservação de uma memória de medo remota exige mielina nova, numa escala de semanas (Pan et al. 2020, *Nat. Neurosci.* 23:487–499; por comentário).
+
+**Conclusões (nossas, a validar):**
+1. **H1 sustentada:** diferenças de tempo são lidas como conteúdo (profundidade, posição). Uma mudança de tempo sem aprendizagem nenhuma (doença, filtro) produz conteúdo **errado** (ilusão) — o que mostra que o tempo carrega conteúdo e que o conteúdo continua ancorado no mundo (o erro é detectável contra o referente).
+2. **H2 sustentada:** a mielinização adaptativa é **necessária** para aprender e consolidar; pelo critério do texto-guia (participar das operações que especificam o conteúdo), isso é **participação constitutiva**, não só condição.
+3. **Agnóstico, sem unidade nova:** na nossa arquitetura o tempo de percurso é **propriedade da Upro** (o atraso); o equivalente da mielina é o **ajuste lento do atraso**, parte da Pcrt e da plasticidade. Isso respeita a decisão de 19h02 (regulação pelas próprias unidades). Perdas: um oligodendrócito mieliniza vários axônios (ajustes correlacionados entre Upro); diferença entre mielina nova e remodelagem da existente. Teste: variante sem ajuste de atraso (ablação já prevista como "atraso fixo").
+4. **Duas fontes de mudança de tempo:** adaptativa (constitui) e perturbadora (distorce). Só a primeira entra como plasticidade; a segunda poderia ser modelada como ruído ou dano, para testar a ancoragem.
+5. **Escala:** mielina nova e compacta leva **dias a semanas**; o ajuste atual do motor (a cada evento) está rápido demais.
+
 ## 4. Proposta mínima agnóstica (nossa; a decidir)
 1. **Adenosina como subproduto da atividade das próprias unidades:** cada descarga deixa uma pequena quantidade no local; ela se difunde (difusão espacial aprovada) e é removida devagar, mais depressa no sono. Efeitos: (a) **freio local** (A1: sobe o limiar ou reduz a magnitude onde há muita atividade); (b) o **nível acumulado** alimenta a propensão ao sono (processo S). Fonte neuronal como principal (Lovatt 2012; Peng 2020); mediação por astrócitos ou micróglia como variantes.
    - **Conflito com a decisão de 09/11** ("fontes gliais por território"): a evidência nova aponta fonte principalmente neuronal no prosencéfalo basal. Decisão do responsável.
