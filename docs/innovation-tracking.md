@@ -98,6 +98,11 @@
 - **O que seria novo (hipótese, não verificado):** criação de unidades (não só ajuste de pesos) por dois caminhos num sistema que nasce vazio, com a especialização dos sentidos restrita à Utrd e aos parâmetros de janela.
 - **Falta:** decisão do responsável; busca de precedentes em redes que crescem (por exemplo, redes construtivas e de recrutamento de unidades).
 
+## 12. Adenosina como subproduto da atividade e astrócito como portão territorial (10/11/2026)
+- **O que existe:** processo S (Borbély); adenosina como mediadora (Porkka-Heiskanen 1997); fontes neuronal, astrocitária e microglial (Lovatt 2012; Halassa 2009; Badimon 2020); astrócito com ganho controlado por noradrenalina (Paukert 2014).
+- **O que seria novo (hipótese, não verificado):** num sistema constitutivo que nasce vazio, a pressão de sono emergir da conta de gasto das próprias unidades (sem variável de sono imposta) e o astrócito atuar como portão territorial de plasticidade; e a pergunta teórica sobre a mielina participar da parte temporal do conteúdo relacional.
+- **Falta:** decisão do responsável ([glias e adenosina](glia-adenosine-v0.md)); busca de modelos computacionais de adenosina e de astrócitos em redes que aprendem.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
