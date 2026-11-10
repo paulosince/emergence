@@ -18,13 +18,19 @@ const VARIANTS = {
   semInibicao: { inhibitoryGain: 0 },
   semPortao: { gating: false },
 };
+const CACHE = new Map(); // fixed and cycle worlds do not depend on the seed (world simulation is the slow part)
 const worldInc = (name, seed) => {
+  const key = name.startsWith('aleatoria') ? name + seed : name.replace('-embaralhada', '');
+  if (!CACHE.has(key)) CACHE.set(key, buildWorld(name, seed));
+  const w = CACHE.get(key);
+  return name.endsWith('-embaralhada') ? { inc: intervalShuffle(w.inc, { seed }).incidences, endTimeMs: w.endTimeMs } : w;
+};
+const buildWorld = (name, seed) => {
   const hs = { fixa: new Array(EPI).fill(1.4), ciclo: Array.from({ length: EPI }, (_, k) => [1.0, 1.5, 2.0][k % 3]) }[name.replace('-embaralhada', '')];
   const sc = hs ? createEpisodicDropScenario({ heightsM: hs, sensorOverrides: FAST, maxEvents: 1e7 })
     : createEpisodicDropScenario({ episodes: EPI, scheduleSeed: seed, sensorOverrides: FAST, maxEvents: 1e7 });
   const { world, ...cfg } = sc;
   let inc = runExperiment({ ...cfg, engine: new OracleIntervalControl() }).incidences;
-  if (name.endsWith('-embaralhada')) inc = intervalShuffle(inc, { seed }).incidences;
   return { inc, endTimeMs: cfg.endTimeMs };
 };
 function run(inc, endTimeMs, seed, overrides) {
