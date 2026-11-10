@@ -148,6 +148,9 @@ Leitura que a pesquisa assumiu: "domínio ≈ córtex". **Corrigida em 10/11/202
 - Procede: a linha "sistema modulador entra já como destino da Utrd eferente" pressupõe que ele está fora do Sdom, contra o princípio "nada incluído nem excluído por antecipação". **Essa linha fica suspensa.**
 - Alternativa (proposta nossa, a decidir): tratar a liberação de modulador como uma **propriedade** que uma unidade pode ter (como a propriedade marca-passo), alcançada por Upro; se essa unidade pertence ou não ao Sdom passa a ser uma questão **empírica** (a tríade), não de desenho. Pesquisa sugerida antes de decidir: os núcleos moduladores mostram organização diferenciada e aprendida (respostas específicas a estímulos, plasticidade das entradas, módulos com alvos próprios)?
 
+### Conclusão do responsável sobre os moduladores (10/11/2026, 18h54)
+A tabela ([neuromoduladores](neuromodulators-sources-v0.md)) mostra que **a imensa maior parte da neuromodulação é feita pelas próprias unidades**, os nós do grafo temporotopológico (no cérebro, neurônios que integram entradas). Logo, **muito pouco** depende de Utrd eferente exportando incidências para fora do domínio. Próximo passo pedido: aprofundar **glias e adenosina**.
+
 ### Proposta mínima agnóstica de substrato (proposta nossa; aguardando decisão)
 **(a) Destinos da Utrd eferente**
 | Destino | Recomendação | Motivo | Perda declarada se ficar fora |
