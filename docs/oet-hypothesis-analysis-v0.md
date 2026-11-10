@@ -49,3 +49,10 @@ Difusa × localizada: "localizada" pode ser obtida sem rótulos externos se a mo
 4. **Conflito de nome:** "Orientação" é um papel técnico de ANCHOR. Chamar a OET de "orientação" sugere justamente a identificação que a hipótese nega. Sugestão: "janela exploratória transitória" (ou outro nome do responsável).
 5. **Pontos de contato úteis com o motor v2 (inferência nossa):** convergência e divergência como "differentially sustained, propagated, inhibited, or stabilized" têm substrato nos efeitos somados (excitação e inibição independentes) e no fortalecimento; a independência div(X) ≠ conv(não-X) é realizável porque uma Uint pode receber inibição sem que a do contrário receba excitação; Anchoring tem substrato nas Upro como linhas de atraso (intervalos). Holder exigiria um portador representado; o esquema corporal que o robô deve constituir é um candidato a investigar, não a presumir.
 6. **Alerta (seção 4.4 do manuscrito):** ANCHOR prevê "minimal wanting" em homeostase representacional. Se o robô vier a representar estados internos (bateria, temperatura) como Configurations numa Reference com assimetria ligada a um Holder, ANCHOR classificaria isso como querer mínimo. Isso afeta o que pode ser alegado sobre o robô e precisa estar previsto nos critérios, não descoberto depois.
+
+## 8. Decisões do responsável (10/11/2026)
+- **Nome:** "janela exploratória transitória" (substitui "orientação exploratória transitória", para não confundir com o papel Orientação de ANCHOR).
+- **Capacidade inicial declarada**, como os reflexos (sua emergência não poderá ser alegada como resultado).
+- **Ponto de ação principal:** dentro do domínio, baixando por um tempo o limiar das representações ligadas a movimento, pelo sistema modulador existente, com liberação localizada pelo campo de difusão (opção C). Opções A (corpo) e B (via final comum) como comparação.
+- **Evocação uniforme** para todos os reflexos, por propriedades não avaliativas (ocorrência, magnitude), inclusive nocicepção.
+- Implementação só depois dos passos 4 (reflexos e movimentos espontâneos) e 6 (via inversa), com as condições E0, E1, E2 e os controles pareados.
