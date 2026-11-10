@@ -37,3 +37,6 @@ Decisões anteriores do mesmo dia: coordenadas constitutivas; unidades novas nas
 - **Pré-registro aprovado** (versão revisada, com critério de maturação, envelope de 50.000 unidades vivas e 100 milhões de descargas, e tabela de parâmetros declarados).
 - **Critério de maturação:** formulado depois de observar o motor. Minha recomendação registrada é **calibrá-lo com controles antes da campanha**; o responsável aprovou o texto sem objeção explícita a isso, então farei a calibração, salvo instrução contrária.
 - **Parâmetros abertos a todos:** fonte única em `src/engines/constitutive/parameters.js`, executor configurável `scripts/run-constitutive.mjs`, tabela em [parâmetros](parameters.md). Mudar valor pré-registrado torna a execução exploratória.
+
+## 09–10/11/2026 (sessão longa) — resumo
+Ver [CONTINUITY.md](../CONTINUITY.md), seções 2 a 4, e os documentos citados ali: efeitos, surpresa, maturação v2, sono por estados ativos, via eferente, janela exploratória, robô (especificação v1), ambiente, interface de observação, difusão espacial dos moduladores (aprovada), refazer tudo preservando só o domínio.

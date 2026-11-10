@@ -20,3 +20,8 @@ Data: 10/11/2026. Situação: concepção do responsável registrada; arquitetur
 - **Unidades gliais:** não existem no motor v2.
 - **Dispersão espacial de neuromoduladores:** o campo de difusão está implementado (`src/space/diffusion.js`), mas o motor usa a concentração uniforme equivalente; há um único modulador (novidade).
 - Marca-passos: existem (novidade, relógio, propriedade marca-passo das Uint no sono).
+
+## Decisões do responsável (10/11/2026)
+1. **O experimento roda no computador do responsável** (Node, contínuo), por custo. A interface lê a gravação (servida pelo próprio computador ou por armazenamento a definir).
+2. **Câmeras fixas aprovadas:** dois cantos altos, uma vista de cima, os dois olhos do robô e uma câmera que acompanha o robô.
+3. **Difusão espacial dos neuromoduladores: aprovada** (o motor deixa de usar a concentração uniforme equivalente). **Glias:** discutir junto com a revisão da arquitetura atual.
