@@ -1,7 +1,9 @@
 // Constitutive engine lab page: editable parameters, run in the browser,
 // units at the engine's real 3D coordinates, novelty-modulator illustration.
-import { PARAMETERS, DEFAULTS, checkOverrides } from '../src/engines/constitutive/parameters.js';
+import * as P1 from '../src/engines/constitutive/parameters.js';
+import * as P2 from '../src/engines/constitutive/parameters-v2.js';
 import { ConstitutiveEngine } from '../src/engines/constitutive/engine.js';
+import { ConstitutiveEngineV2 } from '../src/engines/constitutive/engine-v2.js';
 import { createEpisodicDropScenario } from '../src/sensory/episodic-drop-scenario.js';
 import { createTabletopScenario } from '../src/sensory/tabletop-scenario.js';
 import { runExperiment } from '../src/runtime/experiment-runner.js';
@@ -11,6 +13,13 @@ import { makeRng } from '../vendor/tempo/core/rng.js';
 
 const $ = id => document.getElementById(id);
 const values = {};
+// version 2 is the current engine (docs/engine-v2-design-proposal.md); version 1 kept for the record of round 1
+let V = 2, PARAMETERS = P2.PARAMETERS, DEFAULTS = P2.DEFAULTS, checkOverrides = P2.checkOverrides;
+$('engine').onchange = () => {
+  V = Number($('engine').value); const M = V === 2 ? P2 : P1;
+  PARAMETERS = M.PARAMETERS; DEFAULTS = M.DEFAULTS; checkOverrides = M.checkOverrides;
+  for (const k of Object.keys(values)) delete values[k]; run = null; renderParams(); updateMode(); draw();
+};
 function renderParams() {
   const box = $('params'); box.innerHTML = '';
   for (const p of PARAMETERS) {
@@ -48,10 +57,10 @@ $('run').onclick = () => {
         mesa: () => createTabletopScenario({ horizonMs: seconds * 1000, protocol: 'free', launchSeed: seed }) }[world];
       const { world: w, ...cfg } = mk();
       const rec = runExperiment({ ...cfg, engine: new OracleIntervalControl() });
-      const engine = new ConstitutiveEngine({ seed, ...values });
+      const engine = V === 2 ? new ConstitutiveEngineV2({ seed, ...values }) : new ConstitutiveEngine({ seed, ...values });
       const r = replayIncidences(engine, rec.incidences, { endTimeMs: cfg.endTimeMs });
       const snap = r.finalSnapshot, ev = r.events.map(e => ({ t: e.timeMs, ...e.detail })).sort((a, b) => a.t - b.t);
-      run = { ev, end: cfg.endTimeMs, side: snap.substrateSideUm, src: snap.sourcePositions, params: { ...DEFAULTS, ...values }, snap, exploratory: checkOverrides(values).exploratory };
+      run = { ev, end: cfg.endTimeMs, side: snap.substrateSideUm, src: snap.sourcePositions, params: { ...DEFAULTS, ...values }, snap, v: V, exploratory: checkOverrides(values).exploratory };
       $('time').value = 1000; draw();
     } catch (e) { alert('Erro: ' + e.message); }
     $('run').disabled = false; $('run').textContent = 'Executar';
@@ -92,19 +101,23 @@ function draw() {
   const units = new Map();
   for (const e of run.ev) {
     if (e.t > t) break;
-    if (e.type === 'unit.created') units.set(e.unit, { pos: e.position, aff: e.afferents, level: 0, hier: e.level, last: -Infinity });
+    if (e.type === 'unit.created') { units.set(e.unit, { pos: e.position, aff: e.afferents, inh: e.competitors ?? [], level: 0, hier: e.level, last: -Infinity, surprise: false }); }
     else if (e.type === 'unit.pruned') units.delete(e.unit);
     else if (e.type === 'unit.consolidated' && units.has(e.unit)) units.get(e.unit).level = e.level;
-    else if ((e.type === 'unit.discharge' || e.type === 'unit.reactivated') && units.has(e.unit)) units.get(e.unit).last = e.t;
+    else if ((e.type === 'unit.discharge' || e.type === 'unit.reactivated') && units.has(e.unit)) { const u = units.get(e.unit); u.last = e.t; if (e.type === 'unit.discharge') u.surprise = !!e.surprise; }
   }
   const pos = id => units.get(id)?.pos ?? run.src[id];
   ctx.strokeStyle = 'rgba(138,147,166,0.18)';
   for (const u of units.values()) for (const a of u.aff) { const q = pos(a); if (!q) continue; const A = P(q), B = P(u.pos); ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.stroke(); }
+  // version 2: inhibitory Upro between competitors (both directions), dashed red
+  ctx.strokeStyle = 'rgba(224,92,92,0.35)'; ctx.setLineDash([4 * devicePixelRatio, 4 * devicePixelRatio]);
+  for (const u of units.values()) for (const c of u.inh) { const v = units.get(c); if (!v) continue; const A = P(v.pos), B = P(u.pos); ctx.beginPath(); ctx.moveTo(A[0], A[1]); ctx.lineTo(B[0], B[1]); ctx.stroke(); }
+  ctx.setLineDash([]);
   for (const [id, q] of Object.entries(run.src)) { if (units.has(id)) continue; const A = P(q); ctx.fillStyle = '#c46a45'; ctx.fillRect(A[0] - 3, A[1] - 3, 6, 6); }
   const list = [...units.values()].map(u => ({ u, A: P(u.pos) })).sort((a, b) => b.A[2] - a.A[2]);
   for (const { u, A } of list) {
     const flash = t - u.last < 150;
-    ctx.fillStyle = flash ? '#ffffff' : LEVEL[Math.min(5, u.level)];
+    ctx.fillStyle = flash ? (u.surprise ? '#ff8a3d' : '#ffffff') : LEVEL[Math.min(5, u.level)];
     ctx.beginPath(); ctx.arc(A[0], A[1], (2 + 1.5 * u.hier) * devicePixelRatio * (flash ? 1.6 : 1), 0, 7); ctx.fill();
   }
   // illustration of release particles (recent releases)
@@ -120,9 +133,14 @@ function draw() {
   }
   $('clock').textContent = `${(t / 1000).toFixed(2)} s · ${asleep ? 'sono' : 'vigília'} · novidade ${conc.toFixed(1)} nM${run.exploratory ? ' · EXPLORATÓRIO' : ''}`;
   const s = run.snap, stat = (k, v) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`;
-  $('stats').innerHTML = stat('unidades vivas em t', units.size) + stat('criadas (total)', run.ev.filter(e => e.type === 'unit.created').length)
-    + stat('consolidadas (fim)', s.units.filter(u => u.level > 0).length) + stat('podadas', s.pruned) + stat('falhas de espera', s.surprises)
-    + stat('esperas cumpridas', s.fulfilledExpectations) + stat('liberações', rel.length) + stat('episódios de sono', s.sleepEpisodes ?? 0);
+  const created = run.ev.filter(e => e.type === 'unit.created').length, cons = s.units.filter(u => u.level > 0).length;
+  $('stats').innerHTML = run.v === 2
+    ? stat('Uint vivas em t', units.size) + stat('Uint criadas (total)', created) + stat('consolidadas (fim)', cons) + stat('podadas', s.stats.pruned)
+      + stat('descargas', s.stats.firings) + stat('surpresas', `${s.stats.surprises} (${s.stats.surprisesTransduced} transdutivas · ${s.stats.surprisesInternal} internas)`)
+      + stat('confirmações', s.stats.confirmations) + stat('incidências tardias', s.stats.late) + stat('acomodações', s.stats.accommodated)
+      + stat('Upro (inibitórias)', `${s.upros.total} (${s.upros.inhibitory})`) + stat('liberações', rel.length) + stat('episódios de sono', s.sleepEpisodes ?? 0)
+    : stat('unidades vivas em t', units.size) + stat('criadas (total)', created) + stat('consolidadas (fim)', cons) + stat('podadas', s.pruned) + stat('falhas de espera', s.surprises)
+      + stat('esperas cumpridas', s.fulfilledExpectations) + stat('liberações', rel.length) + stat('episódios de sono', s.sleepEpisodes ?? 0);
 }
 let timer = null;
 $('play').onclick = () => {

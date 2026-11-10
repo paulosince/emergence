@@ -32,11 +32,12 @@
 <body>
 <header>
   <div><span class="word">EMERGENCE</span> <span class="note">· motor constitutivo · parâmetros abertos</span></div>
-  <nav><a href="./index.html">Laboratório</a><a href="./docs/parameters.md">Parâmetros</a><a href="./docs/preregistration-v1.md">Pré-registro</a><a href="https://github.com/paulosince/emergence">Código</a></nav>
+  <nav><a href="./index.html">Laboratório</a><a href="./docs/parameters.md">Parâmetros</a><a href="./docs/preregistration-v1.md">Pré-registro</a><a href="./docs/engine-v2-design-proposal.md">Motor v2</a><a href="https://github.com/paulosince/emergence">Código</a></nav>
 </header>
 <main>
   <section class="card">
     <h2>Execução</h2>
+    <div class="row"><label>Motor <select id="engine"><option value="2">Versão 2 (atual)</option><option value="1">Versão 1 (rodada 1, registro)</option></select></label></div>
     <div class="row"><label>Mundo <select id="world"><option value="quedas">Quedas, alturas aleatórias</option><option value="quedas-fixa">Quedas, altura fixa</option><option value="quedas-ciclo">Quedas, ciclo de 3 alturas</option><option value="mesa">Mesa (84 canais)</option></select></label></div>
     <div class="row"><label>Segundos <input id="seconds" type="number" value="60" min="3" max="600" style="width:70px"/></label><label>Semente <input id="seed" type="number" value="1" style="width:60px"/></label></div>
     <div class="row"><button class="primary" id="run">Executar</button><button id="reset">Valores do pré-registro</button></div>
@@ -46,7 +47,7 @@
   </section>
   <section class="card">
     <h2>Domínio nas coordenadas reais do motor</h2>
-    <p class="note">Posições <b>constitutivas</b> (do próprio motor; não são disposição do observador). Cubo = substrato. Pontos = unidades no centro dos seus elementos (cor = nível de estabilidade; tamanho = nível hierárquico); linhas = aferentes. Arraste para girar; roda para aproximar.</p>
+    <p class="note">Posições <b>constitutivas</b> (do próprio motor; não são disposição do observador). Cubo = substrato. Pontos = Uint no centro dos seus elementos (cor = nível de estabilidade; tamanho = nível hierárquico); linhas cinza = Upro excitatórias (aferências); tracejado vermelho = Upro inibitórias entre concorrentes (versão 2). Descarga: branco = esperada; laranja = surpresa. Quadrados = canais (Utrd). Arraste para girar; roda para aproximar.</p>
     <canvas id="view"></canvas>
     <div class="row"><button id="play">▶</button><input id="time" type="range" min="0" max="1000" value="1000"/><span id="clock" class="note"></span></div>
     <p class="note" id="modnote">Modulação de novidade: o motor usa a concentração uniforme equivalente (densidade uniforme de sítios de liberação). As partículas são uma <b>ilustração</b>: sítios de liberação sorteados, com nuvem de raio √(6D*t) (dopamina, Rice e Cragg, 2008), ampliada ×20 para ficar visível.</p>
