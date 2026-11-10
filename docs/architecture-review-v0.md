@@ -47,7 +47,9 @@ Guia: [texto do responsável sobre os limites do Sdom](sdom-boundaries-guide.md)
 - Essas incidências, ainda fora do domínio, **precisam entrar** nesse espaço, e isso se faz **necessariamente por Upro**.
 - Logo, **a primeira coisa que surge são as Upro**, que culminam na integração do sinal, isto é, numa **Uint**. "Daí vêm os nomes": transdução → propagação → integração.
 - **Diferença do motor v2:** hoje a Pcrt cria a Uint e as Upro ao mesmo tempo, quando há coincidência; não existe Upro antes de Uint.
-- A confirmar: (1) as Upro de cada Utrd surgem com as primeiras incidências ou já existem como parte do sistema (predisposição)? (2) antes de haver Uint, onde a Upro termina, e a Uint nasce onde Upro de fontes distintas convergem? (3) cada Utrd começa com uma Upro ou várias?
+- **Resposta (17h08):** a Utrd é uma **unidade especializada**: age num domínio físico específico e promove transduções específicas, para incidências e vice-versa. Mas **não pode decidir de antemão quais sinais receberá do mundo**; logo a necessidade de "fibras propagadoras" não é conhecida previamente. **As Upro se criam conforme as transduções acontecem**, em relação com as regras de criação (Pcrt). Isto responde à pergunta (1) e, em parte, à (3).
+- A confirmar: (2) antes de haver Uint, onde a Upro termina, e a Uint nasce onde Upro de fontes distintas convergem?
+- A verificar pela metodologia (hipótese, não decisão): na biologia, fibras aferentes parecem existir antes da experiência, refinadas depois pela atividade (de memória; pesquisar). Se for assim, "Upro criadas conforme as transduções" precisa da justificativa de simplificação agnóstica (mecanismo, equivalência, perdas).
 
 ### O motor v2 hoje (diferenças)
 1. A Utrd não é uma unidade: é só um identificador de canal; a conversão acontece fora do motor.
