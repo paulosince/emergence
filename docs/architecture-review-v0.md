@@ -210,3 +210,32 @@ O **sinal fica na Upro** (como está). Perda declarada: a restrição biológica
 1. Manter a criação na constituição (D2) e tornar o ganho **plástico** por essa regra. Recomendada.
 2. Manter tudo fixo (como está).
 3. Não criar inibitórias na constituição; elas nasceriam só pela experiência. Exigiria um mecanismo que ainda não pesquisei.
+
+### 2.7 Decisões e objeção do responsável sobre U4 (10/11/2026, 20h18)
+- **Criação por dois caminhos:**
+  - na concepção dos nós e arestas, quando a relação de inibição já deve existir (como D2);
+  - **pela experiência**, especialmente quando algo mostra que uma relação aprendida estava errada.
+- **O ganho não pode ser fixo.**
+- **Objeção:** se a origem dispara e o destino fica calado, a Upro inibitória **não deve enfraquecer**: ela fez o seu papel, inibiu. Isso contesta o termo de enfraquecimento da regra de Vogels et al. (2011).
+
+### 2.8 Literatura sobre a objeção e sobre o caminho pela experiência
+| Achado | Fonte | Leitura |
+|---|---|---|
+| No córtex auditivo de camundongo (fatias), parear disparos pré e pós **fortaleceu** as sinapses inibitórias **independentemente da ordem**, dentro de ~10 ms. Nas excitatórias, a janela é assimétrica. A plasticidade inibitória precisou de sinapses excitatórias coativas. | D'amour e Froemke (2015), *Neuron* 86(2), 514–528 | resumo |
+| Na mesma linha: a plasticidade dependente do tempo das sinapses inibitórias é **simétrica** (fortalece nas duas ordens). | Froemke (2015), *Annu. Rev. Neurosci.* 38, 195–219 | resumo e legenda de figura |
+| A extinção **não apaga** o aprendizado original: é **aprendizado inibitório novo**, sobretudo dependente do contexto, movido pela correção do erro de previsão. | Bouton (2004), *Learning & Memory*; Todd, Vurbic e Bouton (2014); revisão de 2021 (PMC8428921) | resumo |
+| Há também evidência de **apagamento parcial**, conforme o intervalo entre treino e extinção. | Barad (2006), *Learning & Memory*; Delamater e Westbrook (2014) | resumo |
+
+**Leitura:**
+- O experimento biológico mostra **fortalecimento por coatividade**. Não mostra o enfraquecimento pela "origem dispara, destino calado". Esse termo é uma escolha **do modelo** de Vogels, para manter uma taxa-alvo. A objeção do responsável tem apoio: não encontrei evidência experimental para esse termo nesta busca, o que não prova que ele não exista.
+- A extinção apoia o segundo caminho de criação: quando uma relação aprendida falha, nasce inibição nova, e a original fica.
+
+### 2.9 Proposta (nossa, para decisão)
+- **Fortalecer:** a Upro inibitória fortalece quando a origem e o destino ficam coativos dentro de ~10 ms, em qualquer ordem.
+- **Enfraquecer:** sem o termo "origem sem destino". O enfraquecimento vem só:
+  - do decaimento lento da escada de estabilidade;
+  - da correção, quando a experiência mostra que a própria inibição estava errada.
+- **Nascer pela experiência:** quando uma relação excitatória aprendida prevê uma incidência e ela não acontece (erro de previsão negativo), nasce uma Upro inibitória vinda das unidades ativas no momento (o contexto) para o destino previsto. A relação original **não é apagada**.
+- **Em aberto:**
+  - o que conta como "a inibição estava errada";
+  - o risco de a inibição só crescer, sem o termo homeostático (a observar em simulação).
