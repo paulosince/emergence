@@ -22,7 +22,7 @@ Guia: [texto do responsável sobre os limites do Sdom](sdom-boundaries-guide.md)
 9. Questões abertas do guia: critério operacional de pertença; individuação de um Sdom; quando a organização passa a especificar conteúdo (o "primeiro conteúdo"), ligado diretamente aos nossos experimentos.
 
 ### Consequências para a revisão (propostas nossas; uma a uma com o responsável)
-1. **Nomes no motor e na interface:** Uint e Upro são unidades da implementação; a existência delas não marca o Sdom. O "mapa do domínio representacional" da interface mostra a organização (precursora ou não); dizer o que dela é representação exige o critério do primeiro conteúdo. Como nomear isso é decisão do responsável.
+1. **Decidido (17h01): manter o nome do painel.** Visualmente, no momento zero há um espaço vazio; a partir das transduções, as incidências pelas Upro culminam na criação de nós e arestas. (Texto original da consequência:) Uint e Upro são unidades da implementação; a existência delas não marca o Sdom. O "mapa do domínio representacional" da interface mostra a organização (precursora ou não); dizer o que dela é representação exige o critério do primeiro conteúdo. Como nomear isso é decisão do responsável.
 2. **Critério do primeiro conteúdo no experimento:** os critérios de engrama já calibrados no repositório são candidatos a teste operacional da tríade; precisam ser revistos à luz do guia.
 3. **Utrd (resolvido pela definição direta):** parte da fronteira; no mapa, aparece na borda, e dentro aparecem as Upro que saem dela ou chegam a ela.
 4. **Sistema modulador e glias:** começar como reguladores (situação 3, G1), com o desenho aberto a testar participação constitutiva (G2) mais tarde. Decisão do responsável.

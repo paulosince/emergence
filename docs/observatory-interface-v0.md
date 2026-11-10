@@ -31,3 +31,4 @@ Data: 10/11/2026. Situação: concepção do responsável registrada; arquitetur
 1. **O experimento roda no computador do responsável** (Node, contínuo), por custo. A interface lê a gravação (servida pelo próprio computador ou por armazenamento a definir).
 2. **Câmeras fixas aprovadas:** dois cantos altos, uma vista de cima, os dois olhos do robô e uma câmera que acompanha o robô.
 3. **Difusão espacial dos neuromoduladores: aprovada** (o motor deixa de usar a concentração uniforme equivalente). **Glias:** discutir junto com a revisão da arquitetura atual.
+4. **Nome do painel mantido** ("mapa do domínio representacional"). No momento zero o mapa mostra um **espaço vazio**; a partir das transduções, as incidências pelas Upro culminam na criação de nós e arestas. As Utrd aparecem na **borda** (são fronteira) e as Upro ligadas a elas, para dentro.
