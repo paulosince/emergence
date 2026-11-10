@@ -264,3 +264,29 @@ O **sinal fica na Upro** (como está). Perda declarada: a restrição biológica
 - **Ordem:** é a **direção da Upro** (de origem para destino), e encadeada nas faixas longas. Não precisa de campo nem de nome (leitura do responsável, confirmada).
 - **Carimbo de tempo: a questão estava fora de lugar** (responsável, confirmado). Não é campo nem objeto novo da Upro: é uma Upro comum cujo parceiro é uma Uint de dinâmica lenta. A relação temporal entre eventos distantes existe pelos parceiros lentos que eles compartilham ou não, sem aresta entre eles. Retirada a sugestão de nome "posição temporal do evento". **A pergunta vai para a revisão da Uint:** o que faz uma Uint ter dinâmica lenta (predisposição, como uma constante de tempo, ou dinâmica formada pela experiência)?
 - **Campos da Upro que ficam:** marca, nível de estabilidade e velocidade de propagação. Nomes propostos para os dois primeiros: **marca de consolidação** e **nível de consolidação**. Aguardam o responsável.
+
+### 2.13 U6 — ação da Upro conforme os moduladores presentes (pergunta do responsável, 10/11/2026, 20h40)
+**Pergunta:** a Upro não precisa de algo como "ação por sinal", isto é, o que ela faz na presença de determinados neuromoduladores, que mudam sua ação?
+
+**Literatura (resumo, salvo indicação):**
+| Achado | Fonte | Leitura |
+|---|---|---|
+| A acetilcolina suprime a transmissão nas sinapses **intrínsecas** (entre neurônios corticais) e não nas **aferentes** (que chegam de fora). Isso impede que a lembrança do que já está guardado interfira na aprendizagem do novo. Em CA3, os receptores muscarínicos suprimem as conexões recorrentes, mas não as aferentes. | Hasselmo e Bower (1992); Hasselmo (2006), *Curr. Opin. Neurobiol.* | resumo e trechos |
+| A acetilcolina também **reforça** a entrada aferente por receptores nicotínicos. | Hasselmo (2006) | trechos |
+| Os moduladores controlam a **polaridade** da plasticidade dependente do tempo. O resultado (fortalecer ou enfraquecer) depende da ordem dos disparos e **da ativação relativa de receptores** ligados a duas vias internas. Moduladores colinérgicos e adrenérgicos controlam o **portão** e a **polaridade** da plasticidade cortical. Agonistas β-adrenérgicos aumentam a janela de tempo do fortalecimento. | Seol et al. (2007), *Neuron* 55, 919–929; Lin et al. (2003), citado | resumo e trechos |
+| As ações dos moduladores muitas vezes não se resumem a "excitatórias" ou "inibitórias": mudam a dinâmica do circuito por várias influências paralelas, em várias escalas de tempo. | Nadim e Bucher (2014), *Curr. Opin. Neurobiol.* 29, 48–56; editorial de McCormick e Nusbaum | resumo |
+| Os moduladores ajustam as propriedades das membranas e as conexões sinápticas de modo **específico por tipo de célula**. | revisão de interneurônios, *Curr. Opin. Neurobiol.* (2014) | resumo |
+| Também agem nos canais do axônio e mudam a propagação até as sinapses. | revisão de 2019, *Front. Cell. Neurosci.* | resumo |
+
+**Leitura:** sim. A mesma presença de um modulador faz coisas diferentes em sinapses diferentes, em duas dimensões:
+- **transmissão:** suprime algumas e reforça outras;
+- **plasticidade:** abre ou fecha o portão, muda a janela e pode **inverter a polaridade**.
+
+O que decide é o conjunto de receptores daquela sinapse, que depende do tipo de célula e da via.
+
+**Proposta (nossa):**
+- Cada Upro tem um **perfil de resposta a cada modulador**, com duas partes: efeito na transmissão (multiplica o ganho) e efeito na plasticidade (portão, janela, polaridade).
+- **Origem do perfil:** predisposição pela **classe** da Upro (aferente, vinda de Utrd, × intrínseca, entre Uint; excitatória × inibitória). Isso é coerente com a decisão de janelas por modulador e por local definido pelo canal. Não entrega conteúdo pronto: diz como a aresta responde, não o que ela representa.
+- **Perdas:** a diversidade real de receptores e vias internas; a mudança de expressão de receptores com a experiência (não pesquisada).
+
+**Nome:** "ação por sinal" é a expressão provisória do responsável. Na nomenclatura, "sinal" já designa o sinal do efeito (+ ou −), o que pode confundir. Fica a decisão do nome com o responsável.
