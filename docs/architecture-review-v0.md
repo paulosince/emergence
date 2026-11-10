@@ -421,3 +421,27 @@ Leitura agnóstica (nossa): é uma **conta de gasto** que vira retroalimentaçã
 2. As incidências dos marca-passos podem **participar da formação** de Uint e Upro sem transdução (como as ondas da retina, que organizam a estrutura antes do mundo)? Ou só **sustentam e cadenciam** a atividade, sem criar nada sozinhas?
 
 **Tensão com a regra da arquitetura herdada:** se a atividade espontânea criar estrutura sem mundo, o sistema ganha organização que não veio da experiência. A biologia faz isso (é parte da herança darwiniana). Para o nosso sistema, pode ser justamente o que não se deve entregar pronto.
+
+### 3.9 Decisão I1 e pergunta do responsável sobre os marca-passos (10/11/2026, 20h56)
+- **I1 decidido:** a Uint tem supressão após disparar em três escalas (~10 ms, ~50–100 ms e segundos), como predisposição por classe. A componente lenta cresce com os disparos recentes e fica sob modulação.
+- **Pergunta:** na neurobiologia, os marca-passos têm "regras" de disparo ligadas às concentrações do meio? Isso se relaciona aos neuromoduladores? "Se sim, teremos que refletir."
+
+**Literatura (resumo e trechos):**
+| Concentração do meio | Achado | Fonte |
+|---|---|---|
+| **O próprio modulador (autorregulação)** | A dopamina liberada pelo soma e pelos dendritos ativa receptores D2 inibitórios nos próprios neurônios de dopamina (via canais GIRK). É uma retroalimentação ou inibição lateral que regula a atividade deles. A dopamina **desacelera o ritmo** de marca-passo, mesmo com os GIRK bloqueados (via canal NALCN). | Courtney, Mamaligas e Ford (2012), *J. Neurosci.*; Philippart e Khaliq (2018), *eLife* 7:e40984 (autores pelo endereço, não conferidos) |
+| **Outros moduladores** | A ativação de GABA-B também inibe o mesmo canal de marca-passo. O locus coeruleus recebe orexina, serotonina, histamina e outros. | eLife 2018 (acima); de Carvalho et al. (2014), *Front. Physiol.* 5:288 |
+| **Química do corpo (CO₂/pH)** | Mais de 80% dos neurônios do locus coeruleus são quimiossensíveis e **aumentam o disparo** com CO₂ alto. Em fatias, a acidose hipercápnica aumentou o disparo em 93%. Neurônios de orexina também são sensores de pH e CO₂. | de Carvalho et al. (2014); Filosa, Dean e Putnam (2002), *J. Physiol.* 541, 493–509; nota em *Nat. Rev. Neurosci.* sobre Williams et al. (2007) |
+| **Íons produzidos pela própria atividade** | A atividade locomotora reduz o cálcio extracelular (para 0,9 mM) e aumenta o potássio (para 6 mM). Essas mudanças **ligam e ajustam** as propriedades de marca-passo de interneurônios da medula. | Brocard et al. (2013), *Neuron* 77, 1047–1054 |
+| | No complexo pré-Bötzinger, a frequência dos marca-passos aumenta com o potássio extracelular. Também há cálcio externo baixo acelerando os neurônios de dopamina. | Del Negro et al. (2001), *J. Neurophysiol.* 86, 59–74 (por resumo); Khaliq e Bean (2010), citado |
+
+**Leitura: sim, a três coisas do meio:**
+1. aos **moduladores**, inclusive ao próprio (autorregulação);
+2. à **química do corpo** (CO₂, pH);
+3. aos **íons que a própria atividade da rede muda**.
+
+**O que pede reflexão (inferência nossa, para o responsável):**
+- **R1. Laços fechados dentro do domínio.** Os neurônios de dopamina e do locus coeruleus são, ao mesmo tempo, marca-passos, fontes de moduladores e regulados por moduladores. Isso combina com a decisão de regulação pelas próprias Uint (19h02), e cria laços de retroalimentação **entre unidades**, não impostos de fora.
+- **R2. Marca-passo como sensor do corpo.** Um marca-passo cujo ritmo depende de CO₂ ou pH está, na prática, **transduzindo um sinal endógeno**: o ritmo dele carrega informação sobre o estado do corpo. Isso aproxima o marca-passo da Utrd endógena e conversa com a pergunta I6: estaria na fronteira, como a Utrd?
+- **R3. O meio como variável lenta.** Os íons que a atividade muda são outra "conta de uso", como a adenosina: a própria atividade altera o meio, que altera os marca-passos.
+- **R4. Risco de variável regulada.** Se um marca-passo responde ao **desvio** de uma variável do corpo e o seu disparo leva à **correção** (como o CO₂ e a respiração), isso é um laço regulatório: território do VALORE. A decisão de 09/11 manteve o relógio fora da rota regulatória. Precisa de cuidado.
