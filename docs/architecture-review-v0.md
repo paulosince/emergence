@@ -312,3 +312,22 @@ Nomes aprovados: **marca de consolidação** e **nível de consolidação**.
 - **Ação sob modulação:** perfil por classe (transmissão; plasticidade: portão, janela, polaridade).
 - **Calibração pendente:** ganho inicial (U2).
 - **Movido para a revisão da Uint:** a pergunta das unidades de dinâmica lenta (antigo "carimbo").
+
+## 3. Uint (unidade integradora) — revisão iniciada em 10/11/2026, 20h46
+
+### 3.1 Como está no motor v2 (lido no código)
+- **Nascimento:** num evento de convergência de ≥2 incidências. Recruta elementos do substrato perto do centro das fontes, preferindo os **mais excitáveis**, como a alocação de engrama.
+- **Integração:** potenciais excitatório e inibitório separados; limiar 1; janela de disponibilidade proporcional ao intervalo vivido que a formou.
+- **Refratário:** 5 ms.
+- **Estado próprio:** nível e força (estabilidade **na unidade**), nível hierárquico, posição.
+- **Não há:** liberação de moduladores (decidida em 10/11), constante de tempo lenta, supressão longa após disparar.
+
+### 3.2 Pontos, um a um
+| # | Ponto | Origem |
+|---|---|---|
+| I1 | **Supressão após disparar:** 5 ms é curto demais para a peça "supressão" da fila competitiva (os itens de uma sequência duram centenas de ms) | decisão de 20h01 |
+| I2 | **Dinâmica lenta:** o que faz uma Uint mudar devagar (constante de tempo como predisposição × dinâmica formada) | U5, antigo "carimbo" |
+| I3 | **Estabilidade na Uint e na Upro:** o motor guarda nível na Uint; a revisão pôs o nível de consolidação na Upro. Fica nos dois, ou só na Upro? | U5 |
+| I4 | **Liberação de moduladores** por algumas Uint e adenosina como subproduto de todas | decisão de 19h02 |
+| I5 | **Janela de disponibilidade** ligada ao intervalo vivido; precisa ser revista com C1 | C1 |
+| I6 | **Marca-passos** e atividade de fundo (para as cadeias C2(b)) | itens (ii) e (iii) |
