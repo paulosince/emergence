@@ -297,3 +297,18 @@ O que decide é o conjunto de receptores daquela sinapse, que depende do tipo de
 3. **Nome:** **ação sob modulação**, proposto pelo responsável e registrado na [nomenclatura](nomenclature.md).
 
 **Pendentes da Upro:** os nomes **marca de consolidação** e **nível de consolidação** (U5).
+
+### 2.15 Upro fechada (10/11/2026, 20h45)
+Nomes aprovados: **marca de consolidação** e **nível de consolidação**.
+
+**Especificação revista da Upro:**
+- **Existência e nascimento:** só com destino; nasce das transduções, junto com a Uint. As inibitórias nascem na concepção (quando a inibição já deve existir) e pela experiência (quando uma relação aprendida se mostra errada; a correção é construtiva).
+- **Direção:** de origem para destino. É a ordem.
+- **Tempo de propagação:** distância ÷ **velocidade de propagação**. A velocidade parte de um basal e aumenta devagar com o uso; teto de ~100 ms (C1, a implementar).
+- **Ganho:** plástico. Nas excitatórias, regra comum (fortalece por confirmação). Nas inibitórias, fortalece por coatividade dentro de ~10 ms em qualquer ordem, sem termo de enfraquecimento próprio. Todas decaem pelo **nível de consolidação** e são podadas por desuso.
+- **Sinal do efeito:** na Upro (perda declarada: princípio de Dale).
+- **Marca de consolidação:** intensidade e momento; ~3 h.
+- **Nível de consolidação.**
+- **Ação sob modulação:** perfil por classe (transmissão; plasticidade: portão, janela, polaridade).
+- **Calibração pendente:** ganho inicial (U2).
+- **Movido para a revisão da Uint:** a pergunta das unidades de dinâmica lenta (antigo "carimbo").
