@@ -172,3 +172,47 @@ Isso combina com a observação do responsável. O tempo está guardado (opção
 - Tononi, G., e Cirelli, C. (2014). Sleep and the price of plasticity. *Neuron* 81(1), 12–34. (resumo)
 
 **Leitura integral pendente** (prioridade): Buzsáki 2015 (fator de compressão e seleção do que é reexecutado); Schapiro 2018; Dunsmoor 2015; Rasch e Born 2013 (seções sobre seleção).
+
+## 6. O controle que "segura" o andamento (pesquisa de 10/11/2026, 20h)
+**Pergunta:** como o sistema usa os intervalos guardados para frear o encadeamento (H5)? Leitura por **resumo**, salvo indicação.
+
+### 6.1 O que a literatura mostra
+| Achado | Fonte | Leitura |
+|---|---|---|
+| **Fila competitiva:** antes de começar o movimento, **todos** os elementos da sequência já estão representados no córtex pré-frontal, ao mesmo tempo. A força de cada um prevê sua posição. Os erros acontecem entre elementos de força quase igual. | Averbeck, Chafee, Crowe e Georgopoulos (2002) | resumo |
+| Modelos de fila competitiva: uma camada de planejamento ativa os itens em paralelo, com gradiente; uma camada de escolha seleciona o mais forte; o escolhido **inibe a si mesmo**, e o próximo vence. Observado também em humanos (MEG). | Kornysheva et al. (2019) | resumo e figura |
+| Em sequências verbais, visuais e espaciais, a ordem é controlada por um mecanismo de fila competitiva: os itens ficam ativos em paralelo e o mais forte sai. Princípios: gradiente de primazia, marcação de posição, **supressão da resposta** já dada. | Hurlstone, Hitch e Baddeley (2014); Hurlstone (2024) | resumo |
+| **Andamento:** gânglios da base e área motora suplementar respondem mais a ritmos com batida regular. Ritmos com intervalos em **razões inteiras** são reproduzidos melhor. | Grahn e Brett (2007) | resumo e trechos |
+| O papel dos gânglios da base é maior quando a batida precisa ser **gerada internamente** (pouco marcada pelo estímulo). | Grahn e Rowe (2009); Grahn (2009) | resumo |
+| Em macacos, células do putâmen e da área motora suplementar são **sintonizadas à duração do intervalo** produzido, e também à **posição na sequência**. | Merchant, Grahn, Trainor, Rohrmeier e Fitch (2015) | resumo |
+| Dois modos de medir tempo: **relativo à batida** (intervalos medidos em relação a um pulso) e **por duração absoluta**. Atribuídos a circuitos em parte diferentes (gânglios da base e área motora suplementar × cerebelo), mas não exclusivos. | Merchant et al. (2015); meta-análise (2022, trechos) | resumo e trechos |
+| Mover-se ao som de música **imaginada** ativou mais a área pré-motora suplementar do que o movimento no próprio ritmo. | estudo de 2014, *Frontiers in Human Neuroscience* (autores não conferidos) | trechos |
+
+### 6.2 Leitura pelo método (inferência nossa)
+A observação do responsável tem nome na literatura.
+- **"O próximo já começa a tocar junto":** os próximos itens já estão ativos em paralelo, e o mais forte sai assim que pode (fila competitiva).
+- **"Segurar":** o item escolhido só é liberado quando um **sinal de tempo interno** permite. O sinal vem de unidades sintonizadas a intervalos ou de uma batida gerada internamente.
+- **Sem esse sinal**, a sequência sai na velocidade da competição. É a compressão da H5.
+
+Três peças mínimas:
+1. **Pré-ativação em paralelo:** ao reativar um item, os seguintes recebem ativação parcial pela própria malha.
+2. **Supressão após disparar:** quem disparou se inibe, e o próximo vence.
+3. **Portão de liberação temporizado:** opcional. Quando ativo, segura o próximo até o intervalo guardado se cumprir.
+
+**Ligação com o resto da revisão:**
+- O portão precisa de **unidades que representem intervalos acima de ~100 ms**. Isso depende da pergunta C2 do tempo, que é o item (ii).
+- Também conversa com os **marca-passos**, revistos no item (iii).
+- Ritmos em razões inteiras são mais fáceis de reproduzir: isso favorece guardar **proporções** relativas a um pulso. Combina com H5 e com a opção (a) sem fator fixo.
+
+### 6.3 Perguntas ao responsável
+1. **As três peças (pré-ativação, supressão, portão) como o mínimo?** Recomendo **sim**.
+2. **A competição** usa as Upro inibitórias que já existem (efeito −1) formadas pela experiência, ou exige uma camada de escolha dedicada? Recomendo **Upro inibitórias formadas**, porque uma camada pronta seria arquitetura herdada.
+3. **O portão** vem de unidades de intervalo **formadas pela experiência** (como as células sintonizadas a intervalos) ou de uma **predisposição** (como os marca-passos)? Não sei se a sintonia a intervalos é aprendida: os macacos dos estudos foram treinados. Recomendo **formadas, com marca-passo como predisposição**, a decidir no item (iii).
+
+### Referências desta seção
+- Averbeck, B. B., Chafee, M. V., Crowe, D. A., e Georgopoulos, A. P. (2002). Parallel processing of serial movements in prefrontal cortex. *PNAS* 99(20), 13172–13177. (resumo)
+- Grahn, J. A., e Brett, M. (2007). Rhythm and beat perception in motor areas of the brain. *J. Cogn. Neurosci.* 19(5), 893–906. (resumo e trechos)
+- Grahn, J. A., e Rowe, J. B. (2009). Feeling the beat: premotor and striatal interactions in musicians and nonmusicians during beat perception. *J. Neurosci.* (resumo)
+- Hurlstone, M. J., Hitch, G. J., e Baddeley, A. D. (2014). Memory for serial order across domains. *Psychological Bulletin* 140(2), 339–373. (resumo)
+- Kornysheva, K. et al. (2019). Neural competitive queuing of ordinal structure underlies skilled sequential action. *Neuron* 101(6), 1166–1180. (resumo e figura)
+- Merchant, H., Grahn, J., Trainor, L., Rohrmeier, M., e Fitch, W. T. (2015). Finding the beat: a neural perspective across humans and non-human primates. *Phil. Trans. R. Soc. B* 370, 20140093. (resumo)
