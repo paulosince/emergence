@@ -1,0 +1,44 @@
+/* Shared EMERGENCE/TEMPO identity layer for the complementary inspectors
+   (body.html, room.html). Loaded AFTER each page's own stylesheet; it only
+   restyles colours, surfaces and the brand, never layout semantics. */
+:root{--bg:#0d0f14;--panel:#151922;--line:#262c38;--text:#d9dde6;--muted:#8a93a6;
+  --warm:#f5c26b;--teal:#3fb8a9;--blue:#5b8def;--orange:#e8a04c;--terra:#c46a45;--ok:#5fcf8b;--field:#0a0c10;
+  background:var(--bg)!important;color:var(--text)!important;color-scheme:dark;
+  font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important}
+body{background:var(--bg);color:var(--text)}
+a{color:var(--warm)}
+.topbar,.header{background:var(--bg)!important;border-bottom:1px solid var(--line)!important;height:auto!important;min-height:68px;padding-top:12px!important;padding-bottom:10px!important;flex-wrap:wrap;gap:10px}
+.tempo-brand{display:flex;align-items:center;gap:12px;color:inherit;text-decoration:none}
+.tempo-brand .mark-svg{width:48px;height:24px;flex:none;filter:drop-shadow(0 0 6px rgba(245,194,107,.35))}
+.tempo-brand .word{font-size:24px;font-weight:800;letter-spacing:.3em;line-height:1;background:linear-gradient(90deg,#c9792f,#f5c26b 45%,#fff3c4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tempo-brand .expand{color:var(--muted);font-size:12px;margin-top:4px}
+.tempo-brand .expand b{color:var(--warm)}
+.header-actions a,.header nav a,footer a{color:var(--muted)!important}
+.phase-pill,.health,.status{background:#0f201e!important;color:var(--teal)!important;border:1px solid #245b55!important}
+.status-dot{background:var(--teal)!important}
+.eyebrow{color:var(--warm)!important}
+h1,h2,h3,strong{color:var(--text)}
+.heading p:not(.eyebrow),.intro p:not(.eyebrow){color:var(--muted)!important}
+.card{background:var(--panel)!important;border:1px solid var(--line)!important;box-shadow:none!important;border-radius:14px!important}
+.section-label span,.label-row small,.fine,.caveat,.footnote,legend,.select-label,.control-grid>label,.control-grid legend,
+.stats small,.body-stats small,.domain-numbers small,.measurements small,.measurements span,.body-stats span,
+.legend,.timeline-legend,.time-labels,footer{color:var(--muted)!important}
+select,.control-grid select{background:#1e2430!important;color:var(--text)!important;border:1px solid var(--line)!important}
+input[type=checkbox],input[type=range],.control-grid input{accent-color:var(--warm)!important}
+.button{background:#2a3550!important;color:var(--text)!important;border:1px solid #3b4a6e!important}
+.button.secondary,.button.neutral{background:#1e2430!important;color:var(--text)!important;border:1px solid var(--line)!important}
+.stats>div,.domain-numbers>div,.body-stats>div,.measurements>div,.lamp-state{background:var(--field)!important;border:1px solid var(--line)!important}
+.domain-numbers strong,.clock-output,.timeline-row output{color:var(--warm)!important}
+.note,.domain-note{background:var(--field)!important;color:#c4cad6!important;border:1px solid var(--line)}
+.domain-note strong{color:var(--warm)!important}
+.event-list li{border-color:var(--line)!important}
+.event-list li span:last-child{color:var(--muted)!important}
+.world-svg,.map-panel svg{background:var(--field)!important}
+.svg-label,.svg-note,.floor-label{fill:var(--muted)!important}
+.north-label,.sensor-label,.sun-angle{fill:var(--warm)!important}
+.floor-fade{stroke:#2a3240!important}.floor{stroke:#8a93a6}
+.guide{stroke:#3a4252!important}
+.wall{stroke:#8a93a6!important}
+.lamp-state strong{color:var(--warm)!important}
+.lamp-indicator.on{box-shadow:0 0 0 4px #3a2c12!important}
+.tempo-brand .word,.tempo-brand .expand{display:block}

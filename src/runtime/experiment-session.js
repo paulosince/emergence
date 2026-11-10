@@ -78,6 +78,33 @@ export class ExperimentSession {
   get timeMs(){return this.#clock.timeMs;}
   get endTimeMs(){return this.#manifest.endTimeMs;}
   get complete(){return this.#finished;}
+  // Simulated time through which EVERY scheduled event has been processed.
+  get executedThroughMs(){return this.#lastBoundaryMs;}
+
+  // Read-only views for observers (UI, monitors). They return copies and
+  // never advance the clock, the scheduler or the engine.
+  manifest(){return clone(this.#manifest);}
+  progress(){
+    return {
+      executedThroughMs:this.#lastBoundaryMs,
+      clockMs:this.#clock.timeMs,
+      complete:this.#finished,
+      pendingScheduledEvents:this.#scheduler.size,
+      ...clone(this.#counts),
+    };
+  }
+  incidencesFrom(start=0){
+    if(!Number.isInteger(start)||start<0)
+      throw new RangeError('Invalid incidence index');
+    return clone(this.#incidences.slice(start));
+  }
+  traceFrom(start=0){
+    if(!Number.isInteger(start)||start<0)
+      throw new RangeError('Invalid trace index');
+    return clone(this.#trace.slice(start));
+  }
+  // Engine snapshot() is a read-only contract method; copied for observers.
+  engineSnapshot(){return clone(this.#engine.snapshot());}
 
   #collectEngineEvents(){
     const events=this.#engine.drainEvents();

@@ -1,0 +1,491 @@
+{
+  "oracle": {
+    "d3aStats": [
+      {
+        "seed": 1,
+        "rho": -0.97,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 2,
+        "rho": -0.982,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 3,
+        "rho": -0.973,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 4,
+        "rho": -0.989,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 5,
+        "rho": -0.991,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 6,
+        "rho": -0.99,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 7,
+        "rho": -0.988,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 8,
+        "rho": -0.982,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 9,
+        "rho": -0.986,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 10,
+        "rho": -0.969,
+        "p": 0.0005,
+        "n": 40
+      }
+    ],
+    "d3a": {
+      "passedSeeds": 10,
+      "pass": true
+    },
+    "d3b": {
+      "passedSeeds": 10,
+      "pass": true
+    },
+    "d3c": {
+      "retained": 1,
+      "applicable": true,
+      "pass": true
+    },
+    "d2": {
+      "passedSeeds": 6,
+      "pass": false
+    },
+    "d2Example": {
+      "observed": 3,
+      "nullMax": 5,
+      "nullMean": 3.1666666666666665
+    },
+    "d5": {
+      "pass": true,
+      "persistMean": 1,
+      "rateMean": 0.21611111111111114
+    },
+    "grid": [
+      {
+        "rhoMin": 0.3,
+        "bySeedsRequired": {
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true
+        }
+      },
+      {
+        "rhoMin": 0.4,
+        "bySeedsRequired": {
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true
+        }
+      },
+      {
+        "rhoMin": 0.5,
+        "bySeedsRequired": {
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true
+        }
+      },
+      {
+        "rhoMin": 0.6,
+        "bySeedsRequired": {
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true
+        }
+      },
+      {
+        "rhoMin": 0.7,
+        "bySeedsRequired": {
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true
+        }
+      },
+      {
+        "rhoMin": 0.8,
+        "bySeedsRequired": {
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true
+        }
+      },
+      {
+        "rhoMin": 0.9,
+        "bySeedsRequired": {
+          "6": true,
+          "7": true,
+          "8": true,
+          "9": true,
+          "10": true
+        }
+      }
+    ]
+  },
+  "oracle-random": {
+    "d3aStats": [
+      {
+        "seed": 1,
+        "rho": -0.152,
+        "p": 0.3533,
+        "n": 40
+      },
+      {
+        "seed": 2,
+        "rho": -0.052,
+        "p": 0.7521,
+        "n": 40
+      },
+      {
+        "seed": 3,
+        "rho": 0.156,
+        "p": 0.3138,
+        "n": 40
+      },
+      {
+        "seed": 4,
+        "rho": 0.098,
+        "p": 0.5277,
+        "n": 40
+      },
+      {
+        "seed": 5,
+        "rho": -0.042,
+        "p": 0.7926,
+        "n": 40
+      },
+      {
+        "seed": 6,
+        "rho": 0.165,
+        "p": 0.3103,
+        "n": 40
+      },
+      {
+        "seed": 7,
+        "rho": 0.092,
+        "p": 0.5732,
+        "n": 40
+      },
+      {
+        "seed": 8,
+        "rho": -0.01,
+        "p": 0.9575,
+        "n": 40
+      },
+      {
+        "seed": 9,
+        "rho": -0.211,
+        "p": 0.1884,
+        "n": 40
+      },
+      {
+        "seed": 10,
+        "rho": -0.109,
+        "p": 0.5097,
+        "n": 40
+      }
+    ],
+    "d3a": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d3b": {
+      "passedSeeds": 9,
+      "pass": true
+    },
+    "d3c": {
+      "retained": 1,
+      "applicable": false,
+      "pass": false
+    },
+    "d2": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d2Example": {
+      "observed": 9,
+      "nullMax": 9,
+      "nullMean": 8.866666666666667
+    },
+    "d5": {
+      "pass": true,
+      "persistMean": 1,
+      "rateMean": 0.19050949050949048
+    },
+    "grid": [
+      {
+        "rhoMin": 0.3,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.4,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.5,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.6,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.7,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.8,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.9,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      }
+    ]
+  },
+  "tempo": {
+    "d3aStats": [
+      {
+        "seed": 1,
+        "rho": -0.196,
+        "p": 0.2149,
+        "n": 40
+      },
+      {
+        "seed": 2,
+        "rho": -0.011,
+        "p": 0.944,
+        "n": 40
+      },
+      {
+        "seed": 3,
+        "rho": -0.389,
+        "p": 0.0125,
+        "n": 40
+      },
+      {
+        "seed": 4,
+        "rho": -0.123,
+        "p": 0.4548,
+        "n": 40
+      },
+      {
+        "seed": 5,
+        "rho": -0.172,
+        "p": 0.2964,
+        "n": 40
+      },
+      {
+        "seed": 6,
+        "rho": -0.319,
+        "p": 0.044,
+        "n": 40
+      },
+      {
+        "seed": 7,
+        "rho": -0.268,
+        "p": 0.0935,
+        "n": 40
+      },
+      {
+        "seed": 8,
+        "rho": -0.546,
+        "p": 0.0005,
+        "n": 40
+      },
+      {
+        "seed": 9,
+        "rho": -0.23,
+        "p": 0.1574,
+        "n": 40
+      },
+      {
+        "seed": 10,
+        "rho": -0.099,
+        "p": 0.5332,
+        "n": 40
+      }
+    ],
+    "d3a": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d3b": {
+      "passedSeeds": 8,
+      "pass": true
+    },
+    "d3c": {
+      "retained": 1.0031095519055973,
+      "applicable": false,
+      "pass": false
+    },
+    "d2": {
+      "passedSeeds": 9,
+      "pass": true
+    },
+    "d2Example": {
+      "observed": 2,
+      "nullMax": 0,
+      "nullMean": 0
+    },
+    "d5": {
+      "pass": false,
+      "persistMean": 0.975,
+      "rateMean": 0
+    },
+    "grid": [
+      {
+        "rhoMin": 0.3,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.4,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.5,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.6,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.7,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.8,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      },
+      {
+        "rhoMin": 0.9,
+        "bySeedsRequired": {
+          "6": false,
+          "7": false,
+          "8": false,
+          "9": false,
+          "10": false
+        }
+      }
+    ]
+  }
+}

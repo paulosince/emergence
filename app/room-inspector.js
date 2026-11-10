@@ -74,7 +74,7 @@ $('stepRoom').addEventListener('click',()=>{stop();render(now+15*MIN);});
 $('playRoom').addEventListener('click',()=>{
   if(timer!==null){stop();return;}
   if(now>=scene.endTimeMs-15*MIN)render(0);
-  $('playRoom').textContent='Pausar';
+  $('playRoom').textContent='Parar reprodução';
   timer=setInterval(()=>{render(now+15*MIN);if(now>=scene.endTimeMs)stop();},85);
 });
 $('exportRoom').addEventListener('click',()=>{

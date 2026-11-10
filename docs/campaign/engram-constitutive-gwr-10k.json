@@ -1,0 +1,426 @@
+{
+  "constitutive": {
+    "d2r": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d2rStats": [
+      {
+        "seed": 1,
+        "observed": 0.65,
+        "nullMean": 0.696,
+        "p": 1
+      },
+      {
+        "seed": 2,
+        "observed": 0.65,
+        "nullMean": 0.56,
+        "p": 0.1009
+      },
+      {
+        "seed": 3,
+        "observed": 0.6,
+        "nullMean": 0.463,
+        "p": 0.083
+      },
+      {
+        "seed": 4,
+        "observed": 0.4,
+        "nullMean": 0.435,
+        "p": 0.7986
+      },
+      {
+        "seed": 5,
+        "observed": 0.55,
+        "nullMean": 0.293,
+        "p": 0.0075
+      },
+      {
+        "seed": 6,
+        "observed": 0.25,
+        "nullMean": 0.214,
+        "p": 0.4243
+      },
+      {
+        "seed": 7,
+        "observed": 0.5,
+        "nullMean": 0.534,
+        "p": 0.8481
+      },
+      {
+        "seed": 8,
+        "observed": 0.3,
+        "nullMean": 0.136,
+        "p": 0.0085
+      },
+      {
+        "seed": 9,
+        "observed": 0.25,
+        "nullMean": 0.271,
+        "p": 0.7421
+      },
+      {
+        "seed": 10,
+        "observed": 0.4,
+        "nullMean": 0.377,
+        "p": 0.5117
+      }
+    ],
+    "d4s": {
+      "passedSeedsUnconditional": 4,
+      "applicable": false,
+      "pass": false
+    },
+    "d4sUnits": [
+      {
+        "seed": 1,
+        "n": 1,
+        "passed": 1,
+        "specificity": 1
+      },
+      {
+        "seed": 2,
+        "n": 1,
+        "passed": 1,
+        "specificity": 0.5
+      },
+      {
+        "seed": 3,
+        "n": 2,
+        "passed": 1,
+        "specificity": 0.75
+      },
+      {
+        "seed": 4,
+        "n": 2,
+        "passed": 2,
+        "specificity": 1
+      },
+      {
+        "seed": 5,
+        "n": 4,
+        "passed": 2,
+        "specificity": 0.762
+      },
+      {
+        "seed": 6,
+        "n": 3,
+        "passed": 1,
+        "specificity": 0.411
+      },
+      {
+        "seed": 7,
+        "n": 2,
+        "passed": 2,
+        "specificity": 1
+      },
+      {
+        "seed": 8,
+        "n": 4,
+        "passed": 3,
+        "specificity": 0.754
+      },
+      {
+        "seed": 9,
+        "n": 2,
+        "passed": 1,
+        "specificity": 0.625
+      },
+      {
+        "seed": 10,
+        "n": 2,
+        "passed": 2,
+        "specificity": 1
+      }
+    ],
+    "d5d": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d5dStats": [
+      {
+        "seed": 1,
+        "persist": 1,
+        "rate": 0.69,
+        "ecphory": 0.65,
+        "null": 0.603,
+        "p": 0.2094
+      },
+      {
+        "seed": 2,
+        "persist": 1,
+        "rate": 1.17,
+        "ecphory": 0.525,
+        "null": 0.36,
+        "p": 0.003
+      },
+      {
+        "seed": 3,
+        "persist": 1,
+        "rate": 0.55,
+        "ecphory": 0.575,
+        "null": 0.505,
+        "p": 0.1304
+      },
+      {
+        "seed": 4,
+        "persist": 1,
+        "rate": 1.22,
+        "ecphory": 0.275,
+        "null": 0.215,
+        "p": 0.1199
+      },
+      {
+        "seed": 5,
+        "persist": 1,
+        "rate": 0.85,
+        "ecphory": 0.55,
+        "null": 0.336,
+        "p": 0.0015
+      },
+      {
+        "seed": 6,
+        "persist": 1,
+        "rate": 0.53,
+        "ecphory": 0.3,
+        "null": 0.239,
+        "p": 0.2044
+      },
+      {
+        "seed": 7,
+        "persist": 1,
+        "rate": 0.68,
+        "ecphory": 0.5,
+        "null": 0.453,
+        "p": 0.3578
+      },
+      {
+        "seed": 8,
+        "persist": 1,
+        "rate": 0.87,
+        "ecphory": 0.375,
+        "null": 0.306,
+        "p": 0.1439
+      },
+      {
+        "seed": 9,
+        "persist": 1,
+        "rate": 0.06,
+        "ecphory": 0.5,
+        "null": 0.523,
+        "p": 0.7551
+      },
+      {
+        "seed": 10,
+        "persist": 1,
+        "rate": 0.3,
+        "ecphory": 0.4,
+        "null": 0.287,
+        "p": 0.03
+      }
+    ],
+    "grid": [
+      {
+        "minGain": 0.1,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.2,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.3,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.4,
+        "d2r": false,
+        "d5d": false
+      }
+    ]
+  },
+  "gwr": {
+    "d2r": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d2rStats": [
+      {
+        "seed": 1,
+        "observed": 0.95,
+        "nullMean": 0.95,
+        "p": 1
+      },
+      {
+        "seed": 2,
+        "observed": 0.95,
+        "nullMean": 0.95,
+        "p": 1
+      },
+      {
+        "seed": 3,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 4,
+        "observed": 0.85,
+        "nullMean": 0.85,
+        "p": 1
+      },
+      {
+        "seed": 5,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 6,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 7,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 8,
+        "observed": 1,
+        "nullMean": 1,
+        "p": 1
+      },
+      {
+        "seed": 9,
+        "observed": 0.95,
+        "nullMean": 0.95,
+        "p": 1
+      },
+      {
+        "seed": 10,
+        "observed": 0.9,
+        "nullMean": 0.9,
+        "p": 1
+      }
+    ],
+    "d4s": {
+      "testable": false,
+      "reason": "engine declares no ablate(unitKey)"
+    },
+    "d4sUnits": [],
+    "d5d": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "d5dStats": [
+      {
+        "seed": 1,
+        "persist": 1,
+        "rate": 0.15,
+        "ecphory": 0.975,
+        "null": 0.975,
+        "p": 1
+      },
+      {
+        "seed": 2,
+        "persist": 1,
+        "rate": 0.14,
+        "ecphory": 0.95,
+        "null": 0.95,
+        "p": 1
+      },
+      {
+        "seed": 3,
+        "persist": 1,
+        "rate": 0.15,
+        "ecphory": 0.875,
+        "null": 0.875,
+        "p": 1
+      },
+      {
+        "seed": 4,
+        "persist": 1,
+        "rate": 0.14,
+        "ecphory": 0.975,
+        "null": 0.975,
+        "p": 1
+      },
+      {
+        "seed": 5,
+        "persist": 1,
+        "rate": 0.14,
+        "ecphory": 0.975,
+        "null": 0.975,
+        "p": 1
+      },
+      {
+        "seed": 6,
+        "persist": 1,
+        "rate": 0.14,
+        "ecphory": 0.825,
+        "null": 0.825,
+        "p": 1
+      },
+      {
+        "seed": 7,
+        "persist": 1,
+        "rate": 0.14,
+        "ecphory": 0.975,
+        "null": 0.975,
+        "p": 1
+      },
+      {
+        "seed": 8,
+        "persist": 1,
+        "rate": 0.13,
+        "ecphory": 0.975,
+        "null": 0.975,
+        "p": 1
+      },
+      {
+        "seed": 9,
+        "persist": 1,
+        "rate": 0.14,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      },
+      {
+        "seed": 10,
+        "persist": 1,
+        "rate": 0.15,
+        "ecphory": 1,
+        "null": 1,
+        "p": 1
+      }
+    ],
+    "grid": [
+      {
+        "minGain": 0.1,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.2,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.3,
+        "d2r": false,
+        "d5d": false
+      },
+      {
+        "minGain": 0.4,
+        "d2r": false,
+        "d5d": false
+      }
+    ]
+  }
+}

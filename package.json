@@ -45,6 +45,15 @@
     "experiment:room:overcast": "node experiments/room-day.js --overcast",
     "experiment:room:none": "node experiments/room-day.js --no-sensors",
     "experiment:room:replication": "node experiments/room-replication.js",
-    "experiment:room:replication:zip": "node experiments/room-replication.js --zip=room-replication.zip"
+    "experiment:room:replication:zip": "node experiments/room-replication.js --zip=room-replication.zip",
+    "experiment:latency-control": "node experiments/latency-control.js",
+    "experiment:latency-control:json": "node experiments/latency-control.js --json",
+    "experiment:episodic": "node experiments/episodic-drops.js",
+    "experiment:episodic:json": "node experiments/episodic-drops.js --json",
+    "experiment:bench-demo": "node experiments/bench-demo.js",
+    "experiment:tabletop": "node experiments/tabletop.js",
+    "experiment:tabletop:json": "node experiments/tabletop.js --json",
+    "experiment:diffusion": "node experiments/diffusion-validation.js",
+    "experiment:diffusion:json": "node experiments/diffusion-validation.js --json"
   }
 }

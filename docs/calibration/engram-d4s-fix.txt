@@ -1,0 +1,8 @@
+D4-S after fixing the specificity labelling artifact (node experiments/calibrate-engram.js --no-tempo, 10 seeds, 09/11/2026)
+format per seed: units passed / targets · mean specificity
+== oracle
+ D4-S {"passedSeedsUnconditional":10,"applicable":true,"pass":true} 4/4·1 6/6·1 6/6·1 8/8·1 6/6·1 6/6·1 6/6·1 7/7·1 6/6·1 4/4·1
+== oracle-random
+ D4-S {"passedSeedsUnconditional":6,"applicable":false,"pass":false} 1/1·1 0/0·null 0/0·null 3/3·1 2/2·1 0/0·null 2/2·1 2/2·1 0/0·null 3/3·1
+== oracle-create-always
+ D4-S {"passedSeedsUnconditional":0,"applicable":false,"pass":false} (no targets in any seed)

@@ -1,0 +1,69 @@
+{
+  "strengthening": {
+    "decision": {
+      "passedSeeds": 10,
+      "pass": true
+    },
+    "example": {
+      "pass": true,
+      "parts": {
+        "fixedMatures": true,
+        "structuredImprove": true,
+        "orderedByRandomness": true
+      },
+      "final": {
+        "fixed": 0.10000000000000009,
+        "cycle": 0.10000000000000009,
+        "random": 0.13000000000000006
+      }
+    }
+  },
+  "frozen": {
+    "decision": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "example": {
+      "pass": false,
+      "parts": {
+        "fixedMatures": false,
+        "structuredImprove": false,
+        "orderedByRandomness": true
+      },
+      "final": {
+        "fixed": 0.6999999999999997,
+        "cycle": 0.6999999999999997,
+        "random": 0.6999999999999997
+      }
+    }
+  },
+  "random-prep": {
+    "decision": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "example": {
+      "pass": false,
+      "parts": {
+        "fixedMatures": false,
+        "structuredImprove": false,
+        "orderedByRandomness": true
+      },
+      "final": {
+        "fixed": 0.49480245873564854,
+        "cycle": 0.5390887976391241,
+        "random": 0.5722162806312554
+      }
+    }
+  },
+  "create-always": {
+    "decision": {
+      "passedSeeds": 0,
+      "pass": false
+    },
+    "example": {
+      "pass": false,
+      "reason": "window without firings"
+    }
+  }
+}

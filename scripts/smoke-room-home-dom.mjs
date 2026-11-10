@@ -40,11 +40,38 @@ globalThis.document={
   addEventListener(){},
 };
 await import('../app/room.js');
-assert.match(byId('roomStatus').textContent,/Simulação calculada/);
+// Prepared, NOT executed: the view cannot show anything beyond executed time.
+assert.match(byId('roomStatus').textContent,/Cenário preparado/);
+assert.match(byId('roomMode').textContent,/^PREPARADO/);
 assert.equal(byId('roomDelivered').textContent,'0');
 assert.equal(byId('roomClock').textContent,'00:00');
 assert.ok(byId('windowOpening').attrs.d.length>10);
 assert.ok(byId('doorOpening').attrs.d.length>10);
+byId('roomTimeline').value=String(12*3600000);
+byId('roomTimeline').fire('input');
+assert.equal(byId('roomClock').textContent,'00:00',
+  'navigation is clamped to the executed horizon');
+byId('roomPlay').fire('click');byId('roomPlay').fire('click');
+assert.match(byId('roomMode').textContent,/^PREPARADO/,
+  'visual playback does not execute the engine');
+
+// Real incremental execution, then an operational pause.
+byId('roomRun').fire('click');
+assert.match(byId('roomMode').textContent,/^EXECUÇÃO REAL/);
+await new Promise(r=>setTimeout(r,260));
+byId('roomRun').fire('click');
+assert.match(byId('roomMode').textContent,/^EXECUÇÃO PAUSADA/);
+const pausedAt=byId('roomStatus').textContent;
+assert.match(pausedAt,/Motor executado até (?!00:00)/);
+await new Promise(r=>setTimeout(r,260));
+assert.equal(byId('roomStatus').textContent,pausedAt,
+  'no execution progress while paused');
+byId('roomRun').fire('click');
+assert.match(byId('roomMode').textContent,/^EXECUÇÃO REAL/);
+const runAll=()=>byId('roomRunAll').fire('click');
+runAll();
+assert.match(byId('roomMode').textContent,/^EXECUÇÃO CONCLUÍDA/);
+assert.match(byId('roomStatus').textContent,/Motor executado até 23:59/);
 
 byId('roomTimeline').value=String(12*3600000);
 byId('roomTimeline').fire('input');
@@ -59,12 +86,14 @@ const sunny=byId('outdoorLight').textContent;
 
 byId('roomWeather').value='overcast';
 byId('roomWeather').fire('change');
+runAll();
 byId('roomTimeline').value=String(12*3600000);
 byId('roomTimeline').fire('input');
 assert.notEqual(byId('outdoorLight').textContent,sunny);
 
 byId('roomObstacle').checked=false;
 byId('roomObstacle').fire('change');
+runAll();
 byId('roomTimeline').value=String(12*3600000);
 byId('roomTimeline').fire('input');
 assert.equal(byId('obstacleShadow').attrs.d,'');
@@ -72,12 +101,14 @@ assert.equal(byId('objectTop').attrs.d,'');
 
 byId('roomDate').value='2026-12-21';
 byId('roomDate').fire('change');
+runAll();
 byId('roomTimeline').value=String(12*3600000);
 byId('roomTimeline').fire('input');
 assert.ok(byId('indoorTemp').textContent.endsWith('°C'));
 
 for(const m of modalities)m.checked=false;
 modalities[0].fire('change');
+runAll();
 byId('roomTimeline').value=String(23*3600000);
 byId('roomTimeline').fire('input');
 assert.equal(byId('roomDelivered').textContent,'0');
@@ -98,3 +129,36 @@ assert.match(byId('roomArchiveStatus').textContent,
 await byId('roomSave').fire('click');
 assert.match(byId('roomArchiveStatus').textContent,
   /IndexedDB indisponível/); // No fake store: fail visibly.
+
+// ---- Stage 8: tabs, engine choice, true empty mesh, analysis and audit ----
+byId('tabAudit').fire('click');
+assert.equal(byId('panelAudit').hidden,false);
+assert.equal(byId('panelObserve').hidden,true);
+assert.ok(byId('controlLog').children.length>0,'control log rendered');
+byId('tabObserve').fire('click');
+for(const m of modalities)m.checked=true;
+byId('roomEngine').value='diagnostic';
+byId('roomEngine').fire('change');
+runAll();
+assert.equal(byId('meshEmpty').hidden,false,'diagnostic engine: empty mesh state');
+assert.equal(byId('relationCount').textContent,'0');
+assert.equal(byId('unitCount').textContent,'0');
+byId('roomEngine').value='tempo-fixed';
+byId('roomEngine').fire('change');
+assert.match(byId('roomEngineNote').textContent,/nós fixos/);
+assert.match(byId('roomManifest').textContent,/tempo-fixed-nodes-control/);
+runAll();
+assert.equal(byId('relationCount').textContent,'0','at 00:00 nothing has formed yet');
+byId('roomTimeline').value=String(24*3600000);
+byId('roomTimeline').fire('input');
+assert.equal(byId('meshEmpty').hidden,true);
+assert.equal(byId('unitCount').textContent,'0','predefined nodes are never units');
+assert.equal(byId('nodeCount').textContent,'6');
+assert.ok(Number(byId('relationCount').textContent)>0,'real TEMPO relations');
+assert.match(byId('meshCaption').textContent,/controle TEMPO · estado capturado em 23:59/);
+await byId('roomVerify').fire('click');
+assert.match(byId('roomArchiveStatus').textContent,/apenas para o motor diagnóstico/);
+assert.ok(byId('runTable').children.length>=2,'completed runs registered');
+byId('cmpRun').fire('click');
+assert.ok(byId('cmpOut').children.length>0);
+console.log('Stage 8 flow (tabs, engines, empty mesh, analysis, audit): DOM smoke passed');

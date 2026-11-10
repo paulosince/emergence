@@ -2,7 +2,7 @@
 import { createDropV1, DROP_V1 } from '../world/scenarios.js';
 import { WorldSignalEnvironment } from './world-signals.js';
 
-const REGISTRY = Object.freeze([
+export const WORLD_SENSOR_REGISTRY = Object.freeze([
   Object.freeze({
     modality: 'optical',
     sensor: Object.freeze({
@@ -55,12 +55,12 @@ export function createWorldSensoryScenario({
       Array.isArray(couplingOverrides)) {
     throw new TypeError('couplingOverrides must be an object');
   }
-  const ids = REGISTRY.map(item => item.sensor.id);
+  const ids = WORLD_SENSOR_REGISTRY.map(item => item.sensor.id);
   if ([...Object.keys(sensorOverrides), ...Object.keys(couplingOverrides)]
     .some(id => !ids.includes(id))) {
     throw new RangeError('Unknown sensor identifier in override');
   }
-  const selected = REGISTRY.filter(item => modalities.includes(item.modality));
+  const selected = WORLD_SENSOR_REGISTRY.filter(item => modalities.includes(item.modality));
   const selectedIds = new Set(selected.map(item => item.sensor.id));
   if ([...Object.keys(sensorOverrides), ...Object.keys(couplingOverrides)]
     .some(id => !selectedIds.has(id))) {

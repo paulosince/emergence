@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="dark"/>
+  <title>EMERGENCE — Motor constitutivo</title>
+  <meta name="description" content="Execute o motor constitutivo com parâmetros editáveis e veja as unidades nas coordenadas reais e a modulação."/>
+  <link rel="stylesheet" href="./app/tempo-theme.css"/>
+  <style>
+    body{margin:0;font:14px/1.45 system-ui,sans-serif}
+    header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--line)}
+    header a{color:var(--muted);margin-left:12px} .word{font-weight:700;letter-spacing:.08em;color:var(--warm)}
+    main{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:14px;padding:14px 16px}
+    @media (max-width:860px){main{grid-template-columns:1fr}}
+    .card{padding:12px 14px} h2{font-size:15px;margin:0 0 8px}
+    .params{max-height:62vh;overflow:auto;border-top:1px solid var(--line);margin-top:8px}
+    .param{display:grid;grid-template-columns:1fr 110px;gap:6px;align-items:center;padding:5px 0;border-bottom:1px solid var(--line)}
+    .param label{font-size:12px} .param small{display:block;color:var(--muted);font-size:11px}
+    .param input{width:100%;box-sizing:border-box;background:var(--field);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:4px}
+    .param.changed input{border-color:var(--orange)} .tag{font-size:10px;padding:1px 6px;border-radius:9px;border:1px solid var(--line);color:var(--muted)}
+    .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:6px 0} select,button,.row input{background:var(--field);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:5px 8px}
+    button.primary{background:#2a2112;border-color:var(--warm);color:var(--warm);cursor:pointer}
+    #mode{font-weight:600} #mode.exploratory{color:var(--orange)} #mode.prereg{color:var(--teal)}
+    canvas{width:100%;height:58vh;background:#07080b;border-radius:10px;display:block;touch-action:none}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px;margin-top:8px}
+    .stat{background:var(--field);border:1px solid var(--line);border-radius:8px;padding:6px 8px} .stat b{display:block;font-size:16px;color:var(--text)} .stat span{font-size:11px;color:var(--muted)}
+    .note{font-size:12px;color:var(--muted)} input[type=range]{flex:1;min-width:160px}
+  </style>
+  <script type="module" src="./app/constitutive.js"></script>
+</head>
+<body>
+<header>
+  <div><span class="word">EMERGENCE</span> <span class="note">· motor constitutivo · parâmetros abertos</span></div>
+  <nav><a href="./index.html">Laboratório</a><a href="./docs/parameters.md">Parâmetros</a><a href="./docs/preregistration-v1.md">Pré-registro</a><a href="./docs/engine-v2-design-proposal.md">Motor v2</a><a href="https://github.com/paulosince/emergence">Código</a></nav>
+</header>
+<main>
+  <section class="card">
+    <h2>Execução</h2>
+    <div class="row"><label>Motor <select id="engine"><option value="2">Versão 2 (atual)</option><option value="1">Versão 1 (rodada 1, registro)</option></select></label></div>
+    <div class="row"><label>Mundo <select id="world"><option value="quedas">Quedas, alturas aleatórias</option><option value="quedas-fixa">Quedas, altura fixa</option><option value="quedas-ciclo">Quedas, ciclo de 3 alturas</option><option value="mesa">Mesa (84 canais)</option></select></label></div>
+    <div class="row"><label>Segundos <input id="seconds" type="number" value="60" min="3" max="600" style="width:70px"/></label><label>Semente <input id="seed" type="number" value="1" style="width:60px"/></label></div>
+    <div class="row"><button class="primary" id="run">Executar</button><button id="reset">Valores do pré-registro</button></div>
+    <div id="mode" class="prereg">Parâmetros do pré-registro</div>
+    <p class="note">Mudar qualquer valor (exceto o tamanho do substrato) torna a execução <b>exploratória</b>. Resultados confirmatórios usam só os valores pré-registrados.</p>
+    <div class="params" id="params"></div>
+  </section>
+  <section class="card">
+    <h2>Domínio nas coordenadas reais do motor</h2>
+    <p class="note">Posições <b>constitutivas</b> (do próprio motor; não são disposição do observador). Cubo = substrato. Pontos = Uint no centro dos seus elementos (cor = nível de estabilidade; tamanho = nível hierárquico); linhas cinza = Upro excitatórias (aferências); tracejado vermelho = Upro inibitórias entre concorrentes (versão 2). Descarga: branco = esperada; laranja = surpresa. Quadrados = canais (Utrd). Arraste para girar; roda para aproximar.</p>
+    <canvas id="view"></canvas>
+    <div class="row"><button id="play">▶</button><input id="time" type="range" min="0" max="1000" value="1000"/><span id="clock" class="note"></span></div>
+    <p class="note" id="modnote">Modulação de novidade: o motor usa a concentração uniforme equivalente (densidade uniforme de sítios de liberação). As partículas são uma <b>ilustração</b>: sítios de liberação sorteados, com nuvem de raio √(6D*t) (dopamina, Rice e Cragg, 2008), ampliada ×20 para ficar visível.</p>
+    <div class="stats" id="stats"></div>
+  </section>
+</main>
+</body>
+</html>

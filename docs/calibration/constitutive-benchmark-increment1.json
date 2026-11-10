@@ -1,0 +1,88 @@
+{
+  "streams": [
+    {
+      "name": "quedas, 40 episódios",
+      "incidences": 243,
+      "recordMs": 4123
+    },
+    {
+      "name": "mesa, 120 s",
+      "incidences": 12049,
+      "recordMs": 368
+    }
+  ],
+  "results": [
+    {
+      "stream": "quedas, 40 episódios",
+      "incidences": 243,
+      "substrate": 1000,
+      "buildMs": 3,
+      "runMs": 6,
+      "units": 36,
+      "occupied": 12,
+      "failures": 0,
+      "discharges": 636,
+      "heapMB": 5.4
+    },
+    {
+      "stream": "quedas, 40 episódios",
+      "incidences": 243,
+      "substrate": 10000,
+      "buildMs": 13,
+      "runMs": 3,
+      "units": 36,
+      "occupied": 12,
+      "failures": 0,
+      "discharges": 636,
+      "heapMB": -3.5
+    },
+    {
+      "stream": "quedas, 40 episódios",
+      "incidences": 243,
+      "substrate": 100000,
+      "buildMs": 103,
+      "runMs": 5,
+      "units": 36,
+      "occupied": 12,
+      "failures": 0,
+      "discharges": 636,
+      "heapMB": 34.2
+    },
+    {
+      "stream": "mesa, 120 s",
+      "incidences": 12049,
+      "substrate": 1000,
+      "buildMs": 4,
+      "runMs": 5845,
+      "units": 200815,
+      "occupied": 420,
+      "failures": 0,
+      "discharges": 717022,
+      "heapMB": 265.5
+    },
+    {
+      "stream": "mesa, 120 s",
+      "incidences": 12049,
+      "substrate": 10000,
+      "buildMs": 9,
+      "runMs": 7861,
+      "units": 200815,
+      "occupied": 2547,
+      "failures": 0,
+      "discharges": 717022,
+      "heapMB": 245
+    },
+    {
+      "stream": "mesa, 120 s",
+      "incidences": 12049,
+      "substrate": 100000,
+      "buildMs": 181,
+      "runMs": 12289,
+      "units": 200815,
+      "occupied": 7869,
+      "failures": 0,
+      "discharges": 717022,
+      "heapMB": 362
+    }
+  ]
+}

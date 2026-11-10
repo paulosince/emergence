@@ -1,0 +1,54 @@
+== quedas (janela 60 s)
+0s surpresas 120 | criadas 64 | descargas 291 | surpresa/descarga 0.412 | liberações 71
+60s surpresas 388 | criadas 76 | descargas 586 | surpresa/descarga 0.662 | liberações 79
+120s surpresas 450 | criadas 84 | descargas 671 | surpresa/descarga 0.671 | liberações 83
+180s surpresas 360 | criadas 83 | descargas 634 | surpresa/descarga 0.568 | liberações 83
+240s surpresas 639 | criadas 82 | descargas 734 | surpresa/descarga 0.871 | liberações 87
+300s surpresas 404 | criadas 81 | descargas 695 | surpresa/descarga 0.581 | liberações 84
+360s surpresas 546 | criadas 91 | descargas 664 | surpresa/descarga 0.822 | liberações 87
+420s surpresas 332 | criadas 82 | descargas 770 | surpresa/descarga 0.431 | liberações 83
+480s surpresas 379 | criadas 92 | descargas 750 | surpresa/descarga 0.505 | liberações 87
+540s surpresas 315 | criadas 86 | descargas 809 | surpresa/descarga 0.389 | liberações 83
+== quedas altura fixa (janela 60 s)
+0s surpresas 0 | criadas 26 | descargas 386 | surpresa/descarga 0 | liberações 64
+60s surpresas 0 | criadas 0 | descargas 600 | surpresa/descarga 0 | liberações 50
+120s surpresas 0 | criadas 0 | descargas 600 | surpresa/descarga 0 | liberações 50
+180s surpresas 0 | criadas 0 | descargas 600 | surpresa/descarga 0 | liberações 50
+240s surpresas 0 | criadas 0 | descargas 600 | surpresa/descarga 0 | liberações 50
+300s surpresas 0 | criadas 0 | descargas 600 | surpresa/descarga 0 | liberações 50
+360s surpresas 0 | criadas 0 | descargas 600 | surpresa/descarga 0 | liberações 50
+420s surpresas 0 | criadas 0 | descargas 600 | surpresa/descarga 0 | liberações 50
+480s surpresas 0 | criadas 0 | descargas 600 | surpresa/descarga 0 | liberações 50
+540s surpresas 0 | criadas 0 | descargas 600 | surpresa/descarga 0 | liberações 50
+== quedas ciclo de 3 alturas (janela 60 s)
+0s surpresas 140 | criadas 74 | descargas 347 | surpresa/descarga 0.403 | liberações 79
+60s surpresas 310 | criadas 53 | descargas 769 | surpresa/descarga 0.403 | liberações 87
+120s surpresas 301 | criadas 1 | descargas 900 | surpresa/descarga 0.334 | liberações 87
+180s surpresas 299 | criadas 1 | descargas 890 | surpresa/descarga 0.336 | liberações 86
+240s surpresas 293 | criadas 48 | descargas 869 | surpresa/descarga 0.337 | liberações 75
+300s surpresas 283 | criadas 42 | descargas 885 | surpresa/descarga 0.32 | liberações 74
+360s surpresas 286 | criadas 40 | descargas 884 | surpresa/descarga 0.324 | liberações 74
+420s surpresas 291 | criadas 26 | descargas 876 | surpresa/descarga 0.332 | liberações 72
+480s surpresas 283 | criadas 22 | descargas 893 | surpresa/descarga 0.317 | liberações 75
+540s surpresas 286 | criadas 20 | descargas 890 | surpresa/descarga 0.321 | liberações 73
+== mesa (janela 30 s)
+0s surpresas 3982 | criadas 240 | descargas 1338 | surpresa/descarga 2.976 | liberações 179
+30s surpresas 11135 | criadas 240 | descargas 2420 | surpresa/descarga 4.601 | liberações 180
+60s surpresas 11377 | criadas 240 | descargas 3006 | surpresa/descarga 3.785 | liberações 180
+90s surpresas 15450 | criadas 240 | descargas 3651 | surpresa/descarga 4.232 | liberações 180
+120s surpresas 11571 | criadas 240 | descargas 3289 | surpresa/descarga 3.518 | liberações 180
+150s surpresas 16963 | criadas 240 | descargas 3354 | surpresa/descarga 5.058 | liberações 180
+180s surpresas 11724 | criadas 240 | descargas 3143 | surpresa/descarga 3.73 | liberações 180
+210s surpresas 17909 | criadas 240 | descargas 3720 | surpresa/descarga 4.814 | liberações 180
+240s surpresas 12137 | criadas 240 | descargas 3349 | surpresa/descarga 3.624 | liberações 180
+270s surpresas 20530 | criadas 240 | descargas 3976 | surpresa/descarga 5.163 | liberações 180
+300s surpresas 12588 | criadas 240 | descargas 3290 | surpresa/descarga 3.826 | liberações 180
+330s surpresas 19572 | criadas 240 | descargas 4124 | surpresa/descarga 4.746 | liberações 180
+360s surpresas 14731 | criadas 240 | descargas 3698 | surpresa/descarga 3.984 | liberações 180
+390s surpresas 18832 | criadas 240 | descargas 4108 | surpresa/descarga 4.584 | liberações 180
+420s surpresas 10506 | criadas 240 | descargas 2858 | surpresa/descarga 3.676 | liberações 180
+450s surpresas 19132 | criadas 240 | descargas 4389 | surpresa/descarga 4.359 | liberações 180
+480s surpresas 12283 | criadas 240 | descargas 3693 | surpresa/descarga 3.326 | liberações 180
+510s surpresas 19665 | criadas 240 | descargas 4552 | surpresa/descarga 4.32 | liberações 180
+540s surpresas 12586 | criadas 240 | descargas 3758 | surpresa/descarga 3.349 | liberações 180
+570s surpresas 20354 | criadas 240 | descargas 4912 | surpresa/descarga 4.144 | liberações 180
