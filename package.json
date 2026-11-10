@@ -55,5 +55,8 @@
     "experiment:tabletop:json": "node experiments/tabletop.js --json",
     "experiment:diffusion": "node experiments/diffusion-validation.js",
     "experiment:diffusion:json": "node experiments/diffusion-validation.js --json"
+  },
+  "dependencies": {
+    "@mujoco/mujoco": "^4.0.0"
   }
 }

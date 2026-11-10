@@ -54,3 +54,13 @@ R-01 a R-12 e T01–T12 da V0.7, mantidos, mais: T13 toque em si mesmo (alcance 
 
 ## 8. Verificação do MuJoCo em JavaScript (10/11/2026)
 Pacote oficial `@mujoco/mujoco` 4.0.0 (Node, linha única de execução). Teste mínimo: caixa de 1 kg caindo num plano, braço articulado, tendão espacial; sensores de toque, comprimento de tendão, acelerômetro e giroscópio. Resultados: o sensor de toque lê 0 antes do contato e 9,81 N com a caixa em repouso (peso de 1 kg); o comprimento do tendão é lido; **duas execuções idênticas dão leituras idênticas** (determinismo dentro do mesmo ambiente; entre máquinas e navegadores ainda não verificado). A renderização das câmeras não foi testada (provável caminho: three.js no navegador).
+
+## 9. Passo 1 implementado: corpo no MuJoCo (10/11/2026)
+Arquivos: `src/robot/body/robot-model.js` (gera o modelo MJCF a partir dos parâmetros), `src/robot/body/simulation.js` (simulação, reflexo R1, acesso por nome), `tests/robot-body.test.js`.
+- **27 atuadores**, **814 taxels** de pressão (tronco em 5 faces, cabeça, braços, antebraços, palmas, falanges e pontas dos dedos), IMU, posição e velocidade de todas as articulações, comprimento e tensão de cada tendão dos dedos, esforço das rodas; 897 sensores no total. Duas câmeras e dois pontos de microfone posicionados (leitura de imagem e som: passo 3).
+- **Mudança de geometria (nossa, a confirmar):** eixo das rodas 2,5 cm à frente do centro do tronco, sob o centro de massa da postura neutra (braços à frente). Com o eixo centrado, o centro de massa ficava 2,75 cm à frente e o robô só "ficava de pé" apoiando a caixa no chão.
+- **Reflexo R1:** torque comum nas rodas = 12 × inclinação + 3 × velocidade de inclinação + 0,8 × velocidade das rodas + 0,3 × deslocamento das rodas (ganhos de busca em grade, sem fonte). Em 60 s com um empurrão de 3 N por 50 ms: só as rodas tocam o chão, deslocamento máximo 0,23 m, inclinação final −0,08 rad (inclinação de equilíbrio). **Frágil:** só 1 de 72 combinações de ganhos passou em 60 s; precisa de calibração melhor.
+- **Controle:** sem R1, o robô cai (a caixa toca o chão).
+- **T13 autotoque:** com a mão direita, toques na frente, na lateral direita e no topo do tronco registrados ao mesmo tempo pela pele do tronco e pela da mão, sem cair. O rosto ainda não foi alcançado na simulação dinâmica; a outra mão não foi testada.
+- **Determinismo:** execuções repetidas dão leituras idênticas.
+- **Custo:** 60 s simulados em ~3,4 s de processamento (passo de 2 ms), ~18 vezes mais rápido que o tempo real, sem câmeras e sem som.
