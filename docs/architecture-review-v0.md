@@ -331,3 +331,93 @@ Nomes aprovados: **marca de consolidação** e **nível de consolidação**.
 | I4 | **Liberação de moduladores** por algumas Uint e adenosina como subproduto de todas | decisão de 19h02 |
 | I5 | **Janela de disponibilidade** ligada ao intervalo vivido; precisa ser revista com C1 | C1 |
 | I6 | **Marca-passos** e atividade de fundo (para as cadeias C2(b)) | itens (ii) e (iii) |
+
+### 3.3 Respostas do responsável (10/11/2026, 20h48)
+- **I3:** "Uint também tem sua consolidação." Fica nos dois: nível de consolidação na Upro **e** na Uint. **Decidido.**
+- **I4:** pergunta se a adenosina como subproduto tem função. Resposta abaixo, em 3.4.
+- **I6:** observou que eu não formulei a pergunta. Formulada em 3.8.
+- **I1, I2 e I5:** "aplique o método".
+
+### 3.4 I4 — a adenosina como subproduto tem função?
+Sim, duas, e nenhuma carrega conteúdo (detalhe e fontes em [glias e adenosina](glia-adenosine-v0.md), seção 1):
+1. **Freio rápido e local** (segundos a minutos): neurônios que disparam muito liberam adenosina, que deprime a transmissão excitatória pelo receptor A1. Os autores propõem um sinal de "fadiga" contra o esgotamento metabólico (Lovatt et al. 2012). Sem o freio microglial pela adenosina, a atividade se amplifica e sincroniza, com crises (Badimon et al. 2020).
+2. **Pressão lenta e acumulada** (horas): sobe na vigília prolongada e cai no sono (Porkka-Heiskanen et al. 1997; Peng et al. 2020).
+
+Leitura agnóstica (nossa): é uma **conta de gasto** que vira retroalimentação negativa em duas escalas.
+
+### 3.5 I1 — supressão após disparar (método)
+**Hipótese:** a peça "supressão" da fila competitiva exige que a Uint que disparou fique menos excitável por centenas de ms, e não por 5 ms.
+
+| Achado | Fonte | Leitura |
+|---|---|---|
+| Três pós-hiperpolarizações após os disparos: rápida (~10 ms), média (50–100 ms) e lenta (~3–20 s), somando de 10 ms a 30 s. | Sahu e Turner (2021), *Front. Physiol.* 12:759707 | resumo e trechos |
+| A lenta aparece depois de **salvas** de disparos e cresce com elas, controlando a adaptação da frequência. Duração típica de 1–5 s após 5–10 disparos. | Sahu e Turner (2021); Andrade, Foehring e Tzingounis (2012), *Front. Cell. Neurosci.* 6:47 | trechos |
+| A lenta é fortemente regulada por moduladores: a noradrenalina (β) e a histamina (H2) a **inibem** e reduzem a adaptação. | Andrade et al. (2012), citando Madison e Nicoll (1982) e Haas e Konnerth (1983) | trechos |
+| Até neurônios de disparo rápido, depois de ativação longa (~20 s), ficam menos excitáveis por dezenas de segundos. | Descalzo et al. (2005) | trechos |
+
+**Mínimo:** a Uint tem uma **supressão após disparar em três escalas** (~10 ms, ~50–100 ms e segundos). A componente lenta cresce com a quantidade de disparos recentes. A média cobre a supressão de item da fila competitiva; a lenta dá adaptação.
+
+**Proposta:**
+- três constantes, como predisposição por classe de Uint;
+- a componente lenta é modulável: os moduladores a reduzem, como a ação sob modulação da Upro, agora na Uint.
+
+**Perdas:** os canais específicos, e a mistura com a bomba de sódio e potássio.
+
+### 3.6 I2 — dinâmica lenta (método)
+**Hipótese:** algumas Uint precisam mudar devagar (minutos a horas) para que a ligação com elas dê a posição de um evento no tempo.
+
+| Achado | Fonte | Leitura |
+|---|---|---|
+| Neurônios da camada V do entorrinal respondem a estímulos sucessivos com mudanças **graduais** de frequência que ficam **estáveis** depois de cada estímulo, por minutos, mesmo sem entrada de outros neurônios. É uma capacidade **intrínseca** do neurônio. | Egorov et al. (2002), *Nature* 420, 173–178; Frank e Brown (2003), *Trends Neurosci.* | resumo |
+| O mecanismo proposto é uma corrente catiônica sensível ao cálcio, que depende de acetilcolina. | Fransén et al. (2006), *Neuron*; Fransén, Alonso e Hasselmo (2002) | resumo e trechos |
+| Modelo: um conjunto de **integradores com vazamento**, com um **espectro de constantes de tempo**, representa o passado de forma comprimida; uma segunda camada gera unidades que disparam em sequência (como células de tempo) e são invariantes à escala. | Howard, Shankar, Aue e Criss (2015), *Psychol. Rev.* 122, 24–53; Tiganj, Hasselmo e Howard (2015) | resumo e trechos |
+| Constantes de tempo das células em rampa do entorrinal lateral: de minutos a centenas de minutos. Mecanismo não estabelecido. | Tsao et al. (2018), material suplementar | trechos |
+
+**Leitura:** há duas vias biológicas, a intrínseca (persistência gradual da célula) e a de rede (não estabelecida no entorrinal lateral). O modelo de Howard mostra que um **espectro** de constantes basta.
+
+**Mínimo:** cada Uint tem uma **constante de tempo de integração**, e o conjunto das Uint cobre um espectro largo, de ms a horas.
+
+**Proposta:**
+- a constante é **predisposição**, atribuída quando a Uint nasce, a partir de uma distribuição em escala logarítmica, por classe ou por local;
+- o **conteúdo** do que ela integra vem da experiência;
+- a persistência é modulável pela acetilcolina (ação sob modulação).
+
+**Equivalência:** espectro de integradores com vazamento.
+
+**Perdas:** o mecanismo intrínseco específico e a contribuição da rede.
+
+**Alternativa a testar:** sem espectro (todas iguais), para ver se a lentidão surge da rede.
+
+### 3.7 I5 — janela de disponibilidade (método)
+**Hipótese:** a janela em que uma Uint soma incidências deve ser uma propriedade dela, e não vir do intervalo vivido (o que C1 já invalidou).
+
+| Achado | Fonte | Leitura |
+|---|---|---|
+| A janela de integração é dada pela constante de tempo da membrana, de dezenas de ms. Com atividade de rede alta *in vivo*, a resposta encolhe e a janela **encurta** muito. | Léger et al. (2005), *J. Neurophysiol.* 93, 281–293; Bernander, Koch e Douglas (1991) | resumo e trechos |
+| A corrente NMDA decai em duas fases nas piramidais do hipocampo: ~66 ms e ~354 ms (média). | Perouansky e Yaari (1993), *J. Physiol.* | resumo; confiança alta no número, mas hipocampo de rato |
+| Platôs dendríticos põem a piramidal num "estado preparado" de **200–500 ms**, mais excitável. | Milojkovic, Antic et al. (2020), *J. Neurophysiol.* (PMC8087381; autores conferidos só em parte) | resumo |
+
+**Mínimo:** a janela é uma **propriedade intrínseca** da Uint, com uma componente rápida (dezenas de ms) e uma lenta (centenas de ms). Ela encurta quando a atividade de fundo é alta.
+
+**Proposta:**
+- a janela é predisposição por classe e não depende do intervalo vivido;
+- ela encurta com a atividade de fundo (a atividade da própria malha, não um parâmetro de estado);
+- é coerente com a janela de formação de 120 ms já usada (TEMPO).
+
+**Perdas:** a geometria dendrítica.
+
+**Observação:** I1, I2 e I5 são o mesmo tipo de coisa: **constantes de tempo intrínsecas da Uint** (integração, supressão e persistência).
+
+### 3.8 I6 — a pergunta sobre os marca-passos
+**Fatos já registrados:**
+- "Incidências só surgem de transdução ou de marca-passos" (responsável, 09/11, [nomenclatura](nomenclature.md)).
+- A primeira avaliação dos marca-passos está em [marca-passos v0.1](pacemakers-v0.1.md).
+- Hoje: a atividade de fundo para formar as cadeias C2(b) provavelmente vem deles.
+
+**Literatura nova relevante:** antes da visão, a retina imatura gera **ondas espontâneas** de salvas sincronizadas (salvas de alguns segundos, separadas por 1–2 minutos de silêncio) que organizam as conexões visuais antes de qualquer estímulo (Meister, Wong, Baylor e Shatz 1991, *Science* 252, 939–943; Wong 1999, *Annu. Rev. Neurosci.*; resumos). Isso é atividade espontânea **formando estrutura sem mundo**.
+
+**Pergunta:**
+1. Os marca-passos são **predisposição presente desde o início**, como as Utrd, ou uma **propriedade que algumas Uint adquirem**?
+2. As incidências dos marca-passos podem **participar da formação** de Uint e Upro sem transdução (como as ondas da retina, que organizam a estrutura antes do mundo)? Ou só **sustentam e cadenciam** a atividade, sem criar nada sozinhas?
+
+**Tensão com a regra da arquitetura herdada:** se a atividade espontânea criar estrutura sem mundo, o sistema ganha organização que não veio da experiência. A biologia faz isso (é parte da herança darwiniana). Para o nosso sistema, pode ser justamente o que não se deve entregar pronto.
