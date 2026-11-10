@@ -45,6 +45,9 @@ Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 10/11/2026 (fim da
 - Controles exploratórios do v2: `experiments/v2-controls.js`, relatório [docs/v2-controls-exploratory-report.md](docs/v2-controls-exploratory-report.md).
 - Interface pública antiga (motor nos mundos antigos): https://paulosince.github.io/emergence/constitutive.html. Página de apresentação privada para o gerente: https://claude.ai/artifact/9NYYj8ydu9a5BaqKonm6QD.
 
+## 5b. Revisão da arquitetura (em andamento desde 10/11/2026, 15h47)
+Registro em [docs/architecture-review-v0.md](docs/architecture-review-v0.md). Decidido até agora: limites do Sdom (sem representação não há Sdom; Utrd é fronteira; [texto-guia](docs/sdom-boundaries-guide.md) com precedência das falas diretas do responsável); Upro só existe com destino e nasce das transduções; regra de formação comum (hebbiana), especialização na Utrd e nos parâmetros de janela; dois caminhos de formação (terceiro fator com algumas repetições; recorrência espaçada), marca acumulada com limiar (caminho com terceiro fator fecha em 10%); janela de cada modulador por modulador e por local definido pelo canal; [metodologia](docs/program-methodology.md): arquitetura herdada não se entrega pronta. **Pendentes:** decisão sobre os destinos da Utrd eferente (a) e ligação fixa × formada (b); consequências 2 a 5 dos limites (teste da determinação autônoma etc.); depois Upro, Uint, marca-passos, moduladores e glias.
+
 ## 6. Próximos passos (plano aprovado; ordem atual)
 1. **Revisar a arquitetura atual** com o responsável (inclui as **glias**).
 2. Passo 3 — sentidos: visão a 80 × 60 com otimizações; **audição** (fontes de som, propagação aos 2 microfones, cóclea gamatone de 64 faixas); pele com temperatura, vibração e nocicepção; interocepção (bateria, temperaturas); **camada de transdução** (Utrd que emitem só na variação, magnitude pela variação, identificadores opacos).
