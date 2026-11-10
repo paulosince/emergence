@@ -66,3 +66,8 @@ Para uma cadeia C2(b) se formar pela regra hebbiana, é preciso **algo ativo dur
 1. Aceita a combinação com papéis distintos (tabela 4.2)?
 2. A atividade de fundo que permite formar as cadeias C2(b) vem dos marca-passos? Recomendo **decidir no item (iii)**.
 3. Quando corrigir o motor (C1: remover o atraso = intervalo vivido e o alongamento livre; teto de ~100 ms)? Recomendo **depois do item (iii)**, porque os marca-passos mudam o mesmo trecho do código.
+
+### 4.5 Decisões do responsável (10/11/2026, 20h04)
+1. **Aceita** a combinação da tabela 4.2: C1, C2(a), C2(b), C2(c), C2(d) e C3, cada uma no seu papel.
+2. A atividade de fundo que permite formar as cadeias C2(b) **provavelmente** vem dos marca-passos ("acredito que sim"). Será confirmado no item (iii).
+3. A correção dos atrasos do motor (C1) fica para **depois do item (iii)**.
