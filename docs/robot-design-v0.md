@@ -36,3 +36,17 @@ Caixa de 2,5 a 27,5 cm do chão, eixo 5 cm acima da base; câmeras a ~35–38 cm
 **Pele:**
 - Pontas dos dedos: XELA uSkin (taxels magnéticos de 3 eixos, força normal e tangencial; patches de 4 a 24 taxels; preço só sob consulta) ou sensores por imagem (DIGIT, desenho aberto, US$ 300 em 2021 pela GelSight; GelSight Mini).
 - Palma, braços e caixa: matrizes de FSR (Interlink; precisão típica de ±10–25%; Loomia vende matrizes para superfícies curvas) ou matriz caseira de Velostat entre linhas e colunas de cobre (barata; exige correção de diafonia e calibração; projetos abertos como RSkin).
+
+## Diretriz do responsável (10/11/2026)
+Robô físico com custo de zero a quase nada, com materiais reaproveitados (ex.: pote de sorvete como caixa). Soluções "fora da caixa".
+
+## Ideias de custo zero ou quase zero (brainstorm nosso; não testado; preços não pesquisados)
+- **Cabeça = celular velho:** câmera, microfones, acelerômetro e giroscópio (vestíbulo), bateria e temperatura (interocepção), tela sensível ao toque, Wi-Fi para o computador que roda o domínio. Estéreo: dois celulares velhos ou celular + webcam.
+- **Cóclea:** banco de filtros em software no celular ou no microcontrolador (a "cóclea em hardware" passa a ser o processador dedicado). Microfones de fones de ouvido velhos; um alto-falante pequeno também funciona como microfone (reciprocidade do transdutor dinâmico).
+- **Pele:** espuma condutora preta de embalagem de circuitos integrados (sensor de pressão resistivo); folha de alumínio ou fita de cobre como pele capacitiva (ESP32 tem entradas de toque capacitivo; detecta também proximidade); grafite de lápis em papel; bigodes (vibrissas) com arame e mola como chaves de contato.
+- **Propriocepção:** ler o potenciômetro interno dos servos (fio extra); potenciômetros de aparelhos velhos nas articulações; motores com encoder óptico de impressoras velhas.
+- **Rodas e motores:** tampas de pote ou CDs com elástico/câmara de bicicleta como pneu; motores de brinquedos, drives de CD/DVD e impressoras.
+- **Mãos:** dedos com canudos e linhas puxadas por um servo (mão de tendões).
+- **Energia:** células 18650 de baterias de notebook descartadas (exige cuidado com lítio).
+- **Interocepção:** tensão da bateria por divisor resistivo; termistor (de baterias velhas) no motor; corrente do motor por resistor shunt.
+- **Risco:** equilíbrio em duas rodas com motores baratos de engrenagem plástica (folga) é difícil; manter roda de apoio removível no início.
