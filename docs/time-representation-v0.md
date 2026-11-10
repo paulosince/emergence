@@ -34,3 +34,35 @@ Data: 10/11/2026 (19h21). Pedido do responsável: entender, pelo método, como a
 - Paton, J. J., e Buonomano, D. V. (2018). The neural basis of timing: distributed mechanisms for diverse functions. *Neuron* 98(4), 687–705. (resumo e trechos)
 - Rubin, A., Geva, N., Sheintuch, L., e Ziv, Y. (2015). Hippocampal ensemble dynamics timestamp events in long-term memory. *eLife* 4, e12247. (resumo e trechos)
 - Tsao, A. et al. (2018). Integrating time from experience in the lateral entorhinal cortex. *Nature* 561, 57–62. (resumo e material suplementar)
+
+## 4. Fechamento proposto da pergunta C2 (10/11/2026, 20h; para decisão do responsável)
+**Contexto:** já decididos H5, o controle do andamento (com portão de unidades de intervalo formadas) e o aprendizado diferido ([aprendizado diferido](deferred-learning-v0.md), seções 5 e 6). Leitura por **resumo**, salvo indicação.
+
+### 4.1 Literatura nova
+| Achado | Fonte | Leitura |
+|---|---|---|
+| Células de tempo no hipocampo disparam em momentos sucessivos durante um intervalo vazio entre dois eventos e, juntas, cobrem o intervalo inteiro. Quando a duração muda, a maioria **se reorganiza** ("re-time"), como as células de lugar no remapeamento. | MacDonald, Lepage, Eden e Eichenbaum (2011) | resumo e trechos |
+| As células de tempo formam uma cadeia "dominó" que acompanha intervalos de **até ~10 s** com precisão. | texto de divulgação do instituto Kavli (2018) | **divulgação**; confiança média no número |
+| No entorrinal lateral, o tempo é codificado de **segundos a horas** no estado da população, sem um código explícito de tempo: é derivado do fluxo da experiência. Mudar a atividade muda o sinal. | Tsao et al. (2018) | resumo e divulgação |
+| Constantes de tempo das células em rampa nesse córtex: de **alguns minutos a centenas de minutos**. | Tsao et al. (2018), material suplementar | trechos; confiança média-alta |
+| Redes recorrentes podem guardar padrões que variam no tempo como **trajetórias** e reconhecê-los em velocidades diferentes. A invariância ao andamento surge da dinâmica. | Goudar e Buonomano (2018) | resumo; é modelo, não biologia |
+
+### 4.2 Proposta: as quatro opções, cada uma com um papel
+| Faixa ou função | Mecanismo | Opção | Origem |
+|---|---|---|---|
+| até ~100 ms | atraso da Upro: basal pela distância, acelerado devagar pela mielina | C1 | literatura (seção 3b/3c de glias) |
+| detectar que duas coisas coocorreram com intervalo maior e **marcar** | escala do traço que fez a ponte (os traços de 0,1 s, 3 s, 90 s e 45 min); dá só a ordem de grandeza | C2(a) | proposta nossa |
+| **ligar depois** o que foi marcado | reexecução comprimida, no repouso e no sono | C2(d) | literatura + decisão de 19h41 |
+| representar intervalos de ~0,1 a ~10 s (e servir de portão do andamento) | cadeias de unidades **formadas** que disparam em sucessão (como as células de tempo) | C2(b) | literatura; formação é proposta nossa |
+| posição no tempo de minutos a horas | estado de unidades de dinâmica lenta no momento do evento, como **carimbo** derivado da experiência | C2(c) | literatura (Tsao 2018) |
+| dias a eras | representação derivada (marcos, ciclos do ambiente); critério a observar | C3 | já proposto |
+
+**Perdas:** a separação anatômica (hipocampo, entorrinal lateral, gânglios da base), e a precisão real de cada faixa, que fica a medir.
+
+### 4.3 Lacuna honesta
+Para uma cadeia C2(b) se formar pela regra hebbiana, é preciso **algo ativo durante o intervalo vazio** que seja coativo com o primeiro e o último evento. Num sistema que nasce vazio, a candidata natural é a **atividade interna contínua** (marca-passos como predisposição). Isso não foi verificado e fica para o item (iii).
+
+### 4.4 Perguntas ao responsável
+1. Aceita a combinação com papéis distintos (tabela 4.2)?
+2. A atividade de fundo que permite formar as cadeias C2(b) vem dos marca-passos? Recomendo **decidir no item (iii)**.
+3. Quando corrigir o motor (C1: remover o atraso = intervalo vivido e o alongamento livre; teto de ~100 ms)? Recomendo **depois do item (iii)**, porque os marca-passos mudam o mesmo trecho do código.
