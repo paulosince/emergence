@@ -2,14 +2,26 @@
 
 Iniciada em 10/11/2026 com o responsável. Passamos unidade por unidade: o que o motor v2 faz hoje (`src/engines/constitutive/engine-v2.js`) e o que o responsável define. Nada implementado ainda.
 
-## 0. Limites do domínio representacional (leitura nossa, 10/11/2026, aguardando conferência do responsável)
-Fontes conferidas: v43 (trechos pela busca do projeto), [especificação do robô v1](robot-spec-v1.md), [revisão da v0.7](robot-spec-v0.7-review.md) e as definições do responsável nas discussões do Sdom.
-1. **Critério funcional:** o Sdom existe onde a organização sustenta relações representacionais (transformação computacional + ancoragem transdutiva + determinação autônoma). Não é um lugar do substrato nem um recipiente criado de antemão; a primeira representação o inaugura (v43 L77).
-2. **Dentro:** as representações constituídas e suas relações; a malha temporotopológica, com Uint como nós e Upro como arestas.
-3. **Na fronteira, fora da malha:** a Utrd, nos dois sentidos.
-4. **Fora (sistema S):** corpo, mundo, reflexos, proteções, marca-passos do corpo, relógio, sistema modulador; também as fontes endógenas (dentro do sistema, fora do domínio).
-5. **Substrato ≠ domínio:** os elementos livres não são domínio; o vazio inicial é do domínio, não do substrato.
-6. **Dúvidas abertas:** (i) os processos (Pcrt, plasticidade, modulação) estão dentro do domínio ou fora, agindo sobre ele? (ii) toda Uint constituída já é domínio, ou só quando participa de uma relação representacional (a v43 diz que unidades individuais não especificam conteúdo)? (iii) o sistema modulador fica em S?
+## 0. Limites do domínio representacional
+Guia: [texto do responsável sobre os limites do Sdom](sdom-boundaries-guide.md) (10/11/2026, 16h45). Ele substitui a leitura que fizemos às 16h12, que tinha três erros: (1) pôr Uint e Upro "dentro" por definição; (2) pôr a Utrd "fora" por definição; (3) pôr o sistema modulador "fora" por definição.
+
+### O que o guia estabelece (resumo nosso; o texto vale)
+1. A fronteira é **funcional e constitutiva**: vai até onde a organização participa da constituição de conteúdo, pela tríade (organização especificadora de conteúdo, fundamentação transdutiva, determinação autônoma). Nem anatomia, nem tipo celular, nem toda a cadeia de dependências.
+2. **Nada é incluído nem excluído por antecipação.** Quatro situações: constitui diretamente (integra o Sdom enquanto participa); fornece diferenças transduzidas (pode ficar fora); regula condições (não integra necessariamente); constitui representações próprias (pode ser outro Sdom).
+3. A Utrd **pode** participar da especificação do conteúdo; não se exclui de antemão.
+4. **Mecanismos que constituem ≠ domínio constituído.** Uma organização de unidades (no texto, "UI–UT") pode ser necessária numa implementação sem que sua existência baste para constituir o Sdom; antes da tríade há só **organização precursora**.
+5. A fronteira pode **variar com a história** (incorporar ou perder participantes), mas só quando a mudança atinge as operações constitutivas de conteúdo.
+6. Pode haver **vários Sdom** num organismo; comunicação ou dependência não prova pertença ao mesmo domínio.
+7. Glias: G1 (regulação externa), G2 (participação num Sdom compartilhado), G3 (Sdom glial próprio) são possíveis; a evidência discutida não seleciona G2 nem G3.
+8. Representação constituída ≠ acesso.
+9. Questões abertas do guia: critério operacional de pertença; individuação de um Sdom; quando a organização passa a especificar conteúdo (o "primeiro conteúdo"), ligado diretamente aos nossos experimentos.
+
+### Consequências para a revisão (propostas nossas; uma a uma com o responsável)
+1. **Nomes no motor e na interface:** Uint e Upro são unidades da implementação; a existência delas não marca o Sdom. O "mapa do domínio representacional" da interface mostra a organização (precursora ou não); dizer o que dela é representação exige o critério do primeiro conteúdo. Como nomear isso é decisão do responsável.
+2. **Critério do primeiro conteúdo no experimento:** os critérios de engrama já calibrados no repositório são candidatos a teste operacional da tríade; precisam ser revistos à luz do guia.
+3. **Utrd:** não fixar no desenho que ela está fora; deixá-la como fonte aferente/eferente cuja participação no conteúdo pode ser examinada.
+4. **Sistema modulador e glias:** começar como reguladores (situação 3, G1), com o desenho aberto a testar participação constitutiva (G2) mais tarde. Decisão do responsável.
+5. **Hipótese (a) da Utrd eferente:** os destinos levantados (atuadores, sentidos, autônomo, moduladores) continuam válidos como destinos **fora do que hoje constitui conteúdo**, sem afirmar que nunca possam participar.
 
 ## 1. Utrd (unidade de transdução)
 
@@ -35,7 +47,7 @@ Fontes conferidas: v43 (trechos pela busca do projeto), [especificação do rob�
 - **(a)** A Utrd eferente leva só aos atuadores, ou também a outros sistemas internos fora do domínio (por exemplo, o sistema modulador)?
 - **(b)** A ligação Utrd eferente → canal atuador é fixa, dada pelo corpo, ou também se forma?
 
-Leitura que a pesquisa assumiu: "domínio ≈ córtex". **Corrigida em 10/11/2026 (16h12), a pedido do responsável:** a fronteira do Sdom é **funcional, não anatômica** (v43: "operational distinctions, not anatomical ones"; o Sdom existe onde as organizações sustentam relações representacionais, e a primeira representação o inaugura). Um neurônio cortical sem representação constituída não é domínio; uma estrutura fora do córtex pode participar. A lista dos destinos (motoneurônios, núcleos moduladores, autônomo, receptores) continua fora do domínio por não sustentar relações representacionais, não por estar fora do córtex. Ver seção 0.
+Leitura que a pesquisa assumiu: "domínio ≈ córtex". **Corrigida em 10/11/2026 (16h12), a pedido do responsável:** a fronteira do Sdom é **funcional, não anatômica** (v43: "operational distinctions, not anatomical ones"; o Sdom existe onde as organizações sustentam relações representacionais, e a primeira representação o inaugura). Um neurônio cortical sem representação constituída não é domínio; uma estrutura fora do córtex pode participar. A lista dos destinos (motoneurônios, núcleos moduladores, autônomo, receptores) continua fora do domínio por não sustentar relações representacionais, não por estar fora do córtex. Ver seção 0 (agora guiada pelo texto do responsável).
 
 #### Literatura — hipótese (a): para onde vai a eferência
 1. **Músculos, por circuitos espinhais e do tronco.** A via corticoespinal raramente comanda o motoneurônio sozinha: o controle motor resulta da rede inteira, não de um comando do cérebro para a medula; ligações diretas córtex → motoneurônio existem em primatas e servem sobretudo à destreza das mãos (Lemon 2008, *Annu. Rev. Neurosci.* 31:195–218; **texto integral**, lido por ferramenta de resumo).

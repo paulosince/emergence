@@ -10,10 +10,11 @@ Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 10/11/2026 (fim da
 5. **Não alterar o repositório TEMPO** (paulosince/temporotopological-relations); só leitura.
 6. **Versões da CLEAR** ([docs/program-methodology.md](docs/program-methodology.md), 10/11/2026): a **v43** é a última, mas está em revisão pelo responsável: **dá o norte, não é a última palavra**. O **preprint v2.1.0** serve só para as previsões do que o domínio deve formar de forma autônoma (entidades biográficas, self como mais um tipo de entidade), com ressalvas. Em dúvida, **perguntar ao responsável**. O estudo é sobre **consciência** (CLEAR); querer, valia etc. são ramos e instrumentos.
 7. Não marcar item do roteiro como concluído sem evidência e validação do responsável.
-8. Separação observador × motor: nada calculado pelo pesquisador entra no motor; identificadores dos canais opacos; nenhuma semântica injetada (robô: R-01 a R-12 de [docs/robot-spec-v0.7-review.md](docs/robot-spec-v0.7-review.md)).
-9. A cada proposta ou precedente novo, atualizar [docs/innovation-tracking.md](docs/innovation-tracking.md).
-10. Git: ramo `claude/zealous-hawking-sdw2w8`; commit e push a cada passo. O responsável autorizou integrar ao `main` por pull request quando pede para publicar.
-11. Preferências do responsável: responder em português; dizer quando não sabe; não inventar; dar a confiança dos números; perguntar quando não estiver claro; não deixar digressões sem resposta.
+8. **Limites do Sdom:** seguir o [texto-guia do responsável](docs/sdom-boundaries-guide.md): fronteira funcional e constitutiva (tríade); nada incluído nem excluído por antecipação; existir unidades não é existir Sdom.
+9. Separação observador × motor: nada calculado pelo pesquisador entra no motor; identificadores dos canais opacos; nenhuma semântica injetada (robô: R-01 a R-12 de [docs/robot-spec-v0.7-review.md](docs/robot-spec-v0.7-review.md)).
+10. A cada proposta ou precedente novo, atualizar [docs/innovation-tracking.md](docs/innovation-tracking.md).
+11. Git: ramo `claude/zealous-hawking-sdw2w8`; commit e push a cada passo. O responsável autorizou integrar ao `main` por pull request quando pede para publicar.
+12. Preferências do responsável: responder em português; dizer quando não sabe; não inventar; dar a confiança dos números; perguntar quando não estiver claro; não deixar digressões sem resposta.
 
 ## 2. Mudança de rumo de 10/11/2026
 - A campanha pré-registrada da rodada 1 (motor v1, mundos simples) deu **negativo**; a auditoria contra a v43 atribuiu a maior parte a **erros de implementação** ([docs/clear-v43-reconciliation-v0.1.md](docs/clear-v43-reconciliation-v0.1.md)).
