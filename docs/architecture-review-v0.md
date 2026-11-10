@@ -239,3 +239,14 @@ O **sinal fica na Upro** (como está). Perda declarada: a restrição biológica
 - **Em aberto:**
   - o que conta como "a inibição estava errada";
   - o risco de a inibição só crescer, sem o termo homeostático (a observar em simulação).
+
+### 2.10 Respostas do responsável aos pontos em aberto de U4 (10/11/2026, 20h24)
+1. **O que mostra que a inibição estava errada:** a transdução aferente (ancoragem). O mundo mostra ocorrendo junto algo que foi representado como incompatível. O nó recebe incidências que não conseguem disparar o que foi inibido por engano, não há convergência, e isso **obriga a criar uma representação nova, corrigida**.
+2. **A correção é construtiva, não destrutiva:** a inibição se corrige **criando de novo**. As convergências futuras vão para a representação corrigida, e a errada **decai por desuso até a poda**.
+
+**Consequências:**
+- A Upro inibitória não precisa de regra própria de enfraquecimento. Fortalece por coatividade e decai pela escada de estabilidade quando deixa de ser usada. O risco de a inibição só crescer fica resolvido pelo desuso.
+- Isso combina com a extinção como aprendizado novo, sem apagamento (Bouton 2004), e com o item 1 da [auditoria](clear-implementation-audit-v0.1.md): a transdução alcança antes de criar; quando nada corresponde, há síntese.
+- No motor atual, a convergência falha só ajusta atrasos (alonga a anterior, encurta a atual). Pela decisão C1 e por esta, ela passa a ser **ocasião de criação** de representação corrigida. Fica registrado para a implementação.
+
+**U4 fechado.**
