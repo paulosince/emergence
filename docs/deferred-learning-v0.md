@@ -216,3 +216,9 @@ Três peças mínimas:
 - Hurlstone, M. J., Hitch, G. J., e Baddeley, A. D. (2014). Memory for serial order across domains. *Psychological Bulletin* 140(2), 339–373. (resumo)
 - Kornysheva, K. et al. (2019). Neural competitive queuing of ordinal structure underlies skilled sequential action. *Neuron* 101(6), 1166–1180. (resumo e figura)
 - Merchant, H., Grahn, J., Trainor, L., Rohrmeier, M., e Fitch, W. T. (2015). Finding the beat: a neural perspective across humans and non-human primates. *Phil. Trans. R. Soc. B* 370, 20140093. (resumo)
+
+### 6.4 Decisões do responsável (10/11/2026, 20h01)
+Aceitas as três recomendações:
+1. As três peças (pré-ativação em paralelo, supressão após disparar, portão de liberação temporizado) são o mínimo.
+2. A competição usa **Upro inibitórias formadas pela experiência**, sem camada de escolha dedicada.
+3. O portão vem de **unidades de intervalo formadas pela experiência**, com o marca-passo como predisposição. Isso será fechado no item (iii).
