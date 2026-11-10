@@ -46,3 +46,9 @@ Análise do mundo de ciclo (semente 1): as surpresas se concentram em poucas Uin
 Com as correções, os mundos estruturados ficam muito abaixo do aleatório e do embaralhado, e o ciclo mostra queda da surpresa ao longo do tempo. Fixo (0,011) e ciclo (0,007) ficam praticamente empatados, com o fixo um pouco acima.
 
 **Limitação encontrada:** nos mundos fixo e de ciclo o resultado é idêntico entre sementes, porque a semente só muda o substrato e a dinâmica da versão 2 não depende dele. Na prática, esses mundos têm uma réplica só. Para replicar de verdade, a semente precisa variar também o mundo (por exemplo, ruído dos sensores).
+
+## Decisões do responsável (10/11/2026)
+1. Ganho máximo da Upro: "menos ainda, imagino" (abaixo de 0,9). Valor a definir junto com o número de aferências por Uint, porque com ganho máximo g é preciso mais de 1/g aferências coincidentes para atingir o limiar.
+2. Propagação do esperado: **aprovada**.
+3. Semente variando também o mundo (ruído dos sensores): **aprovada**.
+4. Discussão aberta: as "experiências" do ambiente podem estar pobres demais.
