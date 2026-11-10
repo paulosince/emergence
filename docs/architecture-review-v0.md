@@ -2,6 +2,15 @@
 
 Iniciada em 10/11/2026 com o responsável. Passamos unidade por unidade: o que o motor v2 faz hoje (`src/engines/constitutive/engine-v2.js`) e o que o responsável define. Nada implementado ainda.
 
+## 0. Limites do domínio representacional (leitura nossa, 10/11/2026, aguardando conferência do responsável)
+Fontes conferidas: v43 (trechos pela busca do projeto), [especificação do robô v1](robot-spec-v1.md), [revisão da v0.7](robot-spec-v0.7-review.md) e as definições do responsável nas discussões do Sdom.
+1. **Critério funcional:** o Sdom existe onde a organização sustenta relações representacionais (transformação computacional + ancoragem transdutiva + determinação autônoma). Não é um lugar do substrato nem um recipiente criado de antemão; a primeira representação o inaugura (v43 L77).
+2. **Dentro:** as representações constituídas e suas relações; a malha temporotopológica, com Uint como nós e Upro como arestas.
+3. **Na fronteira, fora da malha:** a Utrd, nos dois sentidos.
+4. **Fora (sistema S):** corpo, mundo, reflexos, proteções, marca-passos do corpo, relógio, sistema modulador; também as fontes endógenas (dentro do sistema, fora do domínio).
+5. **Substrato ≠ domínio:** os elementos livres não são domínio; o vazio inicial é do domínio, não do substrato.
+6. **Dúvidas abertas:** (i) os processos (Pcrt, plasticidade, modulação) estão dentro do domínio ou fora, agindo sobre ele? (ii) toda Uint constituída já é domínio, ou só quando participa de uma relação representacional (a v43 diz que unidades individuais não especificam conteúdo)? (iii) o sistema modulador fica em S?
+
 ## 1. Utrd (unidade de transdução)
 
 ### Definição do responsável (10/11/2026, 15h52)
@@ -26,7 +35,7 @@ Iniciada em 10/11/2026 com o responsável. Passamos unidade por unidade: o que o
 - **(a)** A Utrd eferente leva só aos atuadores, ou também a outros sistemas internos fora do domínio (por exemplo, o sistema modulador)?
 - **(b)** A ligação Utrd eferente → canal atuador é fixa, dada pelo corpo, ou também se forma?
 
-Leitura nossa que a pesquisa assume (a confirmar): no modelo neurobiológico, o domínio corresponde sobretudo ao córtex e às estruturas que constituem representações; ficam **fora** do domínio os motoneurônios e circuitos espinhais, os núcleos moduladores do tronco, o sistema autônomo e os receptores sensoriais. Se o responsável traçar a fronteira em outro lugar, as conclusões mudam.
+Leitura que a pesquisa assumiu: "domínio ≈ córtex". **Corrigida em 10/11/2026 (16h12), a pedido do responsável:** a fronteira do Sdom é **funcional, não anatômica** (v43: "operational distinctions, not anatomical ones"; o Sdom existe onde as organizações sustentam relações representacionais, e a primeira representação o inaugura). Um neurônio cortical sem representação constituída não é domínio; uma estrutura fora do córtex pode participar. A lista dos destinos (motoneurônios, núcleos moduladores, autônomo, receptores) continua fora do domínio por não sustentar relações representacionais, não por estar fora do córtex. Ver seção 0.
 
 #### Literatura — hipótese (a): para onde vai a eferência
 1. **Músculos, por circuitos espinhais e do tronco.** A via corticoespinal raramente comanda o motoneurônio sozinha: o controle motor resulta da rede inteira, não de um comando do cérebro para a medula; ligações diretas córtex → motoneurônio existem em primatas e servem sobretudo à destreza das mãos (Lemon 2008, *Annu. Rev. Neurosci.* 31:195–218; **texto integral**, lido por ferramenta de resumo).
