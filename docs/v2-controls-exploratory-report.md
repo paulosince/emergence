@@ -28,3 +28,21 @@
 2. **Ciclo com surpresa maior que o aleatório** (0,085 contra 0,075), contra a ordem esperada; e no aleatório a surpresa sobe do primeiro para o último quinto.
 3. **Coatividade alta no mundo fixo** (68% das Uint por episódio): a representação não é esparsa.
 4. Nada disso foi calibrado; os parâmetros são os declarados.
+
+## Investigação: ciclo com surpresa maior que o aleatório (10/11/2026)
+Análise do mundo de ciclo (semente 1): as surpresas se concentram em poucas Uint e têm duas causas.
+1. **Uma Upro sozinha atinge o limiar.** O fortalecimento por confirmação leva o ganho até 1; com efeito +1, uma única incidência contribui 1 = limiar. Uint ajustadas a uma altura recebem incidências tardias nas outras alturas (depressão), e quando a sua altura volta disparam por uma aferência forte só, com favorecimento baixo: conta como surpresa. Na neurobiologia, uma única sinapse em geral não basta para levar o neurônio ao limiar (conhecimento geral, confiança alta na ordem de grandeza; fonte não relida).
+2. **O esperado não se propaga.** Uint cujas aferências chegam quase juntas (por exemplo, um canal e a Uint que esse mesmo canal acabou de disparar) nunca têm favorecimento emitido antes da janela, então disparam como surpresa todas as vezes, mesmo sendo regularidades aprendidas.
+
+**Correções candidatas (opções exploratórias, padrões inalterados):** `uproMaxGain` = 0,9 (nenhuma Upro sozinha atinge o limiar) e `expectationPropagates` = true (a incidência emitida por uma Uint que descarregou de forma esperada conta como favorecimento).
+
+| Mundo (médias de 5 sementes) | Surpresa, padrão | Surpresa, com as duas correções | 1º/5º quinto (corrigido) | Criadas 1º/5º (corrigido) |
+|---|---|---|---|---|
+| Fixo | 0 | 0,011 | 0,011 / 0,013 | 10 / 0 |
+| Ciclo | 0,085 | 0,007 | 0,016 / 0,001 | 24 / 0 |
+| Aleatório | 0,075 | 0,124 (0,038–0,319 por semente) | 0,064 / 0,127 | 15 / 2,6 |
+| Fixo embaralhado | 0,206 | 0,251 | 0,287 / 0,241 | 82,8 / 81,8 |
+
+Com as correções, os mundos estruturados ficam muito abaixo do aleatório e do embaralhado, e o ciclo mostra queda da surpresa ao longo do tempo. Fixo (0,011) e ciclo (0,007) ficam praticamente empatados, com o fixo um pouco acima.
+
+**Limitação encontrada:** nos mundos fixo e de ciclo o resultado é idêntico entre sementes, porque a semente só muda o substrato e a dinâmica da versão 2 não depende dele. Na prática, esses mundos têm uma réplica só. Para replicar de verdade, a semente precisa variar também o mundo (por exemplo, ruído dos sensores).
