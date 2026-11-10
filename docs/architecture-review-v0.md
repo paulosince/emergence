@@ -259,3 +259,8 @@ O **sinal fica na Upro** (como está). Perda declarada: a restrição biológica
 **Nome:** o responsável trocou "mielina" por **velocidade de propagação** (registrado na [nomenclatura](nomenclature.md)). Tempo de propagação = distância ÷ velocidade de propagação; a velocidade parte de um basal e aumenta com o uso.
 
 **Divisão campos × relações:** o responsável não objetou, mas também não confirmou explicitamente. Fica **pendente de confirmação**.
+
+### 2.12 Correções do U5 (10/11/2026, 20h33–20h38)
+- **Ordem:** é a **direção da Upro** (de origem para destino), e encadeada nas faixas longas. Não precisa de campo nem de nome (leitura do responsável, confirmada).
+- **Carimbo de tempo: a questão estava fora de lugar** (responsável, confirmado). Não é campo nem objeto novo da Upro: é uma Upro comum cujo parceiro é uma Uint de dinâmica lenta. A relação temporal entre eventos distantes existe pelos parceiros lentos que eles compartilham ou não, sem aresta entre eles. Retirada a sugestão de nome "posição temporal do evento". **A pergunta vai para a revisão da Uint:** o que faz uma Uint ter dinâmica lenta (predisposição, como uma constante de tempo, ou dinâmica formada pela experiência)?
+- **Campos da Upro que ficam:** marca, nível de estabilidade e velocidade de propagação. Nomes propostos para os dois primeiros: **marca de consolidação** e **nível de consolidação**. Aguardam o responsável.
