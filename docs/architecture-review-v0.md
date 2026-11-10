@@ -164,3 +164,36 @@ A tabela ([neuromoduladores](neuromodulators-sources-v0.md)) mostra que **a imen
 1. **Utrd eferente → canal atuador: fixa, dada pelo corpo.** Uma Utrd eferente por canal atuador, com identificador opaco, definida pela especificação do robô (equivalente ao par motoneurônio-músculo). Perda declarada: sem poda da inervação redundante. Ela só refina força e não muda o alvo, então a perda parece pequena; testável comparando com ganhos de saída plásticos.
 2. **Domínio → Utrd eferente: formada pela experiência**, pelos mesmos processos do domínio (Pcrt, fortalecimento por confirmação, inibição entre concorrentes), nascendo do movimento já representado (via inversa por Upro recíprocas, já decidida). Antes disso, só reflexos e movimentos espontâneos do corpo.
 3. **A decidir:** período crítico imposto (como as semanas 3 a 7 no gato) ou emergente da consolidação. Recomendação: **não impor**; deixar emergir e medir.
+
+## 2. Upro (unidade de propagação) — revisão iniciada em 10/11/2026, 20h05
+
+### 2.1 Como está no motor v2 (lido no código)
+- Campos: `{id, from, to, delayMs, gain, dEffect}`.
+- Criação: junto com a Uint, no mesmo evento.
+  - Excitatórias: das incidências constituintes para a Uint nova. Atraso = intervalo vivido + 1 ms; ganho inicial 0,6 (uma incidência sozinha não atinge o limiar 1; duas coincidentes atingem).
+  - Inibitórias (decisão D2, validada em 09/11): recíprocas entre a Uint nova e até 16 concorrentes que compartilham origens. Ganho **fixo** 0,5; atraso 1 ms.
+- Plasticidade: confirmação fortalece (taxa 0,1, teto 1); incidência tardia enfraquece (0,1) e encurta o atraso; convergência falha alonga a anterior e encurta a atual.
+- Não há: marca, nível de estabilidade, estado de mielinização.
+
+### 2.2 Pontos, um a um
+| # | Ponto | Estado |
+|---|---|---|
+| U1 | Atraso: basal pela distância, acelerado devagar; teto de ~100 ms (C1) | **decidido**; implementar após o item (iii) |
+| U2 | Ganho inicial 0,6 (o TEMPO usa 0,3, com outro limiar) | calibração; não bloqueia; fica para depois |
+| U3 | Sinal na aresta (`dEffect`) ou na unidade de origem (princípio de Dale)? | **a decidir** |
+| U4 | Inibitórias criadas na constituição com ganho fixo × plasticidade inibitória pela experiência | **a decidir** |
+| U5 | Campos novos exigidos pelas decisões de hoje: marca (intensidade, ordem, carimbo), nível de estabilidade, mielinização | **a confirmar** |
+
+### 2.3 U3 — literatura
+| Achado | Fonte | Leitura |
+|---|---|---|
+| A expressão "princípio de Dale" foi cunhada por Eccles (1954): um neurônio libera o mesmo transmissor (ou conjunto) em todas as sinapses. A regra "um neurônio, um transmissor" está se mostrando falsa: várias populações liberam também GABA. | revisão de coliberação de GABA, *Nat. Rev. Neurosci.* 17 (2016) (autores não conferidos; laboratório Sabatini pelo endereço) | trechos |
+| Neurônios motores liberam acetilcolina no músculo e glutamato em colaterais na medula: **ramos diferentes, transmissores diferentes**. | Hnasko e Edwards (2012), *Annu. Rev. Physiol.*; divulgação na *Scientific American* | resumo e trechos |
+| Neurônios da área tegmentar ventral e do núcleo entopeduncular liberam glutamato **e** GABA na habênula lateral. | revisão de 2016 (acima) | trechos |
+
+**Leitura:** a regra geral no córtex é a separação entre neurônios excitatórios e inibitórios (os interneurônios), mas há exceções. Pôr o sinal na aresta é uma simplificação mais permissiva que a biologia típica.
+
+### 2.4 U4 — literatura
+| Achado | Fonte | Leitura |
+|---|---|---|
+| O equilíbrio entre excitação e inibição pode ser estabelecido e mantido **pela experiência**, por plasticidade nas sinapses inibitórias. Isso explica o disparo esparso, dá um mecanismo homeostático e permite guardar memórias que ficam indistinguíveis do fundo, mas podem ser reativadas. | Vogels, Sprekeler, Zenke, Clopath e Gerstner (2011), *Science* 334, 1569–1573 | resumo |
