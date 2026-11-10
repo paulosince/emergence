@@ -25,7 +25,8 @@ Não mudou do preprint até hoje:
 
 ## Arquitetura herdada (responsável, 10/11/2026, 17h10)
 "Seres biológicos são darwinianos": nascem com **arquitetura pronta herdada**, coisa de que o sistema agnóstico de substrato **não se vale**. Quando a biologia mostra uma estrutura que já existe antes da experiência por herança evolutiva, isso por si só não obriga o sistema a tê-la pronta.
-- Leitura nossa (a confirmar): o sistema começa com o que é **sistema e predisposição** (corpo, Utrd especializadas, reflexos, regras e processos da Pcrt) e sem nada que pré-especifique caminhos ou conteúdos representacionais. A herança evolutiva carrega uma história que o sistema não teve; tê-la pronta seria injetar de fora o que deveria ser constituído.
+- **Linha confirmada (responsável, 17h18):** não se entrega pronto aquilo que é **constitutivo de um domínio representacional autônomo**, isto é, o que faz parte da tríade e é necessário para que exista consciência segundo a CLEAR: o que o próprio sistema precisa constituir por si para ter **conteúdo para si**, **significado para si**.
+- Leitura (confirmada às 17h18): o sistema começa com o que é **sistema e predisposição** (corpo, Utrd especializadas, reflexos, regras e processos da Pcrt) e sem nada que pré-especifique caminhos ou conteúdos representacionais. A herança evolutiva carrega uma história que o sistema não teve; tê-la pronta seria injetar de fora o que deveria ser constituído.
 - A regra de divergência continua valendo: declarar o mecanismo herdado, a equivalência e o que se perde (por exemplo, organização inicial pronta como a tonotopia), com teste quando possível.
 
 ## Regra de divergência
