@@ -113,7 +113,46 @@ Leitura conjunta: **a marca não precisa saber, no momento, se o evento importa*
 4. **Cada reativação conta como repetição para o limiar da marca acumulada**, ou vale o período refratário de 30–60 min já decidido? A literatura que li não responde isso diretamente.
 5. **Quando reativar:** só no sono ou também no repouso em vigília? A biologia mostra os dois. Recomendo os dois.
 
+## 5. Respostas do responsável (10/11/2026, 19h41)
+- **Pergunta 1:** mesma regra, com fonte interna de coatividade. **Decidido.**
+- **Pergunta 3:** o período refratário também vale para as reativações: reativações dentro de 30–60 min contam como uma repetição. **Decidido.**
+- **Pergunta 4:** a reativação ocorre no repouso e no sono. **Decidido.**
+- **Pergunta 5** (um depósito ou dois): ainda não foi perguntada.
+- **Pergunta 2:** o responsável respondeu com uma observação própria, transcrita em resumo. Ele não consegue cantar mentalmente uma música no tempo exato. Ao acessar um trecho, o seguinte já é chamado e soa junto. Para manter o tempo certo, precisa "segurar", voltar ao momento anterior e controlar o ritmo, o que é difícil. O mesmo acontece com a lembrança de eventos: um puxa o seguinte e tudo acelera.
+
+### 5.1 Hipótese tirada da observação (formulação nossa; aguarda confirmação)
+- **H5.** Na lembrança, a compressão **não é um fator aplicado**: ela surge porque cada parte reativada já recruta a seguinte antes da hora.
+- O tempo original continua guardado e pode ser recuperado, mas só com **controle ativo** que segura o encadeamento. Esse controle custa esforço.
+
+### 5.2 O que a literatura diz sobre H5
+| Achado | Fonte | Leitura | Relação com H5 |
+|---|---|---|---|
+| A reexecução de episódios na memória humana é comprimida e vai para a frente. A velocidade **muda ao longo da lembrança**: os subeventos são reexecutados mais devagar que a passagem de um para o outro, e é possível pular subeventos. | Michelmann et al. (2019) | resumo | **Apoia**: a compressão não é constante |
+| Eventos do dia a dia foram reexecutados em média **cerca de 8 vezes** mais rápido que a duração real, com grande variação entre eventos. | Jeunehomme e D'Argembeau (2019), citado em D'Argembeau et al. (2022) | fonte secundária (revisão dos próprios autores) | **Apoia**. Confiança no número: **média-alta** |
+| A lembrança é uma sucessão de "fatias" com **descontinuidades**: trechos redundantes e previsíveis são omitidos e os informativos ficam. | D'Argembeau, Jeunehomme e Stawarczyk (2022); Jeunehomme e D'Argembeau (2023) | resumo | **Apoia** e acrescenta: o que é previsível é pulado |
+| Música imaginada: o **andamento é representado**. As regulagens de metrônomo para música ouvida e imaginada ficaram próximas, em média cerca de 100 batidas por minuto. Músicas lentas ficaram mais rápidas na imaginação, e vice-versa. | Halpern (1988, *Music Perception*) | resumo | **Apoia em parte**: o tempo está guardado, com distorção |
+| Há resultados conflitantes sobre a precisão do andamento na imaginação musical; ele parece menos robusto que a altura das notas. | Jakubowski et al. (2016) | trechos | Compatível com "manter o andamento é difícil" |
+
+**Leitura:** a literatura distingue dois modos.
+- **Lembrar livremente** é comprimido, com velocidade variável e com saltos.
+- **Imaginar deliberadamente no tempo** (música) preserva o andamento, de forma aproximada e menos robusta.
+
+Isso combina com a observação do responsável. O tempo está guardado (opção (a), proporções), mas o percurso espontâneo não o respeita (fica perto de (b), ordem), e respeitá-lo exige controle.
+
+**Consequência para a pergunta 2:**
+- A opção "(a) com **fator fixo**" é **contrariada**: a compressão varia e pula partes.
+- Proposta (nossa): a reexecução **percorre pela ordem**, na velocidade que a ativação permitir; os intervalos continuam guardados nas relações.
+
+**Cuidado:**
+- Os estudos humanos são sobre **lembrança consciente**, não sobre a reexecução nas ondas agudas do sono. São fenômenos aparentados, mas não o mesmo.
+- O "segurar o andamento" precisa de outro mecanismo, que ainda não foi pesquisado (controle que usa os intervalos guardados).
+- A observação do responsável é **introspecção**: serve para gerar hipótese, não como evidência.
+
 ## Referências (o que foi lido)
+- D'Argembeau, A., Jeunehomme, O., e Stawarczyk, D. (2022). Slices of the past: how events are temporally compressed in episodic memory. *Memory* 30(1). (resumo e trechos)
+- Halpern, A. R. (1988). Perceived and imagined tempos of familiar songs. *Music Perception* 6(2), 193–202. (resumo)
+- Jakubowski, K. et al. (2016). *Psychology of Music*. (trechos; título completo não conferido)
+- Michelmann, S., Staresina, B. P., Bowman, H., e Hanslmayr, S. (2019). Speed of time-compressed forward replay flexibly changes in human episodic memory. *Nature Human Behaviour* 3(2), 143–154. (resumo)
 - Ambrose, R. E., Pfeiffer, B. E., e Foster, D. J. (2016). Reverse replay of hippocampal place cells is uniquely modulated by changing reward. *Neuron* 91(5), 1124–1136. (resumo)
 - Ballarini, F., Moncada, D., Martinez, M. C., Alen, N., e Viola, H. (2009). Behavioral tagging is a general mechanism of long-term memory formation. *PNAS* 106(34), 14599–14604. (resumo)
 - Bittner, K. C., Milstein, A. D., Grienberger, C., Romani, S., e Magee, J. C. (2017). Behavioral time scale synaptic plasticity underlies CA1 place fields. *Science* 357, 1033–1036. (resumo)
