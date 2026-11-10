@@ -28,3 +28,14 @@ Sala de 6 × 4 × 2,8 m; janela ao norte de 2 m de largura, peitoril a 0,9 m, 1,
 - Sala 3,0 × 2,5 × 2,5 m; janela com peitoril a 0,20 m, 1,2 m de largura × 1,5 m de altura, fechada (som de fora atenuado).
 - Objetos padrão: 2 peças de Lego 2 × 4 de cores diferentes, 1 bolinha de pingue-pongue, 1 bolinha de borracha maciça (~30 mm, ~15 g).
 - Rato (valores de conhecimento geral, confiança moderada): corpo ~8 cm sem a cauda, ~20 g, 37 °C; chiados audíveis de poucos kHz (as vocalizações ultrassônicas ficam acima do que microfones a 48 kHz registram); entra por um buraco no rodapé após as 22h00; comportamento em estados (explorar, farejar comida, aproximar-se do robô parado, fugir do robô em movimento, empurrar objetos).
+
+## Decisões do responsável (10/11/2026, continuação)
+1. **Comida:** alguém (invisível, fora da sala) empurra um pedaço de queijo por uma fresta da porta, **sempre ao anoitecer**.
+2. **Luz de fora à noite:** a **lua**.
+3. **Sono do robô:** (a) o ciclo do robô segue a luz e o rato aparece no começo da noite, antes de o robô dormir; e (b) estímulos fortes durante o sono podem acordá-lo (despertar sensorial).
+
+## Consequências e notas (nossas)
+- O robô não tem olfato: o queijo é para ele um objeto que aparece, é tocado, visto e some (comido). O rato o encontra pelo cheiro (modelo interno do rato).
+- Lua: precisa de um modelo de fase (ciclo sinódico de ~29,53 dias) e posição; luz de lua cheia é da ordem de décimos de lux, contra dezenas de milhares de lux do sol (ordens de grandeza de conhecimento geral; confiança moderada).
+- O rato chega às 22h00 (lâmpada apaga); o sono do robô precisa começar depois disso pelo arrastamento do relógio à luz.
+- Despertar sensorial: no motor, incidências de magnitude acima de um limiar atravessam o bloqueio do sono e empurram o interruptor para a vigília (paralelo: sistemas de despertar e interruptor biestável, Saper et al. 2001, já usado no motor). A desenhar.
