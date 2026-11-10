@@ -2,7 +2,7 @@
 
 Data: 10/11/2026. Base: CLEAR Robotics V0.7 (outra conversa; revisão em [robot-spec-v0.7-review.md](robot-spec-v0.7-review.md)) + decisões desta sessão. **Diretrizes do responsável (10/11/2026):** ignorar custos por ora; só simulação nesta etapa; considerar o que o experimento precisa, sem concessões; o robô precisa poder se tocar. Nos conflitos da revisão, valem as decisões desta sessão.
 
-Situação: **proposta a aprovar**. Itens marcados [Decisão] esperam o responsável.
+Situação: **aprovada com as decisões de 10/11/2026 (seção 7)**. Itens marcados [Decisão] esperam o responsável.
 
 ## 1. Fronteiras (da V0.7, mantidas)
 Sistema físico S (corpo, ambiente, reflexos, proteções) · Utrd · processos constitutivos (Pcrt) · Sdom. Começa sem nenhuma representação; o Sdom não é um objeto criado de antemão (v43 L77). Sem semântica injetada; identificadores opacos para o domínio; nomes de modalidade só na documentação.
@@ -41,3 +41,13 @@ Sistema físico S (corpo, ambiente, reflexos, proteções) · Utrd · processos 
 
 ## 6. Requisitos e testes
 R-01 a R-12 e T01–T12 da V0.7, mantidos, mais: T13 toque em si mesmo (alcance e contato registrado pelas duas peles).
+
+## 7. Decisões do responsável (10/11/2026)
+1. **Olhos com movimento próprio** (convergência e sacadas): 2 eixos por olho (guinada e arfagem) = 4 atuadores.
+2. **Rolagem do pescoço:** sim (+1 atuador).
+3. **Pele com temperatura e vibração**, além da pressão.
+4. **Nocicepção entra** como sensação (receptores de limiar alto, mecânicos e térmicos); não é objetivo nem penalidade (R-10 mantido).
+5. **Reflexo de orientação entra** (som ou toque → virar cabeça e olhos).
+6. **Via do domínio para os atuadores fica em aberto** nesta fase; os movimentos vêm de reflexos e marca-passos.
+
+**Total de atuadores: 27** (2 rodas + 12 braços + 6 dedos + 3 pescoço + 4 olhos).
