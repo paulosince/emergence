@@ -117,10 +117,10 @@ Leitura conjunta: **a marca não precisa saber, no momento, se o evento importa*
 - **Pergunta 1:** mesma regra, com fonte interna de coatividade. **Decidido.**
 - **Pergunta 3:** o período refratário também vale para as reativações: reativações dentro de 30–60 min contam como uma repetição. **Decidido.**
 - **Pergunta 4:** a reativação ocorre no repouso e no sono. **Decidido.**
-- **Pergunta 5** (um depósito ou dois): ainda não foi perguntada.
+- **Pergunta 5** (19h56): começar com **uma malha com dois ritmos** (relação provisória rápida; estabilidade lenta na escada) e **observar** se surge uma região de plasticidade rápida, como critério a observar, não como regra. **Decidido.**
 - **Pergunta 2:** o responsável respondeu com uma observação própria, transcrita em resumo. Ele não consegue cantar mentalmente uma música no tempo exato. Ao acessar um trecho, o seguinte já é chamado e soa junto. Para manter o tempo certo, precisa "segurar", voltar ao momento anterior e controlar o ritmo, o que é difícil. O mesmo acontece com a lembrança de eventos: um puxa o seguinte e tudo acelera.
 
-### 5.1 Hipótese tirada da observação (formulação nossa; aguarda confirmação)
+### 5.1 Hipótese tirada da observação (formulação nossa; confirmada pelo responsável às 19h56)
 - **H5.** Na lembrança, a compressão **não é um fator aplicado**: ela surge porque cada parte reativada já recruta a seguinte antes da hora.
 - O tempo original continua guardado e pode ser recuperado, mas só com **controle ativo** que segura o encadeamento. Esse controle custa esforço.
 
@@ -139,7 +139,7 @@ Leitura conjunta: **a marca não precisa saber, no momento, se o evento importa*
 
 Isso combina com a observação do responsável. O tempo está guardado (opção (a), proporções), mas o percurso espontâneo não o respeita (fica perto de (b), ordem), e respeitá-lo exige controle.
 
-**Consequência para a pergunta 2:**
+**Consequência para a pergunta 2 (aceita com a confirmação de H5):**
 - A opção "(a) com **fator fixo**" é **contrariada**: a compressão varia e pula partes.
 - Proposta (nossa): a reexecução **percorre pela ordem**, na velocidade que a ativação permitir; os intervalos continuam guardados nas relações.
 
