@@ -25,3 +25,14 @@ Ver a conversa de 10/11/2026; os pontos aprovados serão registrados aqui.
 - Escala: uma mesa comum (~75 cm) fica muito acima dos olhos; o robô veria só o tampo por baixo e as pernas. O mundo precisa ser desenhado nessa escala.
 - Proposta de braços: ombros no topo lateral da caixa (~25 cm), braço 12 cm + antebraço 12 cm + mão 5 cm (~29 cm), para alcançar o chão à frente das rodas e um pouco acima da cabeça.
 - Microfones nas laterais da cabeça: com 10 cm entre eles, a maior diferença de tempo entre os ouvidos é ~0,29 ms (0,10 m ÷ 343 m/s).
+
+## Geometria aprovada (10/11/2026)
+Caixa de 2,5 a 27,5 cm do chão, eixo 5 cm acima da base; câmeras a ~35–38 cm; braço 12 cm + antebraço 12 cm + mão 5 cm, ombros no topo lateral da caixa.
+
+## Pesquisa de mercado para o robô físico (10/11/2026; resumos de páginas de busca, preços a confirmar com os vendedores)
+**Visão (câmera comum):** módulos baratos como o OV2640 (usado com ESP32) capturam em escala de cinza a 160 × 120 (QQVGA), documentado no driver CircuitPython e nas amostras do esp32-camera; resoluções menores saem por média de blocos em software, à maneira da convergência retina → células ganglionares. Câmera de eventos existe (iniVation DVXplorer Micro, € 2.400 na tarifa acadêmica; DVXplorer, € 3.900 comercial), adiada por escolha do responsável.
+**Audição (cóclea):** a cóclea de silício existiu como protótipo (Dynamic Audio Sensor, vendido em protótipo pela inilabs; versão binaural com 64 faixas por ouvido, IEEE JSSC 51(11), 2016), mas não encontramos produto à venda hoje. Caminho prático: microfone + microcontrolador com banco de filtros gamatone (4ª ordem, faixas pela escala ERB, modelo de Patterson) — por exemplo Teensy (biblioteca de áudio com instruções DSP); não há objeto gamatone pronto, teria de ser escrito.
+**Riqueza com 32–64 faixas:** reconhecimento de fala quase perfeito com só 3–4 faixas em silêncio (Shannon et al. 1995, *Science* 270, 303–304; resumo lido); ouvintes normais usam até ~20 canais em tarefas difíceis (artigo de 2010, citação secundária). 64 faixas por ouvido = o mesmo número da cóclea de silício binaural.
+**Pele:**
+- Pontas dos dedos: XELA uSkin (taxels magnéticos de 3 eixos, força normal e tangencial; patches de 4 a 24 taxels; preço só sob consulta) ou sensores por imagem (DIGIT, desenho aberto, US$ 300 em 2021 pela GelSight; GelSight Mini).
+- Palma, braços e caixa: matrizes de FSR (Interlink; precisão típica de ±10–25%; Loomia vende matrizes para superfícies curvas) ou matriz caseira de Velostat entre linhas e colunas de cobre (barata; exige correção de diafonia e calibração; projetos abertos como RSkin).
