@@ -1,6 +1,6 @@
 // Robot body for the simulation (docs/robot-spec-v1.md, approved 10/11/2026).
 // Builds the MuJoCo MJCF of the robot: 40 cm tall, 25 cm cubic trunk, two
-// 15 x 5 cm wheels (no permanent support), arms with 3-axis shoulder, elbow and
+// 15 x 5 cm wheels plus front and back training casters (decision 10/11/2026), arms with 3-axis shoulder, elbow and
 // 2-axis wrist, 3 two-phalanx fingers per hand driven by one tendon each,
 // neck with yaw/pitch/roll, two eyes with yaw/pitch and a camera each, two
 // microphone sites, an IMU site and touch taxels over the whole body.
@@ -9,11 +9,13 @@
 // Names here are for the researcher only; the domain receives opaque ids.
 
 export const ROBOT_PARAMS = Object.freeze({
-  trunkHalf: 0.125, clearance: 0.025, wheelX: 0.025, // axle under the centre of mass of the neutral posture (arms forward)
+  trunkHalf: 0.125, clearance: 0.025, wheelX: 0.035, // axle under the centre of mass of the neutral posture (arms forward; COM x = 0.0348 m)
+  casterRadius: 0.02, casterOffset: 0.03, casterTiltRad: 0.15, // training casters touch the floor only beyond this tilt
   wheelRadius: 0.075, wheelHalfWidth: 0.025, wheelGap: 0.005,
   trunkMass: 1.2, wheelMass: 0.12, neckMass: 0.05, headMass: 0.2, eyeMass: 0.015,
   upperArmMass: 0.07, forearmMass: 0.05, handMass: 0.04, phalanxMass: 0.004,
-  shoulder: [0.08, 0.145, 0.10], upperArm: 0.12, forearm: 0.12, hand: 0.05, phalanx: 0.012,
+  // shoulders in front of the wheels (they no longer touch the hanging arm)
+  shoulder: [0.105, 0.145, 0.10], upperArm: 0.12, forearm: 0.12, hand: 0.05, phalanx: 0.012,
   armRadius: 0.012, fingerRadius: 0.004,
   wheelTorque: 1.5, armKp: 4, neckKp: 2, eyeKp: 0.3, fingerKp: 3,
   taxel: { trunk: 0.025, head: 0.025, arm: 0.02, palm: 0.008, fingertip: 0.003 },
@@ -23,9 +25,17 @@ export const ROBOT_PARAMS = Object.freeze({
 const f = v => +v.toFixed(5);
 const v3 = a => a.map(f).join(' ');
 
-// support: removable front and back sliding supports (researcher-side, like a walker) so that
-// the body can stay upright while the domain does not yet sustain it (option, off by default)
-export function buildRobotMJCF(P = ROBOT_PARAMS, { extraWorld = '', support = false } = {}) {
+// Training casters (decision of the researcher, 10/11/2026: "rodinhas; if it does not learn to
+// stand it always ends up resting on the front or the back one"): two free-rolling ball casters,
+// in front of and behind the trunk, placed so that they touch the floor only when the trunk tilts
+// beyond casterTiltRad about the wheel axle. Between those tilts the body is unsupported.
+export function buildRobotMJCF(P = ROBOT_PARAMS, { extraWorld = '', casters = true } = {}) {
+  const casterXml = (P, T, zTrunk) => [-1, 1].map(sx => {
+    const r = P.casterRadius, x = sx * (T + P.casterOffset), dx = Math.abs(x - P.wheelX), th = P.casterTiltRad, axleZ = P.wheelRadius;
+    const dzAxle = (r - axleZ + dx * Math.sin(th)) / Math.cos(th); // ball centre height relative to the axle at zero tilt
+    const z = axleZ + dzAxle - zTrunk, name = sx > 0 ? 'front' : 'back';
+    return `<body name="caster_${name}" pos="${f(x)} 0 ${f(z)}"><joint name="caster_${name}" type="ball" damping="0.0005"/><geom type="sphere" size="${r}" mass="0.01" friction="1 0.005 0.0005" rgba=".9 .3 .3 1"/></body><geom type="capsule" fromto="${f(sx * T)} 0 ${f(-T + 0.02)} ${f(x)} 0 ${f(z + r + 0.004)}" size="0.005" mass="0.01" rgba=".9 .3 .3 1" contype="0" conaffinity="0"/>`;
+  }).join('');
   const sensors = [], actuators = [], tendons = [], taxels = [];
   const T = P.trunkHalf, zTrunk = P.clearance + T;
   const taxelSite = (name, pos, size, region) => { taxels.push({ name, region }); sensors.push(`<touch name="${name}" site="${name}"/>`); return `<site name="${name}" type="box" pos="${v3(pos)}" size="${v3(size)}" rgba="1 .5 0 .15" group="3"/>`; };
@@ -142,7 +152,7 @@ export function buildRobotMJCF(P = ROBOT_PARAMS, { extraWorld = '', support = fa
     </body>`;
   };
 
-  sensors.push('<accelerometer name="imu_acc" site="imu"/>', '<gyro name="imu_gyro" site="imu"/>', '<framequat name="trunk_quat_diagnostic" objtype="body" objname="trunk"/>');
+  sensors.push('<accelerometer name="imu_acc" site="imu"/>', '<gyro name="imu_gyro" site="imu"/>', '<framequat name="trunk_quat_diagnostic" objtype="xbody" objname="trunk"/>');
   for (const a of ['wheel_L', 'wheel_R']) sensors.push(`<actuatorfrc name="${a}_effort" actuator="${a}"/>`);
   const xml = `<mujoco model="clear-robot-v1">
   <compiler angle="radian" autolimits="true"/>
@@ -157,7 +167,7 @@ export function buildRobotMJCF(P = ROBOT_PARAMS, { extraWorld = '', support = fa
       <site name="imu" pos="0 0 0" size="0.005"/>
       ${trunkSkin}
       ${wheel('L', 1)}${wheel('R', -1)}
-      ${support ? [-1, 1].map(sx => `<body name="support_${sx > 0 ? 'front' : 'back'}"><geom type="capsule" fromto="${f(sx * T)} 0 ${f(-T + 0.02)} ${f(sx * (T + 0.03))} 0 ${f(0.02 - zTrunk)}" size="0.006" mass="0.02" rgba=".9 .3 .3 1"/><geom type="sphere" pos="${f(sx * (T + 0.03))} 0 ${f(0.02 - zTrunk)}" size="0.02" mass="0.01" friction="0.05 0.001 0.001" rgba=".9 .3 .3 1"/></body>`).join('') : ''}
+      ${casters ? casterXml(P, T, zTrunk) : ''}
       <body name="neck" pos="0 0 ${T}">
         ${joint('neck_yaw', '0 0 1', '-1.6 1.6')}${joint('neck_pitch', '0 1 0', '-0.8 0.8')}${joint('neck_roll', '1 0 0', '-0.8 0.8')}
         <geom type="capsule" fromto="0 0 0 0 0 0.035" size="0.015" mass="${P.neckMass}" rgba=".4 .4 .45 1"/>

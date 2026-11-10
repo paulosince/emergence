@@ -4,6 +4,7 @@
 // transduction layer (later step) reads sensors and produces incidences.
 import loadMujoco from '@mujoco/mujoco';
 import { buildRobotMJCF, ROBOT_PARAMS } from './robot-model.js';
+import { makeRng } from '../../../vendor/tempo/core/rng.js';
 
 let MJ = null;
 export async function mujoco() { return MJ ??= await loadMujoco(); }
@@ -16,13 +17,17 @@ export async function mujoco() { return MJ ??= await loadMujoco(); }
 // posture. Mode 'postural' (full tilt/speed/travel controller, grid search
 // 10/11/2026) is kept ONLY as an engineering control, never in experiments.
 export const R1_DEFAULTS = Object.freeze({ mode: 'phasic', kPhasic: 0.6, thresholdRadS: 0.3,
-  kTilt: 12, kRate: 3, kSpeed: 0.8, kTravel: 0.3 });
+  kTilt: 12, kRate: 3, kSpeed: 0.6, kTravel: 0.3 }); // postural gains (engineering only): grid search without casters, 20 s with a 3 N push, 15 of 192 combinations stable
 
 export class RobotSimulation {
-  #mj; #m; #d; #id = {}; #sens = {}; #act = {}; #jnt = {}; #r1; #travel0 = null;
-  static async create({ params = ROBOT_PARAMS, r1 = R1_DEFAULTS, extraWorld = '', support = false } = {}) {
+  #mj; #m; #d; #id = {}; #sens = {}; #act = {}; #jnt = {}; #r1; #travel0 = null; #trunkId; #noise = null;
+  // disturbance: small random horizontal force on the trunk (Ornstein-Uhlenbeck, seeded), standing for
+  // the irregularities of any real floor and body; without it an unstable equilibrium is never left.
+  static async create({ params = ROBOT_PARAMS, r1 = R1_DEFAULTS, extraWorld = '', casters = true, disturbance = { stdN: 0.05, tauS: 0.2 }, seed = 1 } = {}) {
     const mj = await mujoco();
-    return new RobotSimulation(mj, buildRobotMJCF(params, { extraWorld, support }), { ...R1_DEFAULTS, ...r1 });
+    const sim = new RobotSimulation(mj, buildRobotMJCF(params, { extraWorld, casters }), { ...R1_DEFAULTS, ...r1 });
+    sim.#noise = disturbance && disturbance.stdN > 0 ? { ...disturbance, rng: makeRng(seed), f: [0, 0] } : null;
+    return sim;
   }
   constructor(mj, built, r1) {
     this.#mj = mj; this.built = built; this.#r1 = { ...r1, enabled: true };
@@ -45,7 +50,7 @@ export class RobotSimulation {
   joint(name) { return this.#d.qpos[this.#jnt[name].qadr]; }
   setR1(enabled) { this.#r1.enabled = enabled; }
   // trunk pitch (rotation about y, positive = top forward) from the trunk quaternion (diagnostic, inside S)
-  tilt() { const [w, x, y, z] = this.sensor('trunk_quat_diagnostic'); return Math.asin(Math.max(-1, Math.min(1, 2 * (w * y - z * x)))); }
+  tilt() { const b = this.#trunkId ??= this.#mj.mj_name2id(this.#m, this.#mj.mjtObj.mjOBJ_BODY.value, 'trunk'), q = this.#d.xquat, w = q[4 * b], x = q[4 * b + 1], y = q[4 * b + 2], z = q[4 * b + 3]; return Math.asin(Math.max(-1, Math.min(1, 2 * (w * y - z * x)))); }
   #reflex() {
     const k = this.#r1; if (!k.enabled) return;
     const rate = this.sensor('imu_gyro')[1];
@@ -60,7 +65,13 @@ export class RobotSimulation {
     this.lastR1 = u;
     this.setCtrl('wheel_L', u); this.setCtrl('wheel_R', u);
   }
-  step(n = 1) { for (let i = 0; i < n; i++) { this.#reflex(); this.#mj.mj_step(this.#m, this.#d); } }
+  #disturb() {
+    const z = this.#noise; if (!z) return;
+    const b = this.#trunkId ??= this.#mj.mj_name2id(this.#m, this.#mj.mjtObj.mjOBJ_BODY.value, 'trunk');
+    const dt = this.#m.opt.timestep, a = Math.exp(-dt / z.tauS), sd = z.stdN * Math.sqrt(1 - a * a);
+    for (let k = 0; k < 2; k++) { z.f[k] = a * z.f[k] + sd * z.rng.normal(); this.#d.xfrc_applied[6 * b + k] = z.f[k]; }
+  }
+  step(n = 1) { for (let i = 0; i < n; i++) { this.#reflex(); this.#disturb(); this.#mj.mj_step(this.#m, this.#d); } }
   push(fx, steps = 25) { // external horizontal push on the trunk (researcher perturbation)
     const b = this.#mj.mj_name2id(this.#m, this.#mj.mjtObj.mjOBJ_BODY.value, 'trunk');
     for (let i = 0; i < steps; i++) { this.#d.xfrc_applied[6 * b] = fx; this.step(); }
