@@ -109,6 +109,8 @@ A CLEAR separa três operações que a maior parte da literatura chama indistint
 
 - **Velocidade de propagação (nome escolhido pelo responsável, 10/11/2026, 20h27):** estado da Upro que diz a que velocidade ela leva a incidência. O tempo de propagação é a distância dividida por essa velocidade. Parte de um valor basal e **aumenta** devagar com o uso (aceleração dependente de atividade). Substitui "mielina" como termo da arquitetura; "mielina" continua sendo usada só para descrever a biologia. Escolhido "pelo que ela é", em vez de nomes que descrevem o processo (aceleração, encurtamento do atraso).
 
+- **Ação sob modulação (nome proposto pelo responsável, 10/11/2026, 20h44):** perfil de cada Upro que diz o que ela faz na presença de cada modulador, em duas partes: efeito na transmissão (multiplica o ganho) e efeito na plasticidade (portão, janela, polaridade). Vem da classe da Upro (aferente × intrínseca; excitatória × inibitória), como predisposição. Ver [revisão da arquitetura](architecture-review-v0.md), seção 2.13.
+
 **Regra:** nos documentos do EMERGENCE, "previsão" só é usada no sentido da CLEAR. Termos da literatura, como "erro de predição de recompensa" e "codificação preditiva", são citados como termos **da literatura**, entre aspas ou com a indicação "no sentido da literatura".
 
 **Classificação do que está implementado (proposta minha, aguardando confirmação do responsável):**

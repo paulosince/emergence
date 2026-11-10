@@ -290,3 +290,10 @@ O que decide é o conjunto de receptores daquela sinapse, que depende do tipo de
 - **Perdas:** a diversidade real de receptores e vias internas; a mudança de expressão de receptores com a experiência (não pesquisada).
 
 **Nome:** "ação por sinal" é a expressão provisória do responsável. Na nomenclatura, "sinal" já designa o sinal do efeito (+ ou −), o que pode confundir. Fica a decisão do nome com o responsável.
+
+### 2.14 Decisões de U6 (responsável, 10/11/2026, 20h44)
+1. **Sim:** o perfil entra na Upro.
+2. **Sim:** o perfil vem da classe da Upro, como predisposição.
+3. **Nome:** **ação sob modulação**, proposto pelo responsável e registrado na [nomenclatura](nomenclature.md).
+
+**Pendentes da Upro:** os nomes **marca de consolidação** e **nível de consolidação** (U5).
