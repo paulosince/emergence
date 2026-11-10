@@ -73,6 +73,7 @@ Guia: [texto do responsável sobre os limites do Sdom](sdom-boundaries-guide.md)
 3. **Períodos críticos** têm tempo, duração e mecanismos moleculares próprios em cada região e modalidade (Hensch 2004, *Annu. Rev. Neurosci.* 27:549–579; **resumo e trechos**).
 4. **Resolução temporal por sentido:** o processamento temporal auditivo supera o tátil e o visual; tátil × visual dá resultados mistos (revisão em *Atten. Percept. Psychophys.* 2023, doi 10.3758/s13414-023-02736-y; **trecho**).
 - **Hipótese proposta (nossa):** a especialização mora **na Utrd** (o que ela transduz, com que resolução e taxa de amostragem) e nos **parâmetros** da janela de coincidência, que acompanham a resolução da Utrd; a **forma** da regra de formação na Pcrt é comum (hebbiana). Equivalência: igual ao resultado da reconexão de Sur (regra comum, entrada diferente). Perdas: especializações locais do tecido (o mapa reconectado é menos ordenado). Teste: variante com regras diferentes por sentido.
+- **Decidido (responsável, 17h39):** proposta da parte 1 aprovada — especialização na Utrd e nos parâmetros da janela; forma da regra comum (hebbiana); variante por sentido como comparação.
 
 **Parte 2 — uma coincidência ou recorrência?**
 1. **Por repetição:** na STDP clássica, a mudança é induzida por dezenas de pareamentos (por exemplo, 60 pares a 20 Hz; Morrison, Diesmann e Gerstner 2008, *Biol. Cybern.* 98:459–478; **trecho do texto integral**).
