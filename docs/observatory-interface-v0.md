@@ -11,7 +11,7 @@ Data: 10/11/2026. Situação: concepção do responsável registrada; arquitetur
   - **Decisão (15h45):** a interface tem **dois tipos de visualização**: (1) **câmeras**, várias ao mesmo tempo (topo, lado, a que segue o robô, olhos do robô); (2) **mapa interativo do domínio representacional**, com os filtros dentro dele.
   - **Tudo é gravado em trilhas individualizadas**; o mapa mostra cada coisa de forma independente, sem recalcular.
   - **Tudo está sempre no mapa; o filtro controla a opacidade.** O que não está selecionado fica com opacidade reduzida, para dar contexto; **o quão transparente fica é parametrizável**, assim como o quão opaco fica cada filtro selecionado.
-  - A confirmar: (b) mais de um neuromodulador ao mesmo tempo (cores diferentes) ou só um; (c) a seleção pode mudar durante a reprodução, sem pausar.
+  - **Decisão (15h46):** neuromoduladores juntos ou separados, conforme a seleção (cada um com sua cor e opacidade). A seleção muda **durante a reprodução, sem pausar**, porque tudo está sempre lá; os filtros só mudam a opacidade.
   - Consequência (proposta nossa): cada tipo de evento gravado separadamente e marcado por categoria, para filtrar sem recalcular. Hoje o motor tem um único modulador (novidade); acetilcolina e noradrenalina como moduladores separados ainda não existem.
 
 ## Consequências de arquitetura (propostas nossas)
