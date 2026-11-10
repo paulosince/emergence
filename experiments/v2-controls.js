@@ -33,8 +33,9 @@ const buildWorld = (name, seed) => {
   let inc = runExperiment({ ...cfg, engine: new OracleIntervalControl() }).incidences;
   return { inc, endTimeMs: cfg.endTimeMs };
 };
+const BASE = process.env.V2_BASE ? JSON.parse(process.env.V2_BASE) : {}; // e.g. V2_BASE='{"uproMaxGain":0.9}' (exploratory)
 function run(inc, endTimeMs, seed, overrides) {
-  const r = replayIncidences(new ConstitutiveEngineV2({ seed, substrateSize: 10000, substrateSideUm: 400 * Math.cbrt(10), ...overrides }), inc, { endTimeMs });
+  const r = replayIncidences(new ConstitutiveEngineV2({ seed, substrateSize: 10000, substrateSideUm: 400 * Math.cbrt(10), ...BASE, ...overrides }), inc, { endTimeMs });
   const fifth = endTimeMs / FIFTHS, f = Array.from({ length: FIFTHS }, () => ({ created: 0, firings: 0, surprises: 0 }));
   const episodes = new Map(); // 3-s windows: units firing per window (co-firing)
   for (const e of r.events) {
@@ -69,4 +70,4 @@ const summary = Object.fromEntries(Object.entries(results).map(([k, rs]) => [k, 
   surpriseFirstFifth: mean(rs.map(r => r.fifths[0].surpriseRate)), surpriseLastFifth: mean(rs.map(r => r.fifths[FIFTHS - 1].surpriseRate)),
   createdFirstFifth: mean(rs.map(r => r.fifths[0].created)), createdLastFifth: mean(rs.map(r => r.fifths[FIFTHS - 1].created)),
   meanGain: mean(rs.map(r => r.meanGain)), late: mean(rs.map(r => r.late)), delayAdjusts: mean(rs.map(r => r.delayAdjusts)), coFiring: mean(rs.map(r => r.coFiring)) }]));
-console.log(JSON.stringify({ exploratory: true, seeds: SEEDS, seconds: 600, summary, results }, null, 2));
+console.log(JSON.stringify({ exploratory: true, base: BASE, seeds: SEEDS, seconds: 600, summary, results }, null, 2));
