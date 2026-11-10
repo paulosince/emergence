@@ -50,7 +50,7 @@ Data: 10/11/2026 (19h21). Pedido do responsável: entender, pelo método, como a
 ### 4.2 Proposta: as quatro opções, cada uma com um papel
 | Faixa ou função | Mecanismo | Opção | Origem |
 |---|---|---|---|
-| até ~100 ms | atraso da Upro: basal pela distância, acelerado devagar pela mielina | C1 | literatura (seção 3b/3c de glias) |
+| até ~100 ms | tempo de propagação da Upro: distância ÷ velocidade de propagação, que parte de um basal e aumenta devagar com o uso | C1 | literatura (seção 3b/3c de glias) |
 | detectar que duas coisas coocorreram com intervalo maior e **marcar** | escala do traço que fez a ponte (os traços de 0,1 s, 3 s, 90 s e 45 min); dá só a ordem de grandeza | C2(a) | proposta nossa |
 | **ligar depois** o que foi marcado | reexecução comprimida, no repouso e no sono | C2(d) | literatura + decisão de 19h41 |
 | representar intervalos de ~0,1 a ~10 s (e servir de portão do andamento) | cadeias de unidades **formadas** que disparam em sucessão (como as células de tempo) | C2(b) | literatura; formação é proposta nossa |

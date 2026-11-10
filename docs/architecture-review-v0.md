@@ -173,7 +173,7 @@ A tabela ([neuromoduladores](neuromodulators-sources-v0.md)) mostra que **a imen
   - Excitatórias: das incidências constituintes para a Uint nova. Atraso = intervalo vivido + 1 ms; ganho inicial 0,6 (uma incidência sozinha não atinge o limiar 1; duas coincidentes atingem).
   - Inibitórias (decisão D2, validada em 09/11): recíprocas entre a Uint nova e até 16 concorrentes que compartilham origens. Ganho **fixo** 0,5; atraso 1 ms.
 - Plasticidade: confirmação fortalece (taxa 0,1, teto 1); incidência tardia enfraquece (0,1) e encurta o atraso; convergência falha alonga a anterior e encurta a atual.
-- Não há: marca, nível de estabilidade, estado de mielinização.
+- Não há: marca, nível de estabilidade, velocidade de propagação (nome decidido em 10/11, 20h27; antes chamada "mielinização").
 
 ### 2.2 Pontos, um a um
 | # | Ponto | Estado |
@@ -182,7 +182,7 @@ A tabela ([neuromoduladores](neuromodulators-sources-v0.md)) mostra que **a imen
 | U2 | Ganho inicial 0,6 (o TEMPO usa 0,3, com outro limiar) | calibração; não bloqueia; fica para depois |
 | U3 | Sinal na aresta (`dEffect`) ou na unidade de origem (princípio de Dale)? | **a decidir** |
 | U4 | Inibitórias criadas na constituição com ganho fixo × plasticidade inibitória pela experiência | **a decidir** |
-| U5 | Campos novos exigidos pelas decisões de hoje: marca (intensidade, ordem, carimbo), nível de estabilidade, mielinização | **a confirmar** |
+| U5 | Campos novos exigidos pelas decisões de hoje: marca, nível de estabilidade, velocidade de propagação; ordem e carimbo como relações | ver 2.11 |
 
 ### 2.3 U3 — literatura
 | Achado | Fonte | Leitura |
@@ -250,3 +250,12 @@ O **sinal fica na Upro** (como está). Perda declarada: a restrição biológica
 - No motor atual, a convergência falha só ajusta atrasos (alonga a anterior, encurta a atual). Pela decisão C1 e por esta, ela passa a ser **ocasião de criação** de representação corrigida. Fica registrado para a implementação.
 
 **U4 fechado.**
+
+### 2.11 U5 — campos novos (10/11/2026, 20h26–20h27)
+**Proposta (nossa):**
+- três **campos** da Upro: marca (intensidade e momento em que foi posta), nível de estabilidade e velocidade de propagação;
+- **ordem** e **carimbo de tempo** como **relações formadas**, não como campos. Gravá-los como dados entregaria pronto um conteúdo que a malha deve constituir.
+
+**Nome:** o responsável trocou "mielina" por **velocidade de propagação** (registrado na [nomenclatura](nomenclature.md)). Tempo de propagação = distância ÷ velocidade de propagação; a velocidade parte de um basal e aumenta com o uso.
+
+**Divisão campos × relações:** o responsável não objetou, mas também não confirmou explicitamente. Fica **pendente de confirmação**.

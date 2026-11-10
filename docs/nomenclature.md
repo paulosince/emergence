@@ -107,6 +107,8 @@ A CLEAR separa três operações que a maior parte da literatura chama indistint
 
 - **Janela exploratória (responsável, 10/11/2026; "janela" já implica transitoriedade):** modulação temporária, evocada de forma uniforme por reflexos, que baixa o limiar das representações ligadas a movimento; mecanismo de formação fornecido, não constitutivo de querer (não é Orientação no sentido de ANCHOR). Ver [análise](oet-hypothesis-analysis-v0.md).
 
+- **Velocidade de propagação (nome escolhido pelo responsável, 10/11/2026, 20h27):** estado da Upro que diz a que velocidade ela leva a incidência. O tempo de propagação é a distância dividida por essa velocidade. Parte de um valor basal e **aumenta** devagar com o uso (aceleração dependente de atividade). Substitui "mielina" como termo da arquitetura; "mielina" continua sendo usada só para descrever a biologia. Escolhido "pelo que ela é", em vez de nomes que descrevem o processo (aceleração, encurtamento do atraso).
+
 **Regra:** nos documentos do EMERGENCE, "previsão" só é usada no sentido da CLEAR. Termos da literatura, como "erro de predição de recompensa" e "codificação preditiva", são citados como termos **da literatura**, entre aspas ou com a indicação "no sentido da literatura".
 
 **Classificação do que está implementado (proposta minha, aguardando confirmação do responsável):**
