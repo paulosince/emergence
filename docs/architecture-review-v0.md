@@ -5,10 +5,15 @@ Iniciada em 10/11/2026 com o responsável. Passamos unidade por unidade: o que o
 ## 0. Limites do domínio representacional
 Guia: [texto do responsável sobre os limites do Sdom](sdom-boundaries-guide.md) (10/11/2026, 16h45). Ele substitui a leitura que fizemos às 16h12, que tinha três erros: (1) pôr Uint e Upro "dentro" por definição; (2) pôr a Utrd "fora" por definição; (3) pôr o sistema modulador "fora" por definição.
 
-### O que o guia estabelece (resumo nosso; o texto vale)
+### Definições diretas do responsável (10/11/2026, 17h00; prevalecem sobre o texto-guia)
+- O texto-guia foi feito pelo ChatGPT a partir das anotações do responsável e pode ter interpretado algo mal; **o que o responsável diz aqui prevalece**.
+- **Sem nenhuma representação, não há domínio representacional.** Mas há **sistema**, e pode haver **predisposição** à criação de um domínio representacional, porque as regras e os processos criadores (Pcrt) já existem.
+- **As Utrd não estão dentro nem fora: são parte da fronteira.** Vão de fora para dentro. Na prática, o que se vê **dentro** são as Upro que delas provêm ou que as atingem.
+
+### O que o guia estabelece (resumo nosso; vale o texto, salvo as definições acima)
 1. A fronteira é **funcional e constitutiva**: vai até onde a organização participa da constituição de conteúdo, pela tríade (organização especificadora de conteúdo, fundamentação transdutiva, determinação autônoma). Nem anatomia, nem tipo celular, nem toda a cadeia de dependências.
 2. **Nada é incluído nem excluído por antecipação.** Quatro situações: constitui diretamente (integra o Sdom enquanto participa); fornece diferenças transduzidas (pode ficar fora); regula condições (não integra necessariamente); constitui representações próprias (pode ser outro Sdom).
-3. A Utrd **pode** participar da especificação do conteúdo; não se exclui de antemão.
+3. ~~A Utrd pode participar da especificação do conteúdo~~ **Substituído pela definição direta:** a Utrd é parte da fronteira.
 4. **Mecanismos que constituem ≠ domínio constituído.** Uma organização de unidades (no texto, "UI–UT") pode ser necessária numa implementação sem que sua existência baste para constituir o Sdom; antes da tríade há só **organização precursora**.
 5. A fronteira pode **variar com a história** (incorporar ou perder participantes), mas só quando a mudança atinge as operações constitutivas de conteúdo.
 6. Pode haver **vários Sdom** num organismo; comunicação ou dependência não prova pertença ao mesmo domínio.
@@ -19,7 +24,7 @@ Guia: [texto do responsável sobre os limites do Sdom](sdom-boundaries-guide.md)
 ### Consequências para a revisão (propostas nossas; uma a uma com o responsável)
 1. **Nomes no motor e na interface:** Uint e Upro são unidades da implementação; a existência delas não marca o Sdom. O "mapa do domínio representacional" da interface mostra a organização (precursora ou não); dizer o que dela é representação exige o critério do primeiro conteúdo. Como nomear isso é decisão do responsável.
 2. **Critério do primeiro conteúdo no experimento:** os critérios de engrama já calibrados no repositório são candidatos a teste operacional da tríade; precisam ser revistos à luz do guia.
-3. **Utrd:** não fixar no desenho que ela está fora; deixá-la como fonte aferente/eferente cuja participação no conteúdo pode ser examinada.
+3. **Utrd (resolvido pela definição direta):** parte da fronteira; no mapa, aparece na borda, e dentro aparecem as Upro que saem dela ou chegam a ela.
 4. **Sistema modulador e glias:** começar como reguladores (situação 3, G1), com o desenho aberto a testar participação constitutiva (G2) mais tarde. Decisão do responsável.
 5. **Hipótese (a) da Utrd eferente:** os destinos levantados (atuadores, sentidos, autônomo, moduladores) continuam válidos como destinos **fora do que hoje constitui conteúdo**, sem afirmar que nunca possam participar.
 

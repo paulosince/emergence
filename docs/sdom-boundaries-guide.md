@@ -2,6 +2,8 @@
 
 Recebido em 10/11/2026 (16h45) como guia para a revisão da arquitetura. Texto do responsável, reproduzido sem alterações abaixo da linha. **Não é texto canônico da CLEAR** (o próprio texto diz "para avaliação"); serve de guia.
 
+**Precedência (responsável, 10/11/2026, 17h00):** o texto abaixo foi feito pelo ChatGPT a partir das anotações do responsável e pode ter interpretado algo mal. **O que o responsável diz diretamente prevalece** sobre este texto. Correções já feitas: ver [revisão da arquitetura](architecture-review-v0.md), seção 0, "Definições diretas do responsável".
+
 ---
 
 CLEAR — Os limites do domínio representacional (Sdom)
