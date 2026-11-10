@@ -42,6 +42,13 @@ Guia: [texto do responsável sobre os limites do Sdom](sdom-boundaries-guide.md)
 - Nos trechos da v43 lidos, a figura mostra só rotas aferentes; o sentido eferente vem da definição do responsável. (O preprint v2.1.0 não serve de referência para a arquitetura; ver [metodologia](program-methodology.md), versões da CLEAR.)
 - A v43 dá o norte, mas está em revisão pelo responsável; "compatível" aqui não é veredito.
 
+### Sequência de entrada (responsável, 10/11/2026, 17h04)
+- Exemplo: a **cóclea é uma Utrd**. Ela recebe o sinal do sensor (o microfone) e o transduz em **incidências** que podem adentrar o **espaço onde haverá um domínio representacional**, mesmo quando ele ainda não existe.
+- Essas incidências, ainda fora do domínio, **precisam entrar** nesse espaço, e isso se faz **necessariamente por Upro**.
+- Logo, **a primeira coisa que surge são as Upro**, que culminam na integração do sinal, isto é, numa **Uint**. "Daí vêm os nomes": transdução → propagação → integração.
+- **Diferença do motor v2:** hoje a Pcrt cria a Uint e as Upro ao mesmo tempo, quando há coincidência; não existe Upro antes de Uint.
+- A confirmar: (1) as Upro de cada Utrd surgem com as primeiras incidências ou já existem como parte do sistema (predisposição)? (2) antes de haver Uint, onde a Upro termina, e a Uint nasce onde Upro de fontes distintas convergem? (3) cada Utrd começa com uma Upro ou várias?
+
 ### O motor v2 hoje (diferenças)
 1. A Utrd não é uma unidade: é só um identificador de canal; a conversão acontece fora do motor.
 2. Só existe o sentido aferente; não há Utrd eferente.
