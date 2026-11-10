@@ -93,6 +93,11 @@
 - **O que seria novo (hipótese, não verificado):** saída do domínio que nasce do movimento reflexo já representado (via inversa), com ligação final fixa ao atuador e ligação de cima formada pela experiência, e com o sistema modulador como destino eferente explícito do domínio.
 - **Falta:** busca em robótica do desenvolvimento (babbling, aprendizado de modelo inverso, teoria ideomotora em robôs); decisão do responsável ([revisão da arquitetura](architecture-review-v0.md), seção 1).
 
+## 11. Formação com dois caminhos (três fatores + recorrência) e especialização na Utrd (10/11/2026)
+- **O que existe:** regras de três fatores e marcação e captura (Gerstner et al. 2018; Frey e Morris 1997); plasticidade de um evento (Bittner et al. 2017); córtex reconectado (Sharma et al. 2000). Tudo da literatura.
+- **O que seria novo (hipótese, não verificado):** criação de unidades (não só ajuste de pesos) por dois caminhos num sistema que nasce vazio, com a especialização dos sentidos restrita à Utrd e aos parâmetros de janela.
+- **Falta:** decisão do responsável; busca de precedentes em redes que crescem (por exemplo, redes construtivas e de recrutamento de unidades).
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
