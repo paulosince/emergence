@@ -53,3 +53,18 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
 2. **Frequência:** lugar como regra (qual Utrd), com travamento de fase como acréscimo nas faixas baixas?
 3. **Topologia:** identificadores opacos com a vizinhança emergindo, ou a proximidade favorecendo?
 4. **Adaptação:** Utrd de adaptação rápida e lenta?
+
+## 4. Intensidade: discussão com o responsável (17h44–17h46)
+- **17h44:** "Mas intensidade não é justamente magnitude? Não há uma correlação direta?" Resposta: sim. Magnitude = intensidade é a equivalência agnóstica direta (opção a). A recomendação (b) foi retirada, porque imitava o meio do NB, não a função. Cuidados: compressão com ajuste ao contexto; o tempo das incidências fica livre para frequência e variação.
+- **17h46, proposta do responsável:** "Há uma outra forma: número de fibras (Upro). Uma intensidade baixa aciona algumas e uma intensidade alta um número maior (incluindo as primeiras). Acho que essa forma é ainda mais correlacionada e sensível."
+
+**Leitura (inferência nossa): opção (d), recrutamento de Upro.**
+- **É o que o NB faz:** fibras com limiares diferentes por célula ciliada; as de limiar baixo disparam primeiro, e as de limiar alto entram depois (1.1).
+- **A compressão sai sozinha** do número de limiares e do espaçamento entre eles; com espaçamento logarítmico, a faixa larga cabe sem função separada.
+- **Vantagem decisiva para a CLEAR:** intensidades diferentes ativam **conjuntos diferentes** de Upro. Então "fraco" e "forte" podem virar representações distintas por convergência Hebbiana. A intensidade vira estrutura, não só soma de amplitude.
+- **Coerente com as regras:** a Upro só existe com destino e nasce da transdução. Uma Upro de limiar alto nasceria na **primeira vez** que aquela intensidade ocorre. A faixa representada cresce com a experiência.
+- O conjunto é aninhado: a intensidade alta inclui as primeiras Upro. Na Uint, a soma cresce com a intensidade, então o efeito de magnitude continua.
+- **Custo:** mais Upro por Utrd.
+- **A decidir:**
+  - onde ficam os limiares: na Utrd, como especialização e predisposição (número de níveis e espaçamento), ou de outro modo;
+  - se a magnitude de cada incidência fica fixa ou também varia dentro da faixa de cada Upro (como a taxa de cada fibra dentro da sua faixa).
