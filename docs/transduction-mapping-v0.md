@@ -131,3 +131,9 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
     - a marca, mais o espaçamento, a reserva e os moduladores, sobe a **estabilidade**.
   - **Ponto a resolver:** se o ritmo de decaimento vier do estado (o produto), uma relação **fraca mas estável** cairia em "efêmera" e decairia depressa, contra a própria estabilidade.
   - **Proposta:** o **ritmo de decaimento** da confiança vem da **estabilidade**. O **estado** (efêmera, estável, consolidada) vem do **produto** e serve de limiar e de leitura.
+- **18h34, responsável:** "isso nos permitiria ter, por exemplo, uma unidade propagadora com uma altíssima confiança, mas pouco estável. E também uma muito estável, mas com baixa confiança."
+  - Decidido: **duas propriedades independentes na Upro, confiança e estabilidade**, que permitem os quatro quadrantes.
+  - Para o caso "muito estável, mas com baixa confiança" durar, o decaimento da confiança tem de vir da estabilidade. **A confirmar.**
+  - Exemplos do NB (conhecimento geral, **não conferido nesta sessão**):
+    - **confiança alta e estabilidade baixa:** a potenciação inicial sem captura, que é forte e some em horas;
+    - **estabilidade alta e confiança baixa:** a memória extinta, cujo traço original permanece (Bouton, já discutido) e "reacende"; e a **economia ("savings")** de Ebbinghaus, em que reaprender é mais rápido que aprender.
