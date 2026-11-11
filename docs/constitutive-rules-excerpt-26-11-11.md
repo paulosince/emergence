@@ -159,3 +159,6 @@ Só a síntese foi lida, não a conversa inteira.
 45. **[D] (18h27)** A **Uint jovem tem limiar mais baixo**, que sobe com a maturação.
 46. **[A]** A **marca de consolidação** governa a **subida de degrau**, não o nascimento: refratário, captura em ~3 h, intensidade conforme os moduladores e consumo da reserva. A explicação foi dada às 18h27, e o responsável respondeu com a proposta da estabilidade. Confirmar que a marca é o que sobe a estabilidade.
 47. **[A]** Frequência física: lugar como regra (qual Utrd), com travamento de fase nas faixas baixas. **Topologia:** identificadores opacos com vizinhança emergente, ou proximidade favorecendo? **Adaptação:** Utrd de adaptação rápida e lenta? (Perguntas 2–4 da [transdução](transduction-mapping-v0.md).)
+48. **[D] (18h46)** **Estabilidade = marca de consolidação.** A confiança inicial vem do que a relação obteve do mundo e **pode nascer alta**, mas precisa se comprovar com o uso. Isso corrige o item 44.
+49. **[D] (18h53)** **A confiança não decai sem contato**; cai só pela lapidada. **A estabilidade tem decaimento basal**, rápido na efêmera e quase nulo na consolidada. Isso corrige o item 43 quanto à origem do decaimento.
+50. **[A]** Estabilidade chegando a zero ⇒ poda da Upro?

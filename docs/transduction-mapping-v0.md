@@ -187,3 +187,9 @@ Lido: resumos e trechos; Hardt, Nader & Nadel 2013 em texto integral (por resumo
      - **se a relação chegou a estável**, fica guardada, com a confiança caindo muito devagar, e "reacende" se reencontrada;
      - **se ficou efêmera**, some em horas, como no NB.
    - **Variante:** o decaimento basal só no sono (Hardt), a ligar ao desenho dos estados de sono.
+
+### 6.4 Decisão (responsável, 18h53)
+- **Confiança não decai sem contato.** Decai só por contato sem confirmação, que é a lapidada.
+- **Estabilidade decai por um decaimento basal**, cujo ritmo cai com a consolidação: rápido na efêmera, quase nulo na consolidada.
+- **Isso substitui a frase de 18h35**, "o decaimento da confiança vem da estabilidade". Agora a confiança só cai por interferência ou não confirmação, e o tempo age sobre a estabilidade.
+- **Ponto a confirmar:** a relação efêmera nunca capturada tem confiança que não cai sem contato. Para reproduzir o NB, em que a potenciação não capturada some em horas, propõe-se que **estabilidade chegando a zero ⇒ poda da Upro**. A estabilidade seria a "linha de vida" da relação.
