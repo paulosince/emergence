@@ -229,3 +229,7 @@ Lido: resumos, salvo indicação.
 ### 8.3 Perguntas ao responsável
 1. A reserva local que a consolidação consome, com reposição lenta e competição entre marcas, entra **no desenho** ou como **variante**?
 2. O acoplamento ao estado do corpo fica para o desenho do corpo (R4)?
+
+### 8.4 Decisões (responsável, 11/11, 13h55)
+1. **A reserva local entra no desenho.** A consolidação consome a reserva local; a reposição é lenta, mais rápida no repouso e no sono; as marcas competem sem seletor central.
+2. **O acoplamento ao estado do corpo** fica para discussão ("teremos que discutir").
