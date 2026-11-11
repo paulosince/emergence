@@ -134,3 +134,24 @@ Orexina, serotonina e histamina ficam como variantes ou para os ramos.
 
 ### 4.1 Nomes (responsável, 07h37)
 Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agnósticos, com as ressalvas: não são a molécula; muitas das funções podem não estar presentes. Registrado na [nomenclatura](nomenclature.md). **Pendente:** confirmação do núcleo de quatro.
+
+## 5. Serotonina: investigação mais a fundo (pedido do responsável, 11/11/2026, 07h38)
+| # | Função | Achado | Fonte | Leitura |
+|---|---|---|---|---|
+| S1 | **Taxa de aprendizagem sob incerteza** (meta-aprendizagem) | Cerca de metade dos neurônios de serotonina do rafe dorsal acompanhou a incerteza **esperada**, em escalas de dezenas de segundos a minutos, e a **inesperada**, no momento do resultado. Inibir esses neurônios reproduziu as mudanças de aprendizagem previstas pela remoção da meta-aprendizagem no modelo. | Grossman, Bari e Cohen (2022), *Curr. Biol.* 32, 586–599 (PMC8825708) | resumo e trechos |
+| S2 | **Flexibilidade e correção** | Os neurônios de serotonina são ativados por erros de previsão **positivos e negativos** (sem sinal, parecido com surpresa). Inibi-los causa **perseveração**: o animal insiste numa recompensa que já não existe. Os autores propõem duas funções: inibir respostas aprendidas que deixaram de ser adaptativas e **promover plasticidade** para reconfigurá-las. | Matias, Lottem, Dugué e Mainen (2017), *eLife* 6:e20552 | resumo e trechos; os revisores contestam a leitura "surpresa" (as respostas às pistas acompanham o valor) |
+| S3 | **Equilíbrio entre atividade interna e entrada sensorial** | A ativação dos neurônios de serotonina inibe rapidamente (<1 s), de forma divisiva, o disparo **espontâneo** do córtex olfativo e **poupa** o disparo evocado pelo estímulo. Os autores sugerem papel na **inferência perceptiva**, já que a atividade espontânea refletiria expectativas internas. | Lottem, Lőrincz e Mainen (2016), *J. Neurosci.* 36, 7–18 | resumo e trechos |
+| S3 | | A serotonina diminui o ganho das respostas visuais em V1 de macacos acordados (Seillier et al. 2017). | citado na lista de referências de Grossman et al. | só título |
+| S4 | **Reabrir a plasticidade no adulto** | A fluoxetina crônica (aumenta a serotonina) **reinstaura** a plasticidade de dominância ocular em ratos adultos, com menos inibição intracortical e mais BDNF; o diazepam bloqueia o efeito. Infundir serotonina diretamente no córtex visual também restaura a plasticidade (via receptor 5-HT1A). | Maya Vetencourt et al. (2008), *Science* 320, 385–388; Maya Vetencourt et al. (2011), *Eur. J. Neurosci.* 33, 49–57 | resumo |
+| S5 | **Estados de consciência (por via farmacológica)** | Os psicodélicos clássicos agem sobretudo pelo receptor 5-HT2A, abundante nos **dendritos apicais das piramidais da camada 5**. A ocupação do receptor se correlaciona com os efeitos subjetivos, e o antagonista cetanserina os bloqueia. Mudanças de conectividade global e talâmica nos estados alterados pelo LSD são atribuídas ao 5-HT2A. | Vollenweider e Preller (2020), *Nat. Rev. Neurosci.* 21, 611–624; Madsen et al. (2019); Preller et al. (2018), *eLife* 7:e35082 | resumo e trechos |
+| S6 | **Espera por recompensa adiada** (ramo da valia) | Ativar os neurônios de serotonina durante a espera aumenta a paciência para recompensas adiadas, sem inibição motora e sem efeito de reforço. | Miyazaki et al. (2014), *Curr. Biol.* 24, 2033–2040 | resumo |
+| S7 | **Estados de sono** | O rafe cala no sono REM. | [tabela de 10/11](neuromodulators-sources-v0.md) | texto parcial |
+
+**Leitura (inferência nossa):**
+- **S3** cobre uma função que **nenhum dos outros quatro cobre do mesmo jeito**: separar a atividade gerada internamente da que vem da transdução. A acetilcolina reforça a aferente e suprime a recorrente (sinapses); a serotonina, aqui, suprime o **disparo espontâneo** e poupa o evocado. Na nossa arquitetura isso toca a pré-ativação, a reexecução e as Utrd endógenas.
+- **S2** combina com a decisão de correção construtiva (U4): perceber que uma relação aprendida falhou e abrir plasticidade para refazê-la.
+- **S4** toca o item pendente do **período crítico** (imposto × emergente).
+- **S5** é a ligação mais direta com o **estudo da consciência**. Mas é efeito de **agonista externo**: não mostra que a serotonina endógena faça o mesmo.
+- **S1** se sobrepõe à acetilcolina e à noradrenalina (incerteza esperada e inesperada).
+
+**Proposta revista (nossa):** incluir a serotonina no núcleo, que passaria a **cinco** (acetilcolina, noradrenalina, dopamina, serotonina, adenosina). Funções no núcleo: S2, S3 e S4; S5 como razão teórica; S6 no ramo da valia.
