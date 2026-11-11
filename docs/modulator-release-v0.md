@@ -307,3 +307,9 @@ Lido: resumos e trechos dos textos. Nenhum texto integral foi lido nesta etapa.
 1. **(1)**, nascer nos sítios pela regra comum, ou **(2)**, presentes desde t0? Ou (1) com (2) no seletor dos gêmeos?
 2. A sequência de partida (primeiro sem terceiro fator, depois com) serve?
 3. Tônico e fásico emergindo das entradas, sem modos codificados: serve?
+
+#### 7.5.6 Decisões (responsável, 11/11/2026, 08h41)
+"Sim para os três":
+- **Pergunta 2:** partida em duas fases aprovada. Primeiro a formação ocorre sem terceiro fator; a modulação entra à medida que suas Uint nascem.
+- **Pergunta 3:** tônico e fásico emergem das entradas, sem modos codificados.
+- **Pergunta 1:** "sim". Falta confirmar qual das três: (1) puro, ou (1) com (2) no seletor dos gêmeos.
