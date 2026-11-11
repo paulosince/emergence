@@ -193,3 +193,8 @@ Desta vez consegui o texto integral de quatro fontes; as três primeiras foram l
 2. **A novidade contextual vira surpresa**, pela sua definição. Concorda?
 3. **Novidade absoluta pela Upro inibitória plástica** já decidida (Schulz), com a amplitude como sinal (H-N1). Serve como hipótese a observar? As duas dependências, recuperação e existência das Upro inibitórias, ficam para a calibração?
 4. **H-N3**, novidade comum × distinta pela sobreposição: guardamos como hipótese a observar?
+
+### 5.4 Decisões (responsável, 11/11/2026, 10h15)
+"Sim. Exatamente. Perfeito.":
+- **Pergunta 1:** dois eixos independentes. A **novidade** é a existência, ou não, de representação para a combinação: estrutura, memória. A **surpresa** é o disparo de uma Uint fora do rol esperado: dinâmica, preparação do campo.
+- **Pergunta 2:** a novidade contextual é surpresa.
