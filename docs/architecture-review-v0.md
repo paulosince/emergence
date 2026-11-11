@@ -462,3 +462,12 @@ Leitura agnóstica (nossa): é uma **conta de gasto** que vira retroalimentaçã
   - íons alterados pela própria atividade → **conta de uso**, como a adenosina.
 - **(b) O marca-passo de ritmo puramente intrínseco**, sem dependência do meio, converte a própria química interna em incidências. Seria também uma Utrd? Se for, "incidências só surgem de transdução ou de marca-passos" se reduz a "incidências só surgem de transdução".
 - **(c) R4 continua aberto:** uma Utrd endógena de CO₂ ligada a uma correção (respiração) forma laço regulatório, território do VALORE.
+
+### 3.11 Decisões (a) e (b) (responsável, 10/11/2026, 21h07)
+- **(a) Concordo:** química do corpo → Utrd endógena; moduladores do domínio → ação sob modulação; íons da própria atividade → conta de uso.
+- **(b) "Perfeito, a regra ficou mais limpa":** marca-passos de ritmo intrínseco também são Utrd. Regra: **incidências só surgem de transdução** (registrado na [nomenclatura](nomenclature.md)).
+
+**Consequências para I6 (inferência nossa):**
+- I6.1 fica respondida: os marca-passos são Utrd, logo fronteira e predisposição presente desde o início (como as demais Utrd).
+- I6.2 muda de forma. Incidências de marca-passo são transduções endógenas, e transduções podem formar Uint e Upro. Então a estrutura que elas formam vem da **experiência do corpo**, não é entregue pronta. Isso legitimaria algo como as ondas espontâneas da retina. **A confirmar.**
+- A atividade de fundo para as cadeias C2(b) vem dessas Utrd endógenas.
