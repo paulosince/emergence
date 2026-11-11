@@ -229,3 +229,8 @@ Desta vez consegui o texto integral de quatro fontes; as três primeiras foram l
 - A Upro inibitória plástica (Schulz) deixa de ser o mecanismo principal e fica como **variante**. As duas dependências listadas em (c) só valem para essa variante.
 
 **Pergunta ao responsável:** a origem da amplitude na formação (afinamento), com a inibição como variante: serve?
+
+**Decisão (responsável, 10h37): "Sim".**
+- A novidade aparece como **amplitude**, e essa amplitude vem da **atividade de formação** (recrutamento, nascimento de Uint e Upro, afinamento), não só do acesso.
+- A Upro inibitória plástica (Schulz) fica como **variante**.
+- A pergunta 3 da seção 5.3 fica respondida nessa forma.
