@@ -84,3 +84,18 @@ Já registrado em [glias e adenosina](glia-adenosine-v0.md), seção 1: há font
 - Rice, M. E., e Cragg, S. J. (2008). Dopamine spillover after quantal release: rethinking dopamine transmission in the nigrostriatal pathway. *Brain Res. Rev.* 58, 303–313. (resumo e trechos)
 - Sarter, M., Parikh, V., e Howe, W. M. (2009). Phasic acetylcholine release and the volume transmission hypothesis: time to move on. *Nat. Rev. Neurosci.* 10, 383–390. (resumo e trechos)
 - Uematsu, A. et al. (2017). Modular organization of the brainstem noradrenaline system coordinates opposing learning states. *Nat. Neurosci.* 20, 1602–1611. (resumo)
+
+## 3. Mudança de rumo pelo responsável (11/11/2026, 07h24)
+**O que ele disse (resumo):**
+1. Lembra de eu ter falado de **feixes** e de **redundância**: uma transdução parece emitir muito mais projeções do que uma por canal. Pergunta se vamos aplicar isso. Se sim, parte do feixe poderia ir para uma Uint que faça o papel de neuromodulação.
+2. Entende que é difícil para a neurobiologia saber o papel de **conteúdo** dos neurônios moduladores: ao retirá-los, muita coisa muda pelo papel de modulador, e não dá para separar isso do conteúdo perdido. Pergunta se está certo.
+3. Se for assim, propõe trabalhar com os neurônios moduladores como **extra conteúdo, não representacionais**. Isso exige regras: quando são criados e qual modulador usam.
+4. **Antes de tudo:** definir, para uma arquitetura agnóstica de substrato, **quais moduladores precisamos e para quais funções**. "É por aqui que a gente tem que começar."
+
+**Verificação dos registros sobre o ponto 1 (nossa):** não encontrei nos documentos nem na busca de conversas a afirmação sobre feixes com uma "quantidade X" por transdução. O que está registrado:
+- a **superprodução seguida de eliminação** ([revisão](architecture-review-v0.md), seção 1, item 1), com a variante "Upro em excesso e poda";
+- a **redundância** entre sistemas moduladores ([tabela](neuromodulators-sources-v0.md): nenhum isolado é indispensável).
+
+A divergência de fibras por receptor (várias fibras saindo de um mesmo receptor, ramos para vários alvos) é conhecimento geral, **não conferido nesta sessão**.
+
+**Situação:** os pontos 1/4 a 4/4 da seção 2 ficam **suspensos**. Começa-se pelo levantamento **funções → moduladores** (seção 4).
