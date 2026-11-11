@@ -493,3 +493,4 @@ Fica para o **desenho do corpo**, porque depende de variáveis, ações e caminh
 - Há duas vias possíveis: a propriedade da célula ou a conectividade.
 
 **Proposta (nossa), para confirmar:** no espaço que nasce vazio, "local" pode ser a **distância hierárquica desde as Utrd** (o motor já calcula um nível hierárquico ao formar a Uint). A constante cresceria com essa distância. É regra de predisposição, e a posição de cada Uint vem da própria formação, não de um mapa dado. Variante a testar: a lentidão surgir só da conectividade.
+- **Confirmado (responsável, 22h13):** "local" = **distância hierárquica desde as Utrd**; a constante cresce com ela. **I2 fechado.**
