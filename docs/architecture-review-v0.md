@@ -474,3 +474,6 @@ Leitura agnóstica (nossa): é uma **conta de gasto** que vira retroalimentaçã
 
 ### 3.12 Correção do responsável sobre o R4 (10/11/2026, 21h16)
 "Calma que misturamos muita coisa aqui." O robô e a fase do motor foram **primeiros ensaios**; estamos redesenhando tudo, e "o que passou passou". A análise do R4 em termos do envelope da fase do motor **fica sem efeito**. O R4 volta a ser só uma pergunta conceitual do redesenho: quando uma Utrd endógena forma laço regulatório, e como tratá-lo. Aguarda o responsável.
+
+### 3.13 R4 adiado (responsável, 10/11/2026, 21h19)
+Fica para o **desenho do corpo**, porque depende de variáveis, ações e caminhos que ainda não existem no redesenho, não trava a Uint e pertence mais ao ramo do querer e da valia. Observação registrada: **a Utrd endógena não regula nada por si; a regulação, se houver, é do laço completo** (variável com ponto de ajuste, desvio, ação que corrige). Também fica para lá a redefinição dos critérios de parada e de segurança.
