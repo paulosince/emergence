@@ -261,3 +261,9 @@ Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agn�
   - É coerente com a decisão de propriedades por local (constante de tempo).
 - **(B) Emergente pela convergência (variante).** Uma Uint vira moduladora quando passa a receber de muitas regiões diferentes. É mais constitutiva, mas pode transformar hubs representacionais em moduladores.
 - **(C) Fontes locais esparsas (variante adicional).** Poucas Uint moduladoras locais, de acetilcolina, dentro das regiões representacionais.
+
+### 7.4 Decisão (responsável, 11/11/2026, 08h35)
+"Vamos conforme sua recomendação":
+- **(A) Grupos como predisposição por local:** poucos sítios no espaço, um por modulador, mais um de noradrenalina + dopamina, onde as Uint que nascem ganham a propriedade de liberação.
+- Os sítios ficam **perto da fronteira, do lado das Utrd endógenas**. Os sítios não carregam conteúdo; entradas e saídas se formam pela regra comum, com a amplitude como predisposição da classe.
+- **(B)**, a convergência, e **(C)**, as fontes locais esparsas de acetilcolina, ficam como **variantes**.
