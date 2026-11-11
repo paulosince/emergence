@@ -502,7 +502,7 @@ Fica para o **desenho do corpo**, porque depende de variáveis, ações e caminh
 ### 3.16 Uint fechada (10/11/2026, 22h19)
 **Especificação revista da Uint:**
 - **Nascimento:** convergência de ≥2 incidências, pela regra comum. Recruta elementos do substrato por excitabilidade.
-- **Integração:** soma com sinal das contribuições (magnitude × efeito), comparada ao limiar, dentro da **janela de integração**. A janela é intrínseca, com uma componente rápida (dezenas de ms) e uma lenta (centenas de ms), igual em todo o domínio, e encurta com a atividade de fundo.
+- **Integração:** soma com sinal das contribuições (magnitude × efeito), comparada ao limiar, dentro da **janela de integração**. A janela é intrínseca, com uma componente rápida (dezenas de ms) e uma lenta (centenas de ms), e encurta com a atividade de fundo. Tem três camadas (decisão de 22h29): basal igual em todo o domínio; ação sob modulação nos dois sentidos; plasticidade homeostática (potenciação encurta, depressão alonga).
 - **Supressão após disparar:** três escalas (~10 ms, ~50–100 ms, segundos). A lenta cresce com os disparos recentes e fica sob modulação.
 - **Constante de tempo de integração (dinâmica lenta):** cresce com a **distância hierárquica desde as Utrd**, formando um espectro de ms a horas; a persistência fica sob modulação.
 - **Nível de consolidação próprio**, além do da Upro.
@@ -536,3 +536,4 @@ Inferência nossa: uma resistência de entrada maior implica constante de tempo 
 - A janela de integração tem um **basal** (predisposição, igual em todo o domínio, como decidido);
 - fica sob **ação sob modulação**, nos dois sentidos conforme o modulador;
 - é **plástica**: potenciação → janela mais curta e menos excitável; depressão → o contrário.
+- **Decidido (responsável, 22h29):** a janela de integração tem três camadas: **basal** (predisposição, igual em todo o domínio, com a perda declarada da variação por tipo de célula); **ação sob modulação**, nos dois sentidos conforme o modulador; **plasticidade homeostática**, em que a potenciação da Uint encurta a janela e reduz a excitabilidade e a depressão faz o contrário.
