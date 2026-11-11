@@ -124,6 +124,18 @@
   - **Surpresa (responsável, 11/11):** a Uint favorecida que não dispara acelera levemente o decaimento da Upro excitatória. O disparo sem relação com os coativos forma Upro novas. Assim, a novidade forma Uint, a surpresa forma Upro, e as duas chegam às moduladoras pela amplitude de formação. Precedentes parciais: limiares de depressão e potenciação (Artola, Bröcher & Singer 1990); reconsolidação condicionada a "erro de predição" (Sevenster, Beckers & Kindt 2013). O que seria novo: a surpresa sem comparador e sem cancelamento, numa malha que cresce.
 - **Falta:** decisão do responsável ([novidade e surpresa](novelty-surprise-v0.md), seção 4); busca de modelos de codificação preditiva com crescimento de unidades; simulação.
 
+## 16. Propriedades físicas preservadas na transdução, acopladas por Hebb (hipótese do responsável, 11/11/2026)
+- **O que existe:**
+  - codificação por taxa e tudo ou nada (Adrian & Zotterman 1926);
+  - código de lugar e de tempo no som (Verschooten et al. 2019);
+  - mapas topográficos em duas etapas, molecular e Hebbiana (revisões);
+  - geometria de sensores não interpretados recuperada pelos sinais (Pierce & Kuipers 1997), com algoritmo explícito.
+- **O que seria novo (hipótese, não verificado):** a topologia das Upro espelhar a disposição das Utrd **só por convergência Hebbiana numa malha que cresce**, sem coordenadas nem algoritmo de distância.
+- **Falta:**
+  - as decisões do responsável ([transdução](transduction-mapping-v0.md), seção 3);
+  - procurar modelos de mapas auto-organizados sem função de vizinhança pré-definida;
+  - simulação.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
