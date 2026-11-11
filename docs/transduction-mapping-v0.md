@@ -149,3 +149,41 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
    - Uma entidade vista uma vez e nunca mais: a sua representação não deveria decair por falta de contato.
    - Faz sentido decair quando **há contato** e a representação **não é acessada**, ou seja, representei coisas que não estão se confirmando.
    - Pedido: pesquisar se isso se confirma no NB.
+
+## 6. Pesquisa: o decaimento depende de contato? (H-D1, pedido de 18h46)
+Lido: resumos e trechos; Hardt, Nader & Nadel 2013 em texto integral (por resumo da ferramenta).
+
+### 6.1 A favor
+- **Jenkins & Dallenbach 1924:** depois de 8 h acordados, a lembrança caiu para ~10%; depois de 8 h de sono, ficou perto de 60% (números de fonte de divulgação; confiança média). O esquecimento depende da atividade no intervalo, não só do tempo.
+- **Wixted 2004** (Annu Rev Psychol 55:235; resumo): um século de psicologia, psicofarmacologia e neurociência converge em que o esquecimento cotidiano vem da **interferência**, não do decaimento passivo.
+- **Berry et al. 2015** (Cell 161:1656; resumo): na mosca, o esquecimento é feito pela atividade contínua de neurônios dopaminérgicos, que **aumenta com a locomoção e diminui no repouso**; o sono bloqueia esse esquecimento.
+- **Bjork & Bjork 1992, a nova teoria do desuso** (fontes secundárias; não li o original). Cada memória tem **duas forças independentes**:
+  - a **de armazenamento**, que cresce e **nunca diminui**;
+  - a **de recuperação**, que sobe com o uso e cai com o desuso e a interferência.
+  - O esquecimento é perda da segunda, não da primeira. **É o par estabilidade/confiança decidido às 18h33–18h35.**
+- **Ryan & Frankland 2022** (Nat Rev Neurosci; trecho): esquece-se quando as células do engrama não conseguem ser reativadas; as formas de esquecimento variam em mecanismo, curso e **reversibilidade**.
+
+### 6.2 Contra, ou com nuances
+- **Hardt, Nader & Nadel 2013** (Trends Cogn Sci 17:111):
+  - o decaimento **existe**, mas é **ativo e regulado**, não passivo, e remove memórias selecionadas;
+  - ocorre **sobretudo no sono**; a interferência age na vigília;
+  - **domina no hipocampo**, onde a separação de padrões reduz a interferência; nas áreas com sobreposição (como V1), domina a interferência;
+  - o traço contextual do hipocampo decai em dias ou semanas, e os traços do neocórtex podem persistir;
+  - o decaimento está ligado ao **desuso**: o uso e a reativação protegem.
+- **Volatilidade intrínseca:** as sinapses mudam mesmo sem aprendizado (Mongillo, Rumpel & Loewenstein 2017, resumo). O volume das espinhas flutua mesmo sem atividade neural, in vitro (Yasumatsu et al. 2008, citado por terceiros).
+- **Potenciação inicial** (já registrado): sem captura, decai em ~1–3 h, **com ou sem contato**.
+
+### 6.3 Leitura (inferência nossa)
+1. **A metade "decair quando há contato e não se confirma" já está no desenho:** é a **lapidada** (18h11), que acelera o decaimento quando o destino favorecido não dispara. Essa metade tem apoio forte (interferência, Bjork).
+2. **A metade "não decair sem contato" se confirma para a estabilidade, mas não para tudo:**
+   - a força de armazenamento de Bjork e o traço do neocórtex de Hardt não se perdem sem contato;
+   - mas as relações **pouco estáveis** decaem com o tempo mesmo sem contato (potenciação inicial), e o hipocampo tem decaimento ativo no sono.
+3. **Conciliação proposta:**
+   - **Estabilidade não decai sem contato.**
+   - **A confiança tem dois decaimentos:**
+     - (a) por **contato sem confirmação** (lapidada), em qualquer relação;
+     - (b) um **decaimento basal**, cujo ritmo cai com a estabilidade: rápido na efêmera, quase nulo na consolidada.
+   - Assim, a entidade vista uma vez e nunca mais:
+     - **se a relação chegou a estável**, fica guardada, com a confiança caindo muito devagar, e "reacende" se reencontrada;
+     - **se ficou efêmera**, some em horas, como no NB.
+   - **Variante:** o decaimento basal só no sono (Hardt), a ligar ao desenho dos estados de sono.

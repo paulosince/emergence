@@ -136,6 +136,20 @@
   - procurar modelos de mapas auto-organizados sem função de vizinhança pré-definida;
   - simulação.
 
+## 17. Confiança e estabilidade independentes na Upro; decaimento condicionado ao contato (responsável, 11/11/2026)
+- **O que existe:**
+  - a **nova teoria do desuso** (Bjork & Bjork 1992): força de armazenamento (nunca diminui) e força de recuperação (cai com o desuso e a interferência). **É precedente direto do par estabilidade/confiança no plano cognitivo.**
+  - Interferência × decaimento (Wixted 2004; Jenkins & Dallenbach 1924).
+  - Decaimento ativo e regulado, sobretudo no sono (Hardt, Nader & Nadel 2013).
+  - Esquecimento por dopamina, dependente do estado (Berry et al. 2015).
+- **O que seria novo (hipótese, não verificado):** as duas forças como **propriedades de cada relação** (Upro) numa malha que cresce, sem armazenamento separado, com:
+  - a confiança inicial vinda do mundo;
+  - a estabilidade vinda da marca;
+  - a lapidada para o contato sem confirmação;
+  - um decaimento basal regido pela estabilidade.
+  - Procurar modelos sinápticos de duas variáveis antes de alegar (por exemplo, modelos em cascata; **não conferido**).
+- **Falta:** decisão do responsável ([transdução](transduction-mapping-v0.md), 6.3); simulação.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
