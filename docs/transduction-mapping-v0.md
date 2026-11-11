@@ -113,3 +113,13 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
   - Essa magnitude coincide com o **ganho da Upro**, que já fortalece por confirmação e tem teto abaixo de 0,9? Ou é um campo novo?
   - Como se distingue do **nível de consolidação**, que mede a resistência ao decaimento? No NB, peso sináptico e estabilidade (fase tardia) são coisas diferentes, embora a repetição aumente os dois.
   - "Confiança" seria nome de termo? Os nomes são decididos pelo responsável.
+
+### 5.4 Termos e estado (responsável, 18h15–18h23)
+- **18h15, proposta do responsável:**
+  - **confiança** = propriedade intrínseca da relação (Upro), o que chamávamos de peso;
+  - **magnitude** = grandeza da incidência, afetada pela confiança;
+  - **consolidação** = um **estado** dado por limiares de confiança, em três degraus: **efêmera, estável, consolidada**.
+- **18h23, decidido:** "Concordo. **Sai ganho.** A magnitude da incidência é o resultado da confiança × modulação."
+  - Isso altera a especificação de 10/11 (2.15): o campo "ganho" sai. O "nível de consolidação" como campo separado passa a ser estado em degraus. Atualizar a revisão e a nomenclatura depois da confirmação final.
+  - Conforme o desenho de 18h15, cada degrau decai num ritmo: rápido, lento, muito lento.
+- **18h23, pergunta do responsável:** "uma Upro recém-criada o é com baixíssima confiança. Afinal é nova… justamente por isso é efêmera, sujeita ao decaimento. Precisaria de algo mais?"
