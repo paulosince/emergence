@@ -234,3 +234,30 @@ Desta vez consegui o texto integral de quatro fontes; as três primeiras foram l
 - A novidade aparece como **amplitude**, e essa amplitude vem da **atividade de formação** (recrutamento, nascimento de Uint e Upro, afinamento), não só do acesso.
 - A Upro inibitória plástica (Schulz) fica como **variante**.
 - A pergunta 3 da seção 5.3 fica respondida nessa forma.
+
+### 5.6 Decisões (responsável, 10h42)
+- **H-N3** (grau de novidade pela sobreposição): guardada como hipótese a observar.
+- **Surpresa sobre a plasticidade** pela ação sob modulação, sem peça nova: aprovado.
+
+### 5.7 Pergunta do responsável (10h42): qual Uint dispara as moduladoras diante do novo?
+"Quando há novidade, não há convergência. Portanto, não há acesso a uma Uint já existente; qual Uint dispara, portanto, os neuromoduladores? Presumo que aquela que será criada, necessariamente, será da classe neuromodulatória… é assim que está pensando?"
+
+**Proposta (inferência nossa, aguarda decisão):**
+1. **A Uint criada não é moduladora.**
+   - Ela nasce onde as incidências das partes convergem, no domínio representacional, e carrega conteúdo: a combinação.
+   - Se cada novidade criasse uma moduladora, conteúdo e modulação se misturariam. Isso contraria a posição decidida em 7.4, de sítios sem conteúdo. A única exceção possível é o gêmeo "com conteúdo" do seletor (6.3–6.4).
+2. **Existe convergência, só que não na combinação.**
+   - As partes já representadas disparam: o copo, as bordas, as cores.
+   - O que falta é a Uint da combinação. O nascimento dela é, ele mesmo, uma convergência de ≥2 incidências.
+   - Novidade absoluta em **todos** os níveis só acontece no começo da vida.
+3. **Quem aciona a moduladora:** as Uint que já existem e as recrutadas na formação.
+   - A Uint moduladora tem **convergência ampla**, uma predisposição da classe (7.4). Muitas incidências fracas, vindas da atividade larga da formação, somam-se na sua janela de integração e a levam ao disparo.
+   - Quando a nova Uint se consolida, a atividade se afina, chega menos incidência à moduladora e ela se cala. Isso reproduziria a **habituação após 1–2 encontros** do locus coeruleus (N5).
+4. **Paralelo no NB** (Lisman & Grace 2005):
+   - os neurônios moduladores **já existem**;
+   - recebem o sinal de novidade por neurônios comuns (do hipocampo, por várias sinapses);
+   - precisam de **duas entradas** para a rajada.
+5. **Ponto aberto:**
+   - As entradas das representacionais para as moduladoras se formam pela regra comum, que exige coatividade. No início da vida, as moduladoras são movidas pelas Utrd endógenas.
+   - Falta saber se a coatividade entre as duas populações basta para formar essas Upro, ou se a amplitude da predisposição precisa garantir algumas desde o início.
+   - Isso deve ser observado em simulação.
