@@ -137,3 +137,4 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
   - Exemplos do NB (conhecimento geral, **não conferido nesta sessão**):
     - **confiança alta e estabilidade baixa:** a potenciação inicial sem captura, que é forte e some em horas;
     - **estabilidade alta e confiança baixa:** a memória extinta, cujo traço original permanece (Bouton, já discutido) e "reacende"; e a **economia ("savings")** de Ebbinghaus, em que reaprender é mais rápido que aprender.
+- **18h35, confirmado:** "Perfeito." O decaimento da confiança vem da estabilidade. A especificação da Upro (revisão 2.15), a nomenclatura e o excerto das regras foram atualizados.

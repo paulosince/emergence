@@ -313,6 +313,14 @@ Nomes aprovados: **marca de consolidação** e **nível de consolidação**.
 - **Calibração pendente:** ganho inicial (U2).
 - **Movido para a revisão da Uint:** a pergunta das unidades de dinâmica lenta (antigo "carimbo").
 
+**Revisão de 11/11/2026, 18h11–18h35 (responsável; ver [transdução](transduction-mapping-v0.md), seções 4–5):**
+- **Ganho sai.** Em seu lugar entra a **confiança**, propriedade da relação, que sobe por confirmação. A magnitude da incidência ao passar = confiança × modulação.
+- **Estabilidade** entra como segunda propriedade, independente. Sobe pela marca, com espaçamento, reserva, moduladores e reexecução. **O decaimento da confiança vem da estabilidade.**
+- **"Nível de consolidação" sai como campo.** A **consolidação** passa a ser estado (confiança × estabilidade) em três degraus: efêmera, estável, consolidada.
+- **Nascimento com confiança baixíssima** e, portanto, efêmera.
+- **A marca de consolidação passa a governar a subida de degrau**, não o nascimento. Ela mantém o refratário (repetição colada não soma), a captura em ~3 h e a intensidade conforme os moduladores.
+- **Na fronteira, a magnitude é fixa.** A intensidade vira o número de Upro recrutadas, com limiares na Utrd e as Upro normalizadas.
+
 ## 3. Uint (unidade integradora) — revisão iniciada em 10/11/2026, 20h46
 
 ### 3.1 Como está no motor v2 (lido no código)
@@ -509,6 +517,7 @@ Fica para o **desenho do corpo**, porque depende de variáveis, ações e caminh
 - **Liberação de moduladores** por algumas Uint (decisão de 19h02) e **adenosina** como subproduto de todas: conta de gasto com freio rápido local e pressão lenta. **A detalhar.**
 - **Marca-passos:** são **Utrd endógenas**, não Uint. Regra: incidências só surgem de transdução.
 - **Adiado:** R4 (laço regulatório), para o desenho do corpo.
+- **Acréscimo de 11/11/2026, 18h27 (responsável):** a **Uint jovem tem limiar mais baixo**, que sobe à medida que ela amadurece. Ela compensa a confiança baixíssima das Upro novas. Precedente: neurônios jovens hiperexcitáveis do giro denteado. **A conferir:** se o "nível de consolidação próprio" da Uint segue o mesmo par confiança/estabilidade da Upro.
 
 ### 3.17 Conferência pedida pelo responsável (10/11/2026, 22h27): a janela de integração é assim na neurobiologia? É alterada por moduladores ou por aprendizagem?
 **1. Forma (intrínseca, rápida + lenta, encurta com a atividade de fundo): confirmada, com uma ressalva.**

@@ -145,3 +145,17 @@ Só a síntese foi lida, não a conversa inteira.
 | Variantes A–D (Hebb mínimo; + topografia; + competição/estabilização; + ambas) | coerentes com o método, como **comparações sobre a base decidida** |
 | "Saturação constitutiva" em vez de H-G2 | coerente com a novidade como amplitude (item 27). Ver o contraexemplo de Ribot na seção 10 |
 | Os dois caminhos de formação "aprovados para investigação" | no registro estão **aprovados como desenho** (item 9) |
+
+
+## 12. Atualização de 11/11/2026, 17h36–18h35 (transdução e propriedades da Upro; [transdução](transduction-mapping-v0.md))
+40. **[D] (17h50)** A **intensidade** vira o **número de Upro recrutadas**. Os limiares ficam **na Utrd**, então as Upro já saem normalizadas. O conjunto é aninhado: o forte inclui o fraco. (lit.) Fracionamento da intensidade por sinapses heterogêneas na cóclea (Özçete & Moser 2024); faixa de 20–40 dB por fibra (Wen et al. 2009).
+41. **[D] (18h11)** **Na fronteira, a magnitude é fixa**, o equivalente do tudo ou nada (Adrian & Zotterman 1926).
+42. **[D] (18h23)** **O ganho sai.** A **confiança** (o peso) é a propriedade da relação, e a magnitude da incidência ao passar pela Upro = **confiança × modulação**. **Isso substitui o item 17** quanto ao "ganho".
+43. **[D] (18h33–18h35)** **Estabilidade** é a segunda propriedade, **independente** da confiança.
+    - O **decaimento da confiança vem da estabilidade**.
+    - A **consolidação** é estado: confiança × estabilidade, em três degraus (efêmera, estável, consolidada).
+    - **Isso substitui o "nível de consolidação"** dos itens 18 e 24, este último na Uint, a conferir.
+44. **[D] (18h23)** A Upro nasce com **confiança baixíssima**, portanto efêmera.
+45. **[D] (18h27)** A **Uint jovem tem limiar mais baixo**, que sobe com a maturação.
+46. **[A]** A **marca de consolidação** governa a **subida de degrau**, não o nascimento: refratário, captura em ~3 h, intensidade conforme os moduladores e consumo da reserva. A explicação foi dada às 18h27, e o responsável respondeu com a proposta da estabilidade. Confirmar que a marca é o que sobe a estabilidade.
+47. **[A]** Frequência física: lugar como regra (qual Utrd), com travamento de fase nas faixas baixas. **Topologia:** identificadores opacos com vizinhança emergente, ou proximidade favorecendo? **Adaptação:** Utrd de adaptação rápida e lenta? (Perguntas 2–4 da [transdução](transduction-mapping-v0.md).)
