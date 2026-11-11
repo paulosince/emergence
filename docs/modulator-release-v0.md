@@ -201,3 +201,9 @@ Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agn�
 - **(a)** Um modulador por Uint, sem exceção. A novidade viria de Uint de dopamina separadas. Perde a sincronia (a mesma descarga liberando os dois).
 - **(b)** Um modulador por Uint como regra, com a **exceção declarada noradrenalina + dopamina** (tipo locus coeruleus). Recomendada.
 - **(c)** Qualquer combinação. É mais permissiva do que a evidência.
+
+### 6.3 Decisões (responsável, 11/11/2026, 07h52)
+- **Coliberação: opção (b).** Um modulador por Uint moduladora, como regra, com a **exceção declarada noradrenalina + dopamina** (tipo locus coeruleus). A Uint moduladora pode ter também Upro comuns.
+- **Conteúdo × extra conteúdo da Uint moduladora: não se escolhe por suposição.** Será um **seletor de experiência**: testar "das três formas propostas" e ver o que acontece.
+  - **Leitura nossa, a confirmar:** as três formas seriam G1 (regulação externa ao Sdom), G2 (participação constitutiva num Sdom compartilhado) e G3 (Sdom próprio), do [guia de limites](sdom-boundaries-guide.md), aplicadas às Uint moduladoras.
+  - **Requisito:** para o seletor ser instrutivo, as medidas precisam distinguir as três formas. Isso depende do critério de primeiro conteúdo (item 6 do que resta revisar).
