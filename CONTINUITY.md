@@ -1,6 +1,6 @@
 # Guia de continuidade do EMERGENCE (para qualquer assistente)
 
-Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 10/11/2026 (fim da sessão longa de 09–10/11/2026; o responsável vai continuar num projeto novo).
+Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 11/11/2026, 14h. **Passagem para outro assistente:** [docs/handoff-chatgpt-2026-11-11.md](docs/handoff-chatgpt-2026-11-11.md) resume o estado do redesenho, as decisões e a fila.
 
 ## 1. Regras inegociáveis
 1. **Metodologia** ([docs/program-methodology.md](docs/program-methodology.md)): o modelo é o neurobiológico (não só humano); divergir só com simplificação agnóstica de substrato **justificada** (mecanismo entendido, equivalência proposta, perdas declaradas).
@@ -58,6 +58,13 @@ Registro em [docs/architecture-review-v0.md](docs/architecture-review-v0.md). De
 - **Surpresa (raciocínio do responsável, caso João):** quando a Uint é favorecida e não dispara, a Upro excitatória tem o decaimento natural levemente acelerado naquele momento (acréscimo em 2.15). Quando dispara sem relação com os que dispararam junto, formam-se Upro novas.
 - A novidade forma Uint e a surpresa forma Upro. As duas geram amplitude de formação e chegam às moduladoras pelo mesmo caminho.
 - O cancelamento por inibição (H-N2) foi substituído. **Item fechado.**
+
+[Glias](docs/glia-adenosine-v0.md) (11/11, tarde):
+- Mantida a base de 10/11: as macroglias ficam absorvidas nas unidades, com o portão territorial como variante.
+- **H-G1 entra no desenho:** a reserva local é consumida pela consolidação, com reposição lenta e competição entre marcas. O acoplamento ao corpo ainda vai ser discutido.
+- O excerto astroglial (G3) foi lido, com o teste da fronteira pela transdução aceito.
+- Gêmeos em duas rodadas: A × B; depois o vencedor + C, a variante astroglial.
+- **Próximo:** H-G2, o fechamento do período crítico (Ribot et al. 2021), ainda não apresentado.
 
 **Pendentes:** detalhar a liberação de moduladores pelas Uint; implementar C1 e as mudanças da revisão no motor; decisão sobre os destinos da Utrd eferente (a) e ligação fixa × formada (b); consequências 2 a 5 dos limites (teste da determinação autônoma etc.); depois Upro, Uint, marca-passos, moduladores e glias.
 
