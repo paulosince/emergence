@@ -198,3 +198,28 @@ Desta vez consegui o texto integral de quatro fontes; as três primeiras foram l
 "Sim. Exatamente. Perfeito.":
 - **Pergunta 1:** dois eixos independentes. A **novidade** é a existência, ou não, de representação para a combinação: estrutura, memória. A **surpresa** é o disparo de uma Uint fora do rol esperado: dinâmica, preparação do campo.
 - **Pergunta 2:** a novidade contextual é surpresa.
+
+### 5.5 Objeção do responsável (10h28) e revisão da parte (c)
+**Objeção (resumo fiel):**
+- O excesso de atividade diante do novo não poderia vir da **criação** de nós e arestas, e não só do acesso?
+- Há, inequivocamente, inibição do familiar? Onde há novidade não há convergência; não deveria haver acesso, só nas unidades já existentes.
+- Exemplo: ver uma xícara pela primeira vez. O copo já tem representação e acessa; a alça produz novidade, com a criação e o relacionamento correspondentes.
+
+**O que a literatura diz:**
+- **Não há inibição inequívoca do familiar.** A redução da resposta com a repetição é robusta como observação. Seu mecanismo, porém, é **desconhecido** (revisão de Grill-Spector, Henson & Martin 2006, TICS 10:14; lido: resumo e trechos de textos que a citam). Há três modelos, que não se excluem:
+  - **Fadiga:** cada neurônio responde menos.
+  - **Afinamento ("sharpening"):** diante do novo, muitos neurônios respondem; com a repetição, só os seletivos continuam e os demais saem.
+  - **Facilitação:** o familiar é processado mais rápido, e a atividade dura menos.
+- Na própria literatura, a inibição é uma entre várias candidatas. Schulz et al. dizem que a sua é "adequada, mas claramente não a única". Homann et al. usam controle de ganho, não inibição.
+
+**Leitura (inferência nossa):** a proposta do responsável corresponde ao **afinamento**, e a malha já tem as peças:
+- **Novo:** incidências chegam a muitas Uint sem convergência forte. Há recrutamento por excitabilidade e nascimento de Uint e Upro. A atividade é larga e fraca **porque é atividade de formação**, não só de acesso.
+- **Familiar:** só as Uint já formadas convergem; as recrutadas que não ganharam decaem até a poda.
+- **Facilitação também já existe:** a velocidade de propagação aumenta com o uso, então o familiar percorre mais rápido.
+- Correspondência com o NB: no córtex não nascem neurônios. A "criação" da malha corresponde ao **recrutamento** de neurônios para um novo grupo e às mudanças sinápticas. Os 77% com excesso fraco em Homann seriam esse recrutamento.
+
+**Revisão da parte (c):**
+- A H-N1 continua (novidade como amplitude), mas a **origem** muda: a amplitude vem da atividade de formação.
+- A Upro inibitória plástica (Schulz) deixa de ser o mecanismo principal e fica como **variante**. As duas dependências listadas em (c) só valem para essa variante.
+
+**Pergunta ao responsável:** a origem da amplitude na formação (afinamento), com a inibição como variante: serve?
