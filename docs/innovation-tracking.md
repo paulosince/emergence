@@ -120,6 +120,7 @@
   - amplitude da atividade para a novidade de longo prazo;
   - sinal das Upro formadas pela experiência para os dois casos de surpresa.
   - O sinal chegaria às moduladoras pela regra comum de convergência.
+  - **Revisado em 11/11, por objeção do responsável:** a amplitude da novidade vem da **atividade de formação**, e a inibição plástica virou variante. O novo deixa dois registros: a Upro para a moduladora e a marca de consolidação mais forte. A habituação viria da queda da amplitude, sem regra própria. Precedente: o modelo de afinamento da supressão por repetição (Grill-Spector, Henson & Martin 2006), ainda sem crescimento de unidades.
 - **Falta:** decisão do responsável ([novidade e surpresa](novelty-surprise-v0.md), seção 4); busca de modelos de codificação preditiva com crescimento de unidades; simulação.
 
 ## Pendências de busca (antes de cada artigo)

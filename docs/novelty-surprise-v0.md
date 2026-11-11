@@ -277,3 +277,4 @@ Desta vez consegui o texto integral de quatro fontes; as três primeiras foram l
 - **Confiança: baixa.** Depende de calibrações (ganho inicial, limiar da moduladora, decaimento) e precisa ser observado.
 
 **Pergunta ao responsável:** os dois registros, e a habituação vindo da queda da amplitude, servem?
+**Decisão (responsável, 10h46): "Sim".** Ficam os dois registros do novo: a Upro para a moduladora e a marca de consolidação mais forte. A habituação vem da queda da amplitude.
