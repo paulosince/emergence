@@ -194,3 +194,7 @@ A leitura 7.3 (o teste da fronteira pela transdução, e a paridade com o primei
   - as posições são simétricas;
   - C exige antes o critério de primeiro conteúdo e a especificação do que o segundo grafo transduz;
   - o custo estimado de C é cerca de 2 vezes o de um sistema (estimativa, sem medição).
+
+### 7.6 Decisões (responsável, 11/11, 12h34): "Sim"
+1. A decisão de 10/11 (19h02) **continua como base**: as macroglias ficam absorvidas nas unidades, e a forma glial territorial fica como variante.
+2. A leitura 7.3 (teste da fronteira pela transdução; paridade entre o primeiro e o segundo Sdom) **serve** para a revisão da hipótese astroglial.
