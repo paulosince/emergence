@@ -131,3 +131,6 @@ A divergência de fibras por receptor (várias fibras saindo de um mesmo recepto
 Orexina, serotonina e histamina ficam como variantes ou para os ramos.
 
 **Nomes:** pela regra de nomes agnósticos (como em "velocidade de propagação"), na arquitetura talvez seja melhor nomear cada modulador **pela função**, com o nome biológico como correspondência. A decisão é do responsável.
+
+### 4.1 Nomes (responsável, 07h37)
+Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agnósticos, com as ressalvas: não são a molécula; muitas das funções podem não estar presentes. Registrado na [nomenclatura](nomenclature.md). **Pendente:** confirmação do núcleo de quatro.

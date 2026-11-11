@@ -116,6 +116,13 @@ A CLEAR separa três operações que a maior parte da literatura chama indistint
 
 - **Janela de integração (nome escolhido pelo responsável, 10/11/2026, 22h18):** por quanto tempo a Uint soma as incidências que chegam. Substitui "janela de disponibilidade" (nome do motor v2, `tau`/`availabilityFactor`). Ver [revisão da arquitetura](architecture-review-v0.md), seções 3.7 e 3.15.
 
+- **Nomes dos moduladores — exceção à regra de nomes agnósticos (decisão do responsável, 11/11/2026, 07h37):** "é um momento em que a exceção ajuda mais do que a regra." Os moduladores mantêm os **nomes biológicos originais** (acetilcolina, noradrenalina, dopamina, adenosina...). **Por quê:**
+  - cada modulador faz muitas coisas, e um nome funcional seria parcial;
+  - a variedade de efeitos está nos alvos (ação sob modulação), não no sinal;
+  - o nome biológico identifica um sistema de função múltipla, em vez de descrever um substrato errado (diferente de "mielina").
+  
+  **Ressalvas obrigatórias sempre que usados:** na arquitetura **não são a molécula**, são equivalentes funcionais; e **muitas das funções biológicas podem não estar presentes**.
+
 **Regra:** nos documentos do EMERGENCE, "previsão" só é usada no sentido da CLEAR. Termos da literatura, como "erro de predição de recompensa" e "codificação preditiva", são citados como termos **da literatura**, entre aspas ou com a indicação "no sentido da literatura".
 
 **Classificação do que está implementado (proposta minha, aguardando confirmação do responsável):**
