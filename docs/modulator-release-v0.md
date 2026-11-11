@@ -155,3 +155,12 @@ Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agn�
 - **S1** se sobrepõe à acetilcolina e à noradrenalina (incerteza esperada e inesperada).
 
 **Proposta revista (nossa):** incluir a serotonina no núcleo, que passaria a **cinco** (acetilcolina, noradrenalina, dopamina, serotonina, adenosina). Funções no núcleo: S2, S3 e S4; S5 como razão teórica; S6 no ramo da valia.
+
+### 5.1 Decisão (responsável, 11/11/2026, 07h46)
+"Concordo." **Núcleo de cinco moduladores:** acetilcolina, noradrenalina, dopamina, serotonina e adenosina. Os nomes biológicos permanecem (exceção declarada), e os moduladores são liberados (dispersados) por Uint. Orexina e histamina ficam como variantes ou para os ramos.
+
+**Próximas perguntas do responsável, nesta ordem:**
+1. Classificação das Uint.
+2. Cada Uint moduladora dispersa apenas um tipo?
+3. Posição: por canal, por grupos (*clusters*), por concentração representacional ou por outro mecanismo?
+4. Quando usaremos Uint com essas propriedades?
