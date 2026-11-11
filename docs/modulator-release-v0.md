@@ -267,3 +267,43 @@ Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agn�
 - **(A) Grupos como predisposição por local:** poucos sítios no espaço, um por modulador, mais um de noradrenalina + dopamina, onde as Uint que nascem ganham a propriedade de liberação.
 - Os sítios ficam **perto da fronteira, do lado das Utrd endógenas**. Os sítios não carregam conteúdo; entradas e saídas se formam pela regra comum, com a amplitude como predisposição da classe.
 - **(B)**, a convergência, e **(C)**, as fontes locais esparsas de acetilcolina, ficam como **variantes**.
+
+### 7.5 Quando usar as Uint moduladoras (proposta, aguarda decisão)
+
+A pergunta tem duas partes: **quando elas surgem** na vida do sistema e **o que as aciona**.
+
+#### 7.5.1 Literatura: quando surgem no desenvolvimento
+Lido: resumos e trechos dos textos. Nenhum texto integral foi lido nesta etapa.
+- **Noradrenalina.** No camundongo, os neurônios do locus coeruleus com projeções longas nascem **exclusivamente em E9**. Os monoaminérgicos surgem antes dos não monoaminérgicos do mesmo núcleo (Steindler & Trosko 1989, Anat Embryol 179:423, resumo). Confiança no número: alta.
+- **Dopamina.** A tirosina hidroxilase aparece no mesencéfalo ventral em E11–E12 e a dopamina a partir de E12 (Fauser et al. 2020, Front Neuroanat 14:558435, introdução citando Olson & Seiger 1972, Lauder & Bloom 1974 e Tomasini 1997). Os neurônios noradrenérgicos estão entre os primeiros a nascer, seguidos pelos dopaminérgicos (mesma fonte). Confiança: alta.
+- **Padrão geral.** O capítulo da ACNP sobre o desenvolvimento dos neurônios dopaminérgicos descreve um "plano mamífero": as monoaminas são sintetizadas cedo, logo após a onda inicial de neurogênese, e a dopamina já está presente em neurônios ainda na zona germinativa. Confiança: média (trecho do capítulo).
+- **Elas agem sobre a própria construção.**
+  - A serotonina regula proliferação, migração, diferenciação, crescimento de axônios e sinaptogênese, e participa da formação do campo de barris e dos períodos críticos (Gaspar, Cases & Maroteaux 2003, Nat Rev Neurosci 4:1002, resumo, e revisões que o citam).
+  - Há uma fonte dupla de serotonina, materna/placentária e própria, que permite sinalização **antes** de os neurônios serotoninérgicos do embrião se diferenciarem (revisão Front Cell Neurosci 2013, 7:93, trecho). Confiança: média.
+  - A noradrenalina é essencial ao desenvolvimento fetal: o nocaute da dopamina-β-hidroxilase é letal sem suplementação (Fauser 2020, citando estudos anteriores). Confiança: alta quanto ao achado; não li o original.
+
+**Leitura para o programa (inferência nossa):** no NB, a modulação existe **antes** da maior parte do conteúdo e participa da formação dele. Não é um acessório que chega depois.
+
+#### 7.5.2 Proposta: quando surgem no EMERGENCE
+- **(1) Recomendada: nascem nos sítios pela regra comum.** Os sítios existem desde t0 como predisposição (Pcrt). Uma Uint moduladora nasce no sítio quando ≥2 incidências convergem ali, pela mesma regra das demais.
+  - As Utrd endógenas (marca-passos, sensores químicos do corpo) disparam desde t0, antes de qualquer experiência exógena. Assim, a regra comum tende a fazer as moduladoras nascerem **cedo**, sem regra especial. Isso reproduz o padrão do NB por consequência, não por decreto.
+  - Perda declarada: no NB a identidade e o momento são programa genético. Aqui o momento emerge. Se não houver convergência no sítio, não há modulação; isso é observável, não silencioso.
+- **(2) Variante: presentes desde t0**, como as Upro inibitórias de concepção (D2). Garante a modulação desde o início, mas a decide por decreto.
+
+#### 7.5.3 Sequência de partida (consequência de (1))
+1. Primeiro momento: formação só por recorrência, sem terceiro fator. As Upro e Uint se formam pela regra Hebbiana sem modulação, pois ainda não há moduladoras.
+2. Quando as moduladoras existem, a via com terceiro fator (ação sob modulação) passa a estar disponível.
+3. Não há um "liga" central: a modulação entra no sistema na medida em que suas Uint nascem.
+
+#### 7.5.4 O que as aciona
+- Elas disparam como qualquer Uint: quando suas entradas convergem dentro da janela de integração.
+  - Entradas iniciais: as Utrd endógenas próximas.
+  - Entradas posteriores: formadas pela experiência, pela regra comum (decisão 7.4).
+- Daí dois regimes possíveis. O **tônico** é o disparo de fundo, que acompanha o estado. O **fásico** é a rajada diante de um evento. Essa distinção é conhecida para o locus coeruleus e para a dopamina (literatura geral, não relida nesta etapa). A proposta é que ambos surjam do padrão de entradas, sem modos codificados.
+- **Uso efetivo:** a liberação só tem efeito onde há Upro ou Uint com perfil de ação sob modulação para aquela classe. "Quando usamos" = quando a moduladora dispara **e** há alvo sensível no alcance.
+- **Ligação com item guardado:** novidade e surpresa vindas das unidades seriam o caminho natural de entrada para os disparos fásicos. Fica para quando retomarmos esse item.
+
+#### 7.5.5 Perguntas ao responsável
+1. **(1)**, nascer nos sítios pela regra comum, ou **(2)**, presentes desde t0? Ou (1) com (2) no seletor dos gêmeos?
+2. A sequência de partida (primeiro sem terceiro fator, depois com) serve?
+3. Tônico e fásico emergindo das entradas, sem modos codificados: serve?
