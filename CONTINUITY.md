@@ -1,6 +1,6 @@
 # Guia de continuidade do EMERGENCE (para qualquer assistente)
 
-Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 11/11/2026, 14h. **Passagem para outro assistente:** [docs/handoff-chatgpt-2026-11-11.md](docs/handoff-chatgpt-2026-11-11.md) resume o estado do redesenho, as decisões e a fila.
+Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 11/11/2026, 14h. **Passagem para outro assistente:** [docs/checkpoint-26-11-11.md](docs/checkpoint-26-11-11.md) resume o estado do redesenho, as decisões e a fila.
 
 ## 1. Regras inegociáveis
 1. **Metodologia** ([docs/program-methodology.md](docs/program-methodology.md)): o modelo é o neurobiológico (não só humano); divergir só com simplificação agnóstica de substrato **justificada** (mecanismo entendido, equivalência proposta, perdas declaradas).

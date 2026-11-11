@@ -1,7 +1,7 @@
-# EMERGENCE: passagem de continuidade para outro assistente (11/11/2026)
+# EMERGENCE: checkpoint de 11/11/2026 (passagem de continuidade para outro assistente)
 
 **Para quem está assumindo** (ChatGPT ou outro assistente): este arquivo resume onde está o trabalho. Leia-o inteiro antes de responder.
-- O texto completo das discussões, propostas, hipóteses e decisões está no **dossiê**: o arquivo `emergence-dossie-2026-11-11.md`, que reúne os documentos do repositório.
+- O texto completo das discussões, propostas, hipóteses e decisões está no **dossiê**: o arquivo `emergence-dossie-26-11-11.md`, que reúne os documentos do repositório.
 - Os documentos citados aqui pelo nome, como "[revisão da arquitetura]", estão dentro do dossiê.
 - O repositório é `paulosince/emergence`, ramo `claude/zealous-hawking-sdw2w8`. O responsável é Paulo Rogério da Silva.
 
