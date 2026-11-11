@@ -198,3 +198,34 @@ A leitura 7.3 (o teste da fronteira pela transdução, e a paridade com o primei
 ### 7.6 Decisões (responsável, 11/11, 12h34): "Sim"
 1. A decisão de 10/11 (19h02) **continua como base**: as macroglias ficam absorvidas nas unidades, e a forma glial territorial fica como variante.
 2. A leitura 7.3 (teste da fronteira pela transdução; paridade entre o primeiro e o segundo Sdom) **serve** para a revisão da hipótese astroglial.
+
+## 8. Lacuna H-G1: o custo da consolidação (11/11/2026)
+
+### 8.1 Observação do NB
+Lido: resumos, salvo indicação.
+- **A consolidação depende de energia trazida pelo astrócito.** O lactato vindo do glicogênio é necessário para a memória de longo prazo, não para a de curto, e para manter a potenciação. A glicose na mesma quantidade de energia não substitui (Suzuki et al. 2011, Cell 144:810). Confiança: alta.
+- **A memória de longo prazo encurta a vida sob escassez.** Moscas que formaram memória de longo prazo sobreviveram em média ~17 h sem comida e água; as que formaram só a forma barata ("resistente à anestesia"), ~21 h (Mery & Kawecki 2005, Science 308:1148; números do comunicado da universidade). Confiança: média nos números.
+- **Sob fome, o cérebro desliga a consolidação cara.** Moscas famintas não formam memória aversiva de longo prazo e passam à forma barata (Plaçais & Preat 2013, Science 339:440; texto integral, por resumo da ferramenta).
+  - O portão são **oscilações de dois pares de neurônios dopaminérgicos**, que somem na fome.
+  - Forçar esses neurônios restaura a memória, mas reduz a sobrevivência em ~30%. Confiança: alta quanto ao que o artigo reporta.
+- **Aumentar o fluxo de energia é o próprio gatilho** da memória de longo prazo; isso é necessário e suficiente, e é comandado por neurônios dopaminérgicos (Plaçais et al. 2017, Nat Commun 8:15510).
+- **Ordem de grandeza** (estimativa teórica): ~10 mJ por bit guardado na memória de longo prazo da mosca, 6 a 7 ordens acima do armazenamento em computador. A incerteza é grande, e ~3 ordens de grandeza ficam sem explicação biofísica (Girard, Jiang & van Rossum 2023, arXiv:2301.09565; texto integral). Confiança: baixa.
+- **Estratégia de economia (modelo):** guardar mudanças transitórias baratas e consolidar só de vez em quando, quando o acumulado passa de um limiar. A energia total é mínima com um limiar **intermediário** (Li & van Rossum 2020, eLife 9:e50804, "synaptic caching").
+
+### 8.2 Leitura (inferência nossa)
+- A **estratégia de economia já está na arquitetura**: a marca de consolidação com limiar é o "synaptic caching". Isso é um bom sinal de que o desenho converge.
+- **O que falta** é o **recurso que a consolidação consome.** Hoje, tudo o que é marcado acima do limiar consolida, sem orçamento. No NB:
+  1. **Há competição:** consolidar custa, então nem toda marca vira consolidação.
+  2. **Há um portão de estado:** sob escassez, o sistema troca a forma cara pela barata.
+- **Proposta mínima, H-G1 revisada:**
+  - Cada Uint, ou território, tem uma **reserva local**.
+  - Subir o nível de consolidação de uma Upro **consome** dessa reserva.
+  - A reserva se **repõe devagar**, mais depressa no repouso e no sono.
+  - Com a reserva baixa, as marcas esperam (dentro da janela da marca, ~3 h) ou caducam. Assim surge **competição entre marcas sem seletor central**: consolidam as marcas mais fortes (as feitas sob modulação, da novidade e da surpresa).
+- **Ligação com o que já existe:** a adenosina é o **subproduto** do gasto e funciona como freio. A reserva é o **suprimento**. São os dois lados da mesma conta de energia.
+- **Adiado:** o acoplamento da reserva ao estado do corpo (fome, saciedade) pertence ao desenho do corpo (R4). É também variável regulada, com o alerta de ANCHOR já registrado (seção 5).
+- **Relevância para o conjunto mínimo:** a peça serve para tornar a consolidação **seletiva**. Não é claro que seja necessária para a consciência. Pode entrar como **variante**, para comparar uma consolidação com orçamento e uma sem.
+
+### 8.3 Perguntas ao responsável
+1. A reserva local que a consolidação consome, com reposição lenta e competição entre marcas, entra **no desenho** ou como **variante**?
+2. O acoplamento ao estado do corpo fica para o desenho do corpo (R4)?
