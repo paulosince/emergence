@@ -471,3 +471,6 @@ Leitura agnóstica (nossa): é uma **conta de gasto** que vira retroalimentaçã
 - I6.1 fica respondida: os marca-passos são Utrd, logo fronteira e predisposição presente desde o início (como as demais Utrd).
 - I6.2 muda de forma. Incidências de marca-passo são transduções endógenas, e transduções podem formar Uint e Upro. Então a estrutura que elas formam vem da **experiência do corpo**, não é entregue pronta. Isso legitima algo como as ondas espontâneas da retina. **Confirmado pelo responsável (21h10: "Perfeito, coisa linda!").**
 - A atividade de fundo para as cadeias C2(b) vem dessas Utrd endógenas.
+
+### 3.12 Correção do responsável sobre o R4 (10/11/2026, 21h16)
+"Calma que misturamos muita coisa aqui." O robô e a fase do motor foram **primeiros ensaios**; estamos redesenhando tudo, e "o que passou passou". A análise do R4 em termos do envelope da fase do motor **fica sem efeito**. O R4 volta a ser só uma pergunta conceitual do redesenho: quando uma Utrd endógena forma laço regulatório, e como tratá-lo. Aguarda o responsável.

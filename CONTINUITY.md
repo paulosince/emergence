@@ -21,6 +21,8 @@ Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 10/11/2026 (fim da
 - **"Vamos refazer tudo. Preservaremos apenas o domínio representacional."** Os mundos antigos (quedas, mesa, sala antiga, corpo de um eixo) deixam de ser a base. O novo experimento é um **robô simulado** numa sala.
 - O roteiro de 32 passos ([docs/roadmap.md](docs/roadmap.md)) foi feito para os mundos antigos e **será substituído** (9 de 32 itens estavam concluídos).
 
+- **Esclarecimento do responsável (10/11/2026, 21h16):** "Estamos redesenhando tudo. O que fizemos até aqui foram primeiros ensaios, tentativas." O robô e a "fase do motor" (com seu envelope, pré-registro e decisões de fase) são **ensaios anteriores**. O desenho atual pode ser mais uma tentativa ou a própria experiência; ainda não dá para dizer. **"O que passou passou":** não usar decisões de fases anteriores como restrição do redesenho. Elas servem só de registro histórico, salvo quando o responsável as retomar.
+
 ## 3. Decisões científicas desta sessão (detalhes nos documentos)
 - **Efeito** = excitação e inibição; acrescentado à incidência pelas unidades (todas podem, nenhuma precisa); **soma** limitada a −1…+1; **magnitude** 0–1, **multiplicativa**, pode ampliar; incidências **só nascem de transdução ou de marca-passos**; qualquer unidade pode ter a propriedade marca-passo. [docs/effects-v0.1.md](docs/effects-v0.1.md)
 - **Uint**: pelo menos duas aferências; "fontes distintas" = Upro diferentes (mesma origem vale). Confirmação **fortalece**. Ajustar antes de criar (v43 L81–82).
