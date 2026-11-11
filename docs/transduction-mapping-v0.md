@@ -72,3 +72,32 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
 **Decisões (responsável, 17h50):**
 - **(a)** Os limiares ficam **na Utrd**: "assim as Upro já estão normalizadas".
 - **(b)** "Agora a magnitude precisa ser repensada quanto à correspondência transdutória." O responsável pediu pesquisa na literatura (seção 5).
+
+## 5. Magnitude: a correspondência transdutória (pesquisa pedida às 17h50)
+
+### 5.1 O que o NB mostra (cadeia da cóclea; resumos e trechos)
+1. **O potencial do receptor é gradual e contém toda a intensidade.** A informação de intensidade está inteira no potencial da célula ciliada interna e é **fracionada** por sinapses heterogêneas entre as fibras (Özçete & Moser 2024, EMBO J 42:e114587; resumo e comentário). Confiança: alta quanto ao que o artigo afirma.
+2. **Cada fibra cobre só uma fração.** Depois da compressão feita pela mecânica coclear ativa, a célula ciliada cobre a faixa inteira, mas a **taxa** de cada fibra codifica só uma fração. Em população, as frações cobrem toda a faixa audível (mesma fonte).
+3. **Dentro da sua fração, a taxa cresce do espontâneo à saturação.**
+   - A faixa dinâmica de cada fibra vai do nível que tira a taxa do espontâneo até o que a satura. Nas fibras de taxa espontânea alta, a média foi de **41 dB** no gato (Evans & Palmer? resumo Springer BF00236671; autores não conferidos; confiança média-alta no número).
+   - Faixa típica: 20–40 dB por neurônio, contra 100–120 dB do sistema (Wen et al. 2009).
+   - Formato da função: Sachs & Abbas 1974 (saturante; resumo).
+4. **Mais intensidade, mais cedo.** Com despolarização maior, a abertura dos canais de cálcio adianta a liberação (Goutman 2012?, PMC3705563; trecho; autoria não conferida).
+   - Os primeiros disparos de conjuntos de aferentes táteis codificam eventos rápidos do dedo, mais depressa do que um código de taxa explicaria (Johansson & Birznieks 2004, Nat Neurosci 7:170; resumo).
+   - Confiança: alta quanto ao fenômeno.
+
+### 5.2 Correspondência proposta (inferência nossa)
+| NB | EMERGENCE |
+|---|---|
+| potencial gradual do receptor e sinapses heterogêneas (fracionamento) | **Utrd**, com os limiares (decidido às 17h50) |
+| fibra do nervo | **Upro** recrutada |
+| taxa dentro da faixa da fibra (do espontâneo à saturação) | **magnitude** da incidência naquela Upro |
+| latência do primeiro disparo (mais forte, mais cedo) | **momento** da incidência |
+
+**Opções para a magnitude:**
+- **(m1) Magnitude = posição dentro da faixa da Upro:** 0 no limiar dela e 1 na saturação, com curva saturante. Somada ao recrutamento, dá a contagem de Upro (grosso) mais a posição dentro de cada faixa (fino). É o análogo direto da taxa dentro da faixa de cada fibra, e já vem **normalizada**, como o responsável pediu.
+- **(m2) Magnitude fixa**, com a posição dentro da faixa levada pela taxa de incidências. Mais literal ao NB, mas ocupa o tempo, que queremos livre para frequência e variação.
+- **(m3) Magnitude fixa**, com a posição levada pela **latência**: mais forte, mais cedo.
+- **Acréscimo possível a (m1):** um leve adiantamento com a intensidade, como no NB. Isso favorece o mais forte nas convergências e na fila competitiva.
+
+**Recomendação:** (m1), com o adiantamento leve como variante.
