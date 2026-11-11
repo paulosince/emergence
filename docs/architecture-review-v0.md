@@ -329,7 +329,7 @@ Nomes aprovados: **marca de consolidação** e **nível de consolidação**.
 | I2 | **Dinâmica lenta:** o que faz uma Uint mudar devagar (constante de tempo como predisposição × dinâmica formada) | U5, antigo "carimbo" |
 | I3 | **Estabilidade na Uint e na Upro:** o motor guarda nível na Uint; a revisão pôs o nível de consolidação na Upro. Fica nos dois, ou só na Upro? | U5 |
 | I4 | **Liberação de moduladores** por algumas Uint e adenosina como subproduto de todas | decisão de 19h02 |
-| I5 | **Janela de disponibilidade** ligada ao intervalo vivido; precisa ser revista com C1 | C1 |
+| I5 | **Janela de integração** (antes "janela de disponibilidade") ligada ao intervalo vivido; precisa ser revista com C1 | C1 |
 | I6 | **Marca-passos** e atividade de fundo (para as cadeias C2(b)) | itens (ii) e (iii) |
 
 ### 3.3 Respostas do responsável (10/11/2026, 20h48)
@@ -388,7 +388,7 @@ Leitura agnóstica (nossa): é uma **conta de gasto** que vira retroalimentaçã
 
 **Alternativa a testar:** sem espectro (todas iguais), para ver se a lentidão surge da rede.
 
-### 3.7 I5 — janela de disponibilidade (método)
+### 3.7 I5 — janela de integração (método; antes "janela de disponibilidade")
 **Hipótese:** a janela em que uma Uint soma incidências deve ser uma propriedade dela, e não vir do intervalo vivido (o que C1 já invalidou).
 
 | Achado | Fonte | Leitura |
@@ -494,3 +494,6 @@ Fica para o **desenho do corpo**, porque depende de variáveis, ações e caminh
 
 **Proposta (nossa), para confirmar:** no espaço que nasce vazio, "local" pode ser a **distância hierárquica desde as Utrd** (o motor já calcula um nível hierárquico ao formar a Uint). A constante cresceria com essa distância. É regra de predisposição, e a posição de cada Uint vem da própria formação, não de um mapa dado. Variante a testar: a lentidão surgir só da conectividade.
 - **Confirmado (responsável, 22h13):** "local" = **distância hierárquica desde as Utrd**; a constante cresce com ela. **I2 fechado.**
+
+### 3.15 I5 — nome (responsável, 10/11/2026, 22h18)
+"Apenas: janela de integração, é o nome." Registrado na [nomenclatura](nomenclature.md). **Pendentes:** aceitação da proposta de 3.7 (componentes rápida e lenta, intrínseca, encurta com a atividade de fundo); janela igual em todo o domínio × variando com a distância hierárquica desde as Utrd (recomendação: igual, com a variação como variante a testar).

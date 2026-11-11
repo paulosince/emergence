@@ -114,6 +114,8 @@ A CLEAR separa três operações que a maior parte da literatura chama indistint
 - **Marca de consolidação (aprovado pelo responsável, 10/11/2026, 20h45):** estado posto na Upro quando a relação é formada ou reforçada, dizendo que ela aguarda consolidação. Tem intensidade conforme os moduladores presentes e dura ~3 h; é o que a reativação busca depois. Diferente da **elegibilidade** (janela de segundos do terceiro fator). Correspondente na literatura: a marca da marcação e captura sináptica (Frey e Morris 1997).
 - **Nível de consolidação (aprovado pelo responsável, 10/11/2026, 20h45):** degrau da Upro na escada de estabilidade; quanto mais alto, mais devagar ela decai. Faz par com a marca de consolidação: a marca pede consolidação, o nível diz quanto já houve.
 
+- **Janela de integração (nome escolhido pelo responsável, 10/11/2026, 22h18):** por quanto tempo a Uint soma as incidências que chegam. Substitui "janela de disponibilidade" (nome do motor v2, `tau`/`availabilityFactor`). Ver [revisão da arquitetura](architecture-review-v0.md), seções 3.7 e 3.15.
+
 **Regra:** nos documentos do EMERGENCE, "previsão" só é usada no sentido da CLEAR. Termos da literatura, como "erro de predição de recompensa" e "codificação preditiva", são citados como termos **da literatura**, entre aspas ou com a indicação "no sentido da literatura".
 
 **Classificação do que está implementado (proposta minha, aguardando confirmação do responsável):**
