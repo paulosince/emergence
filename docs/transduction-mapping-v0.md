@@ -123,3 +123,5 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
   - Isso altera a especificação de 10/11 (2.15): o campo "ganho" sai. O "nível de consolidação" como campo separado passa a ser estado em degraus. Atualizar a revisão e a nomenclatura depois da confirmação final.
   - Conforme o desenho de 18h15, cada degrau decai num ritmo: rápido, lento, muito lento.
 - **18h23, pergunta do responsável:** "uma Upro recém-criada o é com baixíssima confiança. Afinal é nova… justamente por isso é efêmera, sujeita ao decaimento. Precisaria de algo mais?"
+- **18h27, decidido:** **Uint jovem com limiar mais baixo**, que sobe à medida que amadurece. Ela compensa a confiança baixíssima das Upro novas. Precedente: neurônios jovens hiperexcitáveis do giro denteado. Cabe no recrutamento por excitabilidade já decidido.
+- **18h27, pedido:** explicar melhor a marca no novo desenho (a marca regula a subida de degrau, não o nascimento).
