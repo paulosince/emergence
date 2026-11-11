@@ -477,3 +477,19 @@ Leitura agnóstica (nossa): é uma **conta de gasto** que vira retroalimentaçã
 
 ### 3.13 R4 adiado (responsável, 10/11/2026, 21h19)
 Fica para o **desenho do corpo**, porque depende de variáveis, ações e caminhos que ainda não existem no redesenho, não trava a Uint e pertence mais ao ramo do querer e da valia. Observação registrada: **a Utrd endógena não regula nada por si; a regulação, se houver, é do laço completo** (variável com ponto de ajuste, desvio, ação que corrige). Também fica para lá a redefinição dos critérios de parada e de segurança.
+
+### 3.14 Decisão I2 (responsável, 10/11/2026, 22h09) e verificação
+- **Decidido:** a constante de tempo de integração de cada Uint vem **do local** onde ela nasce.
+- **Verificação da hipótese regional (feita depois da decisão):**
+
+| Achado | Fonte | Leitura |
+|---|---|---|
+| Em seis conjuntos de dados de macacos, as escalas de tempo intrínsecas (flutuação espontânea do disparo) seguem uma **hierarquia**: curtas nas áreas sensoriais, intermediárias na associação parietal e longas no pré-frontal. A ordem acompanha a hierarquia anatômica das projeções de longo alcance e não se explica pela taxa média de disparo. | Murray et al. (2014), *Nat. Neurosci.* 17, 1661–1663 | resumo e trechos |
+| A hierarquia aparece também em eletrocorticografia e em ressonância funcional. Um modelo em que as escalas surgem da **conectividade espacial** explicou melhor os dados; as escalas mudam com a atenção. | Zeraati et al. (2023), *Nat. Commun.* 14:1858 (autores não conferidos) | resumo e trechos |
+
+**Leitura:**
+- A escolha "por local" tem apoio.
+- No córtex, "local" se alinha à **distância hierárquica desde a entrada sensorial**.
+- Há duas vias possíveis: a propriedade da célula ou a conectividade.
+
+**Proposta (nossa), para confirmar:** no espaço que nasce vazio, "local" pode ser a **distância hierárquica desde as Utrd** (o motor já calcula um nível hierárquico ao formar a Uint). A constante cresceria com essa distância. É regra de predisposição, e a posição de cada Uint vem da própria formação, não de um mapa dado. Variante a testar: a lentidão surgir só da conectividade.
