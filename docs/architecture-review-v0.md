@@ -509,3 +509,30 @@ Fica para o **desenho do corpo**, porque depende de variáveis, ações e caminh
 - **Liberação de moduladores** por algumas Uint (decisão de 19h02) e **adenosina** como subproduto de todas: conta de gasto com freio rápido local e pressão lenta. **A detalhar.**
 - **Marca-passos:** são **Utrd endógenas**, não Uint. Regra: incidências só surgem de transdução.
 - **Adiado:** R4 (laço regulatório), para o desenho do corpo.
+
+### 3.17 Conferência pedida pelo responsável (10/11/2026, 22h27): a janela de integração é assim na neurobiologia? É alterada por moduladores ou por aprendizagem?
+**1. Forma (intrínseca, rápida + lenta, encurta com a atividade de fundo): confirmada, com uma ressalva.**
+- A janela depende das propriedades da membrana. A corrente ativada por hiperpolarização (Ih), mais densa nos dendritos distais, **diminui a amplitude e a duração** dos potenciais excitatórios e **reduz a janela** de soma temporal (Magee 1998, *J. Neurosci.*; resumo).
+- A atividade de rede alta encurta a janela (Léger et al. 2005).
+- A componente lenta vem da NMDA e dos platôs (seção 3.7).
+- **Ressalva:** na biologia a janela **varia por tipo de célula**. Por exemplo, níveis diferentes de Ih dão integração temporal diferente em neurônios em salva e regulares do subículo (van Welie et al. 2006; só título, via lista de citações). Dentro de uma mesma célula, a Ih **normaliza** a soma temporal entre locais dos dendritos (Magee 1999, *Nat. Neurosci.* 2, 508–514; resumo). Então "igual em todo o domínio" é uma **simplificação**, com perda declarada.
+
+**2. Moduladores: sim, nos dois sentidos.**
+| Modulador | Efeito | Fonte | Leitura |
+|---|---|---|---|
+| Acetilcolina (muscarínica), em piramidais | Aumenta a resistência de entrada e a excitabilidade | McCormick e Prince (1985), *PNAS*; Gigout et al. (2012), *BMC Neurosci.*; Cole e Nicoll (1983) | resumo |
+| Dopamina (D1), em piramidais do pré-frontal | Reduz a eficácia da soma temporal, **favorecendo a detecção de coincidência** em vez da integração | Rotaru, Lewis e Gonzalez-Burgos (2007) | resumo |
+| Dopamina (D1) | Aumenta a Ih, o que reduz o disparo | Gamo et al. (2015); Rosenkranz e Johnston (2006), citado | resumo |
+| Serotonina, em interneurônios de disparo rápido | Reduz condutâncias de potássio, **alonga** o decaimento dos potenciais e aumenta a soma temporal | Athilingam et al. (2017), *eLife* 6:e31991 | resumo |
+
+Inferência nossa: uma resistência de entrada maior implica constante de tempo maior (τ = R × C), logo **janela mais longa**. Não está medido nessas fontes.
+
+**3. Aprendizagem: sim (plasticidade da excitabilidade intrínseca).**
+- A indução de potenciação de longo prazo veio acompanhada de **queda persistente da excitabilidade**, por **aumento da Ih**. Os autores propõem uma retroalimentação negativa que normaliza a saída e estabiliza a rede (Fan et al. 2005, *Nat. Neurosci.* 8, 1542–1551; resumo).
+- A depressão de longo prazo faz o contrário: **reduz a Ih** e aumenta a excitabilidade (Brager e Johnston 2007, *J. Neurosci.* 27, 13926–13937; resumo).
+- Leitura: como a Ih encurta a janela, a aprendizagem muda a janela, em sentido **homeostático**.
+
+**Consequência proposta (para o responsável):**
+- A janela de integração tem um **basal** (predisposição, igual em todo o domínio, como decidido);
+- fica sob **ação sob modulação**, nos dois sentidos conforme o modulador;
+- é **plástica**: potenciação → janela mais curta e menos excitável; depressão → o contrário.
