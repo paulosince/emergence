@@ -278,3 +278,31 @@ Desta vez consegui o texto integral de quatro fontes; as três primeiras foram l
 
 **Pergunta ao responsável:** os dois registros, e a habituação vindo da queda da amplitude, servem?
 **Decisão (responsável, 10h46): "Sim".** Ficam os dois registros do novo: a Upro para a moduladora e a marca de consolidação mais forte. A habituação vem da queda da amplitude.
+
+### 5.9 Raciocínio do responsável sobre a surpresa (10h57): o caso João
+**Exemplo (resumo fiel):** "Eu conheço João": pessoa simples, humilde, que se veste com simplicidade. De repente o vejo num post, discursando numa conferência de IA avançada, elegante, com uma teoria de cair o queixo. A surpresa é grande.
+- Eu tinha representações de quem é João. Ao vê-lo num ambiente com o qual não tenho relação representada para ele, o que se prepara não é o que é efetivamente acessado a partir das transduções.
+- Muitos nós recebem **menos incidências que o esperado**: não disparam, apesar de favorecidos pelo simples acesso a "João".
+- Receber incidências e não disparar pode ensejar **reduzir a consolidação**.
+- Disparar **sem ter conexões com o que disparou junto** enseja aprendizado. Isso é a surpresa.
+
+**Leitura (inferência nossa):**
+- Esse raciocínio **dispensa o cancelamento por inibição** que eu tinha proposto (H-N2). A tensão sobre o nascimento de Upro inibitórias some.
+- Ficam dois efeitos, ambos nas Upro **excitatórias**:
+  1. **Favorecida, mas sem disparo** → a consolidação cai.
+  2. **Disparo sem relação com os que dispararam junto** → formação de Upro novas entre Uint já existentes, por coatividade.
+- **Unificação:**
+  - a novidade é formação de **Uint**;
+  - a surpresa é formação de **Upro** entre Uint existentes que não se esperavam, mais a queda de consolidação das relações não confirmadas.
+  - Os dois geram atividade de formação, logo **amplitude**, e chegam às moduladoras pelo mesmo caminho da 5.7.
+  - Na volta, as moduladoras aumentam a taxa de aprendizado (Xu et al. 2021).
+- **Assimetria coerente com uma decisão anterior.** Para a Upro **inibitória**, o responsável rejeitou enfraquecer quando a origem dispara e o destino fica calado ("ela fez o papel dela, inibiu"). Para a **excitatória**, o mesmo caso significa o oposto: ela não cumpriu a expectativa. Faz sentido que enfraqueça.
+
+**Apoio no NB:**
+- **Entrada recebida sem disparo leva a enfraquecimento.** Artola, Bröcher & Singer 1990 (Nature 347:69; resumo): o mesmo estímulo gera depressão de longo prazo se a despolarização do neurônio pós-sináptico passa de um nível crítico mas fica abaixo de um segundo limiar; gera potenciação se passa do segundo. Ou seja: chegou, mas não bastou, e enfraquece. Confiança: alta quanto ao que o resumo afirma (fatias de córtex visual de rato).
+- **Expectativa violada torna a memória modificável.** Sevenster, Beckers & Kindt 2013 (Science 339:830; resumo e comentário da Nat Rev Neurosci): a reconsolidação, em que a memória fica lábil e pode ser alterada, só ocorre quando a reativação traz um "erro de predição" (no sentido da literatura). Confiança: alta quanto ao que afirmam; é memória de medo em humanos.
+- **Nuance do NB:** a memória antiga fica **lábil e atualizável**, não é apagada. Na extinção, o original permanece (Bouton; já discutido na revisão, 2.x). João continua simples no dia a dia; essas relações seriam reconfirmadas.
+
+**Perguntas ao responsável:**
+1. A leitura acima, com os dois efeitos e a unificação, é o seu raciocínio?
+2. A Upro excitatória ganha um caso de enfraquecimento: **favorecida, sem disparo → o nível de consolidação cai**. Ela fica mais lábil e as confirmações futuras a recuperam, sem apagamento. Isso entra na especificação da Upro (2.15)?
