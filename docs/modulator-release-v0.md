@@ -164,3 +164,40 @@ Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agn�
 2. Cada Uint moduladora dispersa apenas um tipo?
 3. Posição: por canal, por grupos (*clusters*), por concentração representacional ou por outro mecanismo?
 4. Quando usaremos Uint com essas propriedades?
+
+## 6. Classificação das Uint e "um tipo por Uint moduladora?" (11/11/2026, 07h50)
+
+### 6.1 Classificação das Uint (proposta nossa, a partir das decisões)
+**Classes (o que a Uint é):**
+1. **Uint representacional:** a de conteúdo; é o caso geral.
+2. **Uint moduladora:** libera um modulador. É **extra conteúdo, não representacional** (proposta do responsável de 07h24, ainda a confirmar). Ela pode ter também Upro comuns (excitatórias ou inibitórias), como os neurônios moduladores que coliberam transmissores rápidos (6.2).
+
+**Não são classes:**
+- **Excitatória × inibitória:** o sinal mora na Upro (U3).
+- **Marca-passo:** é Utrd endógena, não Uint.
+- **Lenta × rápida:** a constante de tempo vem do local (distância hierárquica desde as Utrd); é propriedade, não classe.
+
+**Propriedades comuns a todas:**
+- nível de consolidação;
+- janela de integração (com as três camadas);
+- supressão após disparar;
+- constante de tempo pelo local;
+- ação sob modulação;
+- adenosina como subproduto.
+
+### 6.2 Coliberação na biologia
+| Achado | Fonte | Leitura |
+|---|---|---|
+| Neurônios de dopamina liberam **GABA** pelo mesmo transportador vesicular da dopamina e inibem rapidamente o estriado. É um traço geral desses neurônios, que captam o GABA do meio em vez de sintetizá-lo. | Tritsch, Ding e Sabatini (2012), *Nature* 490, 262–266; Tritsch et al. (2014), *eLife* 3:e01936 | resumo |
+| Várias populações que se pensava liberarem só glutamato, acetilcolina, dopamina ou histamina também liberam GABA. | Tritsch, Granger e Sabatini (2016), *Nat. Rev. Neurosci.* 17, 139–145 | resumo e trechos |
+| Neurônios do rafe dorsal liberam **serotonina e glutamato**, e os dois contribuem para o sinal de recompensa. A capacidade de coliberar varia de um alvo para outro. | Liu et al. (2014), *Neuron* 81, 1360–1374; Gagnon e Parent (2014), *PLoS One* 9:e87709 | resumo |
+| O locus coeruleus libera **noradrenalina e dopamina** no hipocampo dorsal. A dopamina dele melhora a atenção seletiva e o reconhecimento espacial via D1/D5. Medida em fatias, a dopamina ficou em ~1/10 da concentração de noradrenalina. | Kempadoo et al. (2016), *PNAS* 113, 14835–14840; Takeuchi et al. (2016); comentário em *Trends Neurosci.* 40 (2017), 383 | resumo e trechos; confiança média na razão 1/10 (lida no comentário) |
+
+**Leitura:**
+- A coliberação com **transmissor rápido** é comum. Na nossa arquitetura isso já existe: a Uint moduladora pode ter Upro comuns.
+- Entre os **cinco do núcleo**, o caso documentado de **dois moduladores na mesma célula** é o do locus coeruleus (noradrenalina + dopamina). Ele é justamente o da **novidade** (F1).
+
+**Opções para "um tipo por Uint moduladora?":**
+- **(a)** Um modulador por Uint, sem exceção. A novidade viria de Uint de dopamina separadas. Perde a sincronia (a mesma descarga liberando os dois).
+- **(b)** Um modulador por Uint como regra, com a **exceção declarada noradrenalina + dopamina** (tipo locus coeruleus). Recomendada.
+- **(c)** Qualquer combinação. É mais permissiva do que a evidência.
