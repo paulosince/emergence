@@ -216,7 +216,13 @@ Desta vez consegui o texto integral de quatro fontes; as três primeiras foram l
 - **Novo:** incidências chegam a muitas Uint sem convergência forte. Há recrutamento por excitabilidade e nascimento de Uint e Upro. A atividade é larga e fraca **porque é atividade de formação**, não só de acesso.
 - **Familiar:** só as Uint já formadas convergem; as recrutadas que não ganharam decaem até a poda.
 - **Facilitação também já existe:** a velocidade de propagação aumenta com o uso, então o familiar percorre mais rápido.
-- Correspondência com o NB: no córtex não nascem neurônios. A "criação" da malha corresponde ao **recrutamento** de neurônios para um novo grupo e às mudanças sinápticas. Os 77% com excesso fraco em Homann seriam esse recrutamento.
+- Correspondência com o NB (corrigida às 10h31, objeção do responsável: "isso não é inteiramente certo"):
+  - **Neocórtex adulto:** não se detectam neurônios novos no humano (Bhardwaj et al. 2006, PNAS 103:12564; datação por carbono-14 e BrdU; lido o resumo; confiança alta). No neocórtex, que é onde Homann registrou, a "criação" da malha corresponde ao **recrutamento** de neurônios para um grupo novo e às mudanças sinápticas. Os 77% com excesso fraco seriam esse recrutamento.
+  - **Giro denteado do hipocampo:** nascem neurônios na vida adulta. No rato, cerca de 0,2% das células granulares por dia; no camundongo, ~0,06% (revisão de Fölsz, Trouche & Croset 2023, Front Neurosci 17:1128623; trechos; confiança média-alta).
+    - Os jovens são **hiperexcitáveis e hiperplásticos** e têm mais chance de ser recrutados por uma experiência nova. Isso está ligado à separação de padrões e à codificação do novo (mesma revisão; Kropff, Yang & Schinder 2015, trecho).
+    - No humano, isso é **disputado**: Sorrells et al. 2018 contra Boldrini et al. 2018 e Moreno-Jiménez et al. 2019 (trechos de revisões).
+  - **Bulbo olfatório:** recebe neurônios novos vindos da zona subventricular, nos roedores (mesma revisão).
+  - **Diferença declarada:** no giro denteado, os neurônios nascem continuamente e são **selecionados** pela atividade, pois os que disparam se mantêm. Não nascem **por demanda** diante do novo. Na malha, a Uint nasce da convergência. A função, dar ao novo unidades novas e excitáveis, é a mesma; a ordem (nascer e depois ser recrutada × nascer porque houve convergência) não é.
 
 **Revisão da parte (c):**
 - A H-N1 continua (novidade como amplitude), mas a **origem** muda: a amplitude vem da atividade de formação.
