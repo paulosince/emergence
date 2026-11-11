@@ -4,12 +4,14 @@
 
 **Estado:** observação do NB e hipóteses. Nada decidido. Os nomes usados aqui são descrições; nenhum termo novo foi criado.
 
+**Termos (correção de 11/11, 09h56).** "Previsão" só no sentido da CLEAR ([nomenclatura](nomenclature.md)). Nas seções 1 e 2, onde os autores falam em "prediction" ou "expectation", lê-se **expectativa**: o estado favorecido pela dinâmica de acessos naquele momento. Surpresa é **expectativa violada**, ou seja, o disparo de uma unidade não esperada (definição do responsável, 09/11). Quando a literatura diz "predição", o termo é dela.
+
 ## 1. Observação do NB
 
 ### N1. Novidade e surpresa são coisas diferentes
 Fonte: Barto, Mirolli & Baldassarre 2013, Front Psychol 4:907. Lido: cerca de 2/3 do texto integral (PMC).
-- **Novidade** depende da memória: algo é novo quando não está guardado. Não precisa de previsão.
-- **Surpresa** é a discrepância entre uma expectativa e o que ocorre. Precisa de previsão e de comparação, mas não de busca na memória. O item que surpreende pode ser familiar ou novo.
+- **Novidade** depende da memória: algo é novo quando não está guardado. Não precisa de expectativa.
+- **Surpresa** é a discrepância entre uma expectativa e o que ocorre. Precisa de uma expectativa e de comparação, mas não de busca na memória. O item que surpreende pode ser familiar ou novo.
   - Exemplo dos autores: aperta-se o destravar e a porta do carro continua trancada. É algo familiar, mas inesperado.
 - Os autores defendem que as respostas "de novidade" da dopamina a luzes e tons se explicam melhor como surpresa: elas persistem com a repetição.
 - Os autores defendem também que os dois podem envolver circuitos diferentes.
@@ -20,13 +22,13 @@ Fonte: Ulanovsky, Las & Nelken 2003, Nat Neurosci 6:391. Lido: resumo e trechos 
 - Depois ela foi achada também no tálamo e no colículo inferior (J Neurosci 2009, 29:7359, tálamo de camundongo; J Neurosci 2009, 29:5483, colículo de rato; trechos — autores não conferidos).
 - Ressalva: Farley et al. (J Neurosci, trecho) acham que essa adaptação é dissociável do potencial cortical de "descompasso". Ou seja, adaptar-se não é o mesmo que detectar novidade em sentido pleno. Confiança na ressalva: média.
 
-### N3. A surpresa vem da comparação entre previsão e entrada, numa unidade que recebe as duas
-- **Hipocampo** (Lisman & Grace 2005, Neuron 46:703; lido o texto integral, por resumo da ferramenta). CA1 funcionaria como comparador. CA3 manda a previsão e o córtex entorrinal manda a entrada direta. A resposta a sons novos em CA1 aparece em menos de 100 ms (confiança: alta quanto ao que o artigo afirma). Os autores dizem que o local exato não é certo.
+### N3. A surpresa vem da comparação entre expectativa e entrada, numa unidade que recebe as duas
+- **Hipocampo** (Lisman & Grace 2005, Neuron 46:703; lido o texto integral, por resumo da ferramenta). CA1 funcionaria como comparador. CA3 manda o que a literatura chama de "predição" e o córtex entorrinal manda a entrada direta. No nosso vocabulário, CA3 manda a expectativa. A resposta a sons novos em CA1 aparece em menos de 100 ms (confiança: alta quanto ao que o artigo afirma). Os autores dizem que o local exato não é certo.
 - **Córtex visual do camundongo** (Keller, Bonhoeffer & Hübener 2012, Neuron; lido o resumo; Jordan & Keller 2020, trecho). Há neurônios que disparam quando o fluxo visual não corresponde ao esperado pelo movimento.
-  - Mecanismo proposto: a previsão chega excitando e a entrada real chega inibindo. Quando a entrada esperada falta, a excitação fica sem freio e o neurônio dispara.
+  - Mecanismo proposto: a expectativa (na literatura, "predição" motora) chega excitando e a entrada real chega inibindo. Quando a entrada esperada falta, a excitação fica sem freio e o neurônio dispara.
   - Ressalva: Muzzu & Saleem 2021 (Cell Rep, resumo) explicam parte desses sinais só por seletividade sensorial e motora. Confiança no mecanismo: média.
-- **Peixe-elétrico** (Bell 1981 e seguintes; revisões Roberts & Leen 2010, Requarth & Sawtell 2014, Enikolopov et al. 2018; trechos). O circuito aprende uma **imagem negativa** da entrada previsível e a soma à entrada real. O previsível se cancela e o inesperado se destaca.
-  - O aprendizado ocorre por plasticidade anti-Hebbiana na via que traz a previsão.
+- **Peixe-elétrico** (Bell 1981 e seguintes; revisões Roberts & Leen 2010, Requarth & Sawtell 2014, Enikolopov et al. 2018; trechos). O circuito aprende uma **imagem negativa** da entrada habitual (a que acompanha o próprio comando) e a soma à entrada real. O habitual se cancela e o inesperado se destaca.
+  - O aprendizado ocorre por plasticidade anti-Hebbiana na via que traz o sinal do próprio comando motor.
   - A imagem negativa se adapta em minutos e se afina em uma hora ou mais (confiança: média, trecho).
 
 ### N4. O sinal chega à moduladora por convergência
@@ -58,14 +60,15 @@ Quase tudo que o NB usa para isso **já existe** nas unidades que fechamos. Não
 - O familiar, ao contrário, ativa poucas Uint fortes, e as inibitórias formadas pela experiência calam as demais.
 - **Hipótese H-N1:** a novidade aparece como **amplitude da atividade** (quantas Uint ativas), não como um valor calculado. Isso combina com N4 (o que muda é o número de células) e com a rápida habituação de N5, que viria da formação das próprias Uint. Confiança: baixa; é uma hipótese a observar.
 
-### 2.3 Surpresa (algo previsto que não veio, ou algo que veio sem ser previsto)
-- A previsão já existe: é a pré-ativação por Upro de cadeias e relações formadas ([aprendizado diferido](deferred-learning-v0.md), 6; [tempo](time-representation-v0.md)).
-- A comparação aconteceria em Uint que recebem **as duas vias**: a da previsão, interna, e a da entrada que vem da transdução. Não há comparador especial; é qualquer Uint com essa convergência.
+### 2.3 Surpresa (expectativa violada)
+- A expectativa já existe: é a preparação do campo pelas Upro de cadeias e relações formadas ([aprendizado diferido](deferred-learning-v0.md), 6; [tempo](time-representation-v0.md)).
+- A comparação aconteceria em Uint que recebem **as duas vias**: a da expectativa, interna, e a da entrada que vem da transdução. Não há comparador especial; é qualquer Uint com essa convergência.
 - **Hipótese H-N2:** o sinal da Upro decide o caso, e o sinal está na Upro (decisão 2.15).
-  - **Previsão excita, entrada real inibe:** a Uint dispara quando o previsto **não chega** (como em N3, córtex visual).
-  - **Entrada real excita, previsão inibe:** a Uint dispara quando chega o que **não foi previsto**. É a imagem negativa de N3, no peixe-elétrico.
-- Essas Upro inibitórias nasceriam da experiência pela regra que já decidimos (2.15): nascimento por falha de previsão e ganho que cresce com coatividade.
-  - Equivalência declarada: no peixe-elétrico, o aprendizado é anti-Hebbiano numa sinapse excitatória. Aqui seria Hebbiano numa Upro inibitória. A função é a mesma (cancelar o previsível); o mecanismo, não.
+  - **Expectativa excita, entrada real inibe:** a Uint dispara quando o esperado **não chega** (como em N3, córtex visual).
+  - **Entrada real excita, expectativa inibe:** a Uint dispara quando chega o que **não era esperado**. É a imagem negativa de N3, no peixe-elétrico.
+- Pela definição do responsável, nos dois casos a surpresa é o mesmo evento: dispara uma Uint que **não estava esperada**. Na omissão, quem dispara é a Uint de descompasso, que não estava no rol das esperadas.
+- Essas Upro inibitórias nasceriam da experiência pela regra que já decidimos (2.15): nascimento quando a representação aprendida se mostra errada e ganho que cresce com coatividade.
+  - Equivalência declarada: no peixe-elétrico, o aprendizado é anti-Hebbiano numa sinapse excitatória. Aqui seria Hebbiano numa Upro inibitória. A função é a mesma (cancelar o esperado); o mecanismo, não.
   - Isso precisa ser conferido quando as regras forem simuladas.
 
 ### 2.4 Como chega às moduladoras
@@ -82,7 +85,7 @@ Quase tudo que o NB usa para isso **já existe** nas unidades que fechamos. Não
 - **Leituras integrais pendentes:** Keller et al. 2012; Ulanovsky et al. 2003; Vankov et al. 1995.
 
 ## 4. Perguntas ao responsável
-1. Adotamos a **distinção** entre novidade (falta na memória) e surpresa (previsão violada) como duas coisas diferentes no programa?
+1. Adotamos a **distinção** entre novidade (falta na memória) e surpresa (expectativa violada) como duas coisas diferentes no programa? **Resposta parcial (09h56):** surpresa como expectativa violada. Falta a novidade.
 2. **Novidade de curto prazo** pela supressão lenta já existente, sem peça nova: serve?
 3. **H-N1:** novidade de longo prazo como amplitude da atividade: serve como hipótese a observar?
-4. **H-N2:** surpresa nas Uint que recebem previsão e entrada, com o caso decidido pelo sinal das Upro: serve?
+4. **H-N2:** surpresa nas Uint que recebem expectativa e entrada, com o caso decidido pelo sinal das Upro: serve?
