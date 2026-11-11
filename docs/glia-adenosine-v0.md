@@ -145,3 +145,43 @@ As funções caem em **três grupos**:
 1. A decisão de 19h02 continua como **base**, com as macroglias absorvidas nas unidades e a forma glial territorial como variante?
 2. **H-G1** (custo da consolidação): investigamos?
 3. **H-G2** (fechamento do período crítico): investigamos?
+
+## 7. Excerto "Hipótese astroglial da CLEAR" (11/11/2026, 12h26; gerado pelo responsável com o ChatGPT)
+Arquivo trazido pelo responsável. O texto revisa a hipótese do responsável: a astroglia como **segundo Sdom**, possivelmente metarrepresentacional (G3).
+
+### 7.1 Conferência das referências (resumos e páginas de divulgação; existência e dados bibliográficos)
+| Referência do excerto | Conferido |
+|---|---|
+| Benoit et al. 2025, Cell 188:6453 | **existe**: os folhetos ("leaflets") envolvem 90% das sinapses em grupos e só 10% individualmente; há eventos de cálcio próprios de cada folheto, induzidos por sinapses |
+| Cooper et al. 2026, Nature (abril) | **existe**: as redes astrogliais, por junções comunicantes, ligam regiões **não ligadas por neurônios** e são plásticas |
+| Cahill et al. 2024, Nature 629:146 | **existe** (o excerto não dá os autores) |
+| Williamson et al. 2025, Nature 637:478 | **existe** (online em nov/2024; autores não dados no excerto): os conjuntos de astrócitos associados ao aprendizado bastam para provocar a evocação |
+| Dewa et al. 2025, Nature 648:146 | **existe** (autores não dados no excerto): rastro astroglial de vários dias que estabiliza a memória lábil |
+| Bukalo et al. 2026, Nature (fev.) | **existe**: os astrócitos da amígdala basolateral acompanham o estado de medo e sustentam a evocação e a extinção |
+| Sánchez Romero & Navarrete 2026, Nat Rev Neurosci | **existe** (Perspective "Astroengrams") |
+| "The Duality of Astrocyte Neuromodulation" (2025); "Multiple ions control astroglial excitability"; Ahrens, Khakh & Poskanzer 2024 | **não conferidos** |
+
+O excerto traz marcas de busca da ferramenta ("PubMed +1", "Nature") no meio do texto e não informa a confiança de cada afirmação. As afirmações conferidas batem com os resumos.
+
+### 7.2 O que o excerto acerta (leitura nossa)
+- G1, G2 e G3 **não são uma escada**: demonstrar um não implica o outro.
+- **Codificar não é representar.** Os quatro níveis são distintos: covariação; informação recuperável; informação usada pela dinâmica; representação com referente.
+- **Controlar um processo não exige representá-lo.**
+- A explicação concorrente forte é a da própria Dewa et al.: o rastro astroglial como **elegibilidade** para a consolidação, não como conteúdo. Isso corresponde à nossa **marca de consolidação**.
+- **Segundo Sdom não implica metarrepresentação.** E a CLEAR já permite representações sobre representações dentro de um só Sdom.
+- A pergunta central da seção 8: em que condições duas organizações acopladas são **dois Sdom** e não um só.
+
+### 7.3 Contribuição da arquitetura à pergunta da fronteira (inferência nossa, a validar)
+A regra decidida em 10/11 ("incidências só surgem de transdução"; a fronteira é funcional) dá um **teste preciso** para G2 × G3:
+1. **Se a astroglia recebe incidências** das unidades neuronais, ou seja, sinal já representacional, ela está **dentro** do mesmo Sdom. Isso é G2.
+2. **Se a astroglia responde a correlatos físicos** da atividade neuronal (glutamato que extravasa, potássio, concentração de noradrenalina), que são sinais **não representacionais**, ela **transduz**. Seria então fronteira (Utrd) de um **segundo** Sdom.
+3. Nesse caso, o referente direto do segundo Sdom seria o **estado físico** do substrato do primeiro. É o caso 6.4 do excerto: segundo Sdom sem metarrepresentação.
+4. **Mas isso não fecha G3.** O primeiro Sdom também só recebe correlatos físicos do mundo e, ainda assim, forma entidades cujo referente é o mundo. Por paridade, o segundo Sdom poderia formar, a partir dos correlatos do primeiro, entidades cujo referente é a **organização** do primeiro.
+   - Assim, a exigência da seção 4.2 do excerto (correspondência com propriedades representacionais, não só com correlatos) talvez seja **mais forte do que a CLEAR exige** de qualquer Sdom.
+   - O critério seria o mesmo de sempre: ancoragem, determinação autônoma e formação de entidades.
+5. **Teste possível no EMERGENCE, como variante:** um segundo grafo cujas Utrd transduzem campos físicos agregados do primeiro (subproduto da atividade, concentrações de moduladores). Observar se ele forma entidades que acompanham organizações do primeiro (o protocolo da seção 7 do excerto, em simulação).
+   - Custo: dobra a malha.
+   - Pré-requisito: o critério de primeiro conteúdo (consequência 2 dos limites do Sdom).
+
+### 7.4 Pergunta ao responsável
+A leitura 7.3 (o teste da fronteira pela transdução, e a paridade com o primeiro Sdom) serve para levar à revisão da hipótese? E o teste em simulação fica guardado como variante, depois do critério de primeiro conteúdo?
