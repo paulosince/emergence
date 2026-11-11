@@ -68,3 +68,7 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
 - **A decidir:**
   - onde ficam os limiares: na Utrd, como especialização e predisposição (número de níveis e espaçamento), ou de outro modo;
   - se a magnitude de cada incidência fica fixa ou também varia dentro da faixa de cada Upro (como a taxa de cada fibra dentro da sua faixa).
+
+**Decisões (responsável, 17h50):**
+- **(a)** Os limiares ficam **na Utrd**: "assim as Upro já estão normalizadas".
+- **(b)** "Agora a magnitude precisa ser repensada quanto à correspondência transdutória." O responsável pediu pesquisa na literatura (seção 5).
