@@ -99,3 +99,35 @@ Já registrado em [glias e adenosina](glia-adenosine-v0.md), seção 1: há font
 A divergência de fibras por receptor (várias fibras saindo de um mesmo receptor, ramos para vários alvos) é conhecimento geral, **não conferido nesta sessão**.
 
 **Situação:** os pontos 1/4 a 4/4 da seção 2 ficam **suspensos**. Começa-se pelo levantamento **funções → moduladores** (seção 4).
+
+## 4. Funções → moduladores (11/11/2026, 07h30)
+**Pedido do responsável:** quais neuromoduladores correspondem às funções listadas. Os pontos das seções 2 e 3 ficam guardados para depois.
+
+| # | Função na arquitetura | Moduladores na biologia | Fonte | Leitura |
+|---|---|---|---|---|
+| F1 | Terceiro fator da formação: **novidade** | Dopamina (D1/D5 no hipocampo), vinda também do **locus coeruleus**. A novidade 30 min depois da codificação aumentou a retenção em 24 h. O efeito foi bloqueado por antagonista D1/D5, não por antagonista β-adrenérgico, e não dependeu da área tegmentar ventral. | Takeuchi et al. (2016), *Nature* 537, 357–362 (PMC5161591) | resumo e trechos |
+| F1 | Terceiro fator da formação: **surpresa** (incerteza inesperada) | Noradrenalina: sinaliza a divergência radical entre a entrada e a interpretação vigente, influindo na inferência e na plasticidade | Yu e Dayan (2005), *Neuron* 46, 681–692; Dayan e Yu (2003, NIPS) | resumo e trechos |
+| F2 | Intensidade da **marca de consolidação** | Dopamina D1/D5 (marcação comportamental); noradrenalina pelo locus coeruleus (com coliberação de dopamina) | Moncada e Viola (2007); Takeuchi et al. (2016) | resumo |
+| F3 | Modo **codificar × lembrar** | Acetilcolina; também a noradrenalina. Ambas suprimem a transmissão intracortical e de retorno e poupam ou reforçam a aferente. A acetilcolina sinaliza **incerteza esperada** (falta de confiabilidade conhecida das pistas). | Hasselmo (2006); Yu e Dayan (2005) | resumo e trechos |
+| F4 | **Portão e polaridade** da plasticidade | Acetilcolina e noradrenalina (Seol et al. 2007); acetilcolina como "velocidade de atualização da memória" (taxa de aprendizagem) | Seol et al. (2007); Doya (2002), *Neural Netw.* 15, 495–506 | resumo |
+| F5 | **Ganho**; explorar × aproveitar | Noradrenalina, nos modos fásico × tônico; "aleatoriedade na escolha da ação" | Aston-Jones e Cohen (2005); Doya (2002) | resumo |
+| F6 | **Estados**: vigília, repouso, sono | Adenosina (pressão); orexina (estabilidade da vigília); acetilcolina, noradrenalina, serotonina e histamina (vigília; as três últimas calam no sono REM). **Redundância:** nenhum sistema isolado é indispensável. | [tabela de 10/11](neuromodulators-sources-v0.md) (Brown et al. 2012) | texto parcial |
+| F7 | **Persistência** das unidades lentas | Acetilcolina (persistência gradual no entorrinal, por corrente sensível ao cálcio) | Egorov et al. (2002); Fransén et al. (2006) | resumo |
+| F8 | **Janela de integração** e **supressão após disparar** | Janela: dopamina D1 encurta; serotonina (em interneurônios) alonga; acetilcolina aumenta a resistência de entrada. Supressão lenta: noradrenalina (β) e histamina (H2) reduzem. | [revisão](architecture-review-v0.md), 3.5 e 3.17 | resumo |
+| F9 | **Valor e recompensa** (ramo da valia) | Dopamina: erro de previsão de recompensa. Serotonina: escala de tempo da previsão de recompensa (desconto). | Schultz, Dayan e Montague (1997), *Science* 275, 1593–1599; Doya (2002) | resumo e trechos |
+
+**Leitura (inferência nossa):**
+- **Quatro aparecem em quase tudo:** acetilcolina (F3, F4, F7, F8), noradrenalina (F1, F3, F4, F5, F8), dopamina (F1, F2, F8; e F9 no ramo da valia) e adenosina (F6).
+- **A dopamina aparece também fora da recompensa:** a da novidade, vinda do locus coeruleus. Então ela entra no núcleo mesmo sem o ramo da valia.
+- **Serotonina, histamina e orexina** aparecem em F6 e F8, com redundância. Fora da valia, não vejo função exclusiva delas.
+- **Leituras computacionais** (Doya 2002; Yu e Dayan 2005) são **modelos**: mapeiam moduladores a grandezas de aprendizagem. Ajudam a nomear funções, mas não são a biologia.
+
+**Proposta de núcleo mínimo (nossa, para decisão):**
+1. **acetilcolina:** incerteza esperada; modo codificar × lembrar; taxa de aprendizagem; persistência;
+2. **noradrenalina:** surpresa; ganho; explorar × aproveitar;
+3. **dopamina:** novidade e consolidação (e valor, no ramo da valia);
+4. **adenosina:** custo da atividade e estados.
+
+Orexina, serotonina e histamina ficam como variantes ou para os ramos.
+
+**Nomes:** pela regra de nomes agnósticos (como em "velocidade de propagação"), na arquitetura talvez seja melhor nomear cada modulador **pela função**, com o nome biológico como correspondência. A decisão é do responsável.
