@@ -207,3 +207,13 @@ Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agn�
 - **Conteúdo × extra conteúdo da Uint moduladora: não se escolhe por suposição.** Será um **seletor de experiência**: testar "das três formas propostas" e ver o que acontece.
   - **Leitura nossa, a confirmar:** as três formas seriam G1 (regulação externa ao Sdom), G2 (participação constitutiva num Sdom compartilhado) e G3 (Sdom próprio), do [guia de limites](sdom-boundaries-guide.md), aplicadas às Uint moduladoras.
   - **Requisito:** para o seletor ser instrutivo, as medidas precisam distinguir as três formas. Isso depende do critério de primeiro conteúdo (item 6 do que resta revisar).
+
+### 6.3 Decisões e proposta do responsável (11/11/2026, 07h54)
+- **Opção (b) decidida:** um modulador por Uint moduladora como regra, com a **exceção declarada noradrenalina + dopamina** (tipo locus coeruleus). Upro comuns (excitatórias ou inibitórias) são permitidas.
+- **Conteúdo × extra conteúdo:** não escolher de antemão. Fazer um **seletor de experiência** e testar as duas formas: "pode ser mais instrutivo que 'chutar' uma opção". **Preocupação do responsável:** com um experimento "contínuo", isso pode ser complicado.
+
+**Condições para o seletor funcionar (inferência nossa, para discussão):**
+1. **Diferença operacional definida no motor.** Por exemplo: na variante "conteúdo", a Uint moduladora pode participar de convergências que formam Uint representacionais. Na variante "extra conteúdo", as saídas dela não entram na formação de representações, só na liberação e na modulação. Sem isso, o seletor não testa nada.
+2. **Critério de medida:** o que conta como representação é o item pendente da consequência 2 dos limites do Sdom (critério do primeiro conteúdo). A medida fica no **observador**, não no motor.
+3. **Seletor fixado no nascimento:** cada variante é uma vida separada desde o tempo zero. Trocar no meio contaminaria as duas.
+4. **Comparação pareada:** duas vidas "gêmeas" com o mesmo mundo e a mesma semente. Se o mundo responde às ações, as entradas divergem. Uma saída clássica é o **controle acoplado** (*yoked*): uma vida recebe a sequência de entradas que a outra gerou.
