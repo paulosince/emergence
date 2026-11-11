@@ -314,3 +314,6 @@ Lido: resumos e trechos dos textos. Nenhum texto integral foi lido nesta etapa.
 - **Pergunta 3:** tônico e fásico emergem das entradas, sem modos codificados.
 - **Pergunta 1:** "sim". Falta confirmar qual das três: (1) puro, ou (1) com (2) no seletor dos gêmeos.
 - **Pergunta 1, confirmada às 09h41:** **(1) puro**. As moduladoras nascem nos sítios pela regra comum nos dois gêmeos. Motivo, dado pelo responsável: com mais de uma diferença entre os gêmeos, não se sabe qual causou o resultado. O seletor fica com uma diferença só, conteúdo × extra conteúdo. A opção (2), presentes desde t0, fica como variante para um par futuro, se a observação der motivo.
+
+
+**Nota (11/11, 12h33):** decidida a sequência de rodadas. A primeira tem A × B. A segunda usa o vencedor como base, mais o gêmeo C, a variante astroglial de segundo Sdom ([glias](glia-adenosine-v0.md), 7.5).

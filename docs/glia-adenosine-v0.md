@@ -185,3 +185,12 @@ A regra decidida em 10/11 ("incidências só surgem de transdução"; a fronteir
 
 ### 7.4 Pergunta ao responsável
 A leitura 7.3 (o teste da fronteira pela transdução, e a paridade com o primeiro Sdom) serve para levar à revisão da hipótese? E o teste em simulação fica guardado como variante, depois do critério de primeiro conteúdo?
+
+### 7.5 Terceiro gêmeo (responsável, 11/11, 12h33)
+- **Opção (ii):** a primeira rodada tem **dois gêmeos** (A, moduladoras sem conteúdo; B, moduladoras com conteúdo).
+- "Assim já saberemos qual usar: A ou B." A **segunda rodada** usa como base o vencedor da primeira, com o gêmeo **C** (segundo grafo que transduz campos físicos do primeiro).
+- Cuidados registrados:
+  - a composição de cada rodada é fixada antes de começar, porque os gêmeos se veem;
+  - as posições são simétricas;
+  - C exige antes o critério de primeiro conteúdo e a especificação do que o segundo grafo transduz;
+  - o custo estimado de C é cerca de 2 vezes o de um sistema (estimativa, sem medição).
