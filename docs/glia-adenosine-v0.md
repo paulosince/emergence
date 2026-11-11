@@ -104,3 +104,44 @@ A pressão de sono é **variável regulada** (ponto de ajuste). A decisão de 09
 - Peng, W. et al. (2020). Regulation of sleep homeostasis mediator adenosine by basal forebrain glutamatergic neurons. *Science* 369, eabb0556. (resumo)
 - Peng, W. et al. (2023). Adenosine-independent regulation of the sleep–wake cycle by astrocyte activity. *Cell Discovery* 9, 16. (resumo)
 - Porkka-Heiskanen, T. et al. (1997). Adenosine: a mediator of the sleep-inducing effects of prolonged wakefulness. *Science* 276, 1265–1268. (resumo e legendas)
+
+## 6. Macroglias, revisão no redesenho (11/11/2026, 11h03, pedido do responsável)
+**Ponto de partida, o que já está decidido:**
+- **10/11, 19h02:** sem base, por ora, para postular unidades fora do domínio representacional produzindo regulação; a regulação é feita pelas próprias Uint.
+- **Mielina:** vira a **velocidade de propagação** da Upro (decisão de 10/11, 20h27).
+- **Adenosina:** subproduto da atividade.
+- **Astrócito como portão territorial:** variante.
+
+O pedido agora é olhar as **macroglias** (astrócitos e linhagem do oligodendrócito), não as micróglias.
+
+### 6.1 Funções das macroglias no NB e situação no EMERGENCE
+Lido: resumos, salvo indicação.
+
+| # | Função no NB | Fonte | Situação |
+|---|---|---|---|
+| A1 | **Portão territorial de plasticidade:** um astrócito, pela D-serina dependente de cálcio, controla a plasticidade dependente de NMDA em **milhares de sinapses** ao redor. A noradrenalina "liga" a resposta do astrócito à atividade local. | Henneberger et al. 2010, Nature 463:232 (resumo e trechos); Paukert et al. 2014 | variante (19h02) |
+| A2 | **Suficiência:** ativar astrócitos durante o aprendizado induz potenciação nova, que persiste depois. A memória melhora **só quando a ativação coincide com o aprendizado**; ativar neurônios diretamente piora a memória. | Adamsky et al. 2018, Cell 174:59 | variante (mesma forma de A1) |
+| A3 | **Energia para a memória de longo prazo:** o glicogênio, que só os astrócitos guardam, vira lactato. É necessário para a memória de **longo** prazo, não para a de curto, e para manter a potenciação. A glicose em mesma quantidade de energia não substitui. | Suzuki et al. 2011, Cell 144:810 | **lacuna** |
+| A4 | **Eliminação de sinapses:** astrócitos englobam sinapses de modo dependente de atividade (MEGF10 e MERTK). Sem as duas vias, a eliminação cai ~90% e sobram sinapses. Persiste na vida adulta. | Chung et al. 2013, Nature 504:394 (resumo e divulgação; número de divulgação, confiança média) | coberto pela poda por desuso na Upro |
+| A5 | **Fechamento do período crítico:** a conexina 30 dos astrócitos sobe no desenvolvimento, inibe uma enzima que degrada a matriz, a matriz se estabiliza, os interneurônios inibitórios amadurecem e o período fecha. Astrócitos imaturos enxertados em adultos **reabrem** a plasticidade. | Ribot et al. 2021, Science 373:77 (resumo e trechos do preprint) | **lacuna** |
+| A6 | **Acúmulo de evidência de inutilidade:** no peixe-zebra, astrócitos radiais acumulam por dezenas de segundos o sinal noradrenérgico de tentativas falhas e, ao atingir o limite, suprimem o nado (passividade). | Mu et al. 2019, Cell 178:27 | sem equivalente; **toca o ramo do querer** |
+| A7 | Componente do homeostato do sono. | Ingiosi et al. 2020 (seção 2.1) | adiado (estados de sono) |
+| A8 | Remoção de potássio e glutamato do meio. | conhecimento geral, **não conferido nesta sessão** | entra em "remoção local" (detalhes da liberação, pendente) |
+| O1 | Mielina altera a velocidade de condução. | seção 3c | coberto: velocidade de propagação |
+| O2 | Oligodendrócitos novos são necessários para aprender e consolidar. | McKenzie 2014; Steadman 2020 (seção 3b) | coberto: velocidade cresce com o uso, devagar |
+| O3 | Precursores de oligodendrócito recebem **sinapses glutamatérgicas verdadeiras** de neurônios, em jovens e adultos: um canal rápido neurônio → glia. | Bergles et al. 2000, Nature 405:187 | coberto: o aumento da velocidade é movido pelo uso da própria Upro |
+
+### 6.2 Leitura (inferência nossa)
+As funções caem em **três grupos**:
+1. **Já absorvidas como propriedades das unidades:** velocidade de propagação (O1–O3), poda (A4) e remoção local (A8). A perda declarada continua a mesma: o executor territorial; um oligodendrócito mieliniza vários axônios, então seus ajustes são correlacionados.
+2. **Integrador territorial lento que abre a plasticidade** quando a atividade local coincide com um estado global (A1, A2; A6 tem a mesma forma, com outro alvo). É a mesma **forma** dos moduladores com difusão que já temos: liberação, alcance, ação sob modulação. A decisão de 19h02 continua coerente; a variante glial serve para comparar.
+3. **Duas lacunas sem equivalente na arquitetura:**
+   - **(a) Custo da consolidação (A3).** Consolidar exige um recurso local que não é o da atividade de curto prazo. Hoje a consolidação só depende de marca e moduladores, não de um recurso que possa faltar. Hipótese **H-G1:** a consolidação consome um recurso local, que se repõe devagar; sem ele, a marca não vira consolidação.
+   - **(b) Fechamento do período crítico (A5).** Não há na arquitetura nada que reduza a plasticidade com a maturação. A questão já aparecia como pendente na Utrd eferente (período crítico). Hipótese **H-G2:** uma variável lenta de maturação, territorial e movida pela experiência, reduz a taxa de formação e de plasticidade; ela pode ser reaberta.
+
+**Alerta para o ramo do querer (A6):** um integrador que acumula falhas e muda o estado comportamental toca diretamente o desenho de ANCHOR (Orientação, persistência, desistência). Fica registrado para aquele ramo, sem proposta aqui.
+
+### 6.3 Perguntas ao responsável
+1. A decisão de 19h02 continua como **base**, com as macroglias absorvidas nas unidades e a forma glial territorial como variante?
+2. **H-G1** (custo da consolidação): investigamos?
+3. **H-G2** (fechamento do período crítico): investigamos?
