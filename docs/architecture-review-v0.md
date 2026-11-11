@@ -469,5 +469,5 @@ Leitura agnóstica (nossa): é uma **conta de gasto** que vira retroalimentaçã
 
 **Consequências para I6 (inferência nossa):**
 - I6.1 fica respondida: os marca-passos são Utrd, logo fronteira e predisposição presente desde o início (como as demais Utrd).
-- I6.2 muda de forma. Incidências de marca-passo são transduções endógenas, e transduções podem formar Uint e Upro. Então a estrutura que elas formam vem da **experiência do corpo**, não é entregue pronta. Isso legitimaria algo como as ondas espontâneas da retina. **A confirmar.**
+- I6.2 muda de forma. Incidências de marca-passo são transduções endógenas, e transduções podem formar Uint e Upro. Então a estrutura que elas formam vem da **experiência do corpo**, não é entregue pronta. Isso legitima algo como as ondas espontâneas da retina. **Confirmado pelo responsável (21h10: "Perfeito, coisa linda!").**
 - A atividade de fundo para as cadeias C2(b) vem dessas Utrd endógenas.
