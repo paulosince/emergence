@@ -497,3 +497,15 @@ Fica para o **desenho do corpo**, porque depende de variáveis, ações e caminh
 
 ### 3.15 I5 — nome (responsável, 10/11/2026, 22h18)
 "Apenas: janela de integração, é o nome." Registrado na [nomenclatura](nomenclature.md). **Pendentes:** aceitação da proposta de 3.7 (componentes rápida e lenta, intrínseca, encurta com a atividade de fundo); janela igual em todo o domínio × variando com a distância hierárquica desde as Utrd (recomendação: igual, com a variação como variante a testar).
+- **Decidido (responsável, 22h19):** a proposta de 3.7 serve; a janela de integração é **igual em todo o domínio** (a variação por local fica como variante a testar). **I5 fechado.**
+
+### 3.16 Uint fechada (10/11/2026, 22h19)
+**Especificação revista da Uint:**
+- **Nascimento:** convergência de ≥2 incidências, pela regra comum. Recruta elementos do substrato por excitabilidade.
+- **Integração:** soma com sinal das contribuições (magnitude × efeito), comparada ao limiar, dentro da **janela de integração**. A janela é intrínseca, com uma componente rápida (dezenas de ms) e uma lenta (centenas de ms), igual em todo o domínio, e encurta com a atividade de fundo.
+- **Supressão após disparar:** três escalas (~10 ms, ~50–100 ms, segundos). A lenta cresce com os disparos recentes e fica sob modulação.
+- **Constante de tempo de integração (dinâmica lenta):** cresce com a **distância hierárquica desde as Utrd**, formando um espectro de ms a horas; a persistência fica sob modulação.
+- **Nível de consolidação próprio**, além do da Upro.
+- **Liberação de moduladores** por algumas Uint (decisão de 19h02) e **adenosina** como subproduto de todas: conta de gasto com freio rápido local e pressão lenta. **A detalhar.**
+- **Marca-passos:** são **Utrd endógenas**, não Uint. Regra: incidências só surgem de transdução.
+- **Adiado:** R4 (laço regulatório), para o desenho do corpo.
