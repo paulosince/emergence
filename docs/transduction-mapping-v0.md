@@ -193,3 +193,8 @@ Lido: resumos e trechos; Hardt, Nader & Nadel 2013 em texto integral (por resumo
 - **Estabilidade decai por um decaimento basal**, cujo ritmo cai com a consolidação: rápido na efêmera, quase nulo na consolidada.
 - **Isso substitui a frase de 18h35**, "o decaimento da confiança vem da estabilidade". Agora a confiança só cai por interferência ou não confirmação, e o tempo age sobre a estabilidade.
 - **Ponto a confirmar:** a relação efêmera nunca capturada tem confiança que não cai sem contato. Para reproduzir o NB, em que a potenciação não capturada some em horas, propõe-se que **estabilidade chegando a zero ⇒ poda da Upro**. A estabilidade seria a "linha de vida" da relação.
+- **18h55, responsável:** "Por isso propus a consolidação como multiplicação das duas propriedades, para que haja esse tipo de relação de 'multiplicar por zero'."
+  - Leitura: o produto (multiplicação) dá zero quando **qualquer um** dos fatores é zero. Como a transmissão usa a confiança (magnitude = confiança × modulação), o "zero" precisa ter efeito sobre a existência da relação.
+  - **Regra única proposta: consolidação = 0 ⇒ poda.** Ela cobre os dois casos:
+    1. a estabilidade expirou (a efêmera nunca foi capturada);
+    2. a confiança foi levada a zero pela lapidada (a relação foi desmentida). Isso coincide com a regra de 10/11: "a errada decai até a poda".
