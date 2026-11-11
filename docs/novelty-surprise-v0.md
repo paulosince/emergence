@@ -261,3 +261,19 @@ Desta vez consegui o texto integral de quatro fontes; as três primeiras foram l
    - As entradas das representacionais para as moduladoras se formam pela regra comum, que exige coatividade. No início da vida, as moduladoras são movidas pelas Utrd endógenas.
    - Falta saber se a coatividade entre as duas populações basta para formar essas Upro, ou se a amplitude da predisposição precisa garantir algumas desde o início.
    - Isso deve ser observado em simulação.
+
+### 5.8 Leitura do responsável (10h45) e consequência
+**Leitura do responsável:** cria-se uma Upro dos nós novos e dos acessados para as Uint moduladoras que disparam com a novidade. Isso permitiria relacionar e representar o que foi novo na relação, e acompanhar o novo nos acessos seguintes.
+
+**Confirmação (inferência nossa):** sim, pela regra comum, porque há coatividade. Daí ficam **dois registros** do novo:
+1. A **Upro para a moduladora**, que é relação, conforme a leitura do responsável.
+2. A **marca de consolidação** das Upro formadas naquele momento. Ela já tem intensidade conforme os moduladores presentes (decisão de 10/11). As relações formadas sob novidade saem marcadas mais forte.
+
+**Risco que precisa de resposta: a habituação.** Se essa Upro se fortalecesse a cada encontro, o familiar acionaria a moduladora **cada vez mais**. O NB mostra o contrário: a resposta some em 1–2 encontros (N5). A malha resolveria assim:
+- **No primeiro encontro**, a Upro nasce com uma só coatividade: tem ganho inicial e marca, mas não está consolidada.
+- **No segundo encontro**, a atividade de formação já caiu. Chega à moduladora pouca incidência além dessa Upro, que sozinha não basta para o disparo (≥2 convergências e limiar). A moduladora não dispara, a Upro não é confirmada e decai.
+- **Se o novo ganhar significado** (passar a vir junto com outra coisa que também chega à moduladora), surge a segunda entrada, a Upro é confirmada e a resposta **volta**. Isso corresponde ao NB: a resposta do locus coeruleus reaparece quando o estímulo passa a se associar a reforço, ou na reversão e na extinção (Sara, Vankov & Hervé 1994, resumo).
+- Assim, "acompanhar o novo nos acessos seguintes" ocorre: a relação fica disponível e pode ser reaproveitada se o novo passar a importar. Se não importar, decai.
+- **Confiança: baixa.** Depende de calibrações (ganho inicial, limiar da moduladora, decaimento) e precisa ser observado.
+
+**Pergunta ao responsável:** os dois registros, e a habituação vindo da queda da amplitude, servem?
