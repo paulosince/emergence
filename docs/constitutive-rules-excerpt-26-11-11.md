@@ -161,4 +161,4 @@ Só a síntese foi lida, não a conversa inteira.
 47. **[A]** Frequência física: lugar como regra (qual Utrd), com travamento de fase nas faixas baixas. **Topologia:** identificadores opacos com vizinhança emergente, ou proximidade favorecendo? **Adaptação:** Utrd de adaptação rápida e lenta? (Perguntas 2–4 da [transdução](transduction-mapping-v0.md).)
 48. **[D] (18h46)** **Estabilidade = marca de consolidação.** A confiança inicial vem do que a relação obteve do mundo e **pode nascer alta**, mas precisa se comprovar com o uso. Isso corrige o item 44.
 49. **[D] (18h53)** **A confiança não decai sem contato**; cai só pela lapidada. **A estabilidade tem decaimento basal**, rápido na efêmera e quase nulo na consolidada. Isso corrige o item 43 quanto à origem do decaimento.
-50. **[A]** Estabilidade chegando a zero ⇒ poda da Upro?
+50. **[D] (18h59)** **Consolidação (confiança × estabilidade) zero ⇒ poda.** Cobre a efêmera que expirou e a relação desmentida, e substitui a "poda por desuso" do item 17.

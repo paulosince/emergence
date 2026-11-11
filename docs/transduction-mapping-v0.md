@@ -198,3 +198,5 @@ Lido: resumos e trechos; Hardt, Nader & Nadel 2013 em texto integral (por resumo
   - **Regra única proposta: consolidação = 0 ⇒ poda.** Ela cobre os dois casos:
     1. a estabilidade expirou (a efêmera nunca foi capturada);
     2. a confiança foi levada a zero pela lapidada (a relação foi desmentida). Isso coincide com a regra de 10/11: "a errada decai até a poda".
+- **18h59, confirmado:** "Sim." **Consolidação = confiança × estabilidade; consolidação zero ⇒ poda.**
+  - Síntese do responsável: "Se não há consolidação alguma… é inútil. Poda. Se é instável, mesmo com alta confiança… Se é pouco confiável, mesmo muito estável… **Confiança se conquista no dia a dia. Estabilidade é estrutural. Consolidação é mais que estabilidade.**"

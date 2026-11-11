@@ -320,6 +320,13 @@ Nomes aprovados: **marca de consolidação** e **nível de consolidação**.
 - **Nascimento com confiança baixíssima** e, portanto, efêmera.
 - **A marca de consolidação passa a governar a subida de degrau**, não o nascimento. Ela mantém o refratário (repetição colada não soma), a captura em ~3 h e a intensidade conforme os moduladores.
 - **Na fronteira, a magnitude é fixa.** A intensidade vira o número de Upro recrutadas, com limiares na Utrd e as Upro normalizadas.
+- **Correções de 18h46–18h59:**
+  - **Estabilidade = marca de consolidação.**
+  - A confiança inicial vem do mundo e pode nascer alta.
+  - A **confiança não decai sem contato**: cai só pela lapidada.
+  - A **estabilidade tem decaimento basal**, rápido na efêmera e quase nulo na consolidada.
+  - **Consolidação = confiança × estabilidade.**
+  - **Consolidação zero ⇒ poda.** Essa regra substitui a "poda por desuso" anterior.
 
 ## 3. Uint (unidade integradora) — revisão iniciada em 10/11/2026, 20h46
 
