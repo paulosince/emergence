@@ -233,3 +233,31 @@ Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agn�
 **Custo:** o mundo é simulado uma vez, e os motores podem rodar em paralelo. Medida disponível: só a do motor v0 (120 s de mundo rico em 6–13 s). A estimativa para o motor novo tem **confiança baixa a média**, até medir.
 
 **Pendente:** os critérios de parada e de observação para duas vidas simultâneas.
+
+## 7. Posição das Uint moduladoras (pesquisa de 11/11/2026, 08h10)
+**Pergunta do responsável:** por canal, por grupos, por concentração representacional ou por outro mecanismo?
+
+### 7.1 Literatura (resumo, salvo indicação)
+| Achado | Fonte | Leitura |
+|---|---|---|
+| **Poucas células, agrupadas.** O locus coeruleus do rato tem ~1.643 ± 21 neurônios (Nissl). No humano, as estimativas vão de 19.000 a 46.000 neurônios de noradrenalina no total. É um aglomerado denso na ponte. | Swanson (1976), *Brain Res.* 110, 39–56; Sharma et al. (2010), *J. Comp. Neurol.*; Weber et al. (2024, eLife, *preprint* revisado) | resumo; confiança alta nos números |
+| **A posição vem do desenvolvimento:** a interseção de dois gradientes de sinalização (Shh ao longo do tubo neural ventral; FGF8 na fronteira mesencéfalo-rombencéfalo) cria **sítios de indução** de neurônios de dopamina e de serotonina. | Ye, Shimamura, Rubenstein, Hynes e Rosenthal (1998), *Cell* 93, 755–766 | resumo |
+| **Entradas convergentes e diversas.** Os neurônios de dopamina integram entradas de muito mais áreas do que se pensava, incluindo autonômicas, motoras e somatossensoriais. Entradas diferentes dão sinais diferentes: a substância negra recebe do córtex sensorial e motor (respostas curtas a eventos salientes), e a área tegmentar ventral, do hipotálamo lateral (valor). | Watabe-Uchida, Zhu, Ogawa, Vamanrao e Uchida (2012), *Neuron* 74, 858–873 | resumo |
+| **Saídas amplas e muito ramificadas.** Neurônios do rafe têm axônios muito colateralizados; a coliberação varia por alvo. O locus coeruleus projeta a todo o sistema nervoso. | Gagnon e Parent (2014); Weber et al. (2024) | resumo |
+| **Fontes locais, esparsas, também existem.** O córtex tem neurônios colinérgicos locais (quase todos interneurônios VIP), que liberam GABA com força e acetilcolina de modo **esparso e específico**. Há também uma população rara, de outra origem, no pré-frontal medial, que libera acetilcolina na camada 1. | Granger et al. (2020), *eLife* 9:e57749 | resumo |
+
+### 7.2 Leitura pelas opções do responsável (inferência nossa)
+- **Por canal:** **não apoiada** como regra. Os núcleos não seguem os canais sensoriais; ao contrário, recebem de muitos canais ao mesmo tempo.
+- **Por grupos:** **apoiada**. É a forma principal: aglomerados pequenos, com muita convergência de entrada e muita divergência de saída.
+- **Por concentração representacional:** **não encontrei apoio**. As fontes locais do córtex existem, mas são esparsas e não seguem a densidade de representação.
+- **Outro mecanismo:** dois.
+  - **Posição pela interseção de gradientes** (desenvolvimento).
+  - **Função pela convergência:** o que caracteriza o neurônio modulador é receber de muitas regiões diferentes e enviar a muitas.
+
+### 7.3 Proposta (nossa, para decisão)
+- **(A) Grupos como predisposição por local (recomendada).** O espaço tem poucos **sítios** onde as Uint que nascem ganham a propriedade de liberação: um sítio por modulador, e um sítio para noradrenalina + dopamina.
+  - **Onde:** perto da fronteira, do lado das Utrd endógenas, como o tronco encefálico fica perto do corpo. Precisa de decisão.
+  - **Conteúdo:** os sítios não carregam nenhum. O que as Uint moduladoras recebem e para onde projetam se forma pela regra comum, com a amplitude como predisposição da classe.
+  - É coerente com a decisão de propriedades por local (constante de tempo).
+- **(B) Emergente pela convergência (variante).** Uma Uint vira moduladora quando passa a receber de muitas regiões diferentes. É mais constitutiva, mas pode transformar hubs representacionais em moduladores.
+- **(C) Fontes locais esparsas (variante adicional).** Poucas Uint moduladoras locais, de acetilcolina, dentro das regiões representacionais.
