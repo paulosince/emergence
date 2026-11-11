@@ -305,7 +305,7 @@ Nomes aprovados: **marca de consolidação** e **nível de consolidação**.
 - **Existência e nascimento:** só com destino; nasce das transduções, junto com a Uint. As inibitórias nascem na concepção (quando a inibição já deve existir) e pela experiência (quando uma relação aprendida se mostra errada; a correção é construtiva).
 - **Direção:** de origem para destino. É a ordem.
 - **Tempo de propagação:** distância ÷ **velocidade de propagação**. A velocidade parte de um basal e aumenta devagar com o uso; teto de ~100 ms (C1, a implementar).
-- **Ganho:** plástico. Nas excitatórias, regra comum (fortalece por confirmação). Nas inibitórias, fortalece por coatividade dentro de ~10 ms em qualquer ordem, sem termo de enfraquecimento próprio. Todas decaem pelo **nível de consolidação** e são podadas por desuso.
+- **Ganho:** plástico. Nas excitatórias, regra comum (fortalece por confirmação). **Acréscimo de 11/11 (responsável, [novidade e surpresa](novelty-surprise-v0.md), 5.9):** se a Upro excitatória entrega a incidência e o destino favorecido **não dispara**, o decaimento natural dá uma **leve acelerada** naquele momento ("uma lapidada a mais"); a intensidade é calibração. Apoio: depressão de longo prazo por despolarização abaixo do limiar de potenciação (Artola, Bröcher & Singer 1990). Nas inibitórias, fortalece por coatividade dentro de ~10 ms em qualquer ordem, sem termo de enfraquecimento próprio. Todas decaem pelo **nível de consolidação** e são podadas por desuso.
 - **Sinal do efeito:** na Upro (perda declarada: princípio de Dale).
 - **Marca de consolidação:** intensidade e momento; ~3 h.
 - **Nível de consolidação.**

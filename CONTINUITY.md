@@ -55,9 +55,11 @@ Registro em [docs/architecture-review-v0.md](docs/architecture-review-v0.md). De
 - A surpresa age sobre a plasticidade pela ação sob modulação.
 - Quem aciona as moduladoras são Uint existentes e recrutadas, pela convergência ampla. A Uint criada não é moduladora.
 - Dois registros do novo: a Upro para a moduladora e a marca mais forte. A habituação vem da queda da amplitude.
-- Falta decidir o mecanismo da surpresa (H-N2).
+- **Surpresa (raciocínio do responsável, caso João):** quando a Uint é favorecida e não dispara, a Upro excitatória tem o decaimento natural levemente acelerado naquele momento (acréscimo em 2.15). Quando dispara sem relação com os que dispararam junto, formam-se Upro novas.
+- A novidade forma Uint e a surpresa forma Upro. As duas geram amplitude de formação e chegam às moduladoras pelo mesmo caminho.
+- O cancelamento por inibição (H-N2) foi substituído. **Item fechado.**
 
-**Pendentes:** mecanismo da surpresa (H-N2); detalhar a liberação de moduladores pelas Uint; implementar C1 e as mudanças da revisão no motor; decisão sobre os destinos da Utrd eferente (a) e ligação fixa × formada (b); consequências 2 a 5 dos limites (teste da determinação autônoma etc.); depois Upro, Uint, marca-passos, moduladores e glias.
+**Pendentes:** detalhar a liberação de moduladores pelas Uint; implementar C1 e as mudanças da revisão no motor; decisão sobre os destinos da Utrd eferente (a) e ligação fixa × formada (b); consequências 2 a 5 dos limites (teste da determinação autônoma etc.); depois Upro, Uint, marca-passos, moduladores e glias.
 
 ## 6. Próximos passos (plano aprovado; ordem atual)
 1. **Revisar a arquitetura atual** com o responsável (inclui as **glias**).

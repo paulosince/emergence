@@ -306,3 +306,15 @@ Desta vez consegui o texto integral de quatro fontes; as três primeiras foram l
 **Perguntas ao responsável:**
 1. A leitura acima, com os dois efeitos e a unificação, é o seu raciocínio?
 2. A Upro excitatória ganha um caso de enfraquecimento: **favorecida, sem disparo → o nível de consolidação cai**. Ela fica mais lábil e as confirmações futuras a recuperam, sem apagamento. Isso entra na especificação da Upro (2.15)?
+
+**Decisões (responsável, 11h01):**
+1. A leitura da 5.9 é o raciocínio do responsável: "isso mesmo".
+2. **Upro excitatória favorecida, sem disparo do destino:** "faria o decaimento natural dar uma leve acelerada naquele momento, dando uma lapidada a mais".
+   - É uma aceleração **pontual e leve** do decaimento já existente. Não é regra de apagamento.
+   - A intensidade é calibração.
+   - "Lábil", termo da literatura, quer dizer instável, fácil de alterar. Não é usado como termo da arquitetura.
+
+**Estado do item:**
+- Novidade e surpresa estão fechadas.
+- A H-N2 (cancelamento por inibição) foi **substituída** pelo raciocínio da 5.9 e fica só como registro.
+- A H-N1, na forma revisada (amplitude vinda da formação), e a H-N3 ficam como hipóteses a observar.
