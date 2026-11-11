@@ -113,6 +113,15 @@
 - **O que seria novo (hipótese, não verificado):** numa arquitetura agnóstica de substrato, tratar o sensor interno como **unidade de transdução** pelo critério funcional (converte sinal não representacional em incidência), e não pela posição anatômica. Daí, separar três dependências do meio: transdução (química do corpo), ação sob modulação (moduladores do domínio) e conta de uso (íons da própria atividade).
 - **Falta:** confirmação do responsável das consequências (a) e (b) ([revisão da arquitetura](architecture-review-v0.md), 3.10); busca em interocepção computacional e em critérios de fronteira de sistemas representacionais.
 
+## 15. Novidade e surpresa sem calculador central (11/11/2026)
+- **O que existe:** distinção entre novidade e surpresa (Barto, Mirolli & Baldassarre 2013); adaptação específica ao estímulo em neurônios isolados (Ulanovsky et al. 2003); comparador no hipocampo e laço hipocampo–área tegmental ventral (Lisman & Grace 2005); neurônios de descompasso no córtex visual (Keller et al. 2012); imagem negativa por plasticidade anti-Hebbiana no peixe-elétrico (Bell 1981 e seguintes). Codificação preditiva como quadro geral (conhecimento geral; **não conferido nesta sessão**).
+- **O que seria novo (hipótese, não verificado):** num sistema que nasce vazio, novidade e surpresa surgirem **só** de propriedades já especificadas para as unidades, sem peça dedicada:
+  - supressão lenta para a novidade de curto prazo;
+  - amplitude da atividade para a novidade de longo prazo;
+  - sinal das Upro formadas pela experiência para os dois casos de surpresa.
+  - O sinal chegaria às moduladoras pela regra comum de convergência.
+- **Falta:** decisão do responsável ([novidade e surpresa](novelty-surprise-v0.md), seção 4); busca de modelos de codificação preditiva com crescimento de unidades; simulação.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
