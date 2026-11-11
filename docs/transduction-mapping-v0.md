@@ -101,3 +101,15 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
 - **Acréscimo possível a (m1):** um leve adiantamento com a intensidade, como no NB. Isso favorece o mais forte nas convergências e na fila competitiva.
 
 **Recomendação:** (m1), com o adiantamento leve como variante.
+
+### 5.3 Decisão e reformulação (responsável, 18h08–18h11)
+- **18h08, pergunta do responsável:** "o que significaria a magnitude?" Resposta: no esquema do responsável não sobra nada para ela codificar na fronteira:
+  - a intensidade vira o número de Upro recrutadas;
+  - a frequência vira o momento das incidências (travamento de fase nas faixas baixas, lugar acima de ~1,5 kHz; parte 2 em aberto).
+  - A opção (m1) só serviria com limiares grossos.
+- **18h11, decidido:** "Perfeito." **Na fronteira, a magnitude é fixa**: o equivalente do tudo ou nada.
+- **Reformulação do responsável:** "A magnitude passa a codificar a **confiança** daquela relação. Uma relação muito repetida tem confiança maior e, consequentemente, uma magnitude maior."
+- **Ponto a confirmar:**
+  - Essa magnitude coincide com o **ganho da Upro**, que já fortalece por confirmação e tem teto abaixo de 0,9? Ou é um campo novo?
+  - Como se distingue do **nível de consolidação**, que mede a resistência ao decaimento? No NB, peso sináptico e estabilidade (fase tardia) são coisas diferentes, embora a repetição aumente os dois.
+  - "Confiança" seria nome de termo? Os nomes são decididos pelo responsável.
