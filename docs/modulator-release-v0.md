@@ -217,3 +217,19 @@ Mantêm-se os nomes biológicos, como exceção declarada à regra de nomes agn�
 2. **Critério de medida:** o que conta como representação é o item pendente da consequência 2 dos limites do Sdom (critério do primeiro conteúdo). A medida fica no **observador**, não no motor.
 3. **Seletor fixado no nascimento:** cada variante é uma vida separada desde o tempo zero. Trocar no meio contaminaria as duas.
 4. **Comparação pareada:** duas vidas "gêmeas" com o mesmo mundo e a mesma semente. Se o mundo responde às ações, as entradas divergem. Uma saída clássica é o **controle acoplado** (*yoked*): uma vida recebe a sequência de entradas que a outra gerou.
+
+### 6.4 Desenho do seletor (responsável, 11/11/2026, 08h06)
+**Escolha: opção 1**, dois sistemas gêmeos no **mesmo espaço, um vendo o outro**, diferindo no seletor (Uint moduladora como conteúdo × extra conteúdo).
+
+**Consequências declaradas (inferência nossa):**
+- Cada gêmeo é parte do mundo do outro. A diferença observada mistura a variante com a relação entre os dois.
+- Isso abre também o caminho para a previsão do preprint sobre entidades, inclusive o outro (uso permitido do preprint: previsões do que o domínio forma de forma autônoma, com ressalvas).
+
+**Mitigações sugeridas (a decidir):**
+- **Posições simétricas** no início.
+- **Repetições com as posições trocadas** e várias sementes.
+- **Medir a interação em si** (quanto cada um vê o outro), para separá-la da variante na análise.
+
+**Custo:** o mundo é simulado uma vez, e os motores podem rodar em paralelo. Medida disponível: só a do motor v0 (120 s de mundo rico em 6–13 s). A estimativa para o motor novo tem **confiança baixa a média**, até medir.
+
+**Pendente:** os critérios de parada e de observação para duas vidas simultâneas.
