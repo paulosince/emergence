@@ -108,6 +108,11 @@
 - **O que seria novo (hipótese, não verificado):** reativação espontânea de relações marcadas, sem segunda regra de aprendizado, numa malha que nasce vazia e em que o tempo de percurso é conteúdo. A marca carregaria o estado das unidades lentas como carimbo. A compressão serviria de ponte para intervalos acima da janela da regra. E a pergunta sobre o que a compressão preserva (proporção ou ordem).
 - **Falta:** decisão do responsável ([aprendizado diferido](deferred-learning-v0.md), seção 4); busca de modelos computacionais de reexecução que preservem proporções temporais; busca sobre reexecução com prioridade em aprendizagem por reforço.
 
+## 14. Sensor interno como Utrd endógena na fronteira funcional do domínio (10/11/2026)
+- **O que existe:** neurônios quimiossensíveis com ritmo de marca-passo (locus coeruleus, orexina; de Carvalho et al. 2014; Filosa et al. 2002); interocepção como tema geral (conhecimento geral, sem busca registrada nesta sessão).
+- **O que seria novo (hipótese, não verificado):** numa arquitetura agnóstica de substrato, tratar o sensor interno como **unidade de transdução** pelo critério funcional (converte sinal não representacional em incidência), e não pela posição anatômica. Daí, separar três dependências do meio: transdução (química do corpo), ação sob modulação (moduladores do domínio) e conta de uso (íons da própria atividade).
+- **Falta:** confirmação do responsável das consequências (a) e (b) ([revisão da arquitetura](architecture-review-v0.md), 3.10); busca em interocepção computacional e em critérios de fronteira de sistemas representacionais.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).

@@ -445,3 +445,20 @@ Leitura agnóstica (nossa): é uma **conta de gasto** que vira retroalimentaçã
 - **R2. Marca-passo como sensor do corpo.** Um marca-passo cujo ritmo depende de CO₂ ou pH está, na prática, **transduzindo um sinal endógeno**: o ritmo dele carrega informação sobre o estado do corpo. Isso aproxima o marca-passo da Utrd endógena e conversa com a pergunta I6: estaria na fronteira, como a Utrd?
 - **R3. O meio como variável lenta.** Os íons que a atividade muda são outra "conta de uso", como a adenosina: a própria atividade altera o meio, que altera os marca-passos.
 - **R4. Risco de variável regulada.** Se um marca-passo responde ao **desvio** de uma variável do corpo e o seu disparo leva à **correção** (como o CO₂ e a respiração), isso é um laço regulatório: território do VALORE. A decisão de 09/11 manteve o relógio fora da rota regulatória. Precisa de cuidado.
+
+### 3.10 Decisão sobre R2 (responsável, 10/11/2026, 21h01)
+"Ele responde a algo que sempre me incomodou: a falta de sensor 'interno'; perfeito. Seria uma Utrd; mas veja que mesmo geograficamente dentro… ainda é 'borda' de domínio representacional; porque ainda pega sinais que não são representacionais e os converte em incidências."
+
+**Registro:**
+- O marca-passo sensível à química do corpo (CO₂, pH e semelhantes) é uma **Utrd endógena**.
+- Mesmo que fique geograficamente dentro, é **fronteira** do Sdom, porque converte sinais não representacionais em incidências.
+- Reforça que a fronteira do Sdom é **funcional, não anatômica** (seção 0).
+- Preenche a lacuna do **sensor interno**.
+
+**Consequências a confirmar (inferência nossa):**
+- **(a) Três tipos de dependência do meio, três tratamentos:**
+  - química do corpo → **Utrd endógena** (transdução);
+  - moduladores liberados por Uint do domínio → **ação sob modulação** (não é transdução: o sinal já é do domínio);
+  - íons alterados pela própria atividade → **conta de uso**, como a adenosina.
+- **(b) O marca-passo de ritmo puramente intrínseco**, sem dependência do meio, converte a própria química interna em incidências. Seria também uma Utrd? Se for, "incidências só surgem de transdução ou de marca-passos" se reduz a "incidências só surgem de transdução".
+- **(c) R4 continua aberto:** uma Utrd endógena de CO₂ ligada a uma correção (respiração) forma laço regulatório, território do VALORE.
