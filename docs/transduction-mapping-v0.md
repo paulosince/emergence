@@ -138,3 +138,14 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
     - **confiança alta e estabilidade baixa:** a potenciação inicial sem captura, que é forte e some em horas;
     - **estabilidade alta e confiança baixa:** a memória extinta, cujo traço original permanece (Bouton, já discutido) e "reacende"; e a **economia ("savings")** de Ebbinghaus, em que reaprender é mais rápido que aprender.
 - **18h35, confirmado:** "Perfeito." O decaimento da confiança vem da estabilidade. A especificação da Upro (revisão 2.15), a nomenclatura e o excerto das regras foram atualizados.
+
+### 5.5 Responsável, 18h46: marca, confiança e uma hipótese nova sobre o decaimento
+1. **"A estabilidade é a marca de consolidação."** As relações recém-constituídas são pouco estáveis e, portanto, pouco consolidadas (estabilidade × confiança), mesmo com confiança alta.
+   - Decidido: **estabilidade e marca de consolidação são a mesma propriedade.**
+2. **"A confiança provém da relação obtida do mundo."** É reforçada pelo uso e enfraquece pelo decaimento.
+   - Uma relação nova **pode já nascer com confiança alta**, mas isso precisa se comprovar com o uso: acessada, a confiança é reforçada; não acessada, ela cai.
+   - **Isso corrige o "nasce com confiança baixíssima" de 18h23.** A confiança inicial vem do que a relação obteve do mundo.
+3. **Hipótese nova, H-D1 (nome provisório, não aprovado):** "Não faz sentido o decaimento agir sobre unidades que não têm transdução corrente."
+   - Uma entidade vista uma vez e nunca mais: a sua representação não deveria decair por falta de contato.
+   - Faz sentido decair quando **há contato** e a representação **não é acessada**, ou seja, representei coisas que não estão se confirmando.
+   - Pedido: pesquisar se isso se confirma no NB.
