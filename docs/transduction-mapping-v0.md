@@ -125,3 +125,9 @@ A hipótese é **coerente com o NB e com o que já decidimos**: a transdução p
 - **18h23, pergunta do responsável:** "uma Upro recém-criada o é com baixíssima confiança. Afinal é nova… justamente por isso é efêmera, sujeita ao decaimento. Precisaria de algo mais?"
 - **18h27, decidido:** **Uint jovem com limiar mais baixo**, que sobe à medida que amadurece. Ela compensa a confiança baixíssima das Upro novas. Precedente: neurônios jovens hiperexcitáveis do giro denteado. Cabe no recrutamento por excitabilidade já decidido.
 - **18h27, pedido:** explicar melhor a marca no novo desenho (a marca regula a subida de degrau, não o nascimento).
+- **18h33, proposta do responsável:** "a estabilidade pode ser uma **segunda propriedade**, com tempos diferentes por estado, a qual, **multiplicada à confiança, determina a consolidação**, nas três escalas, cada escala com tempos diferentes."
+  - **Leitura (nossa):** isso recupera a distinção do NB entre peso e estabilidade. A divisão de trabalho seria:
+    - a confirmação sobe a **confiança**;
+    - a marca, mais o espaçamento, a reserva e os moduladores, sobe a **estabilidade**.
+  - **Ponto a resolver:** se o ritmo de decaimento vier do estado (o produto), uma relação **fraca mas estável** cairia em "efêmera" e decairia depressa, contra a própria estabilidade.
+  - **Proposta:** o **ritmo de decaimento** da confiança vem da **estabilidade**. O **estado** (efêmera, estável, consolidada) vem do **produto** e serve de limiar e de leitura.
