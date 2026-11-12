@@ -2,11 +2,27 @@
 
 **Data:** 12/11/2026. **Fase:** elaboração independente, anterior à confrontação bibliográfica. **Estatuto:** análise lógica e hipóteses candidatas; não são evidências empíricas, definições canônicas aprovadas nem mecanismos selecionados. Nenhuma implementação autorizada.
 
+
+## Diretriz constitutiva vinculante — factories e objeto representacional (12/11/2026)
+**Origem:** esclarecimento explícito do responsável na elaboração independente da V0.13. **Aplicação:** V0.13 e todos os experimentos posteriores do EMERGENCE; não altera retrospectivamente resultados da V0.12.
+
+**Questão científica principal:** como transformar sinais em representações utilizando Uint (unidades) e Upro (relações temporotopológicas) dotadas de suas propriedades operacionais. **Não** é descobrir como inventar do nada um nó integrador, refratariedade, mecanismos de propagação ou os princípios de fabricação dos elementos.
+
+1. **Factories prontas desde o início:** disponibilizar mecanismos de construção operacionais de **Uint e Upro**, com estruturas, capacidades, propriedades possíveis, invariantes e operações efetivas. Sua especificação técnica deve preceder a implementação de cada experimento, sem presumir que uma factory por si constitua representação.
+2. **Determinação autônoma:** o funcionamento do sistema, por incidências e regras determinísticas relacionais transdutoras, deve determinar **se e quando** acionar cada factory, **quais parâmetros particulares** fornecer e **quais ligações concretas** estabelecer. A infraestrutura pode definir tipos, limites, invariantes e valores-padrão; não deve impor as instâncias, conteúdos, destinos ou organização específicos que o experimento pretende demonstrar como autonomamente determinados.
+3. **Três problemas distintos:** (a) fabricação/implementação dos elementos — infraestrutura fornecida; (b) constituição e transformação da organização concreta — mecanismo investigado; (c) **constituição de representação a partir de sinais** — objeto científico principal. Demonstrar (b) não demonstra automaticamente (c).
+4. **Sem emergência ex nihilo:** a autonomia constitutiva não exige inventar factories, regras de construção, propriedades básicas ou matéria computacional. Regras predefinidas são compatíveis com constituição autônoma; também não bastam para prová-la. Um temporizador externo que chama uma factory ou um plano de ligações previamente especificado não satisfaz a determinação autônoma pretendida.
+5. **Representação não é rótulo:** diferenciar propagação, plasticidade, integração, memória, criação de instâncias, organização e representação. A avaliação representacional deve examinar separadamente **organização especificadora, fundamentação transdutiva e determinação autônoma**, com operações efetivas e controles que afastem interpretação exclusiva do observador. Nenhuma mera propriedade declarativa em JSON substitui mecanismo.
+6. **Não circularidade corretamente delimitada:** é legítimo fornecer Uint e Upro como categorias construtivas, suas capacidades e factories; é ilegítimo inserir como entrada o conteúdo representacional ou a organização particular que se quer demonstrar como resultado. Não exigir que a unidade recém-instanciada tenha inventado sua própria fábrica.
+7. **Rastreabilidade:** os documentos experimentais devem distinguir explicitamente *o que foi fornecido* (factories, capacidades, regras), *o que o sistema determinou* (chamadas, parâmetros, ligações, modificações) e *o que foi efetivamente demonstrado* (organização e, separadamente, representação). Investigar contraexemplos em que factories funcionam e uma malha se organiza sem representação.
+
+**Correção de escopo:** formulações anteriores que tomem “constituição autônoma de Uint/Upro” como invenção de suas propriedades construtivas, que exijam ausência de funções integradoras pré-instaladas nos elementos, ou que façam da individuação coletiva um requisito universal de Uint, ficam **superadas** por esta diretriz. Critérios de observação de novas organizações continuam possíveis como testes candidatos, nunca como definições obrigatórias de Uint/Upro ou prova automática de representação.
+
 ## 1. Separações indispensáveis
 
-1. **Componente inicial ≠ Uint constituída.** O meio pode ter partes materiais e computacionais iniciais sem que sejam as unidades integradoras cuja constituição se investiga.
-2. **Capacidade de transmissão ≠ Upro constituída.** Uma interação local não é, por definição, um percurso temporotopológico autonomamente individuado.
-3. **Transformação ≠ organização ≠ constituição.** Mudança local pode produzir dependência histórica sem produzir entidade individualizada.
+1. **Factory predefinida ≠ instância concretamente determinada.** O sistema pode dispor desde o início das factories de Uint/Upro, com integração e demais propriedades operacionais; o que se investiga é a determinação de instâncias, parâmetros, ligações e, sobretudo, representação.
+2. **Capacidade de transmissão ≠ representação.** Uma Upro pode ser construída por factory e operar temporalmente sem que a organização resultante constitua conteúdo representacional.
+3. **Transformação ≠ organização ≠ representação.** A criação autônoma de instâncias e ligações não demonstra por si só representação.
 4. **Observabilidade ≠ constituição.** O observador pode identificar clusters, caminhos, fronteiras, limiares ou persistência mesmo sem haver mecanismo operacional que individualize uma organização no meio.
 5. **Determinação causal ≠ codificação antecipada.** Regras determinísticas podem permitir trajetórias dependentes da história; o resultado não pode ser imposto por rótulos, destinos ou templates.
 
@@ -20,9 +36,11 @@
 
 **Possível círculo 3:** adicionar uma regra que cria objeto `Uint` sempre que uma métrica ultrapassa limiar. Se o objeto só existe no relatório ou se o agrupamento não passa a operar como unidade, há rotulagem, não constituição demonstrada.
 
-**Possível círculo 4:** programar diretamente uma função integradora e usar a resposta conjunta como evidência de que o integrador se constituiu.
+**Possível círculo 4 (reformulado):** fornecer capacidade integradora na factory é legítimo; o círculo surge ao programar previamente a organização particular ou o conteúdo representacional cuja constituição autônoma se pretende demonstrar.
 
-## 3. Critérios candidatos — não validados
+## 3. Critérios candidatos — não validados (escopo corrigido)
+
+**Advertência vinculante:** C-U1–C-U5 e C-P1–C-P3 abaixo são testes exploratórios de organização e individuação, **não** requisitos para que uma instância construída por factory seja Uint/Upro. Em particular, Uint não precisa ser uma entidade coletiva emergente, e Upro não precisa inventar sua própria capacidade de propagação. O foco principal é a constituição de representação, distinta da criação das peças.
 
 ### C-U1 Origem
 Identificar transformação verificável entre estado anterior sem organização candidata e posterior com organização candidata. Comparar histórias alternativas sob as mesmas regras.
@@ -55,7 +73,7 @@ Investigar manutenção, desvio, recomposição ou desaparecimento da relação 
 | Candidato a evidência | Contraexemplo que a enfraquece | Discriminação necessária |
 |---|---|---|
 | Cluster espacial denso | Difusão e geometria geram densidade sem entidade constituída | Comparar controles geométricos e histórias, perturbações e recortes alternativos |
-| Resposta coletiva | Soma de transmissões independentes ou integrador pré-programado | Comparar respostas e origem da organização, sem definir Uint por não aditividade |
+| Resposta coletiva | Soma de transmissões independentes ou resposta de integrador pré-programado, que é legítimo como propriedade da Uint mas insuficiente como evidência de representação | Comparar respostas e origem da organização, sem definir Uint por não aditividade |
 | Não linearidade | Saturação local pré-instalada | Demonstrar formação da organização, não apenas forma da função |
 | Persistência | Atributo com decaimento lento preprogramado | Identificar o que persiste e como essa persistência altera operações futuras |
 | Sensibilidade a ablação | Toda malha difusiva sofre perdas ao remover célula | Controles com geometria, massa e conectividade pareadas |
@@ -94,8 +112,8 @@ Não selecionar a arquitetura por simplicidade ou eficiência: minimalidade é f
 
 ## 8. Pendências abertas
 
-1. Qual operação do próprio meio pode sustentar individuação sem detector constitutivo externo?
-2. A identidade de uma Uint exige continuidade sob substituição de partes ou isso seria uma exigência excessiva?
+1. Quais operações determinam autonomamente chamadas às factories, parâmetros e ligações, sem programar conteúdos representacionais?
+2. Como demonstrar representação efetiva para além da instanciação de Uint/Upro e da organização da malha?
 3. Pode existir Upro individuada em campo distribuído sem caminho discreto?
 4. Como diferenciar identidade operacional de mera descrição histórica por observador?
 5. Quais critérios são necessários, suficientes, apenas instrumentais ou ainda desconhecidos?
