@@ -164,3 +164,34 @@ Leitura crítica integral das fontes centrais acessíveis; aprofundar constitui�
 - Investigar mecanismos NB de estabilização e desenvolvimento anterior às sinapses; a bibliografia preliminar ainda não resolve isso.
 
 **Decisão:** nenhuma equação, limiar, mecanismo de detecção ou forma de unidade é aprovada nesta seção. O PDF definitivo e o congelamento do pré-experimento continuam pendentes.
+
+
+## 8. Segunda rodada NB: formação, estabilização e condições não neuronais (2026-11-12)
+
+**Fontes verificadas nesta rodada:** resumos PubMed e texto aberto de revisões/estudos; não reivindicar leitura integral de todos os artigos. Esta rodada confronta hipóteses já registradas; não altera o protocolo experimental.
+
+### Evidências e limites
+
+**E-NB1 — Formação estrutural sem transmissão neurotransmissora prévia.** Revisão *Towards an Understanding of Synapse Formation* (2018), https://pmc.ncbi.nlm.nih.gov/articles/PMC6226307/, descreve estudos de bloqueio de liberação de neurotransmissores em que grande parte das sinapses se forma. **Conclusão delimitada:** a atividade transmissiva não é universalmente necessária para formação estrutural inicial nos sistemas estudados; não se infere independência de toda atividade, de propriedades celulares ou de condições prévias.
+
+**E-NB2 — Condições gliais para sinaptogênese.** Christopherson et al. (2005), https://pubmed.ncbi.nlm.nih.gov/15707899/, demonstram que trombospondinas de astrócitos imaturos promovem sinapses estruturalmente formadas, presinapticamente ativas e pós-sinapticamente silenciosas. **Conclusão:** estruturar uma conexão não basta para transmitir funcionalmente em ambos os lados; glia pode estabelecer condições permissivas. **Não se infere:** necessidade universal de astrócitos ou de camada adicional.
+
+**E-NB3 — Padrão relativo de atividade.** Stellwagen & Shatz (2002), https://pubmed.ncbi.nlm.nih.gov/11832224/, alteraram frequência das ondas retinianas e observaram efeitos distintos para alterações unilateral e bilateral, indicando importância de níveis relativos de atividade no refinamento das projeções. **Conclusão:** soma de atividade não captura necessariamente seleção espacial.
+
+**E-NB4 — Direção e correlação de curta distância.** Stafford et al. (2009), https://pubmed.ncbi.nlm.nih.gov/19874788/, mostram associação de direcionalidade das ondas e padrões correlacionados com refinamento das projeções. **Conclusão:** dinâmica espaço-temporal é variável funcional relevante; não prova que detecção explícita de coincidência seja necessária.
+
+**E-NB5 — Múltiplas funções gliais.** Revisão *Glia orchestrate neural circuit development* (2026), https://doi.org/10.1016/j.devcel.2026.06.008, sintetiza participação de astrócitos, linhagem oligodendroglial e micróglia em formação, refinamento e estabilização. **Conclusão:** condições constitutivas e estabilizadoras podem não ser idênticas às vias de transmissão; não escolher subsistemas separados sem demonstrar necessidade.
+
+### Confrontação de hipóteses e contraexemplos
+- **HT1 (diferenciação em estrutura preexistente):** compatível com refinamento, mas insuficiente para explicar formação inicial de conexões NB.
+- **HT2 (mudança de conectividade):** compatível com desenvolvimento NB; não demonstrada necessária para Upro em qualquer substrato.
+- **HT3 (integração emergente):** evidências de sinaptogênese e refinamento não demonstram a primeira Uint; permanece aberta.
+- **HT4 (limitação constitutiva):** não refutada; o meio pode permanecer em transmissão/diferenciação sem unidades.
+- **Nova bifurcação analítica, não mecanismo selecionado:** (A) transmissão preexistente → diferenciação → estabilização; (B) condições estruturais → capacidade de transmissão → refinamento. Ambas requerem condições iniciais não circulares.
+- **Contraexemplo central:** sinapse estruturalmente formada porém funcionalmente silenciosa impede inferir transmissão de estrutura.
+- **Contraexemplo metodológico:** aumentar atividade de todas as fontes não equivale a aumentar atividade de uma fonte, mesmo com mais incidências totais.
+
+### Consequências para matriz de equivalência (pendente)
+Separar cinco operações: (i) tornar transmissão possível; (ii) realizar transmissão; (iii) alterar condições de transmissão; (iv) conservar/transformar organização; (v) integrar incidências. Para cada operação documentar realização NB, mínimo funcional, possível realização agnóstica, perdas, contraexemplos e teste.
+
+**Estado:** investigação NB em progresso; não há equivalência demonstrada, escolha de equações, congelamento de PDF ou execução V0.12.
