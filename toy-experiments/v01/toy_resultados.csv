@@ -1,0 +1,7 @@
+<PARSED TEXT FOR SHEET: 1 / 1 TABS
+TAB NAME: toy_resultados.csv>
+index,cenario,atraso_ms,forca_marca,constituiu,teste,controle
+0,paired,100,29.7569,True,30.1066,20.9306
+1,reversed,-100,30.5205,True,30.5205,27.7499
+2,independent,0,14.1239,True,12.2921,11.4149
+3,jitter,-100,18.5016,True,14.5746,18.2141
