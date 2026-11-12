@@ -5,7 +5,5 @@ As duas primeiras tentativas são **históricas** e não devem ser interpretadas
 - [Tentativa 1](attempt-1-v1/README.md): motor v1, pré-registro e campanha negativa.
 - [Tentativa 2](attempt-2-v2/README.md): motor v2, exploratório, não pré-registrado.
 
-## Política de migração física
-Antes de mover arquivos já referenciados por código, testes ou documentos: inventariar caminhos, dependências, URLs, scripts e importações; congelar um commit de referência; realizar migração atômica em branch, ajustar referências, rodar testes e submeter revisão. **Não duplicar código histórico no caminho ativo.**
-
-Nesta primeira organização, os arquivos históricos permanecem nos caminhos originais e são classificados pelos índices abaixo. A separação física ainda está pendente; não confundir esta classificação com migração concluída.
+## Política definitiva (11/11/2026)
+**Não haverá migração dos arquivos antigos.** V1 e V2 permanecem nos caminhos originais; este diretório é apenas índice de classificação. A terceira geração cria novos arquivos, sem mover ou alterar os anteriores.
