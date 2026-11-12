@@ -14,7 +14,14 @@ Como a Pcrt, a partir de incidências transduzidas pelas Utrd, constitui as prim
 **Não importar automaticamente** ganhos, limiares, mecanismos ou resultados dos motores v1/v2 para a reescrita. Atribuir a cada regra: origem, aprovação, estado de implementação, contraexemplo e teste.
 
 ## Artefatos desta geração
-Os arquivos de especificação do robô, ambiente e observatório existentes em `docs/` são **candidatos a migração** para esta área, após conferência de suas referências e do estado de implementação. A criação desta pasta não afirma que a terceira geração esteja implementada.
+**Não haverá migração.** Os arquivos antigos permanecem nos caminhos originais e são consultados como fontes históricas. Os novos contratos estão nesta pasta:
+
+- [Unidades, propriedades, neuromoduladores e questões abertas](ARQUITETURA-UNIDADES.md)
+- [Interface e observatório](INTERFACE-OBSERVATORIO.md)
+- [Experimentos, robô, sistema e continuidade](EXPERIMENTOS-ROBO-SISTEMA.md)
+- [PPC/ADCIF — segurança e proteção](PPC-ADCIF.md)
+
+A criação destes arquivos não afirma que a terceira geração esteja implementada.
 
 ## Regra de continuidade
 A nova arquitetura terá seu próprio contrato, testes, protocolos e resultados. Nunca substituir resultados de campanhas antigas nem editar seus arquivos históricos para fazê-los parecer atuais.
