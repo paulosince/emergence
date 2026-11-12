@@ -23,6 +23,7 @@ Em que condições funcionais e informacionais um sistema constitui unidades, re
 ## Método
 
 - **Modelo de referência:** o neurobiológico (não exclusivamente humano). Dele se extraem heurísticas e algoritmos, que são simplificados rumo a uma arquitetura agnóstica de substrato. Divergir só com simplificação justificada: mecanismo entendido, equivalência proposta e perdas declaradas. Ver [metodologia do programa](docs/program-methodology.md).
+- **Três etapas obrigatórias:** pré-experimento (PDF com método NB completo, hipóteses, bibliografia e previsões), experimento (execução e desvios) e resultados (confronto adversarial). Ver [metodologia](docs/program-methodology.md) e [série toy-experiments](toy-experiments/README.md).
 - **Pré-registro** com controles positivos e negativos, desvios registrados e parada que falha fechada.
 - **Integridade:** nenhuma categoria ou representação pronta é entregue ao motor; identificadores dos canais são opacos; um nó guardado numa estrutura de dados não é, por si, uma representação demonstrada; cada regra indica se vem da literatura ou é proposta nossa.
 
