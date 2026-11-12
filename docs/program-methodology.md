@@ -22,6 +22,19 @@ O objetivo não é procurar semelhanças entre uma arquitetura previamente escol
 ### Independência e bibliografia
 A formulação independente de problemas e hipóteses antecede a confrontação bibliográfica. A pesquisa de literatura não autoriza incorporar automaticamente mecanismos de outros autores; refinamento informado requer decisão explícita. Registrar separadamente hipótese do responsável, dedução do assistente, proposta nova e contribuição bibliográfica. Não reivindicar originalidade sem confronto. Se a literatura não resolver a constituição, registrar lacuna, não promover hipótese a fato.
 
+## Sentido rigoroso da minimalidade funcional (esclarecimento de 12/11/2026)
+O critério de **mínimos constitutivos e funcionais** decorre da complexidade extraordinária do substrato neurobiológico: mimetizar indiscriminadamente toda sua riqueza é impraticável e obscurece quais operações são responsáveis pelo fenômeno. **Minimalidade funcional não é minimalidade computacional, econômica, estrutural ou de esforço de implementação.** A prioridade é demonstrar constituição autônoma efetiva, mesmo que a arquitetura experimental seja computacionalmente custosa, extensa ou pouco eficiente.
+
+- **Preservar antes de simplificar:** não eliminar processos, graus de liberdade, relações, transformações ou condições de desenvolvimento apenas porque complicam a implementação. Exigir rastreamento das funções preservadas, perdas, condições e contraexemplos.
+- **Não mimetizar por mimetizar:** não transportar integralmente particularidades materiais neurobiológicas sem demonstrar sua pertinência funcional; tampouco excluir propriedades ainda candidatas a necessárias por conveniência.
+- **Distinguir estatutos:** uma realização suficiente não prova minimalidade, nem necessidade de todos os seus elementos. A busca de mínimos é uma investigação com hipóteses concorrentes, não um resultado pressuposto.
+- **Objetivo constitutivo:** demonstrar, caso seja possível, a criação autônoma de Uint e Upro por regras determinísticas, relacionais e transdutoras efetivamente operacionais, sem identidades, destinos, agrupamentos ou funções constitutivas pré-programados. Regras determinísticas não equivalem a resultados constitutivos predeterminados.
+- **Não circularidade e explicação:** propagação, plasticidade, dependência histórica, integração, não linearidade e sensibilidade a ablações não bastam isoladamente para demonstrar constituição. Critérios de individuação e origem devem ser operacionalmente justificados; não transformar rótulos de observação em mecanismos.
+- **Prioridade de avaliação:** sucesso constitutivo demonstrado prevalece sobre eficiência. Comparar custos e buscar otimização apenas depois, e sem sacrificar propriedades necessárias ou ainda não refutadas.
+
+### Consequência para o EMERGENCE
+A topologia potencial fixa com condutâncias ajustáveis da V0.12 é uma escolha experimental parcial, **não** uma equivalência demonstrada à capacidade de constituir relações. A linearidade das sondagens com condutâncias congeladas não é critério de existência ou impossibilidade de Uint; não linearidade tampouco é prova de Uint. Avaliar constituição separadamente de transmissão e resposta conjunta. Não declarar insuficiência universal do mecanismo com base apenas em testes negativos ou incompletos.
+
 ## Regra de divergência e simplificação
 Divergir da implementação NB como simplificação agnóstica exige (a) mecanismo NB entendido e fonte; (b) função preservada e demonstração ou argumento explícito de equivalência, condições e limites; (c) perdas e exceções declaradas; (d) teste que discrimine as perdas. Simplificações não demonstradas permanecem hipóteses. Controles experimentais e decisões de segurança são identificados separadamente e não alegados como equivalências.
 
