@@ -119,3 +119,48 @@ H1–H3 são hipóteses de ordem constitutiva, não estágios obrigatórios. Nã
 
 ### Pendências para concluir o pré-experimento
 Leitura crítica integral das fontes centrais acessíveis; aprofundar constituição anterior às conexões, mecanismos de estabilização e papel de glia; construir matriz NB → transformação → mínimo → abstração → perda → teste; definir medidas de trajetória/latência e hipóteses discriminantes; só então produzir e congelar PDF. Nenhum mecanismo selecionado nem experimento executado.
+
+
+## 7. Reconstrução causal e determinação provisória dos mínimos (12/11/2026)
+
+**Estatuto:** dedução analítica sobre o material bibliográfico preliminar da seção 6; não é leitura integral adicional, não é demonstração experimental nem escolha de mecanismo. Separar afirmações NB documentadas das inferências próprias.
+
+### 7.1 Quatro cadeias causais candidatas
+
+**T1 — Trajetórias:** distribuição espacial de condições e sinais → detecção/resposta local de estrutura em crescimento → mudança de extensão/orientação → novas possibilidades de contato. **Lacuna:** a constituição dos componentes celulares e do campo orientador antecede essa cadeia. **Não inferir:** necessidade universal de crescimento espacial para Upro.
+
+**T2 — Conexões:** proximidade e condições de contato/reconhecimento → diferenciação estrutural de contato → capacidade transmissiva potencial → maturação funcional. **Lacuna:** não se demonstrou qual operação mínima transforma contato em relação transmissiva; estrutura sem transmissão é contraexemplo.
+
+**T3 — Refinamento:** incidências distribuídas no tempo e no espaço → modificações locais dependentes da atividade → mudança de transmissão posterior → alteração das próximas incidências e modificações. **Lacuna:** esta retroação pode ocorrer sem constituir percurso funcional identificável. A V0.11 implementa parte desse circuito com `g`, mas não demonstra constituição de Upro.
+
+**T4 — Integração:** entradas distribuídas → interação física mediada pela organização e propriedades do meio → resposta conjunta → estados posteriores. **Lacuna:** uma célula preexistente integra entradas sem demonstrar constituição autônoma de uma primeira Uint. Não definir integração somente por não aditividade.
+
+### 7.2 Matriz de mínimos candidatos
+
+| ID | Propriedade | Necessidade demonstrável em qual sentido | Estatuto para arquitetura |
+|---|---|---|---|
+| M1 | Estados operacionalmente distinguíveis | Mudança de estado observável exige estados distinguíveis | Lógico-operacional, não escolhe representação |
+| M2 | Continuidade entre transformações | Dependência histórica exige algum vínculo efetivo entre estados sucessivos | Condicional ao fenômeno histórico |
+| M3 | Transmissão efetiva entre regiões | Necessária a Upro como percurso propagador definido neste programa | Funcional, implementação em aberto |
+| M4 | Diferenciação de condições de transmissão | Possibilita trajetórias dependentes da história; não demonstrada necessária a toda Upro | Hipótese |
+| M5 | Interação efetiva entre entradas | Requisito funcional de integração; forma e limites ainda abertos | Funcional, não suficiente para Uint autônoma |
+| M6 | Conservação de organização | Necessária para persistência ao longo do intervalo declarado, não necessariamente para formação transitória | Condicional |
+| M7 | Criação de novas conexões físicas | Uma possibilidade NB para novas trajetórias | Não necessária universalmente demonstrada |
+| M8 | Retroação da organização sobre sua manutenção | Possível condição para autonomia constitutiva robusta | Hipótese; não pressupor necessária |
+
+### 7.3 Contraexemplos e consequências
+1. Uma malha fixa pode adquirir percursos diferenciados sem crescimento de novas arestas: refuta inferência de que M7 seja universalmente necessário.
+2. Uma sinapse formada mas silenciosa mostra que estrutura de conexão não implica transmissão funcional.
+3. Uma célula já existente integra entradas: integração funcional não demonstra constituição autônoma da unidade.
+4. Uma difusão homogênea pode propagar sinais sem percurso singular estável: M3 não basta para Upro constituída como organização específica.
+5. Uma marca pode conservar-se sem afetar transmissão: M2 e M6 não bastam para função.
+6. A atividade conjunta pode produzir efeitos não aditivos por uma não linearidade predefinida: não aditividade não demonstra Uint autônoma.
+
+### 7.4 Questões a decidir antes da arquitetura
+- Distinguir formalmente percurso físico disponível, percurso funcionalmente diferenciado e Upro autonomamente constituída; especificar identidade e tempo de percurso sem etiquetas externas.
+- Distinguir interação de entradas, integração funcional e constituição autônoma de Uint, sem pressupor célula ou região delimitada.
+- Determinar se mudanças estruturais precisam modificar conectividade, condutância ou ambas; não escolher prematuramente.
+- Definir testes de dependência da história, de transferência a novas fontes e de intervenção seletiva com controles pareados.
+- Investigar mecanismos NB de estabilização e desenvolvimento anterior às sinapses; a bibliografia preliminar ainda não resolve isso.
+
+**Decisão:** nenhuma equação, limiar, mecanismo de detecção ou forma de unidade é aprovada nesta seção. O PDF definitivo e o congelamento do pré-experimento continuam pendentes.
