@@ -68,3 +68,14 @@ Minimalidade decorre da impossibilidade metodológica de mimetizar toda a comple
 - Elaborar PDF pré-experimental integral com cinco seções metodológicas e congelá-lo antes da implementação.
 
 **Decisão atual:** V0.13 aberta na Etapa I; não há experimento V0.13 executado nem arquitetura aprovada.
+
+## Adendo de auditoria V0.13 — proibição de soluções programadas (12/11/2026)
+Este arquivo registra a elaboração **inicial** da etapa I e preserva seu estado histórico; os ensaios exploratórios posteriores não alteram retroativamente suas previsões. A regra geral vinculante está em [metodologia do programa](../../docs/program-methodology.md#regra-vinculante-de-não-substituição-do-fenômeno-por-programação-12112026).
+
+**Critério de entrada:** somente estímulos ambientais programáveis; transdução efetiva pelas unidades transdutoras; nenhuma chamada direta de UintFactory/UproFactory pelo roteiro de estímulos. Toda criação na condição experimental deve decorrer de regras operacionais sobre incidências e estados, com argumentos particulares determinados pela dinâmica.
+
+**Proibições:** instâncias representacionais e ligações semeadas manualmente; chamadas por horário; destino/orientação por índice ou ID arbitrário; controlador externo que decida a malha; valores de parâmetros escolhidos para produzir a conclusão. Chamadas manuais só podem ocorrer em testes instrumentais/controles explicitamente segregados, jamais contadas como autonomia.
+
+**Checklist obrigatório antes de executar:** (1) auditar todas as chamadas de factory, incluindo indiretas; (2) rastrear cada parâmetro e extremo até operação efetiva; (3) inspecionar seeds, fixtures, defaults e estímulos; (4) executar permutação de IDs e controles exógenos; (5) separar L1 infraestrutura, L2 constituição organizacional e L3 representação; (6) impedir conclusão de autonomia se houver seleção particular pelo experimentador. O implementador, não o responsável, deve encontrar e reportar atalhos.
+
+**Registro de correção histórica:** o protótipo instrumental anterior da V0.13 continha Uint e Upro iniciais instanciadas explicitamente, e uma relação criada por coincidência com orientação e atraso predefinidos. Esses resultados são apenas instrumentais; não são prova de constituição autônoma. O ensaio exploratório subsequente com entradas apenas por sinais deve ser analisado segundo a mesma auditoria e não constitui, por si, demonstração de representação.
