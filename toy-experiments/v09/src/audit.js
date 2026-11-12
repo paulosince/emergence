@@ -1,0 +1,1 @@
+export class Audit{constructor(){this.rows=[]}add(t,type,id,data={}){const row={seq:this.rows.length+1,t:+t.toFixed(6),type,id,data:structuredClone(data)};this.rows.push(row);return row}csv(){const q=s=>'"'+String(s).replaceAll('"','""')+'"';return ['seq,t,type,id,data',...this.rows.map(r=>[r.seq,r.t,r.type,r.id,JSON.stringify(r.data)].map(q).join(','))].join('\n')}}
