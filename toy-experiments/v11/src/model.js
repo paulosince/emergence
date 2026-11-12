@@ -1,0 +1,20 @@
+// EMERGENCE V0.11. Local scalar activity and structural memory.
+// No Uint/Upro class, no source-labelled internal traces, no coincidence detector.
+export const X=12,Y=8,Z=6,N=X*Y*Z;
+const at=(x,y,z)=>x+X*(y+Y*z);
+export class Medium{
+ constructor({mode='paired',seed=41,persistence=true}={}){this.mode=mode;this.seed=seed>>>0;this.persistence=persistence;this.tick=0;this.events=[];this.cells=Array.from({length:N},(_,i)=>({i,x:i%X,y:Math.floor(i/X)%Y,z:Math.floor(i/(X*Y)),v:0,m:0,refractory:0,blocked:false}));this.edges=[];for(const c of this.cells)for(const [dx,dy,dz] of [[1,0,0],[0,1,0],[0,0,1]]){const x=c.x+dx,y=c.y+dy,z=c.z+dz;if(x<X&&y<Y&&z<Z)this.edges.push({u:c.i,v:at(x,y,z),g:.045,live:true,history:0})}this.sources=[at(1,2,2),at(1,5,3)];this.samples=[];this.event('init',{mode,seed,persistence,sourcePositions:this.sources})}
+ random(){this.seed=(Math.imul(1664525,this.seed)+1013904223)>>>0;return this.seed/4294967296}
+ event(type,data={}){this.events.push({tick:this.tick,type,...data})}
+ pulse(which){const id=this.sources[which];if(!this.cells[id].blocked){this.cells[id].v+=1.2;this.event('pulse',{source:which})}}
+ step(stimulate=true){if(stimulate&&this.tick%14===0){const phase=Math.floor(this.tick/14);if(this.mode==='paired'){this.pulse(0);this.pulse(1)}else if(this.mode==='alternating')this.pulse(phase%2);else if(this.mode==='independent'){if(this.random()<.65)this.pulse(0);if(this.random()<.65)this.pulse(1)}else if(this.mode==='single')this.pulse(0);else if(this.mode==='shift'){this.pulse(0);this.pulse(1)}}const dv=new Float64Array(N);for(const e of this.edges){if(!e.live)continue;const a=this.cells[e.u],b=this.cells[e.v];if(a.blocked||b.blocked)continue;const flux=e.g*(a.v-b.v);dv[e.u]-=flux;dv[e.v]+=flux;const passage=Math.abs(flux);e.history=.992*e.history+.008*passage;if(this.persistence){e.g=Math.min(.18,Math.max(.006,e.g+.00018*(passage-.012)));e.live=e.g>.006001}else{e.g=.045;e.history=0}}let maxMemory=0,active=0;for(const c of this.cells){if(c.blocked){c.v=0;continue}const previous=c.v;c.v=Math.max(0,(c.v+dv[c.i])*.977);const change=Math.abs(c.v-previous);if(this.persistence)c.m=Math.min(1,Math.max(0,c.m*.999+.0018*change-.00001));else c.m=0;if(c.v>.01)active++;maxMemory=Math.max(maxMemory,c.m)}this.tick++;if(this.tick%14===0){const s={tick:this.tick,active,maxMemory,highMemory:this.cells.filter(c=>c.m>.01).length,strongEdges:this.edges.filter(e=>e.g>.05).length,weakEdges:this.edges.filter(e=>!e.live).length};this.samples.push(s);this.event('sample',s)}return this}
+ run(n=840){for(let i=0;i<n;i++)this.step();return this}
+ region(){return this.cells.filter(c=>c.m>.01).sort((a,b)=>b.m-a.m)}
+ clone(){const m=new Medium({mode:this.mode,seed:this.seed,persistence:this.persistence});m.cells=this.cells.map(c=>({...c}));m.edges=this.edges.map(e=>({...e}));m.tick=this.tick;m.events=[];m.samples=[];return m}
+ ablate(id){this.cells[id].blocked=true;this.event('ablation',{id})}
+ shift(){this.sources=[at(2,1,1),at(2,6,4)];this.event('source_shift',{sources:this.sources})}
+ // Measurement is external: scalar responses to controlled perturbations, not internal channels.
+ probe(id,kind,n=90){const m=this.clone();for(const c of m.cells)c.v=0;for(let t=0;t<n;t++){if(t===0){if(kind==='A'||kind==='AB')m.pulse(0);if(kind==='B'||kind==='AB')m.pulse(1)}m.step(false)}return m.cells[id].v}
+ evaluate(){const regions=this.region(),top=regions.slice(0,4).map(c=>{const a=this.probe(c.i,'A'),b=this.probe(c.i,'B'),ab=this.probe(c.i,'AB');return{id:c.i,xyz:[c.x,c.y,c.z],memory:+c.m.toFixed(6),a:+a.toFixed(8),b:+b.toFixed(8),ab:+ab.toFixed(8),nonadditive:+(ab-a-b).toFixed(8)}});return{mode:this.mode,persistence:this.persistence,ticks:this.tick,regions:regions.length,maxMemory:+(regions[0]?.m||0).toFixed(6),strongEdges:this.edges.filter(e=>e.g>.05).length,prunedEdges:this.edges.filter(e=>!e.live).length,top}}
+ csv(){const keys=['tick','type','source','active','maxMemory','highMemory','strongEdges','weakEdges','id'];return[keys.join(','),...this.events.map(e=>keys.map(k=>e[k]??'').join(','))].join('\n')}
+}
