@@ -1,0 +1,1 @@
+export const BOUNDS={x:10,y:8,z:6};export function within(p){return ['x','y','z'].every(k=>Number.isFinite(p[k])&&p[k]>=0&&p[k]<=BOUNDS[k])}export function distance(a,b){return Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z)}export function point(a,b,t){return {x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t,z:a.z+(b.z-a.z)*t}}
