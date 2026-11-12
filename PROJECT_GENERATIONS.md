@@ -10,8 +10,8 @@
 
 ## Distinção entre classificação e movimentação
 
-Esta revisão cria **áreas explícitas e índices de classificação**, mas **não move ainda os arquivos legados**, pois há referências cruzadas, scripts, testes e interfaces públicas apontando para seus caminhos. Uma movimentação sem auditoria comprometeria a reprodutibilidade e poderia quebrar a aplicação.
+**Decisão posterior do responsável (11/11/2026): não haverá migração.** Os arquivos V1 e V2 **permanecem exatamente em seus caminhos**; `archive/` é apenas índice histórico. A terceira geração produz **arquivos novos** em `research/`, sem realocar os anteriores.
 
-**Próxima operação técnica controlada:** inventariar a árvore completa e os imports, abrir branch de migração, realocar arquivos de documentação e código com atualização de referências, executar testes e revisar antes do merge. Nenhuma migração física é declarada concluída.
+**Próxima operação:** desenvolver novos contratos e arquivos da terceira geração, sem migração física. Referências a arquivos históricos devem indicar explicitamente V1 ou V2.
 
 A organização científica é definida pela geração e pelo estatuto de evidência, não simplesmente pela data do arquivo.
