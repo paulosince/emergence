@@ -43,3 +43,7 @@ Possível evolução: fontes transdutivas → marcas locais → diferenciação 
 
 ## Protocolo
 Aprovar e congelar o pré-registro antes de implementar; executar controles; auditar eventos; registrar resultados e divergências em `results.md`. **Nenhuma V0.11 executada até este ponto.**
+
+
+## Delimitação aprovada antes da rodada complementar (2026-11-12)
+A investigação complementar da V0.11 conserva integralmente o mecanismo e não exige Uint/Upro. Hipóteses H0: alterações locais sem organização; H1: diferenciação distribuída sem percursos; H2: percursos diferenciados; H3: dependências distribuídas. Critérios C1: diferenciação; C2: efeito funcional; C3: dependência coletiva; C4: persistência/adaptação. Ensaios E1: mapa de g; E2: resposta aprendida vs restaurada; E3: intervenção seletiva; E4: não aditividade de intervenções; E5: repouso; E6: mudança de fontes. Documento PDF pré-experimental produzido antes da execução da rodada, disponível na conversa. Proibir reinterpretação retrospectiva dos critérios como confirmação de Uint/Upro.
