@@ -1,4 +1,4 @@
-> **MAPA DE GERAÇÕES:** [PROJECT_GENERATIONS.md](PROJECT_GENERATIONS.md) — v1 e v2 são tentativas históricas; a terceira geração é a reescrita científica atual. Os arquivos antigos ainda não foram movidos fisicamente; verificar estado antes de usar.
+> **MAPA DE GERAÇÕES:** [PROJECT_GENERATIONS.md](PROJECT_GENERATIONS.md) — v1 e v2 são tentativas históricas; a terceira geração é a reescrita científica atual. **Decisão definitiva: não migrar os arquivos antigos.** A terceira geração cria arquivos novos em `research/`; verificar estado antes de usar.
 
 > **ATUALIZAÇÃO DE CONTINUIDADE — 11/11/2026:** ler também [Regras científicas, escopo e continuidade (11/11/2026)](docs/regras-cientificas-e-continuidade-2026-11-11.md). Esse documento registra o papel subsidiário dos toy models, a execução contínua do EMERGENCE, exigências de auditabilidade/reprodutibilidade/falseabilidade, o foco atual na constituição inicial de Upro/Uint a partir de Utrd e as decisões recentes de confiança/estabilidade. **Atenção:** há possíveis conflitos com contratos do motor v2 anteriores; não harmonizar silenciosamente nem assumir implementação.
 
