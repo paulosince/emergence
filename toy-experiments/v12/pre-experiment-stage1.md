@@ -70,3 +70,52 @@ H1–H3 são hipóteses de ordem constitutiva, não estágios obrigatórios. Nã
 - [Aprendizados V0.1–V0.11](../LEARNINGS.md).
 - [V0.11 — resultados](../v11/results.md).
 - [V0.11 — complementos E1–E6](../v11/supplementary-results.md).
+
+
+## 6. Confrontação bibliográfica NB — primeira rodada (2026-11-12)
+
+**Estatuto:** pesquisa inicial de fontes primárias e revisões, baseada nos resumos e páginas editoriais consultados; não corresponde a leitura integral sistemática nem a derivação concluída de arquitetura. Hipóteses independentes HC1–HC5 e H0–H4 foram registradas antes desta confrontação.
+
+| Fenômeno | Evidência NB e operação causal documentada | Inferência permitida | Inferência não autorizada |
+|---|---|---|---|
+| Orientação e crescimento axonal | Serafini et al. (1994) identificaram netrinas com atividade promotora do crescimento de axônios comissurais; sinais extracelulares podem orientar crescimento. | Trajetórias podem se formar por processos de crescimento espacial e resposta local. | Que qualquer percurso temporotopológico precise de axônio, netrina ou crescimento físico. |
+| Constituição sináptica | Christopherson et al. (2005) identificaram trombospondinas astrocitárias que promovem sinapses estruturalmente formadas, mas inicialmente pós-sinapticamente silenciosas. | Formação estrutural e funcionamento sináptico são separáveis; condições não neuronais podem participar. | Que astrócitos sejam necessários em todo substrato ou que sinapse estrutural seja representação. |
+| Refinamento por atividade | Stellwagen & Shatz (2002) alteraram atividade espontânea retiniana e observaram mudanças na segregação retinogeniculada; Stafford et al. (2009) estudaram padrões espaço-temporais e refinamento. | Atividade estruturada e sua distribuição relativa participam da diferenciação de conectividade. | Que acumular fluxo ou intensidade isoladamente constitua um percurso funcional. |
+| Organização sináptica local | Estudo de 2011 em Neuron mostrou agrupamento funcional de entradas sinápticas próximas (<16 μm) e dependência de atividade/NMDA. | Organização local pode ser selecionada durante o desenvolvimento. | Que a formação do agrupamento equivalha à constituição da primeira Uint. |
+| Integração dendrítica | Estudos e modelos de integração dendrítica mostram efeitos de agrupamento e não linearidades; estudo de 2026 mapeia agrupamentos e modela efeitos funcionais. | A organização espacial pode modificar o tipo de integração. | Que não aditividade seja condição necessária ou suficiente de representação. |
+
+### Reconstrução causal provisória, com lacunas
+1. **Orientação de trajetórias:** sinais espaciais + receptores celulares + dinâmica de crescimento → mudança de direção e extensão. Condições de constituição das próprias células e sinais não reconstruídas.
+2. **Formação de conexão:** fatores permissivos e contato/organização de especializações → estrutura sináptica; maturação funcional requer outros processos. Não há equivalência estabelecida com conexão computacional.
+3. **Refinamento:** atividade espontânea espacial e temporalmente organizada → alterações seletivas de projeções e territórios funcionais. Mecanismo molecular completo não reconstruído.
+4. **Integração:** distribuição de entradas + propriedades eletrofisiológicas dos compartimentos → respostas locais e globais. Não se demonstrou como uma primeira unidade integradora surge de meio sem essas propriedades.
+
+### Confrontação com as hipóteses
+- **HC1:** o NB sustenta a importância de estabilização, mas não determina a regra de persistência adequada ao meio abstrato.
+- **HC2/HC4:** há evidência de organização local e integração funcional, mas falta demonstrar o mínimo constitutivo da unidade.
+- **HC3:** formação espacial, conexão e refinamento devem ser distinguidos; reforçar arestas preexistentes pode testar refinamento, não necessariamente formação inicial.
+- **HC5:** controles devem distinguir quantidade de atividade, padrão espaço-temporal, estrutura inicial e efeitos da intervenção.
+- **H1/H2/H3:** nenhuma precedência universal foi demonstrada pelas fontes desta rodada; exemplos de desenvolvimento em sistemas com neurônios preexistentes não resolvem a ordem constitutiva de Uint/Upro.
+
+### Candidatos a requisitos, ainda NÃO demonstrados necessários
+- Estado local capaz de mudar com incidências.
+- Retroação das mudanças sobre transmissões posteriores.
+- Possibilidade de diferenciação de trajetórias, inclusive com alteração da estrutura disponível.
+- Condições de estabilização e transformação da organização.
+- Mecanismo operacional de interação de entradas, sem detector de coincidência pré-programado.
+
+**Contraexemplos obrigatórios:** trajetórias preexistentes podem tornar crescimento desnecessário em um modelo abstrato; integração pode ocorrer em unidade física já presente sem constituição autônoma; atividade correlacionada pode ocorrer sem criação de nova relação; formação de sinapse silenciosa não constitui transmissão funcional.
+
+### Bibliografia verificada nesta rodada
+1. Serafini, T., et al. (1994). *The netrins define a family of axon outgrowth-promoting proteins homologous to C. elegans UNC-6*. Cell 78:409–424. https://doi.org/10.1016/0092-8674(94)90420-0
+2. Tessier-Lavigne, M. & Goodman, C. S. (1996). *The molecular biology of axon guidance*. Science 274:1123–1133. https://doi.org/10.1126/science.274.5290.1123 [revisão]
+3. Christopherson, K. S., et al. (2005). *Thrombospondins are astrocyte-secreted proteins that promote CNS synaptogenesis*. Cell 120:421–433. https://doi.org/10.1016/j.cell.2004.12.020
+4. Stellwagen, D. & Shatz, C. J. (2002). *An instructive role for retinal waves in the development of retinogeniculate connectivity*. Neuron 33:357–367. https://doi.org/10.1016/S0896-6273(02)00577-9
+5. Stafford, B. K., et al. (2009). *Spatial-temporal patterns of retinal waves underlying activity-dependent refinement of retinofugal projections*. Neuron. https://doi.org/10.1016/j.neuron.2009.09.021
+6. *Activity-Dependent Clustering of Functional Synaptic Inputs on Developing Hippocampal Dendrites*. Neuron 72:1012–1024 (2011). https://doi.org/10.1016/j.neuron.2011.10.015
+7. Kirchner, J. H. & Gjorgjieva, J. (2022). *Emergence of synaptic organization and computation in dendrites*. https://pmc.ncbi.nlm.nih.gov/articles/PMC8887907/ [revisão]
+8. Tasciotti, S., et al. (2026). *Clustered inputs engage dendritic nonlinearities and calcium signaling to support efficient place-field formation in CA1 pyramidal neurons*. Cell Reports 45:117793. https://doi.org/10.1016/j.celrep.2026.117793 [mapeamento experimental e modelos]
+9. *Synapse Formation in Developing Neural Circuits*. https://pmc.ncbi.nlm.nih.gov/articles/PMC7649972/ [revisão]
+
+### Pendências para concluir o pré-experimento
+Leitura crítica integral das fontes centrais acessíveis; aprofundar constituição anterior às conexões, mecanismos de estabilização e papel de glia; construir matriz NB → transformação → mínimo → abstração → perda → teste; definir medidas de trajetória/latência e hipóteses discriminantes; só então produzir e congelar PDF. Nenhum mecanismo selecionado nem experimento executado.
