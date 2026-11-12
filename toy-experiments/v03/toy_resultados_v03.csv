@@ -1,0 +1,9 @@
+<PARSED TEXT FOR SHEET: 1 / 1 TABS
+TAB NAME: toy_resultados_v03.csv>
+index,scenario,connections,lags,strongest_mark,test_outputs,control_outputs,functional
+0,paired,2,-320;120,0.955,63,21,True
+1,reversed,2,-120;340,0.955,63,12,True
+2,independent,0,,0.279,0,0,False
+3,jitter,0,,0.252,0,0,False
+4,periodic_independent,2,-240;220,0.907,0,15,False
+5,drifting,0,,0.358,0,0,False
