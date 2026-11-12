@@ -1,6 +1,6 @@
 # EMERGENCE
 
-> **Organização das três gerações:** consulte [PROJECT_GENERATIONS.md](PROJECT_GENERATIONS.md) antes de interpretar motores, protocolos ou resultados. A reescrita atual está em [research/](research/README.md); as tentativas v1 e v2 estão classificadas em [archive/](archive/README.md). A migração física de arquivos legados depende de auditoria de referências.
+> **Organização das três gerações:** consulte [PROJECT_GENERATIONS.md](PROJECT_GENERATIONS.md) antes de interpretar motores, protocolos ou resultados. A reescrita atual está em [research/](research/README.md); as tentativas v1 e v2 estão classificadas em [archive/](archive/README.md). **Os arquivos legados não serão migrados**; a terceira geração cria arquivos novos.
 
 **Modelo experimental de relações emergentes, entidades ancoradas, constituição e evolução de redes**
 
