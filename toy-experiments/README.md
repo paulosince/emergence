@@ -10,6 +10,7 @@ Registro auditável dos experimentos exploratórios de constituição diferida. 
 | [V0.4](./v04/results.md) | Exuberância, confiança, estabilidade e poda | Seleção parcial; erro admissível |
 | [V0.5](./v05/results.md) | Atrasos calculados das marcas | Cálculo explícito permanece |
 | [V0.6](./v06/results.md) | Captura de frentes físicas simuladas | Mecanismo alternativo; não demonstra necessidade |
+| [V0.7](./v07/results.md) | Marcas locais versus frentes propagantes | Comparação assimétrica; atraso funcional só no mecanismo de frente |
 
 ## Regras de auditoria
 
@@ -22,4 +23,4 @@ Registro auditável dos experimentos exploratórios de constituição diferida. 
 
 ## Próxima comparação
 
-V0.7: marcas locais persistentes versus frentes propagantes, com as mesmas incidências e métricas. Avaliar se a propagação espacial acrescenta capacidade constitutiva ou apenas uma implementação possível.
+V0.8: comparação simétrica de mecanismos capazes de determinar atrasos funcionais, seguida da investigação da primeira Uint constituída e dos requisitos operacionais de representação.
