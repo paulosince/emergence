@@ -21,6 +21,16 @@ Registro auditável dos experimentos exploratórios de constituição diferida. 
 5. TEMPO original permanece intocado. Estes toys não substituem a implementação EMERGENCE.
 6. Para novas versões: publicar hipótese e critérios antes de executar; depois registrar resultados efetivos e testes adversariais.
 
-## Próxima comparação
+## Aprendizados e situação atual
 
-V0.8: comparação simétrica de mecanismos capazes de determinar atrasos funcionais, seguida da investigação da primeira Uint constituída e dos requisitos operacionais de representação.
+- [Síntese V0.1–V0.11](LEARNINGS.md).
+- [V0.11, resultados complementares E1–E6](v11/supplementary-results.md).
+- [V0.12, etapa I: diagnóstico e hipóteses iniciais](v12/pre-experiment-stage1.md).
+
+## Ciclo obrigatório a partir da V0.12
+
+1. **Pré-experimento:** erros anteriores; hipóteses corretivas; hipóteses científicas; método completo (investigação NB, reconstrução causal, mínimos, abstração agnóstica, deduções e bibliografia); hipóteses de trabalho e previsão de alcance. PDF congelado antes de implementar.
+2. **Experimento:** implementação, execução, controles e desvios registrados.
+3. **Resultados:** medidas, testes adversariais, confronto com previsões, limitações e conclusão.
+
+O diagnóstico inicial não substitui o PDF completo nem autoriza implementação. [Método normativo](../docs/program-methodology.md).
