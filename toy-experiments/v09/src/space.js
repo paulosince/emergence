@@ -1,0 +1,1 @@
+export const SIZE={x:10,y:8,z:6};export const dist=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y,a.z-b.z);export const lerp=(a,b,f)=>({x:a.x+(b.x-a.x)*f,y:a.y+(b.y-a.y)*f,z:a.z+(b.z-a.z)*f});export function inside(p){return Object.keys(SIZE).every(k=>p[k]>=0&&p[k]<=SIZE[k])}
