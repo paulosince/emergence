@@ -1,3 +1,5 @@
+> **ATUALIZAÇÃO DE CONTINUIDADE — 11/11/2026:** ler também [Regras científicas, escopo e continuidade (11/11/2026)](docs/regras-cientificas-e-continuidade-2026-11-11.md). Esse documento registra o papel subsidiário dos toy models, a execução contínua do EMERGENCE, exigências de auditabilidade/reprodutibilidade/falseabilidade, o foco atual na constituição inicial de Upro/Uint a partir de Utrd e as decisões recentes de confiança/estabilidade. **Atenção:** há possíveis conflitos com contratos do motor v2 anteriores; não harmonizar silenciosamente nem assumir implementação.
+
 # Guia de continuidade do EMERGENCE (para qualquer assistente)
 
 Leia **inteiro** antes de mudar qualquer coisa. Atualizado em 10/11/2026 (fim da sessão longa de 09–10/11/2026; o responsável vai continuar num projeto novo).
