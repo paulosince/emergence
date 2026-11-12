@@ -112,3 +112,12 @@ A constituição de um grafo adaptativo não demonstra representação. A tríad
 8. Separar constituição de estrutura, constituição representacional e validação da tríade CLEAR.
 
 **Escopo atual:** primeira constituição a partir da borda. Consolidar, modular e podar são etapas posteriores, embora constem aqui para preservar decisões.
+
+
+## 9. Atualização de transdução — 12/11/2026
+
+A consolidação posterior está em **[TRANSDUCAO-SINAIS-INCIDENCIAS.md](TRANSDUCAO-SINAIS-INCIDENCIAS.md)**, que prevalece sobre o estado «aberto» da frequência e sobre a descrição antiga de intensidade **apenas quanto aos princípios aprovados**. Não reescreve a história das decisões.
+
+**[D] Princípios fechados:** intensidade por recrutamento cumulativo segundo máximo/resolução/mínimo zero; frequência acompanhada até limite temporal e perda de resolução acima dele, com possível resposta sustentada e adaptação dependentes da modalidade; duração/persistência, intervalo, fase, ritmo, sequência e recorrência pela atividade temporal; localização, extensão, gradientes e padrões pela distribuição física de Utrd; polaridade por vias distintas; referência física da Utrd; composição e direção determinadas depois; simultaneidade sem compensação artificial de latências.
+
+**[A] Contrato ainda pendente:** distinguir fibra física pré-representacional de Upro, estados/limiares exatos, operação de adaptação/sustentação por modalidade, latência/resolução e acesso inicial pela Pcrt. Os contratos C1–C8 e testes T01–T14 do documento novo são **propostas do assistente**, não decisões automaticamente aprovadas.
