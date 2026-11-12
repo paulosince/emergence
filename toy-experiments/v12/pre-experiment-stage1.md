@@ -195,3 +195,47 @@ Leitura crítica integral das fontes centrais acessíveis; aprofundar constitui�
 Separar cinco operações: (i) tornar transmissão possível; (ii) realizar transmissão; (iii) alterar condições de transmissão; (iv) conservar/transformar organização; (v) integrar incidências. Para cada operação documentar realização NB, mínimo funcional, possível realização agnóstica, perdas, contraexemplos e teste.
 
 **Estado:** investigação NB em progresso; não há equivalência demonstrada, escolha de equações, congelamento de PDF ou execução V0.12.
+
+
+## 9. Matriz de equivalência e tentativa de refutação (12/11/2026)
+
+**Estatuto:** deduções independentes a partir da investigação NB já documentada; nenhuma nova fonte ou leitura integral foi adicionada nesta rodada. Equivalências **propostas**, não demonstradas. Nenhuma arquitetura selecionada.
+
+| Operação | Função a preservar | Abstração candidata | Perda/risco | Teste adversarial |
+|---|---|---|---|---|
+| F1 Habilitar transmissão | Transição local entre incapacidade e capacidade de transferência efetiva | Condições de acoplamento que possam mudar | Confundir desbloqueio de aresta existente com criação de conexão | Comparar acoplamento inicialmente zero, bloqueado e ausente; rastrear causalmente a capacidade nova |
+| F2 Transmitir | Alteração remota causada por sucessão de interações locais com tempo de percurso | Propagação local auditável | Atraso calculado sem percurso; difusão inespecífica | Cortar região intermediária e medir perda/desvio/latência; controles espaciais |
+| F3 Modificar transmissão | História de incidências alterar transmissões futuras | Plasticidade operacional de estados/acoplamentos | Marca passiva; enfraquecimento global disfarçado de aprendizagem | Estado aprendido vs restaurado e controles com distribuição pareada |
+| F4 Conservar organização | Organização permanecer funcional por intervalo especificado | Dinâmica de persistência/manutenção | Persistência arbitrária; congelamento; decay incompatível | Repouso, perturbação, retorno, variação de escala temporal |
+| F5 Integrar incidências | Entradas interagirem por meio da organização, alterando estados posteriores | Interações locais coletivas sem detector de coincidência de origens | Não aditividade pré-programada; identidade de Uint dada pelo observador | Ablação distribuída, controles com fontes independentes, análise de dependência funcional e continuidade |
+
+### 9.1 Contraexemplos prioritários
+- **F1:** ativar uma aresta de peso zero em topologia fixa pode imitar formação de conexão, mas o espaço de ligações possíveis já foi codificado. Não declarar equivalência de constituição topológica.
+- **F2:** difusão por todo o meio produz efeitos remotos com atraso, mas não implica percurso individuado como Upro.
+- **F3:** alteração de `g` em todas as arestas pode mudar a resposta global sem diferenciação de trajetórias.
+- **F4:** congelar estados garante duração, mas não demonstra conservação autônoma.
+- **F5:** não linearidade de cada elemento pode gerar resposta conjunta não aditiva mesmo sem uma nova unidade funcional.
+
+### 9.2 Condições para elevar equivalência de candidata a sustentada
+1. Definir a transformação NB específica e a função causal relevante, com fonte.
+2. Demonstrar operacionalmente a função correspondente na arquitetura candidata.
+3. Confrontar intervenções equivalentes e condições iniciais.
+4. Documentar perdas, regimes em que falha e contraexemplos.
+5. Não declarar necessidade universal a partir de uma realização possível.
+
+### 9.3 Hipóteses discriminantes para V0.12 (ainda não pré-registradas)
+- **HD1:** somente plasticidade em malha fixa pode produzir Upro funcionalmente diferenciada. Contraexemplo: difusão alterada sem percurso identificável.
+- **HD2:** alteração das possibilidades de acoplamento produz organização funcional não alcançável por plasticidade em malha fixa sob controles equivalentes. Contraexemplo: mesma organização obtida sem alterar conectividade.
+- **HD3:** interações locais bastam para integração candidata sem detector de coincidência. Contraexemplo: respostas reproduzíveis por componentes independentes ou por não linearidade preexistente.
+- **HD4:** continuidade da organização exige algum mecanismo de manutenção, mas não necessariamente um mecanismo separado de propagação. Contraexemplo: organização estável por restrições estáticas sem manutenção ativa.
+
+**Não escolher HD1–HD4 como fatos ou mecanismos.** A ordem de Uint/Upro permanece aberta (H0–H4 da seção 3).
+
+### 9.4 Próximas exigências antes do PDF congelado
+- Definir critérios operacionais não circulares de Upro e Uint; separar constituição, identificação externa e representação.
+- Especificar controles equivalentes e observáveis para HD1–HD4, sem assumir resposta.
+- Avaliar se V0.12 deve testar primeiro diferenciação de percurso, integração ou ambas, justificando alcance possível.
+- Completar a bibliografia crítica e explicitar quais fontes foram lidas integralmente.
+- Selecionar mecanismo somente após fundamentação, aprovação e PDF pré-experimental.
+
+**Status:** etapa I em andamento; sem código V0.12, sem PDF final e sem execução.
