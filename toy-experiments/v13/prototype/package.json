@@ -1,0 +1,1 @@
+{"name":"emergence-v013","version":"0.13.0","private":true,"type":"module","scripts":{"test":"node --test","demo":"node src/demo.js"}}
