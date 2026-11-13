@@ -1,0 +1,13 @@
+{
+  "name": "emergence-v0.15",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "EMERGENCE V0.15 — criação e utilização da representação transduzida (som). Especificação congelada em 13/11/2026.",
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "calibrate": "node src/calibrate.js",
+    "run": "node src/run.js",
+    "campaign": "node src/campaign.js"
+  }
+}

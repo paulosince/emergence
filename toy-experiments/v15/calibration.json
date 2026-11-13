@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-13T20:07:09.602Z",
+  "rule": "θ0 = 0,2 × média dos picos de resposta a tom nominal na frequência central; degraus de 10 dB",
+  "nominalAmp": 1,
+  "peaksAtCF": [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ],
+  "reference": 1,
+  "thresholds": [
+    0.2,
+    0.632455,
+    2
+  ],
+  "backgroundNoiseRms": 0.0070710678118654745,
+  "backgroundNoisePeakPerBand5s": [
+    0.001666,
+    0.001917,
+    0.001971,
+    0.002245,
+    0.002697,
+    0.003072,
+    0.003309,
+    0.00373,
+    0.004484,
+    0.004892,
+    0.006197,
+    0.006559,
+    0.006757
+  ],
+  "checks": {
+    "nominalCrossesTheta0": true,
+    "nominalCrossesTheta1": true,
+    "nominalBelowTheta2": true,
+    "plus12dbCrossesTheta2": true,
+    "noiseBelowTheta0": true
+  }
+}
