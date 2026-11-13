@@ -2,14 +2,14 @@
 title: "EMERGENCE V0.15 — Pré-experimento (Etapa I)"
 subtitle: "Criação e utilização da representação transduzida — modalidade sonora"
 author: "Responsável: Paulo Rogério da Silva · Redação, deduções e levantamento bibliográfico: assistente (Claude)"
-date: "13/11/2026 — versão candidata 0.3 (decisões D1–D18 tomadas), NÃO congelada"
+date: "13/11/2026 — versão 1.0, CONGELADA"
 lang: pt-BR
 ---
 
 # Estado deste documento
 
 - **Etapa:** I (pré-experimento) do ciclo obrigatório da [metodologia](../../docs/program-methodology.md).
-- **Estado:** **candidato a congelamento. Não está congelado e não autoriza implementação.** As decisões D1–D18 (com as derivadas D5a, D5b, D12a e D17a) foram tomadas pelo responsável em 13/11/2026 (seção 6). Falta só o ato de congelamento, que também é do responsável.
+- **Estado:** **CONGELADO** pelo responsável em 13/11/2026, às 17h01 (versão 1.0), com as decisões D1–D18 e as derivadas D5a, D5b, D12a e D17a (seção 6). A implementação está autorizada. Qualquer mudança constitutiva posterior exige adendo identificado como exploratório, sem alterar este texto.
 - **Escopo:** somente som. A visão fica para a V0.16 (decisão do responsável, 13/11/2026: "testamos devagar e evoluímos aos poucos").
 - **Documento irmão:** [especificação do experimento](experiment-spec.md) (Etapa II, também candidata, não executada).
 - **Origem da hipótese:** documento do responsável *Hipótese HCMT V0.15* ("Uma geometria para convergências") e a conversa de 13/11/2026, em que a hipótese foi revista.

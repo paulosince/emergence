@@ -2,13 +2,13 @@
 title: "EMERGENCE V0.15 — Especificação do experimento (Etapa II, candidata)"
 subtitle: "Criação e utilização da representação transduzida — som"
 author: "Responsável: Paulo Rogério da Silva · Redação: assistente (Claude)"
-date: "13/11/2026 — versão candidata 0.3 (decisões D1–D18 tomadas), NÃO congelada, NÃO executada"
+date: "13/11/2026 — versão 1.0, CONGELADA"
 lang: pt-BR
 ---
 
 # Estado
 
-- **Nada foi implementado nem executado.** Esta especificação descreve o que será construído **depois** de congelado o [pré-experimento](pre-experiment.md).
+- **CONGELADA** em 13/11/2026 (versão 1.0), junto com o [pré-experimento](pre-experiment.md). Desvios na implementação serão registrados em `deviations.md`, sem alterar este texto.
 - Os valores marcados "(D#)" foram **decididos pelo responsável** em 13/11/2026 (pré-experimento, seção 6). Os demais são infraestrutura proposta pelo assistente e entram no congelamento junto com o documento.
 - A legenda de estatuto ([R], [A], [L], [P], [C]) é a mesma do pré-experimento.
 
