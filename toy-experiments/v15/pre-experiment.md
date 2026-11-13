@@ -2,14 +2,14 @@
 title: "EMERGENCE V0.15 — Pré-experimento (Etapa I)"
 subtitle: "Criação e utilização da representação transduzida — modalidade sonora"
 author: "Responsável: Paulo Rogério da Silva · Redação, deduções e levantamento bibliográfico: assistente (Claude)"
-date: "13/11/2026 — versão candidata 0.1, NÃO congelada"
+date: "13/11/2026 — versão candidata 0.2 (decisões D1–D16 tomadas), NÃO congelada"
 lang: pt-BR
 ---
 
 # Estado deste documento
 
 - **Etapa:** I (pré-experimento) do ciclo obrigatório da [metodologia](../../docs/program-methodology.md).
-- **Estado:** **candidato a congelamento. Não está congelado e não autoriza implementação.** O congelamento depende das decisões D1–D16 (seção 6), que são do responsável.
+- **Estado:** **candidato a congelamento. Não está congelado e não autoriza implementação.** As decisões D1–D16 (e as derivadas D5a, D5b e D12a) foram tomadas pelo responsável em 13/11/2026 (seção 6). Falta só o ato de congelamento, que também é do responsável.
 - **Escopo:** somente som. A visão fica para a V0.16 (decisão do responsável, 13/11/2026: "testamos devagar e evoluímos aos poucos").
 - **Documento irmão:** [especificação do experimento](experiment-spec.md) (Etapa II, também candidata, não executada).
 - **Origem da hipótese:** documento do responsável *Hipótese HCMT V0.15* ("Uma geometria para convergências") e a conversa de 13/11/2026, em que a hipótese foi revista.
@@ -159,14 +159,14 @@ Problema: L1. Cada apresentação do mesmo som tem ruído de fundo com semente p
 
 - [L] Jeffress (1948) propôs que diferenças de chegada entre os ouvidos sejam convertidas em **lugar**: neurônios recebem dos dois lados por caminhos de comprimentos diferentes e só disparam quando os sinais chegam juntos (**não lido**; descrição segundo McAlpine, 2005, **trechos**).
 - [L] Na coruja-das-torres, os axônios aferentes funcionam como **linhas de atraso** (cerca de 160 µs de diferença de condução ao longo do núcleo laminar) e os neurônios-alvo como **detectores de coincidência**. A resposta é máxima quando a diferença interaural anula a diferença de chegada. A projeção é tonotópica, com aferentes casados em frequência (Carr e Konishi, 1990; **resumo**).
-- [L] **Ressalva importante:** em mamíferos (gerbil), as respostas da oliva superior medial não são compatíveis com um mapa topográfico do espaço, e uma inibição temporalmente precisa é parte crítica da codificação (Brand et al., 2002; **resumo**).
-- **Confronto:** HZ tem precedente direto nas aves. Nos mamíferos, o mecanismo inclui inibição, que a V0.15 exclui (efeito só excitatório). **Consequência:** a V0.15 pode testar se o encontro com atraso **é suficiente** para constituir e reacessar convergências binaurais num sistema agnóstico. **Não** pode afirmar que é o mecanismo dos mamíferos.
+- [L] **Ressalva importante:** em mamíferos, o quadro é outro (Brand et al., 2002; **integral, extração**, com a última frase da discussão cortada). Na oliva superior medial do gerbil, 20 de 36 neurônios registrados eram sensíveis à diferença interaural. Nos 16 testados, o pico da sintonia ficou **fora** da faixa fisiológica (cerca de ±120 µs), sempre com o lado contralateral adiantado. Os melhores atrasos acompanhavam a frequência, sem mapa de lugar dentro de cada canal. Bloquear a inibição glicinérgica com estricnina deslocou os picos em direção a zero. Os autores concluem que o mapa de lugar de Jeffress é inadequado para a baixa frequência em mamíferos e que as inclinações das curvas podem importar mais que os picos. Limites que eles declaram: amostras pequenas nos ensaios com drogas (5 e 6 neurônios) e momento da inibição em parte inferido.
+- **Confronto:** HZ tem precedente direto nas aves. Nos mamíferos, o mecanismo inclui inibição precisa e leitura pela inclinação, que a V0.15 exclui (efeito só excitatório). **Perda registrada (D11c).** **Consequência:** a V0.15 pode testar se o encontro com atraso **é suficiente** para constituir e reacessar convergências binaurais num sistema agnóstico. **Não** pode afirmar que é o mecanismo dos mamíferos.
 
 ### 4.2.5 Os atrasos certos podem ser aprendidos (desenvolvimento)
 
 - [L] Num modelo de neurônio da coruja, uma regra hebbiana não supervisionada **seleciona**, de uma distribuição ampla de axônios com atrasos aleatórios, as conexões cujos atrasos fazem as chegadas coincidirem, inclusive para dois grupos independentes de entradas (ouvido esquerdo e direito) (Gerstner et al., 1996; **resumo**).
 - [P] O programa já registra "deslocamento" (em uso no TEMPO) e "seleção" (Gerstner et al., 1996) como formas de ajuste de latência, com termos de Eurich et al. ([inventário de regras](../../docs/mesh-rules-v0.1.md)).
-- **Confronto:** há duas formas concorrentes de a Pcrt obter o atraso de uma Upro nova. **Deslocamento:** o atraso nasce do intervalo vivido. **Seleção:** nascem candidatas com atrasos diversos e ficam as que coincidem. O deslocamento é mais simples, mas pertence à linhagem criticada na V0.5 (atraso calculado das marcas). A seleção tem respaldo de desenvolvimento, mas exige criar em excesso e eliminar depois, e a poda está fora do escopo (seção 4.1). **Decisão D5.**
+- **Confronto:** há duas formas concorrentes de a Pcrt obter o atraso de uma Upro nova. **Deslocamento:** o atraso nasce do intervalo vivido. **Seleção:** nascem candidatas com atrasos diversos e ficam as que coincidem. O deslocamento é mais simples, mas pertence à linhagem criticada na V0.5 (atraso calculado das marcas). A seleção tem respaldo de desenvolvimento, mas exige criar em excesso e eliminar depois. **Decisão D5: só seleção**, com a poda mínima correspondente autorizada. Com isso, a limitação L2 (atraso derivado de *timestamps*) deixa de existir na criação dos atrasos. Ela continua parcialmente presente no **portão de recorrência**, que compara intervalos vividos para decidir se há encontro repetido.
 
 ### 4.2.6 Atividade espontânea antes da audição
 
@@ -228,9 +228,9 @@ São candidatos, não resultados. Suficiência não prova necessidade.
 | Acompanhamento de fase | Emissão no cruzamento ascendente do limiar, com refratariedade | Tempo preservado abaixo de cerca de 2,4 kHz | Sem jitter biológico (há o ruído do mundo) | Histograma de fase |
 | Linha de atraso | Atraso escalar da Upro | Chegada deslocada | Sem dispersão nem custo | K4 |
 | Detector de coincidência | Soma com decaimento exponencial e limiar | Janela efetiva = τ·ln(1/(θ−1)) para duas chegadas de magnitude 1 | Sem inibição (Brand et al., 2002) nem dendritos | Varredura de Δt |
-| Desenvolvimento dos atrasos | Pcrt (deslocamento ou seleção, D5) | Produz chegadas coincidentes | Sem fiação herdada nem atividade espontânea | K2, K3 |
+| Desenvolvimento dos atrasos | Pcrt com seleção entre candidatas (D5) | Produz chegadas coincidentes | Sem fiação herdada nem atividade espontânea | K2, K3 |
 
-**Refinamentos vindos da literatura, aguardando autorização (D11):** (a) seleção de atrasos como variante da Pcrt (Gerstner et al., 1996); (b) exposição a ruído como condição exploratória (Shamma e Klein, 2000); (c) inibição como perda declarada e candidata para uma versão futura (Brand et al., 2002; Feng e Wang, 2017).
+**Refinamentos vindos da literatura (D11, decididos):** (a) seleção de atrasos (Gerstner et al., 1996): **condição principal**; (b) exposição a ruído (Shamma e Klein, 2000): **condição exploratória K9**; (c) inibição (Brand et al., 2002; Feng e Wang, 2017): **perda registrada**, candidata para versão futura.
 
 ## 4.6 Previsões
 
@@ -239,7 +239,7 @@ São candidatos, não resultados. Suficiência não prova necessidade.
 - P1. Uma apresentação de A cria Uint pela Pcrt, todas com trilha completa até incidências de Utrd.
 - P2. Na reapresentação de A (com ruído e fase diferentes), a maioria das Uint criadas na primeira vez dispara **por chegada de Upro** e quase nenhuma Uint nova é criada.
 - P3. Durante B (outro f0, outro lado), as Uint de A disparam muito menos que durante A.
-- P4 (HZ). Surgem Uint com uma Upro de cada sensor na mesma faixa, e a diferença entre seus atrasos fica próxima da diferença interaural da fonte (cerca de 0,29 ms para 30°, com a geometria proposta).
+- P4 (HZ). Surgem Uint com Upro sobreviventes vindas dos dois sensores na mesma faixa, e a diferença entre os atrasos dessas Upro fica próxima da diferença interaural da fonte (cerca de 0,29 ms para 30°, com a geometria proposta). Tolerância esperada: até cerca de 0,31 ms no pior caso (D5b).
 - P5 (HY). Surgem Uint entre vias de faixas diferentes do mesmo sensor, ligando componentes harmônicos de A.
 
 **Negativas:**
@@ -269,7 +269,8 @@ Detalhes na [especificação](experiment-spec.md).
 - Mundo sonoro com duas fontes possíveis em azimute, dois sensores, ruído de fundo com semente.
 - Utrd estrita: 2 sensores × 13 faixas × 3 limiares = 78 vias (proposta, D3/D4).
 - UintFactory e UproFactory com contrato estendido (HC4).
-- Pcrt com: traço por via; coincidência entre fontes distintas [P]; consolidação por recorrência [P] (o mesmo intervalo vivido repetido); criação por não acomodação [P], decidida pela propagação (HC5); criação conjunta de uma Uint com duas Upro convergentes.
+- Pcrt com: traço por via; coincidência entre fontes distintas [P]; consolidação por recorrência [P] (o mesmo intervalo vivido repetido); criação por não acomodação [P], decidida pela propagação (HC5); criação conjunta de uma Uint com 9 Upro candidatas de cada via (D5, D5a, D5b); seleção das candidatas que contribuem para disparos e poda das demais.
+- Condições exploratórias: segundo nível (D14) e ruído de banda larga (K9).
 - Propagação: toda incidência sai por **todas** as Upro da via ou da Uint de origem (confirmado pelo responsável em 13/11 para o Sdom; D8 confirma para o EMERGENCE).
 
 ## 5.2 O que se pode testar e o que se poderia demonstrar
@@ -280,32 +281,37 @@ Detalhes na [especificação](experiment-spec.md).
 | L2 constituição | Cada criação decorre de operações rastreáveis da Pcrt sobre incidências, sem chamadas externas | Que esta Pcrt é a mínima ou a necessária |
 | L3 representação | Evidência **parcial**: fundamentação transdutiva (trilha), determinação autônoma (L2) e organização especificadora candidata (seletividade, dissociação A′) | Satisfação da tríade CLEAR |
 
-## 5.3 Critérios (valores propostos; decisão D12)
+## 5.3 Critérios (aprovados na D12)
 
 - **Êxito parcial (L2 + reacesso):** 100% das chamadas de factory com trilha; zero criação em silêncio; criação na reapresentação ≤ 20% da primeira; reacesso ≥ 80% das Uint de A; disparo das Uint de A durante B ≤ 20% do disparo durante A; K3 e K4 reduzem o reacesso em pelo menos 50%; K6 com invariância exata.
 - **Falha:** reacesso < 50%, **ou** criação na reapresentação > 50% da primeira (H3), **ou** seletividade ausente (H4).
-- **Interrupção:** qualquer chamada de factory sem trilha; não determinismo com a mesma semente; limite de recursos (proposta: 5.000 Uint ou 50.000 Upro por execução, alinhado ao orçamento do [inventário](../../docs/mesh-rules-v0.1.md)).
+- **Interrupção:** qualquer chamada de factory sem trilha; não determinismo com a mesma semente; limite de recursos: 5.000 Uint ou 200.000 Upro por execução, contando candidatas e sobreviventes (D12, D12a).
 
-# 6. Decisões pendentes do responsável (bloqueiam o congelamento)
+# 6. Decisões do responsável (tomadas em 13/11/2026)
 
-| # | Decisão | Proposta do assistente |
+| # | Decisão | Resultado [R] |
 |---|---|---|
-| D1 | Aprovar as hipóteses corretivas HC1–HC7 | Aprovar |
-| D2 | Estender o contrato da UproFactory: origem pode ser via de Utrd (HC4) | Aprovar, já que é regra do responsável |
-| D3 | Faixas: quantas e qual intervalo | 13 faixas de 150 a 2.400 Hz, 3 por oitava |
-| D4 | Recrutamento: quantos limiares por faixa e espaçamento | 3 limiares, cerca de 10 dB entre eles |
-| D5 | Como a Pcrt obtém o atraso: deslocamento, seleção ou ambos como condições | Deslocamento como condição principal; seleção como condição concorrente, se aprovar a poda mínima que ela exige |
-| D6 | Tolerância da Pcrt = janela efetiva da Uint (HC6) | Aprovar |
-| D7 | Recorrência: quantos encontros com o mesmo intervalo vivido e em quanto tempo | 5 encontros em até 2 s do relógio do experimento |
-| D8 | Confirmar para o EMERGENCE: a incidência segue por todas as Upro de saída | Confirmar (já confirmado para o Sdom) |
-| D9 | Incluir as convergências temporais (X, dezenas de ms) na V0.15? | Não; testar Y e Z primeiro. X na V0.15b ou depois |
-| D10 | Fase de atividade espontânea das Utrd antes do som? | Não na V0.15 |
-| D11 | Autorizar os refinamentos da literatura (seção 4.5: seleção, ruído, inibição como perda) | Autorizar (a) e (b) como condições; (c) só como registro |
-| D12 | Aprovar os critérios de êxito, falha e interrupção | Aprovar ou ajustar os números |
-| D13 | Vias do mesmo ressonador (mesma faixa e sensor, limiares diferentes) podem formar par? | Sim, sem exclusão (excluir seria dar ao sistema conhecimento da própria estrutura); relatar à parte |
-| D14 | Incluir condição exploratória de segundo nível (disparos de Uint como fontes para a mesma regra, "recursão pela mesma regra" [P])? | Sim, como condição exploratória separada, fora dos critérios de êxito |
-| D15 | Maior intervalo vivido considerado pela Pcrt e regra contra *aliasing* | 3 ms, considerando só a emissão mais recente de cada outra via (lição da V0.3) |
-| D16 | Nível do ruído de fundo e calibração dos limiares das vias | Ruído 40 dB abaixo do nível nominal; limiares tais que o som nominal recrute 2 de 3 níveis |
+| D1 | Hipóteses corretivas HC1–HC7 | **Aprovadas todas** |
+| D2 | Contrato da UproFactory: origem pode ser via de Utrd (HC4) | **Aprovada** (decorre de HC4) |
+| D3 | Faixas de frequência | **13 faixas, 150 a 2.400 Hz, 3 por oitava** |
+| D4 | Vias de recrutamento por faixa | **3 limiares, 10 dB entre eles** |
+| D5 | Origem do atraso de uma Upro nova | **Só seleção.** O deslocamento (atraso derivado do intervalo vivido) **não** é usado. A poda mínima que a seleção exige fica autorizada para esta condição |
+| D5a | Conjunto de candidatas da seleção | **Nas duas vias do par, sem usar a ordem das emissões nem o intervalo vivido** |
+| D5b | Correção da D5a (problema encontrado pelo assistente: com degrau de 0,2 ms, menor que a janela, chegadas da mesma emissão por candidatas vizinhas somavam-se e faziam a Uint disparar sozinha) | **Degrau de 0,36 ms**: 9 candidatas por via, atrasos de 0,50 a 3,38 ms. A soma de uma via sozinha fica em no máximo cerca de 1,43 (abaixo do limiar 1,5). Qualquer intervalo de até 3 ms fica a no máximo 0,18 ms de uma diferença disponível. Custo declarado: no pior caso, o resíduo de chegadas anteriores permite disparo com descompasso de até cerca de 0,31 ms (sintonia mais larga que a janela de 0,21 ms), o que será medido |
+| D6 | Tolerância da Pcrt = janela efetiva da Uint (HC6) | **Aprovada** (decorre de HC6) |
+| D7 | Recorrência exigida para constituir | **5 encontros com o mesmo intervalo vivido (dentro da janela) em até 2 s** do relógio do experimento |
+| D8 | A incidência segue por todas as Upro de saída | **Confirmada** para o EMERGENCE, inclusive para as candidatas enquanto existirem |
+| D9 | Convergências temporais (eixo X) | **Fora da V0.15**; versão própria depois |
+| D10 | Fase de atividade espontânea das Utrd | **Não na V0.15**; hipótese concorrente registrada |
+| D11 | Refinamentos vindos da literatura | **(a)** seleção de atrasos: adotada como condição principal (D5). **(b)** Ruído de banda larga (K9): **autorizado** como condição exploratória. **(c)** Inibição: **registrada como perda**, aprovada após leitura do texto integral de Brand et al. (2002), seção 4.2.4 |
+| D12 | Critérios de êxito, falha e interrupção | **Aprovados como propostos** (seção 5.3) |
+| D12a | Como contar o limite de Upro com candidatas | **Contar tudo (candidatas e sobreviventes), com limite de 200.000 Upro**; limite de 5.000 Uint mantido |
+| D13 | Pares de vias do mesmo ressonador | **Permitidos**, sem exclusão programada; Uint de recrutamento relatadas à parte |
+| D14 | Condição de segundo nível (recursão pela mesma regra) | **Sim, exploratória**, fora dos critérios de êxito |
+| D15 | Maior intervalo vivido e regra contra *aliasing* | **3 ms; só a emissão mais recente de cada via** |
+| D16 | Ruído de fundo e calibração dos limiares | **Ruído 40 dB abaixo do nível nominal; o som nominal recruta 2 de 3 limiares**; calibração única, antes de qualquer execução, e registrada |
+
+**Regra derivada, a confirmar no congelamento [A]:** ao fim do período de seleção, se uma Uint ficar sem nenhuma candidata sobrevivente de uma das duas vias, ela é removida junto com as Upro restantes. Sem isso, ficaria uma Uint que não pode mais integrar coincidência. Proposta como parte da poda mínima autorizada na D5.
 
 **Nomes:** este documento não cria termos novos. Usa "via" (regras de 11/11), "traço", "coincidência entre fontes distintas", "consolidação por recorrência", "criação por não acomodação" (inventário de regras), "intervalo vivido" e "constante de disponibilidade" (efeitos v0.1). Onde precisa descrever algo sem nome aprovado, usa descrição, não termo: por exemplo, "registro local de participação" na especificação. Se o responsável quiser um nome, ele escolhe.
 
@@ -317,7 +323,7 @@ Detalhes na [especificação](experiment-spec.md).
 
 # 8. Bibliografia (com estado de leitura)
 
-1. Brand, A., Behrend, O., Marquardt, T., McAlpine, D., Grothe, B. (2002). Precise inhibition is essential for microsecond interaural time difference coding. *Nature*, 417, 543–547. doi:10.1038/417543a. **Resumo.**
+1. Brand, A., Behrend, O., Marquardt, T., McAlpine, D., Grothe, B. (2002). Precise inhibition is essential for microsecond interaural time difference coding. *Nature*, 417, 543–547. doi:10.1038/417543a. **Integral (extração)**; cópia em cns.nyu.edu; falta a última frase da discussão e os rótulos dos eixos saíram ilegíveis.
 2. Carr, C. E., Konishi, M. (1990). A circuit for detection of interaural time differences in the brain stem of the barn owl. *J. Neurosci.*, 10(10), 3227–3246. doi:10.1523/JNEUROSCI.10-10-03227.1990. **Resumo** (texto integral aberto existe, mas não foi possível obtê-lo nesta sessão).
 3. Feng, L., Wang, X. (2017). Harmonic template neurons in primate auditory cortex underlying complex sound processing. *PNAS*, 114(5), E840–E848. doi:10.1073/pnas.1607519114. **Integral (extração), sem a lista de referências.**
 4. Gerstner, W., Kempter, R., van Hemmen, J. L., Wagner, H. (1996). A neuronal learning rule for sub-millisecond temporal coding. *Nature*, 383, 76–78. doi:10.1038/383076a0. **Resumo** (o PDF aberto do repositório EPFL falhou ao baixar).

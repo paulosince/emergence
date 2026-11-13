@@ -2,14 +2,14 @@
 title: "EMERGENCE V0.15 — Especificação do experimento (Etapa II, candidata)"
 subtitle: "Criação e utilização da representação transduzida — som"
 author: "Responsável: Paulo Rogério da Silva · Redação: assistente (Claude)"
-date: "13/11/2026 — versão candidata 0.1, NÃO congelada, NÃO executada"
+date: "13/11/2026 — versão candidata 0.2 (decisões tomadas), NÃO congelada, NÃO executada"
 lang: pt-BR
 ---
 
 # Estado
 
 - **Nada foi implementado nem executado.** Esta especificação descreve o que será construído **depois** de congelado o [pré-experimento](pre-experiment.md).
-- Todo valor numérico aqui é **proposta** e depende das decisões D1–D16 do pré-experimento. Valores marcados "(D#)" mudam se a decisão mudar.
+- Os valores marcados "(D#)" foram **decididos pelo responsável** em 13/11/2026 (pré-experimento, seção 6). Os demais são infraestrutura proposta pelo assistente e entram no congelamento junto com o documento.
 - A legenda de estatuto ([R], [A], [L], [P], [C]) é a mesma do pré-experimento.
 
 # 1. Fronteira: fornecido, determinado pelo sistema, demonstrado
@@ -18,7 +18,7 @@ lang: pt-BR
 |---|---|---|
 | Mundo sonoro e sua física (fontes, azimute, ruído) | **Se e quando** chamar UintFactory e UproFactory | L1: propagação com atrasos medidos |
 | Utrd: ressonadores, retificação, limiares, refratariedade | **Quais vias** são origem de cada Upro | L2: toda criação vem da Pcrt, com trilha completa |
-| UintFactory, UproFactory, seus contratos e valores-padrão | **Qual atraso** cada Upro recebe | L3 parcial: reacesso por propagação, seletividade, dissociação A/A′ |
+| UintFactory, UproFactory, seus contratos e valores-padrão | **Quais candidatas** sobrevivem à seleção (e, com isso, a diferença de atraso efetiva) | L3 parcial: reacesso por propagação, seletividade, dissociação A/A′ |
 | Regras da Pcrt (seção 6) | Quais Uint disparam a cada momento | — |
 | Relógio do experimento, filas de eventos, registro | — | — |
 
@@ -87,7 +87,7 @@ Total: 2 × 13 × 3 = **78 vias**. Os identificadores das vias são **opacos** (
 - `UproFactory.create({origem, destino, atraso}, trilha)`
 - **origem:** uma via de Utrd **ou** uma Uint (a segunda só na condição de segundo nível, D14). **destino:** uma Uint existente. Não existe Upro sem destino.
 - **atraso:** número > 0, em ms.
-- **trilha:** referência ao registro da operação da Pcrt que gerou a chamada (seção 6.5). A factory **recusa** a chamada sem trilha válida. Uma trilha válida é uma referência a um registro **criado pelo módulo da Pcrt** no mesmo relógio, verificada por um registro interno ao qual o chamador não tem acesso de escrita.
+- **trilha:** referência ao registro da operação da Pcrt que gerou a chamada (seção 6.6). A factory **recusa** a chamada sem trilha válida. Uma trilha válida é uma referência a um registro **criado pelo módulo da Pcrt** no mesmo relógio, verificada por um registro interno ao qual o chamador não tem acesso de escrita.
 - Duplicata (mesma origem, mesmo destino, mesmo atraso) é recusada.
 
 ## 4.2 Propagação [P]+[A]
@@ -95,7 +95,7 @@ Total: 2 × 13 × 3 = **78 vias**. Os identificadores das vias são **opacos** (
 - Quando uma via emite, ou uma Uint dispara, a incidência é entregue por **todas** as Upro que partem dela (D8). Não há seleção de saída.
 - Entrega no instante t + atraso, com a mesma magnitude e o mesmo efeito, e com a referência da incidência de origem.
 - Fila de eventos única ordenada por instante. Empates são resolvidos por número de sequência de criação do evento, que é determinístico.
-- **Sem plasticidade na V0.15:** o atraso e a existência da Upro não mudam depois da criação (exceto nas intervenções de controle K3 e K4, aplicadas por fora e registradas).
+- **Sem plasticidade na V0.15:** o atraso de uma Upro nunca muda. A única mudança permitida é a **remoção de candidatas** na seleção (6.4), além das intervenções de controle K3 e K4, aplicadas por fora e registradas.
 
 # 5. Uint e UintFactory
 
@@ -113,7 +113,7 @@ Total: 2 × 13 × 3 = **78 vias**. Os identificadores das vias são **opacos** (
 
 **Invariante verificado em teste:** uma Uint só muda de estado dentro da rotina de entrega. Não existe outro caminho de código que a ative.
 
-# 6. Pcrt (condição principal: atraso por deslocamento, D5)
+# 6. Pcrt (condição principal: atraso por seleção, D5)
 
 Todas as regras abaixo são **infraestrutura fornecida**. O que elas produzem (quais pares, quando, quais atrasos) é o que se observa.
 
@@ -134,28 +134,33 @@ O par pendente só é avaliado após T_ava = d_base + Δmax + W (tempo máximo p
 
 Essa decisão consulta só as duas incidências. **Não consulta nenhuma estrutura que liste Uint ou Upro.**
 
-## 6.4 Consolidação por recorrência [P] → constituição
+## 6.4 Consolidação por recorrência [P] → constituição com candidatas (D5, D5a, D5b, D7)
 
 - Registro precursor por par **ordenado de vias** (i, j): lista dos intervalos vividos não acomodados nos últimos T_fecho = 2 s do relógio do experimento (D7).
-- **Regra:** se pelo menos n_rec = 5 intervalos da lista estão a menos de W do intervalo mais recente (D6, D7), a Pcrt **constitui conjuntamente**:
+- **Portão de recorrência:** se pelo menos n_rec = 5 intervalos da lista estão a menos de W do intervalo mais recente (D6, D7), a Pcrt **constitui conjuntamente**:
   1. `U = UintFactory.create(trilha)`;
-  2. `UproFactory.create({origem: via i, destino: U, atraso: d_base + Δ_rec}, trilha)`;
-  3. `UproFactory.create({origem: via j, destino: U, atraso: d_base}, trilha)`;
-  
-  em que d_base = 0,5 ms e Δ_rec = o intervalo vivido mais recente (deslocamento). Assim, as chegadas futuras de um par com o mesmo intervalo vivido coincidem em U.
-- Em seguida, o registro precursor do par é **apagado**. **Nenhuma estrutura guarda a referência de U a partir das vias.** A única ligação entre a via e U é a própria Upro, percorrida por propagação.
+  2. para **cada uma das duas vias** (i e j), 9 Upro candidatas até U, com atrasos fixos 0,50 + 0,36·m ms, m = 0…8, isto é, de 0,50 a 3,38 ms (D5a, D5b).
 
-**Limitação declarada:** o atraso por deslocamento é derivado do intervalo vivido. É a mesma linhagem criticada na V0.5. A condição concorrente 6.6 evita esse cálculo.
+  **Os atrasos não usam o intervalo vivido nem a ordem das emissões.** O intervalo vivido só serve ao portão de recorrência.
+- Em seguida, o registro precursor do par é **apagado**. **Nenhuma estrutura guarda a referência de U a partir das vias.** A única ligação entre a via e U são as próprias Upro, percorridas por propagação.
 
-## 6.5 Trilha (obrigatória para cada chamada)
+**Por que 0,36 ms (D5b):** com τ = 0,30 ms e limiar 1,5, a soma das chegadas da mesma emissão por todas as candidatas de uma via fica em no máximo cerca de 1,43, então uma via sozinha não dispara U. As diferenças de atraso entre candidatas das duas vias são múltiplos de 0,36 ms, de −2,88 a +2,88 ms. Qualquer intervalo vivido de até 3 ms fica a no máximo 0,18 ms de uma delas, e duas chegadas a 0,18 ms somam cerca de 1,55, o que dispara U. **Custo:** no pior caso, o resíduo de chegadas anteriores da mesma via permite disparo com descompasso de até cerca de 0,31 ms.
 
-Cada constituição grava um registro imutável com: ids das incidências de cada intervalo da lista de recorrência → suas vias e instantes → os intervalos vividos → a regra satisfeita (n_rec, W) → os argumentos das chamadas → ids criados. A partir dos ids das incidências, a trilha volta até o estímulo do mundo e a amostra em que a Utrd emitiu.
+## 6.5 Seleção e poda mínima (D5) [L]+[A]
 
-## 6.6 Condição concorrente: atraso por seleção (se D5 aprovar) [L]+[A]
+- **Período de seleção:** 2 s do relógio do experimento a partir da constituição de U.
+- Uma candidata **contribui** quando uma chegada sua está entre as contribuições registradas num disparo de U (seção 5.2, item 3).
+- Ao fim do período, as candidatas que **nunca contribuíram** são removidas. Essa remoção é a poda mínima autorizada na D5 e fica registrada na trilha.
+- **Regra derivada, a confirmar no congelamento:** se U ficar sem nenhuma candidata sobrevivente de uma das duas vias, U é removida com as Upro restantes.
+- Referência: seleção de atrasos (Gerstner et al., 1996; resumo).
 
-Diferenças em relação a 6.4: ao satisfazer a recorrência, a Pcrt cria U e, para cada uma das duas vias, M = 7 Upro candidatas com atrasos d_base + m·(Δmax/6), m = 0…6, **sem usar Δ_rec**. Nos 2 s seguintes, as candidatas que nunca contribuíram para um disparo de U são removidas (poda mínima, necessária só para esta condição). Referência: seleção de atrasos (Gerstner et al., 1996).
+## 6.6 Trilha (obrigatória para cada chamada e cada remoção)
 
-## 6.7 Condição exploratória de segundo nível (se D14 aprovar)
+Cada constituição grava um registro imutável com: ids das incidências de cada intervalo da lista de recorrência → suas vias e instantes → os intervalos vividos → a regra satisfeita (n_rec, W) → os argumentos das chamadas → ids criados. A partir dos ids das incidências, a trilha volta até o estímulo do mundo e a amostra em que a Utrd emitiu. Cada remoção da seleção grava: candidata, U, período, ausência de contribuição.
+
+**Variante não adotada:** atraso por deslocamento (derivado do intervalo vivido). Fica registrada como alternativa recusada na D5, sem execução.
+
+## 6.7 Condição exploratória de segundo nível (aprovada na D14)
 
 Os disparos de Uint também deixam traço e participam de 6.2–6.4 como "fontes", pela mesma regra ("recursão pela mesma regra" [P]). Os resultados ficam **fora** dos critérios de êxito.
 
@@ -173,7 +178,7 @@ Todos são executados **fora** da condição experimental e rotulados como contr
 | K6 | Permutação de identificadores | Execução inteira com outros ids opacos de vias e Uint, mesma física | Invariância exata a menos da troca de nomes |
 | K7 | Sem observador | Execução sem métricas nem registro detalhado; compara o resumo estrutural final (hash) | O observador não interfere na dinâmica |
 | K8 | Silêncio | (a) Silêncio absoluto, sem ruído; (b) só ruído de fundo durante toda a execução | (a) Nenhuma incidência e nenhuma criação; (b) quanto o ruído sozinho cria, medido |
-| K9 | Ruído de banda larga (exploratória, D11) | 20 apresentações de R | Previsão de Shamma e Klein: surgem Uint ligando vias em razões harmônicas? |
+| K9 | Ruído de banda larga (exploratória, autorizada na D11) | 20 apresentações de R | Previsão de Shamma e Klein: surgem Uint ligando vias em razões harmônicas? |
 | K10 | Permutação da história | Sequência S6 | Efeito de ordem |
 
 # 8. Medidas
@@ -198,18 +203,18 @@ Registros brutos: JSONL por execução (emissões, entregas, disparos, pares pen
 Segue o item 4 da regra de não substituição.
 
 1. Inventário de **todas** as chamadas de UintFactory e UproFactory no código, inclusive indiretas, cada uma classificada (infraestrutura, transdução, regra constitutiva, decisão endógena, controle, intervenção).
-2. Teste automático: o registro precursor da Pcrt **não contém** referência a Uint nem a Upro.
+2. Teste automático: o registro precursor da Pcrt **não contém** referência a Uint nem a Upro, e os atrasos das candidatas não dependem de nenhum intervalo vivido (teste com intervalos alterados deve produzir os mesmos atrasos).
 3. Teste automático: nenhuma Uint muda de estado fora da rotina de entrega.
 4. Busca no código por estruturas indexadas por propriedades do sinal (faixa, frequência, intervalo) que apontem para Uint ou Upro. O único índice permitido é a adjacência origem → Upro de saída, que **é** o mecanismo de propagação.
 5. Execução de K6 e K7 antes de qualquer análise.
 6. Determinismo: duas execuções com a mesma semente produzem o mesmo hash de eventos.
 7. Se algum item falhar, **não executar** a campanha e relatar.
 
-# 10. Critérios (resumo; números propostos, D12)
+# 10. Critérios (resumo; aprovados na D12)
 
 - **Êxito parcial:** 100% de trilha; nenhuma criação em silêncio absoluto; razão de recriação ≤ 0,2; R ≥ 0,8; S ≤ 0,2; K3 e K4 reduzem R em pelo menos 50%; K6 com invariância exata.
 - **Falha:** R < 0,5; ou razão de recriação > 0,5; ou S ≥ 0,8.
-- **Interrupção:** chamada sem trilha; não determinismo; mais de 5.000 Uint ou 50.000 Upro numa execução.
+- **Interrupção:** chamada sem trilha; não determinismo; mais de 5.000 Uint ou 200.000 Upro numa execução, contando candidatas (D12a).
 - **Relato:** separar L1, L2 e L3. Não usar "provou" sem dizer exatamente qual proposição foi testada.
 
 # 11. Implementação prevista (depois do congelamento)
@@ -225,4 +230,6 @@ Segue o item 4 da regra de não substituição.
 2. **Uint triviais de recrutamento:** vias do mesmo ressonador disparam quase juntas e tendem a formar pares. Serão relatadas à parte (D13).
 3. **Ruído também cria:** o controle K8 mede quanto. Se for muito, isso é um resultado.
 4. **Sobreposição espectral entre A e B** (a faixa de 600 Hz recebe o 3º harmônico de A e o 2º de B): limita a seletividade máxima possível. S será interpretado com isso em vista.
-5. **Mamíferos usam inibição** na codificação binaural (Brand et al., 2002): o resultado binaural, se houver, mostra suficiência num sistema agnóstico, não o mecanismo dos mamíferos.
+5. **Mamíferos usam inibição** na codificação binaural (Brand et al., 2002, texto integral via extração): o resultado binaural, se houver, mostra suficiência num sistema agnóstico, não o mecanismo dos mamíferos (perda registrada, D11c).
+6. **Sintonia mais larga que a janela** por causa das candidatas (D5b): até cerca de 0,31 ms no pior caso. A medida "ajuste binaural" mostrará o tamanho real.
+7. **Custo da seleção:** 18 Upro candidatas por Uint antes da poda. O limite de 200.000 Upro (D12a) pode ser atingido se houver milhares de Uint em seleção ao mesmo tempo; nesse caso a execução para e isso é um resultado.
