@@ -44,3 +44,8 @@ O diagnóstico inicial não substitui o PDF completo nem autoriza implementaçã
 | V0.14 | Não foram localizados `v14/pre-experiment-stage1.md` nem `v14/results.md` nos caminhos convencionais. | Conclusão e integralidade documental não verificadas. Não interpretar 404 desses caminhos como prova de ausência em todo o histórico ou em outras branches. |
 
 **Escopo da auditoria:** consultas pontuais à API GitHub, sem listagem recursiva da árvore, sem execução de testes, sem validação empírica. Não substituir arquivos históricos ou atribuir resultados inexistentes. Ver `AUDIT-V13-V14-2026-11-13.md`.
+
+
+### Retificação de integridade (13/11/2026)
+
+A auditoria inicial de V0.13–V0.14 não identificou arquivos já publicados. Foram confirmados os arquivos instrumentais em `v13/instrumental-v0.13.0/`, os exploratórios em `v13/experimental-v0.13.1/` (inclusive o README com resultados) e os estudos diagnósticos em `v14/`. Consulte [a retificação da auditoria](AUDIT-V13-V14-2026-11-13.md#retificação-verificável-posterior--13112026). A presença dos artefatos **não** transforma ensaios exploratórios em validação confirmatória. ZIPs originais e reexecução independente permanecem não verificados.
