@@ -34,3 +34,13 @@ Registro auditável dos experimentos exploratórios de constituição diferida. 
 3. **Resultados:** medidas, testes adversariais, confronto com previsões, limitações e conclusão.
 
 O diagnóstico inicial não substitui o PDF completo nem autoriza implementação. [Método normativo](../docs/program-methodology.md).
+
+## Situação documental V0.12–V0.14 (auditoria de 13/11/2026)
+
+| Versão | Evidência localizada na branch padrão | Estatuto verificável |
+|---|---|---|
+| V0.12 | `v12/pre-experiment-stage1.md` | Diagnóstico inicial; não é pré-registro congelado nem resultado experimental. |
+| V0.13 | `v13/pre-experiment-stage1.md`, `independent-constitutive-analysis.md`, `factory-contract-and-decision-gates.md`, `architecture-comparison-independent.md`, `operational-mechanism-candidates.md` | Fontes conceituais presentes. A consolidação candidata exige fechamento de D1–D4 e congelamento D5 antes de declarar campanha prospectiva. A presença de implementação e resultados completos não foi comprovada nesta auditoria. |
+| V0.14 | Não foram localizados `v14/pre-experiment-stage1.md` nem `v14/results.md` nos caminhos convencionais. | Conclusão e integralidade documental não verificadas. Não interpretar 404 desses caminhos como prova de ausência em todo o histórico ou em outras branches. |
+
+**Escopo da auditoria:** consultas pontuais à API GitHub, sem listagem recursiva da árvore, sem execução de testes, sem validação empírica. Não substituir arquivos históricos ou atribuir resultados inexistentes. Ver `AUDIT-V13-V14-2026-11-13.md`.
