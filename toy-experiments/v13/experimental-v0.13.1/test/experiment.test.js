@@ -1,0 +1,8 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {Experiment,UintFactory,UproFactory} from '../src/core.js';
+function run(channels=['A','B']){const x=new Experiment({repeat:3,linkRepeat:2,bin:2,maxGap:12});let signals=[];for(let i=0;i<12;i++){signals.push({channel:channels[0],amplitude:2,time:10*i},{channel:channels[1],amplitude:4,time:10*i+4});}for(const s of signals.sort((a,b)=>a.time-b.time))x.feed(s);return x.report();}
+test('no representational instances at initialization',()=>{const x=new Experiment();assert.equal(x.uf.units.size,0);assert.equal(x.pf.edges.size,0)});
+test('factories reject direct/manual calls',()=>{const uf=new UintFactory();assert.throws(()=>uf.create({channel:'A',interval:1},{}));const pf=new UproFactory(uf.units);assert.throws(()=>pf.create({source:'x',target:'y',delay:1},{}));});
+test('signals transduced into autonomous Uint and Upro requests',()=>{const r=run();assert.ok(r.units.length>=2);assert.ok(r.edges.length>=1);assert.ok(r.audit.every(a=>a.history.length>0));});
+test('no repeated incidences means no creation',()=>{const x=new Experiment();x.feed({channel:'A',amplitude:2,time:1});assert.equal(x.uf.units.size,0)});
+test('changing signal chronology changes relational constitution',()=>{const a=run();const b=run(['B','A']);assert.notDeepEqual(a.edges.map(e=>[e.source,e.target,e.delay]),[]);assert.notDeepEqual(a.units.map(u=>u.channel),b.units.map(u=>u.channel));});
+test('actual delayed events scheduled by created Upro',()=>{const r=run();assert.ok(r.events.some(e=>e.kind==='delivered'&&e.time>r.edges.find(p=>p.id===e.edge).createdAt));});
