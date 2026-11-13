@@ -80,6 +80,8 @@ Os documentos originais as identificam por códigos. Estão descritas aqui pelo 
 
 **Sobre a primeira constituição** (V0.13):
 
+**Estatuto (esclarecimento do responsável, 13/11/2026):** a ordem de constituição entre Uint e Upro é o que está **em teste** nos toy experiments. A frase das regras de 11/11 ("primeira Uint e pelo menos duas Upro diferentes convergentes são constituídas conjuntamente") não fecha a questão; estas hipóteses continuam abertas.
+
 | Conteúdo | Código no original |
 |---|---|
 | Só há propagação, plasticidade e agrupamentos vistos pelo observador | H0 |
