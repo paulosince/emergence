@@ -2,14 +2,14 @@
 title: "EMERGENCE V0.15 — Pré-experimento (Etapa I)"
 subtitle: "Criação e utilização da representação transduzida — modalidade sonora"
 author: "Responsável: Paulo Rogério da Silva · Redação, deduções e levantamento bibliográfico: assistente (Claude)"
-date: "13/11/2026 — versão candidata 0.2 (decisões D1–D16 tomadas), NÃO congelada"
+date: "13/11/2026 — versão candidata 0.3 (decisões D1–D18 tomadas), NÃO congelada"
 lang: pt-BR
 ---
 
 # Estado deste documento
 
 - **Etapa:** I (pré-experimento) do ciclo obrigatório da [metodologia](../../docs/program-methodology.md).
-- **Estado:** **candidato a congelamento. Não está congelado e não autoriza implementação.** As decisões D1–D16 (e as derivadas D5a, D5b e D12a) foram tomadas pelo responsável em 13/11/2026 (seção 6). Falta só o ato de congelamento, que também é do responsável.
+- **Estado:** **candidato a congelamento. Não está congelado e não autoriza implementação.** As decisões D1–D18 (com as derivadas D5a, D5b, D12a e D17a) foram tomadas pelo responsável em 13/11/2026 (seção 6). Falta só o ato de congelamento, que também é do responsável.
 - **Escopo:** somente som. A visão fica para a V0.16 (decisão do responsável, 13/11/2026: "testamos devagar e evoluímos aos poucos").
 - **Documento irmão:** [especificação do experimento](experiment-spec.md) (Etapa II, também candidata, não executada).
 - **Origem da hipótese:** documento do responsável *Hipótese HCMT V0.15* ("Uma geometria para convergências") e a conversa de 13/11/2026, em que a hipótese foi revista.
@@ -70,7 +70,7 @@ Problema: E1. Hipótese: a incidência atual alcança a organização anterior p
 **HC2 — Utrd estrita.** [R] (13/11/2026)
 "A Utrd lida só com o que se relaciona à transdução, nada além disso." Operacionalmente [A]: converter energia física em incidências e mais nada. A frequência vai **pela via** (cada faixa é um caminho físico), a intensidade vai pelo **número de vias recrutadas** (limiares diferentes; decisão de 11/11 [P]) e o tempo vai pelo **instante** da incidência. Perdas declaradas: sem adaptação da Utrd, sem inibição, sem diferença de nível entre sensores (sombra da cabeça), sem compressão coclear ativa.
 
-**HC3 — A integração governa o disparo.** [A]
+**HC3 — A integração governa o disparo.** [A] (complementada pela D17: só se integram origens distintas)
 Problema: E2. A Uint soma contribuições com a constante de disponibilidade própria ([efeitos v0.1](../../docs/effects-v0.1.md), decisão de 09/11 [P]) e dispara só ao ultrapassar o limiar, com refratariedade. Alternativa: limiar fixo sem decaimento (janela retangular). Perda: a forma exata da janela pode mudar quais encontros contam.
 
 **HC4 — Upro com origem na Utrd.** [R]
@@ -227,7 +227,7 @@ São candidatos, não resultados. Suficiência não prova necessidade.
 | Fibras com limiares | K vias por faixa, limiares em degraus | Recrutamento monotônico | Sem adaptação nem taxa espontânea | Varredura de nível |
 | Acompanhamento de fase | Emissão no cruzamento ascendente do limiar, com refratariedade | Tempo preservado abaixo de cerca de 2,4 kHz | Sem jitter biológico (há o ruído do mundo) | Histograma de fase |
 | Linha de atraso | Atraso escalar da Upro | Chegada deslocada | Sem dispersão nem custo | K4 |
-| Detector de coincidência | Soma com decaimento exponencial e limiar | Janela efetiva = τ·ln(1/(θ−1)) para duas chegadas de magnitude 1 | Sem inibição (Brand et al., 2002) nem dendritos | Varredura de Δt |
+| Detector de coincidência | Soma com decaimento exponencial e limiar, só entre origens distintas (D17) | Janela efetiva = τ·ln(1/(θ−1)) para duas chegadas de magnitude 1 | Sem inibição (Brand et al., 2002), sem dendritos, sem somação de uma só fonte | Varredura de Δt; K11 |
 | Desenvolvimento dos atrasos | Pcrt com seleção entre candidatas (D5) | Produz chegadas coincidentes | Sem fiação herdada nem atividade espontânea | K2, K3 |
 
 **Refinamentos vindos da literatura (D11, decididos):** (a) seleção de atrasos (Gerstner et al., 1996): **condição principal**; (b) exposição a ruído (Shamma e Klein, 2000): **condição exploratória K9**; (c) inibição (Brand et al., 2002; Feng e Wang, 2017): **perda registrada**, candidata para versão futura.
@@ -239,7 +239,7 @@ São candidatos, não resultados. Suficiência não prova necessidade.
 - P1. Uma apresentação de A cria Uint pela Pcrt, todas com trilha completa até incidências de Utrd.
 - P2. Na reapresentação de A (com ruído e fase diferentes), a maioria das Uint criadas na primeira vez dispara **por chegada de Upro** e quase nenhuma Uint nova é criada.
 - P3. Durante B (outro f0, outro lado), as Uint de A disparam muito menos que durante A.
-- P4 (HZ). Surgem Uint com Upro sobreviventes vindas dos dois sensores na mesma faixa, e a diferença entre os atrasos dessas Upro fica próxima da diferença interaural da fonte (cerca de 0,29 ms para 30°, com a geometria proposta). Tolerância esperada: até cerca de 0,31 ms no pior caso (D5b).
+- P4 (HZ). Surgem Uint com Upro sobreviventes vindas dos dois sensores na mesma faixa, e a diferença entre os atrasos dessas Upro fica próxima da diferença interaural da fonte (cerca de 0,29 ms para 30°, com a geometria proposta). Tolerância esperada: a janela efetiva, cerca de 0,21 ms (D6).
 - P5 (HY). Surgem Uint entre vias de faixas diferentes do mesmo sensor, ligando componentes harmônicos de A.
 
 **Negativas:**
@@ -269,7 +269,7 @@ Detalhes na [especificação](experiment-spec.md).
 - Mundo sonoro com duas fontes possíveis em azimute, dois sensores, ruído de fundo com semente.
 - Utrd estrita: 2 sensores × 13 faixas × 3 limiares = 78 vias (proposta, D3/D4).
 - UintFactory e UproFactory com contrato estendido (HC4).
-- Pcrt com: traço por via; coincidência entre fontes distintas [P]; consolidação por recorrência [P] (o mesmo intervalo vivido repetido); criação por não acomodação [P], decidida pela propagação (HC5); criação conjunta de uma Uint com 9 Upro candidatas de cada via (D5, D5a, D5b); seleção das candidatas que contribuem para disparos e poda das demais.
+- Pcrt com: traço por via; coincidência entre fontes distintas [P]; consolidação por recorrência [P] (o mesmo intervalo vivido repetido); criação por não acomodação [P], decidida pela propagação (HC5); criação conjunta de uma Uint com 16 Upro candidatas de cada via (D5, D5a, D5b); Uint que integra só origens distintas (D17, D17a); seleção das candidatas que contribuem para disparos e poda das demais, com remoção da Uint que fique com menos de duas origens (D18).
 - Condições exploratórias: segundo nível (D14) e ruído de banda larga (K9).
 - Propagação: toda incidência sai por **todas** as Upro da via ou da Uint de origem (confirmado pelo responsável em 13/11 para o Sdom; D8 confirma para o EMERGENCE).
 
@@ -297,7 +297,10 @@ Detalhes na [especificação](experiment-spec.md).
 | D4 | Vias de recrutamento por faixa | **3 limiares, 10 dB entre eles** |
 | D5 | Origem do atraso de uma Upro nova | **Só seleção.** O deslocamento (atraso derivado do intervalo vivido) **não** é usado. A poda mínima que a seleção exige fica autorizada para esta condição |
 | D5a | Conjunto de candidatas da seleção | **Nas duas vias do par, sem usar a ordem das emissões nem o intervalo vivido** |
-| D5b | Correção da D5a (problema encontrado pelo assistente: com degrau de 0,2 ms, menor que a janela, chegadas da mesma emissão por candidatas vizinhas somavam-se e faziam a Uint disparar sozinha) | **Degrau de 0,36 ms**: 9 candidatas por via, atrasos de 0,50 a 3,38 ms. A soma de uma via sozinha fica em no máximo cerca de 1,43 (abaixo do limiar 1,5). Qualquer intervalo de até 3 ms fica a no máximo 0,18 ms de uma diferença disponível. Custo declarado: no pior caso, o resíduo de chegadas anteriores permite disparo com descompasso de até cerca de 0,31 ms (sintonia mais larga que a janela de 0,21 ms), o que será medido |
+| D5b | Correção da D5a (problema encontrado pelo assistente: com degrau de 0,2 ms, menor que a janela, chegadas da mesma emissão por candidatas vizinhas somavam-se e faziam a Uint disparar sozinha) | Primeiro resolvida com degrau de 0,36 ms; **depois revista**: com a regra D17, o problema desaparece na própria Uint, e o degrau **volta a 0,2 ms**: 16 candidatas por via, atrasos de 0,5 a 3,5 ms (como na D5a) |
+| D17 | Regra de integração da Uint | **Chegadas da mesma origem não se somam.** "Origem" é a via (ou, no segundo nível, a Uint) de onde a incidência partiu. A Uint só integra contribuições de **origens diferentes**. Motivo do responsável: várias chegadas da mesma emissão ou da mesma via, "podiam ser 30", não estão integrando nada |
+| D17a | Qual chegada vale, dentro da mesma origem | **A mais recente substitui** a contribuição anterior daquela origem (renova, não acumula). A candidata creditada num disparo é a da chegada mais recente de cada origem |
+| D18 | Remoção ao fim da seleção | **A Uint precisa ter Upro sobreviventes de pelo menos duas origens diferentes** ("pode ter mais, não pode ter menos"); senão, é removida com as Upro que restarem |
 | D6 | Tolerância da Pcrt = janela efetiva da Uint (HC6) | **Aprovada** (decorre de HC6) |
 | D7 | Recorrência exigida para constituir | **5 encontros com o mesmo intervalo vivido (dentro da janela) em até 2 s** do relógio do experimento |
 | D8 | A incidência segue por todas as Upro de saída | **Confirmada** para o EMERGENCE, inclusive para as candidatas enquanto existirem |
@@ -311,7 +314,15 @@ Detalhes na [especificação](experiment-spec.md).
 | D15 | Maior intervalo vivido e regra contra *aliasing* | **3 ms; só a emissão mais recente de cada via** |
 | D16 | Ruído de fundo e calibração dos limiares | **Ruído 40 dB abaixo do nível nominal; o som nominal recruta 2 de 3 limiares**; calibração única, antes de qualquer execução, e registrada |
 
-**Regra derivada, a confirmar no congelamento [A]:** ao fim do período de seleção, se uma Uint ficar sem nenhuma candidata sobrevivente de uma das duas vias, ela é removida junto com as Upro restantes. Sem isso, ficaria uma Uint que não pode mais integrar coincidência. Proposta como parte da poda mínima autorizada na D5.
+**Divergência registrada (D17), conforme a regra de divergência da [metodologia](../../docs/program-methodology.md#regra-de-divergência-e-simplificação):**
+
+- *Mecanismo de origem:* na biologia, várias sinapses de um mesmo axônio sobre o mesmo neurônio somam seus efeitos. Isso é inferência do assistente, com confiança média, e não foi verificado nesta sessão.
+- *Necessidade funcional:* na V0.15, as candidatas da seleção replicam a **mesma** emissão por vários atrasos. Somá-las produziria convergência falsa: a Uint dispararia com uma única via.
+- *Alternativa considerada:* espaçar as candidatas para que a soma não alcance o limiar (D5b, 0,36 ms). Foi substituída: tornava a sintonia mais larga e não cobria emissões sucessivas da mesma via nas faixas agudas.
+- *Abstração:* a Uint integra origens distintas; dentro de uma origem, vale a chegada mais recente.
+- *Perdas:* somação temporal de uma única fonte muito ativa (uma via sozinha nunca dispara uma Uint, por mais que emita); facilitação de curto prazo.
+- *Teste que discrimina a perda:* controle K11 (regra desligada), na especificação, que mede quantos disparos de origem única ocorreriam sem a regra.
+- *Aprovação:* responsável, 13/11/2026. *Estado:* não implementado.
 
 **Nomes:** este documento não cria termos novos. Usa "via" (regras de 11/11), "traço", "coincidência entre fontes distintas", "consolidação por recorrência", "criação por não acomodação" (inventário de regras), "intervalo vivido" e "constante de disponibilidade" (efeitos v0.1). Onde precisa descrever algo sem nome aprovado, usa descrição, não termo: por exemplo, "registro local de participação" na especificação. Se o responsável quiser um nome, ele escolhe.
 

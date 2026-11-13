@@ -52,4 +52,4 @@ A auditoria inicial de V0.13–V0.14 não identificou arquivos já publicados. F
 
 ## V0.15 — som (13/11/2026)
 
-Pré-experimento e especificação **candidatos, não congelados, não executados**: [pré-experimento](v15/pre-experiment.md) e [especificação](v15/experiment-spec.md), com PDFs na mesma pasta. Testa a constituição a partir de vazio e o reacesso por propagação, sem índice (lacuna da primeira ponte deixada pela V0.14). O congelamento depende das decisões D1–D16 do responsável. A visão fica para a V0.16.
+Pré-experimento e especificação **candidatos, não congelados, não executados**: [pré-experimento](v15/pre-experiment.md) e [especificação](v15/experiment-spec.md), com PDFs na mesma pasta. Testa a constituição a partir de vazio e o reacesso por propagação, sem índice (lacuna da primeira ponte deixada pela V0.14). As decisões D1–D18 foram tomadas pelo responsável em 13/11/2026; falta o congelamento. A visão fica para a V0.16.

@@ -2,7 +2,7 @@
 title: "EMERGENCE V0.15 — Especificação do experimento (Etapa II, candidata)"
 subtitle: "Criação e utilização da representação transduzida — som"
 author: "Responsável: Paulo Rogério da Silva · Redação: assistente (Claude)"
-date: "13/11/2026 — versão candidata 0.2 (decisões tomadas), NÃO congelada, NÃO executada"
+date: "13/11/2026 — versão candidata 0.3 (decisões D1–D18 tomadas), NÃO congelada, NÃO executada"
 lang: pt-BR
 ---
 
@@ -104,12 +104,13 @@ Total: 2 × 13 × 3 = **78 vias**. Os identificadores das vias são **opacos** (
 - `UintFactory.create(trilha)` → Uint com parâmetros-padrão da infraestrutura: limiar θ_U = 1,5; constante de disponibilidade τ = 0,30 ms; refratariedade 1 ms. Esses valores são infraestrutura, não escolha da Pcrt.
 - **Janela efetiva** para duas chegadas de magnitude 1: W = τ·ln(1/(θ_U − 1)) = 0,30·ln 2 ≈ **0,21 ms** (HC6, D6).
 
-## 5.2 Operação
+## 5.2 Operação (com as regras D17 e D17a)
 
-1. Estado: potencial V, instante da última atualização, fim da refratariedade, lista das contribuições recentes (referência da incidência de origem, instante).
-2. Na chegada de uma entrega: V ← V·exp(−Δt/τ) + magnitude × efeito; acrescenta a contribuição à lista.
-3. Se V ≥ θ_U e a Uint não está refratária: **dispara**. Registra o disparo com as contribuições chegadas nos últimos W ms; V ← 0; entra em refratariedade; emite uma incidência (magnitude 1, efeito +1) por todas as suas Upro de saída.
-4. **Registro local de participação** (descrição, não nome; [A]): cada incidência de origem que contribuiu para o disparo recebe a referência desse disparo. É o único "retorno" da Uint e é local: só toca as incidências que de fato chegaram a ela.
+1. **Estado:** para cada **origem** aferente (via ou Uint de onde partiu a incidência), a chegada mais recente: instante, magnitude × efeito e referência da Upro e da incidência de origem. Também o fim da refratariedade. Esse estado é indexado pela **origem aferente**, nunca por propriedades do sinal.
+2. **Chegada de uma entrega:** a contribuição daquela origem é **substituída** pela nova (D17a). Chegadas da mesma origem não se somam (D17).
+3. **Potencial:** V(t) = Σ, sobre origens distintas, de c_o·exp(−(t − t_o)/τ), em que c_o e t_o são o valor e o instante da chegada mais recente da origem o.
+4. **Disparo:** se V ≥ θ_U e a Uint não está refratária, ela **dispara**. Registra como contribuintes as origens cuja chegada mais recente está nos últimos W ms, com a respectiva Upro (é a candidata creditada na seleção, 6.5). Zera as contribuições, entra em refratariedade e emite uma incidência (magnitude 1, efeito +1) por todas as suas Upro de saída.
+5. **Registro local de participação** (descrição, não nome; [A]): cada incidência de origem creditada no disparo recebe a referência desse disparo. É o único "retorno" da Uint e é local: só toca as incidências que de fato chegaram a ela.
 
 **Invariante verificado em teste:** uma Uint só muda de estado dentro da rotina de entrega. Não existe outro caminho de código que a ative.
 
@@ -139,19 +140,19 @@ Essa decisão consulta só as duas incidências. **Não consulta nenhuma estrutu
 - Registro precursor por par **ordenado de vias** (i, j): lista dos intervalos vividos não acomodados nos últimos T_fecho = 2 s do relógio do experimento (D7).
 - **Portão de recorrência:** se pelo menos n_rec = 5 intervalos da lista estão a menos de W do intervalo mais recente (D6, D7), a Pcrt **constitui conjuntamente**:
   1. `U = UintFactory.create(trilha)`;
-  2. para **cada uma das duas vias** (i e j), 9 Upro candidatas até U, com atrasos fixos 0,50 + 0,36·m ms, m = 0…8, isto é, de 0,50 a 3,38 ms (D5a, D5b).
+  2. para **cada uma das duas vias** (i e j), 16 Upro candidatas até U, com atrasos fixos 0,5 + 0,2·m ms, m = 0…15, isto é, de 0,5 a 3,5 ms (D5a, D5b revista).
 
   **Os atrasos não usam o intervalo vivido nem a ordem das emissões.** O intervalo vivido só serve ao portão de recorrência.
 - Em seguida, o registro precursor do par é **apagado**. **Nenhuma estrutura guarda a referência de U a partir das vias.** A única ligação entre a via e U são as próprias Upro, percorridas por propagação.
 
-**Por que 0,36 ms (D5b):** com τ = 0,30 ms e limiar 1,5, a soma das chegadas da mesma emissão por todas as candidatas de uma via fica em no máximo cerca de 1,43, então uma via sozinha não dispara U. As diferenças de atraso entre candidatas das duas vias são múltiplos de 0,36 ms, de −2,88 a +2,88 ms. Qualquer intervalo vivido de até 3 ms fica a no máximo 0,18 ms de uma delas, e duas chegadas a 0,18 ms somam cerca de 1,55, o que dispara U. **Custo:** no pior caso, o resíduo de chegadas anteriores da mesma via permite disparo com descompasso de até cerca de 0,31 ms.
+**Por que funciona com a regra D17/D17a:** como chegadas da mesma via não se somam, a Uint só dispara quando chegam juntas incidências das **duas** vias. Durante a seleção, as candidatas cobrem todo o intervalo, então U dispara para quase qualquer intervalo vivido. Em cada disparo, porém, só é creditada a candidata de cada via que chegou por último, a mais próxima do encontro. A cada recorrência com o mesmo intervalo vivido, são creditadas as mesmas candidatas. Depois da poda, sobram só elas, e U passa a disparar apenas para o intervalo aprendido (dentro da janela de ~0,21 ms).
 
 ## 6.5 Seleção e poda mínima (D5) [L]+[A]
 
 - **Período de seleção:** 2 s do relógio do experimento a partir da constituição de U.
 - Uma candidata **contribui** quando uma chegada sua está entre as contribuições registradas num disparo de U (seção 5.2, item 3).
 - Ao fim do período, as candidatas que **nunca contribuíram** são removidas. Essa remoção é a poda mínima autorizada na D5 e fica registrada na trilha.
-- **Regra derivada, a confirmar no congelamento:** se U ficar sem nenhuma candidata sobrevivente de uma das duas vias, U é removida com as Upro restantes.
+- **Remoção (D18):** se U ficar com Upro sobreviventes de menos de duas origens diferentes, U é removida com as Upro restantes.
 - Referência: seleção de atrasos (Gerstner et al., 1996; resumo).
 
 ## 6.6 Trilha (obrigatória para cada chamada e cada remoção)
@@ -180,6 +181,7 @@ Todos são executados **fora** da condição experimental e rotulados como contr
 | K8 | Silêncio | (a) Silêncio absoluto, sem ruído; (b) só ruído de fundo durante toda a execução | (a) Nenhuma incidência e nenhuma criação; (b) quanto o ruído sozinho cria, medido |
 | K9 | Ruído de banda larga (exploratória, autorizada na D11) | 20 apresentações de R | Previsão de Shamma e Klein: surgem Uint ligando vias em razões harmônicas? |
 | K10 | Permutação da história | Sequência S6 | Efeito de ordem |
+| K11 | Regra D17 desligada (instrumental) | Mesma execução de S1, mas a Uint soma chegadas da mesma origem | Mede quantos disparos de origem única a regra evita; testa a perda declarada da divergência D17 |
 
 # 8. Medidas
 
@@ -204,7 +206,7 @@ Segue o item 4 da regra de não substituição.
 
 1. Inventário de **todas** as chamadas de UintFactory e UproFactory no código, inclusive indiretas, cada uma classificada (infraestrutura, transdução, regra constitutiva, decisão endógena, controle, intervenção).
 2. Teste automático: o registro precursor da Pcrt **não contém** referência a Uint nem a Upro, e os atrasos das candidatas não dependem de nenhum intervalo vivido (teste com intervalos alterados deve produzir os mesmos atrasos).
-3. Teste automático: nenhuma Uint muda de estado fora da rotina de entrega.
+3. Teste automático: nenhuma Uint muda de estado fora da rotina de entrega; e uma Uint que recebe chegadas de uma só origem nunca dispara (D17).
 4. Busca no código por estruturas indexadas por propriedades do sinal (faixa, frequência, intervalo) que apontem para Uint ou Upro. O único índice permitido é a adjacência origem → Upro de saída, que **é** o mecanismo de propagação.
 5. Execução de K6 e K7 antes de qualquer análise.
 6. Determinismo: duas execuções com a mesma semente produzem o mesmo hash de eventos.
@@ -231,5 +233,5 @@ Segue o item 4 da regra de não substituição.
 3. **Ruído também cria:** o controle K8 mede quanto. Se for muito, isso é um resultado.
 4. **Sobreposição espectral entre A e B** (a faixa de 600 Hz recebe o 3º harmônico de A e o 2º de B): limita a seletividade máxima possível. S será interpretado com isso em vista.
 5. **Mamíferos usam inibição** na codificação binaural (Brand et al., 2002, texto integral via extração): o resultado binaural, se houver, mostra suficiência num sistema agnóstico, não o mecanismo dos mamíferos (perda registrada, D11c).
-6. **Sintonia mais larga que a janela** por causa das candidatas (D5b): até cerca de 0,31 ms no pior caso. A medida "ajuste binaural" mostrará o tamanho real.
-7. **Custo da seleção:** 18 Upro candidatas por Uint antes da poda. O limite de 200.000 Upro (D12a) pode ser atingido se houver milhares de Uint em seleção ao mesmo tempo; nesse caso a execução para e isso é um resultado.
+6. **Disparos amplos durante a seleção:** enquanto as candidatas existem, U dispara para quase qualquer intervalo vivido. Isso é esperado e não entra nas medidas de reacesso, que só começam após o período de seleção.
+7. **Custo da seleção:** 32 Upro candidatas por Uint antes da poda. O limite de 200.000 Upro (D12a) pode ser atingido se houver milhares de Uint em seleção ao mesmo tempo; nesse caso a execução para e isso é um resultado.
