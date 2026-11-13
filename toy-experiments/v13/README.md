@@ -82,6 +82,8 @@ Os documentos originais as identificam por códigos. Estão descritas aqui pelo 
 
 **Estatuto (esclarecimento do responsável, 13/11/2026):** a ordem de constituição entre Uint e Upro é o que está **em teste** nos toy experiments. A frase das regras de 11/11 ("primeira Uint e pelo menos duas Upro diferentes convergentes são constituídas conjuntamente") não fecha a questão; estas hipóteses continuam abertas.
 
+**Reclassificação pelo responsável (13/11/2026):** duas afirmações antes tratadas como regras são **hipóteses**, que precisam se sustentar ou cair nos experimentos: (1) a Upro tem origem e destino efetivos, ou seja, não existem arestas para lugar nenhum (regras de 11/11, seção 4); (2) a Uint integra pelo menos duas Upro aferentes (v43; CONTINUITY). Continua valendo que a Upro parte da Utrd e que não há Utrd ligada diretamente a uma Uint. **Teste pretendido agora pelo responsável:** Upro sem Uint na constituição inicial.
+
 | Conteúdo | Código no original |
 |---|---|
 | Só há propagação, plasticidade e agrupamentos vistos pelo observador | H0 |
@@ -115,7 +117,8 @@ Só o primeiro foi resolvido, por esclarecimento do responsável; os demais segu
 4. **A v43 não é citada** em nenhum dos oito documentos.
 5. **Código ausente.** O protótipo da V0.13 e o pacote do diagnóstico da V0.14 não estão no repositório.
 6. **Uma versão ou duas?** A V0.14 é a auditoria da V0.13, não um experimento novo. Mantê-la como versão separada ou incorporá-la à V0.13 é escolha do responsável; até lá, este registro trata as duas juntas.
-7. **Portões:** o primeiro portão (validação do contrato das factories pelo responsável) não foi cumprido. Nenhum dos seguintes pode ser iniciado antes dele.
+7. **Invariantes do contrato que pressupõem hipóteses em teste.** O [contrato](operational-mechanism-candidates.md) (seção 2, invariante "nenhuma Upro conecta extremos inexistentes") impõe na factory a hipótese de que não há Upro sem destino, e a validação de Uint provavelmente impõe as duas aferências. Com essas invariantes, o toy não pode ver as hipóteses caírem. Para testá-las, a factory precisa permitir Upro sem destino e Uint com uma só aferente, e a ocorrência dessas formas passa a ser observada. **Ajuste a submeter ao responsável.**
+8. **Portões:** o primeiro portão (validação do contrato das factories pelo responsável) não foi cumprido. Nenhum dos seguintes pode ser iniciado antes dele.
 
 ## 8. Próximo passo segundo os próprios documentos
 
