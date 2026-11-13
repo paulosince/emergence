@@ -51,8 +51,10 @@ Fonte: [encerramento da V0.12](v12/final-results-stage3.md).
 
 - **Diretriz das factories (decisão do responsável, 12/11/2026):** factories de Uint e Upro, com suas propriedades operacionais, são infraestrutura dada. Investiga-se a determinação autônoma de se, quando, com quais parâmetros e com quais ligações usá-las, e, separadamente, a constituição de representação. Essa diretriz supera a exigência implícita, de V0.8 a V0.12, de que as unidades surgissem de um meio sem capacidades integradoras.
 - **Regra contra soluções programadas (decisão do responsável, 12/11/2026):** a programação pode fornecer condições de possibilidade, não o resultado investigado. Quem implementa deve encontrar o atalho antes de executar.
-- **Achado da auditoria (inspeção de código, não reproduzível hoje porque o código não está no repositório):** a Uint "reacessada" era recuperada por consulta a um mapa indexado por canal e intervalo; o limiar da Uint não governava a ativação; a intensidade transduzida não participava de nada.
+- **Achado da auditoria (inspeção de código, confirmada contra o código incluído em 13/11/2026):** a Uint "reacessada" era recuperada por consulta a um mapa indexado por canal e intervalo; o limiar da Uint não governava a ativação; a intensidade transduzida não participava de nada.
 - **Nenhum experimento científico da V0.13 ou da V0.14 foi executado.** Há um protótipo instrumental e um diagnóstico A → B → A sem Upro entre as fases.
+
+- **Verificação de 13/11/2026:** a ordem "Uint antes de Upro" estava programada no ensaio exploratório; cada Uint vinha de um único canal e não integrava; canais sem relação também produziam Upro.
 
 Detalhes e ordem lógica: [registro consolidado](v13/README.md).
 

@@ -48,7 +48,7 @@ Registrados aqui para não alterar a história. Corrigir somente com decisão do
 - **Cabeçalho corrompido nos CSV de V0.1, V0.2, V0.3, V0.5 e V0.6:** as duas primeiras linhas são resto de uma extração (`<PARSED TEXT FOR SHEET…>`). Por isso a seção "Resultados registrados" desses `results.md` mostra "unidentified". Os dados abaixo do cabeçalho parecem íntegros. Conferir antes de usar.
 - **Resumo enganoso na V0.4:** a seção "Resultados registrados" mostra, para os três cenários, uma candidata fraca (atraso 0,4 s, C = 0,0288). O CSV mostra que, no cenário associado, as candidatas de 0,2 s e −0,2 s chegaram a C = 1 com 240 confirmações. A conclusão escrita está correta; a amostra numérica não a representa.
 - **PDFs de pré-experimento fora do repositório:** V0.9, V0.10, V0.11 e V0.12 citam PDFs entregues na conversa e nunca incluídos.
-- **Código da V0.13 fora do repositório:** há apenas `v13/prototype/package.json`. A auditoria da V0.14 descreve um `src/core.js` que não está aqui, então o achado do lookup não pode ser verificado por terceiros.
+- **Código da V0.13:** incluído em 13/11/2026 (`v13/instrumental-v0.13.0` e `v13/experimental-v0.13.1`); o achado do lookup foi confirmado contra ele ([verificação](v13/README.md#4b-verificação-contra-o-código-13112026)). O pacote do diagnóstico da V0.14 continua fora.
 - **Interfaces V0.8–V0.11 não testadas em navegador:** os núcleos rodaram em ambiente JavaScript isolado.
 - **Correspondência a confirmar:** as regras de 11/11 citam "toy models V1–V4" sobre confiança, estabilidade, marca e captura seletiva. Não está claro se são as V0.1–V0.4 desta pasta ou outra série.
 

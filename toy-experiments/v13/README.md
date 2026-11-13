@@ -14,7 +14,7 @@
 | 17:25 | Contrato das factories e portões antes da implementação | [contrato e portões](factory-contract-and-decision-gates.md) |
 | 17:54 | Comparação das três alternativas de decisão | [comparação](architecture-comparison-independent.md) |
 | 18:30 | Especificação operacional das alternativas | [candidatos operacionais](operational-mechanism-candidates.md) |
-| 18:53 | Protótipo instrumental (código não incluído no repositório) | [`prototype/package.json`](prototype/package.json) |
+| 18:53 | Protótipo instrumental (código incluído só em 13/11, ver seção 4) | [`prototype/package.json`](prototype/package.json) · [instrumental v0.13.0](instrumental-v0.13.0/) · [exploratório v0.13.1](experimental-v0.13.1/) |
 | 20:57 | **Decisão do responsável:** regra contra soluções programadas; adendo de auditoria | [metodologia](../../docs/program-methodology.md#regra-vinculante-de-não-substituição-do-fenômeno-por-programação-12112026) · [adendo no pré-experimento](pre-experiment-stage1.md#adendo-de-auditoria-v013--proibição-de-soluções-programadas-12112026) |
 | 21:19 | Abertura da V0.14: achado do lookup e diagnóstico A → B → A | [auditoria e diagnóstico](../v14/audit-and-diagnostic.md) |
 | 21:29–21:31 | Dois estudos sobre o reacesso | [estudo de continuidade e reacesso](../v14/constitutive-reaccess-solution-study.md) · [estudo do mecanismo de reacesso](../v14/independent-reaccess-study.md) |
@@ -32,7 +32,7 @@ Como um sistema que dispõe de factories de Uint e Upro determina, por incidênc
 
 ## 4. O protótipo: fornecido, determinado, demonstrado
 
-Separação exigida pelo item 7 da diretriz. Fonte: os documentos da V0.14, que descrevem um `src/core.js` **não incluído no repositório**; nada abaixo pôde ser verificado contra o código.
+Separação exigida pelo item 7 da diretriz. Fonte original: os documentos da V0.14. O código foi incluído pelo responsável em 13/11/2026 ([instrumental v0.13.0](instrumental-v0.13.0/), [exploratório v0.13.1](experimental-v0.13.1/)) e os achados abaixo foram **confirmados contra ele** na seção 4b.
 
 | | Conteúdo |
 |---|---|
@@ -50,6 +50,27 @@ Separação exigida pelo item 7 da diretriz. Fonte: os documentos da V0.14, que 
 - Uma versão ainda anterior do protótipo tinha Uint e Upro iniciais instanciadas à mão e uma relação com orientação e atraso predefinidos. Esses resultados são só instrumentais.
 
 **Consequência registrada:** retirar o mapa sem substituto inviabiliza a constituição atual; trocá-lo por outro reconhecedor programado repetiria o erro. A "limpeza" não está concluída e nenhuma conclusão de reacesso pode ser declarada.
+
+## 4b. Verificação contra o código (13/11/2026)
+
+**Executado pelo assistente, exploratório, não pré-registrado.** Node.js 22.23.4. Os testes de ambos os pacotes passam (7 de 7 e 6 de 6). O ensaio do v0.13.1 reproduz o relatado: 2 Uint em t = 30 e t = 34; 2 Upro em t = 44 e t = 50, atrasos 4 e 6; 14 entregas. Quatro verificações adicionais: [script](verificacao-2026-11-13/check.mjs) · [saída](verificacao-2026-11-13/saida.txt).
+
+**Pacote instrumental v0.13.0.**
+- Aqui a Uint tem limiar, decaimento e refratariedade que **de fato governam** a descarga, e o motor trata eventos simultâneos sem depender da ordem. Upro tem atraso efetivo. Há um portador local com distância e velocidade e um receptor de coincidência.
+- Não existe Utrd como entidade. A factory de Upro exige Uint nas duas pontas, e um teste ("nonexistent endpoints rejected") impõe a hipótese de que não há Upro sem destino, hoje em teste (seção 7, item 7).
+- O roteiro de demonstração cria três Uint e uma Upro à mão, e a função chamada na coincidência, escrita no roteiro, cria Upro com atraso fixo 1. Uso só instrumental, como já registrado.
+- O contador de identificadores é global ao módulo e não reinicia entre motores; cuidado em testes de permutação.
+
+**Pacote exploratório v0.13.1.**
+- **A ordem "Uint antes de Upro" está programada.** Upro só são criadas entre Uint já existentes e ativadas. O ensaio não pode informar o teste de precedência.
+- **Cada Uint nasce da repetição do intervalo de um único canal**, e canal e intervalo ficam guardados como atributos da unidade. Não há Utrd como entidade nem Upro chegando à Uint a partir dela.
+- **A Uint não integra.** A entrega por Upro só incrementa um contador de ativação; o limiar calculado não é usado; a incidência entregue não segue adiante (um único salto).
+- **Lookup confirmado** (verificação 3): apagado o mapa depois da constituição, a reapresentação de A não alcança a Uint de A e cria uma Uint duplicada para o mesmo canal e intervalo. É o caso "reconstituição sem reacesso" da V0.14.
+- **Falso positivo** (verificação 1): dois canais periódicos sem relação entre si (períodos 10 e 7) também produzem 2 Uint e 2 Upro. A Upro registra proximidade temporal dentro da janela, não covariação.
+- **Rótulo de origem forjável** (verificação 2): a factory aceita criação manual com `kind: 'endogenous'` e um histórico qualquer. O teste "factories reject direct/manual calls" só verifica a ausência do rótulo.
+- **Intensidade irrelevante** (verificação 4): amplitudes 0,01 e 1000 dão a mesma organização.
+- **Teste com nome trocado:** "changing signal chronology changes relational constitution" troca os **nomes** dos canais, não a cronologia. O que ele mostra é uma permutação de identificadores.
+- Entregas só são processadas na chegada da incidência seguinte, e o relatório drena eventos até o infinito.
 
 ## 5. Mapa dos assuntos
 
@@ -115,9 +136,9 @@ Só o primeiro foi resolvido, por esclarecimento do responsável; os demais segu
 2. **Variável de elegibilidade.** Os [candidatos operacionais](operational-mechanism-candidates.md), seção 3, introduzem uma variável `eligibility`; as regras de 11/11, seção 6, pedem que não se introduzam campos de elegibilidade como se fossem decisões aprovadas. O documento a declara variável de trabalho, mas o termo não foi aprovado.
 3. **Pcrt ausente das alternativas de decisão.** As três alternativas não mencionam o Pcrt, que a CLEAR v43 e as regras de 11/11 descrevem como o processo que opera antes de existirem Uint, Upro ou Sdom.
 4. **A v43 não é citada** em nenhum dos oito documentos.
-5. **Código ausente.** O protótipo da V0.13 e o pacote do diagnóstico da V0.14 não estão no repositório.
+5. **Código — resolvido em parte.** Os pacotes da V0.13 foram incluídos em 13/11/2026. O pacote do diagnóstico A → B → A da V0.14 continua fora do repositório.
 6. **Uma versão ou duas?** A V0.14 é a auditoria da V0.13, não um experimento novo. Mantê-la como versão separada ou incorporá-la à V0.13 é escolha do responsável; até lá, este registro trata as duas juntas.
-7. **Invariantes do contrato que pressupõem hipóteses em teste.** O [contrato](operational-mechanism-candidates.md) (seção 2, invariante "nenhuma Upro conecta extremos inexistentes") impõe na factory a hipótese de que não há Upro sem destino, e a validação de Uint provavelmente impõe as duas aferências. Com essas invariantes, o toy não pode ver as hipóteses caírem. Para testá-las, a factory precisa permitir Upro sem destino e Uint com uma só aferente, e a ocorrência dessas formas passa a ser observada. **Ajuste a submeter ao responsável.**
+7. **Invariantes do contrato que pressupõem hipóteses em teste.** A [interface comum](operational-mechanism-candidates.md) (seção 2, invariante "nenhuma Upro conecta extremos inexistentes") impõe na factory a hipótese de que não há Upro sem destino, e a validação de Uint provavelmente impõe as duas aferências. Com essas invariantes, o toy não pode ver as hipóteses caírem. Para testá-las, a factory precisa permitir Upro sem destino e Uint com uma só aferente, e a ocorrência dessas formas passa a ser observada. **Ajuste a submeter ao responsável.**
 8. **Portões:** o primeiro portão (validação do contrato das factories pelo responsável) não foi cumprido. Nenhum dos seguintes pode ser iniciado antes dele.
 
 ## 8. Próximo passo segundo os próprios documentos

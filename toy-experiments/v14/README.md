@@ -7,4 +7,4 @@ Documentos, em ordem de leitura:
 2. [Estudo do mecanismo de reacesso](independent-reaccess-study.md): reconstrução do código e falha de identificação experimental
 3. [Estudo de continuidade constitutiva e reacesso](constitutive-reaccess-solution-study.md): alternativas concorrentes e critérios de bloqueio
 
-O código examinado (`src/core.js`) não está no repositório.
+O código da V0.13 examinado foi incluído em 13/11/2026 em [`v13/experimental-v0.13.1`](../v13/experimental-v0.13.1/); o pacote do diagnóstico A → B → A continua fora do repositório.
