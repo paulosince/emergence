@@ -53,3 +53,7 @@ A auditoria inicial de V0.13–V0.14 não identificou arquivos já publicados. F
 ## V0.15 — som (13/11/2026)
 
 Pré-experimento e especificação: [pré-experimento](v15/pre-experiment.md) e [especificação](v15/experiment-spec.md), com PDFs na mesma pasta. Testa a constituição a partir de vazio e o reacesso por propagação, sem índice (lacuna da primeira ponte deixada pela V0.14). Decisões D1–D18 tomadas e documentos **congelados** em 13/11/2026 (versão 1.0). **Encerrada:** a campanha foi interrompida pelo critério pré-registrado (limite de Uint) ainda na 1ª apresentação; reacesso não testado. Ver [resultados](v15/results.md): com candidatas na mesma Uint, a coincidência deixa de ser detectada sob entrada periódica; e, com fases sorteadas, as relações entre faixas (Y) mudam a cada apresentação, enquanto as binaurais (Z) ficam estáveis. A visão fica para a V0.16.
+
+## V0.16 — Etapa I: a hipótese HCMT na literatura (13/11/2026)
+
+Investigação, sem decisões, sobre se a sequência de estágios depois da transdução se organiza por convergências entre canais (Y), espaciais (Z) e temporais (X). Cobre audição, visão, tato, eletrorrecepção e sistema vestibular, com leitura integral dos estudos mais próximos. O [dossiê](v16/dossie-hcmt.md) (PDF na mesma pasta) reúne as quatro partes, a síntese entre os sentidos, as correlações com a HCMT, as pistas e a bibliografia com o estado de leitura de cada fonte.
