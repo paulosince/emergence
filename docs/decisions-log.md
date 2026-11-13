@@ -40,3 +40,6 @@ Decisões anteriores do mesmo dia: coordenadas constitutivas; unidades novas nas
 
 ## 09–10/11/2026 (sessão longa) — resumo
 Ver [CONTINUITY.md](../CONTINUITY.md), seções 2 a 4, e os documentos citados ali: efeitos, surpresa, maturação v2, sono por estados ativos, via eferente, janela exploratória, robô (especificação v1), ambiente, interface de observação, difusão espacial dos moduladores (aprovada), refazer tudo preservando só o domínio.
+
+## 13/11/2026: Upro parte da Utrd
+- **Esclarecimento do responsável:** a Upro parte **necessariamente** da Utrd. No Sdom, unidades se conectam por Upro; não há Utrd conectada diretamente a uma Uint. Consequência registrada: o contrato da factory de Upro da V0.13, que só aceitava Uint nas pontas, contrariava a teoria. Ver [registro consolidado da V0.13–V0.14](../toy-experiments/v13/README.md), seção 7.

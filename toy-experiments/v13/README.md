@@ -103,11 +103,11 @@ Atenção: **os mesmos códigos mudam de sentido entre versões.** Na V0.12, H1 
 | As incidências afetam muitas organizações sem seleção específica | H4; C5 |
 | Uma organização anterior participa seletivamente, mas a tríade não é satisfeita | H5 |
 
-## 7. Conflitos e lacunas não resolvidos
+## 7. Conflitos e lacunas
 
-Nenhum foi resolvido por este documento.
+Só o primeiro foi resolvido, por esclarecimento do responsável; os demais seguem abertos.
 
-1. **Upro a partir de Utrd.** As [regras de 11/11](../../docs/regras-cientificas-e-continuidade-2026-11-11.md), seção 4, dizem que "duas Upro podem partir da mesma Utrd". O contrato da factory na V0.13, segundo a V0.14, só aceita Uint nas pontas, e a V0.14 trata a mudança como revisão de contrato. **Decisão do responsável.**
+1. **Upro a partir de Utrd — resolvido.** **Esclarecido pelo responsável em 13/11/2026:** a Upro parte necessariamente da Utrd; no Sdom, unidades se conectam por Upro, e não há Utrd ligada diretamente a uma Uint. O contrato da factory na V0.13, que segundo a V0.14 só aceita Uint nas pontas, estava **errado em relação à teoria**; não se tratava de revisão opcional de contrato. Ver também as [regras de 11/11](../../docs/regras-cientificas-e-continuidade-2026-11-11.md), seção 4.
 2. **Variável de elegibilidade.** Os [candidatos operacionais](operational-mechanism-candidates.md), seção 3, introduzem uma variável `eligibility`; as regras de 11/11, seção 6, pedem que não se introduzam campos de elegibilidade como se fossem decisões aprovadas. O documento a declara variável de trabalho, mas o termo não foi aprovado.
 3. **Pcrt ausente das alternativas de decisão.** As três alternativas não mencionam o Pcrt, que a CLEAR v43 e as regras de 11/11 descrevem como o processo que opera antes de existirem Uint, Upro ou Sdom.
 4. **A v43 não é citada** em nenhum dos oito documentos.
@@ -117,7 +117,7 @@ Nenhum foi resolvido por este documento.
 
 ## 8. Próximo passo segundo os próprios documentos
 
-1. O responsável valida ou corrige o contrato das factories, incluindo o conflito 1.
+1. Corrigir o contrato das factories para que a Upro parta da Utrd (seção 7, item 1) e submetê-lo à validação do responsável.
 2. Decidir o mecanismo que determina as chamadas às factories, com perdas e alternativas justificadas.
 3. Especificar parâmetros, invariantes, eventos e um cenário sem semântica.
 4. Definir testes e critérios antes de ver resultados.

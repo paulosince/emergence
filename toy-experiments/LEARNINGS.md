@@ -63,7 +63,7 @@ Detalhes e ordem lógica: [registro consolidado](v13/README.md).
 3. Uint precede Upro, Upro precede Uint ou ambas se constituem conjuntamente? **Não discriminado.**
 4. Quais condições operacionais adicionais seriam necessárias para satisfazer a tríade representacional, sem confundir codificação, funcionamento e representação?
 5. Que operações do Pcrt decidem a primeira chamada às factories a partir das incidências das Utrd, e quais parâmetros elas podem calcular legitimamente (por exemplo, o atraso de uma Upro a partir do intervalo entre emissões)? **Aberta; decisão do responsável.**
-6. Uma Upro pode partir de uma Utrd? As regras de 11/11 dizem que sim ("duas Upro podem partir da mesma Utrd"); o contrato da factory da V0.13 só aceita Uint nas pontas. **Conflito não resolvido.**
+6. ~~Uma Upro pode partir de uma Utrd?~~ **Esclarecido pelo responsável em 13/11/2026:** a Upro parte necessariamente da Utrd; no Sdom, unidades se conectam por Upro, e não há Utrd ligada diretamente a uma Uint. O contrato da factory da V0.13, que só aceitava Uint nas pontas, contrariava a teoria.
 7. Como uma incidência atual alcança a organização constituída antes, sem consulta a mapa? Ver as alternativas da V0.14 e a [revisão de 13/11/2026](revisao-2026-11-13.md).
 
 **Conclusão:** o programa avançou de detectores temporais e heurísticas para um meio com memória estrutural operacional e, na V0.13, para uma formulação mais precisa do problema. Ainda não há demonstração de constituição autônoma de Uint, Upro ou representação.
