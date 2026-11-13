@@ -40,3 +40,12 @@ Decisões anteriores do mesmo dia: coordenadas constitutivas; unidades novas nas
 
 ## 09–10/11/2026 (sessão longa) — resumo
 Ver [CONTINUITY.md](../CONTINUITY.md), seções 2 a 4, e os documentos citados ali: efeitos, surpresa, maturação v2, sono por estados ativos, via eferente, janela exploratória, robô (especificação v1), ambiente, interface de observação, difusão espacial dos moduladores (aprovada), refazer tudo preservando só o domínio.
+
+## 13/11/2026: Upro parte da Utrd
+- **Esclarecimento do responsável:** a Upro parte **necessariamente** da Utrd. No Sdom, unidades se conectam por Upro; não há Utrd conectada diretamente a uma Uint. Consequência registrada: o contrato da factory de Upro da V0.13, que só aceitava Uint nas pontas, contrariava a teoria. Ver [registro consolidado da V0.13–V0.14](../toy-experiments/v13/README.md), seção 7.
+
+## 13/11/2026: duas regras reclassificadas como hipóteses
+- **Decisão do responsável:** (1) "a Upro tem origem e destino efetivos; não existem arestas para lugar nenhum" e (2) "a Uint integra pelo menos duas Upro aferentes" **são hipóteses**, a sustentar ou derrubar nos experimentos, não regras. Continua valendo: a Upro parte da Utrd; não há Utrd ligada diretamente a uma Uint.
+- **Próximo teste pretendido:** Upro sem Uint na constituição inicial.
+- **Consequência registrada:** as invariantes das factories que impõem (1) e (2) precisam sair da infraestrutura para que o toy possa observar essas hipóteses caírem ([registro consolidado](../toy-experiments/v13/README.md), seção 7).
+- O documento de [regras de 11/11](regras-cientificas-e-continuidade-2026-11-11.md) foi mantido como estava; esta entrada prevalece sobre a seção 4 dele nesses dois pontos.

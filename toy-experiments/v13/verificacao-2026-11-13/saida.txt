@@ -1,0 +1,5 @@
+1 independente (10 x 7): {"units":["u1:sensor-B/4","u2:sensor-A/5"],"edges":["u2>u1 d8","u1>u2 d9"]}
+1b B quase periodico, fase variavel: {"units":["u1:sensor-A/5","u2:sensor-B/5","u3:sensor-B/6"],"edges":["u1>u2 d12","u1>u3 d12","u2>u1 d8"]}
+2 criacao manual com rotulo falso aceita: true
+3 sem o mapa: ativacao de u1 15 -> 16 ; Uint totais 3 [ 'u1:sensor-A/5', 'u2:sensor-B/5', 'u3:sensor-A/5' ]
+4 intensidade irrelevante: true
