@@ -49,3 +49,7 @@ O diagnóstico inicial não substitui o PDF completo nem autoriza implementaçã
 ### Retificação de integridade (13/11/2026)
 
 A auditoria inicial de V0.13–V0.14 não identificou arquivos já publicados. Foram confirmados os arquivos instrumentais em `v13/instrumental-v0.13.0/`, os exploratórios em `v13/experimental-v0.13.1/` (inclusive o README com resultados) e os estudos diagnósticos em `v14/`. Consulte [a retificação da auditoria](AUDIT-V13-V14-2026-11-13.md#retificação-verificável-posterior--13112026). A presença dos artefatos **não** transforma ensaios exploratórios em validação confirmatória. ZIPs originais e reexecução independente permanecem não verificados.
+
+## V0.15 — som (13/11/2026)
+
+Pré-experimento e especificação **candidatos, não congelados, não executados**: [pré-experimento](v15/pre-experiment.md) e [especificação](v15/experiment-spec.md), com PDFs na mesma pasta. Testa a constituição a partir de vazio e o reacesso por propagação, sem índice (lacuna da primeira ponte deixada pela V0.14). O congelamento depende das decisões D1–D16 do responsável. A visão fica para a V0.16.

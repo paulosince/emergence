@@ -1,0 +1,228 @@
+---
+title: "EMERGENCE V0.15 — Especificação do experimento (Etapa II, candidata)"
+subtitle: "Criação e utilização da representação transduzida — som"
+author: "Responsável: Paulo Rogério da Silva · Redação: assistente (Claude)"
+date: "13/11/2026 — versão candidata 0.1, NÃO congelada, NÃO executada"
+lang: pt-BR
+---
+
+# Estado
+
+- **Nada foi implementado nem executado.** Esta especificação descreve o que será construído **depois** de congelado o [pré-experimento](pre-experiment.md).
+- Todo valor numérico aqui é **proposta** e depende das decisões D1–D16 do pré-experimento. Valores marcados "(D#)" mudam se a decisão mudar.
+- A legenda de estatuto ([R], [A], [L], [P], [C]) é a mesma do pré-experimento.
+
+# 1. Fronteira: fornecido, determinado pelo sistema, demonstrado
+
+| Fornecido (infraestrutura) | Determinado pelo sistema (Pcrt e dinâmica) | A demonstrar (separadamente) |
+|---|---|---|
+| Mundo sonoro e sua física (fontes, azimute, ruído) | **Se e quando** chamar UintFactory e UproFactory | L1: propagação com atrasos medidos |
+| Utrd: ressonadores, retificação, limiares, refratariedade | **Quais vias** são origem de cada Upro | L2: toda criação vem da Pcrt, com trilha completa |
+| UintFactory, UproFactory, seus contratos e valores-padrão | **Qual atraso** cada Upro recebe | L3 parcial: reacesso por propagação, seletividade, dissociação A/A′ |
+| Regras da Pcrt (seção 6) | Quais Uint disparam a cada momento | — |
+| Relógio do experimento, filas de eventos, registro | — | — |
+
+**Proibido na condição experimental** ([regra de não substituição](../../docs/program-methodology.md#regra-vinculante-de-não-substituição-do-fenômeno-por-programação-12112026), item 3): chamar factory a partir do roteiro de estímulos; semear Uint ou Upro; disparar factory por relógio; escolher destino por ID ou índice; qualquer estrutura que associe propriedades do sinal (faixa, intervalo, padrão) a uma Uint ou Upro já existente.
+
+# 2. Mundo sonoro
+
+## 2.1 Geometria [A]
+
+- Dois sensores (E e D) separados por 0,20 m; velocidade do som 343 m/s.
+- Fonte em azimute θ (0° = frente; positivo = direita). Diferença de chegada: Δ = 0,20·sen(θ)/343 s. Exemplo: θ = ±30° → ±0,29 ms; máximo ±0,58 ms.
+- **Sem** sombra da cabeça (sem diferença de nível entre sensores) e sem reverberação. Perdas declaradas.
+
+## 2.2 Geração do sinal [A]
+
+- Taxa de amostragem 32 kHz. Os sinais são somas de senoides calculadas **analiticamente** em t − atraso, sem interpolação de amostras.
+- Ruído de fundo branco gaussiano, **independente por sensor**, com semente própria por apresentação, 40 dB abaixo do nível nominal (D16).
+- Cada apresentação tem fase inicial sorteada para cada componente (semente própria). **Nenhuma apresentação repete a sequência de amostras de outra.**
+- Envelope: rampa cosseno de 10 ms no início e no fim.
+
+## 2.3 Catálogo de estímulos (nomes do observador, nunca entregues ao sistema)
+
+| Estímulo | Conteúdo | Azimute | Duração |
+|---|---|---|---|
+| A | Complexo harmônico, f0 = 200 Hz, harmônicos 1–5, amplitudes iguais, nível nominal | −30° | 300 ms |
+| B | Complexo harmônico, f0 = 300 Hz, harmônicos 1–5, nível nominal | +30° | 300 ms |
+| C | Complexo **inarmônico**: 230, 470, 690, 1.010, 1.270 Hz, nível nominal | 0° | 300 ms |
+| A′ | Igual a A, mas em +30° | +30° | 300 ms |
+| A+ | Igual a A, +12 dB | −30° | 300 ms |
+| R | Ruído de banda larga (K9) | 0° | 300 ms |
+
+## 2.4 Sequências (cada execução começa do zero: zero Uint, zero Upro)
+
+Estrutura comum: 0,5 s de silêncio (só ruído de fundo) → **bloco 1**: 10 apresentações (intervalos de 200 ms) → 1 s de silêncio → **bloco 2**: 10 apresentações → 1 s de silêncio → **bloco de teste**: 5 apresentações.
+
+| Sequência | Bloco 1 | Bloco 2 | Teste | Para quê |
+|---|---|---|---|---|
+| S1 | A | B | A | Reacesso (principal) |
+| S2 | A | B | B | Reacesso de B, controle de ordem |
+| S3 | A | B | C | Sinal novo |
+| S4 | A | B | A′ | Dissociação "o quê" e "onde" (exploratória) |
+| S5 | A | B | A+ | Recrutamento (exploratória) |
+| S6 | B | A | A | Permutação da história (K10) |
+
+**Sementes:** 10 por combinação sequência × condição. Fluxos aleatórios **separados** para ruído, fases iniciais e controles.
+
+# 3. Utrd (borda transdutora) — Utrd estrita [R]
+
+Para cada sensor s ∈ {E, D} e faixa k = 0…12:
+
+1. **Ressonador:** filtro passa-banda de 2ª ordem (biquad), Q = 4, frequência central f_k = 150·2^(k/3) Hz. São 13 faixas de 150 a 2.400 Hz (D3).
+2. **Retificação de meia onda:** r(t) = max(0, y(t)).
+3. **Vias de recrutamento:** j = 0, 1, 2 com limiares θ_j = θ₀·10^(j/2), um degrau de 10 dB (D4). θ₀ é calibrado **uma vez, antes de qualquer execução**, para que o nível nominal ultrapasse θ₀ e θ₁ na faixa de maior resposta, e registrado (D16).
+4. **Emissão:** a via (s, k, j) emite uma incidência quando r(t) cruza θ_j subindo e a via não está refratária. O instante é obtido por **interpolação linear** entre as amostras do cruzamento.
+5. **Refratariedade da via:** 1 ms.
+6. **Incidência emitida:** {id único, via, instante, magnitude = 1, efeito = +1}. Magnitude fixa na fronteira (regras de 11/11 [P]); efeito só excitatório (perda declarada).
+
+Total: 2 × 13 × 3 = **78 vias**. Os identificadores das vias são **opacos** (cadeias sorteadas por semente própria). A física da via não depende do nome.
+
+**A Utrd não faz:** convolução, comparação entre faixas ou entre sensores, detecção de início ou fim, normalização adaptativa. Ela não sabe que há outras vias.
+
+# 4. Upro e UproFactory (contrato estendido, D2)
+
+## 4.1 Contrato
+
+- `UproFactory.create({origem, destino, atraso}, trilha)`
+- **origem:** uma via de Utrd **ou** uma Uint (a segunda só na condição de segundo nível, D14). **destino:** uma Uint existente. Não existe Upro sem destino.
+- **atraso:** número > 0, em ms.
+- **trilha:** referência ao registro da operação da Pcrt que gerou a chamada (seção 6.5). A factory **recusa** a chamada sem trilha válida. Uma trilha válida é uma referência a um registro **criado pelo módulo da Pcrt** no mesmo relógio, verificada por um registro interno ao qual o chamador não tem acesso de escrita.
+- Duplicata (mesma origem, mesmo destino, mesmo atraso) é recusada.
+
+## 4.2 Propagação [P]+[A]
+
+- Quando uma via emite, ou uma Uint dispara, a incidência é entregue por **todas** as Upro que partem dela (D8). Não há seleção de saída.
+- Entrega no instante t + atraso, com a mesma magnitude e o mesmo efeito, e com a referência da incidência de origem.
+- Fila de eventos única ordenada por instante. Empates são resolvidos por número de sequência de criação do evento, que é determinístico.
+- **Sem plasticidade na V0.15:** o atraso e a existência da Upro não mudam depois da criação (exceto nas intervenções de controle K3 e K4, aplicadas por fora e registradas).
+
+# 5. Uint e UintFactory
+
+## 5.1 Contrato
+
+- `UintFactory.create(trilha)` → Uint com parâmetros-padrão da infraestrutura: limiar θ_U = 1,5; constante de disponibilidade τ = 0,30 ms; refratariedade 1 ms. Esses valores são infraestrutura, não escolha da Pcrt.
+- **Janela efetiva** para duas chegadas de magnitude 1: W = τ·ln(1/(θ_U − 1)) = 0,30·ln 2 ≈ **0,21 ms** (HC6, D6).
+
+## 5.2 Operação
+
+1. Estado: potencial V, instante da última atualização, fim da refratariedade, lista das contribuições recentes (referência da incidência de origem, instante).
+2. Na chegada de uma entrega: V ← V·exp(−Δt/τ) + magnitude × efeito; acrescenta a contribuição à lista.
+3. Se V ≥ θ_U e a Uint não está refratária: **dispara**. Registra o disparo com as contribuições chegadas nos últimos W ms; V ← 0; entra em refratariedade; emite uma incidência (magnitude 1, efeito +1) por todas as suas Upro de saída.
+4. **Registro local de participação** (descrição, não nome; [A]): cada incidência de origem que contribuiu para o disparo recebe a referência desse disparo. É o único "retorno" da Uint e é local: só toca as incidências que de fato chegaram a ela.
+
+**Invariante verificado em teste:** uma Uint só muda de estado dentro da rotina de entrega. Não existe outro caminho de código que a ative.
+
+# 6. Pcrt (condição principal: atraso por deslocamento, D5)
+
+Todas as regras abaixo são **infraestrutura fornecida**. O que elas produzem (quais pares, quando, quais atrasos) é o que se observa.
+
+## 6.1 Traço por via [P]
+
+Cada via guarda só a sua **emissão mais recente**: instante e referência da incidência. Esse é o traço da via (D15: só a mais recente, contra *aliasing*).
+
+## 6.2 Coincidência entre fontes distintas [P]
+
+Quando a via j emite a incidência e_j no instante t_j, para **cada outra via** i cujo traço e_i satisfaz 0 ≤ t_j − t_i ≤ Δmax = 3 ms (D15), forma-se um **par candidato pendente** (e_i, e_j) com intervalo vivido Δ = t_j − t_i. Pares da mesma via não existem; pares de vias do mesmo ressonador existem (D13).
+
+## 6.3 Não acomodação, decidida pela propagação [P]+[A]
+
+O par pendente só é avaliado após T_ava = d_base + Δmax + W (tempo máximo para qualquer disparo causado por essas incidências). Na avaliação:
+
+- se e_i e e_j têm **a mesma referência de disparo** no registro local de participação, o par foi **acomodado** por uma Uint existente e é descartado;
+- caso contrário, o par conta como **não acomodado**.
+
+Essa decisão consulta só as duas incidências. **Não consulta nenhuma estrutura que liste Uint ou Upro.**
+
+## 6.4 Consolidação por recorrência [P] → constituição
+
+- Registro precursor por par **ordenado de vias** (i, j): lista dos intervalos vividos não acomodados nos últimos T_fecho = 2 s do relógio do experimento (D7).
+- **Regra:** se pelo menos n_rec = 5 intervalos da lista estão a menos de W do intervalo mais recente (D6, D7), a Pcrt **constitui conjuntamente**:
+  1. `U = UintFactory.create(trilha)`;
+  2. `UproFactory.create({origem: via i, destino: U, atraso: d_base + Δ_rec}, trilha)`;
+  3. `UproFactory.create({origem: via j, destino: U, atraso: d_base}, trilha)`;
+  
+  em que d_base = 0,5 ms e Δ_rec = o intervalo vivido mais recente (deslocamento). Assim, as chegadas futuras de um par com o mesmo intervalo vivido coincidem em U.
+- Em seguida, o registro precursor do par é **apagado**. **Nenhuma estrutura guarda a referência de U a partir das vias.** A única ligação entre a via e U é a própria Upro, percorrida por propagação.
+
+**Limitação declarada:** o atraso por deslocamento é derivado do intervalo vivido. É a mesma linhagem criticada na V0.5. A condição concorrente 6.6 evita esse cálculo.
+
+## 6.5 Trilha (obrigatória para cada chamada)
+
+Cada constituição grava um registro imutável com: ids das incidências de cada intervalo da lista de recorrência → suas vias e instantes → os intervalos vividos → a regra satisfeita (n_rec, W) → os argumentos das chamadas → ids criados. A partir dos ids das incidências, a trilha volta até o estímulo do mundo e a amostra em que a Utrd emitiu.
+
+## 6.6 Condição concorrente: atraso por seleção (se D5 aprovar) [L]+[A]
+
+Diferenças em relação a 6.4: ao satisfazer a recorrência, a Pcrt cria U e, para cada uma das duas vias, M = 7 Upro candidatas com atrasos d_base + m·(Δmax/6), m = 0…6, **sem usar Δ_rec**. Nos 2 s seguintes, as candidatas que nunca contribuíram para um disparo de U são removidas (poda mínima, necessária só para esta condição). Referência: seleção de atrasos (Gerstner et al., 1996).
+
+## 6.7 Condição exploratória de segundo nível (se D14 aprovar)
+
+Os disparos de Uint também deixam traço e participam de 6.2–6.4 como "fontes", pela mesma regra ("recursão pela mesma regra" [P]). Os resultados ficam **fora** dos critérios de êxito.
+
+# 7. Controles e intervenções
+
+Todos são executados **fora** da condição experimental e rotulados como controle.
+
+| Código | Controle | Como | O que discrimina |
+|---|---|---|---|
+| K1 | *Lookup* (controle positivo de H0) | Variante em que o reacesso usa um índice par-de-vias → Uint, no estilo da V0.13 | Mostra a assinatura de H0: insensível a K3 e K4 |
+| K2 | Criação por relógio | Mesmas contagens de Uint e Upro da execução principal de mesma semente, criadas em instantes fixos, com origens sorteadas entre as vias ativas nos últimos 3 ms e atrasos sorteados em [d_base, d_base + Δmax] | Separa "ter Uint" de "ter as Uint certas" |
+| K3 | Origens embaralhadas | Antes do bloco de teste, troca a via de origem de cada Upro por outra sorteada, preservando contagens e atrasos | Testa a dependência da fundamentação transdutiva |
+| K4 | Atrasos embaralhados | Antes do bloco de teste, permuta os atrasos entre as Upro | Testa o conteúdo temporal (M4) |
+| K5 | Ablação | Antes do bloco de teste de S1, remove as Uint criadas no bloco 1 e suas Upro | H1 prevê recriação para A e B intacto |
+| K6 | Permutação de identificadores | Execução inteira com outros ids opacos de vias e Uint, mesma física | Invariância exata a menos da troca de nomes |
+| K7 | Sem observador | Execução sem métricas nem registro detalhado; compara o resumo estrutural final (hash) | O observador não interfere na dinâmica |
+| K8 | Silêncio | (a) Silêncio absoluto, sem ruído; (b) só ruído de fundo durante toda a execução | (a) Nenhuma incidência e nenhuma criação; (b) quanto o ruído sozinho cria, medido |
+| K9 | Ruído de banda larga (exploratória, D11) | 20 apresentações de R | Previsão de Shamma e Klein: surgem Uint ligando vias em razões harmônicas? |
+| K10 | Permutação da história | Sequência S6 | Efeito de ordem |
+
+# 8. Medidas
+
+As etiquetas A e B pertencem ao **observador** e são atribuídas pelo bloco em que cada Uint foi criada. O sistema nunca as recebe.
+
+| Medida | Definição |
+|---|---|
+| N_cria(bloco) | Número de Uint criadas no bloco |
+| Razão de recriação | N_cria(teste) / N_cria(bloco 1) |
+| Reacesso R | Fração das Uint do bloco 1 que disparam pelo menos uma vez por apresentação do teste, por chegada de Upro (média das 5 apresentações) |
+| Seletividade S | Disparos médios por apresentação das Uint do bloco 1 durante o bloco 2, divididos pelos disparos durante o teste A |
+| Classificação por eixo (observador) | Par de vias com sensores diferentes e a mesma faixa → binaural (Z); mesmo sensor, faixas diferentes → entre canais (Y); mesma faixa e sensor, limiares diferentes → recrutamento |
+| Ajuste binaural | Para as Uint binaurais: diferença dos atrasos das duas Upro comparada à diferença de chegada da fonte |
+| Razões harmônicas | Para as Uint entre canais: razão entre as frequências centrais das duas vias (comparar com 2:1, 3:2, 4:3, 5:4) |
+| Completude da trilha | Fração das chamadas de factory com trilha reconstruível até amostras do mundo (deve ser 100%) |
+
+Registros brutos: JSONL por execução (emissões, entregas, disparos, pares pendentes, constituições, intervenções). Resumo em CSV por execução. Versão do código (commit), parâmetros e sementes em cada arquivo.
+
+# 9. Auditoria antes da execução (obrigatória)
+
+Segue o item 4 da regra de não substituição.
+
+1. Inventário de **todas** as chamadas de UintFactory e UproFactory no código, inclusive indiretas, cada uma classificada (infraestrutura, transdução, regra constitutiva, decisão endógena, controle, intervenção).
+2. Teste automático: o registro precursor da Pcrt **não contém** referência a Uint nem a Upro.
+3. Teste automático: nenhuma Uint muda de estado fora da rotina de entrega.
+4. Busca no código por estruturas indexadas por propriedades do sinal (faixa, frequência, intervalo) que apontem para Uint ou Upro. O único índice permitido é a adjacência origem → Upro de saída, que **é** o mecanismo de propagação.
+5. Execução de K6 e K7 antes de qualquer análise.
+6. Determinismo: duas execuções com a mesma semente produzem o mesmo hash de eventos.
+7. Se algum item falhar, **não executar** a campanha e relatar.
+
+# 10. Critérios (resumo; números propostos, D12)
+
+- **Êxito parcial:** 100% de trilha; nenhuma criação em silêncio absoluto; razão de recriação ≤ 0,2; R ≥ 0,8; S ≤ 0,2; K3 e K4 reduzem R em pelo menos 50%; K6 com invariância exata.
+- **Falha:** R < 0,5; ou razão de recriação > 0,5; ou S ≥ 0,8.
+- **Interrupção:** chamada sem trilha; não determinismo; mais de 5.000 Uint ou 50.000 Upro numa execução.
+- **Relato:** separar L1, L2 e L3. Não usar "provou" sem dizer exatamente qual proposição foi testada.
+
+# 11. Implementação prevista (depois do congelamento)
+
+- Node.js 22, ESM, sem dependências (padrão das versões anteriores).
+- Pasta `toy-experiments/v15/`: `src/world.js`, `src/utrd.js`, `src/factories.js`, `src/engine.js` (fila, entrega, integração), `src/pcrt.js`, `src/controls.js`, `src/metrics.js`, `src/run.js`; `test/`; `results/` (dados brutos preservados); `README.md`; `results.md` (Etapa III).
+- Gerador pseudoaleatório com semente e fluxos separados.
+- Custo estimado: dezenas de milhares de emissões por segundo simulado, cada uma comparada com até 77 traços. É viável em Node num computador comum, mas o custo real será medido e registrado.
+
+# 12. Riscos conhecidos antes de executar
+
+1. **Explosão de pares:** vias com resposta forte e periódica podem gerar muitas Uint por consistência de fase (*aliasing*, como na V0.3). Mitigação: só a emissão mais recente (D15). O número será medido, não escondido.
+2. **Uint triviais de recrutamento:** vias do mesmo ressonador disparam quase juntas e tendem a formar pares. Serão relatadas à parte (D13).
+3. **Ruído também cria:** o controle K8 mede quanto. Se for muito, isso é um resultado.
+4. **Sobreposição espectral entre A e B** (a faixa de 600 Hz recebe o 3º harmônico de A e o 2º de B): limita a seletividade máxima possível. S será interpretado com isso em vista.
+5. **Mamíferos usam inibição** na codificação binaural (Brand et al., 2002): o resultado binaural, se houver, mostra suficiência num sistema agnóstico, não o mecanismo dos mamíferos.

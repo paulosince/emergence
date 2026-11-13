@@ -20,6 +20,7 @@
 | Ciclo sono-vigília com pressão glial territorial, interruptor biestável e renormalização num sistema constitutivo | Mecanismo | proposta | baixa a média | Modulação cíclica |
 | Detectores operacionais derivados de teorias (entidade, self, Orientação, valia) com parada que falha fechada | Ética e monitoramento | proposta | média | Ética e monitoramento |
 | Metodologia com registro explícito de equivalências agnósticas de substrato | Processo | registrada | baixa | Pode compor qualquer artigo |
+| Constituição a partir de vazio de convergências entre canais e binaurais por coincidência recorrente, com reacesso por propagação sem índice (V0.15) | Mecanismo | proposta (pré-experimento candidato) | baixa a média | Motor constitutivo |
 
 ## 1. Artefato de latência dos instrumentos
 - **O que temos:** no controle TEMPO, as relações constituídas na sala refletem as latências dos transdutores. Com latências igualadas, nenhuma relação; com latências permutadas, o padrão acompanha a permutação em 100%; em 12 mundos, o padrão é idêntico ([relatório](latency-control-v0.1.md)).
@@ -88,11 +89,19 @@
 - **Falta:** busca de precedentes; aprovação da [proposta](effects-v0.1.md).
 - **Atualização (09/11/2026):** integrado ao [desenho da versão 2](engine-v2-design-proposal.md). A medida de surpresa por contexto negativo (seção 8) pode ser candidata a contribuição; precisa de busca sobre medidas de surpresa sem predição explícita.
 
+## 10. Reacesso por propagação sem índice, na modalidade sonora (V0.15, proposta)
+- **Origem:** hipótese HCMT V0.15 do responsável, revista em 13/11/2026; desenho no [pré-experimento V0.15](../toy-experiments/v15/pre-experiment.md).
+- **O que existe:** linhas de atraso com detecção de coincidência (Jeffress, 1948; Carr e Konishi, 1990); seleção hebbiana de atrasos (Gerstner et al., 1996); moldes harmônicos por coincidência entre canais cocleares (Shamma e Klein, 2000); topologia de sensores por correlação (Pierce e Kuipers, 1997). Estado de leitura de cada fonte registrado no pré-experimento.
+- **O que seria novo, se demonstrado:** constituição autônoma, a partir de zero Uint e zero Upro, de convergências entre canais e binaurais por uma única regra da Pcrt, com reacesso por propagação auditável e sem índice; e a exigência de tolerância de constituição igual à janela efetiva da Uint (dedução do assistente, não aprovada).
+- **Para alegar:** executar a V0.15 após congelamento; busca de anterioridade sobre constituição a partir de vazio com reacesso sem *lookup* em vida artificial e redes de impulsos com crescimento estrutural (não feita).
+- **Estado:** proposta. Nada implementado.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
 3. Critérios de representação em interpretabilidade, comparados aos critérios de engrama.
 4. Protocolos de segurança para pesquisa de sistemas potencialmente sencientes.
+5. Constituição a partir de vazio com reacesso sem índice (V0.15).
 
 ## Referências novas deste documento (verificadas quanto à existência, por resumo)
 - Butlin, P., Long, R. et al. (2023). Consciousness in artificial intelligence: insights from the science of consciousness. arXiv:2308.08708.
