@@ -20,6 +20,7 @@
 | Ciclo sono-vigília com pressão glial territorial, interruptor biestável e renormalização num sistema constitutivo | Mecanismo | proposta | baixa a média | Modulação cíclica |
 | Detectores operacionais derivados de teorias (entidade, self, Orientação, valia) com parada que falha fechada | Ética e monitoramento | proposta | média | Ética e monitoramento |
 | Metodologia com registro explícito de equivalências agnósticas de substrato | Processo | registrada | baixa | Pode compor qualquer artigo |
+| Delimitação da autonomia representacional: regras gerais programáveis, distinções particulares não; com testes refutáveis (13/11/2026) | Método de avaliação | proposta (não aprovada) | não avaliada (sem busca) | Metodologia de avaliação |
 
 ## 1. Artefato de latência dos instrumentos
 - **O que temos:** no controle TEMPO, as relações constituídas na sala refletem as latências dos transdutores. Com latências igualadas, nenhuma relação; com latências permutadas, o padrão acompanha a permutação em 100%; em 12 mundos, o padrão é idêntico ([relatório](latency-control-v0.1.md)).
@@ -87,6 +88,12 @@
 - **O que seria novo (hipótese, não verificado):** a formulação da CLEAR em que Utrd, Upro e Uint podem todas acrescentar efeito e magnitude à mesma incidência, separando sinal (soma) e magnitude (0–1). Provavelmente equivalente a formulações conhecidas; não alegar novidade sem busca.
 - **Falta:** busca de precedentes; aprovação da [proposta](effects-v0.1.md).
 - **Atualização (09/11/2026):** integrado ao [desenho da versão 2](engine-v2-design-proposal.md). A medida de surpresa por contexto negativo (seção 8) pode ser candidata a contribuição; precisa de busca sobre medidas de surpresa sem predição explícita.
+
+## 10. Delimitação da autonomia representacional (proposta, 13/11/2026)
+- **O que temos:** proposta do assistente, não aprovada, na [revisão de 13/11/2026](../toy-experiments/revisao-2026-11-13.md): pode-se programar regras que valem para quaisquer canais, tempos e intensidades; não se pode programar quais distinções particulares existem. Seis testes refutáveis, entre eles operar a distinção constituída depois de desligar o registro auxiliar do Pcrt.
+- **Precedentes:** a própria CLEAR v43 (exemplo do termostato) dá o princípio; a proposta só o operacionaliza. Nenhuma busca bibliográfica feita.
+- **Novo (talvez):** o conjunto de testes como critério de autonomia para sistemas constitutivos artificiais. Confiança na novidade não avaliada.
+- **Para alegar:** aprovação do responsável; busca em avaliação de aprendizado não supervisionado e em interpretabilidade (identificabilidade, equivariância a permutação).
 
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
