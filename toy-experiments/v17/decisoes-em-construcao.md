@@ -25,6 +25,7 @@
 
 | Exuberância sem explosão (ponderação 5, parte 2) | **Combinação** das três: (1) a fibra define a faixa de atrasos que cada sentido oferece; (2) começa com poucas candidatas, espaçadas proporcionalmente (mais próximas nos atrasos curtos, mais afastadas nos longos); (3) novas candidatas brotam perto das que quase acertaram, com passo também proporcional. Esperado: o mesmo algoritmo termina fino no som e largo na visão, sem cobrir tudo de saída. "Quase-acerto" é descrição, não termo aprovado | 16/11 |
 | Modalidade da V0.17 | **Som** (retoma a decisão de 13/11; a V0.15 serve de base e de fracasso conhecido para comparação) | 16/11 |
+| Ramos em Uint diferentes | **Subteste dentro da V0.17**, com e sem a possibilidade de uma Upro ter ramos terminando em Uint diferentes (aresta com várias pontas). **Princípio:** traz complexidade; se funcionar sem, melhor; se fizer falta, usa-se | 16/11 |
 | O que passa entre versões | O que passa adiante é o que vem codificado para construir, não o que foi construído: **parâmetros**. Os experimentos fazem o papel da evolução; o que prevalece nos testes entra adaptado na versão seguinte. **Salvaguarda:** entre versões só passam parâmetros, nunca estrutura consolidada (malhas, atrasos escolhidos, Uint); cada parâmetro que passa leva o registro do teste que o fez prevalecer | 16/11 |
 
 ## Em aberto
