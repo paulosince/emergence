@@ -1,17 +1,17 @@
 ---
 title: "EMERGENCE V0.17 — Pré-experimento (Etapa I)"
-subtitle: "Matemática multidimensional transdutiva: uma Pcrt de construção gradual — modalidade sonora"
+subtitle: "Matemática multidimensional transdutiva: uma Pcrt de construção gradual — Bach numa sala, ouvido por um robô parado"
 author: "Responsável: Paulo Rogério da Silva · Redação, deduções e levantamento bibliográfico: assistente (Claude)"
-date: "16/11/2026 — RASCUNHO v0.1, NÃO CONGELADO"
+date: "16/11/2026 — RASCUNHO v0.2, NÃO CONGELADO (substitui a v0.1; histórico no git)"
 lang: pt-BR
 ---
 
 # Estado deste documento
 
 - **Etapa:** I (pré-experimento) do ciclo obrigatório da [metodologia](../../docs/program-methodology.md).
-- **Estado:** **rascunho para revisão do responsável.** Nada aqui autoriza implementação. As decisões já tomadas estão em [decisões em construção](decisoes-em-construcao.md); as que faltam estão na seção 6, com recomendação do assistente.
-- **Antes de congelar:** executar o **ensaio mínimo do mecanismo** (seção 5.4), lição 5 da V0.15 ("os dois achados teriam aparecido em minutos").
-- **Escopo:** somente som (decisão do responsável, 16/11/2026).
+- **Estado:** rascunho para revisão. Nada aqui autoriza implementação. Decisões tomadas: [decisões em construção](decisoes-em-construcao.md). Decisões pendentes: seção 6.
+- **O que mudou da v0.1:** o cenário do responsável (16/11/2026) substitui as "famílias de estímulo" propostas pelo assistente: sala, dois alto-falantes, gravação real de Bach, robô parado, três execuções. As previsões foram refeitas para esse mundo.
+- **Antes de congelar:** ensaio mínimo do mecanismo (seção 5.4).
 
 ## Legenda de estatuto
 
@@ -19,16 +19,16 @@ lang: pt-BR
 |---|---|
 | **[R]** | Decisão ou hipótese do responsável |
 | **[A]** | Dedução ou proposta do assistente (não aprovada, salvo indicação) |
-| **[L]** | Resultado da literatura, com o que foi efetivamente lido |
+| **[L]** | Literatura, com o que foi efetivamente lido |
 | **[P]** | Regra já aprovada no programa |
-| **[C]** | Fato verificado no código ou nos resultados de versões anteriores |
+| **[C]** | Fato verificado no código, nos resultados ou nas medidas |
 
-## Leitura rápida (linguagem simples)
+## Leitura rápida
 
-1. **O que deu errado antes.** Na V0.15, a Pcrt criava uma Uint pronta, com 16 candidatas de força total, e o sistema explodiu na primeira apresentação. Na V0.16, a diferença que se queria testar nem chegava às Utrd.
-2. **A ideia que testamos.** Uma só Pcrt, que trabalha sobre o que falhou, cria estrutura **fraca e provisória**, deixa o mundo selecionar, e só consolida o que **acerta de novo**. Nenhum tipo de convergência é programado. As dimensões (entre sensores, entre faixas, no tempo, por recrutamento) devem aparecer porque a transdução as faz variar.
-3. **O que o experimento pode mostrar.** Que a construção gradual não explode; que o que é estável no mundo consolida e o que é instável não; e que convergências de tipos diferentes surgem pela mesma regra.
-4. **O que ele não pode mostrar.** Que isso já é representação no sentido da tríade CLEAR, nem que é o mecanismo do cérebro.
+1. **O mundo.** Uma sala de 2 × 2 × 3 m. Dois alto-falantes em paredes opostas tocam uma gravação real da Tocata e Fuga em Ré menor, de Bach, em estéreo, sem alterações. O robô está parado, de lado para os alto-falantes, mais perto de um deles. A peça toca três vezes.
+2. **A ideia.** Uma só Pcrt trabalha sobre o que falhou, cria estrutura fraca e provisória e só consolida o que acerta de novo. Nenhum tipo de convergência é programado. O mundo seleciona.
+3. **O que se pode mostrar.** Que a construção gradual não explode; que o que é estável no mundo (onde estão as fontes) consolida mais que o que é instável (coincidências entre notas); e que o consolidado é reacessado nas execuções seguintes.
+4. **O que não se pode mostrar.** Representação no sentido da tríade CLEAR, nem que este é o mecanismo do cérebro.
 
 # 1. Erros identificados nas versões anteriores
 
@@ -36,125 +36,129 @@ lang: pt-BR
 
 | # | Erro | Versão | Estatuto |
 |---|---|---|---|
-| E1 | Candidatas de **peso cheio** na mesma Uint, com "a chegada mais recente substitui", tornam a coincidência quase sempre presente sob entrada periódica: a Uint dispara a 977/s (teto de 1.000/s) e o crédito se espalha por igual entre as candidatas | V0.15 | [C] resultados, achado 1 |
-| E2 | A Pcrt reconstituía o mesmo par: até 15 Uint no mesmo par em 150 ms; 1.555 pares em 150 ms com 42 vias ativas; limite de 5.000 Uint atingido na 1ª apresentação | V0.15 | [C] |
-| E3 | A estrutura nascia pronta: a Uint e as candidatas já participavam com força total no instante da criação. No modelo neurobiológico, a construção é gradual (seção 4.2.3) | V0.15 | [C]+[L] |
-| E4 | As três condições produziam resultado idêntico: com 16 × 12 pixels, o caule não ocupava nenhum pixel e as duas câmeras davam a mesma imagem | V0.16 | [C] análise de 15/11/2026 |
-| E5 | A origem da regra da Uint era a Utrd, e não a Upro | V0.16 | [C]; correção do responsável em 15/11/2026 |
-| E6 | O motor da V0.16 recebia uma malha aleatória de Uint pronta, sem Pcrt | V0.16 | [C] |
-| E7 | Implementação da V0.16 sem pré-experimento congelado | V0.16 | [C] |
+| E1 | Candidatas de peso cheio na mesma Uint, com "a chegada mais recente substitui", tornam a coincidência quase sempre presente sob entrada periódica (977 disparos/s; teto de 1.000/s); crédito espalhado por igual | V0.15 | [C] |
+| E2 | Reconstituição do mesmo par: até 15 Uint em 150 ms; 1.555 pares em 150 ms; limite de 5.000 Uint na 1ª apresentação | V0.15 | [C] |
+| E3 | Estrutura nascida pronta, com força total no instante da criação | V0.15 | [C] |
+| E4 | A diferença testada não chegava às Utrd (caule sem pixel; câmeras idênticas) | V0.16 | [C] |
+| E5 | Origem da regra da Uint era a Utrd, não a Upro | V0.16 | [C] |
+| E6 | Malha de Uint aleatória dada pronta, sem Pcrt | V0.16 | [C] |
+| E7 | Implementação sem pré-experimento congelado | V0.16 | [C] |
 
 ## 1.2 Limitações e lacunas herdadas
 
 | # | Item | Estatuto |
 |---|---|---|
-| L1 | Com fases sorteadas por apresentação, o intervalo entre faixas (Y) muda a cada repetição do mesmo som; entre sensores (Z) fica estável (0,292 ms para 0,2915 ms) | [C] V0.15, achado 2 |
-| L2 | Reacesso, seletividade e dependência dos atrasos **nunca foram testados** (V0.15 interrompida) | [C] |
-| L3 | Convergências temporais (X) ficaram fora da V0.15 (D9) | [C] |
-| L4 | A pré-seleção de dimensões pelo observador (classificar Uint como Z, Y, recrutamento) é medida, não mecanismo; deve continuar só no observador | [P] |
+| L1 | Com fases variando, o intervalo entre faixas muda a cada repetição; entre sensores, fica estável (0,292 ms para 0,2915 ms) | [C] V0.15 |
+| L2 | Reacesso nunca testado | [C] V0.15 |
+| L3 | Faixas da V0.15 (150–2.400 Hz) perderiam 11,4% da energia da gravação abaixo de 150 Hz e 11,3% entre 2,4 e 8 kHz | [C] [caracterização](gravacao.md) |
 
 # 2. Hipóteses corretivas
 
-**HC1 — Construção gradual.** [R] (16/11/2026)
-Problema: E1, E2, E3. A coincidência não gera estrutura pronta; a estrutura vai sendo construída conforme a coincidência se repete. Operacionalmente [A]: a candidata nasce com força pequena, ganha força a cada acerto e some se não acerta. Alternativa: força cheia com poda tudo-ou-nada (V0.15, refutada na prática). Perda possível: se a força inicial for pequena demais, nada chega a acertar e nada se constitui.
+**HC1 — Construção gradual.** [R] Problema: E1–E3. A candidata nasce fraca, ganha força a cada acerto e some se não acerta [A].
 
-**HC2 — A Pcrt trabalha sobre o que falhou.** [R] (15/11/2026)
-Insumo: incidências que expiraram sem integração e caminhos favorecidos que não dispararam. Num Sdom virgem, tudo é insumo. Corresponde à criação por não acomodação [P], já decidida pela propagação na V0.15 (HC5 da V0.15).
+**HC2 — A Pcrt trabalha sobre o que falhou.** [R] Incidências que expiraram sem integração; caminhos favorecidos que não dispararam. Corresponde à criação por não acomodação [P].
 
-**HC3 — O laço da Pcrt.** [R] (15/11/2026)
-Fixa uma incidência sem integração e testa as outras; depois avança. "As outras" são as incidências com **rastro vivo** (orientação aceita, 15/11/2026).
+**HC3 — O laço da Pcrt.** [R] Fixa uma incidência sem integração e testa as outras com rastro vivo; depois avança.
 
-**HC4 — Coordenação de tempos por exuberância guiada.** [R] (16/11/2026)
-A Pcrt não calcula atrasos. Combinação aprovada: (1) a fibra define a faixa de atrasos; (2) poucas candidatas iniciais, espaçadas proporcionalmente; (3) novas candidatas brotam perto das que quase acertaram, com passo proporcional. [A] Para não reintroduzir o cálculo da V0.5, o brotamento **não usa o tamanho nem o sinal do erro**: brota dos dois lados da candidata que quase acertou, e a seleção decide.
+**HC4 — Exuberância guiada.** [R] A fibra define a faixa de atrasos; poucas candidatas iniciais, espaçadas proporcionalmente; novas brotam perto das que quase acertaram, com passo proporcional. [A] O brotamento não usa o tamanho nem o sinal do erro: brota dos dois lados, e a seleção decide.
 
-**HC5 — Recorrência é a mesma candidata que acerta de novo.** [R] (16/11/2026)
-Resolve parte de E1: a V0.15 creditava qualquer candidata presente; aqui só a repetição do acerto **da mesma candidata** a fortalece.
+**HC5 — Recorrência é a mesma candidata que acerta de novo.** [R]
 
-**HC6 — Origem é a Upro.** [R] (15/11/2026)
-Corrige E5. Upros diferentes da mesma Utrd são origens distintas.
+**HC6 — Origem é a Upro.** [R] Corrige E5.
 
-**HC7 — O mundo seleciona; o estímulo precisa conter as relações.** [R] (16/11/2026)
-Corrige E4. Cada relação que se quer ver emergir precisa estar no estímulo e chegar às Utrd; isso é verificado **antes** de executar (seção 9, item 1).
+**HC7 — O estímulo precisa conter as relações, e elas precisam chegar às Utrd.** [R] Corrige E4. Verificação prévia já feita para a gravação ([caracterização](gravacao.md)); a verificação dos sinais **nos microfones** é parte do ensaio mínimo.
+
+**HC8 — Faixas e emissão adequadas ao mundo.** [R] Corrige L3: 64 faixas na escala ERB, de ~50 Hz a 8 kHz; emissão no ciclo abaixo de um limite (proposta: 2,4 kHz) e pelo envelope acima. 2 × 64 × 3 = 384 vias.
 
 # 3. Hipóteses a validar
 
-## 3.1 Hipótese principal e concorrentes
+## 3.1 Principal e concorrentes
 
 | Hipótese | Enunciado | Estatuto |
 |---|---|---|
-| **HM** (multidimensional) | Uma única Pcrt, sem tipo de convergência programado, constitui convergências de tipos diferentes (entre sensores, entre faixas, temporais, por recrutamento) conforme o que a transdução faz variar; e **consolida as relações estáveis no mundo**, não as instáveis | [R] hipótese; operacionalização [A] |
-| **H-nula** | A consolidação não depende da estabilidade da relação: relações estáveis e instáveis consolidam igual, ou como no controle por relógio | [A] |
-| **H-explosão** | A construção gradual não impede a proliferação: o número de candidatas e Uint cresce sem se estabilizar com a repetição | [A]; é a hipótese que matou a V0.15 |
-| **H-aliasing** | Consolidam pares coerentes **módulo o período** do som, e não a relação verdadeira (por exemplo, a diferença entre sensores mais um período) | [A]; deduzida do mecanismo da V0.15 |
-| **H1** (herdada) | Na reapresentação, as incidências percorrem as Upro consolidadas e alcançam as mesmas Uint, sem recriação | [C] V0.15; nunca testada |
+| **HM** | Uma única Pcrt, sem tipo programado, constitui convergências de tipos diferentes conforme o que a transdução faz variar, e **consolida relativamente mais as relações estáveis no mundo** | [R]; operacionalização [A] |
+| **H-nula** | A consolidação não depende da estabilidade: a proporção de cada tipo entre as consolidadas é a mesma que entre as criadas | [A] |
+| **H-explosão** | A construção gradual não impede a proliferação | [A] |
+| **H-aliasing** | Consolidam pares coerentes módulo o período das notas, e não a relação espacial verdadeira | [A] |
+| **H1** (herdada) | Na reexecução, as incidências percorrem as Upro consolidadas e alcançam as mesmas Uint, sem recriação | [C] V0.15, nunca testada |
+| **H-trivial** | O reacesso aparente vem só de a mesma gravação se repetir idêntica, e não da organização | [A]; ver D16 |
 
-## 3.2 Observações discriminantes
+## 3.2 O que é estável e o que é instável neste mundo [A]
 
-| Observação | HM | H-nula | H-explosão | H-aliasing |
-|---|---|---|---|---|
-| Uint entre sensores consolidam com diferença de atraso ≈ diferença de chegada da fonte | sim | talvez | — | consolidam também em Δ ± k·período |
-| Uint entre faixas com fases sorteadas | não consolidam (ou muito menos) | consolidam igual | — | — |
-| Uint entre faixas com fases fixas (controle) | consolidam | igual ao sorteado | — | — |
-| Número de candidatas ao longo das apresentações | sobe e estabiliza | — | sobe sem parar | — |
-| Sons de f0 diferentes no mesmo azimute | a relação entre sensores é a mesma; o *aliasing* some | — | — | o *aliasing* muda com f0 |
+| Relação | Estável? | Por quê |
+|---|---|---|
+| Entre os dois ouvidos, para cada alto-falante | **Sim** | As fontes e o robô não se movem |
+| Entre a chegada do alto-falante próximo e a do distante | **Parcial** | ~2,3 ms de diferença fixa, mas os canais têm correlação de só 0,48 [C] |
+| Entre faixas da mesma nota quando ela volta | **Em parte** | Depende de o mesmo tubo soar de novo; a reverberação da igreja embaralha |
+| Entre faixas de notas que coincidem por acaso | **Não** | Mudam conforme a música anda |
+
+## 3.3 Observações discriminantes
+
+| Observação | HM | H-nula | H-explosão | H-aliasing | H-trivial |
+|---|---|---|---|---|---|
+| Proporção de Uint entre ouvidos: consolidadas ÷ criadas | > 1 | ≈ 1 | — | — | — |
+| Diferença de atraso consolidada entre ouvidos | ≈ diferença de chegada de cada alto-falante | qualquer | — | ≈ diferença ± k·período | — |
+| Número de candidatas ao longo das 3 execuções | sobe e estabiliza | — | sobe sem parar | — | — |
+| Reacesso com ruído de fundo independente por execução | mantém-se | — | — | — | cai |
 
 # 4. Aplicação integral do método
 
 ## 4.1 Fenômeno e fronteiras
 
-**Fenômeno:** a transformação de sinais sonoros em organização Uint/Upro de vários tipos de convergência, por uma única regra de construção, e a seleção pelo mundo do que se consolida.
+**Fenômeno:** a transformação dos sinais sonoros de uma sala real em organização Uint/Upro de vários tipos de convergência, por uma única regra de construção gradual, com seleção pelo mundo.
 
-**Dentro da explicação:** Utrd, incidências, Pcrt, factories, propagação, integração, construção gradual, poda.
-
-**Fora (fornecido):** o mundo sonoro, a física dos sensores, as regras da Pcrt, as factories, as propriedades físicas das fibras [R]. **Não fornecido:** a janela efetiva que se consolida e os atrasos que ficam [R].
-
-**Condições anteriores à constituição:** zero Uint, zero Upro de destino constituído; vias de Utrd existentes.
-
-**Fora desta versão (proposta [A], decisão D11):** repetição interna, neuromodulação, inibição, sono.
+**Fornecido:** a sala, os alto-falantes, a gravação, a propagação até os microfones (incluindo a sombra da cabeça), as Utrd, as factories, as regras da Pcrt e as propriedades físicas das fibras [R].
+**Não fornecido:** a janela efetiva que se consolida, os atrasos que ficam, os tipos de convergência [R].
+**Condições anteriores:** zero Uint; nenhuma Upro com destino constituído.
+**Fora desta versão:** movimento e reflexos do robô [R]; tempestade [R]; reverberação completa da sala do robô [R]; repetição interna, neuromodulação, inibição, sono (proposta [A], D11); lateralização (hipótese futura [R]).
 
 ## 4.2 Investigação neurobiológica
 
-**Ordem metodológica:** as hipóteses foram formuladas na conversa de 15–16/11/2026 antes de cada busca; a literatura confronta, não é incorporada automaticamente. **Estado de leitura** entre parênteses; nada foi lido em texto integral nesta rodada.
+**Ordem metodológica:** hipóteses formuladas na conversa de 15–16/11/2026 antes de cada busca. **Estado de leitura** entre parênteses; nenhuma fonte desta rodada foi lida em texto integral.
 
 ### 4.2.1 Quantas repetições, em quanto tempo
-- [L] A plasticidade dependente do tempo dos disparos exige tipicamente 60–100 pares (revisão de Feldman, 2012; **trechos**). Bi e Poo (1998): 60 pares a 1 Hz (Bi, 2002; **trechos**). Outros protocolos: 10 pares a 5 Hz; 50–100 a 0,3 Hz (tabela de revisão PMC3589711; **trechos**).
-- [L] Em córtex, pareamentos a 0,1 Hz não potenciam; a potenciação aparece em frequências mais altas (Sjöström et al., 2001; **resumo e trechos**). Preparações divergem: em cultura, há potenciação em frequência baixa (Pfister e Gerstner, 2006, comparando conjuntos de dados; **trechos**).
-- [L] Espaçamento: um segundo episódio 10 ou 30 min depois não acrescenta; 60 min ou mais depois dobra a potenciação já saturada (Kramár et al., 2012; **resumo e trechos**).
-- **Confronto:** sustenta a faixa aceita pelo responsável (crescer com 10–100 acertos; estabilizar em episódios espaçados).
+- [L] Tipicamente 60–100 pares na plasticidade dependente do tempo dos disparos (revisão de Feldman, 2012; **trechos**); 60 pares a 1 Hz em Bi e Poo, 1998 (Bi, 2002; **trechos**); outros protocolos de 10 pares a 5 Hz até 50–100 a 0,3 Hz (tabela de revisão PMC3589711; **trechos**).
+- [L] Pareamentos lentos (0,1 Hz) não potenciam em córtex (Sjöström et al., 2001; **resumo e trechos**); preparações divergem (Pfister e Gerstner, 2006; **trechos**).
+- [L] Espaçamento: um segundo episódio 60 min depois dobra a potenciação; 10 ou 30 min depois não acrescenta (Kramár et al., 2012; **resumo e trechos**).
 
 ### 4.2.2 Quanto tempo o material fica disponível
-- [L] Traços de elegibilidade de segundos com terceiro fator (revisão de Gerstner et al., 2018; **resumo**); janela de 0,3–2 s para dopamina após a coativação (Yagishita et al., 2014; **resumo**); potenciação de entradas que chegam segundos antes e depois (Bittner et al., 2017; **resumo e trechos**); etiqueta que decai em menos de 3 h (Frey e Morris, 1997; **resumo**); reativação por até 10 h, meia-vida de ~6 h (Giri et al., 2019; **resumo**).
-- **Confronto:** sustenta HC3 (rastro vivo). A escala de horas é incompatível com a duração de um toy; ver D9.
+- [L] Traços de elegibilidade de segundos (Gerstner et al., 2018; **resumo**); janela de 0,3–2 s (Yagishita et al., 2014; **resumo**); segundos antes e depois (Bittner et al., 2017; **resumo e trechos**); etiqueta que decai em menos de 3 h (Frey e Morris, 1997; **resumo**); reativação por até 10 h (Giri et al., 2019; **resumo**).
 
 ### 4.2.3 A estrutura nasce provisória
-- [L] Espinhas novas surgem rápido e já funcionais (Kwon e Sabatini, 2011, córtex em desenvolvimento; **resumo**), mas a maioria é transitória e raramente se torna persistente (Holtmaat e Svoboda, 2009; **pontos-chave**). Proporções: ~20% duram cerca de 1 dia, ~50% mais de 8 dias (Trachtenberg et al., 2002; **secundária**, por notícia). 70% das novas com densidade pós-sináptica somem em 4 dias (Cane et al., 2014; **secundária**, por comentário).
-- [L] Estímulos que induzem potenciação aumentam a sobrevida de espinhas novas **individuais** (> 14 h) (Hill e Zito, 2013; **resumo**).
-- **Confronto:** sustenta HC1 e HC5. A sobrevida é decidida espinha a espinha, como "a mesma candidata que acerta de novo".
+- [L] Espinhas novas surgem rápido e funcionais (Kwon e Sabatini, 2011; **resumo**), mas a maioria é transitória (Holtmaat e Svoboda, 2009; **pontos-chave**; Trachtenberg et al., 2002, proporções por **fonte secundária**; Cane et al., 2014, por **comentário**). Estímulos que induzem potenciação aumentam a sobrevida de espinhas novas individuais (> 14 h) (Hill e Zito, 2013; **resumo**).
 
 ### 4.2.4 Onde brota o novo
-- [L] Após potenciação, espinhas novas funcionais se agrupam perto de sinapses ativadas (De Roo et al., 2008; **resumo**).
-- **Confronto:** sustenta o item (3) de HC4. A literatura fala em proximidade **espacial** no dendrito; a HC4 usa proximidade **de atraso**. A equivalência é proposta [A], não demonstrada.
+- [L] Espinhas novas se agrupam perto de sinapses ativadas (De Roo et al., 2008; **resumo**). A HC4 usa proximidade de **atraso**, não espacial: equivalência proposta [A].
 
-### 4.2.5 Um mesmo axônio, vários contatos
-- [L] Axônios fazem com frequência dois, três ou mais contatos no mesmo dendrito (Kasthuri et al., 2015; **resumo e notícia**); um mesmo axônio forma contatos agrupados no tufo distal de CA1, cerca de 25% das sinapses ali e cerca de 1% nos dendritos proximais (Bloss et al., 2018; **resumo e trechos**, confiança média nos números).
-- **Confronto:** sustenta a existência de ramos [R] e a pergunta da D2 (as candidatas são ramos?).
+### 4.2.5 Um axônio, vários contatos
+- [L] Contatos múltiplos do mesmo axônio no mesmo dendrito (Kasthuri et al., 2015; Bloss et al., 2018; **resumos e trechos**).
 
-### 4.2.6 O mesmo algoritmo com fontes diferentes
-- [L] Furões com fibras da retina desviadas para a via auditiva formam módulos de orientação no córtex auditivo, com mapa menos ordenado (Sharma, Angelucci e Sur, 2000; **resumo**) e comportamento visual mediado por essa via, com acuidade menor (von Melchner, Pallas e Sur, 2000; **resumo**).
-- **Confronto:** sustenta "um algoritmo, resultados diferentes conforme as fibras" [R]. A diferença de ordem é atribuída pelo responsável ao que a evolução fixou e aqui terá de ser construído.
+### 4.2.6 O mesmo algoritmo, fontes diferentes
+- [L] Córtex auditivo que recebe fibras da retina forma módulos de orientação, com mapa menos ordenado (Sharma, Angelucci e Sur, 2000; von Melchner, Pallas e Sur, 2000; **resumos**).
 
-### 4.2.7 Herdado da V0.15 (não relido)
-Linhas de atraso e detecção de coincidência (Jeffress, 1948; Carr e Konishi, 1990); seleção hebbiana de atrasos (Gerstner et al., 1996); moldes harmônicos por coincidência e retificação (Shamma e Klein, 2000); inibição na codificação binaural de mamíferos (Brand et al., 2002); tonotopia (Greenwood, 1990); recrutamento (Sachs e Abbas, 1974; Liberman, 1978). Estado de leitura na bibliografia da [V0.15](../v15/pre-experiment.md#8-bibliografia-com-estado-de-leitura).
+### 4.2.7 Onde os dois ouvidos se encontram
+- [L] O complexo olivar superior é o primeiro nível que recebe informação dos dois lados da cabeça; a maior parte das fibras cruza, mas a maior parte da via é binaural (StatPearls, NBK532311; texto de referência da Taylor & Francis; **trechos**).
+- **Confronto:** as convergências entre ouvidos que a V0.17 estuda pertencem a esse nível, anterior a qualquer hemisfério. Justifica deixar a lateralização fora.
+
+### 4.2.8 Especialização dos hemisférios (para o futuro)
+- [L] Proposta de resolução temporal melhor à esquerda e espectral à direita (Zatorre, Belin e Penhune, 2002; **resumo**); a predisposição se liga à informação temporal rápida, não ao conteúdo, e é modificável (Tervaniemi e Hugdahl, 2003; **resumo**).
+
+### 4.2.9 Duas fontes do mesmo som
+- [L, de memória, **não verificado nesta rodada**] Efeito de precedência: com duas chegadas do mesmo som separadas por poucos milissegundos, a primeira domina a localização (revisão de Litovsky et al., 1999). A sombra da cabeça gera diferença de nível sobretudo nos agudos (teoria duplex de Rayleigh, 1907).
+- **Confronto:** sustenta a previsão P3 (domínio do alto-falante próximo). Como os canais da gravação não são iguais, a situação é intermediária entre "uma fonte com eco" e "duas fontes".
+
+### 4.2.10 Herdado da V0.15 (não relido)
+Linhas de atraso (Jeffress, 1948; Carr e Konishi, 1990); seleção de atrasos (Gerstner et al., 1996); moldes harmônicos (Shamma e Klein, 2000); inibição binaural em mamíferos (Brand et al., 2002); tonotopia (Greenwood, 1990); recrutamento (Sachs e Abbas, 1974; Liberman, 1978); fase até alguns kHz (Johnson, 1980; Verschooten et al., 2019).
 
 ## 4.3 Reconstrução causal
 
 | Elo | Biologia | Estatuto | Equivalente na V0.17 |
 |---|---|---|---|
-| 1 | Coincidência repetida inicia mudança | [L] | Acerto de uma candidata |
-| 2 | A estrutura nova nasce fraca e provisória | [L] | Candidata com força inicial pequena |
-| 3 | Só a estrutura que volta a ser coativada se estabiliza | [L] | Força cresce por acerto; estabilização em episódios espaçados |
-| 4 | O que não se repete desaparece | [L] | Candidata sem acerto some |
-| 5 | O novo brota perto do que foi ativado | [L] (espacial) | Brotamento perto do quase-acerto (de atraso) [A] |
+| 1 | Som chega aos dois ouvidos com diferença de tempo e de nível | física | Propagação na sala, com sombra da cabeça |
+| 2 | A cóclea separa por lugar; fibras com limiares diferentes | [L] | 64 faixas ERB × 3 limiares |
+| 3 | Fase acompanhada até alguns kHz; acima, envelope | [L] | Emissão no ciclo / pelo envelope (HC8) |
+| 4 | Coincidência repetida inicia mudança; o novo nasce fraco | [L] | Acerto; candidata fraca (HC1) |
+| 5 | Só o que volta a ser coativado se estabiliza | [L] | Força por acerto da mesma candidata (HC5) |
 | 6 | Relações estáveis no mundo se repetem; instáveis não | **inferência** | Seleção pelo mundo (HM) |
 
 O elo 6 é o objeto do experimento.
@@ -163,117 +167,126 @@ O elo 6 é o objeto do experimento.
 
 | Mínimo | Função | Contraexemplo procurado |
 |---|---|---|
-| M1 Força inicial pequena | Impedir que o acaso tenha força total | Explosão mesmo com força pequena (H-explosão) |
-| M2 Fortalecimento por acerto da mesma candidata | Selecionar o que se repete | Crédito espalhado por igual, como na V0.15 |
-| M3 Desaparecimento sem acerto | Limitar o crescimento | Número de candidatas sem patamar |
+| M1 Força inicial pequena | O acaso não ganha força total | Explosão mesmo assim |
+| M2 Força pelo acerto da mesma candidata | Selecionar o que se repete | Crédito espalhado (V0.15) |
+| M3 Desaparecimento sem acerto | Limitar o crescimento | Sem patamar |
 | M4 Brotamento local | Refinar sem cobrir tudo | Brotamento que cobre a faixa inteira |
-| M5 Variedade no mundo | Eliminar *aliasing* | Consolidação em Δ ± k·período (H-aliasing) |
+| M5 Mundo com relações estáveis e instáveis | Haver o que selecionar | Proporções iguais entre tipos (H-nula) |
 
 ## 4.5 Abstração agnóstica (com perdas)
 
 | Propriedade biológica | Abstração [A] | Perdas | Teste |
 |---|---|---|---|
-| Espinha nova fraca e provisória | Candidata com força inicial f₀ < 1 | Sem forma, sem PSD, sem estados intermediários | M1, controle sem gradualidade (K-grad) |
-| Potenciação por coincidência repetida | Força cresce Δf por acerto, até 1 | Sem dependência de frequência (Sjöström) | Varredura de taxa de apresentação |
-| Estabilização por episódios espaçados | Estado estável após acertos em episódios separados | Escala de horas comprimida (D9) | Apresentações maciças × espaçadas |
-| Eliminação | Candidata sem acerto por um prazo some | Sem dependência de LTD | Contagem ao longo do tempo |
-| Brotamento perto do ativado | Ramo novo com atraso vizinho (± passo proporcional) | Proximidade de atraso, não espacial | Sem brotamento (K-brot) |
+| Espinha nova fraca e provisória | Força inicial f₀ < 1 | Sem forma nem estados intermediários | M1 |
+| Potenciação por coincidência repetida | +Δf por acerto, até 1 | Sem dependência de frequência | — |
+| Estabilização por episódios espaçados | Estável após acertos em execuções diferentes | Escala de horas comprimida (D9) | Comparação entre execuções |
+| Eliminação | Sem acerto por um prazo, some | Sem LTD | Contagem no tempo |
+| Brotamento perto do ativado | Ramo vizinho, ± passo proporcional | Proximidade de atraso, não espacial | — |
+| Sombra da cabeça | Modelo de cabeça simplificado (D15) | Sem pavilhão, sem tronco | Diferença de nível medida nos microfones |
 
 ## 4.6 Previsões
 
 **Positivas (se HM):**
-- P1. O número de candidatas sobe nas primeiras apresentações e **estabiliza** (patamar), sem atingir os limites de interrupção.
-- P2. Surgem e consolidam Uint entre sensores, na mesma faixa, cuja diferença de atraso entre as candidatas consolidadas fica a menos de uma janela da diferença de chegada da fonte (≈ 0,29 ms a 30°).
-- P3. Com **fases sorteadas**, as Uint entre faixas consolidam **muito menos** que as entre sensores. Com **fases fixas** (controle), consolidam.
-- P4. Variando f0 no mesmo azimute, as Uint entre sensores consolidam na diferença verdadeira, e não em Δ ± k·período.
-- P5 (subteste com regra de distinção por emissão). Surgem Uint de uma só Upro, sintonizadas no período do som (e em Δ/2, Δ/3, ambiguidade esperada [R]). Sem a regra, não surgem.
-- P6. Na reapresentação, as Uint consolidadas disparam por chegada de Upro, com pouca criação nova (H1).
+- **P1 (patamar).** O número de candidatas sobe na 1ª execução e estabiliza; nas 2ª e 3ª, a criação nova é bem menor que na 1ª.
+- **P2 (seleção pelo mundo).** A proporção de Uint entre ouvidos é maior entre as **consolidadas** que entre as **criadas**.
+- **P3 (onde).** As Uint entre ouvidos consolidadas têm diferença de atraso próxima da diferença de chegada de um dos alto-falantes (com a geometria do exemplo, ±0,29 ms), mais vezes a do **próximo**.
+- **P4 (contra o aliasing).** Essa diferença não se espalha em Δ ± k·período.
+- **P5 (reacesso).** Nas execuções 2 e 3, as Uint consolidadas na 1ª disparam por chegada de Upro, mesmo com ruído de fundo independente por execução (D16).
+- **P6 (subteste da regra de distinção por emissão).** Com a regra, surgem Uint de uma só Upro, sintonizadas em periodicidades (com Δ/2, Δ/3); sem ela, não surgem.
 
 **Negativas:**
-- N1. Silêncio: nada se cria.
-- N2. Só ruído de fundo: pode criar candidatas, mas não consolida (ou consolida muito menos que com som).
-- N3. Controle por relógio, com as mesmas contagens: sem seletividade.
-- N4. Permutação de identificadores: invariância exata.
-- N5. Embaralhar os atrasos das candidatas consolidadas: o reacesso cai.
+- N1 silêncio: nada se cria. N2 só ruído de fundo: pode criar candidatas, mas consolida muito menos. N3 criação por relógio com as mesmas contagens: sem seletividade nem reacesso. N4 permutação de identificadores: invariância exata. N5 embaralhar os atrasos consolidados antes da 3ª execução: o reacesso cai.
 
-**Limites esperados:**
-- Com a regra de distinção por emissão, o risco de *aliasing* de uma via consigo mesma aumenta (cada via passa a coincidir com o próprio passado). Previsão [A]: mais Uint de uma só Upro, mas a gradualidade deve conter a explosão. Se não conter, é um resultado do subteste.
+**Exploratórias (sem critério):** a diferença fixa de ~2,3 ms entre as chegadas dos dois alto-falantes consolida como relação temporal? As primeiras reflexões (subexperimento b) reduzem P3?
 
 ## 4.7 Limites e refutações
 
-- **Refuta HM nesta implementação:** P1 falha (sem patamar), ou P3 falha (fases sorteadas consolidam tanto quanto fixas), ou P4 falha (consolida o *aliasing*).
+- **Refuta HM nesta implementação:** P1 falha (sem patamar), ou P2 falha (proporções iguais), ou P4 falha.
+- **Indica H-trivial:** o reacesso some quando cada execução tem ruído de fundo independente.
 - **Não refuta a CLEAR:** falhas refutam esta Pcrt e estes parâmetros.
 
 # 5. Hipóteses de trabalho e previsão de alcance
 
-## 5.1 O que se pretende implementar (proposta [A])
+## 5.1 O que se pretende implementar
 
-- Mundo sonoro da V0.15 (geometria, ruído, fases sorteadas por padrão), com **famílias de estímulo em que um atributo varia de cada vez** (D10): só azimute; só f0; só nível; fases fixas × sorteadas. Depois, combinações.
-- Utrd estrita da V0.15: 2 sensores × 13 faixas × 3 limiares = 78 vias [P].
-- Pcrt de construção gradual (HC1–HC5), com as decisões da seção 6.
-- Subtestes [R]: (a) regra de distinção por emissão, com e sem; (b) ramos terminando em Uint diferentes, com e sem.
+**Mundo** [R]+[A]:
+- Sala de 2 × 2 m, 3 m de altura. Dois alto-falantes no meio de paredes opostas, na altura da cabeça do robô (proposta, D19).
+- Robô parado, sem reflexos, de lado para os alto-falantes, deslocado: exemplo de 0,6 m de um e 1,4 m do outro (D14). Cabeça a ~0,355 m do chão; microfones a 10 cm um do outro [C] modelo do robô.
+- Gravação [R]: Ashtar Moïra, domínio público, original sem alterações, estéreo, 513,56 s, SHA-256 em [gravacao.md](gravacao.md). Canal esquerdo no alto-falante próximo.
+- Propagação: atraso e atenuação por distância; sombra da cabeça (D15); subexperimentos (a) sem reflexões e (b) primeiras reflexões [R].
+- Microfones a 48 kHz (especificação do robô); a reamostragem de 44,1 para 48 kHz é parte da simulação da propagação, não alteração da gravação [A].
+- Sequência: 3 execuções completas, com silêncio entre elas (D16).
 
-## 5.2 O que se pode testar e o que se poderia demonstrar
+**Sistema:** Utrd de 384 vias (HC8); Pcrt de construção gradual (HC1–HC5) com as decisões da seção 6; Uint com janela que pode se estreitar pela construção [R].
 
-| Nível | Pode demonstrar | Não pode |
+**Ordem dos subexperimentos** [R]: primeiro (a) e (b), com a regra de distinção por emissão ligada e ramos só na mesma Uint; depois, só em (a), os subtestes da regra (com e sem) e de ramos em Uint diferentes (com e sem).
+
+## 5.2 O que se pode demonstrar
+
+| Nível | Pode | Não pode |
 |---|---|---|
-| L1 transmissão | Propagação com atrasos medidos | — |
-| L2 constituição | Construção gradual autônoma e rastreável, com patamar | Que esta Pcrt é a mínima ou a necessária |
-| L3 representação | Evidência **parcial**: seleção pelo mundo (estável × instável), reacesso | A tríade CLEAR |
+| L1 transmissão | Propagação com atrasos e níveis medidos nos microfones | — |
+| L2 constituição | Construção gradual autônoma e rastreável, com patamar | Que esta Pcrt é mínima ou necessária |
+| L3 representação | Evidência **parcial**: seleção pelo mundo (P2–P4) e reacesso (P5) | A tríade CLEAR |
 
-## 5.3 Critérios (propostos [A]; decisão D12)
+## 5.3 Critérios (propostos [A]; D12)
 
-- **Êxito parcial:** 100% de trilha; P1 (patamar antes dos limites); P2; P3 com razão de consolidação Z/Y (fases sorteadas) ≥ 5; P4; N1–N4.
-- **Falha:** sem patamar até o fim da execução; ou P3 com razão < 2; ou P4 falha.
-- **Interrupção:** chamada sem trilha; não determinismo; limites de recursos (propostos: 5.000 Uint ou 200.000 ramos/Upro, como na V0.15).
+- **Êxito parcial:** 100% de trilha; P1 (criação na 2ª execução ≤ 20% da 1ª); P2 (razão consolidadas ÷ criadas para Uint entre ouvidos ≥ 2); P3; P5 (reacesso ≥ 80% das consolidadas); N1–N4.
+- **Falha:** sem patamar; ou P2 com razão < 1,2; ou P4 falha.
+- **Interrupção:** chamada sem trilha; não determinismo; limites de recursos (D18).
 
 ## 5.4 Ensaio mínimo do mecanismo (obrigatório antes de congelar)
 
-Lição 5 da V0.15. Um par de vias, sinal periódico, com as regras da seção 6 já decididas:
-1. a candidata certa ganha mais força que as vizinhas? (contra o crédito espalhado da V0.15);
-2. o número de candidatas forma patamar?
-3. com o período mudando, o *aliasing* deixa de consolidar?
-O ensaio é **instrumental**, rotulado como controle de engenharia, e seus parâmetros não podem ser ajustados para "fazer funcionar" depois de visto o resultado sem que isso seja registrado.
+Instrumental, rotulado como controle de engenharia:
+1. **Sinais nos microfones:** conferir, com a geometria escolhida, as diferenças de chegada e de nível de cada alto-falante (lição da V0.16).
+2. **Um par de vias, sinal periódico:** a candidata certa ganha mais força que as vizinhas? Há patamar?
+3. **Trecho de 10 s da gravação, 384 vias:** medir o custo real por segundo simulado e estimar o da campanha.
 
 # 6. Decisões pendentes do responsável
 
-Recomendação do assistente entre parênteses; **a decisão é do responsável**.
+Recomendação do assistente entre parênteses.
 
 | # | Decisão | Opções |
 |---|---|---|
-| D1 | Unidade das candidatas | (a) **cada candidata é um ramo de uma única Upro** por par via → Uint; (b) cada candidata é uma Upro própria. *(Recomendo a: com a origem sendo a Upro, candidatas como Upros próprias seriam origens distintas, e a mesma emissão por duas candidatas faria a Uint disparar com uma só via, o problema da D5b da V0.15)* |
-| D2 | O que é um acerto | (a) chegadas de origens distintas dentro da janela na Uint, **mesmo abaixo do limiar** (favorecimento); (b) só quando a Uint dispara. *(Recomendo a: com força inicial pequena, a Uint nova quase nunca dispararia, e nada seria selecionado)* |
-| D3 | Força inicial e incremento | Proposta: força inicial 0,1; +0,065 por acerto, até 1 (cerca de 10 acertos até 0,75 cada, suficiente para duas origens passarem o limiar de 1,5). *(Dentro da faixa 10–100 aceita)* |
-| D4 | Desaparecimento | Candidata sem acerto por um prazo some; a Uint some se ficar com menos de duas origens [P] (D18 da V0.15). Prazo: ver D9 |
-| D5 | Faixa de atrasos da fibra (som) | Proposta: 0,5 a 20 ms (cobre a diferença entre sensores e períodos de f0 entre ~50 e 400 Hz). *(O limite de 20 ms é escolha minha, sem fonte)* |
-| D6 | Candidatas iniciais | Proposta: 6 por via, espaçamento proporcional na faixa da D5 |
-| D7 | O que é quase-acerto, e o passo do brotamento | Proposta: chegada de origem distinta entre 1 e 3 janelas; brotar um ramo de cada lado, com passo de 10% do atraso. Sem usar o tamanho nem o sinal do erro (HC4) |
-| D8 | Janela e limiar da Uint | Manter os da V0.15 como infraestrutura: limiar 1,5, constante 0,30 ms, janela ≈ 0,21 ms [C] |
-| D9 | Escala de tempo | O toy dura segundos; a biologia, horas e dias. Proposta: expressar estabilização e desaparecimento **em blocos de apresentação** (por exemplo, estabiliza com acertos em 3 blocos separados; some após 5 blocos sem acerto), preservando a ordem crescer < estabilizar < sumir. Perda declarada: compressão de escala |
-| D10 | Famílias de estímulo | Um atributo de cada vez, depois combinações (seção 5.1) |
-| D11 | Repetição interna | Fora da V0.17 *(recomendo: isola o efeito da construção gradual; entra numa versão própria)* |
-| D12 | Critérios | Aprovar, ajustar ou substituir os da seção 5.3 |
-| D13 | Reacesso (H1) | Entra como hipótese secundária, ou fica para a V0.18? *(Recomendo entrar como secundária: a V0.15 nunca o testou)* |
+| D1 | Unidade das candidatas | (a) **ramos de uma única Upro** por par via → Uint; (b) Upros próprias. *(Recomendo a: com a origem sendo a Upro, candidatas como Upros próprias fariam a mesma emissão disparar a Uint sozinha, como na D5b da V0.15)* |
+| D2 | O que é um acerto | (a) chegadas de origens distintas dentro da janela, **mesmo abaixo do limiar**; (b) só com disparo. *(Recomendo a)* |
+| D3 | Força inicial e incremento | Proposta: 0,1; +0,065 por acerto, até 1 (~10 acertos até 0,75) |
+| D4 | Desaparecimento | Sem acerto por um prazo (D9), some; Uint some se ficar com menos de duas origens [P] |
+| D5 | Faixa de atrasos da fibra | Proposta: 0,5 a 20 ms *(limite de 20 ms sem fonte)* |
+| D6 | Candidatas iniciais | Proposta: 6 por via, espaçamento proporcional |
+| D7 | Quase-acerto e brotamento | Proposta: chegada de origem distinta entre 1 e 3 janelas; um ramo de cada lado, passo de 10% do atraso |
+| D8 | Janela e limiar iniciais da Uint | Limiar 1,5; constante 0,30 ms; janela ≈ 0,21 ms (V0.15) como ponto de partida, podendo se estreitar pela construção [R] |
+| D9 | Escala de tempo | Proposta: crescer dentro de uma execução; estabilizar com acertos em ≥ 2 execuções; sumir após uma execução inteira sem acerto. Perda declarada: compressão |
+| D10 | — | *(Substituída pelo cenário do responsável)* |
+| D11 | Repetição interna | Fora da V0.17 *(recomendo)* |
+| D12 | Critérios | Aprovar ou ajustar a seção 5.3 |
+| D13 | Reacesso | Entra como hipótese secundária (P5) *(recomendo)* |
+| D14 | Posições exatas | Proposta: alto-falantes no meio das paredes opostas; robô a 0,6 m de um, no eixo entre eles |
+| D15 | Sombra da cabeça | Modelo simplificado de cabeça, a escolher depois de leitura (de memória: modelo esférico de Brown e Duda, 1998, não verificado) |
+| D16 | Entre as execuções | Proposta: 30 s de silêncio (a reverberação da gravação dura ~6 s) e **ruído de fundo independente por execução**, como na V0.15, para afastar H-trivial *(o ruído é do mundo do robô, não altera a gravação)* |
+| D17 | Taxa dos microfones | 48 kHz, como na especificação do robô |
+| D18 | Limites de recursos | Proposta: os da V0.15 (5.000 Uint; 200.000 Upro e ramos), revistos após o custo medido no ensaio mínimo |
+| D19 | Altura dos alto-falantes | Proposta: na altura da cabeça do robô |
 
 # 7. Nomes
 
-Este rascunho não cria termos novos. Usa "ramo" (aprovado em 15/11/2026), "rastro" e "aresta em formação" (regra hebbiana do Sdom), "via", "favorecida", "criação por não acomodação". "Quase-acerto", "força" e "acerto" são **descrições**, não termos; se forem para a teoria, o nome é do responsável.
+Nenhum termo novo. "Ramo" (aprovado em 15/11/2026); "rastro", "aresta em formação" (Sdom); "via", "favorecida", "criação por não acomodação" [P]. "Acerto", "quase-acerto" e "força" são descrições; se forem para a teoria, o nome é do responsável.
 
 # 8. Bibliografia (com estado de leitura)
 
 Nenhuma fonte desta rodada foi lida em texto integral.
 
-1. Beniaguev, D., Shapira, S., Segev, I., London, M. (2022). Multiple synaptic contacts combined with dendritic filtering enhance spatio-temporal pattern recognition capabilities of single neurons. *bioRxiv* 2022.01.28.478132. **Trecho.**
+1. Beniaguev, D. et al. (2022). Multiple synaptic contacts combined with dendritic filtering enhance spatio-temporal pattern recognition capabilities of single neurons. *bioRxiv*. **Trecho.**
 2. Bi, G.-Q. (2002). [título não registrado; verificar]. *Physiol. Behav.*, 77, 551–555. **Trechos.**
 3. Bi, G.-Q., Poo, M.-M. (1998). Synaptic modifications in cultured hippocampal neurons. *J. Neurosci.*, 18(24), 10464–10472. **Resumo e trechos.**
 4. Bittner, K. C. et al. (2017). Behavioral time scale synaptic plasticity underlies CA1 place fields. *Science*, 357, 1033–1036. **Resumo e trechos.**
 5. Bloss, E. B. et al. (2018). Single excitatory axons form clustered synapses onto CA1 pyramidal cell dendrites. *Nat. Neurosci.*, 21, 353–363. **Resumo e trechos.**
-6. Cane, M. et al. (2014). *J. Neurosci.* (espinhas transitórias e densidade pós-sináptica). **Secundária** (comentário PMC4050177); referência completa a verificar.
+6. Cane, M. et al. (2014). *J. Neurosci.* (espinhas transitórias). **Secundária** (comentário PMC4050177); referência completa a verificar.
 7. De Roo, M., Klauser, P., Muller, D. (2008). LTP promotes a selective long-term stabilization and clustering of dendritic spines. *PLoS Biol.*, 6(9), e219. **Resumo.**
 8. Feldman, D. E. (2012). The spike-timing dependence of plasticity. *Neuron*, 75(4), 556–571. **Trechos.**
 9. Frey, U., Morris, R. G. M. (1997). Synaptic tagging and long-term potentiation. *Nature*, 385, 533–536. **Resumo.**
-10. Gerstner, W., Lehmann, M., Liakoni, V., Corneil, D., Brea, J. (2018). Eligibility traces and plasticity on behavioral time scales. *Front. Neural Circuits*, 12, 53. **Resumo.**
-11. Giri, B., Miyawaki, H., Mizuseki, K., Cheng, S., Diba, K. (2019). Hippocampal reactivation extends for several hours following novel experience. *J. Neurosci.*, 39(5), 866–875. **Resumo.**
+10. Gerstner, W. et al. (2018). Eligibility traces and plasticity on behavioral time scales. *Front. Neural Circuits*, 12, 53. **Resumo.**
+11. Giri, B. et al. (2019). Hippocampal reactivation extends for several hours following novel experience. *J. Neurosci.*, 39(5), 866–875. **Resumo.**
 12. Hill, T. C., Zito, K. (2013). LTP-induced long-term stabilization of individual nascent dendritic spines. *J. Neurosci.*, 33(2), 678–686. **Resumo.**
 13. Holtmaat, A., Svoboda, K. (2009). Experience-dependent structural synaptic plasticity in the mammalian brain. *Nat. Rev. Neurosci.*, 10, 647–658. **Pontos-chave.**
 14. Kasthuri, N. et al. (2015). Saturated reconstruction of a volume of neocortex. *Cell*, 162(3), 648–661. **Resumo e notícia.**
@@ -282,10 +295,15 @@ Nenhuma fonte desta rodada foi lida em texto integral.
 17. Pfister, J.-P., Gerstner, W. (2006). Triplets of spikes in a model of spike timing-dependent plasticity. *J. Neurosci.*, 26(38), 9673–9682. **Trechos.**
 18. Sharma, J., Angelucci, A., Sur, M. (2000). Induction of visual orientation modules in auditory cortex. *Nature*, 404, 841–847. **Resumo.**
 19. Sjöström, P. J., Turrigiano, G. G., Nelson, S. B. (2001). Rate, timing, and cooperativity jointly determine cortical synaptic plasticity. *Neuron*, 32, 1149–1164. **Resumo e trechos.**
-20. Trachtenberg, J. T. et al. (2002). Long-term in vivo imaging of experience-dependent synaptic plasticity in adult cortex. *Nature*, 420, 788–794. **Trechos; proporções por fonte secundária.**
-21. von Melchner, L., Pallas, S. L., Sur, M. (2000). Visual behaviour mediated by retinal projections directed to the auditory pathway. *Nature*, 404, 871–876. **Resumo.**
-22. Yagishita, S. et al. (2014). A critical time window for dopamine actions on the structural plasticity of dendritic spines. *Science*, 345, 1616–1620. **Resumo.**
+20. StatPearls: Neuroanatomy, Auditory Pathway (NCBI Bookshelf NBK532311). **Trechos.**
+21. Tervaniemi, M., Hugdahl, K. (2003). Lateralization of auditory-cortex functions. *Brain Res. Rev.*, 43(3), 231–246. **Resumo.**
+22. Trachtenberg, J. T. et al. (2002). Long-term in vivo imaging of experience-dependent synaptic plasticity in adult cortex. *Nature*, 420, 788–794. **Trechos; proporções por fonte secundária.**
+23. von Melchner, L., Pallas, S. L., Sur, M. (2000). Visual behaviour mediated by retinal projections directed to the auditory pathway. *Nature*, 404, 871–876. **Resumo.**
+24. Yagishita, S. et al. (2014). A critical time window for dopamine actions on the structural plasticity of dendritic spines. *Science*, 345, 1616–1620. **Resumo.**
+25. Zatorre, R. J., Belin, P., Penhune, V. B. (2002). Structure and function of auditory cortex: music and speech. *Trends Cogn. Sci.*, 6(1), 37–46. **Resumo.**
 
 Revisão com tabela de protocolos (PMC3589711): **trechos**; autores e título a verificar.
 
-**Citados de memória, não verificados nesta rodada:** Licklider (1951), autocorrelação para altura; Edelman (1987), darwinismo neural; Baldwin (1896); Waddington (anos 1950), assimilação genética. **Herdados da V0.15:** ver seção 4.2.7.
+**Citados de memória, não verificados:** Licklider (1951); Edelman (1987); Baldwin (1896); Waddington (anos 1950); Litovsky et al. (1999), efeito de precedência; Rayleigh (1907), teoria duplex; Brown e Duda (1998), modelo de cabeça. **Herdados da V0.15:** ver 4.2.10.
+
+**Estímulo:** Ashtar Moïra (intérprete). *Toccata et Fugue BWV 565*, gravação em Ogg Vorbis, Wikimedia Commons, domínio público. Ver [gravacao.md](gravacao.md).
