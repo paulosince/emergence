@@ -137,3 +137,21 @@ Registro prévio: [inibicao-prealimentada.md](inibicao-prealimentada.md), aprova
 **Achado não previsto:** I1, a forma que vinha rodando, foi **melhor** que nenhuma inibição. A previsão 1 (I0, I1 e I2 parecidas) falhou.
 
 **Limites:** um par de vias, pulsos ideais; a inibição vem na mesma Upro e com a mesma força da excitação (simplificação da D22); na oliva ela vem de outra unidade, com força própria (proporção 1:1 de condutância nos experimentos de Myoga et al., 2014, com entradas fortes).
+
+## Ensaio da inibição pré-alimentada fiel (16/11/2026)
+
+Registro prévio: [inibicao-fiel.md](inibicao-fiel.md), aprovado pelo responsável. Código: `inibicao_fiel.py` (testes em `test_inibicao_fiel.py`, 3 aprovados; a tolerância do teste do pico foi afrouxada de 1e-9 para 1e-3 porque a grade de 1 µs pode cair um passo depois do instante exato). Saída: `inibicao-fiel-saida.csv`, `inibicao-fiel-progresso.txt`.
+
+**Controle de código:** com a força da inibição zerada, o script fiel reproduz exatamente a condição sem inibição do ensaio anterior (semente 1: seleção, crédito 0,824, 1600 disparos).
+
+| Condição | Seleção | Colapso | Acertos em toda a execução |
+|---|---|---|---|
+| F (amadurece com os acertos) | 0 | **10** | 0 em todas |
+| F-imatura | 0 | **10** | 0 em todas |
+| F-madura | 0 | **10** | 0 em todas |
+
+**Leitura pela regra fixada (seção 6):** "não funciona" (F seleciona em ≤ 3 de 10). Previsão 1 (F-madura colapsa) confirmada; o risco da previsão 2 se realizou por inteiro.
+
+**Mecanismo (dedução do assistente):** a inibição imatura dura 4 ms e chega 2,7 ms depois de cada chegada; com 12 ramos e pulsos a cada 2,5–8 ms, as inibições de chegadas anteriores se somam num freio contínuo durante as notas, e **nenhuma** coincidência alcança o favorecimento, nem a primeira. Sem acerto, a inibição nunca amadurece: o processo não tem como começar.
+
+**O que isso diz (para o responsável):** a regra fiel exige, para funcionar, algo que este ensaio não tem: excitação também "jovem" (lenta e longa, como na biologia; ver a observação da seção 5 do registro prévio). Com excitação adulta (0,30 ms) e inibição jovem (4 ms), a inibição sempre vence.
