@@ -47,3 +47,23 @@ Com calibração **provisória** dos limiares (percentil 90 de cada faixa; a cal
 3. **O valor de P3:** usar a diferença de chegada medida na simulação (~0,46 ms), não a da conta em linha reta.
 4. **Calibração dos limiares das Utrd** para a gravação.
 5. **A D11c** (ver a [investigação](../investigacao-repeticao.md)).
+
+## Parte 2, rodada 2 — com D20–D23 ([script](par_de_vias_v2.py), [saída](parte2-rodada2-saida.txt))
+
+Mesmo par de vias. Testa decaimento, competição e portão do brotamento. **A inibição (D22) não foi testada**: com um único par não há inibição lateral, e como o acerto (D2) é só a coincidência dentro da janela, a inibição pré-alimentada não muda o que é acerto.
+
+| Medida | Fixo 5 ms | Variando por episódio | Mudando a cada 250 ms (como notas) |
+|---|---|---|---|
+| Ramos por Upro no fim | A 19, B 30 | A 20, B 39 | A 23, B 63 |
+| Ramos estáveis no fim | quase todos | quase todos | quase todos |
+| Crédito na relação verdadeira | 0,64–0,69 | 0,58–0,65 | 0,26–0,46 |
+| Relações diferentes acertando | ~60 | ~80 | ~550–770 |
+| Maior força de um ramo | ≤ 0,29 | ≤ 0,27 | ≤ 0,28 |
+
+**Leitura:**
+1. **A exuberância ficou contida** (de 74 para 13–63 ramos), e no período fixo o crédito na relação verdadeira subiu (0,42 → ~0,66).
+2. **A estabilização ficou fácil demais:** basta um ramo acertar em dois episódios separados por 2 min, o que qualquer ramo consegue por coincidência. Estável, ele fica livre do decaimento, e a seleção para.
+3. **Com períodos mudando como notas, piora:** com dezenas de ramos, quase todo ramo encontra algum parceiro coincidindo por acaso a cada pulso (perto de 8% de chance por par, estimativa do assistente). Como o acerto não depende da força, cada ramo "acerta" quase sempre.
+4. **Nenhum ramo passa de 0,29:** a força total de 1,0 fica dividida entre os muitos ramos que acertam. A Uint nunca chega ao limiar.
+
+**O ponto central (dedução do assistente):** o que deixa "tudo gerar tudo" é a **D2**, porque o acerto independe da força e do estado da Uint. Na biologia, o fortalecimento depende do estado da célula que recebe, e é por aí que a inibição age sobre o aprendizado. Enquanto o acerto não depender da força, a inibição não tem como selecionar.
