@@ -37,6 +37,7 @@
 | Tempestade | **Retirados** o trovão e a chuva da V0.17; ficam para outro experimento | 16/11 |
 | Fonte sonora | **Uma fonte só, sem nada artificial** (as vozes do órgão não são distribuídas). Testes mais complexos ficam para outros experimentos: "já temos muito a observar aqui" | 16/11 |
 | Alto-falantes e posição do robô | **Dois alto-falantes em pontas opostas da sala, tocando o mesmo sinal** (como um aparelho estéreo tocando música mono). Robô **deslocado**, mais perto de uma das fontes, e **de lado** para elas. Exemplo calculado (assistente): a 0,6 m e 1,4 m; a cópia próxima chega ~2,3 ms antes e ~7 dB mais forte, com diferenças de chegada opostas (±0,29 ms). Posições exatas a fixar no pré-experimento | 16/11 |
+| Reflexões da sala | **Subexperimentos da V0.17 para os três casos:** (a) sem reflexões; (b) só as primeiras reflexões (paredes, chão e teto, uma batida cada); (c) reverberação completa | 16/11 |
 | O que passa entre versões | O que passa adiante é o que vem codificado para construir, não o que foi construído: **parâmetros**. Os experimentos fazem o papel da evolução; o que prevalece nos testes entra adaptado na versão seguinte. **Salvaguarda:** entre versões só passam parâmetros, nunca estrutura consolidada (malhas, atrasos escolhidos, Uint); cada parâmetro que passa leva o registro do teste que o fez prevalecer | 16/11 |
 
 ## Em aberto
