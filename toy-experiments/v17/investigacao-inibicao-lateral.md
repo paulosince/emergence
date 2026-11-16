@@ -2,7 +2,7 @@
 
 **Pedido do responsável (16/11/2026):** "Revise o mecanismo NB antes" do ensaio de inibição lateral.
 **Regra em revisão (D22, aprovada em 16/11):** "a Uint que acerta inibe, com −0,5, as outras Uint que recebem da mesma Upro". A inibição pré-alimentada (D22, mesma decisão) entra aqui só onde a literatura a toca.
-**Estado de leitura:** todas as fontes abaixo foram lidas **só por resumo ou trechos** devolvidos pela busca, salvo indicação. Nenhum texto integral. Autoria marcada "a verificar" quando a busca não a mostrou.
+**Estado de leitura:** a seção 2 foi feita por resumos; a seção 2b, pelo texto integral das fontes mais relevantes (ver o "como foi lido" ali). Autoria marcada "a verificar" quando não confirmada.
 
 ## 1. Hipóteses, escritas antes da busca (assistente)
 
@@ -29,20 +29,55 @@
 | 11 | Disparos sem correlação geram competição; **disparos sincronizados impedem** a competição do tipo "vencedor leva tudo" | Lumer, 2000, *Neural Comput.* (resumo) | Nova: o som da peça sincroniza as vias; risco para o ensaio |
 | 12 | Na coruja, a ambiguidade de fase (o *aliasing* do nosso ensaio) é resolvida pela **convergência de várias faixas de frequência** numa célula de banda larga; a inibição **aumenta** a diferença entre o pico verdadeiro e os falsos | Peña e Konishi, 2000, *PNAS* 97:11787–11792 (resumo) | Nova: a solução biológica do *aliasing* é principalmente convergência entre faixas, com inibição como reforço |
 
-## 3. Confronto com a regra aprovada (dedução do assistente)
+## 2b. Leitura do texto integral (16/11/2026, a pedido do responsável)
 
-1. **A inibição lateral precisa de uma ligação entre Uint.** Na biologia, a inibição de retorno passa por uma célula intermediária ligada às células excitatórias. No Sdom, isso é uma Upro de uma Uint para outra (direta, com efeito negativo, ou por uma unidade intermediária). É o **segundo nível**, que acabou de ser adiado junto com a repetição interna. A regra, como está, faz a inibição chegar sem Upro, o que contraria "incidências só saem por Upro".
-2. **Quem é inibido.** "Receber da mesma Upro" corresponde à inibição pré-alimentada (entrada em comum), não à de retorno (vizinhança ligada ao vencedor).
-3. **Tempo.** A de retorno começa milissegundos depois; com janela de 0,21 ms, ela não pode impedir a coincidência atual, só as seguintes. A pré-alimentada, na oliva, chega **antes** da excitação, não uma janela depois.
-4. **Força fixa.** Na biologia a inibição se ajusta; com −0,5 fixo perde-se o mecanismo que, nos modelos (achado 10), faz as unidades se diferenciarem.
-5. **Sincronia.** Com som, as vias disparam juntas; a competição por inibição pode falhar (achado 11).
-6. **Aliasing.** A biologia o resolve sobretudo pela convergência entre faixas (achado 12), que a V0.17 já pode produzir com 64 faixas, sem inibição lateral.
-7. **Contradição interna encontrada:** a seção 4.1 do pré-experimento lista "inibição" como **fora desta versão**, mas a D22 a inclui. Precisa de decisão.
+**Como foi lido:** pelo leitor de páginas da web, que entrega uma extração detalhada do texto integral feita por um modelo auxiliar (métodos, números, conclusões, limitações), não o texto bruto. Números conferidos entre fontes quando possível. **Não acessíveis:** Roberts et al., 2013 (página bloqueada por verificação de navegador; números vêm do resumo e das citações em Roberts et al., 2014 e Myoga et al., 2014); Vogels et al., 2011 (o PDF falhou; só resumo e o código de exemplo do coautor no simulador Brian); Lumer, 2000 (só resumo).
+
+### Inibição de retorno (lateral) e pré-alimentada no hipocampo — Karnup e Stelzer, 1999, *J. Physiol.* 516:485–504 (texto integral)
+- Fatias de cobaia, CA1, registros pareados célula piramidal–interneurônio.
+- **Pré-alimentada:** começa **durante a subida** da excitação (13 de 17 pares; 31 de 37 comparações).
+- **De retorno:** o caminho de dois passos mais curto somou **4,4 ms**, a média **8,3 ms**; incluindo o tempo até a piramidal disparar, média de **29,4 ms** (11 a 99,8 ms). Os inícios "não ocorreram durante a subida", mas **mais de 3 ms após o pico** da excitação.
+- **Duração:** meia-largura da inibição unitária de **24,6 a 55,5 ms**.
+- Conclusão dos autores: a inibição de retorno **não afeta a subida nem o pico** da excitação que a provocou.
+- Limites declarados: tempos montados por soma de componentes, não medidos de ponta a ponta; dados de retorno vêm sobretudo de um par; fatias a 30–32 °C. Confiança moderada nos números absolutos; alta na ordem (pré-alimentada cedo, de retorno tarde).
+
+### Inibição no detector de diferenças de chegada (oliva superior medial)
+- **Roberts, Seeman e Golding, 2014**, *Front. Neural Circuits* 8:49 (texto integral): da célula inibitória do núcleo medial do corpo trapezoide até a inibição começar na célula da oliva, **0,55 ms** no resumo e **0,58 ± 0,04 ms** nos resultados (5 pares; os autores divergem entre si); oscilação de 0,04 ms. As inibições dos dois lados chegam com latência parecida (1,69 e 1,73 ms após estimular o nervo). Citando o estudo de 2013, a inibição chega **0,32 a 0,38 ms antes** da excitação. Inibição evocada: subida 0,94 ms, decaimento 4,3 ms (animais jovens, P15–22). A célula inibitória aguenta trens de 600–800 Hz.
+- **Myoga et al., 2014**, *Nat. Commun.* 5:3790 (texto integral): em fatias de adulto, com condutâncias injetadas, o **momento** da inibição desloca o melhor momento de coincidência **nos dois sentidos**: inibição contralateral 0,2 ms depois → −163 µs; 0,4 ms antes → +71 µs; 0,1 ms antes → sem desvio. Com inibição dos dois lados, até cerca de **220 µs**. Com a inibição 0,2 ms antes, não desloca, mas **estreita** a janela (meia-largura de 467 para 387 µs). Decaimento da inibição ≈ 1,5 ms; da excitação ≈ 0,3 ms. Os autores conciliam com Roberts 2013 (que não viu desvio): aquele estudo testou só ≈ −0,3 ms, em animais jovens. Limite declarado: **os tempos reais in vivo são desconhecidos**; os técnicas atuais não separam excitação e inibição in vivo.
+- **Pecka et al., 2008**, *J. Neurosci.* 28:6914–6925 (texto integral): in vivo, bloquear a inibição desloca a melhor diferença de fase em **0,13 ± 0,08 ciclo** (6 células); aplicar glicina tônica, 0,10 ± 0,10 ciclo (11 células). Modelo: a inibição chega "algumas centenas de microssegundos" antes da excitação. Limites declarados: poucas células; o curso da inibição **não foi medido**, foi inferido.
+- **Leitura de conjunto:** no detector auditivo, a inibição relevante é **pré-alimentada**, vinda de **outra unidade** (a célula inibitória), com atraso próprio, e **chega antes** da excitação. O seu **tempo de chegada** é um parâmetro que ajusta qual coincidência é a melhor e estreita a janela. Se ela desloca ou só estreita é **controverso** e depende desse tempo.
+
+### Ambiguidade de fase (o *aliasing*) — Peña e Konishi, 2000, *PNAS* 97:11787–11792 (texto integral)
+- 59 neurônios em 14 corujas, registro intracelular.
+- A célula soma várias faixas de frequência sintonizadas na mesma diferença de chegada: os picos verdadeiros se alinham entre faixas, os falsos não. A soma é **sublinear**.
+- No potencial de membrana, a diferença entre pico verdadeiro e falsos é **pequena**; nos disparos, **muito maior**, por causa do **limiar não linear**.
+- **Inibição:** evidência **qualitativa** de que suprime mais os picos falsos; **fonte não identificada**, e não se sabe se é lateral.
+
+### Competição "vencedor leva tudo" — Muir e Cook, 2014, *Neural Comput.* 26:1624–1666 (texto integral)
+- A competição acontece pela célula inibitória **compartilhada**; exige que o acoplamento inibitório mútuo seja **maior** que o excitatório; o "vencedor único" só ocorre numa faixa de diferenças de entrada.
+- Na anatomia do córtex, os neurônios inibitórios têm **alcance lateral limitado**; a competição esperada é de **vizinhança curta**, mais plausível dentro da coluna. Atrasos não foram analisados.
+
+### Inibição de dois passos com plasticidade — Seung, 2019, arXiv 1812.11581 (texto integral)
+- Células excitatórias recebem a entrada; células inibitórias recebem das excitatórias e as inibem; **não há ligação direta** entre excitatórias.
+- A inibição é **anti-hebbiana** (atividade correlacionada fortalece a inibição) e leva as excitatórias a aprenderem **traços diferentes**; a descorrelação é **incompleta** e melhora com mais células inibitórias. A entrada tem competição heterossináptica (semelhante à nossa competição pela força total).
+- Limites: modelo de taxas (sem disparos nem tempo fino), só dígitos manuscritos; derivação aproximada.
+
+### Plasticidade inibitória — Vogels et al., 2011 (só resumo e código do coautor)
+- O código de exemplo usa uma regra com constante de 20 ms e uma **taxa-alvo** (3 Hz): a inibição cresce até a célula ficar perto dessa taxa. **Não lido no artigo**; não usar como número do artigo.
+
+## 3. Confronto com a regra aprovada (dedução do assistente, revista após a leitura integral)
+
+1. **Ligação entre Uint.** Confirmado em todos os modelos lidos: a competição lateral passa por uma unidade inibitória **ligada** às excitatórias (Muir e Cook; Seung). No Sdom, é uma relação entre Uint, o segundo nível adiado.
+2. **Tempo da lateral.** A de retorno começa **milissegundos** depois e dura **dezenas** de ms (hipocampo). Ela não pode impedir a coincidência que a provocou; age sobre as **seguintes**. Num som com ciclos de milissegundos, isso inibiria muitos ciclos seguidos.
+3. **Pré-alimentada.** No detector auditivo, ela vem de **outra unidade**, com atraso próprio, e chega **antes** da excitação (≈ 0,3 ms). A D22 a põe **uma janela depois**. O tempo dela **ajusta** a melhor coincidência (desloca ou estreita), o que a torna parte do cálculo temporal, não só um freio.
+4. **Força fixa.** Nos modelos que fazem unidades se diferenciarem, a inibição é **plástica** (Seung).
+5. **Aliasing.** Resolvido sobretudo por **convergência entre faixas + limiar não linear**; a inibição é reforço de fonte desconhecida (Peña e Konishi).
+6. **Contradição interna:** a seção 4.1 do pré-experimento lista "inibição" como fora desta versão; a D22 a inclui.
 
 ## 4. Caminhos (para o responsável decidir)
 
-- **(a) Manter como simplificação declarada:** efeito direto, sem intermediária, com atraso de retorno (milissegundos), perdas declaradas (itens 1–4).
-- **(b) Ficar só com a pré-alimentada nesta versão** (não exige ligação entre Uint) e revisar o seu tempo pela oliva (antes da excitação, ou o tempo como algo a ser construído).
+- **(a) Manter a lateral como simplificação declarada:** efeito direto, sem unidade intermediária, com atraso e duração de retorno; perdas declaradas (itens 1, 2, 4).
+- **(b) Ficar só com a pré-alimentada nesta versão** (não exige ligação entre Uint) e revisar o seu tempo pela oliva (chegando antes, ou com o tempo constituído pela própria Pcrt).
 - **(c) Adiar a inibição lateral para a versão com segundo nível**, pela mesma razão da repetição; a competição entre ramos e a convergência entre faixas ficam como os mecanismos de seleção da V0.17.
 
 ## 5. Bibliografia desta revisão (só resumos ou trechos)
@@ -60,3 +95,7 @@
 11. PMC2269280 (inibição de retorno em CA1, início > 3 ms após o pico da excitação). **Resumo; autoria e título a verificar.**
 12. PMC7176419 (latência entre excitação e inibição; pré-alimentada × de retorno). **Trecho; autoria e título a verificar.**
 13. Revisão sobre "vencedor leva tudo" e inibição em córtex colunar, edoc Universidade de Basel. **Trecho; autoria e título a verificar.**
+14. Karnup, S., Stelzer, A. (1999). Temporal overlap of excitatory and inhibitory afferent input in guinea-pig CA1 pyramidal cells. *J. Physiol.*, 516(2), 485–504. **Texto integral** (é a fonte PMC2269280 acima).
+15. Muir, D. R., Cook, M. (2014). Anatomical constraints on lateral competition in columnar cortical architectures. *Neural Computation*, 26, 1624–1666. **Texto integral** (é a revisão do repositório de Basel acima; número do fascículo a verificar).
+16. Seung, H. S. (2019). Unsupervised learning by a nonlinear network with Hebbian excitatory and anti-Hebbian inhibitory neurons. arXiv 1812.11581. **Texto integral** (item 10 acima).
+17. Leituras integrais também de: Myoga et al. 2014 (item 4), Pecka et al. 2008 (item 5), Peña e Konishi 2000 (item 6), Roberts et al. 2014 (item 8). Sem texto integral: Roberts et al. 2013 (item 7), Vogels et al. 2011 (item 9), Lumer 2000 (item 3).
