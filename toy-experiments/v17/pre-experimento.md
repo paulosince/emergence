@@ -2,14 +2,14 @@
 title: "EMERGENCE V0.17 — Pré-experimento (Etapa I)"
 subtitle: "Matemática multidimensional transdutiva: uma Pcrt de construção gradual — Bach numa sala, ouvido por um robô parado"
 author: "Responsável: Paulo Rogério da Silva · Redação, deduções e levantamento bibliográfico: assistente (Claude)"
-date: "16/11/2026 — RASCUNHO v0.2, NÃO CONGELADO (substitui a v0.1; histórico no git)"
+date: "16/11/2026 — RASCUNHO v0.3, NÃO CONGELADO (decisões D1–D19 tomadas; D11c pendente)"
 lang: pt-BR
 ---
 
 # Estado deste documento
 
 - **Etapa:** I (pré-experimento) do ciclo obrigatório da [metodologia](../../docs/program-methodology.md).
-- **Estado:** rascunho para revisão. Nada aqui autoriza implementação. Decisões tomadas: [decisões em construção](decisoes-em-construcao.md). Decisões pendentes: seção 6.
+- **Estado:** rascunho para revisão. Nada aqui autoriza implementação. Decisões tomadas: [decisões em construção](decisoes-em-construcao.md). Decisões: seção 6 (só a D11c está pendente).
 - **O que mudou da v0.1:** o cenário do responsável (16/11/2026) substitui as "famílias de estímulo" propostas pelo assistente: sala, dois alto-falantes, gravação real de Bach, robô parado, três execuções. As previsões foram refeitas para esse mundo.
 - **Antes de congelar:** ensaio mínimo do mecanismo (seção 5.4).
 
@@ -81,7 +81,7 @@ lang: pt-BR
 | **H-explosão** | A construção gradual não impede a proliferação | [A] |
 | **H-aliasing** | Consolidam pares coerentes módulo o período das notas, e não a relação espacial verdadeira | [A] |
 | **H1** (herdada) | Na reexecução, as incidências percorrem as Upro consolidadas e alcançam as mesmas Uint, sem recriação | [C] V0.15, nunca testada |
-| **H-trivial** | O reacesso aparente vem só de a mesma gravação se repetir idêntica, e não da organização | [A]; ver D16 |
+| **H-trivial** | O reacesso aparente vem só de a mesma gravação se repetir idêntica, e não da organização | [A]; discriminada pelo controle D16a |
 
 ## 3.2 O que é estável e o que é instável neste mundo [A]
 
@@ -99,7 +99,7 @@ lang: pt-BR
 | Proporção de Uint entre ouvidos: consolidadas ÷ criadas | > 1 | ≈ 1 | — | — | — |
 | Diferença de atraso consolidada entre ouvidos | ≈ diferença de chegada de cada alto-falante | qualquer | — | ≈ diferença ± k·período | — |
 | Número de candidatas ao longo das 3 execuções | sobe e estabiliza | — | sobe sem parar | — | — |
-| Reacesso com ruído de fundo independente por execução | mantém-se | — | — | — | cai |
+| Reacesso no controle com ruído diferente por execução (D16a) | mantém-se | — | — | — | cai |
 
 # 4. Aplicação integral do método
 
@@ -110,7 +110,7 @@ lang: pt-BR
 **Fornecido:** a sala, os alto-falantes, a gravação, a propagação até os microfones (incluindo a sombra da cabeça), as Utrd, as factories, as regras da Pcrt e as propriedades físicas das fibras [R].
 **Não fornecido:** a janela efetiva que se consolida, os atrasos que ficam, os tipos de convergência [R].
 **Condições anteriores:** zero Uint; nenhuma Upro com destino constituído.
-**Fora desta versão:** movimento e reflexos do robô [R]; tempestade [R]; reverberação completa da sala do robô [R]; repetição interna, neuromodulação, inibição, sono (proposta [A], D11); lateralização (hipótese futura [R]).
+**Fora desta versão:** movimento e reflexos do robô [R]; tempestade [R]; reverberação completa da sala do robô [R]; neuromodulação, inibição, sono; lateralização (hipótese futura [R]).
 
 ## 4.2 Investigação neurobiológica
 
@@ -182,7 +182,8 @@ O elo 6 é o objeto do experimento.
 | Estabilização por episódios espaçados | Estável após acertos em execuções diferentes | Escala de horas comprimida (D9) | Comparação entre execuções |
 | Eliminação | Sem acerto por um prazo, some | Sem LTD | Contagem no tempo |
 | Brotamento perto do ativado | Ramo vizinho, ± passo proporcional | Proximidade de atraso, não espacial | — |
-| Sombra da cabeça | Modelo de cabeça simplificado (D15) | Sem pavilhão, sem tronco | Diferença de nível medida nos microfones |
+| Sombra da cabeça | Modelo esférico simples (D15) | Cabeça real é uma caixa; sem pavilhão, sem tronco | Diferença de nível medida nos microfones |
+| Repetição nos silêncios (reativação após a experiência) | Reapresentação do que está em formação, na mesma velocidade (D11–D11b) | Sem compressão (o hipocampo comprime ~10×); mecanismo pendente (D11c) | Comparar com e sem repetição, se o responsável quiser |
 
 ## 4.6 Previsões
 
@@ -191,7 +192,7 @@ O elo 6 é o objeto do experimento.
 - **P2 (seleção pelo mundo).** A proporção de Uint entre ouvidos é maior entre as **consolidadas** que entre as **criadas**.
 - **P3 (onde).** As Uint entre ouvidos consolidadas têm diferença de atraso próxima da diferença de chegada de um dos alto-falantes (com a geometria do exemplo, ±0,29 ms), mais vezes a do **próximo**.
 - **P4 (contra o aliasing).** Essa diferença não se espalha em Δ ± k·período.
-- **P5 (reacesso).** Nas execuções 2 e 3, as Uint consolidadas na 1ª disparam por chegada de Upro, mesmo com ruído de fundo independente por execução (D16).
+- **P5 (reacesso, secundária).** Nas execuções 2 e 3, as Uint consolidadas na 1ª disparam por chegada de Upro. Na condição de controle com ruído de fundo diferente por execução (D16a), o reacesso se mantém.
 - **P6 (subteste da regra de distinção por emissão).** Com a regra, surgem Uint de uma só Upro, sintonizadas em periodicidades (com Δ/2, Δ/3); sem ela, não surgem.
 
 **Negativas:**
@@ -202,7 +203,7 @@ O elo 6 é o objeto do experimento.
 ## 4.7 Limites e refutações
 
 - **Refuta HM nesta implementação:** P1 falha (sem patamar), ou P2 falha (proporções iguais), ou P4 falha.
-- **Indica H-trivial:** o reacesso some quando cada execução tem ruído de fundo independente.
+- **Indica H-trivial:** o reacesso some no controle com ruído diferente por execução (D16a).
 - **Não refuta a CLEAR:** falhas refutam esta Pcrt e estes parâmetros.
 
 # 5. Hipóteses de trabalho e previsão de alcance
@@ -215,9 +216,9 @@ O elo 6 é o objeto do experimento.
 - Gravação [R]: Ashtar Moïra, domínio público, original sem alterações, estéreo, 513,56 s, SHA-256 em [gravacao.md](gravacao.md). Canal esquerdo no alto-falante próximo.
 - Propagação: atraso e atenuação por distância; sombra da cabeça (D15); subexperimentos (a) sem reflexões e (b) primeiras reflexões [R].
 - Microfones a 48 kHz (especificação do robô); a reamostragem de 44,1 para 48 kHz é parte da simulação da propagação, não alteração da gravação [A].
-- Sequência: 3 execuções completas, com silêncio entre elas (D16).
+- Sequência: 3 execuções completas, com 30 s de silêncio entre elas, sem ruído (D16); controle com ruído diferente por execução (D16a).
 
-**Sistema:** Utrd de 384 vias (HC8); Pcrt de construção gradual (HC1–HC5) com as decisões da seção 6; Uint com janela que pode se estreitar pela construção [R].
+**Sistema:** Utrd de 384 vias (HC8); Pcrt de construção gradual (HC1–HC5) com as decisões da seção 6; Uint com janela que pode se estreitar pela construção [R]; repetição interna nos silêncios, do que está em formação, na mesma velocidade (D11–D11b; mecanismo pendente, D11c).
 
 **Ordem dos subexperimentos** [R]: primeiro (a) e (b), com a regra de distinção por emissão ligada e ramos só na mesma Uint; depois, só em (a), os subtestes da regra (com e sem) e de ramos em Uint diferentes (com e sem).
 
@@ -233,7 +234,7 @@ O elo 6 é o objeto do experimento.
 
 - **Êxito parcial:** 100% de trilha; P1 (criação na 2ª execução ≤ 20% da 1ª); P2 (razão consolidadas ÷ criadas para Uint entre ouvidos ≥ 2); P3; P5 (reacesso ≥ 80% das consolidadas); N1–N4.
 - **Falha:** sem patamar; ou P2 com razão < 1,2; ou P4 falha.
-- **Interrupção:** chamada sem trilha; não determinismo; limites de recursos (D18).
+- **Interrupção:** chamada sem trilha; não determinismo; mais de 20.000 Uint ou 1.000.000 de Upro e ramos (D18).
 
 ## 5.4 Ensaio mínimo do mecanismo (obrigatório antes de congelar)
 
@@ -242,31 +243,33 @@ Instrumental, rotulado como controle de engenharia:
 2. **Um par de vias, sinal periódico:** a candidata certa ganha mais força que as vizinhas? Há patamar?
 3. **Trecho de 10 s da gravação, 384 vias:** medir o custo real por segundo simulado e estimar o da campanha.
 
-# 6. Decisões pendentes do responsável
+# 6. Decisões do responsável (16/11/2026, por perguntas estruturadas)
 
-Recomendação do assistente entre parênteses.
-
-| # | Decisão | Opções |
+| # | Decisão | Resultado [R] |
 |---|---|---|
-| D1 | Unidade das candidatas | (a) **ramos de uma única Upro** por par via → Uint; (b) Upros próprias. *(Recomendo a: com a origem sendo a Upro, candidatas como Upros próprias fariam a mesma emissão disparar a Uint sozinha, como na D5b da V0.15)* |
-| D2 | O que é um acerto | (a) chegadas de origens distintas dentro da janela, **mesmo abaixo do limiar**; (b) só com disparo. *(Recomendo a)* |
-| D3 | Força inicial e incremento | Proposta: 0,1; +0,065 por acerto, até 1 (~10 acertos até 0,75) |
-| D4 | Desaparecimento | Sem acerto por um prazo (D9), some; Uint some se ficar com menos de duas origens [P] |
-| D5 | Faixa de atrasos da fibra | Proposta: 0,5 a 20 ms *(limite de 20 ms sem fonte)* |
-| D6 | Candidatas iniciais | Proposta: 6 por via, espaçamento proporcional |
-| D7 | Quase-acerto e brotamento | Proposta: chegada de origem distinta entre 1 e 3 janelas; um ramo de cada lado, passo de 10% do atraso |
-| D8 | Janela e limiar iniciais da Uint | Limiar 1,5; constante 0,30 ms; janela ≈ 0,21 ms (V0.15) como ponto de partida, podendo se estreitar pela construção [R] |
-| D9 | Escala de tempo | Proposta: crescer dentro de uma execução; estabilizar com acertos em ≥ 2 execuções; sumir após uma execução inteira sem acerto. Perda declarada: compressão |
-| D10 | — | *(Substituída pelo cenário do responsável)* |
-| D11 | Repetição interna | Fora da V0.17 *(recomendo)* |
-| D12 | Critérios | Aprovar ou ajustar a seção 5.3 |
-| D13 | Reacesso | Entra como hipótese secundária (P5) *(recomendo)* |
-| D14 | Posições exatas | Proposta: alto-falantes no meio das paredes opostas; robô a 0,6 m de um, no eixo entre eles |
-| D15 | Sombra da cabeça | Modelo simplificado de cabeça, a escolher depois de leitura (de memória: modelo esférico de Brown e Duda, 1998, não verificado) |
-| D16 | Entre as execuções | Proposta: 30 s de silêncio (a reverberação da gravação dura ~6 s) e **ruído de fundo independente por execução**, como na V0.15, para afastar H-trivial *(o ruído é do mundo do robô, não altera a gravação)* |
-| D17 | Taxa dos microfones | 48 kHz, como na especificação do robô |
-| D18 | Limites de recursos | Proposta: os da V0.15 (5.000 Uint; 200.000 Upro e ramos), revistos após o custo medido no ensaio mínimo |
-| D19 | Altura dos alto-falantes | Proposta: na altura da cabeça do robô |
+| D1 | Unidade das candidatas | **Ramos de uma única Upro** por par via → Uint |
+| D2 | O que é um acerto | **Coincidência de origens distintas dentro da janela, mesmo abaixo do limiar** |
+| D3 | Força inicial e incremento | **0,1; +0,065 por acerto, até 1** (~10 acertos até 0,75) |
+| D4 | Desaparecimento | Decorre da D9: some após 10 min simulados sem acerto; a Uint some se ficar com menos de duas origens [P] |
+| D5 | Faixa de atrasos da fibra | **0,5 a 20 ms** (limite superior sem fonte) |
+| D6 | Candidatas iniciais | **6 por via**, espaçamento proporcional |
+| D7 | Quase-acerto e brotamento | **Chegada de origem distinta entre 1 e 3 janelas; um ramo de cada lado, a ±10% do atraso**, sem usar tamanho nem sinal do erro |
+| D8 | Janela e limiar iniciais da Uint | **Os da V0.15:** limiar 1,5; constante 0,30 ms; janela ≈ 0,21 ms; pode se estreitar pela construção |
+| D9 | Escala de tempo | **Em minutos simulados:** estabiliza com acertos em episódios separados por **≥ 2 min**; some após **10 min** sem acerto |
+| D10 | — | Substituída pelo cenário |
+| D11 | Repetição interna | **Dentro da V0.17, nos silêncios** |
+| D11a | O que é repetido | **O que está em formação** (candidatas e Uint ainda não estabilizadas) |
+| D11b | Velocidade | **A mesma velocidade** (os intervalos são o conteúdo) |
+| D11c | **Mecanismo que inicia e conduz a repetição** | **PENDENTE.** No Sdom, "disparos espontâneos vêm antes da repetição interna" [R]. Falta definir como a repetição acontece sem guardar uma cópia da entrada que funcione como *lookup*. Exige investigação antes do congelamento |
+| D12 | Critérios | **Aprovados como propostos** (seção 5.3) |
+| D13 | Reacesso | **Hipótese secundária** |
+| D14 | Posição | Alto-falantes no meio de paredes opostas; **robô a 0,6 m do próximo** (1,4 m do outro), de lado, no eixo entre eles |
+| D15 | Sombra da cabeça | **Modelo esférico simples**, escolhido após leitura da fonte |
+| D16 | Entre as execuções | **30 s de silêncio, sem ruído** |
+| D16a | Controle de reacesso trivial | **Sim:** condição de controle, fora da principal, com ruído de fundo diferente em cada execução |
+| D17 | Taxa dos microfones | 48 kHz, conforme a especificação do robô (não perguntado; seguir a especificação) |
+| D18 | Limites de recursos | **20.000 Uint e 1.000.000 de Upro e ramos** |
+| D19 | Altura dos alto-falantes | **Altura da cabeça do robô** (~0,36 m) |
 
 # 7. Nomes
 

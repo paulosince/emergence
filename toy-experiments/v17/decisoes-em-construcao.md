@@ -48,7 +48,7 @@
 | O que passa entre versões | O que passa adiante é o que vem codificado para construir, não o que foi construído: **parâmetros**. Os experimentos fazem o papel da evolução; o que prevalece nos testes entra adaptado na versão seguinte. **Salvaguarda:** entre versões só passam parâmetros, nunca estrutura consolidada (malhas, atrasos escolhidos, Uint); cada parâmetro que passa leva o registro do teste que o fez prevalecer | 16/11 |
 
 ## Em aberto
-Rascunho do [pré-experimento](pre-experimento.md) (v0.2, 16/11, com o cenário completo) aguardando revisão; decisões D1–D19 na seção 6 dele.
+Decisões D1–D19 do [pré-experimento](pre-experimento.md) tomadas em 16/11 (seção 6 dele, v0.3). **Pendente:** D11c, o mecanismo que inicia e conduz a repetição interna sem funcionar como *lookup*.
 
 ## Fontes
 Evidências e estado de leitura em [innovation-tracking, seções 11 e 12](../../docs/innovation-tracking.md).
