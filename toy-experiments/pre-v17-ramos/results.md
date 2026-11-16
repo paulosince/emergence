@@ -31,4 +31,11 @@
 
 ## Desvios
 
-Nenhum desvio do pré-registro.
+Nenhum desvio do pré-registro na execução de 15/11/2026.
+
+## Errata (16/11/2026)
+
+A regra B foi especificada como "distintas se vêm de emissões diferentes (mesma Upro ou não)" e implementada com a emissão como única chave. Como a emissão era registrada **por pulso da Utrd**, duas Upros diferentes da mesma Utrd, levando o mesmo pulso, contariam como **uma** contribuição em B. Isso contraria a decisão do responsável de 15/11/2026: a origem é a **Upro**, e Upros diferentes da mesma Utrd são origens distintas. Apontado na conversa ao esclarecer o que é ramo.
+
+- **Correção:** em B, a chave passa a ser **Upro + emissão** (distintas se a Upro difere **ou** a emissão difere). Teste novo: duas Upros da mesma Utrd, mesmo pulso, disparam em A e em B (8 de 8 testes passam).
+- **Efeito sobre os resultados:** nenhum. Todas as condições usavam uma só Upro por Utrd; a reexecução produziu `resultados.json` idêntico, byte a byte.

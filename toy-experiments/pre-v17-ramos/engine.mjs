@@ -34,8 +34,9 @@ export class Engine {
       }));
     }
   }
-  // Chave de distinção: A = Upro; B = emissão.
-  key(c) { return this.cfg.rule === "A" ? "u:" + c.upro : "e:" + c.emission; }
+  // Chave de distinção: A = Upro; B = Upro e emissão (errata de 16/11/2026:
+  // Upros diferentes da mesma Utrd são sempre origens distintas, também em B).
+  key(c) { return this.cfg.rule === "A" ? "u:" + c.upro : "u:" + c.upro + "|e:" + c.emission; }
   run() {
     this.queue.sort((a, b) => a.time - b.time || a.seq - b.seq);
     for (const ev of this.queue) this.arrive(ev);

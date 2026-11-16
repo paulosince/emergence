@@ -54,3 +54,13 @@ test("determinismo", () => {
   const go = () => { const e = build("B", [2, 7]); [0, 5, 10].forEach(t => e.pulse("t", t)); return e.run(); };
   assert.deepEqual(go(), go());
 });
+test("errata: duas Upros da mesma Utrd, mesmo pulso, são origens distintas em A e B", () => {
+  for (const rule of ["A", "B"]) {
+    const e = new Engine({ rule });
+    e.utrd("t"); e.uint("j");
+    e.upro({ id: "p1", from: "t", to: "j", ramos: [{ delay: 1 }] });
+    e.upro({ id: "p2", from: "t", to: "j", ramos: [{ delay: 1.1 }] });
+    e.pulse("t", 0); e.run();
+    assert.equal(e.fires().length, 1);
+  }
+});
