@@ -1,0 +1,31 @@
+# V0.17 — decisões em construção (não é pré-registro)
+
+**Responsável:** Paulo Rogério da Silva. **Registro:** Claude (Opus 5.5), conversa de 15–16/11/2026.
+**Estatuto:** decisões e orientações acumuladas na conversa, para não se perderem entre sessões. Não substitui o pré-experimento, que será redigido e congelado antes de qualquer código.
+
+## Objetivo
+- A V0.16 "nasceu podre": as três condições produziam o mesmo resultado porque a diferença testada não chegava às Utrd (análise de 15/11/2026).
+- A V0.17 testa a **matemática multidimensional transdutiva** (HCMT): não só X tempo e Z localização, mas **múltiplas dimensões onde há convergências**.
+
+## Decisões do responsável
+| Tema | Decisão | Data |
+|---|---|---|
+| Origem, para a regra da Uint | É a **Upro**, não a Utrd. Muita coisa pode ser integrada a partir da mesma Utrd | 15/11 |
+| Transdução e percurso | A transdução só produz incidências. A Utrd entrega todas as incidências a todas as suas Upros; cada Upro as percorre no seu tempo e aplica seu efeito. Tempos coordenados somam e disparam a Uint; não coordenados expiram ou inibem. Só alguns caminhos chegam ao acesso | 15/11 |
+| Insumo da Pcrt | O que não encontrou representação: incidências que expiraram sem integração; caminhos favorecidos que não dispararam. Num Sdom virgem, tudo é insumo | 15/11 |
+| O laço da Pcrt | Fixa uma incidência e testa todas as outras; depois avança ("como um while") | 15/11 |
+| Até onde vão "as outras" | Orientação aceita ("bate lindamente"): as incidências com **rastro vivo**; a comparação precisa ocorre na hora ou quando a **repetição interna** reapresenta o material. Não é decisão de mecanismo nem de números | 15/11 |
+| Coordenação dos tempos | Por **exuberância**: várias candidatas com atrasos diferentes; o uso seleciona | 16/11 |
+| O que conta como recorrência | A **mesma candidata que acerta de novo** | 16/11 |
+| Construção | Gradual: a coincidência não gera estrutura pronta de uma vez; ela vai sendo construída conforme se repete | 16/11 |
+| Faixa de partida (aceita) | **Crescer:** 10–100 acertos, em segundos a minutos. **Estabilizar:** acertos em episódios espaçados, da ordem de 1 h, inclusive pela repetição interna. **Sumir:** candidata que não acerta desaparece em 1–4 dias | 16/11 |
+| Ramos | Nome **ramo** aprovado; pré-teste separado executado ([pre-v17-ramos](../pre-v17-ramos/results.md)). A adoção da regra de distinção por emissão na V0.17 **ainda não foi decidida** | 15/11 |
+| Ambiguidade Δ/2, Δ/3 | Esperada; resolve-se com reforço/decaimento e inibição | 15/11 |
+
+## Em aberto
+1. **Som ou visão** na V0.17 (a decisão anterior, de 13/11, era redesenhar "ainda em som").
+2. Adotar ou não a regra de distinção por emissão (ramos).
+3. Ponderação 5: um algoritmo só para todos os sentidos, com resultados diferentes conforme as fibras e os sensores de cada fonte.
+
+## Fontes
+Evidências e estado de leitura em [innovation-tracking, seções 11 e 12](../../docs/innovation-tracking.md).
