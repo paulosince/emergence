@@ -51,8 +51,8 @@ def trem(rng, cond, t0):
     return t0 + base + rng.normal(0, JIT, base.size), t0 + base + DELTA + rng.normal(0, JIT, base.size)
 
 def rodar(args):
-    cond, DF, modo, f0, meia, fbroto = args
-    rng = np.random.default_rng(1); A, B = Upro(f0), Upro(f0); quase = {}
+    cond, DF, modo, f0, meia, fbroto = args[:6]; semente = args[6] if len(args) > 6 else 1
+    rng = np.random.default_rng(semente); A, B = Upro(f0), Upro(f0); quase = {}
     for ep in range(NEP):
         t0 = ep * CICLO
         if ep: A.decair(CICLO - DUR, meia); B.decair(CICLO - DUR, meia)
@@ -111,7 +111,7 @@ def rodar(args):
     elif nram > 100 or len(cred) > 200: classe = "explosao"
     elif ver >= 0.6 and par_ok: classe = "selecao"
     else: classe = "difuso"
-    return dict(cond=cond, DF=DF, modo=modo, f0=f0, meia_s=meia / 1000, fbroto=fbroto, classe=classe, ramos=nram,
+    return dict(semente=semente, cond=cond, DF=DF, modo=modo, f0=f0, meia_s=meia / 1000, fbroto=fbroto, classe=classe, ramos=nram,
                 relacoes=len(cred), credito_verdadeiro=round(ver, 3), par_mais_forte_verdadeiro=par_ok,
                 maxfA=round(max(A.f), 3) if A.f else 0, maxfB=round(max(B.f), 3) if B.f else 0, disparos_ultimo_ep=disparos)
 

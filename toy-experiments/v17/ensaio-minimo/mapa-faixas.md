@@ -32,3 +32,8 @@ Medida no último episódio:
 - **Difuso:** todo o resto.
 
 O mapa **não escolhe** valores: mostra onde cada classe aparece. A escolha é do responsável.
+
+## 4. Confirmação com 10 sementes (registrada antes de rodar, 16/11/2026)
+
+Conjunto candidato: ganho 0,0065; meia-vida 300 s; força inicial 0,15; enfraquecimento por sincronia (S); portão de broto **0,30** e, como variante, **0,15**. Condições: fixo e notas. Sementes 1 a 10. Mesma classificação da seção 3.
+**Critério de confirmação:** seleção em pelo menos **8 de 10** sementes na condição de notas (a mais parecida com música). A condição fixa é relatada, sem critério.
