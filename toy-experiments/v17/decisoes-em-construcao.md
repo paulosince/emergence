@@ -40,6 +40,7 @@
 | Reflexões da sala | Subexperimentos: (a) **sem reflexões**; (b) **só as primeiras reflexões** (paredes, chão e teto, uma batida cada). A reverberação completa (c) foi **retirada por ora** ("é muito") | 16/11 |
 | Ordem dos subexperimentos | Primeiro (a) e (b), com a regra de distinção por emissão ligada e ramos só na mesma Uint; depois os dois subtestes dos ramos, só na condição (a). Cruzamento completo só se algum resultado pedir | 16/11 |
 | Repetições da peça | **3 vezes**, com silêncio entre elas: a 1ª constrói; a 2ª consolida e testa o reacesso; a 3ª testa a manutenção com pouca criação nova | 16/11 |
+| Robô | **Parado, sem reflexos** e sem movimentos espontâneos ("não é a hora pra isso"). O corpo entra como geometria: sombra da cabeça e microfones a 10 cm, na posição especificada | 16/11 |
 | O que passa entre versões | O que passa adiante é o que vem codificado para construir, não o que foi construído: **parâmetros**. Os experimentos fazem o papel da evolução; o que prevalece nos testes entra adaptado na versão seguinte. **Salvaguarda:** entre versões só passam parâmetros, nunca estrutura consolidada (malhas, atrasos escolhidos, Uint); cada parâmetro que passa leva o registro do teste que o fez prevalecer | 16/11 |
 
 ## Em aberto
