@@ -52,3 +52,14 @@ Opções para o responsável decidir:
 6. Rothschild, G., Eban, E., Frank, L. M. (2017). A cortical–hippocampal–cortical loop of information processing during memory consolidation. *Nat. Neurosci.*, 20, 251–259. **Resumo.**
 7. Theodoni, P. et al. (2018). Theta-modulation drives the emergence of connectivity patterns underlying replay in a network model of place cells. *eLife*, 7, e37388. **Resumo.**
 8. Xu, S., Jiang, W., Poo, M.-M., Dan, Y. (2012). Activity recall in a visual cortical ensemble. *Nat. Neurosci.*, 15, 449–455. **Resumo.**
+
+## 7. Decisão do responsável (16/11/2026)
+
+**Opção 2: adiar a repetição** para a versão com segundo nível. "Se for necessário, avançamos."
+
+Pergunta do responsável antes da decisão: são células marca-passo que geram a repetição? Resposta registrada (consulta à literatura na conversa de 16/11, por resumos e páginas web; **referências completas ainda não registradas aqui, a levantar antes de citar**):
+- O **quando** pode vir de ritmos com marca-passos verdadeiros (fusos do tálamo, com o núcleo reticular como marca-passo) ou gerados pela própria rede (oscilação lenta do córtex).
+- O **o quê** vem das ligações fortalecidas: no hipocampo, a repetição começa com células espontaneamente ativas e cresce pela rede recorrente, e o conteúdo segue as vias de sinapses fortes (Ecker et al., 2022, item 2 acima).
+- Consequência: o marca-passo já é permitido no programa, mas, sem ligações entre Uint, não teria por onde levar conteúdo. Por isso a decisão é adiar, e não implementar só o gatilho.
+
+**Previsão que fica para a versão com segundo nível** [A]: no começo, os silêncios não repetem nada; a repetição só aparece depois que houver relações entre Uint.

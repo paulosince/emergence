@@ -2,14 +2,14 @@
 title: "EMERGENCE V0.17 — Pré-experimento (Etapa I)"
 subtitle: "Matemática multidimensional transdutiva: uma Pcrt de construção gradual — Bach numa sala, ouvido por um robô parado"
 author: "Responsável: Paulo Rogério da Silva · Redação, deduções e levantamento bibliográfico: assistente (Claude)"
-date: "16/11/2026 — RASCUNHO v0.3, NÃO CONGELADO (decisões D1–D19 tomadas; D11c pendente)"
+date: "16/11/2026 — RASCUNHO v0.4, NÃO CONGELADO (decisões tomadas; repetição interna adiada)"
 lang: pt-BR
 ---
 
 # Estado deste documento
 
 - **Etapa:** I (pré-experimento) do ciclo obrigatório da [metodologia](../../docs/program-methodology.md).
-- **Estado:** rascunho para revisão. Nada aqui autoriza implementação. Decisões tomadas: [decisões em construção](decisoes-em-construcao.md). Decisões: seção 6 (só a D11c está pendente).
+- **Estado:** rascunho para revisão. Nada aqui autoriza implementação. Decisões tomadas: [decisões em construção](decisoes-em-construcao.md). Decisões: seção 6 (nenhuma pendente; a repetição interna foi adiada pelo responsável em 16/11, ver D11).
 - **O que mudou da v0.1:** o cenário do responsável (16/11/2026) substitui as "famílias de estímulo" propostas pelo assistente: sala, dois alto-falantes, gravação real de Bach, robô parado, três execuções. As previsões foram refeitas para esse mundo.
 - **Antes de congelar:** ensaio mínimo do mecanismo (seção 5.4).
 
@@ -183,7 +183,7 @@ O elo 6 é o objeto do experimento.
 | Eliminação | Sem acerto por um prazo, some | Sem LTD | Contagem no tempo |
 | Brotamento perto do ativado | Ramo vizinho, ± passo proporcional | Proximidade de atraso, não espacial | — |
 | Sombra da cabeça | Modelo esférico simples (D15) | Cabeça real é uma caixa; sem pavilhão, sem tronco | Diferença de nível medida nos microfones |
-| Repetição nos silêncios (reativação após a experiência) | Reapresentação do que está em formação, na mesma velocidade (D11–D11b) | Sem compressão (o hipocampo comprime ~10×); mecanismo pendente (D11c) | Comparar com e sem repetição, se o responsável quiser |
+| Repetição nos silêncios (reativação após a experiência) | **Ausente na V0.17** (adiada, D11 revista) | Perda declarada: a biologia reativa nos silêncios; aqui os silêncios só têm decaimento. Sem ligações entre Uint não há por onde a repetição passar | Retomar na versão com segundo nível, se a construção sem repetição se mostrar insuficiente |
 
 ## 4.6 Previsões
 
@@ -218,7 +218,7 @@ O elo 6 é o objeto do experimento.
 - Microfones a 48 kHz (especificação do robô); a reamostragem de 44,1 para 48 kHz é parte da simulação da propagação, não alteração da gravação [A].
 - Sequência: 3 execuções completas, com 30 s de silêncio entre elas, sem ruído (D16); controle com ruído diferente por execução (D16a).
 
-**Sistema:** Utrd de 384 vias (HC8); Pcrt de construção gradual (HC1–HC5) com as decisões da seção 6; Uint com janela que pode se estreitar pela construção [R]; repetição interna nos silêncios, do que está em formação, na mesma velocidade (D11–D11b; mecanismo pendente, D11c).
+**Sistema:** Utrd de 384 vias (HC8); Pcrt de construção gradual (HC1–HC5) com as decisões da seção 6; Uint com janela que pode se estreitar pela construção [R]; sem repetição interna (D11 revista: adiada para a versão com segundo nível). Nos silêncios entre as execuções só atuam o decaimento e o desaparecimento.
 
 **Ordem dos subexperimentos** [R]: primeiro (a) e (b), com a regra de distinção por emissão ligada e ramos só na mesma Uint; depois, só em (a), os subtestes da regra (com e sem) e de ramos em Uint diferentes (com e sem).
 
@@ -257,10 +257,10 @@ Instrumental, rotulado como controle de engenharia:
 | D8 | Janela e limiar iniciais da Uint | **Os da V0.15:** limiar 1,5; constante 0,30 ms; janela ≈ 0,21 ms; pode se estreitar pela construção |
 | D9 | Escala de tempo | **Em minutos simulados:** estabiliza com acertos em episódios separados por **≥ 2 min**; some após **10 min** sem acerto |
 | D10 | — | Substituída pelo cenário |
-| D11 | Repetição interna | **Dentro da V0.17, nos silêncios** |
-| D11a | O que é repetido | **O que está em formação** (candidatas e Uint ainda não estabilizadas) |
-| D11b | Velocidade | **A mesma velocidade** (os intervalos são o conteúdo) |
-| D11c | **Mecanismo que inicia e conduz a repetição** | **PENDENTE.** No Sdom, "disparos espontâneos vêm antes da repetição interna" [R]. Falta definir como a repetição acontece sem guardar uma cópia da entrada que funcione como *lookup*. Exige investigação antes do congelamento |
+| D11 | Repetição interna | **Revista em 16/11: adiada** para a versão que tiver segundo nível (relações entre Uint). Na V0.17, os silêncios não repetem nada. Retoma-se "se for necessário" (palavras do responsável). Base: [investigação](investigacao-repeticao.md) — na biologia, o ritmo e a partida podem vir de marca-passos, mas o conteúdo repetido segue as ligações fortalecidas entre unidades, que a V0.17 não tem; e o ensaio mínimo selecionou sem repetição |
+| D11a | O que é repetido | Suspensa com a D11 (fica registrada para quando a repetição voltar: o que está em formação) |
+| D11b | Velocidade | Suspensa com a D11 (fica registrada: a mesma velocidade) |
+| D11c | Mecanismo que inicia e conduz a repetição | Encerrada com a D11: sem segundo nível, não há mecanismo possível sem guardar cópia da entrada (proibido) |
 | D12 | Critérios | **Aprovados como propostos** (seção 5.3) |
 | D13 | Reacesso | **Hipótese secundária** |
 | D14 | Posição | Alto-falantes no meio de paredes opostas; **robô a 0,6 m do próximo** (1,4 m do outro), de lado, no eixo entre eles |
