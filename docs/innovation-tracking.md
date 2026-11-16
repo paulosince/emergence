@@ -126,6 +126,7 @@
 - **O que já existe (precedente, por resumo):** competição por inibição de dois passos, com célula inibitória compartilhada, é clássica; com plasticidade inibitória, faz unidades excitatórias aprenderem traços diferentes (arXiv 1812.11581; Vogels et al., 2011). **A inibição lateral em si não é nova.**
 - **Evidência nova relevante:** na coruja, a ambiguidade de fase é resolvida pela convergência entre faixas de frequência, com inibição como reforço (Peña e Konishi, 2000); disparos sincronizados impedem a competição (Lumer, 2000).
 - **O que seria novo:** nada nesta regra, por ora. O ponto em aberto é de coerência interna: a inibição lateral exige ligação entre Uint, o mesmo segundo nível adiado com a repetição interna.
+- **Evidência nova (16/11, texto integral):** no desenvolvimento, a inibição começa forte, ampla e lenta e a experiência a torna seletiva e rápida (Dorrn et al., 2010; Magnusson et al., 2005). O ensaio da V0.17 mostrou que inibição atrelada à própria ligação recém-nascida e chegando antes impede qualquer seleção (10/10 colapsos). Ainda sem precedente buscado para "inibição ampla que se refina por experiência num sistema que constitui unidades".
 
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).

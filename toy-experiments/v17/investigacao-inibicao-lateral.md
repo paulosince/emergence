@@ -99,3 +99,15 @@
 15. Muir, D. R., Cook, M. (2014). Anatomical constraints on lateral competition in columnar cortical architectures. *Neural Computation*, 26, 1624–1666. **Texto integral** (é a revisão do repositório de Basel acima; número do fascículo a verificar).
 16. Seung, H. S. (2019). Unsupervised learning by a nonlinear network with Hebbian excitatory and anti-Hebbian inhibitory neurons. arXiv 1812.11581. **Texto integral** (item 10 acima).
 17. Leituras integrais também de: Myoga et al. 2014 (item 4), Pecka et al. 2008 (item 5), Peña e Konishi 2000 (item 6), Roberts et al. 2014 (item 8). Sem texto integral: Roberts et al. 2013 (item 7), Vogels et al. 2011 (item 9), Lumer 2000 (item 3).
+
+## 6. A inibição nasce fraca e cresce? (16/11/2026, antes de desenhar o caminho 2)
+
+**Hipótese do assistente, testada antes do desenho:** na biologia, a inibição nasce fraca e cresce com a experiência (base: modelos de Seung, 2019, e Vogels et al., 2011). **Refutada pelos dados de desenvolvimento lidos.**
+
+- **Dorrn et al., 2010**, *Nature* 465:932–936 (texto integral; córtex auditivo primário de rato, registro in vivo): logo após o início da audição, excitação e inibição são **igualmente fortes** (razão E:I de 1,3 ± 0,2 em P12–P21 e 1,2 ± 0,2 em adultos, sem diferença). O que muda com a experiência é a **seletividade**: a inibição começa **mal sintonizada** (σ 7,7 contra 4,9 da excitação) e só fica co-sintonizada por volta de P25–P30 (correlação E–I de 0,37 para 0,71). Estimulação padronizada de 3–5 min muda o equilíbrio nos jovens, não nos adultos. Os autores propõem que o equilíbrio é um processo **de rede**, não de sinapses isoladas. Limites: anestesia com cetamina; parte sem cegamento.
+- **Magnusson et al., 2005**, *J. Physiol.* 568:497–512 (texto integral; oliva superior medial de gerbil, fatias): após o início da audição, a inibição fica **mais rápida** (decaimento de 4,0 para 2,0 ms; meia-largura do potencial de 11,8 para 3,1 ms) e a condutância total **cai** (23,7 para 11,4 nS), com menos entradas inferidas. Em animais criados com ruído omnidirecional, a condutância fica alta (28,8 nS): a experiência espacial **poda** a inibição. Limites: número de entradas inferido, não contado; a cinética in vitro é mais lenta que a necessária in vivo.
+- **Kapfer et al., 2002**, *Nat. Neurosci.* 5:247–253 (**só resumo**): o refinamento espacial das entradas inibitórias da oliva depende da experiência e não ocorre em mamíferos que não usam diferenças de chegada.
+
+**Princípio que emerge (dedução do assistente):** a inibição começa **forte, ampla e lenta**; a experiência a torna **seletiva, rápida e mais enxuta**. É o contrário de "nascer fraca e crescer". E ela não pertence à ligação recém-nascida: na oliva vem de outra célula; no córtex, o equilíbrio se faz na rede.
+
+**Consequência para o caminho 2:** como formulado ("nasce fraca e cresce com a consolidação da própria ligação"), seria uma divergência **sem apoio** nos dados de desenvolvimento, só em modelos. A versão fiel exigiria inibição **da Uint como um todo** (vinda de uma unidade intermediária alimentada pelas mesmas entradas), ampla e lenta no início, refinada pela experiência.
