@@ -270,6 +270,10 @@ Instrumental, rotulado como controle de engenharia:
 | D17 | Taxa dos microfones | 48 kHz, conforme a especificação do robô (não perguntado; seguir a especificação) |
 | D18 | Limites de recursos | **20.000 Uint e 1.000.000 de Upro e ramos** |
 | D19 | Altura dos alto-falantes | **Altura da cabeça do robô** (~0,36 m) |
+| D20 | Decaimento dos instáveis (após o ensaio mínimo) | **Desacerto −0,01 por chegada sem coincidência; meia-vida de 30 s** |
+| D21 | Competição | **Força total de 1,0 por Upro, conservada entre os ramos** |
+| D22 | Inibição | **Pré-alimentada e lateral**, ambas com efeito −0,5; a pré-alimentada chega uma janela depois da excitação |
+| D23 | Portão do brotamento | **5 repetições do mesmo quase-acerto e força do ramo ≥ 0,3** |
 
 # 7. Nomes
 
