@@ -24,11 +24,11 @@
 | Um algoritmo para todos os sentidos (ponderação 5, parte 1) | A especialização biológica dos sentidos foi imposta pelo meio ao longo da evolução darwiniana; aqui ainda se constrói o que se consolida. **Dado:** as regras da Pcrt, as Utrd de cada sentido e as propriedades físicas das fibras. **Construído:** a janela efetiva e os atrasos que ficam. **Quem seleciona:** o mundo do robô. Consequência: o estímulo precisa conter as relações que se quer ver emergir, e elas precisam chegar às Utrd | 16/11 |
 
 | Exuberância sem explosão (ponderação 5, parte 2) | **Combinação** das três: (1) a fibra define a faixa de atrasos que cada sentido oferece; (2) começa com poucas candidatas, espaçadas proporcionalmente (mais próximas nos atrasos curtos, mais afastadas nos longos); (3) novas candidatas brotam perto das que quase acertaram, com passo também proporcional. Esperado: o mesmo algoritmo termina fino no som e largo na visão, sem cobrir tudo de saída. "Quase-acerto" é descrição, não termo aprovado | 16/11 |
+| Modalidade da V0.17 | **Som** (retoma a decisão de 13/11; a V0.15 serve de base e de fracasso conhecido para comparação) | 16/11 |
 | O que passa entre versões | O que passa adiante é o que vem codificado para construir, não o que foi construído: **parâmetros**. Os experimentos fazem o papel da evolução; o que prevalece nos testes entra adaptado na versão seguinte. **Salvaguarda:** entre versões só passam parâmetros, nunca estrutura consolidada (malhas, atrasos escolhidos, Uint); cada parâmetro que passa leva o registro do teste que o fez prevalecer | 16/11 |
 
 ## Em aberto
-1. **Som ou visão** na V0.17 (a decisão anterior, de 13/11, era redesenhar "ainda em som").
-2. Adotar ou não a regra de distinção por emissão (ramos).
+1. Adotar ou não a regra de distinção por emissão (ramos).
 
 ## Fontes
 Evidências e estado de leitura em [innovation-tracking, seções 11 e 12](../../docs/innovation-tracking.md).
