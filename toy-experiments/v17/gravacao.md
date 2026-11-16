@@ -5,9 +5,12 @@
 ## Proveniência
 - **Arquivo:** `Toccata_et_Fugue_BWV565.ogg`, enviado pelo responsável em 16/11/2026 (baixado por ele do Wikimedia Commons; download direto daqui foi recusado pelo servidor com "too many requests").
 - **Intérprete:** Ashtar Moïra, segundo a legenda do artigo da Wikipédia (8 min 45 s na legenda; o arquivo tem 8 min 33,6 s — diferença não explicada).
-- **Licença:** **não verificada.** O arquivo **não** foi colocado no repositório; só depois de confirmada a licença.
+- **Licença:** domínio público, "attribution not legally required", conforme a página do Commons lida pelo responsável em 16/11/2026. Arquivo original, sem alterações, em [`estimulo/`](estimulo/Toccata_et_Fugue_BWV565.ogg).
 - **SHA-256:** `12bfa09ff64f6c59267302f37b3d74de55af2e01f8cf6ce1e8b33742846630b8`
 - **Formato:** Ogg Vorbis, 44,1 kHz, estéreo, ~96 kbit/s (com perdas), 513,56 s.
+
+## Uso no experimento (decisões de 16/11/2026)
+- Estéreo como vier: um canal em cada alto-falante. Qual canal fica no alto-falante mais próximo do robô foi deixado em aberto pelo responsável ("tanto faz"); registro: **canal esquerdo no mais próximo**, escolha arbitrária do assistente.
 
 ## Medidas ([script](analise/caracterizar_gravacao.py))
 | Medida | Valor | Leitura |
