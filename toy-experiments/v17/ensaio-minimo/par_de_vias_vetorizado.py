@@ -1,8 +1,11 @@
+"""Ensaio mínimo, parte 2 (versão vetorizada). Regras: ver resultados.md e o cabeçalho de sinais/decisões D1–D9.
+Provisórias [A]: Uint criada na 1ª coincidência; brotos não duplicam a menos de 2%; contagem por pulso de A."""
 import numpy as np, time
 W,DMIN,DMAX,PASSO,DEDUP=0.21,0.5,20.0,0.10,0.02; DELTA,JIT=0.458,0.02; DUR,CICLO=20000.,180000.; SOME,EST=600000.,120000.
-def brotos(ds):
+def brotos(ds, quais):
+    """Brota a ±10% só dos ramos envolvidos em quase-acertos (D7), sem duplicar a menos de 2%."""
     out=list(ds)
-    for d in list(ds):
+    for d in quais:
         for nd in (d*1.1,d*0.9):
             if DMIN<=nd<=DMAX and all(abs(x-nd)>DEDUP*nd for x in out): out.append(nd)
     return out
@@ -27,7 +30,7 @@ def rodar(periodos,seed=1):
                     o=round(a[i]-b[j],2); cred[o]=cred.get(o,0)+1
             ni,nj=np.nonzero(near)
             if len(ni):
-                dA=brotos(dA) if True else dA; dB=brotos(dB)
+                dA=brotos(dA,{a[i] for i in ni}); dB=brotos(dB,{b[j] for j in nj})
         tf=t0+DUR
         keep=lambda d,last,first: (d in last and (tf-last[d]<SOME or last[d]-first[d]>=EST)) or (d not in last and tf-t0<SOME)
         dA=[d for d in dA if keep(d,lastA,firstA)]; dB=[d for d in dB if keep(d,lastB,firstB)]
