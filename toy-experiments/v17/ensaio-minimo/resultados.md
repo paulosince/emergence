@@ -99,3 +99,18 @@ Acerto passa a exigir soma líquida ≥ 0,3 na Uint, com inibição pré-aliment
 1. **Meia-vida de 30 s colapsa sempre** (72 de 72). Com silêncios entre episódios, tudo some antes de poder estabilizar.
 2. **Ganho grande prende o primeiro acaso:** com +0,065 por acerto, no período fixo, um par de *aliasing* chega a força 1,0 cedo e fica com todo o crédito (crédito verdadeiro 0). Ganhos pequenos deixam a evidência se acumular. Isso concorda com a literatura (ganho de ~0,5% por pareamento em Song et al., 2000).
 3. **A região de seleção é estreita**, e com uma única semente. Antes de congelar, ela precisa ser confirmada com mais sementes.
+
+## Confirmação com 10 sementes ([registro prévio](mapa-faixas.md#4-confirmação-com-10-sementes-registrada-antes-de-rodar-16112026), [script](confirmacao.py), [dados](confirmacao-saida.csv))
+
+Conjunto: ganho 0,0065; meia-vida 300 s; força inicial 0,15; enfraquecimento por sincronia.
+
+| Portão do broto | Condição | Seleção | Outras classes | Crédito verdadeiro | Disparos da Uint (último episódio) |
+|---|---|---|---|---|---|
+| **0,30** | **notas** | **9 de 10** | 1 difuso | 0,72–0,88 | 583–915 pulsos nas seleções |
+| 0,30 | fixo | 2 de 10 | 8 difusos | 0,335 nos difusos | 0 nos difusos |
+| 0,15 | notas | 4 de 10 | 5 explosões, 1 difuso | 0,63–0,88 | 0–5 |
+| 0,15 | fixo | 2 de 10 | 8 difusos | 0–0,15 nos difusos | 0 |
+
+**Critério registrado (≥ 8 de 10 em notas): satisfeito para o portão 0,30 (9 de 10).** O portão 0,15 não satisfaz.
+
+**Leitura:** com período variando como notas, o conjunto seleciona a relação verdadeira com regularidade, e a Uint passa a disparar. Com uma única nota repetida para sempre (período fixo), o *aliasing* vence em 8 de 10 sementes; o mundo sem variação não dá ao sistema o que selecionar. É coerente com a hipótese de que o mundo seleciona. **Limites:** um par de vias, pulsos ideais, não as 384 vias nem a gravação; a inibição lateral não foi testada.
