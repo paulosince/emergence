@@ -128,6 +128,11 @@
 - **O que seria novo:** nada nesta regra, por ora. O ponto em aberto é de coerência interna: a inibição lateral exige ligação entre Uint, o mesmo segundo nível adiado com a repetição interna.
 - **Evidência nova (16/11, texto integral):** no desenvolvimento, a inibição começa forte, ampla e lenta e a experiência a torna seletiva e rápida (Dorrn et al., 2010; Magnusson et al., 2005). O ensaio da V0.17 mostrou que inibição atrelada à própria ligação recém-nascida e chegando antes impede qualquer seleção (10/10 colapsos). Ainda sem precedente buscado para "inibição ampla que se refina por experiência num sistema que constitui unidades".
 
+## 15. Vizinhança de comparação da Pcrt como dado anatômico (proposta, 16/11/2026)
+- **Origem:** explosão por combinações prevista para 384 vias. [Investigação](../toy-experiments/v17/investigacao-convergencia.md).
+- **O que já existe:** convergência entre orelhas na mesma faixa (Plauška et al., 2017; Fischer e Peña, 2009) e casamento presente no início da audição, mantido pela experiência (Polley et al., 2013). Restringir comparações a uma vizinhança topográfica é prática comum em modelos de mapas auto-organizados. **Não é novo.**
+- **O que seria novo:** nada por si; serve para tornar viável a constituição por regra única.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
