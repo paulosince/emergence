@@ -111,3 +111,18 @@
 **Princípio que emerge (dedução do assistente):** a inibição começa **forte, ampla e lenta**; a experiência a torna **seletiva, rápida e mais enxuta**. É o contrário de "nascer fraca e crescer". E ela não pertence à ligação recém-nascida: na oliva vem de outra célula; no córtex, o equilíbrio se faz na rede.
 
 **Consequência para o caminho 2:** como formulado ("nasce fraca e cresce com a consolidação da própria ligação"), seria uma divergência **sem apoio** nos dados de desenvolvimento, só em modelos. A versão fiel exigiria inibição **da Uint como um todo** (vinda de uma unidade intermediária alimentada pelas mesmas entradas), ampla e lenta no início, refinada pela experiência.
+
+## 7. O tempo da inibição no desenvolvimento (16/11/2026, texto integral salvo indicação)
+
+**Pergunta:** a inibição pré-alimentada já nasce chegando antes da excitação, ou isso amadurece?
+
+- **Cai et al., 2017**, *Cereb. Cortex* 28:1610–1624 (córtex auditivo de rato, in vivo): atraso da inibição em relação à excitação de **2,68 ± 0,50 ms** nos jovens e **0,77 ± 0,47 ms** nos adultos; decaimento da inibição de **94 ± 11 ms** nos jovens e **20 ± 3 ms** nos adultos. 5 min de pulsos sonoros encurtaram o decaimento de 108 para 63 ms nos jovens (efeito por ≥ 1 h; ≥ 24 h após 30 min), sem efeito nos adultos. A razão inibição:excitação não mudou significativamente. Nos jovens, a inibição longa de um estímulo invade o seguinte e piora o acompanhamento de estímulos repetidos.
+- **Oswald e Reyes, 2011**, *Cereb. Cortex* 21:1351–1361 (fatias, córtex auditivo de camundongo): a subida da inibição cai de 6 para 3 ms e o pico vem por volta de 16 ms nos jovens contra cerca de 6 ms da excitação; "the development of the temporal properties that influence the onset of inhibition lag those of excitation".
+- **Chittajallu e Isaac, 2010**, *Nat. Neurosci.* 13:1240–1248 (fatias, córtex de barril): a inibição pré-alimentada **emerge** entre P6 e P11 (razão GABA:AMPA crescente); a janela de integração começa larga (meia-largura ≈ 60 ms) e estreita. Depende da experiência: aparar os bigodes reduz a inibição; o que a experiência fortalece é a ligação **da entrada sensorial para a célula inibitória** (maior probabilidade de liberação), não a da célula inibitória para a principal.
+- **Hipocampo, entrada entorrinal** (J. Physiol., doi 10.1113/jp289077; **só resumo**, autoria a verificar): na primeira semana a inibição pré-alimentada está ausente ou muito atrasada; o atraso encurta com a idade.
+- **Sun et al., 2010**, *Nature* 465:927–931 (**só resumo**; texto bloqueado): excitação e inibição co-sintonizadas logo após o início da audição, com inibição pré-alimentada relativamente forte, independente da experiência. **Diverge** de Dorrn et al. quanto à sintonia; nenhum dos dois contradiz o amadurecimento temporal.
+- Oliva (seção 6): a inibição fica mais rápida após o início da audição (Magnusson et al., 2005).
+
+**Princípio que emerge (dedução do assistente):** a inibição pré-alimentada **começa tarde e longa** e, com experiência, passa a **chegar mais cedo e durar menos**; a força relativa à excitação muda pouco. A experiência age sobretudo na **ligação que recruta a célula inibitória**.
+
+**Relação com o ensaio (16/11):** a inibição "uma janela depois" deixou a seleção acontecer; "0,3 ms antes" impediu tudo. A biologia sugere que as duas são **fases** do mesmo processo: tarde no começo (a janela larga deixa as coincidências novas serem favorecidas), cedo no fim (a janela estreita). O "antes" da oliva seria um estado **maduro**, não inicial.
