@@ -277,6 +277,7 @@ Instrumental, rotulado como controle de engenharia:
 | D2′ | Revisão da D2 | **Acerto exige favorecimento:** coincidência e soma líquida na Uint (com efeitos) ≥ 0,3 (0,2 do limiar [P]) |
 | D3′ | Revisão da D3 | **Força inicial 0,15** (incremento +0,065 mantido) |
 | D24 | Estabilização | Acertos separados por ≥ 2 min **e** força ≥ 0,5 |
+| D25 | Conjunto confirmado pelo mapa | Ganho **+0,0065** por acerto; meia-vida **300 s**; força inicial **0,15**; enfraquecimento **por sincronia** (−1,05 × ganho para chegada 1 a 3 janelas após um momento favorecido, sem acerto); portão de broto **0,3**. Substitui o incremento da D3, a meia-vida e o desacerto por chegada da D20. Evidência: [ensaio mínimo](ensaio-minimo/resultados.md) |
 
 # 7. Nomes
 
