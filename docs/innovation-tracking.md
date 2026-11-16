@@ -121,6 +121,12 @@
 - **O que seria novo (confiança baixa a média):** um único algoritmo de constituição que, por exuberância guiada pelo quase-acerto dentro da faixa física da fibra, termina em escalas temporais diferentes conforme o sentido; e a regra de auditoria de que só parâmetros, com o teste que os justificou, passam entre versões.
 - **Falta:** busca de anterioridade sobre crescimento estrutural guiado por quase-coincidência em redes de impulsos; verificação das fontes citadas de memória.
 
+## 14. Inibição lateral entre Uint (revisão neurobiológica, 16/11/2026)
+- **Origem:** regra aprovada na D22 da V0.17 (a Uint que acerta inibe as outras que recebem da mesma Upro). Revisão pedida pelo responsável antes do ensaio: [investigação](../toy-experiments/v17/investigacao-inibicao-lateral.md).
+- **O que já existe (precedente, por resumo):** competição por inibição de dois passos, com célula inibitória compartilhada, é clássica; com plasticidade inibitória, faz unidades excitatórias aprenderem traços diferentes (arXiv 1812.11581; Vogels et al., 2011). **A inibição lateral em si não é nova.**
+- **Evidência nova relevante:** na coruja, a ambiguidade de fase é resolvida pela convergência entre faixas de frequência, com inibição como reforço (Peña e Konishi, 2000); disparos sincronizados impedem a competição (Lumer, 2000).
+- **O que seria novo:** nada nesta regra, por ora. O ponto em aberto é de coerência interna: a inibição lateral exige ligação entre Uint, o mesmo segundo nível adiado com a repetição interna.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
