@@ -81,3 +81,21 @@ Acerto passa a exigir soma líquida ≥ 0,3 na Uint, com inibição pré-aliment
 4. **No silêncio entre episódios** (160 s), a meia-vida de 30 s apaga até os vencedores, porque ninguém chegou a ser estável.
 
 **Leitura geral das três rodadas:** o sistema passa de "tudo gera tudo" (rodada 1) para "nada sobrevive" (rodada 3) com mudanças pequenas. Os parâmetros interagem: o desacerto por chegada depende da taxa de disparo, o portão de força do broto depende do acerto, e o favorecimento depende da força inicial e da janela.
+
+## Mapa de sensibilidade (opção c) — [faixas registradas antes](mapa-faixas.md), [script](mapa.py), [dados](mapa-saida.csv)
+
+144 execuções (72 combinações × 2 condições), semente 1. Para poupar tempo, uma execução é interrompida se passar de 300 ramos (é contada como explosão).
+
+| Classe | Execuções |
+|---|---|
+| Colapso | 108 |
+| Explosão | 14 |
+| Difuso | 15 |
+| **Seleção** | **7** |
+
+**Onde aparece a seleção:** só com **ganho de 0,0065 por acerto** (~100 acertos, o extremo superior da faixa aceita) e **meia-vida de 300 s**; seis das sete com força inicial 0,15. Nas condições de notas, com portão de broto 0,3, o crédito na relação verdadeira foi de 0,69 a 0,84, e **a Uint disparou** em ~900 pulsos do último episódio. No período fixo, houve seleção com portão igual à força inicial, mas as forças ficaram baixas (≤ 0,15) e a Uint não disparou. O modo de enfraquecimento (sincronia, ou por chegada a 5% ou 15,4% do ganho) não decidiu entre seleção e não seleção.
+
+**O que o mapa mostra:**
+1. **Meia-vida de 30 s colapsa sempre** (72 de 72). Com silêncios entre episódios, tudo some antes de poder estabilizar.
+2. **Ganho grande prende o primeiro acaso:** com +0,065 por acerto, no período fixo, um par de *aliasing* chega a força 1,0 cedo e fica com todo o crédito (crédito verdadeiro 0). Ganhos pequenos deixam a evidência se acumular. Isso concorda com a literatura (ganho de ~0,5% por pareamento em Song et al., 2000).
+3. **A região de seleção é estreita**, e com uma única semente. Antes de congelar, ela precisa ser confirmada com mais sementes.
