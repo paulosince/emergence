@@ -67,3 +67,17 @@ Mesmo par de vias. Testa decaimento, competição e portão do brotamento. **A i
 4. **Nenhum ramo passa de 0,29:** a força total de 1,0 fica dividida entre os muitos ramos que acertam. A Uint nunca chega ao limiar.
 
 **O ponto central (dedução do assistente):** o que deixa "tudo gerar tudo" é a **D2**, porque o acerto independe da força e do estado da Uint. Na biologia, o fortalecimento depende do estado da célula que recebe, e é por aí que a inibição age sobre o aprendizado. Enquanto o acerto não depender da força, a inibição não tem como selecionar.
+
+## Parte 2, rodada 3 — com D2′, D3′ e D24 ([script](par_de_vias_v3.py), [saída](parte2-rodada3-saida.txt))
+
+Acerto passa a exigir soma líquida ≥ 0,3 na Uint, com inibição pré-alimentada (−0,5, uma janela depois); força inicial 0,15; estável exige acertos espaçados e força ≥ 0,5.
+
+**Resultado: colapso nas três condições.** No 1º episódio, poucos pares acertam, e são de *aliasing* (por exemplo, ramo de 20 ms em A com 9,56 ms em B, diferença ≈ Δ + 2 períodos). A relação verdadeira tem **crédito zero**. Do 2º episódio em diante, nenhum acerto, nenhum disparo. Todos os ramos somem no 5º episódio.
+
+**Por quê (dedução do assistente, conferida nos números):**
+1. **O desacerto pesa por chegada:** −0,01 por chegada sem coincidência, a ~200 chegadas por segundo, dá ~−2 por segundo. Só sobrevive quem acerta a quase todo pulso.
+2. **A relação verdadeira precisa de brotos, e brotar exige força ≥ 0,3**, que ninguém tem sem antes acertar. Os ramos iniciais (iguais nas duas vias) ficam a 0,458 ms da coincidência verdadeira, fora da janela. É um círculo: sem broto não acerta, e sem acerto não brota.
+3. **0,15 + 0,15 = 0,3 exige coincidência quase perfeita:** o decaimento dentro da janela e a inibição pré-alimentada deixam a soma abaixo de 0,3 em quase todo par.
+4. **No silêncio entre episódios** (160 s), a meia-vida de 30 s apaga até os vencedores, porque ninguém chegou a ser estável.
+
+**Leitura geral das três rodadas:** o sistema passa de "tudo gera tudo" (rodada 1) para "nada sobrevive" (rodada 3) com mudanças pequenas. Os parâmetros interagem: o desacerto por chegada depende da taxa de disparo, o portão de força do broto depende do acerto, e o favorecimento depende da força inicial e da janela.
