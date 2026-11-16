@@ -64,3 +64,8 @@ Por execução: a classe (colapso, explosão, difuso, seleção); o crédito ver
 ## 8. O que este ensaio não testa
 
 A inibição lateral (adiada). A origem da inibição numa unidade própria (aqui cada chegada traz a sua, simplificação já declarada na D22). As 384 vias e a gravação. O tempo de chegada constituído pela Pcrt (alternativa não escolhida).
+
+## Errata (16/11/2026, depois da execução)
+
+1. **Medida de tempo falha.** O item 4.3 mandava medir uma execução agudo-I3; ela levou 28 s, e a grade foi estimada em ~10 min. A condição medida colapsa cedo e por isso é a mais rápida; as execuções agudas sem inibição passaram de 22 min sem terminar. A regra dos 5 s não foi aplicada: quando o problema apareceu, os resultados do grave já tinham sido vistos, e a regra exigia decidir antes disso. O agudo foi interrompido; a decisão de como seguir é do responsável.
+2. O caminho de importação foi corrigido (`sys.path`) antes da execução válida; a primeira tentativa falhou ao iniciar, sem produzir resultados.

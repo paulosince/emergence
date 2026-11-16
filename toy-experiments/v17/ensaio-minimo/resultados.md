@@ -114,3 +114,26 @@ Conjunto: ganho 0,0065; meia-vida 300 s; força inicial 0,15; enfraquecimento po
 **Critério registrado (≥ 8 de 10 em notas): satisfeito para o portão 0,30 (9 de 10).** O portão 0,15 não satisfaz.
 
 **Leitura:** com período variando como notas, o conjunto seleciona a relação verdadeira com regularidade, e a Uint passa a disparar. Com uma única nota repetida para sempre (período fixo), o *aliasing* vence em 8 de 10 sementes; o mundo sem variação não dá ao sistema o que selecionar. É coerente com a hipótese de que o mundo seleciona. **Limites:** um par de vias, pulsos ideais, não as 384 vias nem a gravação; a inibição lateral não foi testada.
+
+## Ensaio da inibição pré-alimentada (16/11/2026)
+
+Registro prévio: [inibicao-prealimentada.md](inibicao-prealimentada.md), aprovado pelo responsável. Código: `inibicao.py` (testes em `test_inibicao.py`, 4 aprovados). Saída: `inibicao-saida.csv`, `inibicao-progresso.txt`.
+
+**Execução:** as 40 execuções do grave terminaram. O agudo foi **interrompido** pelo assistente depois de 22 min sem terminar nenhuma execução (ver errata no registro prévio). Nenhum resultado do agudo foi visto.
+
+**Grave (notas de 2,5–8 ms), 10 sementes por condição:**
+
+| Condição | Seleção | Explosão | Colapso | Crédito verdadeiro (mediana) | Par mais forte verdadeiro | Dispersão (mediana, ms) |
+|---|---|---|---|---|---|---|
+| I0 sem inibição | 5 | 5 | 0 | 0,754 | 6 | 0,060 |
+| I1 uma janela depois, 0,30 ms | 8 | 2 | 0 | 0,805 | 10 | 0,060 |
+| I2 0,3 ms antes, 0,30 ms | 0 | 0 | **10** | 0 | 0 | — |
+| I3 0,3 ms antes, 1,5 ms | 0 | 0 | **10** | 0 | 0 | — |
+
+**Leitura pelas regras fixadas (seção 7):** "adotar a duração biológica" **não** se aplica (I3 não seleciona em nenhuma semente). As regras do agudo não podem ser aplicadas. A dispersão não mudou entre I0 e I1.
+
+**Mecanismo (conta do assistente, conferível):** no começo, cada ramo tem força 0,15; dois ramos coincidindo somam no máximo 0,30, exatamente o favorecimento exigido (0,3). Com a inibição chegando antes, a própria dupla se inibe: soma máxima 0,245 (I2) e 0,177 (I3), abaixo de 0,3 em qualquer intervalo. Nada é favorecido, nada se fortalece: colapso. Com a inibição depois (I1), a dupla não se inibe; só as chegadas seguintes são freadas, o que **reduziu as explosões** (5 → 2) e deixou o par mais forte correto em 10 de 10.
+
+**Achado não previsto:** I1, a forma que vinha rodando, foi **melhor** que nenhuma inibição. A previsão 1 (I0, I1 e I2 parecidas) falhou.
+
+**Limites:** um par de vias, pulsos ideais; a inibição vem na mesma Upro e com a mesma força da excitação (simplificação da D22); na oliva ela vem de outra unidade, com força própria (proporção 1:1 de condutância nos experimentos de Myoga et al., 2014, com entradas fortes).
