@@ -236,7 +236,7 @@ O elo 6 é o objeto do experimento.
 - **Falha:** sem patamar; ou P2 com razão < 1,2; ou P4 falha.
 - **Interrupção:** chamada sem trilha; não determinismo; mais de 20.000 Uint ou 1.000.000 de Upro e ramos (D18).
 
-## 5.4 Ensaio mínimo do mecanismo (obrigatório antes de congelar)
+## 5.4 Ensaio mínimo do mecanismo (obrigatório antes de congelar) — executado em 16/11/2026, ver [resultados](ensaio-minimo/resultados.md)
 
 Instrumental, rotulado como controle de engenharia:
 1. **Sinais nos microfones:** conferir, com a geometria escolhida, as diferenças de chegada e de nível de cada alto-falante (lição da V0.16).

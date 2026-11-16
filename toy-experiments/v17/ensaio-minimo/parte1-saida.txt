@@ -1,0 +1,5 @@
+azimutes: próximo -90°, distante +90°; distâncias 0.60 m e 1.40 m
+Woodworth a 90°: 0.375 ms; linha reta entre microfones: 0.292 ms
+só o próximo (canal E): atraso da orelha direita em relação à esquerda (300–800 Hz) = +0.458 ms; diferença de nível esq−dir: 500 Hz–1 kHz +1.6 dB; 2–4 kHz +8.2 dB; 4–8 kHz +13.7 dB
+só o distante (canal D): atraso da orelha direita em relação à esquerda (300–800 Hz) = -0.458 ms; diferença de nível esq−dir: 500 Hz–1 kHz -1.4 dB; 2–4 kHz -8.1 dB; 4–8 kHz -13.9 dB
+os dois juntos: atraso da orelha direita em relação à esquerda (300–800 Hz) = +0.583 ms; diferença de nível esq−dir: 500 Hz–1 kHz +0.4 dB; 2–4 kHz +3.0 dB; 4–8 kHz +5.6 dB

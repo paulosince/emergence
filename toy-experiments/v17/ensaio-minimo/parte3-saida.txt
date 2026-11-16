@@ -1,0 +1,3 @@
+duração 10.0 s; incidências por segundo (384 vias): 19,712
+por via de faixa (soma dos 3 limiares): mediana 96/s, máx 407/s
+comparações da Pcrt por segundo, se cada incidência for comparada com as das outras vias nos 20 ms anteriores: ~7,771,338

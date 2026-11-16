@@ -1,0 +1,16 @@
+fixo 5 ms
+  ep 1 P=5.0: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 280; crédito na relação verdadeira 0.42; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 2 P=5.0: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 284; crédito na relação verdadeira 0.42; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 3 P=5.0: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 279; crédito na relação verdadeira 0.42; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 4 P=5.0: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 285; crédito na relação verdadeira 0.42; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 5 P=5.0: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 287; crédito na relação verdadeira 0.42; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 6 P=5.0: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 290; crédito na relação verdadeira 0.42; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  (29 s)
+variando
+  ep 1 P=5.0: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 280; crédito na relação verdadeira 0.42; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 2 P=3.7: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 380; crédito na relação verdadeira 0.33; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 3 P=6.3: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 237; crédito na relação verdadeira 0.50; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 4 P=4.4: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 350; crédito na relação verdadeira 0.38; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 5 P=7.1: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 197; crédito na relação verdadeira 0.55; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  ep 6 P=5.6: ramos A 74 B 74; ramos de A sem acerto neste episódio 0; relações que acertam 271; crédito na relação verdadeira 0.46; top [(np.float64(0.42), 2200), (np.float64(0.39), 2000), (np.float64(0.44), 1800)]
+  (28 s)
