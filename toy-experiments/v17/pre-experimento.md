@@ -110,7 +110,7 @@ lang: pt-BR
 **Fornecido:** a sala, os alto-falantes, a gravação, a propagação até os microfones (incluindo a sombra da cabeça), as Utrd, as factories, as regras da Pcrt e as propriedades físicas das fibras [R].
 **Não fornecido:** a janela efetiva que se consolida, os atrasos que ficam, os tipos de convergência [R].
 **Condições anteriores:** zero Uint; nenhuma Upro com destino constituído.
-**Fora desta versão:** movimento e reflexos do robô [R]; tempestade [R]; reverberação completa da sala do robô [R]; neuromodulação, inibição, sono; lateralização (hipótese futura [R]).
+**Fora desta versão:** movimento e reflexos do robô [R]; tempestade [R]; reverberação completa da sala do robô [R]; neuromodulação, inibição lateral (adiada, D22), sono; a inibição pré-alimentada **entra** (D22, tempo em revisão); lateralização (hipótese futura [R]).
 
 ## 4.2 Investigação neurobiológica
 
@@ -272,7 +272,7 @@ Instrumental, rotulado como controle de engenharia:
 | D19 | Altura dos alto-falantes | **Altura da cabeça do robô** (~0,36 m) |
 | D20 | Decaimento dos instáveis (após o ensaio mínimo) | **Desacerto −0,01 por chegada sem coincidência; meia-vida de 30 s** |
 | D21 | Competição | **Força total de 1,0 por Upro, conservada entre os ramos** |
-| D22 | Inibição | **Pré-alimentada e lateral**, ambas com efeito −0,5; a pré-alimentada chega uma janela depois da excitação |
+| D22 | Inibição | **Lateral: adiada** (revista em 16/11) para a versão com segundo nível, junto com a repetição interna: exige ligação entre Uint, e na biologia chega milissegundos depois e dura dezenas de ms ([revisão](investigacao-inibicao-lateral.md)). **Pré-alimentada:** efeito −0,5; **tempo de chegada em revisão** (aprovado "uma janela depois"; na oliva chega antes da excitação) |
 | D23 | Portão do brotamento | **5 repetições do mesmo quase-acerto e força do ramo ≥ 0,3** |
 | D2′ | Revisão da D2 | **Acerto exige favorecimento:** coincidência e soma líquida na Uint (com efeitos) ≥ 0,3 (0,2 do limiar [P]) |
 | D3′ | Revisão da D3 | **Força inicial 0,15** (incremento +0,065 mantido) |
