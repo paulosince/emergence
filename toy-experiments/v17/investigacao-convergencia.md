@@ -45,3 +45,20 @@
 3. Polley, D. B., Thompson, J. H., Guo, W. (2013). Brief hearing loss disrupts binaural integration during two early critical periods of auditory cortex development. *Nat. Commun.*, 4, 2547. **Texto integral.**
 4. Cao, X.-J., Oertel, D. (2010). Auditory nerve fibers excite targets through synapses that vary in convergence, strength, and short-term plasticity. *J. Neurophysiol.* **Só resumo.**
 5. Spirou, G. A. et al. (2005). Convergence of auditory-nerve fiber projections onto globular bushy cells. *Neuroscience*, 136(3), 843–863. **Resumo.**
+
+## 6. Estamos estourando? Comparação com o cérebro humano (16/11/2026, pedido do responsável)
+
+**Números de referência (fonte; estado):**
+- Encéfalo humano: 86,1 ± 8,1 bilhões de neurônios (Azevedo et al., 2009, *J. Comp. Neurol.* 513:532–541; resumo); córtex cerebral ~16 bilhões (19%).
+- Sinapses do neocórtex: ~0,15 × 10^15 (Pakkenberg et al., 2003, *Exp. Gerontol.* 38:95–99; resumo); ~7.000 por neurônio neocortical (Drachman, 2005, citando Pakkenberg; via BioNumbers).
+- Fibras do nervo auditivo (células do gânglio espiral) por orelha: 33.679 ± 3.439 (0–10 anos) e 30.273 ± 3.879 (21–30 anos) (Makary et al., 2011, *JARO* 12:711–717; texto integral, tabela).
+- Oliva superior medial humana: 3.891 neurônios; lateral: 1.980 (tabela de *Brain Struct. Funct.* 213:489–497, 2009; método e lado não informados na página lida; autoria a verificar).
+- Densidade de sinapses no córtex auditivo humano atinge o máximo perto dos 3 meses de vida e depois é podada (Huttenlocher e Dabholkar, 1997, *J. Comp. Neurol.* 387:167–178; resumo).
+- **Não obtidos:** número de neurônios do núcleo coclear e do córtex auditivo primário humanos (páginas bloqueadas ou sem o número).
+
+**Contas (assistente; confiança baixa a moderada):**
+- **Escala absoluta:** nossas 384 vias equivalem a ~1/160 das ~60.000 fibras das duas orelhas; o limite de 1 milhão de ramos é ~10^8 vezes menor que as sinapses do neocórtex. Em termos absolutos, não há estouro biológico algum.
+- **Escala relativa, no primeiro estágio de comparação:** a oliva medial humana tem ~0,13 neurônio por fibra do nervo auditivo (3.891 / 30.273, supondo contagem de um lado). Para 192 vias por orelha, o equivalente seria ~25 unidades por lado. Nossa projeção (~5.500 pares, se cada um gerar uma Uint) daria ~14 Uint **por via**, ou seja, ~100 vezes mais unidades por entrada que a oliva medial. A comparação superestima o excesso, porque nossas Uint também fazem o papel de células do núcleo coclear (dentro de cada orelha), que são mais numerosas e cuja contagem humana não obtive.
+- **Superprodução:** a biologia também produz em excesso e poda (pico de sinapses aos 3 meses no córtex auditivo). Exuberância seguida de poda é fiel; o que não é fiel é **manter** muitas unidades por entrada.
+
+**Leitura (assistente):** o "estouro" é sobretudo do **nosso orçamento de computação**, não da biologia. Mas, por entrada, a V0.17 tende a criar muito mais unidades no primeiro estágio do que o tronco cerebral humano tem; a seleção e a poda precisam reduzir isso, e é uma medida a acompanhar (unidades sobreviventes por via).
