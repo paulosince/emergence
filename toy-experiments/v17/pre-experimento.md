@@ -274,6 +274,9 @@ Instrumental, rotulado como controle de engenharia:
 | D21 | Competição | **Força total de 1,0 por Upro, conservada entre os ramos** |
 | D22 | Inibição | **Pré-alimentada e lateral**, ambas com efeito −0,5; a pré-alimentada chega uma janela depois da excitação |
 | D23 | Portão do brotamento | **5 repetições do mesmo quase-acerto e força do ramo ≥ 0,3** |
+| D2′ | Revisão da D2 | **Acerto exige favorecimento:** coincidência e soma líquida na Uint (com efeitos) ≥ 0,3 (0,2 do limiar [P]) |
+| D3′ | Revisão da D3 | **Força inicial 0,15** (incremento +0,065 mantido) |
+| D24 | Estabilização | Acertos separados por ≥ 2 min **e** força ≥ 0,5 |
 
 # 7. Nomes
 
