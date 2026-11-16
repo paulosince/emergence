@@ -21,6 +21,7 @@
 | Faixa de partida (aceita) | **Crescer:** 10–100 acertos, em segundos a minutos. **Estabilizar:** acertos em episódios espaçados, da ordem de 1 h, inclusive pela repetição interna. **Sumir:** candidata que não acerta desaparece em 1–4 dias | 16/11 |
 | Ramos | Nome **ramo** aprovado; pré-teste separado executado ([pre-v17-ramos](../pre-v17-ramos/results.md)). A adoção da regra de distinção por emissão na V0.17 **ainda não foi decidida** | 15/11 |
 | Ambiguidade Δ/2, Δ/3 | Esperada; resolve-se com reforço/decaimento e inibição | 15/11 |
+| Um algoritmo para todos os sentidos (ponderação 5, parte 1) | A especialização biológica dos sentidos foi imposta pelo meio ao longo da evolução darwiniana; aqui ainda se constrói o que se consolida. **Dado:** as regras da Pcrt, as Utrd de cada sentido e as propriedades físicas das fibras. **Construído:** a janela efetiva e os atrasos que ficam. **Quem seleciona:** o mundo do robô. Consequência: o estímulo precisa conter as relações que se quer ver emergir, e elas precisam chegar às Utrd | 16/11 |
 
 ## Em aberto
 1. **Som ou visão** na V0.17 (a decisão anterior, de 13/11, era redesenhar "ainda em som").
