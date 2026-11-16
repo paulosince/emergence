@@ -155,3 +155,7 @@ Registro prévio: [inibicao-fiel.md](inibicao-fiel.md), aprovado pelo responsáv
 **Mecanismo (dedução do assistente):** a inibição imatura dura 4 ms e chega 2,7 ms depois de cada chegada; com 12 ramos e pulsos a cada 2,5–8 ms, as inibições de chegadas anteriores se somam num freio contínuo durante as notas, e **nenhuma** coincidência alcança o favorecimento, nem a primeira. Sem acerto, a inibição nunca amadurece: o processo não tem como começar.
 
 **O que isso diz (para o responsável):** a regra fiel exige, para funcionar, algo que este ensaio não tem: excitação também "jovem" (lenta e longa, como na biologia; ver a observação da seção 5 do registro prévio). Com excitação adulta (0,30 ms) e inibição jovem (4 ms), a inibição sempre vence.
+
+## Motor rápido do par de vias (16/11/2026) — engenharia, nenhuma regra nova
+
+`motor_par.py` (numba) reproduz a mesma dinâmica de `inibicao.py` e `inibicao_fiel.py`. `valida_motor_par.py` compara com as 70 execuções de referência do grave: **idênticas em todos os campos (70/70)**, 119 s de CPU no total com 2 processos. **Não medido:** o tempo nas notas agudas (uma tentativa passou de 10 min sem terminar e foi encerrada pelo ambiente; nenhum resultado foi visto). Rust discutido, não tentado.
