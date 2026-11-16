@@ -34,6 +34,7 @@
 | Alto-falantes e pistas espaciais | Alto-falantes **nas paredes** (não no teto, onde a diferença de chegada ficaria abaixo da janela da Uint); acrescentar a **diferença de nível entre os ouvidos** (sombra da cabeça); a janela da Uint **pode ficar mais estreita** | 16/11 |
 | Faixas e emissão da Utrd | Cóclea já especificada para o robô: **64 faixas na escala ERB, de ~50 Hz a 8 kHz**. Abaixo de um limite (proposta: 2,4 kHz, como na V0.15) a Utrd emite **no ciclo**; acima, acompanha o **envelope**. 2 × 64 × 3 = **384 vias** | 16/11 |
 | Duração da música | **Peça completa** da Tocata e Fuga em Ré menor (em vez de um minuto), em órgão: a variação (momentos cheios e vazios) pode ser a riqueza necessária | 16/11 |
+| Tempestade | **Retirados** o trovão e a chuva da V0.17; ficam para outro experimento | 16/11 |
 | O que passa entre versões | O que passa adiante é o que vem codificado para construir, não o que foi construído: **parâmetros**. Os experimentos fazem o papel da evolução; o que prevalece nos testes entra adaptado na versão seguinte. **Salvaguarda:** entre versões só passam parâmetros, nunca estrutura consolidada (malhas, atrasos escolhidos, Uint); cada parâmetro que passa leva o registro do teste que o fez prevalecer | 16/11 |
 
 ## Em aberto
