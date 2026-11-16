@@ -19,7 +19,7 @@
 | O que conta como recorrência | A **mesma candidata que acerta de novo** | 16/11 |
 | Construção | Gradual: a coincidência não gera estrutura pronta de uma vez; ela vai sendo construída conforme se repete | 16/11 |
 | Faixa de partida (aceita) | **Crescer:** 10–100 acertos, em segundos a minutos. **Estabilizar:** acertos em episódios espaçados, da ordem de 1 h, inclusive pela repetição interna. **Sumir:** candidata que não acerta desaparece em 1–4 dias | 16/11 |
-| Ramos | Nome **ramo** aprovado; pré-teste separado executado ([pre-v17-ramos](../pre-v17-ramos/results.md)). A adoção da regra de distinção por emissão na V0.17 **ainda não foi decidida** | 15/11 |
+| Ramos | Nome **ramo** aprovado; pré-teste separado executado ([pre-v17-ramos](../pre-v17-ramos/results.md)). Na V0.17, a regra de distinção por emissão entra como **subteste com e sem** (16/11) | 15–16/11 |
 | Ambiguidade Δ/2, Δ/3 | Esperada; resolve-se com reforço/decaimento e inibição | 15/11 |
 | Um algoritmo para todos os sentidos (ponderação 5, parte 1) | A especialização biológica dos sentidos foi imposta pelo meio ao longo da evolução darwiniana; aqui ainda se constrói o que se consolida. **Dado:** as regras da Pcrt, as Utrd de cada sentido e as propriedades físicas das fibras. **Construído:** a janela efetiva e os atrasos que ficam. **Quem seleciona:** o mundo do robô. Consequência: o estímulo precisa conter as relações que se quer ver emergir, e elas precisam chegar às Utrd | 16/11 |
 
@@ -29,7 +29,7 @@
 | O que passa entre versões | O que passa adiante é o que vem codificado para construir, não o que foi construído: **parâmetros**. Os experimentos fazem o papel da evolução; o que prevalece nos testes entra adaptado na versão seguinte. **Salvaguarda:** entre versões só passam parâmetros, nunca estrutura consolidada (malhas, atrasos escolhidos, Uint); cada parâmetro que passa leva o registro do teste que o fez prevalecer | 16/11 |
 
 ## Em aberto
-1. Adotar ou não a regra de distinção por emissão (ramos).
+Nada pendente antes do pré-experimento (16/11).
 
 ## Fontes
 Evidências e estado de leitura em [innovation-tracking, seções 11 e 12](../../docs/innovation-tracking.md).
