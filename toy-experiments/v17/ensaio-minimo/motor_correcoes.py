@@ -17,7 +17,7 @@ MAXU = 1024           # Upros por fibra (capacidade)
 MAXRAM = 4096         # ramos (capacidade); limite de engenharia do registro: 2.000
 LIMRAM = 2000
 HCAP = 1 << 21
-BCAP = 2048
+BCAP = 8192
 DEDUPU = 0.02
 
 
@@ -59,7 +59,7 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT):
+def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA):
     np.random.seed(semente)
     UD = np.zeros((2, MAXU)); UA = np.zeros((2, MAXU), np.bool_); nU = np.zeros(2, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
@@ -67,6 +67,8 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
     R_na = np.zeros(MAXRAM); R_es = np.zeros(MAXRAM, np.bool_); R_q = np.zeros(MAXRAM, np.int64)
     prot = np.zeros(MAXRAM, np.bool_); R_ok = np.ones(MAXRAM, np.bool_); R_bx = np.full(MAXRAM, np.nan)
     RS = np.full((K, 2), RC); tRS = np.zeros((K, 2)); fmx = np.zeros((K, 2))
+    mat = np.zeros(K); tmat = np.zeros(K); passo_m = 1.0 / (1.0 / (1.0 - 0.5 ** (1.0 / NMEIO)))
+    HB = 5.0 * max(TAUJ, TAU) if MAT else HEXC
     nR = 0; elim = 0; podas = 0; sdif = np.zeros(K); ndif = np.zeros(K, np.int64); hdif = np.zeros((K, 4001), np.int64)
     for s in range(2):
         for i in range(NINI):
@@ -124,19 +126,28 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                     if R_s[r] == s and R_ok[r]:
                         a = t + UD[s, R_u[r]] + R_d[r]; w = R_f[r]
                         nh = _push(nh, ht, hk, hs, hr, hi, hw, a, 0, s, r, gid, w)
-                        if razao != 0.0:
+                        if MAT:
+                            kk = R_k[r]; mm = mat[kk] * 2.0 ** (-(t - tmat[kk]) / MMEIA)
+                            offm = 2.7 + mm * (-0.3 - 2.7)
+                            nh = _push(nh, ht, hk, hs, hr, hi, hw, a + offm, 1, s, r, gid, -0.77 * w)
+                        elif razao != 0.0:
                             nh = _push(nh, ht, hk, hs, hr, hi, hw, a + off, 1, s, r, gid, -razao * w)
                 continue
             nh, T, kind, s, r, gid, w = _pop(nh, ht, hk, hs, hr, hi, hw)
             if not R_ok[r]: continue
             k = R_k[r]
-            exc[k] *= np.exp(-(T - tl[k]) / TAU)
-            if razao != 0.0: inh[k] *= np.exp(-(T - tl[k]) / taui)
+            if MAT:
+                mat[k] *= 2.0 ** (-(T - tmat[k]) / MMEIA); tmat[k] = T
+                tauE = TAUJ + mat[k] * (TAU - TAUJ); tauI = 4.0 + mat[k] * (1.5 - 4.0)
+                exc[k] *= np.exp(-(T - tl[k]) / tauE); inh[k] *= np.exp(-(T - tl[k]) / tauI)
+            else:
+                exc[k] *= np.exp(-(T - tl[k]) / TAU)
+                if razao != 0.0: inh[k] *= np.exp(-(T - tl[k]) / taui)
             tl[k] = T
             if kind == 1:
                 inh[k] += w; continue
             w = R_f[r]; exc[k] += w; V = exc[k] + inh[k]
-            while b0[k] < b1[k] and bt[k, b0[k] % BCAP] < T - HEXC: b0[k] += 1
+            while b0[k] < b1[k] and bt[k, b0[k] % BCAP] < T - HB: b0[k] += 1
             p = b1[k] % BCAP; bt[k, p] = T; bs[k, p] = s; br[k, p] = r; bi[k, p] = gid; bq[k, p] = False; bf[k, p] = False; b1[k] += 1
             if b1[k] - b0[k] >= BCAP: b0[k] = b1[k] - BCAP + 1
             coinc = False; j = b1[k] - 2
@@ -145,6 +156,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                 j -= 1
             if coinc and V >= FAV:
                 ufav[k] = T; nac += 1
+                if MAT: mat[k] += (1.0 - mat[k]) * passo_m
                 for x in range(nR): prot[x] = False
                 j = b1[k] - 1
                 while j >= b0[k] and bt[k, j % BCAP] >= T - W:
@@ -223,7 +235,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
         for k in range(K): exc[k] = 0.0; inh[k] = 0.0
         if parou: break
     return (R_s[:nR].copy(), R_u[:nR].copy(), R_k[:nR].copy(), R_d[:nR].copy(), R_f[:nR].copy(), UD.copy(), UA.copy(),
-            disp, hv, ht_, insumo, parou, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif)
+            disp, hv, ht_, insumo, parou, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif, mat.copy())
 
 
 def trens_d(semente, faixa, dur, cond_fixo=False, delta=DELTA):
@@ -249,12 +261,12 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA):
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0):
     tA, tB, ini, fim = trens_d(semente, faixa, dur, cond_fixo, delta)
     razao, off, taui = INIB[cond]
-    (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif) = _rodar(
+    (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf) = _rodar(
         tA, tB, ini, fim, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
-        RC, TAUR, TETA, TEL, NEXP, delta)
+        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA)
     sint = []; presa = []; pares = []
     for k in range(K):
         frac = hv[k] / ht[k] if ht[k] else 0.0
@@ -278,7 +290,7 @@ def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False,
                 classe=classe, diferenca_preferida_sintonizadas=pref, diferenca_preferida_mediana_sintonizadas=pref_med,
                 espalhamento_preferida=round(float(np.std(pref)), 4) if len(pref) > 1 else 0.0,
                 ramos_por_lado_mediana=float(np.median(ramos_lado)), recurso_medio_fim=round(float(RS.mean()), 3),
-                eliminados=int(elim), podados=int(podas), **({'hist_dif': hdif} if hist else {}),
+                eliminados=int(elim), podados=int(podas), maturidade_media=round(float(matf.mean()), 3), uints_maduras=int((matf >= 0.9).sum()), **({'hist_dif': hdif} if hist else {}),
                 uints_sintonizadas=len(sint), uints_presas_no_acaso=len(presa), pares_upro_das_sintonizadas=sorted(set(pares)),
                 caminhos_distintos=len(set(pares)), disparos_por_uint=[int(x) for x in disp],
                 parte_verdadeira_por_uint=[round(float(hv[k] / ht[k]), 3) if ht[k] else 0.0 for k in range(K)],

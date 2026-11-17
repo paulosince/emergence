@@ -346,3 +346,20 @@ Registro prévio: [fase-e-preferencia.md](fase-e-preferencia.md) (aprovado). Scr
 - Mas a **frequência** com que o sistema chega lá **cai** quando Δ cresce. **Pela regra fixada, o grave fica sob suspeita** de depender da estrutura (seleção < 8/10 em Δ = 1,5 e 3,0 nos conjuntos A e B, e em 3,0 no C).
 - No período fixo, só Δ = 0,458 "seleciona": confirma que aquele resultado era **preferência da estrutura** por diferenças pequenas.
 - **Leitura do assistente:** a estrutura inicial (atrasos grandes espaçados proporcionalmente, atrasos pequenos de 0–0,2 ms, novas Upros a ±10%) torna as diferenças pequenas muito mais fáceis de alcançar. O Δ do experimento real (±0,458 ms) cai justamente na zona fácil.
+
+## Ensaio da maturação conjunta (correção 6) (17/11/2026)
+
+Registro prévio: [maturacao.md](maturacao.md) (aprovado). Script `ensaio_maturacao.py`; dados `maturacao-saida.csv`. **380 execuções em 338 s.**
+
+**Erro de conta no registro prévio (do assistente):** dizia 400 execuções, com "40 a mais" de referência; a referência descrita (grave e agudo × 10 sementes) dá **20**, e o total, **380**. Rodou-se a grade descrita.
+
+| Condição | Grave (seleção) | Agudo (seleção em fase) | Maturidade média no fim |
+|---|---|---|---|
+| **Referência: conjunto B sem maturação, sementes 21–30** | **7/10** | 9/10 | — |
+| Maturação, 18 combinações | **0/10 em todas** (colapso em 10/10 em 16 delas) | **0/10 em todas** | 0,00–0,29 |
+
+**Pelas regras fixadas:** nenhuma combinação com maturação passa, e **a referência também não passa no grave nas sementes novas (7/10, abaixo de 8)** → "o resultado de B não se replica" → levar ao responsável.
+
+**O que se vê:** com maturação, as Uints quase não acertam, a maturidade não sobe (fica perto de 0) e os ramos desaparecem (mediana 0 ramos no fim em 12 combinações). A única tendência: excitação jovem mais longa (1,5 ms), passo rápido (30 acertos) e regressão lenta (1 h) dão 6 difusos e maturidade 0,29.
+
+**Leitura do assistente (conferível):** é o mesmo colapso da versão fiel de 16/11. Na inibição jovem (força 0,77, decaimento 4 ms), cada chegada deixa uma carga inibitória de ~0,77 × 4 = 3,1 (em unidades de força × ms), contra 0,6–1,5 da excitação jovem. Com chegadas a cada poucos milissegundos, a inibição acumulada vence sempre; sem acertos, a maturidade não sobe, e a inibição nunca amadurece. A faixa de excitação jovem escolhida (0,6–1,5 ms, sem fonte) é **curta demais** em relação à inibição jovem (4 ms, com fonte). Na biologia, os dois amadurecem juntos, mas o valor inicial da excitação jovem na MSO não foi encontrado.

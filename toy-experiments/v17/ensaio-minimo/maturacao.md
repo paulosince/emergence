@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: maturação conjunta da excitação e da inibição (correção 6)
 
-**Estado:** RASCUNHO para aprovação do responsável. Nada de código antes da aprovação.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026 ("Aprovo, pode rodar").
 **Redação:** assistente (Claude), 17/11/2026. **Base:** [correção 6](../correcoes-dissonancias.md) (aprovada: maturação pelos acertos da Uint; a recorrência reforça, o decaimento derruba); [investigação da inibição](../investigacao-inibicao-lateral.md), seções 6–7; [investigação da divisão da força](../investigacao-divisao-forca.md), seção 3.5.
 **Ponto de partida:** o **conjunto B** do motor com as correções 1, 2 e 8 (passou no grave, 9/10, e no agudo pelo critério de fase, 9/10). Nada mais muda.
 **Legenda:** [R] decisão do responsável; [A] proposta do assistente (a aprovar); [L] literatura.
