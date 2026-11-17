@@ -1,0 +1,6 @@
+agudo semente 1 difuso presas 7 {'Δ (0,458 ± 0,21)': 0.123, 'Δ − período (−0,44 a −0,14) ± 0,21': 0.189, 'Δ + período (1,06 a 1,36) ± 0,21': 0.067, 'Δ ± 2 períodos': 0.176}
+grave semente 1 selecao presas 0 {'Δ (0,458 ± 0,21)': 0.795, 'Δ − período (−0,44 a −0,14) ± 0,21': 0.001, 'Δ + período (1,06 a 1,36) ± 0,21': 0.0, 'Δ ± 2 períodos': 0.0}
+agudo semente 2 difuso presas 7 {'Δ (0,458 ± 0,21)': 0.108, 'Δ − período (−0,44 a −0,14) ± 0,21': 0.117, 'Δ + período (1,06 a 1,36) ± 0,21': 0.074, 'Δ ± 2 períodos': 0.189}
+grave semente 2 selecao presas 0 {'Δ (0,458 ± 0,21)': 0.875, 'Δ − período (−0,44 a −0,14) ± 0,21': 0.002, 'Δ + período (1,06 a 1,36) ± 0,21': 0.001, 'Δ ± 2 períodos': 0.0}
+agudo semente 3 difuso presas 6 {'Δ (0,458 ± 0,21)': 0.176, 'Δ − período (−0,44 a −0,14) ± 0,21': 0.175, 'Δ + período (1,06 a 1,36) ± 0,21': 0.059, 'Δ ± 2 períodos': 0.167}
+grave semente 3 selecao presas 0 {'Δ (0,458 ± 0,21)': 0.956, 'Δ − período (−0,44 a −0,14) ± 0,21': 0.001, 'Δ + período (1,06 a 1,36) ± 0,21': 0.0, 'Δ ± 2 períodos': 0.0}

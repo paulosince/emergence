@@ -309,3 +309,21 @@ Registro prévio: [correcoes-mapa.md](correcoes-mapa.md) (aprovado; maturação 
 | 60 s / 0,5 / 0,25 / 60 s / 8 | 1/3 | 6 | 0,88 | 94 | 29 |
 
 **Cuidados (assistente):** (1) com tanta seleção, o controle do período fixo (na confirmação) é essencial para saber se a classe não ficou fácil demais; (2) a força **total** cresce muito (40–120), sem soma imposta — é o risco 1 na forma de força, não de número de ramos; (3) a medida "diferença preferida" como **média** de todas as diferenças dos acertos (como registrada) é puxada pelos acertos de *aliasing* e dá valores enganosos; a mediana seria melhor (mudança de medida a decidir).
+
+## Confirmação das correções 1, 2 e 8 (17/11/2026)
+
+Conjuntos escolhidos pelo responsável: A (60 s / 1,0 / 0,25 / 60 s / 8), B (60 s / 1,0 / 0,50 / 60 s / 16), C (300 s / 2,0 / 0,25 / 10 s / 4). Medida "diferença preferida" passou a ser reportada também como **mediana** (decisão do responsável). Script `confirmacao_correcoes.py`; dados `confirmacao-correcoes-saida.csv`. **120 execuções em 142 s.**
+
+| Conjunto | Grave, notas | Agudo, notas | Período fixo* | Parte verdadeira (grave / agudo / fixo) |
+|---|---|---|---|---|
+| A | **10/10** | 0/10 (difuso; 8 Uints presas no acaso, no máximo) | **10/10** | 0,95 / 0,13 / 0,74 |
+| B | **9/10** | 0/10 | 9/10 | 0,98 / 0,17 / 0,66 |
+| C | **10/10** | 0/10 | 10/10 | 0,95 / 0,07 / 0,69 |
+
+\* O trem do período fixo é o mesmo no grave e no agudo (5 ms).
+
+**Pela regra fixada:** nenhum conjunto passa. O agudo seleciona em **0 de 10** (≤ 3 → parar e levar ao responsável), e o período fixo seleciona em 9–10 de 10 (a regra pedia ≤ 2).
+
+**Diagnóstico do agudo** (`diagnostico_agudo_fase.py`, `diagnostico-agudo-fase-saida.txt`; conjunto A, sementes 1–3): os acertos das Uints no agudo se distribuem entre a relação verdadeira (11–18%), **Δ − período** (12–19%), **Δ + período** (6–7%) e **Δ ± 2 períodos** (17–19%). Ou seja, boa parte dos disparos "no acaso" está em **relações equivalentes de fase**. No grave, 80–96% dos acertos estão em Δ e quase nada nos equivalentes de fase.
+
+**Leitura do assistente (não decisão):** (1) com período de 0,6–0,9 ms, Δ = 0,458 ms é maior que meio período: num único canal de frequência, Δ e Δ ± período são fisicamente equivalentes; a variação das notas (só 1,5× entre o menor e o maior período) desloca pouco os equivalentes em relação à janela de 0,21 ms. Na biologia, neurônios binaurais de banda estreita também respondem igualmente a uma diferença e às suas equivalentes de fase, e a ambiguidade é resolvida **combinando canais de frequência** (literatura, resumo; ver mensagem de 17/11). (2) No período fixo, nada no mundo distingue Δ de Δ ± 5 ms; a "seleção" de Δ reflete a estrutura inicial (os atrasos disponíveis favorecem diferenças pequenas), não o mundo. A expectativa registrada ("o período fixo não deve selecionar") vinha dos motores antigos, em que o fixo caía no *aliasing*.

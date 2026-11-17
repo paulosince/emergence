@@ -67,7 +67,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
     R_na = np.zeros(MAXRAM); R_es = np.zeros(MAXRAM, np.bool_); R_q = np.zeros(MAXRAM, np.int64)
     prot = np.zeros(MAXRAM, np.bool_); R_ok = np.ones(MAXRAM, np.bool_); R_bx = np.full(MAXRAM, np.nan)
     RS = np.full((K, 2), RC); tRS = np.zeros((K, 2)); fmx = np.zeros((K, 2))
-    nR = 0; elim = 0; podas = 0; sdif = np.zeros(K); ndif = np.zeros(K, np.int64)
+    nR = 0; elim = 0; podas = 0; sdif = np.zeros(K); ndif = np.zeros(K, np.int64); hdif = np.zeros((K, 4001), np.int64)
     for s in range(2):
         for i in range(NINI):
             d = DMIN * (DMAX / DMIN) ** (i / (NINI - 1))
@@ -165,6 +165,8 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                             ra = r if s == 0 else rr; rb = rr if s == 0 else r
                             dif = (UD[0, R_u[ra]] + R_d[ra]) - (UD[1, R_u[rb]] + R_d[rb])
                             ht_[k] += 1; sdif[k] += dif; ndif[k] += 1
+                            bdx = int(round((dif + 20.0) * 100.0))
+                            if 0 <= bdx < 4001: hdif[k, bdx] += 1
                             if abs(dif - DELTA) <= W: hv[k] += 1
                     j -= 1
             elif (not R_es[r]) and W < T - ufav[k] <= 3 * W:
@@ -221,17 +223,17 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
         for k in range(K): exc[k] = 0.0; inh[k] = 0.0
         if parou: break
     return (R_s[:nR].copy(), R_u[:nR].copy(), R_k[:nR].copy(), R_d[:nR].copy(), R_f[:nR].copy(), UD.copy(), UA.copy(),
-            disp, hv, ht_, insumo, parou, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif)
+            disp, hv, ht_, insumo, parou, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif)
 
 
 INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0):
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False):
     tA, tB, ini, fim = trens(semente, faixa, dur, cond_fixo)
     razao, off, taui = INIB[cond]
-    (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif) = _rodar(
+    (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif) = _rodar(
         tA, tB, ini, fim, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
         RC, TAUR, TETA, TEL, NEXP)
     sint = []; presa = []; pares = []
@@ -249,12 +251,15 @@ def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False,
     elif sint and not presa: classe = "selecao"
     else: classe = "difuso"
     pref = [round(float(sdif[k] / ndif[k]), 3) for k in sint if ndif[k]]
+    def _med(h):
+        c = np.cumsum(h); i = int(np.searchsorted(c, c[-1] / 2.0)); return round(i / 100.0 - 20.0, 2)
+    pref_med = [_med(hdif[k]) for k in sint if hdif[k].sum()]
     ramos_lado = [int(((Rk == k) & (Rs == z)).sum()) for k in range(K) for z in range(2)]
     return dict(cond=cond, faixa=faixa, semente=semente, fixo=cond_fixo, unica=unica, K=K, RC=RC, TAUR=TAUR, TETA=TETA, TEL=TEL, NEXP=NEXP,
-                classe=classe, diferenca_preferida_sintonizadas=pref,
+                classe=classe, diferenca_preferida_sintonizadas=pref, diferenca_preferida_mediana_sintonizadas=pref_med,
                 espalhamento_preferida=round(float(np.std(pref)), 4) if len(pref) > 1 else 0.0,
                 ramos_por_lado_mediana=float(np.median(ramos_lado)), recurso_medio_fim=round(float(RS.mean()), 3),
-                eliminados=int(elim), podados=int(podas),
+                eliminados=int(elim), podados=int(podas), **({'hist_dif': hdif} if hist else {}),
                 uints_sintonizadas=len(sint), uints_presas_no_acaso=len(presa), pares_upro_das_sintonizadas=sorted(set(pares)),
                 caminhos_distintos=len(set(pares)), disparos_por_uint=[int(x) for x in disp],
                 parte_verdadeira_por_uint=[round(float(hv[k] / ht[k]), 3) if ht[k] else 0.0 for k in range(K)],
