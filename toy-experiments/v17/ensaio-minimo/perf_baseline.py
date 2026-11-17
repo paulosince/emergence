@@ -120,6 +120,7 @@ def carregar_instrumentada(tmp: Path):
     file.write_text(instrumentar_fonte())
     spec = importlib.util.spec_from_file_location("motor_par_instrumentado", file)
     mod = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = mod  # necessário para o objmode localizar globals
     spec.loader.exec_module(mod)
     return mod
 
