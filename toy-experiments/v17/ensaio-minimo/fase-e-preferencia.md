@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: critério do agudo (equivalentes de fase) e controle da preferência da estrutura
 
-**Estado:** RASCUNHO para aprovação do responsável. **Redação:** assistente (Claude), 17/11/2026.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026. **Redação:** assistente (Claude), 17/11/2026.
 **Base:** [confirmação das correções e diagnóstico](resultados.md) (17/11); decisões do responsável: rever o critério do agudo; medir a preferência da estrutura. Motor: `motor_correcoes.py` com os conjuntos A, B e C, sem outra mudança de regra.
 **Legenda:** [R] decisão do responsável; [A] proposta do assistente; [L] literatura.
 

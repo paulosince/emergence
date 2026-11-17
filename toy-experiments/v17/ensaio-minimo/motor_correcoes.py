@@ -59,7 +59,7 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP):
+def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT):
     np.random.seed(semente)
     UD = np.zeros((2, MAXU)); UA = np.zeros((2, MAXU), np.bool_); nU = np.zeros(2, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
@@ -167,7 +167,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                             ht_[k] += 1; sdif[k] += dif; ndif[k] += 1
                             bdx = int(round((dif + 20.0) * 100.0))
                             if 0 <= bdx < 4001: hdif[k, bdx] += 1
-                            if abs(dif - DELTA) <= W: hv[k] += 1
+                            if abs(dif - DLT) <= W: hv[k] += 1
                     j -= 1
             elif (not R_es[r]) and W < T - ufav[k] <= 3 * W:
                 R_f[r] = max(0.0, R_f[r] - 1.05 * DF)
@@ -226,20 +226,39 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
             disp, hv, ht_, insumo, parou, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif)
 
 
+def trens_d(semente, faixa, dur, cond_fixo=False, delta=DELTA):
+    """Igual a motor_eventos.trens, com a relação verdadeira (delta) como parâmetro (controle da preferência da estrutura).
+    Com delta = DELTA, idêntico ao original (mesma sequência aleatória)."""
+    from motor_eventos import FAIXA, JIT
+    rng = np.random.default_rng(semente); TA, TB, ini, fim = [], [], [], []; pos = 0
+    for ep in range(NEP):
+        t0 = ep * CICLO
+        if cond_fixo:
+            base = np.arange(0, dur, 5.0)
+        else:
+            lo, hi = FAIXA[faixa]; base = []; t = 0.0
+            while t < dur:
+                p = rng.uniform(lo, hi); base.extend(np.arange(t, min(t + 250.0, dur), p)); t += 250.0
+            base = np.array(base)
+        a = t0 + base + rng.normal(0, JIT, base.size); b = t0 + base + delta + rng.normal(0, JIT, base.size)
+        TA.append(a); TB.append(b); ini.append(pos); pos += a.size; fim.append(pos)
+    return np.concatenate(TA), np.concatenate(TB), np.array(ini), np.array(fim)
+
+
 INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False):
-    tA, tB, ini, fim = trens(semente, faixa, dur, cond_fixo)
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA):
+    tA, tB, ini, fim = trens_d(semente, faixa, dur, cond_fixo, delta)
     razao, off, taui = INIB[cond]
     (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif) = _rodar(
         tA, tB, ini, fim, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
-        RC, TAUR, TETA, TEL, NEXP)
+        RC, TAUR, TETA, TEL, NEXP, delta)
     sint = []; presa = []; pares = []
     for k in range(K):
         frac = hv[k] / ht[k] if ht[k] else 0.0
-        if disp[k] >= 100 and frac >= 0.6: sint.append(k)
+        if disp[k] >= 100 and frac >= 0.6: sint.append(k)  # relação: o delta do mundo
         if disp[k] >= 100 and frac < 0.2: presa.append(k)
     for k in sint:   # par mais forte da Uint (para ver se as cópias se separam)
         a = [i for i in range(Rs.size) if Rk[i] == k and Rs[i] == 0]; b = [i for i in range(Rs.size) if Rk[i] == k and Rs[i] == 1]

@@ -327,3 +327,22 @@ Conjuntos escolhidos pelo responsável: A (60 s / 1,0 / 0,25 / 60 s / 8), B (60 
 **Diagnóstico do agudo** (`diagnostico_agudo_fase.py`, `diagnostico-agudo-fase-saida.txt`; conjunto A, sementes 1–3): os acertos das Uints no agudo se distribuem entre a relação verdadeira (11–18%), **Δ − período** (12–19%), **Δ + período** (6–7%) e **Δ ± 2 períodos** (17–19%). Ou seja, boa parte dos disparos "no acaso" está em **relações equivalentes de fase**. No grave, 80–96% dos acertos estão em Δ e quase nada nos equivalentes de fase.
 
 **Leitura do assistente (não decisão):** (1) com período de 0,6–0,9 ms, Δ = 0,458 ms é maior que meio período: num único canal de frequência, Δ e Δ ± período são fisicamente equivalentes; a variação das notas (só 1,5× entre o menor e o maior período) desloca pouco os equivalentes em relação à janela de 0,21 ms. Na biologia, neurônios binaurais de banda estreita também respondem igualmente a uma diferença e às suas equivalentes de fase, e a ambiguidade é resolvida **combinando canais de frequência** (literatura, resumo; ver mensagem de 17/11). (2) No período fixo, nada no mundo distingue Δ de Δ ± 5 ms; a "seleção" de Δ reflete a estrutura inicial (os atrasos disponíveis favorecem diferenças pequenas), não o mundo. A expectativa registrada ("o período fixo não deve selecionar") vinha dos motores antigos, em que o fixo caía no *aliasing*.
+
+## Critério de fase no agudo e controle da preferência da estrutura (17/11/2026)
+
+Registro prévio: [fase-e-preferencia.md](fase-e-preferencia.md) (aprovado). Script `ensaio_fase_preferencia.py`; dados `fase-saida.csv` e `preferencia-saida.csv`. **240 execuções em 279 s** (210 previstas + 30 de reclassificação exploratória das sementes já vistas).
+
+**Agudo, critério de fase, sementes novas (11–20):** A **4/10**, **B 9/10**, C 2/10. → **Só o conjunto B passa** (≥ 8/10). Exploratório (sementes 1–10, já vistas): A 5, B 9, C 5.
+
+**Controle da preferência da estrutura (grave), seleção por Δ do mundo:**
+
+| Conjunto | Notas, Δ = 0,458 | Notas, Δ = 1,5 | Notas, Δ = 3,0 | Fixo, Δ = 0,458 | Fixo, Δ = 1,5 | Fixo, Δ = 3,0 |
+|---|---|---|---|---|---|---|
+| A | 10 | 6 | 2 | 10 | 0 | 0 |
+| B | 9 | 4 | 1 | 9 | 0 | 0 |
+| C | 10 | **10** | 4 | 10 | 1 | 0 |
+
+- Quando há Uints sintonizadas, a diferença preferida **acompanha o Δ do mundo** (medianas 0,45 / 1,46–1,50 / 2,96–3,08). Isto é o mundo escolhendo.
+- Mas a **frequência** com que o sistema chega lá **cai** quando Δ cresce. **Pela regra fixada, o grave fica sob suspeita** de depender da estrutura (seleção < 8/10 em Δ = 1,5 e 3,0 nos conjuntos A e B, e em 3,0 no C).
+- No período fixo, só Δ = 0,458 "seleciona": confirma que aquele resultado era **preferência da estrutura** por diferenças pequenas.
+- **Leitura do assistente:** a estrutura inicial (atrasos grandes espaçados proporcionalmente, atrasos pequenos de 0–0,2 ms, novas Upros a ±10%) torna as diferenças pequenas muito mais fáceis de alcançar. O Δ do experimento real (±0,458 ms) cai justamente na zona fácil.
