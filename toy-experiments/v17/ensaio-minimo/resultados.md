@@ -424,3 +424,26 @@ Script `medida_custo.py`, saída `medida-custo-saida.csv`; sementes 61–70, gra
 - O custo é ≈ incidências × ramos por fibra × 2 (excitação e inibição). No agudo, ~165 eventos por incidência.
 - Um par de vias no agudo custa ~0,1 s de processamento por segundo simulado (≈ 10× mais rápido que o tempo real). Para 384 vias, **se** cada par se parecer com este agudo: ~19 s por segundo simulado num núcleo (≈ 19× mais lento que o tempo real). Confiança **baixa**: depende de quantos ramos por fibra existirão com 8+ Uints por via e da organização das vias, ainda não decidida. A estimativa anterior (~200×) supunha mais ramos por via.
 - A parte "1/2/4 canais" precisa do motor com várias vias (degrau 4); fica para lá.
+
+## Degrau 2 — duas relações verdadeiras (17/11)
+
+Registro prévio: [duas-relacoes.md](duas-relacoes.md) (aprovado). Script `ensaio_duas_relacoes.py`; dados `duas-relacoes-saida.csv`. 90 execuções. Motor com fila por cursor.
+
+| Condição | Sucesso | IC95% | Uints em Δ1 / Δ2 (soma de 30 sementes) | Presas |
+|---|---|---|---|---|
+| **Grave, duas fontes (julgado)** | **7/30** | 12–41% | 85 / 66 | 14 |
+| Grave, só a fonte 1 (controle) | 30/30 | 89–100% | 236 / 0 | 0 |
+| Agudo, duas fontes (descritivo) | 0/30 | — | 0 / 0 | 2 |
+
+**Pelas regras fixadas:** 7 ≤ 17 → **parar e levar ao responsável**, sem ajustar.
+
+**O que se vê (descritivo):**
+- **"Quem chega primeiro leva tudo":** em 21 das 30 sementes, as Uints sintonizadas ficaram **todas numa só relação** (12 só em Δ1; 9 só em Δ2). Em várias, as 8 Uints foram para a mesma (8/0 ou 0/8). As duas relações aparecem juntas em 8 sementes; em 7, sem presas.
+- Cada relação, sozinha, é encontrada com facilidade: o controle passa em 30/30, e Δ1 e Δ2 vencem em proporções parecidas (12 contra 9). O problema é **dividir** as Uints, não **achar** a relação.
+- Presas no acaso: 14 Uints em 9 sementes (coincidências entre as fontes, que não têm relação fixa; o controle não tem nenhuma).
+- Agudo: nenhuma Uint sintonizada em Δ1 nem em Δ2 pelo critério estrito (todas "difuso"), como previsto: num canal só, as duas relações são equivalentes em fase.
+
+**Hipóteses do assistente (não testadas):**
+1. **Destino compartilhado:** cada Upro nasce com ramos para as 8 Uints, e as Upros novas nascem perto das que quase acertaram. Quando uma relação consolida primeiro, as Upros que a servem se multiplicam **para todas as Uints**, e a outra relação perde a corrida em todas ao mesmo tempo.
+2. **Falta de diversidade de entrada:** na MSO, cada célula recebe poucas fibras (2–4 por dendrito; Couchman et al. 2010), e células diferentes recebem subconjuntos diferentes. Aqui as 8 Uints recebem das **mesmas duas fibras**. Nada as diferencia, a não ser o acaso dos pequenos atrasos dos ramos.
+3. **Separação por canais:** a biologia talvez separe fontes simultâneas sobretudo combinando faixas de frequência (cada fonte domina faixas diferentes em momentos diferentes), e não dentro de uma faixa só. Confiança baixa; a pesquisar.
