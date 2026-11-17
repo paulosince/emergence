@@ -169,3 +169,18 @@ Registro prévio: [inibicao-fiel.md](inibicao-fiel.md), aprovado pelo responsáv
 **Estatuto dos resultados acima:** valem **para o motor antigo**. Em especial o conjunto confirmado (9 de 10), a região do mapa e o plano B da inibição (8 de 10) **não valem automaticamente** para o motor corrigido. As decisões de mecanismo que não dependem do motor continuam de pé.
 
 **Decisão do responsável (17/11/2026):** a V0.17 **não é encerrada**: o pré-experimento não foi congelado e nenhuma execução do experimento ocorreu; o ensaio mínimo existe para achar erros assim antes de congelar. Corrige-se o motor (a Pcrt passa a se limitar às incidências), com registro prévio aprovado, e repete-se o ensaio mínimo. Parâmetro que mudar depois disso vira decisão registrada com motivo. Registro prévio: [pcrt-incidencias.md](pcrt-incidencias.md).
+
+## Motor por eventos — controle de código (17/11/2026)
+
+Registro prévio: [pcrt-incidencias.md](pcrt-incidencias.md) (aprovado). Código: `motor_eventos.py`; controle: `controle_eventos.py`; saída: `controle-eventos-saida.csv`.
+
+**Desvio declarado do registro prévio:** o controle prometido ("com o brotamento desligado, resultado idêntico ao motor antigo") **não é possível por construção**. Ao implementar, o assistente verificou que a dinâmica por eventos difere do motor antigo em detalhes de contagem que não são regras do responsável, mas que impedem a igualdade bit a bit: (1) o motor antigo reforça cada ramo no máximo uma vez por pulso de A; o novo, no máximo uma vez por chegada; (2) o antigo procura só a incidência mais próxima de cada par de ramos; o novo olha todas as chegadas a até uma janela (equivalente quando o período é maior que 2 janelas, o que vale aqui); (3) no antigo, o enfraquecimento por sincronia de B usava o instante do pulso de B com o mesmo índice do pulso de A (defeito do código antigo); o novo usa o instante real da chegada; (4) soma exata, sem corte em 5 constantes de tempo; (5) a contagem de quase-acertos é por ramo, não por par. O controle foi substituído por uma **comparação** com o brotamento desligado nos dois motores (grave, notas, 10 sementes), a ser aceita ou não pelo responsável.
+
+| Condição | Mesma classe | Seleção (antigo → novo) | Tempo por execução (antigo → novo) |
+|---|---|---|---|
+| I0 | 6 de 10 | 4 → 5 | ~0,1 s → 0,02 s |
+| I1 | 9 de 10 | 7 → 6 | ~0,1 s → 0,04 s |
+
+Os trens de pulsos são idênticos nos dois motores (verificado). O número de acertos é ~1,4–1,7 vez maior no novo, pela diferença (1) de contagem.
+
+**Tempo com brotamento (Q = 0,75; janela 60 s; sem enfraquecimento; semente 1; I1):** grave **0,13 s**, agudo **0,97 s** por execução (o motor antigo passava de 10 min no agudo sem terminar). Esse resultado único foi visto pelo assistente antes da etapa A: grave = seleção (crédito 0,814; 3 estabilizações; força máxima ~0,25; a Uint quase não dispara no último episódio); agudo = difuso (crédito 0,098).

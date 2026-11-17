@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: Pcrt restrita às incidências (motor corrigido)
 
-**Estado:** RASCUNHO para aprovação do responsável (Paulo Rogério da Silva). Nada de código antes da aprovação.
+**Estado:** **APROVADO** pelo responsável (Paulo Rogério da Silva) em 17/11/2026, 08h14 ("Sim"), incluindo as propostas de vizinho (±0,20 ms), janela (10/60/600 s) e enfraquecimento (1,05 × ganho).
 **Redação:** assistente (Claude), 17/11/2026. **Motivo:** [errata de 17/11](resultados.md) — o motor antigo rodava a Pcrt sobre todos os pares de ramos, contra a decisão de 15/11.
 **Legenda:** [R] decisão do responsável; [A] proposta ou dedução do assistente (não aprovada); [C] verificado no código ou nos dados.
 
