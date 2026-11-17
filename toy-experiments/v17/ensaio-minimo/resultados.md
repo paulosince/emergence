@@ -470,3 +470,25 @@ Registro prévio: [passo1-limiar-janela.md](passo1-limiar-janela.md) (aprovado; 
 **Pelas regras fixadas:** o grave passa e o agudo não. **Diagnóstico da causa:** as **18 colapsadas tiveram zero disparos** no último episódio, e os ramos sumiram (mediana 2). Mais uma execução terminou difusa com zero disparos. Nas que não colapsaram, os disparos foram 13 mil a 83 mil, contra uma mediana de 146 mil na referência. A causa é **falta de disparos**: o "ovo e a galinha" voltou no agudo sem o sorteio.
 
 **Aplicação da regra aprovada:** o passo 1 **fica**, e seguimos para o passo 2 (atividade espontânea), que é o mecanismo NB previsto para os disparos perto do limiar. Antes de rodar, o passo 2 precisa de registro aprovado.
+
+## Passo 2 — atividade espontânea, 60/s por fibra (17/11)
+
+Registro prévio: [passo2-espontanea.md](passo2-espontanea.md) (aprovado). Script `passo2_espontanea.py`; dados `passo2-saida.csv`. 180 execuções, sementes 161–190.
+
+| Motor | Grave | Agudo (em fase) | Colapsos no agudo | Disparo no silêncio por Uint (mediana) | Ramos no fim (mediana, grave / agudo) |
+|---|---|---|---|---|---|
+| **Passo 2** (passo 1 + espontânea) | **24/30** | **3/30** | 24 | **55/s** (grave); 0 (agudo, colapsado) | 66 / 2 |
+| Passo 1 | 26/30 | 13/30 | 10 | 0 | 53 / 23,5 |
+| Referência (com sorteio) | 26/30 | 26/30 | 0 | 0–1/s | 61 / 133,5 |
+
+**Pelas regras fixadas:** agudo 3/30 ≤ 17 → **parar e levar ao responsável**, sem ajustar. (O grave fica no limite: 24/30.)
+
+**O que se vê:**
+- A atividade espontânea **não** devolveu os disparos no agudo; ele **piorou** (colapsos de 10 para 24, nas mesmas sementes). As espontâneas acrescentam só ~4% às incidências do agudo (60/s contra ~1.360/s do mundo por fibra), e mesmo assim a mudança é grande. O agudo do passo 1 parece estar **no limite** entre sobreviver e colapsar.
+- No grave, as Uints disparam **55 vezes por segundo no silêncio**, contra 0,4/s na MSO (van der Heijden 2013): ~100× demais.
+
+**Leitura do assistente (hipótese, conferível):**
+- Hoje, **uma fibra por ouvido** representa, na prática, uma **população** de fibras disparando juntas.
+- Na MSO, a atividade espontânea é de **cada fibra**, sem correlação com as outras, e uma fibra sozinha é **fraca**: são necessárias 2–4 fibras por dendrito para disparar (Couchman et al. 2010).
+- Pôr atividade espontânea numa fibra que vale por uma população é como fazer **todas as entradas** dispararem ao acaso **ao mesmo tempo**. Daí os disparos no silêncio e o ruído que derruba o agudo.
+- Ou seja, o passo 2 depende do passo 3 (fibras individuais). A ordem 2 → 3 pode ter sido a ordem errada.

@@ -1,4 +1,4 @@
-"""Passo 2 — registro prévio passo2-espontanea.md (RASCUNHO: só rodar depois da aprovação do responsável).
+"""Passo 2 — registro prévio passo2-espontanea.md (APROVADO em 17/11/2026).
 (a) passo 2 = passo 1 + atividade espontânea 60/s por fibra (com 2 s de silêncio no fim de cada episódio); (b) passo 1; (c) referência B.
 Degrau 1, grave e agudo, sementes 161-190. Uso: ../../../../venv-nb/bin/python -I passo2_espontanea.py  (gera passo2-saida.csv)"""
 import csv, os, sys

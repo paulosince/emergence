@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: passo 2 — atividade espontânea nas fibras
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026 ("Aprovo, pode rodar").
 **Redação:** assistente (Claude), 17/11/2026.
 **Base:**
 - decisões do responsável de 17/11 (ordem 1 → 2 → 3; 60/s fixo; fim do sorteio);
