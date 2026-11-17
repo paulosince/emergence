@@ -156,6 +156,11 @@
 - **O que seria novo [R+A, NÃO demonstrado]:** não a computação por eventos, tonotopia, conectividade esparsa ou detecção de coincidências isoladamente; eventualmente a **constituição autônoma, auditável e reutilizável** de relações Upro/Uint por uma regra Pcrt única em vizinhança anatômica dada, com controle do crescimento sem tipos de convergência pré-programados. Esse enunciado requer busca adicional de anterioridade em redes de crescimento estrutural e demonstração experimental; não reivindicar originalidade.
 - **Para alegar:** congelar pré-experimento, verificar regras/limites/causalidade das incidências, demonstrar estabilização e reacesso, comparar controles P1–P6/N1–N5 **ainda propostos [A]**, distinguir seleção do classificador de estabilização e de representação CLEAR, testar em várias sementes/condições e confrontar com sistemas preexistentes. Decisão sobre grau, janela e paralelismo **reservada ao responsável**.
 
+## 18. Estrutura anterior à audição: três camadas (investigação, 17/11/2026)
+- **Evidência:** [investigação](../toy-experiments/v17/investigacao-pre-audicao.md). Antes de ouvir, atividade espontânea da cóclea refina a tonotopia e o cálice de Held passa por exuberância, competição e poda; a sintonia binaural de tempo e a inibição da MSO só amadurecem com a experiência do som.
+- **Leitura do assistente (não aprovada):** três camadas (dado; atividade própria do sensor antes do mundo; selecionado pelo mundo). A V0.17 mira a terceira.
+- **O que falta:** decisão do responsável sobre as camadas; precedentes computacionais de "fase de atividade própria antes do mundo" (as ondas da retina são o caso clássico; busca não feita).
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
