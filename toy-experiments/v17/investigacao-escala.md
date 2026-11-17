@@ -4,7 +4,7 @@
 **Investigação, leitura de código, instrumentação e confronto bibliográfico:** assistente (GPT-6).  
 **Data:** 17/11/2026.  
 **Estatuto:** INVESTIGAÇÃO, não pré-registro e **não é decisão de mecanismo**.  
-**Origem:** ramo \`claude/pre-v17-ramos\`, commit \`ae76050c\`. Diagnósticos isolados no ramo \`investigacao-escala\`. O ramo \`perf-motor-par\` e os motores originais NÃO foram modificados.
+**Origem:** ramo `claude/pre-v17-ramos`, commit `ae76050c`. Diagnósticos isolados no ramo `investigacao-escala`. O ramo `perf-motor-par` e os motores originais NÃO foram modificados.
 
 ## 0. Convenções epistemológicas e limites
 
@@ -24,21 +24,21 @@
 
 **H2 — grau local e janela [R]:** possíveis limites locais de saída/entrada, rastro vivo e regiões anatômicas de comparação; fatias paralelas respeitariam causalidade e vizinhança. Pergunta aberta: uma janela descartaria incidências sem exame?
 
-**Contrapontos levantados a testar:** (i) um evento com \`p\` destinatários não custa \`O(1)\`: mesmo simuladores orientados a eventos costumam requerer trabalho proporcional ao fan-out; (ii) \`grau limitado\` não significa mesmo grau em espécies e tipos celulares; (iii) atividade fora da janela sináptica pode modificar plasticidade por traços mais longos ou participar de reativação em outras redes; (iv) o paralelismo biológico não garante que duas CPUs executem exatamente a mesma aritmética de ponto flutuante ou mantenham ordem causal.
+**Contrapontos levantados a testar:** (i) um evento com `p` destinatários não custa `O(1)`: mesmo simuladores orientados a eventos costumam requerer trabalho proporcional ao fan-out; (ii) `grau limitado` não significa mesmo grau em espécies e tipos celulares; (iii) atividade fora da janela sináptica pode modificar plasticidade por traços mais longos ou participar de reativação em outras redes; (iv) o paralelismo biológico não garante que duas CPUs executem exatamente a mesma aritmética de ponto flutuante ou mantenham ordem causal.
 
 ## 2. O que o código realmente faz — A/E
 
-Fonte primária: \`toy-experiments/v17/ensaio-minimo/motor_par.py\`, copiado e instrumentado **apenas em módulo temporário**, contra o motor original no mesmo job. Código e logs reproduzíveis: \`investigacao_escala_medidas.py\`, \`investigacao_escala_grave.py\` e [workflow A–E](../../.github/workflows/investigacao-escala-medicoes.yml).
+Fonte primária: `toy-experiments/v17/ensaio-minimo/motor_par.py`, copiado e instrumentado **apenas em módulo temporário**, contra o motor original no mesmo job. Código e logs reproduzíveis: `investigacao_escala_medidas.py`, `investigacao_escala_grave.py` e [workflow A–E](../../.github/workflows/investigacao-escala-medicoes.yml).
 
 ### 2.1 Não é matriz incidência × incidência
 
-- A cada pulso \`tA[idx]\`, o motor copia \`a=dA[:nA]\` e \`b=dB[:nB]\`; percorre **todos os pares de ramos** \`(i,j)\` em \`nA × nB\`.
-- Calcula \`alvo=t+a[i]-b[j]\`, busca no \`tB\` inteiro com \`searchsorted\` o pulso mais próximo e registra \`gap\`. Pares com \`gap<=W=0,21 ms\` chamam \`_V(T,...)\`.
-- \`_V\` examina eventos de ambas as vias com **tempos de emissão** em \`[T-21-H, T+1]\` ms, expandindo cada evento pelos ramos da respectiva Upro. Só acumula contribuição se a **chegada atrasada** satisfizer a janela da excitação (0–1,5 ms) ou inibição (0–5τ da condição).
-- A persistência \`qk1/qk2/qv\` conta quase-acertos de **pares de atrasos**, não conserva uma lista ilimitada de incidências passadas. A malha de ramos, sim, se acumula e muda em episódios sucessivos.
-- \`searchsorted\` busca num vetor \`tB\` que já contém o **episódio inteiro**, inclusive pulsos posteriores ao instante \`tA[idx]\`. [A] Essa antecipação na execução offline precisa ser examinada ao exigir equivalência com uma arquitetura causal online (pode-se calcular a coincidência após a chegada futura, sem poder antecipar o disparo).
+- A cada pulso `tA[idx]`, o motor copia `a=dA[:nA]` e `b=dB[:nB]`; percorre **todos os pares de ramos** `(i,j)` em `nA × nB`.
+- Calcula `alvo=t+a[i]-b[j]`, busca no `tB` inteiro com `searchsorted` o pulso mais próximo e registra `gap`. Pares com `gap<=W=0,21 ms` chamam `_V(T,...)`.
+- `_V` examina eventos de ambas as vias com **tempos de emissão** em `[T-21-H, T+1]` ms, expandindo cada evento pelos ramos da respectiva Upro. Só acumula contribuição se a **chegada atrasada** satisfizer a janela da excitação (0–1,5 ms) ou inibição (0–5τ da condição).
+- A persistência `qk1/qk2/qv` conta quase-acertos de **pares de atrasos**, não conserva uma lista ilimitada de incidências passadas. A malha de ramos, sim, se acumula e muda em episódios sucessivos.
+- `searchsorted` busca num vetor `tB` que já contém o **episódio inteiro**, inclusive pulsos posteriores ao instante `tA[idx]`. [A] Essa antecipação na execução offline precisa ser examinada ao exigir equivalência com uma arquitetura causal online (pode-se calcular a coincidência após a chegada futura, sem poder antecipar o disparo).
 
-**Conclusão [C+A]:** a matriz inicial é ramo × ramo por pulso, não incidência × incidência. Contudo \`_V\` multiplica cada avaliação candidata pelas emissões recentes e respectivos ramos. Para custo, distinguem-se \`N_pulsos\`, \`nA*nB\`, fração W, avaliações \`_V\` e iterações internas por avaliação. Não afirmar que uma taxa física limitada torna o custo automaticamente limitado.
+**Conclusão [C+A]:** a matriz inicial é ramo × ramo por pulso, não incidência × incidência. Contudo `_V` multiplica cada avaliação candidata pelas emissões recentes e respectivos ramos. Para custo, distinguem-se `N_pulsos`, `nA*nB`, fração W, avaliações `_V` e iterações internas por avaliação. Não afirmar que uma taxa física limitada torna o custo automaticamente limitado.
 
 ### 2.2 Medição curta, agudo idealizado, semente 1
 
@@ -52,8 +52,8 @@ Cinco episódios de **120 ms cada**; isto não exercita estabilização de longo
 | Pares de ramos examinados | 388.529 | 324.094 | 331.065 |
 | Passaram W | 229.419 | 187.641 | 192.325 |
 | Fração W | 59,05% | 57,90% | 58,09% |
-| Iterações internas de \`_V\` | 387.569.546 | 274.567.985 | 287.233.921 |
-| Iterações por \`_V\` | 1.689,35 | 1.463,26 | 1.493,48 |
+| Iterações internas de `_V` | 387.569.546 | 274.567.985 | 287.233.921 |
+| Iterações por `_V` | 1.689,35 | 1.463,26 | 1.493,48 |
 | Contribuições excitatórias | 25.119.090 | 17.822.786 | 18.630.847 |
 | Contribuições inibitórias | 0 | 17.585.981 | 18.382.990 |
 | Média de valores distintos de T por pulso | 148,42 | 123,65 | 126,58 |
@@ -63,9 +63,9 @@ Cinco episódios de **120 ms cada**; isto não exercita estabilização de longo
 
 Em I1, **apenas 6,49%** de todas as iterações internas satisfazem a condição de contribuição excitatória; as inibitórias são contadas separadamente e podem coincidir com elas. **As janelas já existem**, mas a faixa escolhida para varredura, multiplicada pelos ramos, faz muitas verificações que não contribuem.
 
-O valor global de ~56–59% de candidatos aceitos por W é compatível, em ordem de grandeza, com a heurística \`2W/p\` de pulsos periódicos densos (p ~0,6–0,9 ms). **Não é igualdade teórica:** há jitter, atrasos variáveis, bordas e crescimento da estrutura. A proporção no grave ainda não foi medida aqui de modo equivalente; não transportar ~8% como resultado observado.
+O valor global de ~56–59% de candidatos aceitos por W é compatível, em ordem de grandeza, com a heurística `2W/p` de pulsos periódicos densos (p ~0,6–0,9 ms). **Não é igualdade teórica:** há jitter, atrasos variáveis, bordas e crescimento da estrutura. A proporção no grave ainda não foi medida aqui de modo equivalente; não transportar ~8% como resultado observado.
 
-**Atenção científica:** classe \`explosao\` é calculada pelo motor assim: \`ramos>100 OU relacoes>200\`, desde que \`tot>0\`; por isso os três casos de 120 ms são classificados como explosão **pela contagem de relações**, apesar de menos de 100 ramos finais. O fato é computacional; sua interpretação como achado científico da V0.17 requer confrontá-lo com o pré-registro e condições experimentais válidas. Não confundir relações distintas creditadas com Uint estabilizadas.
+**Atenção científica:** classe `explosao` é calculada pelo motor assim: `ramos>100 OU relacoes>200`, desde que `tot>0`; por isso os três casos de 120 ms são classificados como explosão **pela contagem de relações**, apesar de menos de 100 ramos finais. O fato é computacional; sua interpretação como achado científico da V0.17 requer confrontá-lo com o pré-registro e condições experimentais válidas. Não confundir relações distintas creditadas com Uint estabilizadas.
 
 ### 2.3 Crescimento e proporção dos custos
 
@@ -79,18 +79,66 @@ Em 1.000 ms na condição I1, já observado previamente em engenharia: 137 ramos
 |---|---:|---:|---:|---|
 | I1, 120 ms | registro no log | registro no log | 324.094 | exata |
 | I0, 1.000 ms | 53,809 s | 55,340 s | 21.960.202 | exata |
-| I1, 2.000 ms | **pendente de término** | **pendente** | não medido | não declarada |
+| I1, 2.000 ms | 139,270 s | 135,995 s | 35.839.172 | exata |
 | I1, 3.000 ms | **pendente de término** | **pendente** | não medido | não declarada |
 
 Os jobs de 2 s e 3 s têm timeout **60 minutos cada**. Uma execução encerrada por limite não permite inventar resultado final nem observação de grau máximo.
 
+### 2.3A Dados consolidados da etapa A/B/D (execuções verificadas)
+
+**Condições:** agudo idealizado, cinco episódios, semente 1, exceto na seção dos 70 casos do grave. Igualdade *exata*, sem tolerância, entre motor original e cópia instrumentada em **todas** as linhas concluídas. Condição/versão de entrada distintas não devem ser interpretadas como uma só série temporal.
+
+| Condição/duração por episódio | Pulsos A | Ramos finais | Relações | Pares testados | Dentro de W | Iterações de _V | Ramos estabilizados | Tempo original / instrumentado |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| I0 / 120 ms | 869 | 66 | 832 | 388.529 | 229.419 (59,05%) | 387.569.546 | 0 | logs A–E |
+| I1 / 120 ms | 869 | 54 | 560 | 324.094 | 187.641 (57,90%) | 274.567.985 | 0 | logs A–E |
+| I2 / 120 ms | 869 | 58 | 650 | 331.065 | 192.325 (58,09%) | 287.233.921 | 0 | logs A–E |
+| I0 / 1.000 ms | 6.656 | 137 | 1.858 | 21.960.202 | 12.358.787 (56,28%) | 49.704.457.582 | 0 | 53,809 / 55,340 s |
+| I1 / 1.000 ms | 6.656 | 137 | 1.858 | 21.960.202 | 12.358.787 (56,28%) | 49.704.457.582 | 0 | 142,713 / 150,607 s |
+| I2 / 1.000 ms | 6.656 | 198 | 2.512 | 40.544.426 | 22.917.312 (56,52%) | 127.888.920.713 | 0 | 228,282 / 226,982 s |
+| I1 / 2.000 ms | 12.802 | 112 | 1.370 | 35.839.172 | 19.155.581 (53,45%) | 63.846.154.862 | 0 | 139,270 / 135,995 s |
+
+**Interpretação [C/A]:** não se estabelece lei quadrática a partir de 120 ms e 1 s: em I1, 2 s produziu **112 ramos finais**, menos que os **137** de 1 s. Cada duração reamostra a sequência de estímulos; não se trata de prolongar uma mesma trajetória fixa. Na condição I2/1 s, há 198 ramos e 40,5 milhões de pares; os dados rejeitam tratar o custo observado em I1 como representativo de todas as condições de inibição. **Os tempos variam por runner; apenas original versus instrumentado no mesmo job é comparação instrumental controlada.**
+
+**Frações de contribuição efetiva:** I1/120 ms percorreu 274.567.985 combinações em _V, mas só 17.822.786 satisfizeram o suporte excitatório (6,49%); em I1/1 s, 3.189.320.273 de 49.704.457.582 (6,42%). Há custo substancial em avaliar pares que não contribuem. Contudo, qualquer tentativa de pular operações necessita preservar a mesma sequência e ordem de somas flutuantes.
+
+**Pulso a pulso — I1, 1.000 ms**, contagens agregadas por episódio:
+
+| Episódio | Pulsos A | nA inicial→máx | nB inicial→máx | Pares por pulso (média) |
+|---|---:|---|---|---:|
+| 1 | 1.287 | 6→43 | 6→47 | 973,55 |
+| 2 | 1.368 | 43→49 | 47→74 | 3.026,14 |
+| 3 | 1.373 | 49→49 | 74→88 | 3.813,22 |
+| 4 | 1.276 | 49→49 | 88→88 | 4.312,00 |
+| 5 | 1.352 | 49→49 | 88→88 | 4.312,00 |
+
+O número de pulsos por episódio é **limitado pelo estímulo**, enquanto o número de **pares calculados por pulso** cresce com os ramos candidatos. O motor de hoje executa o produto dos ramos mesmo quando uma pequena fração das iterações de _V produz contribuição.
+
+**B — a classe “explosão” não é contagem de ramos necessariamente:** I0/I1/I2 de 120 ms possuem apenas 66/54/58 ramos, mas registram 832/560/650 relações, excedendo o limiar **relações>200**. Nos três casos de 1 s, **ramos>100 e relações>200** são ambos verdadeiros. A classe, portanto, não deve ser lida como número absoluto de ramos ou comprovante de inviabilidade fisiológica.
+
+**D — 70 referências históricas do grave medidas de novo:** 10 sementes × 7 condições. Instrumento versus motor original **e** motor original versus CSV de referência: **70/70 coincidências exatas**. Contagem de transições para ramo estabilizado (detectadas quando _marcar efetivamente muda \`est\` de falso para verdadeiro):
+
+| Condição | Ramos estabilizados | Sementes com alguma estabilização | Classificação relevante |
+|---|---:|---:|---|
+| I0 | 0 | 0/10 | resultados históricos variam |
+| I1 | 0 | 0/10 | 8/10 “seleção”, **sem estabilização** |
+| I2 | **6** | **3/10** (sementes 4, 5, 9) | **10/10 “colapso”**, apesar dos ramos estabilizados |
+| I3 | 0 | 0/10 | “colapso” |
+| F | 0 | 0/10 | “colapso” |
+| F-imatura | 0 | 0/10 | “colapso” |
+| F-madura | 0 | 0/10 | “colapso” |
+| **Total** | **6** | **3/70** | não confundir seleção, crédito e estabilidade |
+
+Na I2, semente 4, estabilizaram 2 ramos A + 2 B; na semente 5, 1 ramo A; na semente 9, 1 ramo A. **O classificador “colapso” é acionado porque o crédito contabilizado nos últimos 200 pulsos do último episódio é zero. Não significa ausência de ramos sobreviventes.** Analogamente, “seleção” significa a regra operacional do classificador de crédito, **não consolidação de estrutura**. Este é um problema de interpretação dos resultados históricos que deve ser levado ao responsável, sem mudar a definição científica em silêncio.
+
+
 ### 2.4 MAXR=512 versus interrupção com soma >300 [C]
 
-- \`_brotar(...)\` só insere quando \`n<MAXR\`. Em \`n==512\`, tentativas de criar novos ramos são recusadas, sem exceção.
-- O teste de borda realizado no ramo separado \`perf-motor-par\` verificou este comportamento com arrays artificiais; esse teste não equivale a atingir 512 numa execução natural.
-- **Não é rigorosamente impossível atingir 512:** o teste \`if nA+nB>300: break\` fica **ao fim do processamento de um pulso**, após o laço de quase-acertos que pode criar diversos ramos dentro do mesmo pulso. Uma Upro poderia, em princípio, ultrapassar 300 ramos nesse único processamento antes da verificação; \`MAXR\` continuaria ativo.
+- `_brotar(...)` só insere quando `n<MAXR`. Em `n==512`, tentativas de criar novos ramos são recusadas, sem exceção.
+- O teste de borda realizado no ramo separado `perf-motor-par` verificou este comportamento com arrays artificiais; esse teste não equivale a atingir 512 numa execução natural.
+- **Não é rigorosamente impossível atingir 512:** o teste `if nA+nB>300: break` fica **ao fim do processamento de um pulso**, após o laço de quase-acertos que pode criar diversos ramos dentro do mesmo pulso. Uma Upro poderia, em princípio, ultrapassar 300 ramos nesse único processamento antes da verificação; `MAXR` continuaria ativo.
 - Nos casos naturais de 120 ms e I0/I1 de 1 s concluídos até o momento não houve acionamento de MAXR nem parada por soma>300; a ausência nos restantes precisa ser confirmada a partir das saídas.
-- Alterar \`MAXR\`, a regra >300 ou restringir brotamento constitui mudança científica **não autorizada**.
+- Alterar `MAXR`, a regra >300 ou restringir brotamento constitui mudança científica **não autorizada**.
 
 ## 3. Trilha 1 — engenharia, só propostas, resultado IDÊNTICO
 
@@ -98,11 +146,11 @@ Os jobs de 2 s e 3 s têm timeout **60 minutos cada**. Uma execução encerrada 
 
 1. Evitar percorrer estados sem evento novo, **desde que** preserve estado e ordem causal do motor atual. A operação só é removível se provadamente não altera nenhuma contribuição relevante.
 2. Reduzir cópias/alocações por pulso, sem alterar ordem, precisão, arredondamento, eventos ou condições de emissão.
-3. Pré-indexar janelas e percursos \`_V\` para evitar varrer chegadas impossíveis, mas preservar a **mesma sequência e ordem de adições**. Cache de soma, soma vetorizada ou incremental pode mudar erro em ponto flutuante; **não adotar se divergir em qualquer campo**.
+3. Pré-indexar janelas e percursos `_V` para evitar varrer chegadas impossíveis, mas preservar a **mesma sequência e ordem de adições**. Cache de soma, soma vetorizada ou incremental pode mudar erro em ponto flutuante; **não adotar se divergir em qualquer campo**.
 4. Paralelizar sementes independentes sem alterar números; paralelizar pares dentro do mesmo pulso demanda agregação ordenada e equivalência exata, não garantida por duas CPUs.
 5. Para as 384 vias, **somente desenho** de adjacência pré-computada da vizinhança anatômica já decidida (entre orelhas mesma faixa ±2; dentro da orelha faixas vizinhas ±2 e três limiares da mesma faixa), processamento por eventos e buffers limitados de incidências. Nenhum código novo do modelo é autorizado por este documento.
 
-**Questão aberta:** a soma de todos os ramos em \`_V\` pode ser referenciada por estrutura de índice sem reordenar adições; isso precisa de prova e validação bit a bit. A otimização vem após nova autorização.
+**Questão aberta:** a soma de todos os ramos em `_V` pode ser referenciada por estrutura de índice sem reordenar adições; isso precisa de prova e validação bit a bit. A otimização vem após nova autorização.
 
 ## 4. Trilha 2 — confronto bibliográfico de H1 e H2
 
@@ -116,34 +164,34 @@ Os jobs de 2 s e 3 s têm timeout **60 minutos cada**. Uma execução encerrada 
 
 **[L]** A via auditiva tem limites físicos por fibra, mas **não há limite global fixo de taxa para todos os tipos celulares**. Em camundongos CBA, um estudo de Wang, Ren e Manis (2010), citando Taberner e Liberman (2005), registra **200–400 disparos/s como máximos sustentados de fibras auditivas** [fonte primária da faixa não relida integralmente: confiança média]. Não confundir **frequência acústica**, **sincronização de fase** e **taxa de potenciais de ação individuais**. A revisão de Verschooten et al. (2019) salienta incertezas e diferenças por espécie; não há medida fisiológica direta equivalente em nervo auditivo humano para todos os cortes propostos.
 
-**[H]** \`investigacao-convergencia.md\`, seção 6, já registra cerca de **30–34 mil fibras por orelha em humanos**, com origem Makary et al. (2011). Não refiz a contagem nem afirmo que 384 vias da V0.17 sejam 384 fibras anatômicas idênticas. O produto ilustrativo 60 mil × (200–400) = 12–24 milhões de eventos por segundo **mistura contagem humana e faixa de taxas de camundongo**, supõe todas as fibras simultaneamente no máximo e é, portanto, só uma **cota hipotética grosseira [A, confiança baixa]**, jamais taxa medida em humanos. Nosso \`trem\` agudo idealizado (~0,6–0,9 ms por período) também **não é um modelo fisiológico validado de disparo individual**.
+**[H]** `investigacao-convergencia.md`, seção 6, já registra cerca de **30–34 mil fibras por orelha em humanos**, com origem Makary et al. (2011). Não refiz a contagem nem afirmo que 384 vias da V0.17 sejam 384 fibras anatômicas idênticas. O produto ilustrativo 60 mil × (200–400) = 12–24 milhões de eventos por segundo **mistura contagem humana e faixa de taxas de camundongo**, supõe todas as fibras simultaneamente no máximo e é, portanto, só uma **cota hipotética grosseira [A, confiança baixa]**, jamais taxa medida em humanos. Nosso `trem` agudo idealizado (~0,6–0,9 ms por período) também **não é um modelo fisiológico validado de disparo individual**.
 
 **Síntese H1 [A]:** crítica ao exame do produto cartesiano de ramos é forte; conclusão “custo deve depender só de incidências” é **forte demais**. Uma formulação para testar, não decidir: custo proporcional a **eventos efetivamente distribuídos × conectividade local relevante**, mais plasticidade/custo de busca e roteamento, sem varreduras globais. O evento de entrada pode ser finito, mas fan-out pode crescer até atingir outro orçamento físico.
 
 ### 4.2 Hipótese 2: grau local, janelas, poda e paralelo
 
-**[L] Entradas por neurônio (não “ramos por Upro”):** Cao e Oertel (2010), em cortes de **camundongo**, estimaram \`≤3\` aferentes excitatórios em pequenas bushy (geralmente 2), ~5 em bushy globulares, média 6,5 em T-stellate e **>60** em octopus [resumo e trechos; alta para valores relatados, média para generalizar]. Couchman, Grothe e Felmy (2010) estimam **mínimo de 4–8 entradas excitatórias e 2–4 inibitórias por célula MSO de gerbil adulto**, em estudo in vitro [TI; confiança média por caráter de estimativa e limite inferior].
+**[L] Entradas por neurônio (não “ramos por Upro”):** Cao e Oertel (2010), em cortes de **camundongo**, estimaram `≤3` aferentes excitatórios em pequenas bushy (geralmente 2), ~5 em bushy globulares, média 6,5 em T-stellate e **>60** em octopus [resumo e trechos; alta para valores relatados, média para generalizar]. Couchman, Grothe e Felmy (2010) estimam **mínimo de 4–8 entradas excitatórias e 2–4 inibitórias por célula MSO de gerbil adulto**, em estudo in vitro [TI; confiança média por caráter de estimativa e limite inferior].
 
-**[L] Contatos de UM aferente não equivalem a número de aferentes:** Callan et al. (2021), **gerbil P21–P30**, observam uma mediana de **4 sítios de contato** entre um único axônio e um dendrito MSO, com várias zonas de liberação por sítio [TI; alta nesse preparado]. Esse precedente proíbe igualar diretamente um \`ramo\` a uma fibra, botão, contato, zona ativa ou saída independente sem especificar equivalência.
+**[L] Contatos de UM aferente não equivalem a número de aferentes:** Callan et al. (2021), **gerbil P21–P30**, observam uma mediana de **4 sítios de contato** entre um único axônio e um dendrito MSO, com várias zonas de liberação por sítio [TI; alta nesse preparado]. Esse precedente proíbe igualar diretamente um `ramo` a uma fibra, botão, contato, zona ativa ou saída independente sem especificar equivalência.
 
 **[L] Contraexemplos a um grau universal pequeno:** em células de coincidência da **coruja**, revisão de Ashida e Carr (2011) relata ordem de **100–300 aferentes na NL**, contra ~4–8 estimados na MSO de gerbil; a confirmação primária específica da faixa 100–300 não foi reaberta aqui [RT, confiança média]. Reconstruções de **39 neurônios/afluentes em V1 de gato** (Binzegger, Douglas e Martin, 2004) informam **975–9.641 sinapses de saída por neurônio** [RT; confiança média]. Em **células de Golgi cerebelares de camundongos adultos, 2–5 meses**, Tabuchi et al. (2019) mapearam **~6.000–7.500 botões por axônio** em **4 células reconstruídas** [TI, confiança alta dentro da pequena amostra]. Logo, conectividade e custo local variam enormemente por tipo celular e espécie.
 
 **[L] Poda/refinamento:** Hoffpauir et al. (2006) descrevem formação rápida do cálice de Held e quase mono-inervação em camundongos antes da audição; Holcomb et al. (2013) documentam competição precoce até predomínio de uma entrada em dias pós-natais — **contraexemplo a exigir que toda especificação venha apenas da experiência sonora** [resumo e trechos]. Rodríguez-Contreras et al. (2008) observaram em **ratos neonatos** formação, retração e modificação de **até 65% dos colaterais durante 1 h**; isso é proporção de **dinâmica de colaterais de calyces jovens**, não taxa geral de poda sináptica do cérebro [TI; alta para a amostra, baixa para extrapolação]. Kapfer et al. (2002), bem como Kandler e Gillespie (2005), sustentam refinamento anatômico dependente da experiência nas vias inibitórias auditivas, mas as condições e mecanismos variam por circuito [R/RT].
 
-**[L] Limites por custo:** modelos de orçamento energético (Attwell & Laughlin, 2001) e de cabeamento cortical (Chklovskii, Schikorski & Stevens, 2002), além da revisão de economia de redes (Bullmore & Sporns, 2012), sustentam compromissos entre função, comprimento de fio, volume, atraso e energia. **Não estabelecem** um teto numérico universal para ramos por Upro; tampouco autorizam transformar o limite computacional \`MAXR=512\` num número neurobiológico.
+**[L] Limites por custo:** modelos de orçamento energético (Attwell & Laughlin, 2001) e de cabeamento cortical (Chklovskii, Schikorski & Stevens, 2002), além da revisão de economia de redes (Bullmore & Sporns, 2012), sustentam compromissos entre função, comprimento de fio, volume, atraso e energia. **Não estabelecem** um teto numérico universal para ramos por Upro; tampouco autorizam transformar o limite computacional `MAXR=512` num número neurobiológico.
 
 **[L] Janelas com funções DISTINTAS:**
 1. **Coincidência/integração eletrofisiológica:** submilissegundos a poucos ms nas vias auditivas rápidas; por exemplo, em camundongo Cao & Oertel (2010) reportam largura à meia-altura de **~0,5 ms** em EPSCs de células bushy e **0,8–0,9 ms** em outros tipos. Trata-se de **corrente pós-sináptica**, não prazo de armazenar incidências do Sdom.
 2. **Traços de plasticidade:** segundos em paradigmas de estriado, córtex e hipocampo, com terceiro fator (Gerstner, Lehmann, Liakoni, Corneil & Brea, 2018, texto integral de revisão consultado). **Traço de elegibilidade não é memória exata do evento bruto nem janela da Uint**.
 3. **Retenção e reativação de redes:** estados persistentes, disparo recorrente e *replay* podem reintroduzir atividade muito depois da coincidência; Buzsáki (2015, resumo/trechos) documenta reativação hipocampal em ondas agudas-ripples nos estados offline. **Não há evidência de que a V0.17 implemente isto.** A repetição interna foi explicitamente adiada com as relações entre Uint.
 
-Essa distinção complementa — não repete como se fosse novo — a seção 4.2.2 do \`pre-experimento.md\`, que já lista elegibilidade de segundos, marcação sináptica e reativação mais longa. O valor adicional aqui é separar **janela de coincidência**, **janela de elegibilidade** e **reentrada de um novo evento por circuito**, sem supor equivalência.
+Essa distinção complementa — não repete como se fosse novo — a seção 4.2.2 do `pre-experimento.md`, que já lista elegibilidade de segundos, marcação sináptica e reativação mais longa. O valor adicional aqui é separar **janela de coincidência**, **janela de elegibilidade** e **reentrada de um novo evento por circuito**, sem supor equivalência.
 
 ### 4.3 Uma janela deixaria incidências sem análise?
 
 **Depende da definição operacional de “analisar” [A].** Se cada nova incidência é examinada contra **todos os rastros ainda vivos**, a expiração de um rastro encerra sua elegibilidade para *novas coincidências imediatas*. Uma incidência expirada não integra mais uma ocorrência que só chegou **depois de expirar**; isso não é bug por si, mas uma **fronteira constitutiva** a explicitar e testar. Incidências que nunca geraram pares favoráveis devem permanecer documentadas como não acomodadas, não ser silenciosamente contadas como representadas.
 
-No código atual já há \`W=0,21 ms\` para coincidência e suporte físico finito em \`_V\`; a seleção de emissões usa \`T-21-H\` até \`T+1\` ms e atrasos de ramo limitados por \`DMAX=20 ms\`. **Essas são janelas diferentes**: [A] uma fila online precisaria conservar emissões enquanto puderem gerar chegadas e efeitos, e decidir o destino depois que os atrasos pertinentes forem conhecidos. Janela curta sobre **emissões**, sem considerar \`DMAX\` e o suporte de excitação/inibição, pode perder relações reais, quebrando equivalência. Por exemplo, para uma chegada em T, o corpo atual permite contribuições de emissões com idade da ordem de **DMAX + H**; em F-imatura, H pode atingir 20 ms. Este é limite de suporte da formulação atual, não novo parâmetro recomendado.
+No código atual já há `W=0,21 ms` para coincidência e suporte físico finito em `_V`; a seleção de emissões usa `T-21-H` até `T+1` ms e atrasos de ramo limitados por `DMAX=20 ms`. **Essas são janelas diferentes**: [A] uma fila online precisaria conservar emissões enquanto puderem gerar chegadas e efeitos, e decidir o destino depois que os atrasos pertinentes forem conhecidos. Janela curta sobre **emissões**, sem considerar `DMAX` e o suporte de excitação/inibição, pode perder relações reais, quebrando equivalência. Por exemplo, para uma chegada em T, o corpo atual permite contribuições de emissões com idade da ordem de **DMAX + H**; em F-imatura, H pode atingir 20 ms. Este é limite de suporte da formulação atual, não novo parâmetro recomendado.
 
 **Repetição interna adiada:** não usar *replay* como “solução escondida” para incidências expiradas. Se uma relação não se constituiu no primeiro contato, estruturas já consolidadas ou traços moleculares ainda poderiam influenciar futuros eventos noutro modelo, mas isso requer mecanismo próprio. Na V0.17 não há segundo nível entre Uint; os silêncios têm só decaimento. Uma janela de rastros não é, sozinha, armazenamento/replay.
 
@@ -188,7 +236,7 @@ No código atual já há \`W=0,21 ms\` para coincidência e suporte físico fini
 | *Tonotopic reorganization of developing auditory brainstem circuits* | autoria a verificar no original desta rodada | https://pmc.ncbi.nlm.nih.gov/articles/PMC2780022/ | **RT**, seções do corpo recuperadas; abertura bloqueada | MNTB pré-estruturado; MSO inibitória experiencial | Média; autoria não afirmada |
 | *Loss of C1q alters the auditory brainstem response* | autoria não conferida nesta rodada | https://pmc.ncbi.nlm.nih.gov/articles/PMC11480778/ | **R** | Possível papel de microglia/complemento; **não usado como prova quantitativa** | Baixa |
 
-**Reuso auditável [H]:** \`toy-experiments/v17/investigacao-convergencia.md\`, seção 6, já registra números humanos e suas ressalvas; \`pre-experimento.md\`, seção 4.2.2, já trata elegibilidade e reativação. Este documento não substitui esses registros nem converte suas estimativas em medidas novas.
+**Reuso auditável [H]:** `toy-experiments/v17/investigacao-convergencia.md`, seção 6, já registra números humanos e suas ressalvas; `pre-experimento.md`, seção 4.2.2, já trata elegibilidade e reativação. Este documento não substitui esses registros nem converte suas estimativas em medidas novas.
 
 ## 6. Confronto explícito e contraexemplos
 
@@ -210,10 +258,10 @@ No código atual já há \`W=0,21 ms\` para coincidência e suporte físico fini
 
 ## 8. Pendências / decisões reservadas ao responsável
 
-1. **Engenharia:** entender por que \`_V\` visita tantas combinações sem contribuição, preservando rigorosamente a ordem das somas; não propor adoção automática de cache/soma incremental.
+1. **Engenharia:** entender por que `_V` visita tantas combinações sem contribuição, preservando rigorosamente a ordem das somas; não propor adoção automática de cache/soma incremental.
 2. **Engenharia:** conferir com saídas de 2 s e 3 s — se concluírem — o estágio onde ramos dominam e possíveis limites; a medição não pode ser substituída por projeção.
 3. **Ciência:** decidir *se* deve existir limite local de grau, e a que entidade ele se aplica (Upro, Uint, contato, ramo, alvo, conexão); não transferir números de gerbil/camundongo/córtex diretamente à V0.17.
-4. **Ciência:** decidir sem circularidade o que é “rastro vivo” e se o prazo deve ser por modalidade, latência máxima ou elemento; não converter o \`H\` de implementação em regra teórica por acidente.
+4. **Ciência:** decidir sem circularidade o que é “rastro vivo” e se o prazo deve ser por modalidade, latência máxima ou elemento; não converter o `H` de implementação em regra teórica por acidente.
 5. **Ciência:** testar a hipótese de partições locais causalmente independentes em vez de presumir que paralelização de CPU corresponda a organização biológica.
 6. **Ciência:** distinguir seleção de relações no toy de **estabilização** de ramos e constituição representacional; não considerar valores de “explosão” uma refutação/validação científica sem condições e critérios pré-fixados.
 
