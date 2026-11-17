@@ -180,6 +180,12 @@
 - **O que poderia ser novo [R/A, não alegar]:** constituição gradual e auditável de Upro/Uint e relações por Pcrt atuando somente sobre incidências não acomodadas, sem tipologias relacionais programadas, com determinação funcional resultante. Necessita busca específica de anterioridade em SNNs com crescimento, auto-organização estrutural e codificação temporal; **nenhuma reivindicação de originalidade autorizada**.
 - **O que falta para alegar:** escolher a interpretação de `ramo`, `força` e `contato` sem equiparações silenciosas; obter critério operacional independente para seleção versus disparo e estabilização; resolver aliasing de período fixo, competição do agudo, comparação em múltiplas condições, controles negativos e reacesso; congelar protocolo apenas após decisão expressa. **Motores e resultados não alterados; ensaios pausados.**
 
+## 21. Hipótese: nos mamíferos, os atrasos vêm antes de ouvir e o mundo seleciona a fase pela inibição (17/11/2026)
+- **Origem:** leitura do assistente sobre a [investigação da divisão da força](../toy-experiments/v17/investigacao-divisao-forca.md) e a [investigação pré-audição](../toy-experiments/v17/investigacao-pre-audicao.md); **registrar e investigar** (responsável, 17/11). Confiança baixa.
+- **Peças [L]:** mielinização diferencial dos colaterais aparece antes do início da audição no gerbil (Seidl e Rubel 2016, via ChatGPT, resumo e trechos); a sintonia binaural amadurece com a experiência após o início da audição (Seidl e Grothe 2005, resumo) e a inibição da MSO é refinada pela experiência (Kapfer et al. 2002, resumo); ajuste de fase por equilíbrio entre excitação e inibição sem mudar o atraso físico (Leibold e van Hemmen 2005, modelo; texto integral segundo o ChatGPT).
+- **Consequência possível:** pelas três camadas, os atrasos seriam dado ou refinamento anterior ao mundo; o que o mundo seleciona seria a inibição. A V0.17 hoje faz o mundo selecionar atrasos por exuberância.
+- **O que falta:** pesquisa específica; decisão do responsável.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
