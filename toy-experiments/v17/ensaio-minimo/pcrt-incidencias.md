@@ -22,7 +22,10 @@
 - **A própria Uint avalia o quase-acerto** e responde por ele com o brotamento: os ramos cujas chegadas contribuíram para a soma perto do limiar brotam vizinhos (um passo para cada lado), sem usar o tamanho nem o sinal do erro. Avaliação local: só acontece onde houve atividade.
 - **A Pcrt** trabalha sobre as incidências sem integração e **constitui** estrutura nova (Upro e Uint candidatas). No par de vias essa estrutura já vem dada (uma Uint, 6 ramos de cada lado), então a Pcrt quase não aparece; ela pesa nas 384 vias.
 - **Território glial** (avaliar regiões, vários nós ao longo do tempo): variante guardada, coerente com a decisão de 10–11/11 (macroglias absorvidas nas unidades). Para o responsável, o achado de custo reforça a hipótese glial (ver innovation-tracking, seção 16).
-Ainda em aberto: o quanto é "bem perto" do limiar; o problema de partida (com força inicial 0,15, duas chegadas somam no máximo 0,30, longe de 1,5: no começo não há quase-acertos).
+**Faixa, partida e enfraquecimento — decididos [R, 17/11]** (base: [L] Artola, Bröcher e Singer 1990, resumo: dois limiares de despolarização, LTD entre eles e LTP acima; Golding, Staff e Spruston 2002, resumo: potenciação sem disparo do axônio, por eventos locais regenerativos; Harvey e Svoboda 2007, resumo: estímulo abaixo do limiar só produziu potenciação e aumento de espinha **perto de uma espinha recém-potenciada**, efeito de ~10 min e ~10 µm):
+- **Faixa do quase-acerto:** hipótese do responsável, a integração é não linear e **acima de ~75% do limiar** já é quase-acerto (soma ≥ 1,125 sem chegar a 1,5). Nenhuma fonte dá esse número em fração do limiar (os limiares da literatura vêm em mV, com voltagem fixada). **Mapear em torno de 75%:** 50%, 75% e 90%.
+- **Partida: aceita.** Com força inicial 0,15, nada chega a 75% de 1,5 no começo; o brotamento só começa depois de haver acertos que fortaleçam ramos. Registrado como **previsão** (coerente com Harvey e Svoboda 2007), não como defeito.
+- **Enfraquecer no quase-acerto: testar (subteste com e sem).** Proposta do assistente para o valor, a aprovar junto com este registro: os ramos cujas chegadas contribuíram para o quase-acerto perdem **1,05 × ganho** (o mesmo valor do enfraquecimento por sincronia), além de brotar.
 
 **Q3. Até onde vai o rastro vivo na comparação?** [A] Proposta: ±19,5 ms (a maior diferença que algum par de ramos pode realizar, 20 − 0,5). No agudo, cerca de 25 incidências da outra Upro por incidência fixada; no grave, cerca de 4. É um teto fixo, que não cresce com os ramos.
 
@@ -42,10 +45,10 @@ Ainda em aberto: o quanto é "bem perto" do limiar; o problema de partida (com f
 
 **Controle de código** (engenharia): com a Pcrt desligada (sem brotamento) e o corte de 5 constantes de tempo imitado, o motor novo deve dar **resultado idêntico** ao antigo na mesma condição. Isso separa erro de programação de efeito do modelo.
 
-**Grade:** a confirmação de 16/11 (10 sementes; notas e período fixo; portão 0,30) e a inibição (I0 e I1), no **grave** e no **agudo**. Mais o tempo de execução, medido junto com o motor antigo na mesma máquina.
+**Grade:** a confirmação de 16/11 (10 sementes; notas e período fixo; portão 0,30) e a inibição (I0 e I1), no **grave** e no **agudo**, cruzadas com a faixa do quase-acerto (50%, 75%, 90%) e com o enfraquecimento no quase-acerto (com e sem): 2 × 2 × 2 × 3 × 2 × 10 = **480 execuções**. Mais o tempo de execução, medido junto com o motor antigo na mesma máquina. Se o custo for alto, a ordem é: primeiro grave, notas, I1 (60 execuções), e o responsável vê antes do resto.
 
 **Regras de leitura (fixadas agora):**
-- I1 no grave com notas seleciona em **≥ 8 de 10**: o conjunto atual é mantido para os degraus seguintes.
+- Lidas **por combinação** de faixa e enfraquecimento. I1 no grave com notas seleciona em **≥ 8 de 10**: o conjunto atual é mantido para os degraus seguintes.
 - Seleciona em **4–7 de 10**: refazer o mapa de sensibilidade (mesmas faixas registradas em [mapa-faixas.md](mapa-faixas.md)) antes de qualquer decisão.
 - **≤ 3 de 10**: parar e levar ao responsável, sem ajustar nada.
 - O agudo é lido à parte. Explosão ou colapso no agudo vai ao responsável como achado, não se corrige com parâmetro.
