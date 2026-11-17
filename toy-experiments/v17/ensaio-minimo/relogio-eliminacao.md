@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: relógio da eliminação só com mundo (correção de erro)
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável.
+**Estado:** **SUBSTITUÍDO** (17/11, noite): o responsável decidiu pular para o critério por participação (registro participacao.md), já com o relógio corrigido, que fica.
 **Redação:** assistente (Claude), 17/11/2026.
 **Base:**
 - decisão do responsável (17/11, noite): "Só tempo com mundo"; testar antes no modelo atual, com 1 fibra;

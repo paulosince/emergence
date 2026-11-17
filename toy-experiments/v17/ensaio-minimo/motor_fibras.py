@@ -65,7 +65,7 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO, RELOG, DEP):
+def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO, RELOG, DEP, PART, NPART):
     np.random.seed(semente)
     UD = np.zeros((NF, MAXU)); UA = np.zeros((NF, MAXU), np.bool_); nU = np.zeros(NF, np.int64); R_b = np.zeros(MAXRAM, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
@@ -78,6 +78,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
     LF = np.zeros((NF, MAXRAM), np.int64); nLF = np.zeros(NF, np.int64); nR_lf = -1
     LS = np.zeros((2, MAXRAM), np.int64); nLS = np.zeros(2, np.int64)
     R_td = np.zeros(MAXRAM); t_elim = -1e18
+    R_pf = np.zeros(MAXRAM, np.int64); nf = np.zeros(K, np.int64)   # participação (PART): último disparo da Uint em que o ramo foi integrado
     # fila por cursor (CUR): uma entrada na fila por incidência e tipo; ramos da incidência guardados em anel, ordenados pela chegada
     CUR = CUR and not MAT
     SO = np.zeros((NF, MAXRAM), np.int64); RING = 1 << 20; MSK = RING - 1
@@ -137,12 +138,15 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
                         for r in range(nR):
                             if (not R_es[r]) and t > R_td[r]: R_f[r] *= 2.0 ** (-(t - R_td[r]) / MEIA)
                             R_td[r] = t
+                    if PART:   # eliminação por não participação: a Uint disparou NPART vezes sem integrar o ramo
+                        for r in range(nR):
+                            if R_ok[r] and (not R_es[r]) and nf[R_k[r]] - R_pf[r] >= NPART: R_ok[r] = False; elim += 1
                     # correção 2: eliminação competitiva por lado de Uint
-                    for kk in range(K):
+                    for kk in range(K * (1 - PART)):
                         fmx[kk, 0] = 0.0; fmx[kk, 1] = 0.0
-                    for r in range(nR):
+                    for r in range(nR * (1 - PART)):
                         if R_ok[r] and R_f[r] > fmx[R_k[r], R_s[r]]: fmx[R_k[r], R_s[r]] = R_f[r]
-                    for r in range(nR):
+                    for r in range(nR * (1 - PART)):
                         if R_ok[r] and not R_es[r]:
                             if R_f[r] < TETA * fmx[R_k[r], R_s[r]]:
                                 ta = t - ep * (CICLO - DEP) if RELOG else t   # relógio só com mundo (RELOG) ou absoluto
@@ -271,6 +275,10 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
                 if ultimo: disp[k] += 1
                 if ultimo and T > (NEP - 1) * CICLO + dur: dsil[k] += 1
                 udisp[k] = T
+                if PART:
+                    nf[k] += 1; j = b1[k] - 1
+                    while j >= b0[k] and T - bt[k, j % BCAP] < LE:
+                        R_pf[br[k, j % BCAP]] = nf[k]; j -= 1
                 j = b1[k] - 1
                 while j >= b0[k]:
                     integ[bi[k, j % BCAP]] = True; j -= 1
@@ -294,7 +302,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
                                 for fac in (1.0 + PASSO, 1.0 - PASSO):
                                     nR, ok = _nova_upro(brr, zz, dU * fac, k, unica, F0, DMAXR, T, UD, UA, nU, R_s, R_u, R_k, R_d, R_f, R_fi, R_la, R_na, R_es, R_q, nR, K, R_b, ALC)
                                     if ok: novas += 1
-                                for x in range(n0, nR): R_ok[x] = True; R_bx[x] = np.nan; R_td[x] = T
+                                for x in range(n0, nR): R_ok[x] = True; R_bx[x] = np.nan; R_td[x] = T; R_pf[x] = nf[R_k[x]]
                     j -= 1
             if nR > LIMRAM:
                 parou = True; break
@@ -310,7 +318,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
             if R_ok[r] and vivo:
                 R_s[m] = R_s[r]; R_b[m] = R_b[r]; R_u[m] = R_u[r]; R_k[m] = R_k[r]; R_d[m] = R_d[r]; R_f[m] = R_f[r]
                 R_fi[m] = R_fi[r]; R_la[m] = R_la[r]; R_na[m] = R_na[r]; R_es[m] = R_es[r]; R_q[m] = R_q[r]
-                R_ok[m] = True; R_bx[m] = R_bx[r]; R_td[m] = R_td[r]; m += 1
+                R_ok[m] = True; R_bx[m] = R_bx[r]; R_td[m] = R_td[r]; R_pf[m] = R_pf[r]; m += 1
         nR = m; nR_lf = -1; nram[ep] = nR   # ramos que seguem para o episódio seguinte (depois da poda)
         for z in range(NF):
             for u in range(nU[z]): UA[z, u] = False
@@ -420,14 +428,14 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False):
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False, PART=False, NPART=1000):
     F = int(FIB)
     INC_T, INC_B, ini, fim = trens_fibras(semente, faixa, dur, F, ESP, SIL, delta)
     ALC = alcance(semente, F, K, AMIN, AMAX)
     razao, off, taui = INIB[cond]
     (Rs, Rb, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et, dsil) = _rodar(
         INC_T, INC_B, ini, fim, 2 * F, F, ALC, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
-        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0))
+        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0), 1 if PART else 0, NPART)
     sint = []; presa = []; pares = []
     for k in range(K):
         frac = hv[k] / ht[k] if ht[k] else 0.0
