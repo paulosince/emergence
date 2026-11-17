@@ -74,4 +74,42 @@ Tudo de Magnusson et al. 2005 (texto integral, gerbil, P12–P25) [L]:
 - [Sinclair et al. 2017, J Neurosci (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC5566870) — texto integral (extração).
 - [Sierksma & Borst 2024, PLoS Biol](https://journals.plos.org/plosbiology/article?id=10.1371%2Fjournal.pbio.3002586) — texto principal integral (extração).
 
-**Pendências de leitura:** Chirila et al. 2007 e Roberts et al. 2013 em texto integral (as duas têm os números de tempo que faltam). Se o responsável puder abrir as páginas no navegador e colar os resultados, eu extraio.
+**Pendências de leitura:** resolvidas em 17/11 (seção 6), com os PDFs enviados pelo responsável.
+
+---
+
+## 6. Leitura integral dos dois artigos que faltavam (17/11, PDFs enviados pelo responsável)
+
+Lidos por extração de texto do PDF (pdftotext), com as passagens conferidas no texto cru. As figuras só aparecem pelas legendas.
+
+### 6.1 Roberts, Seeman & Golding 2013, *Neuron* 78:923 — texto integral
+- **Idade e temperatura:** gerbis de **P15–P20** (as células da Figura 1 são de P15–P17), registros a **35 °C**, em fatia grossa com a via inteira, do nervo auditivo até a MSO.
+- **A inibição chega antes da excitação:** do início do IPSP ao início do EPSP (a 20% da subida), **0,32 ± 0,13 ms** (ipsilateral, n = 6) e **0,38 ± 0,09 ms** (contralateral, n = 6); faixa de **0,15 a 0,54 ms**. Isso **sempre** aconteceu, mesmo com uma sinapse e uma célula a mais no caminho inibitório.
+- **EPSP nessa idade:** amplitude 5–7 mV; meia-largura **0,85–0,89 ms**; subida (20–80%) 0,21–0,22 ms; tremor da latência 0,03–0,04 ms (menos de 2% da latência).
+- A inibição que chega antes **não desloca** a função de diferença de tempo; ela reduz o pico e estreita a janela.
+- [I] O **−0,3 ms** que usamos para a inibição madura passa a ter fonte direta na MSO: −0,32 a −0,38 ms em P15–20. Confiança alta.
+
+### 6.2 Chirila, Rowland, Thompson & Spirou 2007, *J Physiol* 584:167 — texto integral
+- **Temperatura fisiológica** (35,5–37,5 °C); idades de P6 a P22.
+- **Excitação:**
+  - EPSPs **com mais de 30 ms antes de P10**; **~4 ms em P11**; **≤ 2 ms em P14**;
+  - amadurecem com constante de **1,4 dias**;
+  - constante de tempo ponderada do EPSP em P8: 4,32 ms.
+- **Inibição** (evocada pelo MNTB):
+  - duração de **~40 ms em P10** para **3–4 ms em P16–P18**;
+  - amadurece com constante de **2,05 dias**;
+  - foi **tão longa ou mais longa que o EPSP em todas as idades**;
+  - constante de tempo ponderada do IPSP em P10: 4,06 ms.
+  - Antes de P10, os IPSPs passam de despolarizantes a hiperpolarizantes (citando Lohrke et al. 2005). Os autores sugerem que a maturação da cinética pode depender de autoestimulação ou de um programa genético, **não** da experiência sonora.
+- **Tempo relativo:** em P15, **só uma faixa estreita de tempos de início do IPSP (< 1 ms, quase coincidente com a excitação)** dá sensibilidade à diferença de tempo. Os outros tempos dão curvas planas.
+  - Os autores **propõem**: se existem, no animal, conexões inibitórias com esses tempos inadequados, elas **devem ser podadas**, o que exige um mecanismo que detecte as mudanças com o movimento da fonte ou da cabeça e as devolva à célula.
+  - **Não mediram o tempo natural** da inibição no jovem.
+- IPSPs espontâneos (mais curtos que os evocados, frequentes e sem período) **não** aumentam a inclinação da curva.
+- Concluem que, em P15, a capacidade para a diferença de tempo já está pronta, e que o tempo relativo entre excitação e inibição é refinado nas semanas seguintes.
+
+### 6.3 O que muda na proposta de maturação [I]
+1. **Tempo maduro:** −0,3 ms tem fonte (Roberts 2013). **Tempo jovem:** continua **sem medida**. A proposta de Chirila é que, no jovem, existam inibições com tempos variados e que as inadequadas sejam podadas. Isso é **seleção pelo mundo** aplicada à inibição: a mesma lógica da terceira camada que já usamos para os atrasos.
+2. **Duração da excitação jovem:** ~4 ms em P11 (37 °C) e constante da membrana de 2,5 ms em P12 (32 °C, Magnusson) apontam na mesma direção. τ jovem ≈ 2,5 ms continua razoável. Confiança média: duração e constante não são a mesma medida.
+3. **Duração da inibição jovem:** a razão jovem/maduro, medida no **potencial**, fica perto de **4×** (meia-largura 11,8 → 3,1 ms, Magnusson; Chirila dá ordem de grandeza parecida ou maior). Não 2×: o 2× vinha da corrente.
+4. **Regra da biologia:** a inibição dura **tanto ou mais** que a excitação, em todas as idades. **O plano B não cumpre isso.** A inibição dele dura 0,30 ms, igual à excitação madura, enquanto na MSO madura o IPSP dura 3–4 ms e o EPSP menos de 1 ms. Divergência já declarada no plano B; agora com números.
+5. **O que move a maturação:** na inibição, a cinética talvez amadureça sem som (Chirila), enquanto a **força e o lugar** dependem da experiência espacial (Magnusson; Kapfer 2002). [I] Isso sugere separar dois relógios: um para a cinética (próprio, independente do mundo) e um para força e tempo (pelos acertos).
