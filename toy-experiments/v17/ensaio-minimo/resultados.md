@@ -375,3 +375,22 @@ Registro prévio: [replicacao-b.md](replicacao-b.md) (aprovado). Script `replica
 
 **Exploratório (todas as sementes vistas):** grave 44/50 (sementes 1–10: 9; 21–30: 7; 31–60: 28); agudo em fase 45/50.
 **Leitura:** o 7/10 das sementes 21–30 foi variação de amostra; o conjunto B se sustenta, com taxa perto de 90% nas duas faixas.
+
+---
+
+## Otimização, fase 1 (17/11) — plano em `otimizacao-fase1.md`, critério "estatístico + exato onde der"
+
+Motor: `motor_rapido.py` (OPT=1: mudanças exatas 1–2 e retirada de um laço morto; OPT=2: mais decaimento sob demanda e eliminação a cada 1 ms). Script `valida_motor_rapido.py`, saída `valida-motor-rapido-saida.csv`. Conjunto B, inibição I1, 2 núcleos.
+
+| teste | faixa | resultado | critério |
+|---|---|---|---|
+| exato (OPT=1), sementes 31–40 | grave | 10/10 saídas idênticas | **passa** |
+| exato (OPT=1), sementes 31–40 | agudo | 10/10 saídas idênticas | **passa** |
+| estatístico (OPT=2), sementes 61–90 | grave | referência 28/30, novo 28/30 (IC95% ref 79–98%) | **passa** (diferença 0 pp) |
+| estatístico (OPT=2), sementes 61–90 | agudo, em fase | referência 24/30, novo 26/30 (IC95% ref 63–91%) | **passa** (diferença 6,7 pp; 87% dentro do IC) |
+
+**Ganho de velocidade: nenhum.** Tempo médio por execução (50 s simulados): grave 0,37 → 0,34 s; agudo 5,7 → 5,7 s (OPT=1) e 6,3 → 6,5 s (OPT=2). Ganho 0,98–1,10×. Confiança alta na medida (60 pares de execuções na mesma máquina).
+
+**Por que (medido, semente 61, OPT=2):** agudo tem ~135 mil incidências e ~120 ramos (≈ 60 por fibra) ao fim; grave, ~22 mil incidências e 48 ramos. Cada incidência põe na fila uma chegada por ramo da fibra, e outra de inibição: no agudo são da ordem de 16 milhões de eventos (estimativa por conta, confiança média). O custo está na **fila de eventos**, não nos laços sobre ramos que a fase 1 removeu (com ~120 ramos eles são baratos). A estimativa de ganho de 3–10× do estudo (`estudo-otimizacao-motor.md`, §4) estava errada para as mudanças 1–4: o desperdício que importa é o item 3/4 do estudo (fila em heap; inibição como evento separado).
+
+**Leitura:** as quatro mudanças são equivalentes, mas não aceleram. Recomendação de engenharia: manter `motor_correcoes.py` como referência (o motor rápido não traz ganho que pague a mudança); a próxima frente é a fila (baldes de tempo, exata) e a inibição, com nova prova de igualdade.
