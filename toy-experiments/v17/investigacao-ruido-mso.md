@@ -93,3 +93,17 @@ Conhecimento geral, de memória. A existência e as ideias centrais são clássi
 - a curva entrada → disparo com números (só nas figuras de van der Heijden 2013 e Mackenbach & Borst 2023);
 - taxas espontâneas das células esféricas (entradas excitatórias da MSO) no gerbil;
 - quanto da atividade espontânea das fibras chega à MSO jovem (antes e depois de P12).
+
+---
+
+## 5. Taxa da atividade espontânea (pesquisa pedida em 17/11, 16h40)
+
+| Achado [L] | Fonte e leitura | Confiança |
+|---|---|---|
+| Gerbil in vivo: atividade espontânea das **entradas** (endbulbs, fibras do nervo) **96 ± 52 disparos/s** (2–245; n = 42); das **células esféricas**, **60 ± 44/s** (1–188). Em média **42%** dos disparos espontâneos da entrada **não** geram disparo na célula esférica (de 4% a 93%) | Kopp-Scheinpflug, Dehmel, Dörrscheidt & Rübsamen 2002, *J Neurosci* 22:11004 — **texto integral** (extração; figuras só pelas legendas) | alta |
+| Fibras do nervo de **baixa frequência** no gerbil: distribuição **bimodal**, com um modo perto de **5/s** e outro perto de **60/s** | Conjunto de dados de fibras de gerbis jovens e velhos, *Scientific Data* 2024 (s41597-024-03259-3) — **resumo e trechos** | média-alta |
+| Abaixo de ~3,6 kHz, cerca de **74%** das fibras são de alta atividade espontânea (> 18/s) | Huet et al. 2016, *Hear Res* (revisão; trechos) | média |
+
+[I] **Para a nossa fibra:** a fibra que chega à Uint corresponde, na MSO, ao axônio da **célula esférica**, não à fibra do nervo. O número mais direto é **~60/s em média**, com grande variação entre células. Isso bate com os ~900 eventos espontâneos por segundo na MSO (van der Heijden 2013), se cada célula da MSO recebe algo como 8–15 entradas. Esta última parte é conta minha, com confiança baixa.
+
+[I] **Perda a declarar:** com som, a atividade espontânea não se soma simplesmente à evocada (a fibra satura e trava na fase). Na abstração, as incidências espontâneas seriam sorteadas à parte e somadas às do mundo.
