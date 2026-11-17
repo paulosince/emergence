@@ -184,6 +184,7 @@
 - **Origem:** leitura do assistente sobre a [investigação da divisão da força](../toy-experiments/v17/investigacao-divisao-forca.md) e a [investigação pré-audição](../toy-experiments/v17/investigacao-pre-audicao.md); **registrar e investigar** (responsável, 17/11). Confiança baixa.
 - **Peças [L]:** mielinização diferencial dos colaterais aparece antes do início da audição no gerbil (Seidl e Rubel 2016, via ChatGPT, resumo e trechos); a sintonia binaural amadurece com a experiência após o início da audição (Seidl e Grothe 2005, resumo) e a inibição da MSO é refinada pela experiência (Kapfer et al. 2002, resumo); ajuste de fase por equilíbrio entre excitação e inibição sem mudar o atraso físico (Leibold e van Hemmen 2005, modelo; texto integral segundo o ChatGPT).
 - **Consequência possível:** pelas três camadas, os atrasos seriam dado ou refinamento anterior ao mundo; o que o mundo seleciona seria a inibição. A V0.17 hoje faz o mundo selecionar atrasos por exuberância.
+- **Evidência contrária (17/11):** in vivo, sem inibição bem cronometrada deslocando a sintonia e com soma linear das duas orelhas (van der Heijden et al. 2013, integral via extração; Mackenbach e Borst 2023, resumo). Debate em aberto. Ver [integração na Uint](../toy-experiments/v17/investigacao-integracao-uint.md).
 - **O que falta:** pesquisa específica; decisão do responsável.
 
 ## Pendências de busca (antes de cada artigo)

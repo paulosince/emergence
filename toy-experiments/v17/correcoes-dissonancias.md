@@ -54,5 +54,12 @@
 
 ---
 
+## Decisões do responsável (17/11)
+- **1:** aprovada; mapear tamanho e reposição do recurso.
+- **2:** aprovada; mapear fração e tempo.
+- **6:** maturação pelos **acertos da Uint**; a recorrência reforça e o decaimento derruba (a maturação pode regredir).
+- **8:** pesquisa feita ([integração na Uint](investigacao-integracao-uint.md)); a proposta foi **revista**: soma linear dos dois lados e saída probabilística expansiva no lugar do limiar duro.
+- **Alvo:** ver a linha de 17/11 em decisões em construção.
+
 ## Pergunta 5 — o alvo da V0.17 (dissonância 5)
 A V0.17 pede ao mundo que selecione **atrasos**. A evidência de mamífero sugere que os atrasos podem vir antes de ouvir e que o mundo selecionaria a **fase**, pela inibição. A correção 6 aproxima as duas leituras, mas a escolha do que o ensaio testa é do responsável: manter o alvo, trocar, ou esperar a pesquisa.
