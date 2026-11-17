@@ -15,10 +15,7 @@
 
 ## 2. Decisões que faltam ao responsável (o assistente propõe; não decide)
 
-**Q1. Quando uma incidência conta como integrada?**
-- (a) [A, recomendada] Quando **pelo menos uma** das suas chegadas participou de um acerto. Se nenhuma acertou até o fim do seu alcance (instante + 20 ms + 0,21 ms), ela expira **sem integração** e vai para a Pcrt.
-- (b) Quando a chegada disparou a Uint (soma ≥ 1,5), mais exigente: muito mais incidências iriam para a Pcrt.
-- (c) Outra.
+**Q1. Quando uma incidência conta como integrada?** — **Decidido [R, 17/11]: (b).** Integrada é a incidência que **passou por integração**: sua chegada fez a Uint **disparar** (soma ≥ 1,5). A que só promoveu **favorecimento** (soma ≥ 0,3, sem disparo) ajudou a integrar, mas não foi integrada. Consequência: toda incidência que não fez a Uint disparar até o fim do seu alcance (instante + 20 ms + 0,21 ms) vai para a Pcrt, inclusive as que favoreceram (essas também fortalecem seus ramos, como antes). Alternativa não escolhida: (a) integrada = participou de favorecimento (recomendação do assistente).
 
 **Q2. Como a Pcrt acha o quase-acerto olhando incidências?**
 Duas incidências sem integração, uma de cada Upro, têm uma diferença de tempo Δ. Elas formam um quase-acerto de um par de ramos existente quando a diferença de atrasos desse par fica entre 0,21 e 0,63 ms de Δ (a mesma faixa do motor antigo: mais que uma janela, até três).
@@ -36,8 +33,8 @@ Duas incidências sem integração, uma de cada Upro, têm uma diferença de tem
 
 ## 4. Previsões (escritas antes de rodar) [A]
 
-1. **Freio natural:** como só o que falha alimenta a Pcrt, o brotamento cai quando o Sdom começa a acertar. Esperado: menos explosões que no motor antigo.
-2. **Risco no agudo:** com pulsos densos, ~56% dos pares de chegadas caem na janela por acaso [C, dados da etapa 2]. Se muitas incidências se integrarem por acaso logo no início, quase nada vai para a Pcrt: pouco brotamento, risco de **colapso** ou de **difuso** (o acaso vence a relação verdadeira).
+1. **Freio, mas tardio** (dedução com Q1 = b): com força inicial 0,15 e força total 1,0 por Upro, o disparo (1,5) só é possível quando a força já se concentrou nos ramos que coincidem (pelo menos ~75% do total das duas Upro). Até lá, **toda** incidência vai para a Pcrt (coerente com "num Sdom virgem, tudo é insumo"). O brotamento só cai depois da seleção. Esperado: explosões no início em número parecido ou maior que no motor antigo; depois da seleção, brotamento bem menor.
+2. **Agudo:** com pulsos densos, ~56% dos pares de chegadas caem na janela por acaso [C, dados da etapa 2]. Com Q1 = b, o acaso não tira incidências da Pcrt (favorecer não basta), então o risco no agudo é de **explosão** (muito quase-acerto), não de colapso.
 3. O conjunto de parâmetros antigo pode não ficar na região de seleção (foi escolhido com o motor errado).
 
 ## 5. Ensaio (depois da aprovação)
