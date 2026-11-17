@@ -61,7 +61,7 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT):
+def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR):
     np.random.seed(semente)
     UD = np.zeros((2, MAXU)); UA = np.zeros((2, MAXU), np.bool_); nU = np.zeros(2, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
@@ -73,6 +73,10 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
     HB = 5.0 * max(TAUJ, TAU) if MAT else HEXC
     LF = np.zeros((2, MAXRAM), np.int64); nLF = np.zeros(2, np.int64); nR_lf = -1
     R_td = np.zeros(MAXRAM); t_elim = -1e18
+    # fila por cursor (CUR): uma entrada na fila por incidência e tipo; ramos da incidência guardados em anel, ordenados pela chegada
+    CUR = CUR and not MAT
+    SO = np.zeros((2, MAXRAM), np.int64); RING = 1 << 20; MSK = RING - 1
+    RA = np.zeros(RING); RR = np.zeros(RING, np.int64); RW = np.zeros(RING); RE = np.zeros(RING, np.int64); pos = 0; estouro = False
     nR = 0; elim = 0; podas = 0; sdif = np.zeros(K); ndif = np.zeros(K, np.int64); hdif = np.zeros((K, 4001), np.int64)
     for s in range(2):
         for i in range(NINI):
@@ -95,6 +99,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
     nA_tot = trensA.size
     integ = np.zeros(2 * nA_tot, np.bool_); insumo = np.zeros(NEP, np.int64)
     tdec = 0.0; parou = False; estab = 0; novas = 0; nac = 0
+    nev = np.zeros(NEP, np.int64); nram = np.zeros(NEP, np.int64)   # medida de custo (não altera nada)
     for ep in range(NEP):
         nh = 0
         for k in range(K): b0[k] = 0; b1[k] = 0
@@ -113,6 +118,13 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                     for r in range(nR):
                         z = R_s[r]; LF[z, nLF[z]] = r; nLF[z] += 1
                     nR_lf = nR
+                    if CUR:
+                        for z in range(2):
+                            ch = np.empty(nLF[z])
+                            for ii in range(nLF[z]):
+                                r = LF[z, ii]; ch[ii] = UD[z, R_u[r]] + R_d[r]
+                            oo = np.argsort(ch, kind='mergesort')
+                            for ii in range(nLF[z]): SO[z, ii] = LF[z, oo[ii]]
                 if s == 0 and OPT < 2:
                     kd = 2.0 ** (-(t - tdec) / MEIA)
                     for r in range(nR):
@@ -137,6 +149,23 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                             else:
                                 R_bx[r] = np.nan
                 gid = idx if s == 0 else nA_tot + idx
+                if CUR:
+                    base = pos
+                    for ii in range(nLF[s]):
+                        r = SO[s, ii]
+                        if R_ok[r]:
+                            if OPT >= 2 and (not R_es[r]) and t > R_td[r]:
+                                R_f[r] *= 2.0 ** (-(t - R_td[r]) / MEIA); R_td[r] = t
+                            a = t + UD[s, R_u[r]] + R_d[r]; j = pos
+                            while j > base and RA[(j - 1) & MSK] > a:
+                                RA[j & MSK] = RA[(j - 1) & MSK]; RR[j & MSK] = RR[(j - 1) & MSK]; RW[j & MSK] = RW[(j - 1) & MSK]; j -= 1
+                            RA[j & MSK] = a; RR[j & MSK] = r; RW[j & MSK] = R_f[r]; pos += 1
+                    if pos > base:
+                        for j in range(base, pos): RE[j & MSK] = pos
+                        nh = _push(nh, ht, hk, hs, hr, hi, hw, RA[base & MSK], 0, s, base, gid, 0.0)
+                        if razao != 0.0:
+                            nh = _push(nh, ht, hk, hs, hr, hi, hw, RA[base & MSK] + off, 1, s, base, gid, 0.0)
+                    continue
                 for ii in range(nLF[s]):
                     r = LF[s, ii]
                     if R_ok[r]:
@@ -152,6 +181,16 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                             nh = _push(nh, ht, hk, hs, hr, hi, hw, a + off, 1, s, r, gid, -razao * w)
                 continue
             nh, T, kind, s, r, gid, w = _pop(nh, ht, hk, hs, hr, hi, hw)
+            nev[ep] += 1
+            if CUR:
+                pp = r; q0 = pp & MSK
+                if pos - pp >= RING: estouro = True
+                r = RR[q0]
+                if kind == 1: w = -razao * RW[q0]
+                if pp + 1 < RE[q0]:
+                    tn = RA[(pp + 1) & MSK]
+                    if kind == 1: tn = tn + off
+                    nh = _push(nh, ht, hk, hs, hr, hi, hw, tn, kind, s, pp + 1, gid, 0.0)
             if not R_ok[r]: continue
             k = R_k[r]
             if MAT:
@@ -252,7 +291,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                 R_s[m] = R_s[r]; R_u[m] = R_u[r]; R_k[m] = R_k[r]; R_d[m] = R_d[r]; R_f[m] = R_f[r]
                 R_fi[m] = R_fi[r]; R_la[m] = R_la[r]; R_na[m] = R_na[r]; R_es[m] = R_es[r]; R_q[m] = R_q[r]
                 R_ok[m] = True; R_bx[m] = R_bx[r]; R_td[m] = R_td[r]; m += 1
-        nR = m
+        nR = m; nR_lf = -1; nram[ep] = nR   # ramos que seguem para o episódio seguinte (depois da poda)
         for s in range(2):
             for u in range(nU[s]): UA[s, u] = False
         for r in range(nR): UA[R_s[r], R_u[r]] = True
@@ -263,7 +302,25 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
         for r in range(nR):
             if (not R_es[r]) and tfim > R_td[r]: R_f[r] *= 2.0 ** (-(tfim - R_td[r]) / MEIA)
     return (R_s[:nR].copy(), R_u[:nR].copy(), R_k[:nR].copy(), R_d[:nR].copy(), R_f[:nR].copy(), UD.copy(), UA.copy(),
-            disp, hv, ht_, insumo, parou, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif, mat.copy())
+            disp, hv, ht_, insumo, parou or estouro, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif, mat.copy(), nev, nram)
+
+
+def trens_2(semente, faixa, dur, d1=DELTA, d2=-DELTA):
+    """Degrau 2 (rascunho, a aprovar): duas fontes independentes, cada uma com seu ritmo sorteado na faixa e sua relação
+    verdadeira (B chega d depois de A; d < 0: B chega antes). Os trens de cada fibra são a união ordenada das duas fontes."""
+    from motor_eventos import FAIXA, JIT
+    rng = np.random.default_rng(semente); TA, TB, ini, fim = [], [], [], []; pos = 0
+    for ep in range(NEP):
+        t0 = ep * CICLO; a_ep, b_ep = [], []
+        for d in (d1, d2):
+            lo, hi = FAIXA[faixa]; base = []; t = 0.0
+            while t < dur:
+                p = rng.uniform(lo, hi); base.extend(np.arange(t + rng.uniform(0, lo), min(t + 250.0, dur), p)); t += 250.0
+            base = np.array(base)
+            a_ep.append(t0 + base + rng.normal(0, JIT, base.size)); b_ep.append(t0 + base + d + rng.normal(0, JIT, base.size))
+        a = np.sort(np.concatenate(a_ep)); b = np.sort(np.concatenate(b_ep))
+        TA.append(a); TB.append(b); ini.append(pos); pos += a.size; fim.append(pos)
+    return np.concatenate(TA), np.concatenate(TB), np.array(ini), np.array(fim)
 
 
 def trens_d(semente, faixa, dur, cond_fixo=False, delta=DELTA):
@@ -289,12 +346,12 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1):
-    tA, tB, ini, fim = trens_d(semente, faixa, dur, cond_fixo, delta)
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, duas=None):
+    tA, tB, ini, fim = trens_d(semente, faixa, dur, cond_fixo, delta) if duas is None else trens_2(semente, faixa, dur, duas[0], duas[1])
     razao, off, taui = INIB[cond]
-    (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf) = _rodar(
+    (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram) = _rodar(
         tA, tB, ini, fim, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
-        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT)
+        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR)
     sint = []; presa = []; pares = []
     for k in range(K):
         frac = hv[k] / ht[k] if ht[k] else 0.0
@@ -314,7 +371,8 @@ def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False,
         c = np.cumsum(h); i = int(np.searchsorted(c, c[-1] / 2.0)); return round(i / 100.0 - 20.0, 2)
     pref_med = [_med(hdif[k]) for k in sint if hdif[k].sum()]
     ramos_lado = [int(((Rk == k) & (Rs == z)).sum()) for k in range(K) for z in range(2)]
-    return dict(cond=cond, faixa=faixa, semente=semente, fixo=cond_fixo, unica=unica, K=K, RC=RC, TAUR=TAUR, TETA=TETA, TEL=TEL, NEXP=NEXP,
+    return dict(eventos_por_episodio=[int(x) for x in nev], ramos_fim_episodio=[int(x) for x in nram], incidencias_por_episodio=[int(2 * (fim[e] - ini[e])) for e in range(len(ini))],
+                cond=cond, faixa=faixa, semente=semente, fixo=cond_fixo, unica=unica, K=K, RC=RC, TAUR=TAUR, TETA=TETA, TEL=TEL, NEXP=NEXP,
                 classe=classe, diferenca_preferida_sintonizadas=pref, diferenca_preferida_mediana_sintonizadas=pref_med,
                 espalhamento_preferida=round(float(np.std(pref)), 4) if len(pref) > 1 else 0.0,
                 ramos_por_lado_mediana=float(np.median(ramos_lado)), recurso_medio_fim=round(float(RS.mean()), 3),

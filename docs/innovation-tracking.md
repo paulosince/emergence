@@ -187,6 +187,12 @@
 - **Evidência contrária (17/11):** in vivo, sem inibição bem cronometrada deslocando a sintonia e com soma linear das duas orelhas (van der Heijden et al. 2013, integral via extração; Mackenbach e Borst 2023, resumo). Debate em aberto. Ver [integração na Uint](../toy-experiments/v17/investigacao-integracao-uint.md).
 - **O que falta:** pesquisa específica; decisão do responsável.
 
+## 22. Precedente: na MSO, as diferenças de atraso chegam desajustadas e se ajustam depois que o animal ouve (17/11/2026)
+- **O que existe [L]:** Sierksma & Borst 2024 (*PLoS Biol* 22:e3002586; texto principal integral, por extração): em gerbis juvenis, a diferença de tempo preferida da MSO é deslocada (0,24–0,28 ms em P18–P21) e fica igual à do adulto em P26–P28; a preferência acompanha a diferença das latências que chegam dos dois lados. Propõem STDP ajustando as latências, com modelo treinado em diferenças ecológicas, **sem testar diretamente** a dependência da experiência. Chirila et al. 2007 (*J Physiol* 584:167; só resumo) propõem que entradas inibitórias com atrasos inadequados sejam podadas. Magnusson et al. 2005 (texto integral): a maturação da inibição na MSO **não acontece** com ruído sem estrutura espacial.
+- **O que seria novo em nós [I]:** a mesma seleção feita por um mecanismo de **criação e eliminação de Upros e ramos** (Pcrt por incidências, competição por estoque na Uint), num sistema que nasce vazio de relações, em vez de ajuste fino de latências existentes. E o uso disso como passo para o domínio representacional (CLEAR), não só para localização.
+- **Relação com a seção 21:** a hipótese "o mundo seleciona a fase pela inibição" ganha um **contra-argumento** (Sierksma & Borst consideram improvável o papel da inibição na preferência durante o desenvolvimento) e um **apoio parcial** (Chirila et al. propõem poda de inibição com atraso inadequado). Fica em aberto.
+- **O que falta para alegar:** ler Chirila 2007 e Roberts 2013 em texto integral; buscar se há modelo publicado de seleção de atrasos por criação/eliminação de ramos na MSO; mostrar no ensaio que a seleção vem do mundo (controle da preferência da estrutura já feito: parte vem da estrutura).
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
@@ -195,6 +201,9 @@
 5. Constituição a partir de vazio com reacesso sem índice (V0.15).
 
 ## Referências novas deste documento (verificadas quanto à existência, por resumo)
+- Chirila, F. V., Rowland, K. C., Thompson, J. M., e Spirou, G. A. (2007). Development of gerbil medial superior olive: integration of temporally delayed excitation and inhibition at physiological temperature. *J Physiol* 584(1), 167–190.
+- Magnusson, A. K., Kapfer, C., Grothe, B., e Koch, U. (2005). Maturation of glycinergic inhibition in the gerbil medial superior olive after hearing onset. *J Physiol* 568(2), 497–512.
+- Sierksma, M. C., e Borst, J. G. G. (2024). Developmental fine-tuning of medial superior olive neurons mitigates their predisposition to contralateral sound sources. *PLoS Biology* 22(4), e3002586.
 - Butlin, P., Long, R. et al. (2023). Consciousness in artificial intelligence: insights from the science of consciousness. arXiv:2308.08708.
 - Izhikevich, E. M. (2007). Solving the distal reward problem through linkage of STDP and dopamine signaling. *Cerebral Cortex* 17(10), 2443–2452.
 - Potjans, W., Morrison, A., e Diesmann, M. (2010). Enabling functional neural circuit simulations with distributed computing of neuromodulated plasticity. *Frontiers in Computational Neuroscience* 4, 141.

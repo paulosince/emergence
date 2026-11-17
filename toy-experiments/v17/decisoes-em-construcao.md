@@ -80,3 +80,5 @@ Decisões do [pré-experimento](pre-experimento.md) tomadas em 16/11 (seção 6 
 
 ## Fontes
 Evidências e estado de leitura em [innovation-tracking, seções 11 e 12](../../docs/innovation-tracking.md).
+| Fila de eventos por cursor (17/11) | Engenharia: a fila passa a ter uma entrada por incidência e tipo, com os ramos da incidência em ordem de chegada. Prova exata 20/20 idêntica; ganho 1,3–1,6×. Passa a ser o motor dos próximos ensaios (`motor_rapido.py`, `CUR=True`). O decaimento sob demanda não é usado (sem ganho) | 17/11 |
+| Pedido do responsável (17/11) | "Ataque a fila, mas não apenas. Avance nos passos que temos que avançar, onde der". Feito: fila por cursor; medida de custo; pesquisa da MSO jovem ([investigação](investigacao-maturacao-mso.md)); rascunho do degrau 2 ([registro](ensaio-minimo/duas-relacoes.md)). Pendente: decisões do responsável sobre os dois | 17/11 |

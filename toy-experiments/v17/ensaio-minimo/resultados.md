@@ -394,3 +394,33 @@ Motor: `motor_rapido.py` (OPT=1: mudanças exatas 1–2 e retirada de um laço m
 **Por que (medido, semente 61, OPT=2):** agudo tem ~135 mil incidências e ~120 ramos (≈ 60 por fibra) ao fim; grave, ~22 mil incidências e 48 ramos. Cada incidência põe na fila uma chegada por ramo da fibra, e outra de inibição: no agudo são da ordem de 16 milhões de eventos (estimativa por conta, confiança média). O custo está na **fila de eventos**, não nos laços sobre ramos que a fase 1 removeu (com ~120 ramos eles são baratos). A estimativa de ganho de 3–10× do estudo (`estudo-otimizacao-motor.md`, §4) estava errada para as mudanças 1–4: o desperdício que importa é o item 3/4 do estudo (fila em heap; inibição como evento separado).
 
 **Leitura:** as quatro mudanças são equivalentes, mas não aceleram. Recomendação de engenharia: manter `motor_correcoes.py` como referência (o motor rápido não traz ganho que pague a mudança); a próxima frente é a fila (baldes de tempo, exata) e a inibição, com nova prova de igualdade.
+
+## Fila de eventos por cursor (17/11) — exata
+
+**O que muda (engenharia, sem efeito no modelo):** em vez de pôr na fila uma chegada por ramo a cada incidência (≈ 60 por fibra no agudo, mais as de inibição), a incidência guarda seus ramos num anel, já ordenados pelo instante de chegada, e a fila recebe **uma entrada por incidência e por tipo** (excitação, inibição). Ao sair da fila, a entrada entrega a chegada seguinte daquela incidência. A fila fica ~30 vezes menor; a ordem de processamento é a mesma. Os pesos da inibição são os do instante da incidência, como na referência. Com maturação ligada, o motor volta à fila antiga (a inibição de cada Uint chega com atraso próprio).
+
+**Prova de igualdade** (`valida_fila_cursor.py`, `valida-fila-cursor-saida.csv`; sementes 31–40, grave e agudo, conjunto B, I1): **20/20 saídas idênticas** à referência. Ganho: grave **1,55×** (0,36 → 0,23 s), agudo **1,28×** (5,6 → 4,4 s). Confiança alta.
+
+**Micromedida (fora do motor, só a fila):** 16 milhões de eventos com a fila antiga: 2,3 s; com a fila por cursor: 1,0 s. O resto do tempo (~60%) é o trabalho de cada chegada na Uint (decaimentos, janela de coincidência, disparo), que é intrínseco: cada chegada é um potencial chegando a uma sinapse. Ganho exato adicional possível, estimado: pequeno (< 1,3×). Confiança média.
+
+**Decisão de engenharia:** `motor_rapido.py` com `CUR=True` (e `OPT=1`) passa a ser o motor dos próximos ensaios, por ser idêntico à referência e mais rápido; o decaimento sob demanda (`OPT=2`) **não** é usado (equivalente só estatisticamente e sem ganho).
+
+## Medida de custo ao longo do aprendizado (17/11)
+
+Script `medida_custo.py`, saída `medida-custo-saida.csv`; sementes 61–70, grave e agudo, conjunto B, I1, motor com fila por cursor. "Eventos" = chegadas processadas (excitação + inibição). Medianas de 10 sementes.
+
+| episódio | grave: eventos/s simulado | grave: ramos que seguem | agudo: eventos/s simulado | agudo: ramos que seguem |
+|---|---|---|---|---|
+| 1 | 75.710 | 176 | 564.860 | 208 |
+| 2 | 23.972 | 59 | 445.837 | 172 |
+| 3 | 30.548 | 72 | 423.443 | 157 |
+| 4 | 28.592 | 69 | 494.901 | 181 |
+| 5 | 35.729 | 96 | 435.911 | 162 |
+
+"Ramos que seguem" = ramos vivos depois da poda do fim do episódio (primeira versão da medida contava antes da poda; corrigido antes do registro). Incidências: ~430/s (grave) e ~2.720/s (agudo), contando as duas fibras. Tempo por evento: ~130 ns (grave) e ~220 ns (agudo), nesta máquina, um núcleo.
+
+**Leitura:**
+- O custo **não cresce** com o aprendizado: é maior no primeiro episódio (todos os ramos iniciais vivos) e se estabiliza depois da poda e da eliminação. Confiança alta (10 sementes, padrão igual em todas).
+- O custo é ≈ incidências × ramos por fibra × 2 (excitação e inibição). No agudo, ~165 eventos por incidência.
+- Um par de vias no agudo custa ~0,1 s de processamento por segundo simulado (≈ 10× mais rápido que o tempo real). Para 384 vias, **se** cada par se parecer com este agudo: ~19 s por segundo simulado num núcleo (≈ 19× mais lento que o tempo real). Confiança **baixa**: depende de quantos ramos por fibra existirão com 8+ Uints por via e da organização das vias, ainda não decidida. A estimativa anterior (~200×) supunha mais ramos por via.
+- A parte "1/2/4 canais" precisa do motor com várias vias (degrau 4); fica para lá.
