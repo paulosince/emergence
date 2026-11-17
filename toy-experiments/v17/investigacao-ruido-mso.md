@@ -107,3 +107,37 @@ Conhecimento geral, de memória. A existência e as ideias centrais são clássi
 [I] **Para a nossa fibra:** a fibra que chega à Uint corresponde, na MSO, ao axônio da **célula esférica**, não à fibra do nervo. O número mais direto é **~60/s em média**, com grande variação entre células. Isso bate com os ~900 eventos espontâneos por segundo na MSO (van der Heijden 2013), se cada célula da MSO recebe algo como 8–15 entradas. Esta última parte é conta minha, com confiança baixa.
 
 [I] **Perda a declarar:** com som, a atividade espontânea não se soma simplesmente à evocada (a fibra satura e trava na fase). Na abstração, as incidências espontâneas seriam sorteadas à parte e somadas às do mundo.
+
+## 6. Como a atividade espontânea varia entre fibras (pesquisa pedida em 17/11, 17h)
+
+| Achado [L] | Fonte e leitura | Confiança |
+|---|---|---|
+| Cada célula ciliada interna é parceira **única** de 10–30 fibras do nervo, com taxas espontâneas variadas; a **diversificação das taxas acontece depois do início da audição** (rato, cóclea excisada) | Wu, Young & Glowatzki 2016, *J Neurosci* (PMC5059429) — resumo e significância | média-alta |
+| Antes do início da audição, uma parte maior das fibras e dos neurônios do tronco fica **em silêncio**, e isso diminui com a idade. Nos animais que já ouvem, a taxa espontânea varia de poucos Hz a mais de 100 Hz | revisão em PDF (core.ac.uk 357392181), citando Kiang 1965, Liberman 1978, Walsh & McGee 1987, Taberner & Liberman 2005 — trechos | média |
+| No MNTB do camundongo in vivo, a taxa espontânea **sobe** de P8 a P13 e muda de **surtos** (pré-audição) para disparo **contínuo e aleatório** perto do início da audição; antes de ouvir, 1–20 disparos/s | Sonntag et al. 2009, *J Neurosci* (PMC6666529) — resumo e legenda de figura | média-alta |
+| Gerbil adulto: células esféricas 60 ± 44/s (1–188); entradas 96 ± 52/s (2–245) | Kopp-Scheinpflug et al. 2002 — texto integral (seção 5) | alta |
+| Fibras de baixa frequência no gerbil: distribuição bimodal (modos ~5/s e ~60/s) | *Scientific Data* 2024 — resumo e trechos (texto não aberto) | média-alta |
+
+[I] **Leitura:** a taxa espontânea é uma **propriedade de cada fibra** (dada), que se **diversifica com o desenvolvimento**. No adulto ela é contínua e aleatória; no jovem, mais baixa e em surtos. Para o passo 2: **60/s fixo** agora, como decidido. Depois, **taxa por fibra sorteada da distribuição medida** (média 60, desvio 44, de 1 a 188), como dado anatômico. Os surtos antes de ouvir pertencem à segunda camada (depois da V0.17).
+
+## 7. Janela retangular: quanto tempo cada incidência vale (pesquisa pedida em 17/11, 17h)
+
+**O que a janela retangular troca [I]:** hoje cada incidência entra inteira e decai com τ = 0,30 ms. Na janela retangular, ela vale inteira por L ms e depois some. Duas formas de escolher L com base no NB:
+
+| Critério | Valor | Base [L] | Perda declarada [I] |
+|---|---|---|---|
+| **Mesma carga que hoje** (a área de uma exponencial com τ é τ × pico) | **L = 0,30 ms** | τ da membrana madura ≈ 0,31 ms (Couchman et al. 2010, texto integral: 305,78 ± 74,29 µs) | só muda a **forma**; a carga e o número continuam os de hoje; perde-se a soma parcial de incidências separadas por mais de L |
+| **Meia-largura do EPSP in vivo** | **L ≈ 0,4–0,6 ms** | 415 ± 73 µs (espontâneos, justacelular) a 608 ± 142 µs (célula inteira), van der Heijden 2013 (texto integral) | janela maior que hoje, porque em vivo o EPSP é mais largo que em fatia |
+| Janela de coincidência medida | 0,05–0,5 ms (depende do tamanho) | em fatia, dois EPSPs somam para disparar se separados por 50–500 µs, em 73% das células (Grothe & Sanes 1994, J Neurosci, **resumo**) | não é um número só; depende da força |
+
+[I] **Proposta:** para respeitar "um mecanismo por vez", **L_E = 0,30 ms**. Assim o passo 1 muda só a forma (retangular) e tira o sorteio, sem mudar a carga. A meia-largura in vivo fica para quando a excitação ganhar maturação.
+
+**Inibição retangular:** pela regra aprovada, L_I ≥ L_E. Na MSO madura, o IPSP dura bem mais: 3–4 ms em P16–18 (Chirila 2007, texto integral); meia-largura de 3,1 ms em P20 (Magnusson 2005); decaimento da condutância de 1,5–1,8 ms no adulto (Myoga et al. 2014, trecho; Couchman 2010). Proposta para o passo 1: **L_I = L_E = 0,30 ms**. Mantém o plano B como está e cumpre "≥" no limite. A duração verdadeira (ordem de 1,5–4 ms) entra junto com a maturação da inibição, que é outro mecanismo.
+
+**Adaptações que continuam no modelo (para o princípio "sem adaptações"):**
+1. o tempo da inibição do plano B ("uma janela depois"; na MSO ela chega 0,3 ms **antes**);
+2. a duração da inibição do plano B (0,30 ms contra 1,5–4 ms);
+3. a força 0,5 da inibição sem base na MSO;
+4. o sorteio, que sai no passo 1.
+
+Já estão em [dissonâncias](dissonancias-nb.md); a ordem de troca é decisão do responsável.
