@@ -137,6 +137,7 @@
 - **O que existe:** simulação orientada a eventos é técnica padrão em redes de disparos; detecção de coincidência por atrasos (tipo Jeffress) também. Busca de precedente específico para "construção alimentada só pelo que falhou, com custo guiado por incidências": **ainda não feita**.
 - **O que seria novo (proposta do responsável):** a Pcrt trabalha só sobre incidências sem integração, com custo limitado pelo hardware sensorial (Utrd × taxa máxima), e não pelo número de ramos; o próprio aprendizado reduz o insumo da Pcrt.
 - **O que falta para alegar:** o ensaio do [registro prévio](../toy-experiments/v17/ensaio-minimo/pcrt-incidencias.md); a busca de precedentes; a pesquisa de grau, poda e janelas.
+- **Relação com a hipótese astroglial (responsável, 17/11):** o achado de custo reforça, para ele, a hipótese glial: avaliação **local, distribuída e curta**, instalada em pontos da malha e acompanhando o seu crescimento, em vez de um processo central que varre tudo. Leitura do assistente: o argumento de custo sustenta a avaliação **local**, mas ainda não discrimina entre avaliação pela própria Uint (base decidida em 10–11/11) e por território glial (variante; ver `docs/glia-adenosine-v0.md`, seções 2 e 7, no ramo `claude/zealous-hawking-sdw2w8`).
 
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
