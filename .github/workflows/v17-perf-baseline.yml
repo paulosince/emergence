@@ -18,6 +18,12 @@ jobs:
         run: |
           set -o pipefail
           python -u toy-experiments/v17/ensaio-minimo/perf_baseline.py | tee perf-v17-baseline.log
+      - name: Verificar equivalência histórica do grave (70 casos)
+        run: |
+          set -o pipefail
+          (cd toy-experiments/v17/ensaio-minimo && python -I valida_motor_par.py) | tee perf-v17-grave.log
+          grep -q 'idênticas em todos os campos: 70/70' perf-v17-grave.log
+          ! grep -q '^DIF' perf-v17-grave.log
       - name: Preservar diagnóstico independente do resultado
         uses: actions/upload-artifact@v4
         if: always()
@@ -26,4 +32,5 @@ jobs:
           path: |
             perf-v17-baseline.log
             perf-v17-baseline.json
+            perf-v17-grave.log
           retention-days: 30
