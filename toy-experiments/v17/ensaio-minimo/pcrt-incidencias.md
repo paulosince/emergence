@@ -49,8 +49,12 @@ Ainda em aberto: o quanto é "bem perto" do limiar; o problema de partida (com f
 - Seleciona em **4–7 de 10**: refazer o mapa de sensibilidade (mesmas faixas registradas em [mapa-faixas.md](mapa-faixas.md)) antes de qualquer decisão.
 - **≤ 3 de 10**: parar e levar ao responsável, sem ajustar nada.
 - O agudo é lido à parte. Explosão ou colapso no agudo vai ao responsável como achado, não se corrige com parâmetro.
+- **Estabilização [R, 17/11]: medir e reportar**, sem virar critério ainda: número de ramos que passam a estável, força máxima do ramo verdadeiro e intervalo entre acertos. Motivo: no motor antigo nenhuma execução classificada como seleção estabilizou um ramo (6 estabilizações nos 70 casos do grave, todas em I2 classificada como colapso; contagem do ChatGPT em [investigacao-escala](../investigacao-escala.md)).
 - **Critério de parada:** uma execução que passar de 30 min é interrompida e registrada como "não concluída", com o tempo.
 
 ## 6. Fora deste registro
+
+**Limite de grau [R, 17/11]:** decidir **depois** deste ensaio, vendo se o motor corrigido ainda prolifera ramos (no antigo: 49–88 por Upro; na MSO do gerbil, mediana de 4 contatos por par axônio–dendrito, Callan 2021).
+
 
 Limite de grau por Upro ou Uint, janela de tempo como regra nova da Pcrt, fatias paralelas, outro processo de avaliação dentro da dinâmica do Sdom: tudo depende da pesquisa pedida (grau, poda e janelas) e de decisão do responsável.

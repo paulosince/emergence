@@ -1,0 +1,56 @@
+name: Escala V17 - contagens e curva (A-E)
+on:
+  push:
+    branches: [investigacao-escala]
+    paths: [".github/workflows/investigacao-escala-medicoes.yml"]
+  workflow_dispatch:
+jobs:
+  diagnostico:
+    name: ${{ matrix.rotulo }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - { rotulo: "contadores-I0-120ms", modo: "medidas", cond: "I0", duracao: 120 }
+          - { rotulo: "contadores-I1-120ms", modo: "medidas", cond: "I1", duracao: 120 }
+          - { rotulo: "contadores-I2-120ms", modo: "medidas", cond: "I2", duracao: 120 }
+          - { rotulo: "contadores-I0-1000ms", modo: "medidas", cond: "I0", duracao: 1000 }
+          - { rotulo: "contadores-I1-1000ms", modo: "medidas", cond: "I1", duracao: 1000 }
+          - { rotulo: "contadores-I2-1000ms", modo: "medidas", cond: "I2", duracao: 1000 }
+          - { rotulo: "curva-I1-2000ms", modo: "medidas", cond: "I1", duracao: 2000 }
+          - { rotulo: "curva-I1-3000ms", modo: "medidas", cond: "I1", duracao: 3000 }
+          - { rotulo: "grave-I0", modo: "grave", cond: "I0", duracao: 0 }
+          - { rotulo: "grave-I1", modo: "grave", cond: "I1", duracao: 0 }
+          - { rotulo: "grave-I2", modo: "grave", cond: "I2", duracao: 0 }
+          - { rotulo: "grave-I3", modo: "grave", cond: "I3", duracao: 0 }
+          - { rotulo: "grave-F", modo: "grave", cond: "F", duracao: 0 }
+          - { rotulo: "grave-F-imatura", modo: "grave", cond: "F-imatura", duracao: 0 }
+          - { rotulo: "grave-F-madura", modo: "grave", cond: "F-madura", duracao: 0 }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Dependencias fixadas
+        run: python -m pip install 'numpy==2.3.5' 'numba==0.65.1'
+      - name: Medicao original e instrumento no mesmo job
+        run: |
+          set -o pipefail
+          if [ "${{ matrix.modo }}" = grave ]; then
+            python -u toy-experiments/v17/ensaio-minimo/investigacao_escala_grave.py --cond "${{ matrix.cond }}" | tee "escala-${{ matrix.rotulo }}.log"
+          else
+            python -u toy-experiments/v17/ensaio-minimo/investigacao_escala_medidas.py --cond "${{ matrix.cond }}" --duracao-ms ${{ matrix.duracao }} --trace | tee "escala-${{ matrix.rotulo }}.log"
+          fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: escala-${{ matrix.rotulo }}
+          path: |
+            escala-${{ matrix.rotulo }}.log
+            escala-medidas-*.json
+            escala-pulsos-*.csv.gz
+            escala-grave-*.json
+          retention-days: 30
