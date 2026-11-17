@@ -447,3 +447,13 @@ Registro prévio: [duas-relacoes.md](duas-relacoes.md) (aprovado). Script `ensai
 1. **Destino compartilhado:** cada Upro nasce com ramos para as 8 Uints, e as Upros novas nascem perto das que quase acertaram. Quando uma relação consolida primeiro, as Upros que a servem se multiplicam **para todas as Uints**, e a outra relação perde a corrida em todas ao mesmo tempo.
 2. **Falta de diversidade de entrada:** na MSO, cada célula recebe poucas fibras (2–4 por dendrito; Couchman et al. 2010), e células diferentes recebem subconjuntos diferentes. Aqui as 8 Uints recebem das **mesmas duas fibras**. Nada as diferencia, a não ser o acaso dos pequenos atrasos dos ramos.
 3. **Separação por canais:** a biologia talvez separe fontes simultâneas sobretudo combinando faixas de frequência (cada fonte domina faixas diferentes em momentos diferentes), e não dentro de uma faixa só. Confiança baixa; a pesquisar.
+
+### Diagnóstico do degrau 2 (17/11; só medidas)
+Script `diagnostico_duas_relacoes.py`; saída `diagnostico-duas-relacoes-saida.txt`. Conferência: as 30 sementes reproduzem exatamente as contagens do ensaio (a medida não altera o modelo).
+
+- **A decisão acontece cedo e em bloco:** a primeira Uint se sintoniza no **episódio 2** em 22 das 30 sementes (no 1, em 7). Em muitas sementes **todas as Uints passam ao mesmo tempo** para a mesma relação no episódio 2 (ex.: 106, 108, 113, 116: as 8 Uints com "·2222" ou "·1111"). Não é uma Uint puxando as outras depois: é uma causa **comum, no episódio 1**.
+- Em 17 de 30 sementes, toda Uint que se sintonizou seguiu a relação da primeira.
+- **Os pares de Upros mais fortes não são os mesmos:** nas sementes com 6–8 Uints em Δ1, há 3 a 7 pares de Upros distintos. As Uints não são servidas pelo mesmo par. (Essa medida só existe para Δ1: o motor guarda os pares só das Uints sintonizadas na relação principal. Limitação declarada.)
+- Algumas Uints **trocam** de relação ao longo dos episódios (ex.: semente 124, "·22·1"; 128, "·2221").
+
+**Leitura do assistente:** a hipótese 1 fica **refinada**. Não é o mesmo par de Upros servindo todas as Uints; é o **conjunto de atrasos disponíveis** que se inclina, no episódio 1, para a relação que ganhou os primeiros quase-acertos. As Upros novas nascem perto delas e têm ramos para todas as Uints, e todas recebem das mesmas duas fibras. A hipótese 2 (falta de diversidade de entrada) continua de pé.

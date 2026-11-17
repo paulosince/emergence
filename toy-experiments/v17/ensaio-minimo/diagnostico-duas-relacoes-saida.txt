@@ -1,0 +1,34 @@
+conferência: 30/30 sementes com a mesma contagem do ensaio (a medida não altera o modelo)
+legenda por Uint (5 episódios): 1 = acertos dominados por Δ1; 2 = por Δ2; . = misto; _ = < 20 acertos
+semente 101: Δ1=1 Δ2=4 presas=0 | .22.2 ..2.2 .2222 .1... .1112 ..222 .11.1 11.1. | pares de Upros distintos nas sintonizadas: 1
+semente 102: Δ1=8 Δ2=0 presas=0 | .11.1 .1111 .1111 .1111 11111 11111 .1111 11111 | pares de Upros distintos nas sintonizadas: 3
+semente 103: Δ1=7 Δ2=0 presas=1 | .11.1 .1111 .1111 .1111 .1111 1111. .1111 .1111 | pares de Upros distintos nas sintonizadas: 7
+semente 104: Δ1=5 Δ2=0 presas=0 | .1___ .1111 .1111 .1111 .1___ .1111 ..___ .1111 | pares de Upros distintos nas sintonizadas: 5
+semente 105: Δ1=0 Δ2=8 presas=0 | .22.2 .22.2 .2..2 .22.2 .1..2 .1.22 .1..2 .2222 | pares de Upros distintos nas sintonizadas: 0
+semente 106: Δ1=0 Δ2=8 presas=0 | .2222 .2222 .2222 .2222 .2222 .2222 .2222 .2222 | pares de Upros distintos nas sintonizadas: 0
+semente 107: Δ1=6 Δ2=0 presas=0 | .1..1 .11.. .1111 ..... .1111 .111. .11.1 .11.1 | pares de Upros distintos nas sintonizadas: 4
+semente 108: Δ1=0 Δ2=8 presas=0 | .2222 .2222 .2222 .2222 .2222 .2222 .2222 .2222 | pares de Upros distintos nas sintonizadas: 0
+semente 109: Δ1=0 Δ2=0 presas=0 | ..1.. ..1.. ..... ..2.. ..2.. ..1.. ..... ..... | pares de Upros distintos nas sintonizadas: 0
+semente 110: Δ1=0 Δ2=3 presas=0 | .21.. ..... .2222 .2... ..1.. ..11. .2222 .2..2 | pares de Upros distintos nas sintonizadas: 0
+semente 111: Δ1=4 Δ2=1 presas=0 | .11.1 ..111 ..111 .1111 .11.2 .11.. ..1.. ..... | pares de Upros distintos nas sintonizadas: 4
+semente 112: Δ1=0 Δ2=7 presas=0 | .2222 .2222 .2222 .2222 .2222 .2___ .2222 .2222 | pares de Upros distintos nas sintonizadas: 0
+semente 113: Δ1=8 Δ2=0 presas=0 | .1111 .1111 .1111 .1111 .1111 .1111 .1111 .1111 | pares de Upros distintos nas sintonizadas: 6
+semente 114: Δ1=2 Δ2=3 presas=0 | .11.1 .22.2 .22.2 .11.. ..1.. .11.. ..1.1 .22.2 | pares de Upros distintos nas sintonizadas: 2
+semente 115: Δ1=6 Δ2=0 presas=2 | .1111 .1111 .1111 .1111 .1.11 ..... .1111 ..... | pares de Upros distintos nas sintonizadas: 4
+semente 116: Δ1=8 Δ2=0 presas=0 | .1111 .1111 .1111 .1111 .1111 .1111 .1111 .1111 | pares de Upros distintos nas sintonizadas: 6
+semente 117: Δ1=1 Δ2=6 presas=0 | ...11 .2222 .22.2 .22.2 .222_ 222.2 .22.2 .22.2 | pares de Upros distintos nas sintonizadas: 1
+semente 118: Δ1=0 Δ2=2 presas=1 | .2222 .2222 ..... 2222. .22.. .222. .222. .222. | pares de Upros distintos nas sintonizadas: 0
+semente 119: Δ1=0 Δ2=2 presas=1 | ..222 ..22. ..22. .22.. ..... .22.. ..... ..222 | pares de Upros distintos nas sintonizadas: 0
+semente 120: Δ1=0 Δ2=5 presas=1 | .22.2 .2222 .2.2. .2222 .2222 .2222 .2.2. .222. | pares de Upros distintos nas sintonizadas: 0
+semente 121: Δ1=1 Δ2=1 presas=0 | .11.. .11.. ..222 .1.22 .11.. 21111 .111. .111. | pares de Upros distintos nas sintonizadas: 1
+semente 122: Δ1=2 Δ2=0 presas=3 | .1... .11.. .111. .111. .1... .1111 .1.1. .1111 | pares de Upros distintos nas sintonizadas: 2
+semente 123: Δ1=4 Δ2=3 presas=1 | .2..2 .11.1 .1111 .1111 .1111 ..... 22222 .22.2 | pares de Upros distintos nas sintonizadas: 4
+semente 124: Δ1=8 Δ2=0 presas=0 | ...11 .22.1 .22.1 .1111 ....1 .1.11 .22.1 .22.1 | pares de Upros distintos nas sintonizadas: 7
+semente 125: Δ1=1 Δ2=1 presas=0 | .2..2 .22.. .21.2 .21.. ..11. .2.1. .211. ..... | pares de Upros distintos nas sintonizadas: 0
+semente 126: Δ1=8 Δ2=0 presas=0 | .1111 .1_11 .1111 .1111 .1111 .1111 .11.1 .1111 | pares de Upros distintos nas sintonizadas: 6
+semente 127: Δ1=1 Δ2=0 presas=3 | .11.. ..... ..... ..... ..... .1... .1111 .11.. | pares de Upros distintos nas sintonizadas: 1
+semente 128: Δ1=3 Δ2=0 presas=1 | .222. .2221 ..11. .11.1 .111. .2.2. .2.2. .2111 | pares de Upros distintos nas sintonizadas: 3
+semente 129: Δ1=0 Δ2=1 presas=0 | .222. ..2.. .2222 ..... ..22. .222. ...2. ..... | pares de Upros distintos nas sintonizadas: 0
+semente 130: Δ1=1 Δ2=3 presas=0 | .2222 .2222 .222. .2222 .22.. .2... .22.. .2..1 | pares de Upros distintos nas sintonizadas: 1
+sementes em que todas as Uints que se sintonizaram depois seguiram a relação da primeira: 17 de 30
+episódio da primeira sintonia (contagem): {1: 7, 2: 22, 3: 1}
