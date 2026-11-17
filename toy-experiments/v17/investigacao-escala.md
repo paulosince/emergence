@@ -84,6 +84,17 @@ Em 1.000 ms na condição I1, já observado previamente em engenharia: 137 ramos
 
 Os jobs de 2 s e 3 s têm timeout **60 minutos cada**. Uma execução encerrada por limite não permite inventar resultado final nem observação de grau máximo.
 
+### 2.3B Escala algorítmica local — derivação, não ajuste empírico
+
+**[C, laços do código; A, aproximação assintótica]** Seja \`P\` a quantidade de pulsos processados, \`nA(p),nB(p)\` o número de ramos no pulso p, \`f_W(p)\` a fração de pares que passam por W e \`R_A(p),R_B(p)\` a quantidade de **tempos de emissão** visitados por chamada de _V (dependentes da taxa local e de H).
+
+- Na busca de coincidências: trabalho por pulso proporcional a \`nA*nB\` pesquisas ordenadas em B, de custo nominal \`O(log N_B)\` por \`searchsorted\`. Matriz inicial: \`O(P nA nB log N_B)\` se as variáveis forem constantes.
+- Na avaliação _V: para **cada** par aceito, percorrem-se \`R_A*nA + R_B*nB\` combinações de emissão×ramo. Trabalho aproximado total: \`Σ_p f_W(p) nA(p)nB(p) [R_A(p)nA(p)+R_B(p)nB(p)]\`.
+- Se **apenas como hipótese assintótica** \`nA≈nB≈r\`, fração W e número R de tempos na janela forem aproximadamente constantes, o custo dominante de _V é **\`O(P R r³)\`**, não meramente quadrático em r. Isso não implica crescimento exponencial com o tempo: depende de como r evolui e se estabiliza. A varredura de quase-acertos também consulta sequencialmente chaves já acumuladas, podendo acrescentar custos próprios.
+
+**[C]** I1: em 120 ms houve aproximadamente \`187.641/869≈216\` chamadas de _V por pulso e \`1.463\` iterações por chamada; em 1 s, \`12.358.787/6.656≈1.857\` chamadas de _V por pulso e \`4.022\` iterações por chamada. Isso mede **dois fatores multiplicativos distintos** que cresceram, além do número de pulsos. Não confundir “potencial aproximadamente cúbico em número de ramos” com ajuste empírico de uma curva cúbica temporal: dados de duração são poucos, com estímulos reamostrados.
+
+
 ### 2.3A Dados consolidados da etapa A/B/D (execuções verificadas)
 
 **Condições:** agudo idealizado, cinco episódios, semente 1, exceto na seção dos 70 casos do grave. Igualdade *exata*, sem tolerância, entre motor original e cópia instrumentada em **todas** as linhas concluídas. Condição/versão de entrada distintas não devem ser interpretadas como uma só série temporal.
