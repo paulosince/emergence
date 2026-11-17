@@ -138,6 +138,8 @@ def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui
     ultimo_fav = -1e18; ultimo_disp = -1e18
     nac = 0; disparos = 0; estab = 0; quase_broto = 0; quase_iso = 0; brotos = 0
     insumo = np.zeros(NEP, np.int64); nc = 0; parou = False
+    snD = np.zeros((NEP, 2, MAXR)); snF = np.zeros((NEP, 2, MAXR)); snN = np.zeros((NEP, 2), np.int64)
+    bloq = 0   # quase-acerto com acerto recente e 5 contagens, mas força abaixo do portão (só medida)
     tcred = trensA[fim[NEP - 1] - 200] if fim[NEP - 1] - 200 >= ini[NEP - 1] else trensA[ini[NEP - 1]]
     for ep in range(NEP):
         nh = 0; b0 = 0; b1 = 0
@@ -243,6 +245,7 @@ def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui
                         if _recente(zz, xx, T, JAN, VIZ, D[0], nr[0], LA[0], D[1], nr[1], LA[1]):
                             quase_broto += 1
                             QC[zz, xx] += 1
+                            if QC[zz, xx] >= NQUASE and Fo[zz, xx] < FBROTO: bloq += 1
                             if QC[zz, xx] >= NQUASE and Fo[zz, xx] >= FBROTO:
                                 QC[zz, xx] = 0
                                 n0 = nr[zz]
@@ -263,13 +266,16 @@ def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui
             if not integ[x]: cont += 1
             if not integ[nA_tot + x]: cont += 1
         insumo[ep] = cont
+        for z in range(2):
+            snN[ep, z] = nr[z]
+            for x in range(nr[z]): snD[ep, z, x] = D[z, x]; snF[ep, z, x] = Fo[z, x]
         tf = ep * CICLO + dur
         for z in range(2):
             nr[z] = _podar(tf, nr[z], D[z], Fo[z], FI[z], LA[z], NA[z], ES[z], QC[z])
         exc = 0.0; inh = 0.0
         if parou: break
     return (D[0, :nr[0]].copy(), Fo[0, :nr[0]].copy(), D[1, :nr[1]].copy(), Fo[1, :nr[1]].copy(),
-            ck[:nc].copy(), cv[:nc].copy(), disparos, nac, estab, quase_broto, quase_iso, brotos, insumo, parou)
+            ck[:nc].copy(), cv[:nc].copy(), disparos, nac, estab, quase_broto, quase_iso, brotos, insumo, parou, snD, snF, snN, bloq)
 
 
 # ---------------- trens (idênticos a motor_par.trens / inibicao.trem) ----------------
@@ -296,10 +302,10 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, Q=0.75, JAN=60_000.0, ENFQ=False, BROTO=True, VIZ=0.20,
-          dur=10_000.0, DF=0.0065, F0=0.15, MEIA=300_000.0, FBROTO=0.30, cond_fixo=False):
+          dur=10_000.0, DF=0.0065, F0=0.15, MEIA=300_000.0, FBROTO=0.30, cond_fixo=False, retratos=False):
     tA, tB, ini, fim = trens(semente, faixa, dur, cond_fixo)
     razao, off, taui = INIB[cond]
-    (dA, fA, dB, fB, ck, cv, disparos, nac, estab, qb, qi, brotos, insumo, parou) = _rodar(
+    (dA, fA, dB, fB, ck, cv, disparos, nac, estab, qb, qi, brotos, insumo, parou, snD, snF, snN, bloq) = _rodar(
         tA, tB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, ENFQ, BROTO)
     cred = {float(o): int(v) for o, v in zip(ck, cv)}
     tot = sum(cred.values()); ver = sum(v for o, v in cred.items() if abs(o - DELTA) <= W) / tot if tot else 0.0
@@ -322,4 +328,5 @@ def rodar(cond, faixa, semente, Q=0.75, JAN=60_000.0, ENFQ=False, BROTO=True, VI
                 maxfA=round(float(fA.max()), 3) if fA.size else 0, maxfB=round(float(fB.max()), 3) if fB.size else 0,
                 disparos_ultimo_ep=int(disparos), acertos=int(nac), estabilizacoes=int(estab),
                 quase_com_acerto_recente=int(qb), quase_isolados=int(qi), ramos_brotados=int(brotos),
-                insumo_pcrt_por_episodio=[int(x) for x in insumo], interrompida_300=bool(parou))
+                insumo_pcrt_por_episodio=[int(x) for x in insumo], interrompida_300=bool(parou),
+                bloqueados_portao=int(bloq), **({"retratos": (snD, snF, snN)} if retratos else {}))

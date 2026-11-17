@@ -200,3 +200,15 @@ Controle aceito pelo responsável (comparação, ver seção anterior). Script `
 **Comparação que ajuda a ler (dados do controle, brotamento desligado):** sem brotamento, a força máxima chega a **1,0** e a Uint dispara ~2.000 vezes no último episódio, nos dois motores; a seleção é de 6–7 de 10. No motor antigo **com** brotamento, a força máxima também ficava em ~0,2–0,3.
 
 **Hipótese do assistente (não verificada):** a força total de cada Upro é conservada (1,0); os ramos que brotam ao lado do verdadeiro também coincidem e dividem essa força. Com cada ramo em ~0,25, a soma raramente chega ao limiar, e o portão do broto (0,30) quase nunca é atingido. Por isso a janela não faz diferença: o gargalo seria o portão, não o acerto recente.
+
+## Diagnóstico da força (17/11/2026) — pedido do responsável
+
+Script `diagnostico_forca.py`; saída `diagnostico-forca-saida.txt`. Condição da etapa A (grave, notas, I1, quase-acerto 0,75, janela 60 s, sem enfraquecimento), 10 sementes, com e sem brotamento. O motor ganhou só medidas (retratos por episódio e contagem de bloqueios no portão); a dinâmica não mudou. "Ramo da relação verdadeira": ramo cuja diferença de atraso com algum ramo da outra Upro fica a até uma janela de Δ.
+
+**Hipótese confirmada, com uma surpresa.** No fim do 5º episódio, com brotamento:
+- A parte da força total que está nos ramos da relação verdadeira é de **70% a 100%** (mediana ~100%) **em 10 de 10 sementes**. O sistema acha a região da relação em todas.
+- Mas ela fica **dividida entre 4 e 8 ramos vizinhos** por Upro, cada um com ~0,20–0,38. Sem brotamento, um único ramo fica com ~1,0.
+- O portão do broto bloqueou entre ~3.800 e ~52.600 quase-acertos por execução (força abaixo de 0,30). O brotamento para cedo: por isso não há explosão, e a janela não muda nada.
+- As sementes classificadas como "difuso" também têm a força na região certa. O classificador exige **um** par mais forte a até uma janela de Δ; com vários ramos empatados em ~0,25, esse par muitas vezes não é identificável.
+
+**Leitura do assistente (não decisão):** o que falta não é achar a relação, mas (a) os vizinhos competirem entre si, ou (b) aceitar a região como a forma da relação (na MSO do gerbil, um mesmo axônio faz mediana de 4 contatos num dendrito; Callan et al. 2021, via investigação de escala) e entender por que, dividida, ela quase não faz a Uint disparar (as chegadas dos vizinhos se espalham no tempo).
