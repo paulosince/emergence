@@ -318,6 +318,13 @@ def rodar(cond, faixa, semente, Q=0.75, JAN=60_000.0, ENFQ=False, BROTO=True, VI
     topA = dA[int(np.argmax(fA))] if dA.size else None; topB = dB[int(np.argmax(fB))] if dB.size else None
     par_ok = topA is not None and topB is not None and abs(topA - topB - DELTA) <= W and fA.max() > 0.05 and fB.max() > 0.05
     nram = dA.size + dB.size
+    # medida pedida pelo responsável (17/11): parte da força de cada Upro nos ramos da região da relação verdadeira
+    if dA.size and dB.size:
+        verA = np.array([np.any(np.abs(a - dB - DELTA) <= W) for a in dA]); verB = np.array([np.any(np.abs(dA - b - DELTA) <= W) for b in dB])
+        regiao = (round(float(fA[verA].sum() / max(fA.sum(), 1e-12)), 3), round(float(fB[verB].sum() / max(fB.sum(), 1e-12)), 3))
+        n_regiao = (int(verA.sum()), int(verB.sum()))
+    else:
+        regiao = (0.0, 0.0); n_regiao = (0, 0)
     if tot == 0: classe = "colapso"
     elif parou or nram > 100 or len(cred) > 200: classe = "explosao"
     elif ver >= 0.6 and par_ok: classe = "selecao"
@@ -329,4 +336,4 @@ def rodar(cond, faixa, semente, Q=0.75, JAN=60_000.0, ENFQ=False, BROTO=True, VI
                 disparos_ultimo_ep=int(disparos), acertos=int(nac), estabilizacoes=int(estab),
                 quase_com_acerto_recente=int(qb), quase_isolados=int(qi), ramos_brotados=int(brotos),
                 insumo_pcrt_por_episodio=[int(x) for x in insumo], interrompida_300=bool(parou),
-                bloqueados_portao=int(bloq), **({"retratos": (snD, snF, snN)} if retratos else {}))
+                bloqueados_portao=int(bloq), parte_forca_regiao=regiao, ramos_na_regiao=n_regiao, **({"retratos": (snD, snF, snN)} if retratos else {}))

@@ -212,3 +212,19 @@ Script `diagnostico_forca.py`; saída `diagnostico-forca-saida.txt`. Condição 
 - As sementes classificadas como "difuso" também têm a força na região certa. O classificador exige **um** par mais forte a até uma janela de Δ; com vários ramos empatados em ~0,25, esse par muitas vezes não é identificável.
 
 **Leitura do assistente (não decisão):** o que falta não é achar a relação, mas (a) os vizinhos competirem entre si, ou (b) aceitar a região como a forma da relação (na MSO do gerbil, um mesmo axônio faz mediana de 4 contatos num dendrito; Callan et al. 2021, via investigação de escala) e entender por que, dividida, ela quase não faz a Uint disparar (as chegadas dos vizinhos se espalham no tempo).
+
+## Diagnóstico do disparo (17/11/2026)
+
+Decisões do responsável depois do diagnóstico da força: **ler "os dois, em ordem"** (primeiro entender por que a região quase não faz a Uint disparar; depois, se preciso, competição entre vizinhos) e **medir e reportar a parte da força na região da relação verdadeira** ao lado das classes, sem mudar o critério (o motor passa a devolver `parte_forca_regiao` e `ramos_na_regiao`).
+
+Script `diagnostico_disparo.py`; saída `diagnostico-disparo-saida.txt`. Para cada semente, com os ramos do fim do 5º episódio, calculou-se o **pico da soma na Uint para um pulso isolado** (A em 0, B em Δ, sem ruído, com a inibição I1).
+
+| Medida | Resultado (10 sementes) |
+|---|---|
+| Pico da soma, com os ramos como estão | **0,81 a 1,25**: abaixo do limiar (1,5) em **10 de 10** |
+| Pico, se a força da região estivesse toda no par verdadeiro mais forte | 1,25 a 1,90: acima do limiar em **6 de 10** |
+| Espalhamento dos atrasos dos ramos da região | dois grupos: **0,17–0,42 ms** (5 sementes) e **3,6–4,6 ms** (5 sementes) |
+
+**Leitura do assistente (conferível nos dados):** a força se divide de **dois jeitos**.
+1. **Cópias da mesma relação em atrasos diferentes:** a relação é a *diferença* de atraso (a − b ≈ Δ). Pares como (~0,5 ms; ~0,05 ms antes) e (~5 ms; ~4,5 ms) são ambos verdadeiros, mas chegam em instantes distantes e não se somam. Com a força total conservada, as cópias dividem a força entre si.
+2. **Vizinhos colados:** quando a região é estreita (0,2–0,4 ms), os vizinhos chegam quase juntos, mas espalhados o bastante para a inibição do plano B (uma janela depois) frear as chegadas de trás: sem inibição, o pico sobe (por exemplo, 1,02 → 1,20).

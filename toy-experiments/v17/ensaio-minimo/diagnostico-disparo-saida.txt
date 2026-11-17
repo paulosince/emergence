@@ -1,0 +1,10 @@
+semente  1 classe=selecao  pico=1.198 (sem inibição 1.198) | espalhamento dos atrasos A=4.592 B=4.530 ms | se concentrada: 1.845 | limiar 1.5
+semente  2 classe=selecao  pico=1.150 (sem inibição 1.150) | espalhamento dos atrasos A=3.632 B=3.616 ms | se concentrada: 1.437 | limiar 1.5
+semente  3 classe=difuso   pico=1.104 (sem inibição 1.197) | espalhamento dos atrasos A=0.418 B=0.166 ms | se concentrada: 1.538 | limiar 1.5
+semente  4 classe=selecao  pico=1.244 (sem inibição 1.244) | espalhamento dos atrasos A=0.324 B=0.166 ms | se concentrada: 1.613 | limiar 1.5
+semente  5 classe=difuso   pico=1.017 (sem inibição 1.198) | espalhamento dos atrasos A=0.388 B=0.166 ms | se concentrada: 1.583 | limiar 1.5
+semente  6 classe=difuso   pico=0.807 (sem inibição 0.984) | espalhamento dos atrasos A=3.811 B=3.616 ms | se concentrada: 1.306 | limiar 1.5
+semente  7 classe=difuso   pico=0.898 (sem inibição 1.032) | espalhamento dos atrasos A=4.268 B=4.073 ms | se concentrada: 1.571 | limiar 1.5
+semente  8 classe=difuso   pico=0.851 (sem inibição 0.929) | espalhamento dos atrasos A=0.418 B=0.166 ms | se concentrada: 1.247 | limiar 1.5
+semente  9 classe=selecao  pico=1.246 (sem inibição 1.246) | espalhamento dos atrasos A=3.632 B=3.616 ms | se concentrada: 1.904 | limiar 1.5
+semente 10 classe=difuso   pico=1.000 (sem inibição 1.093) | espalhamento dos atrasos A=0.418 B=0.166 ms | se concentrada: 1.459 | limiar 1.5
