@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: correções 1, 2 e 8 com mapa de sensibilidade
 
-**Estado:** RASCUNHO para aprovação do responsável. Nada de código antes da aprovação.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026 ("Aprovo, pode implementar"; maturação depois).
 **Redação:** assistente (Claude), 17/11/2026. **Base:** [correções aprovadas](../correcoes-dissonancias.md); [integração na Uint](../investigacao-integracao-uint.md); [estrutura](estrutura-ramos.md) (continua valendo: fibra, Upro com 8 cabeças, atrasos pequenos dados e sorteados, Upro nova a ±10%, quase-acerto a 75%, broto perto de acerto recente, inibição do plano B, integrada = fez a Uint disparar).
 **Legenda:** [R] decisão do responsável; [A] proposta do assistente (a aprovar com este registro); [L] literatura.
 

@@ -292,3 +292,20 @@ Registro prévio: [estrutura-ramos.md](estrutura-ramos.md) (aprovado). Código `
 - Agudo: 7–8% dos acertos na relação verdadeira (nível do acaso) e nenhum disparo.
 
 **Leitura do assistente (não decisão):** qualquer **estoque fixo** dividido entre **muitos candidatos igualmente bons** termina dividido, esteja ele na Upro ou na Uint. No controle sem brotamento (6 ramos), a força chegou a 1,0 e a Uint disparou ~2.000 vezes: com poucos candidatos, um vence; com exuberância, empatam. O que quebra o empate, na literatura lida, é o disparo — e o disparo não vem enquanto a força está dividida.
+
+## Triagem das correções 1, 2 e 8 (17/11/2026)
+
+Registro prévio: [correcoes-mapa.md](correcoes-mapa.md) (aprovado; maturação depois). Código `motor_correcoes.py` (derivado de `motor_estrutura.py`); script `mapa_correcoes.py`; dados `mapa-correcoes-saida.csv`. **729 execuções em 223 s** (grave, notas, I1, sementes 1–3).
+
+**Resultado geral:** **624 de 729 execuções são seleção** (as outras, difuso; nenhuma explosão, nenhum colapso). **157 de 243 combinações** selecionam nas 3 sementes. Por número (seleções / 243): tamanho do recurso 0,5 → 167, 1,0 → 214, **2,0 → 243**; expoente 4 → 196, 8 → 209, 16 → 219; a reposição, a fração e o tempo da eliminação mudam pouco.
+
+**O que mudou em relação a todos os ensaios anteriores:** as Uints **disparam** (milhares de vezes no último episódio), a força chega a 1,0 em vários ramos, ramos perdedores são eliminados (centenas por execução), e o **insumo da Pcrt cai a zero** a partir do 3º episódio — a criação de Upros para sozinha, como a previsão 1 dizia. Em várias combinações, as Uints sintonizadas usam 3 a 5 pares de Upros diferentes (as cópias caem em Uints diferentes, previsão 2).
+
+| Conjunto (reposição / recurso / fração / tempo da eliminação / expoente) | Seleção | Uints sintonizadas | Parte verdadeira (mediana) | Ramos | Força total |
+|---|---|---|---|---|---|
+| 60 s / 1,0 / 0,25 / 60 s / 8 (valores centrais) | 3/3 | 7 | 0,90 | 120 | 63 |
+| 60 s / 1,0 / 0,50 / 60 s / 16 | 3/3 | 8 | 0,96 | 45 | 43 |
+| 300 s / 2,0 / 0,25 / 10 s / 4 | 3/3 | 8 | 0,95 | 120 | 57 |
+| 60 s / 0,5 / 0,25 / 60 s / 8 | 1/3 | 6 | 0,88 | 94 | 29 |
+
+**Cuidados (assistente):** (1) com tanta seleção, o controle do período fixo (na confirmação) é essencial para saber se a classe não ficou fácil demais; (2) a força **total** cresce muito (40–120), sem soma imposta — é o risco 1 na forma de força, não de número de ramos; (3) a medida "diferença preferida" como **média** de todas as diferenças dos acertos (como registrada) é puxada pelos acertos de *aliasing* e dá valores enganosos; a mediana seria melhor (mudança de medida a decidir).
