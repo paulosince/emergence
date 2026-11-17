@@ -114,9 +114,21 @@ Os jobs de 2 s e 3 s têm timeout **60 minutos cada**. Uma execução encerrada 
 
 O número de pulsos por episódio é **limitado pelo estímulo**, enquanto o número de **pares calculados por pulso** cresce com os ramos candidatos. O motor de hoje executa o produto dos ramos mesmo quando uma pequena fração das iterações de _V produz contribuição.
 
+**B — trajetória por episódio de 1 s, semente 1:** os arquivos `escala-pulsos-*.csv.gz` preservam **cada pulso**, inclusive nA/nB; abaixo somente o estado ao fim da exploração de cada episódio (máximos observados, iguais ao estado seguinte nestas condições).
+
+| Episódio | I0: A+B | I1: A+B | I2: A+B |
+|---|---|---|---|
+| 1 | 43 + 47 = 90 | 43 + 47 = 90 | 43 + 47 = 90 |
+| 2 | 49 + 74 = 123 | 49 + 74 = 123 | 67 + 74 = 141 |
+| 3 | 49 + 88 = 137 | 49 + 88 = 137 | 89 + 102 = 191 |
+| 4 | 49 + 88 = 137 | 49 + 88 = 137 | 89 + 102 = 191 |
+| 5 | 49 + 88 = 137 | 49 + 88 = 137 | 89 + 109 = 198 |
+
+Nas três condições com 1 s, o critério de classe `explosao` foi satisfeito **por ambos os gatilhos** (ramos >100 **e** relações >200), diferentemente das execuções de 120 ms, onde o gatilho foi **somente relações >200**. A classe não indica que o limite computacional de 300 ou 512 foi atingido; nenhum foi nas execuções completas desta tabela.
+
 **B — a classe “explosão” não é contagem de ramos necessariamente:** I0/I1/I2 de 120 ms possuem apenas 66/54/58 ramos, mas registram 832/560/650 relações, excedendo o limiar **relações>200**. Nos três casos de 1 s, **ramos>100 e relações>200** são ambos verdadeiros. A classe, portanto, não deve ser lida como número absoluto de ramos ou comprovante de inviabilidade fisiológica.
 
-**D — 70 referências históricas do grave medidas de novo:** 10 sementes × 7 condições. Instrumento versus motor original **e** motor original versus CSV de referência: **70/70 coincidências exatas**. Contagem de transições para ramo estabilizado (detectadas quando _marcar efetivamente muda \`est\` de falso para verdadeiro):
+**D — 70 referências históricas do grave medidas de novo:** 10 sementes × 7 condições. Instrumento versus motor original **e** motor original versus CSV de referência: **70/70 coincidências exatas**. Contagem de transições para ramo estabilizado (detectadas quando _marcar efetivamente muda `est` de falso para verdadeiro):
 
 | Condição | Ramos estabilizados | Sementes com alguma estabilização | Classificação relevante |
 |---|---:|---:|---|
