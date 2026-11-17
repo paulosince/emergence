@@ -61,7 +61,7 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2):
+def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO):
     np.random.seed(semente)
     UD = np.zeros((2, MAXU)); UA = np.zeros((2, MAXU), np.bool_); nU = np.zeros(2, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
@@ -94,6 +94,9 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
     bq = np.zeros((K, BCAP), np.bool_); bf = np.zeros((K, BCAP), np.bool_)
     b0 = np.zeros(K, np.int64); b1 = np.zeros(K, np.int64)
     exc = np.zeros(K); inh = np.zeros(K); tl = np.zeros(K)
+    # janela retangular (RET): cada chegada vale inteira por LE (excitação) ou LI (inibição) e depois sai
+    RBM = (1 << 12) - 1; eT = np.zeros((K, RBM + 1)); eW = np.zeros((K, RBM + 1)); iT = np.zeros((K, RBM + 1)); iW = np.zeros((K, RBM + 1))
+    ra0 = np.zeros(K, np.int64); ra1 = np.zeros(K, np.int64); ri0 = np.zeros(K, np.int64); ri1 = np.zeros(K, np.int64)
     ufav = np.full(K, -1e18); udisp = np.full(K, -1e18)
     disp = np.zeros(K, np.int64); hv = np.zeros(K, np.int64); ht_ = np.zeros(K, np.int64)
     nA_tot = trensA.size
@@ -198,15 +201,26 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                 mat[k] *= 2.0 ** (-(T - tmat[k]) / MMEIA); tmat[k] = T
                 tauE = TAUJ + mat[k] * (TAU - TAUJ); tauI = 4.0 + mat[k] * (1.5 - 4.0)
                 exc[k] *= np.exp(-(T - tl[k]) / tauE); inh[k] *= np.exp(-(T - tl[k]) / tauI)
-            else:
+            elif not RET:
                 exc[k] *= np.exp(-(T - tl[k]) / TAU)
                 if razao != 0.0: inh[k] *= np.exp(-(T - tl[k]) / taui)
             tl[k] = T
+            if RET:
+                while ra0[k] < ra1[k] and T - eT[k, ra0[k] & RBM] >= LE:
+                    exc[k] -= eW[k, ra0[k] & RBM]; ra0[k] += 1
+                if ra0[k] == ra1[k]: exc[k] = 0.0
+                while ri0[k] < ri1[k] and T - iT[k, ri0[k] & RBM] >= LI:
+                    inh[k] -= iW[k, ri0[k] & RBM]; ri0[k] += 1
+                if ri0[k] == ri1[k]: inh[k] = 0.0
             if kind == 1:
+                if RET:
+                    iT[k, ri1[k] & RBM] = T; iW[k, ri1[k] & RBM] = w; ri1[k] += 1
                 inh[k] += w; continue
             if OPT >= 2 and (not R_es[r]) and T > R_td[r]:
                 R_f[r] *= 2.0 ** (-(T - R_td[r]) / MEIA); R_td[r] = T
             w = R_f[r]; exc[k] += w; V = exc[k] + inh[k]
+            if RET:
+                eT[k, ra1[k] & RBM] = T; eW[k, ra1[k] & RBM] = w; ra1[k] += 1
             while b0[k] < b1[k] and bt[k, b0[k] % BCAP] < T - HB: b0[k] += 1
             p = b1[k] % BCAP; bt[k, p] = T; bs[k, p] = s; br[k, p] = r; bi[k, p] = gid; bq[k, p] = False; bf[k, p] = False; b1[k] += 1
             if b1[k] - b0[k] >= BCAP: b0[k] = b1[k] - BCAP + 1
@@ -250,7 +264,9 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
             elif (not R_es[r]) and W < T - ufav[k] <= 3 * W:
                 R_f[r] = max(0.0, R_f[r] - 1.05 * DF)
             disparou = False
-            if T - udisp[k] > W and V > 0.0:
+            if DURO:
+                if T - udisp[k] > W and V >= LIM: disparou = True
+            elif T - udisp[k] > W and V > 0.0:
                 pd = min(1.0, (V / LIM) ** NEXP)
                 if np.random.random() < pd: disparou = True
             if disparou:
@@ -301,7 +317,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
         for s in range(2):
             for u in range(nU[s]): UA[s, u] = False
         for r in range(nR): UA[R_s[r], R_u[r]] = True
-        for k in range(K): exc[k] = 0.0; inh[k] = 0.0
+        for k in range(K): exc[k] = 0.0; inh[k] = 0.0; ra0[k] = ra1[k]; ri0[k] = ri1[k]
         if parou: break
     if OPT >= 2:
         tfim = (NEP - 1) * CICLO + dur
@@ -352,12 +368,12 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, duas=None):
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, duas=None, RET=False, LE=0.30, LI=0.30, DURO=False):
     tA, tB, ini, fim = trens_d(semente, faixa, dur, cond_fixo, delta) if duas is None else trens_2(semente, faixa, dur, duas[0], duas[1])
     razao, off, taui = INIB[cond]
     (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et) = _rodar(
         tA, tB, ini, fim, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
-        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, (duas[1] if duas is not None else -1e9))
+        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, (duas[1] if duas is not None else -1e9), RET, LE, LI, DURO)
     sint = []; presa = []; pares = []
     for k in range(K):
         frac = hv[k] / ht[k] if ht[k] else 0.0
