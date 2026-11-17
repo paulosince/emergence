@@ -492,3 +492,6 @@ Registro prévio: [passo2-espontanea.md](passo2-espontanea.md) (aprovado). Scrip
 - Na MSO, a atividade espontânea é de **cada fibra**, sem correlação com as outras, e uma fibra sozinha é **fraca**: são necessárias 2–4 fibras por dendrito para disparar (Couchman et al. 2010).
 - Pôr atividade espontânea numa fibra que vale por uma população é como fazer **todas as entradas** dispararem ao acaso **ao mesmo tempo**. Daí os disparos no silêncio e o ruído que derruba o agudo.
 - Ou seja, o passo 2 depende do passo 3 (fibras individuais). A ordem 2 → 3 pode ter sido a ordem errada.
+
+## Errata (17/11, noite) — o relógio da eliminação competitiva conta o intervalo entre episódios
+Encontrado ao investigar o colapso com 8 fibras: o tempo TEL (60 s abaixo de θ) da correção 2 é medido em tempo absoluto. Como os episódios duram 10 s e são separados por 170 s sem mundo, **toda eliminação aconteceu na virada de episódio**, contando o tempo sem experiência. Isso vale para **todos** os ensaios com a correção 2. Os números medidos continuam válidos como resultados do motor que rodou, mas a descrição do mecanismo nos registros ("60 s contínuos") não corresponde ao que o motor fez. Detalhes e propostas: [investigacao-competicao-fibras.md](../investigacao-competicao-fibras.md). Erro do assistente.
