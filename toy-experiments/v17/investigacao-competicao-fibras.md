@@ -45,3 +45,28 @@
 - [Ultraestrutura das entradas imaturas da LSO (bioRxiv 2024)](https://www.biorxiv.org/content/10.1101/2024.08.09.606139v1.full) — trechos.
 - [Werthat et al. 2008 (PubMed)](https://pubmed.ncbi.nlm.nih.gov/18777566/) — resumo.
 - Couchman et al. 2010 — já lido (texto integral).
+
+---
+
+## 6. Forma NB do critério de eliminação (pesquisa pedida em 17/11, noite)
+
+| Achado [L] | Fonte e leitura | Confiança |
+|---|---|---|
+| Junção neuromuscular: trocar a atividade natural dos motoneurônios por atividade **síncrona** **suprime** a eliminação da inervação múltipla; a assíncrona a promove. "Segue o postulado de Hebb" | Busetto et al. 2000, *J Neurosci* 20:685 (resumo e trechos do PMC) | alta |
+| A **assíncrona** promove a eliminação **se os disparos estiverem separados por 25 ms ou mais**, mesmo com o **mesmo número** de disparos; separados por 20 ms ou menos, contam como síncronos e a eliminação **não** acontece | Favero, Busetto & Cangiano 2012, *PNAS* 109:E1667 (resumo) | alta |
+| No embrião, os motoneurônios disparam de forma síncrona (favorece a inervação múltipla); poucos dias depois do nascimento passam a assíncronos (promove a eliminação) | Buffelli et al. 2002, *PNAS* 99:13200 (resumo) | alta |
+| Cerebelo: das várias fibras trepadeiras de cada célula de Purkinje, a que é **seletivamente fortalecida** é a **mais próxima do disparo da célula**; depois as perdedoras são eliminadas (P7 a ~P17) | Kawamura et al. 2013, *Nat Commun* 4:2732 (resumo) | alta |
+| A eliminação no cerebelo depende da atividade da célula pós-sináptica; um sinal retrógrado (BDNF–TrkB) funciona como "punição" das perdedoras | Choo et al. 2017, *Nat Commun* (resumo, PMC5543168) | média-alta |
+| No cerebelo, primeiro uma entrada fica 2–3× mais forte que as outras, e só depois as fracas se desligam | Hashimoto & Kano 2003, via revisão (PMC2790139, trecho) | média-alta |
+
+**O princípio que se repete [I]:** quem decide a eliminação é a **relação temporal com o disparo da célula**, não a força comparada à da mais forte:
+- entradas **síncronas** com o disparo ficam, mesmo várias;
+- entradas que chegam **fora** do disparo perdem;
+- sem atividade, não há eliminação;
+- primeiro vem a diferenciação (fortalecer quem acerta) e depois o corte.
+
+**Tradução proposta para a V0.17 [A] (mecanismo novo, para registro próprio depois do teste do relógio):**
+- **Participação:** um ramo "participa" quando a chegada dele cai na janela de integração de um disparo da Uint, ou seja, é **integrado**, nos termos que já temos.
+- **Eliminação por não participação:** um ramo é eliminado se, durante um tempo **com atividade** em que a sua Uint **disparou** (por exemplo, N disparos da Uint), ele **não** foi integrado em nenhum. Se a Uint não dispara, ninguém é eliminado (sem atividade, sem competição).
+- **Sai** o critério "força < θ × a mais forte". A diferenciação pela força continua vindo do fortalecimento nos acertos e do estoque por lado.
+- **Perda declarada:** a janela de "síncrono" da junção neuromuscular (~20 ms) é de outra escala; aqui a janela é a da própria Uint (0,30 ms), porque o que conta é a sincronia **com o disparo** daquela célula.

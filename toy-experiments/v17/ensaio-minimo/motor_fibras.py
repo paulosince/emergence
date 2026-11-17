@@ -65,7 +65,7 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO):
+def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO, RELOG, DEP):
     np.random.seed(semente)
     UD = np.zeros((NF, MAXU)); UA = np.zeros((NF, MAXU), np.bool_); nU = np.zeros(NF, np.int64); R_b = np.zeros(MAXRAM, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
@@ -145,8 +145,9 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
                     for r in range(nR):
                         if R_ok[r] and not R_es[r]:
                             if R_f[r] < TETA * fmx[R_k[r], R_s[r]]:
-                                if np.isnan(R_bx[r]): R_bx[r] = t
-                                elif t - R_bx[r] >= TEL: R_ok[r] = False; elim += 1
+                                ta = t - ep * (CICLO - DEP) if RELOG else t   # relógio só com mundo (RELOG) ou absoluto
+                                if np.isnan(R_bx[r]): R_bx[r] = ta
+                                elif ta - R_bx[r] >= TEL: R_ok[r] = False; elim += 1
                             else:
                                 R_bx[r] = np.nan
                 gid = idx
@@ -419,14 +420,14 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4):
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False):
     F = int(FIB)
     INC_T, INC_B, ini, fim = trens_fibras(semente, faixa, dur, F, ESP, SIL, delta)
     ALC = alcance(semente, F, K, AMIN, AMAX)
     razao, off, taui = INIB[cond]
     (Rs, Rb, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et, dsil) = _rodar(
         INC_T, INC_B, ini, fim, 2 * F, F, ALC, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
-        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO)
+        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0))
     sint = []; presa = []; pares = []
     for k in range(K):
         frac = hv[k] / ht[k] if ht[k] else 0.0
