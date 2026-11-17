@@ -268,3 +268,27 @@ Decisão do responsável: rodar a etapa B já, com o conjunto 1,0 ms / X = 10 s,
 **Diagnóstico (2) — por que o agudo colapsa:** sem a regra nova, a soma das forças de cada Upro fica perto de 1,0 em todos os episódios; com ela, cai para perto de zero em alguns episódios (por exemplo, 0,036 e 0,0). Leitura do assistente: no agudo, as chegadas são densas; cada disparo enfraquece **todas** as chegadas dos 1,5 ms seguintes, de qualquer ramo; a conservação só corta o que passa de 1,0 e não repõe o que falta. A força se esvai.
 
 **Período fixo:** com I1, um *aliasing* fica com força 1,0 e a Uint dispara ~2.000 vezes, mas fora da região verdadeira (0,6% da força). Coerente com a hipótese de que, sem variação, o mundo não dá ao sistema o que selecionar.
+
+## Ensaio da estrutura fibra / Upro com várias cabeças / estoque na Uint (17/11/2026)
+
+Registro prévio: [estrutura-ramos.md](estrutura-ramos.md) (aprovado). Código `motor_estrutura.py`; script `ensaio_estrutura.py`; dados `estrutura-saida.csv`. **60 execuções em 158 s.**
+
+**Erro de conta no registro prévio (do assistente):** o registro dizia "80 execuções" para a forma principal e "100" no total. A grade descrita (grave e agudo × notas e período fixo × I1 × 10 sementes) dá **40**, e o total, **60**. Rodou-se a grade descrita.
+
+| Faixa | Estímulo | Forma | Seleção | Difuso | Uints sintonizadas (mediana) | Força máxima | Força total | Ramos |
+|---|---|---|---|---|---|---|---|---|
+| grave | notas | principal | **1** | 9 | 0 | 0,40 | 16,0 | 208 |
+| grave | notas | uma Upro por Uint | 3 | 7 | 0 | 0,40 | 16,0 | 173 |
+| agudo | notas | principal | 0 | 10 | 0 | 0,12 | 15,5 | 264 |
+| agudo | notas | uma Upro por Uint | 0 | 10 | 0 | 0,19 | 15,5 | 213 |
+| grave e agudo | período fixo | principal | 0 | 10 | 0 | 1,00 | 16,0 | 36 |
+
+**Pela regra fixada:** grave com notas, forma principal, **1 de 10 ≤ 3** → **parar e levar ao responsável**. O agudo não seleciona.
+
+**O que se vê:**
+- No grave, **70–78% dos acertos** de cada Uint estão na relação verdadeira, mas as Uints quase não disparam (1–3 vezes no último episódio). A força total fica em 16,0 = 8 Uints × 2 lados × 1,0: **o estoque de cada lado de cada Uint está cheio e dividido entre ~13 ramos**, cada um com ≤ 0,4.
+- A previsão 1 (a força deixa de se dividir) **falhou**. A divisão mudou de lugar: saiu da Upro e foi para o lado da Uint.
+- Período fixo: Uints disparam ~2.000 vezes com ramos de força 1,0, mas em relações erradas ou mistas (25–50% verdadeira); nenhuma conta como "presa no acaso" (< 20%) nem como sintonizada.
+- Agudo: 7–8% dos acertos na relação verdadeira (nível do acaso) e nenhum disparo.
+
+**Leitura do assistente (não decisão):** qualquer **estoque fixo** dividido entre **muitos candidatos igualmente bons** termina dividido, esteja ele na Upro ou na Uint. No controle sem brotamento (6 ramos), a força chegou a 1,0 e a Uint disparou ~2.000 vezes: com poucos candidatos, um vence; com exuberância, empatam. O que quebra o empate, na literatura lida, é o disparo — e o disparo não vem enquanto a força está dividida.

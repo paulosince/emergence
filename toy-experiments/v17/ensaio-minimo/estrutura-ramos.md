@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: fibra, Upro com várias cabeças, estoque na Uint
 
-**Estado:** RASCUNHO para aprovação do responsável. Nada de código antes da aprovação.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026 ("Aprovo, pode implementar").
 **Redação:** assistente (Claude), 17/11/2026. **Base:** [proposta e decisões](../proposta-ramos-e-upros.md); [decisões em construção](../decisoes-em-construcao.md) (linhas de 17/11).
 **Legenda:** [R] decisão do responsável; [A] proposta do assistente (a aprovar com este registro); [L] literatura.
 **Continua valendo** do [motor por eventos](pcrt-incidencias.md): Pcrt restrita às incidências sem integração; integrada = fez a Uint disparar; quase-acerto = soma ≥ 75% do limiar sem disparar, avaliado pela Uint; broto só perto de acerto recente (janela de 60 s); inibição do plano B (I1).
