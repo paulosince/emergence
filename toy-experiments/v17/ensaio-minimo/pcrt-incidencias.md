@@ -17,11 +17,8 @@
 
 **Q1. Quando uma incidência conta como integrada?** — **Decidido [R, 17/11]: (b).** Integrada é a incidência que **passou por integração**: sua chegada fez a Uint **disparar** (soma ≥ 1,5). A que só promoveu **favorecimento** (soma ≥ 0,3, sem disparo) ajudou a integrar, mas não foi integrada. Consequência: toda incidência que não fez a Uint disparar até o fim do seu alcance (instante + 20 ms + 0,21 ms) vai para a Pcrt, inclusive as que favoreceram (essas também fortalecem seus ramos, como antes). Alternativa não escolhida: (a) integrada = participou de favorecimento (recomendação do assistente).
 
-**Q2. Como a Pcrt acha o quase-acerto olhando incidências?**
-Duas incidências sem integração, uma de cada Upro, têm uma diferença de tempo Δ. Elas formam um quase-acerto de um par de ramos existente quando a diferença de atrasos desse par fica entre 0,21 e 0,63 ms de Δ (a mesma faixa do motor antigo: mais que uma janela, até três).
-- (a) [A, recomendada] Consultar uma **lista ordenada** das diferenças de atrasos dos pares de ramos, refeita só quando nasce ou some um ramo (raro perto do número de incidências). Cada consulta é uma busca rápida, que não percorre os ramos.
-- (b) Guardar a contagem de Δ e brotar onde ela se repete. **Risco:** seria entregar ao sistema a resposta (o atraso), contra a regra já registrada de que o brotamento não usa o tamanho nem o sinal do erro.
-- (c) Outra.
+**Q2. O que é um quase-acerto?** — **Decidido [R, 17/11]: (c), outra.** O quase-acerto **não é uma relação entre incidências**. É uma relação dinâmica entre as incidências que chegam e um nó **efetivamente constituído** na malha: **uma Uint que chega bem perto do limiar, mas não o ultrapassa**. Substitui a definição do motor antigo (par de ramos com chegadas separadas por mais de uma janela e até três). Alternativas não escolhidas: (a) lista ordenada de diferenças de atraso; (b) contagem de Δ.
+Em aberto, decorrente: o quanto é "bem perto" do limiar; quais ramos brotam num quase-acerto; e qual é então o papel da Pcrt no par de vias (ver conversa de 17/11).
 
 **Q3. Até onde vai o rastro vivo na comparação?** [A] Proposta: ±19,5 ms (a maior diferença que algum par de ramos pode realizar, 20 − 0,5). No agudo, cerca de 25 incidências da outra Upro por incidência fixada; no grave, cerca de 4. É um teto fixo, que não cresce com os ramos.
 
