@@ -1,0 +1,24 @@
+(1) grave, notas, I1 — semente: classe [crédito, par mais forte verdadeiro] sem competição -> com competição
+   1: selecao  [0.814, True] maxf 0.251  ->  selecao  [0.819, True] maxf 0.216
+   2: selecao  [0.99, True] maxf 0.253  ->  colapso  [0.0, True] maxf 0.145
+   3: difuso   [0.986, False] maxf 0.254  ->  selecao  [0.986, True] maxf 0.259
+   4: selecao  [0.948, True] maxf 0.253  ->  selecao  [0.948, True] maxf 0.255
+   5: difuso   [0.994, False] maxf 0.383  ->  selecao  [1.0, True] maxf 0.342
+   6: difuso   [0.704, False] maxf 0.374  ->  selecao  [0.693, True] maxf 0.33
+   7: difuso   [0.6, False] maxf 0.273  ->  difuso   [0.596, True] maxf 0.396
+   8: difuso   [0.78, False] maxf 0.213  ->  selecao  [0.775, True] maxf 0.249
+   9: selecao  [0.697, True] maxf 0.251  ->  selecao  [0.799, True] maxf 0.275
+  10: difuso   [0.78, False] maxf 0.254  ->  selecao  [0.78, True] maxf 0.247
+(2) agudo, notas, I1 — por episódio: (ramos A, ramos B, soma das forças A, soma B, força máxima A)
+  semente 1 competição=False classe=difuso disparos_último=0 fortalec=0 enfraq=0
+      [(12, 11, 0.979, 0.979, 0.109), (12, 11, 1.0, 1.0, 0.255), (12, 11, 0.971, 0.993, 0.103), (12, 11, 0.938, 1.0, 0.098), (12, 11, 0.963, 0.993, 0.106)] insumo: [26811, 25849, 26726, 26550, 26694]
+  semente 1 competição=True classe=colapso disparos_último=0 fortalec=192 enfraq=147
+      [(10, 9, 0.036, 0.238, 0.036), (11, 11, 0.113, 0.145, 0.113), (11, 11, 0.986, 0.985, 0.114), (11, 11, 0.0, 0.27, 0.0), (11, 11, 0.019, 0.237, 0.013)] insumo: [26986, 25890, 26726, 26528, 26694]
+  semente 2 competição=False classe=difuso disparos_último=2 fortalec=0 enfraq=0
+      [(7, 11, 0.979, 0.959, 0.157), (11, 13, 0.929, 0.953, 0.145), (11, 14, 0.979, 0.966, 0.098), (12, 14, 0.972, 0.979, 0.094), (12, 14, 0.978, 0.979, 0.093)] insumo: [26772, 26719, 25878, 27039, 27593]
+  semente 2 competição=True classe=colapso disparos_último=0 fortalec=36 enfraq=27
+      [(7, 11, 0.299, 0.0, 0.232), (7, 11, 0.204, 0.006, 0.153), (7, 11, 0.135, 0.004, 0.101), (7, 11, 0.089, 0.003, 0.067), (7, 11, 0.059, 0.002, 0.044)] insumo: [26902, 26746, 26486, 27132, 27634]
+  semente 3 competição=False classe=difuso disparos_último=0 fortalec=0 enfraq=0
+      [(12, 15, 0.998, 0.908, 0.113), (12, 15, 0.985, 0.944, 0.095), (12, 15, 0.978, 0.95, 0.109), (12, 15, 0.979, 0.952, 0.092), (12, 15, 0.992, 0.929, 0.109)] insumo: [27028, 27624, 27966, 26474, 26814]
+  semente 3 competição=True classe=colapso disparos_último=0 fortalec=126 enfraq=102
+      [(10, 11, 0.032, 0.246, 0.032), (10, 11, 0.99, 0.986, 0.113), (11, 11, 0.281, 0.0, 0.16), (12, 11, 0.0, 0.291, 0.0), (12, 11, 0.019, 0.198, 0.006)] insumo: [27240, 27674, 27968, 26450, 26814]

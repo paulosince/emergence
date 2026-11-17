@@ -245,3 +245,26 @@ Registro prévio: [competicao-disparo.md](competicao-disparo.md) (aprovado). Scr
 **Mas as previsões de mecanismo não se confirmaram:** previsão 1 (menos ramos na região, força máxima maior) **falhou**: continuam ~9 ramos na região e força máxima ~0,26, como na etapa A. A previsão 3 (risco) **se realizou**: a Uint dispara pouco depois do brotamento, e a regra agiu pouco (mediana de ~109 fortalecimentos por disparo em toda a execução). A melhora de 4 para 8 de 10 não veio de a competição ter desempatado os vizinhos; sem análise adicional, a causa não é conhecida.
 
 **Agudo:** passou de "difuso" (etapa A) para **colapso** em 19 de 20. Leitura do assistente, a verificar: no agudo a Uint dispara logo no início; o reforço no favorecimento fica desligado por X segundos e o enfraquecimento depois do disparo age; a força cai a quase zero e os ramos são podados (mediana de 1,5 a 4,5 ramos no fim).
+
+## Etapa B (17/11/2026) e diagnóstico em paralelo
+
+Decisão do responsável: rodar a etapa B já, com o conjunto 1,0 ms / X = 10 s, e diagnosticar em paralelo. Script `etapa_b.py`; dados `etapa-b-saida.csv` (80 execuções, 5,5 s). Diagnóstico: `diagnostico_etapa_b.py`, `diagnostico-etapa-b-saida.txt`.
+
+| Faixa | Estímulo | Inibição | Seleção | Colapso | Difuso | Parte da força na região | Força máxima | Disparos (último ep.) |
+|---|---|---|---|---|---|---|---|---|
+| grave | notas | I0 | 7 | 0 | 3 | 1,00 | 0,26 | 2 |
+| grave | notas | **I1** | **8** | 1 | 1 | 1,00 | 0,26 | 1 |
+| grave/agudo | período fixo* | I0 | 0 | 0 | 10 | 0,31 | 0,36 | 0 |
+| grave/agudo | período fixo* | I1 | 0 | 0 | 10 | **0,01** | **1,00** | **1.999** |
+| agudo | notas | I0 | 0 | 7 | 3 | 0 | 0 | 0 |
+| agudo | notas | I1 | 0 | **10** | 0 | 0 | 0,03 | 0 |
+
+\* No período fixo, o trem é o mesmo para grave e agudo (5 ms), então as linhas são idênticas.
+
+**Pelas regras fixadas:** I1 no grave com notas = **8 de 10** → "o conjunto é mantido para os degraus seguintes". O agudo é lido à parte: **não passa**.
+
+**Diagnóstico (1) — por que o grave subiu de 4 para 8 de 10:** semente a semente, o **crédito quase não mudou** e a força máxima também não. O que mudou foi o **par mais forte** do classificador: em 5 sementes ele passou de "não identificável" a "verdadeiro". A estrutura continua a mesma da etapa A (força ~100% na região, dividida entre ~9 ramos). **A melhora é sobretudo de desempate do classificador, não de mecanismo.** Uma semente (2) passou de seleção a colapso.
+
+**Diagnóstico (2) — por que o agudo colapsa:** sem a regra nova, a soma das forças de cada Upro fica perto de 1,0 em todos os episódios; com ela, cai para perto de zero em alguns episódios (por exemplo, 0,036 e 0,0). Leitura do assistente: no agudo, as chegadas são densas; cada disparo enfraquece **todas** as chegadas dos 1,5 ms seguintes, de qualquer ramo; a conservação só corta o que passa de 1,0 e não repõe o que falta. A força se esvai.
+
+**Período fixo:** com I1, um *aliasing* fica com força 1,0 e a Uint dispara ~2.000 vezes, mas fora da região verdadeira (0,6% da força). Coerente com a hipótese de que, sem variação, o mundo não dá ao sistema o que selecionar.
