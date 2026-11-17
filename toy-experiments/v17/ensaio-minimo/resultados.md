@@ -159,3 +159,13 @@ Registro prévio: [inibicao-fiel.md](inibicao-fiel.md), aprovado pelo responsáv
 ## Motor rápido do par de vias (16/11/2026) — engenharia, nenhuma regra nova
 
 `motor_par.py` (numba) reproduz a mesma dinâmica de `inibicao.py` e `inibicao_fiel.py`. `valida_motor_par.py` compara com as 70 execuções de referência do grave: **idênticas em todos os campos (70/70)**, 119 s de CPU no total com 2 processos. **Não medido:** o tempo nas notas agudas (uma tentativa passou de 10 min sem terminar e foi encerrada pelo ambiente; nenhum resultado foi visto). Rust discutido, não tentado.
+
+## Errata (17/11/2026) — o motor do ensaio mínimo não seguia a decisão sobre o insumo da Pcrt
+
+**O erro (do assistente, na implementação):** em todos os scripts do ensaio mínimo (`par_de_vias_v2.py` em diante, `mapa.py`, `confirmacao.py`, `inibicao.py`, `inibicao_fiel.py` e `motor_par.py`), um mesmo laço faz duas coisas: a dinâmica do Sdom (chegadas pelos ramos, soma na Uint, acerto) e a Pcrt (quase-acertos e brotamento). E a Pcrt roda sobre **todos os pares de ramos a cada pulso**, inclusive os que acertaram. A decisão de 15/11 diz que o insumo da Pcrt é **o que não encontrou representação** (incidências que expiraram sem integração; num Sdom virgem, tudo). Nenhum script tem a noção de incidência integrada (verificado por busca no código).
+
+**Como foi achado:** pela etapa 2 de medição de desempenho (ramo `perf-motor-par`): 90–93% do tempo está na avaliação por pares de ramos, e o trabalho cresce muito mais rápido que a duração. A pergunta do responsável ("por que iteramos sobre ramos, e não sobre incidências?") levou à releitura.
+
+**Estatuto dos resultados acima:** valem **para o motor antigo**. Em especial o conjunto confirmado (9 de 10), a região do mapa e o plano B da inibição (8 de 10) **não valem automaticamente** para o motor corrigido. As decisões de mecanismo que não dependem do motor continuam de pé.
+
+**Decisão do responsável (17/11/2026):** a V0.17 **não é encerrada**: o pré-experimento não foi congelado e nenhuma execução do experimento ocorreu; o ensaio mínimo existe para achar erros assim antes de congelar. Corrige-se o motor (a Pcrt passa a se limitar às incidências), com registro prévio aprovado, e repete-se o ensaio mínimo. Parâmetro que mudar depois disso vira decisão registrada com motivo. Registro prévio: [pcrt-incidencias.md](pcrt-incidencias.md).

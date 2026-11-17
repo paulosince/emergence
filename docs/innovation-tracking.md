@@ -133,6 +133,11 @@
 - **O que já existe:** convergência entre orelhas na mesma faixa (Plauška et al., 2017; Fischer e Peña, 2009) e casamento presente no início da audição, mantido pela experiência (Polley et al., 2013). Restringir comparações a uma vizinhança topográfica é prática comum em modelos de mapas auto-organizados. **Não é novo.**
 - **O que seria novo:** nada por si; serve para tornar viável a constituição por regra única.
 
+## 16. Pcrt guiada por incidências, separada da dinâmica do Sdom (17/11/2026)
+- **O que existe:** simulação orientada a eventos é técnica padrão em redes de disparos; detecção de coincidência por atrasos (tipo Jeffress) também. Busca de precedente específico para "construção alimentada só pelo que falhou, com custo guiado por incidências": **ainda não feita**.
+- **O que seria novo (proposta do responsável):** a Pcrt trabalha só sobre incidências sem integração, com custo limitado pelo hardware sensorial (Utrd × taxa máxima), e não pelo número de ramos; o próprio aprendizado reduz o insumo da Pcrt.
+- **O que falta para alegar:** o ensaio do [registro prévio](../toy-experiments/v17/ensaio-minimo/pcrt-incidencias.md); a busca de precedentes; a pesquisa de grau, poda e janelas.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
