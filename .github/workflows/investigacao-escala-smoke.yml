@@ -1,0 +1,31 @@
+name: Investigacao de escala - smoke
+on:
+  push:
+    branches: [investigacao-escala]
+    paths:
+      - .github/workflows/investigacao-escala-smoke.yml
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Dependencias fixas
+        run: python -m pip install 'numpy==2.3.5' 'numba==0.65.1'
+      - name: Contadores e igualdade exata curta
+        run: |
+          set -o pipefail
+          python -u toy-experiments/v17/ensaio-minimo/investigacao_escala_medidas.py --duracao-ms 120 --cond I1 --trace | tee escala-smoke.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: escala-smoke
+          path: |
+            escala-smoke.log
+            escala-medidas-*.json
+            escala-pulsos-*.csv.gz
+          retention-days: 30
