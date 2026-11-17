@@ -1,0 +1,29 @@
+name: EMERGENCE V17 — perfil isolado (engenharia)
+on:
+  push:
+    branches: [perf-motor-par]
+  workflow_dispatch:
+jobs:
+  v17-agudo-curto:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Dependências isoladas para perfil
+        run: python -m pip install 'numpy==2.3.5' 'numba==0.65.1'
+      - name: Referência Python puro, equivalência Numba e perfil por trecho
+        run: |
+          set -o pipefail
+          python -u toy-experiments/v17/ensaio-minimo/perf_baseline.py | tee perf-v17-baseline.log
+      - name: Preservar diagnóstico independente do resultado
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v17-agudo-curto-baseline
+          path: |
+            perf-v17-baseline.log
+            perf-v17-baseline.json
+          retention-days: 30
