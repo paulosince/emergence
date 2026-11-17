@@ -52,7 +52,8 @@ Com várias Uints por par de fibras e ramos de pequeno atraso para cada uma, as 
 - Proposta 3: **aprovada** (dados, sorteados sem ordem).
 - Proposta 4: **estoque na Uint** (opção b).
 - Upro nova: **±10% de uma Upro com quase-acerto** (opção a da seção 4).
-- Propostas 1 e 2: em discussão.
+- Proposta 1: **aprovada** (um ponto de chegada por ramo).
+- Proposta 2: **aprovada** (Upro com ramos para várias Uints; 8 no ensaio), com **uma Upro por Uint como subteste com e sem**.
 
 ## 7a. Decisões que tinham sido pedidas
 1. Proposta 1 (um ponto de chegada por ramo).
