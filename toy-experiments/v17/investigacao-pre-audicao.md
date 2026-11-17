@@ -37,7 +37,11 @@ Na biologia, quanto da estrutura da via auditiva (a) já vem dado, (b) é refina
 4. **Exuberância guiada antes do mundo?** O cálice mostra exuberância e poda **guiadas por atividade própria**. Uma possibilidade, a decidir, seria uma fase anterior ao Bach em que as Utrd emitem surtos próprios, correlacionados entre vizinhas. Cuidados: (i) não sei se a atividade espontânea das duas cócleas tem alguma relação de tempo entre si; se não tiver, essa fase não daria nada à relação binaural (não verifiquei); (ii) seria um mecanismo novo, que precisa de pré-registro.
 5. **Ligação com o problema de partida** (força inicial 0,15, sem quase-acertos no começo): uma fase de atividade própria **poderia** levar as forças a outro ponto antes do mundo. É especulação minha, que não deve ser usada como remendo.
 
-## 4. Perguntas ao responsável
+## 4. Decisões do responsável (17/11/2026)
+- **Três camadas: serve, registrar** como orientação do programa; não muda a V0.17.
+- **Fase de atividade própria antes do Bach: depois da V0.17**, guardada como hipótese.
+
+## 4a. Perguntas que tinham sido feitas
 - A distinção em três camadas (dado; atividade própria antes do mundo; selecionado pelo mundo) serve para a teoria e para o modelo?
 - Vale investigar mais a fundo a camada (b) agora (por exemplo, se há correlação entre as duas cócleas antes da audição, e o padrão temporal dos surtos), ou isso fica para depois da V0.17?
 
