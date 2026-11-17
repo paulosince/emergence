@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: degrau 1 com várias fibras por ouvido, alcance parcial e atividade espontânea
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável. Nada foi rodado; o motor ainda precisa ser adaptado.
+**Estado:** **SUBSTITUÍDO** (17/11, 17h): o responsável decidiu um mecanismo por vez; este rascunho vira o passo 3 (8 fibras + alcance), depois dos passos 1 (limiar duro + janela retangular) e 2 (atividade espontânea). Ver decisões de 17/11.
 **Redação:** assistente (Claude), 17/11/2026.
 **Base:**
 - decisões do responsável de 17/11 (16h40): 8 fibras por ouvido; alcance de 2–4 fibras por lado; atividade espontânea no lugar do sorteio; degrau 1 antes do degrau 2;
