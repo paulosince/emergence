@@ -228,3 +228,20 @@ Script `diagnostico_disparo.py`; saída `diagnostico-disparo-saida.txt`. Para ca
 **Leitura do assistente (conferível nos dados):** a força se divide de **dois jeitos**.
 1. **Cópias da mesma relação em atrasos diferentes:** a relação é a *diferença* de atraso (a − b ≈ Δ). Pares como (~0,5 ms; ~0,05 ms antes) e (~5 ms; ~4,5 ms) são ambos verdadeiros, mas chegam em instantes distantes e não se somam. Com a força total conservada, as cópias dividem a força entre si.
 2. **Vizinhos colados:** quando a região é estreita (0,2–0,4 ms), os vizinhos chegam quase juntos, mas espalhados o bastante para a inibição do plano B (uma janela depois) frear as chegadas de trás: sem inibição, o pico sobe (por exemplo, 1,02 → 1,20).
+
+## Ensaio da competição ligada ao disparo (17/11/2026)
+
+Registro prévio: [competicao-disparo.md](competicao-disparo.md) (aprovado). Script `ensaio_competicao.py`; dados `competicao-saida.csv`. **80 execuções em 12 s.** Controle de regressão: com a regra desligada, o motor reproduz a etapa A exatamente (10 de 10 na combinação 0,75 / 60 s / sem enfraquecimento).
+
+| Faixa | Largura da janela do disparo | X (fase não hebbiana) | Seleção | Colapso | Difuso | Parte da força na região (mediana) | Ramos na região | Força máxima | Disparos (último episódio) |
+|---|---|---|---|---|---|---|---|---|---|
+| grave | 0,30 ms | 10 ou 60 s | 7 | 1 | 2 | 1,00 | 9 | 0,26 | 1 |
+| grave | **1,0 ms** | 10 ou 60 s | **8** | 1 | 1 | 1,00 | 9 | 0,26 | 1 |
+| agudo | 0,30 ms | 10 ou 60 s | 0 | 9 | 1 | 0 | 0 | 0,008 | 0 |
+| agudo | 1,0 ms | 10 ou 60 s | 0 | **10** | 0 | 0 | 0 | 0,03 | 0 |
+
+**Pelas regras fixadas:** no grave, a largura de 1,0 ms seleciona em **8 de 10** → segue para a etapa B. O X não mudou nada (resultados idênticos entre 10 e 60 s), então a escolha do conjunto fica com o responsável.
+
+**Mas as previsões de mecanismo não se confirmaram:** previsão 1 (menos ramos na região, força máxima maior) **falhou**: continuam ~9 ramos na região e força máxima ~0,26, como na etapa A. A previsão 3 (risco) **se realizou**: a Uint dispara pouco depois do brotamento, e a regra agiu pouco (mediana de ~109 fortalecimentos por disparo em toda a execução). A melhora de 4 para 8 de 10 não veio de a competição ter desempatado os vizinhos; sem análise adicional, a causa não é conhecida.
+
+**Agudo:** passou de "difuso" (etapa A) para **colapso** em 19 de 20. Leitura do assistente, a verificar: no agudo a Uint dispara logo no início; o reforço no favorecimento fica desligado por X segundos e o enfraquecimento depois do disparo age; a força cai a quase zero e os ramos são podados (mediana de 1,5 a 4,5 ramos no fim).

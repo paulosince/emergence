@@ -120,7 +120,7 @@ def _recente(src, r, T, JAN, VIZ, dA, nA, lasA, dB, nB, lasB):
 
 # ---------------- execução ----------------
 @njit(cache=True)
-def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, ENFQ, BROTO):
+def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, ENFQ, BROTO, COMP, TAUC, XNH):
     D = np.zeros((2, MAXR)); Fo = np.zeros((2, MAXR)); FI = np.full((2, MAXR), np.nan); LA = np.full((2, MAXR), np.nan)
     NA = np.zeros((2, MAXR)); ES = np.zeros((2, MAXR), np.bool_); QC = np.zeros((2, MAXR), np.int64)
     prot = np.zeros(MAXR, np.bool_)
@@ -139,6 +139,7 @@ def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui
     nac = 0; disparos = 0; estab = 0; quase_broto = 0; quase_iso = 0; brotos = 0
     insumo = np.zeros(NEP, np.int64); nc = 0; parou = False
     snD = np.zeros((NEP, 2, MAXR)); snF = np.zeros((NEP, 2, MAXR)); snN = np.zeros((NEP, 2), np.int64)
+    t_ev = -1e18; n_pot = 0; n_dep = 0   # competição ligada ao disparo (adendo competicao-disparo.md)
     bloq = 0   # quase-acerto com acerto recente e 5 contagens, mas força abaixo do portão (só medida)
     tcred = trensA[fim[NEP - 1] - 200] if fim[NEP - 1] - 200 >= ini[NEP - 1] else trensA[ini[NEP - 1]]
     for ep in range(NEP):
@@ -178,6 +179,8 @@ def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui
             if kind == 1:
                 inh += w
                 continue
+            if COMP and 0.0 < T - t_ev <= HEXC and not ES[s, r]:
+                Fo[s, r] = max(0.0, Fo[s, r] - 1.05 * DF * np.exp(-(T - t_ev) / TAUC)); n_dep += 1
             w = Fo[s, r]
             exc += w
             V = exc + inh
@@ -203,7 +206,8 @@ def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui
                     if (j == b1 - 1 or bs[q] != s) and not bf[q]:
                         bf[q] = True                                   # cada chegada reforça no máximo uma vez
                         zz = bs[q]; xx = br[q]
-                        Fo[zz, xx] = min(TOTAL, Fo[zz, xx] + DF)
+                        if (not COMP) or T - ultimo_disp > XNH:        # fase não hebbiana (adendo): só sem disparo recente
+                            Fo[zz, xx] = min(TOTAL, Fo[zz, xx] + DF)
                         if np.isnan(FI[zz, xx]): FI[zz, xx] = T
                         LA[zz, xx] = T
                         if (not ES[zz, xx]) and T - FI[zz, xx] >= EST_SEP and Fo[zz, xx] >= EST_F:
@@ -228,9 +232,28 @@ def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui
             elif (not ES[s, r]) and W < T - ultimo_fav <= 3 * W:
                 Fo[s, r] = max(0.0, Fo[s, r] - 1.05 * DF)      # enfraquecimento por sincronia
             if V >= LIM:
-                if T - ultimo_disp > W:
+                novo = T - ultimo_disp > W
+                if novo:
                     if ultimo_ep: disparos += 1
                 ultimo_disp = T
+                if COMP and novo:
+                    # chegadas antes do disparo, em [T - HEXC, T]: fortalecem
+                    t_ev = T
+                    for z in range(2):
+                        for x in range(nr[z]): prot[x] = False
+                    j = b1 - 1
+                    while j >= b0:
+                        q = j % BCAP; zz = bs[q]; xx = br[q]
+                        Fo[zz, xx] = min(TOTAL, Fo[zz, xx] + DF * np.exp(-(T - bt[q]) / TAUC)); n_pot += 1
+                        j -= 1
+                    for z in range(2):
+                        for x in range(nr[z]): prot[x] = False
+                        j = b1 - 1
+                        while j >= b0:
+                            q = j % BCAP
+                            if bs[q] == z: prot[br[q]] = True
+                            j -= 1
+                        _conservar(nr[z], Fo[z], prot)
                 j = b1 - 1
                 while j >= b0:
                     integ[bi[j % BCAP]] = True; j -= 1
@@ -275,7 +298,7 @@ def _rodar(trensA, trensB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui
         exc = 0.0; inh = 0.0
         if parou: break
     return (D[0, :nr[0]].copy(), Fo[0, :nr[0]].copy(), D[1, :nr[1]].copy(), Fo[1, :nr[1]].copy(),
-            ck[:nc].copy(), cv[:nc].copy(), disparos, nac, estab, quase_broto, quase_iso, brotos, insumo, parou, snD, snF, snN, bloq)
+            ck[:nc].copy(), cv[:nc].copy(), disparos, nac, estab, quase_broto, quase_iso, brotos, insumo, parou, snD, snF, snN, bloq, n_pot, n_dep)
 
 
 # ---------------- trens (idênticos a motor_par.trens / inibicao.trem) ----------------
@@ -302,11 +325,12 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, Q=0.75, JAN=60_000.0, ENFQ=False, BROTO=True, VIZ=0.20,
-          dur=10_000.0, DF=0.0065, F0=0.15, MEIA=300_000.0, FBROTO=0.30, cond_fixo=False, retratos=False):
+          dur=10_000.0, DF=0.0065, F0=0.15, MEIA=300_000.0, FBROTO=0.30, cond_fixo=False, retratos=False,
+          COMP=False, TAUC=0.30, XNH=10_000.0):
     tA, tB, ini, fim = trens(semente, faixa, dur, cond_fixo)
     razao, off, taui = INIB[cond]
-    (dA, fA, dB, fB, ck, cv, disparos, nac, estab, qb, qi, brotos, insumo, parou, snD, snF, snN, bloq) = _rodar(
-        tA, tB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, ENFQ, BROTO)
+    (dA, fA, dB, fB, ck, cv, disparos, nac, estab, qb, qi, brotos, insumo, parou, snD, snF, snN, bloq, n_pot, n_dep) = _rodar(
+        tA, tB, ini, fim, dur, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, ENFQ, BROTO, COMP, TAUC, XNH)
     cred = {float(o): int(v) for o, v in zip(ck, cv)}
     tot = sum(cred.values()); ver = sum(v for o, v in cred.items() if abs(o - DELTA) <= W) / tot if tot else 0.0
     perto = [(abs(o - DELTA), v) for o, v in cred.items() if abs(o - DELTA) <= W]
@@ -336,4 +360,4 @@ def rodar(cond, faixa, semente, Q=0.75, JAN=60_000.0, ENFQ=False, BROTO=True, VI
                 disparos_ultimo_ep=int(disparos), acertos=int(nac), estabilizacoes=int(estab),
                 quase_com_acerto_recente=int(qb), quase_isolados=int(qi), ramos_brotados=int(brotos),
                 insumo_pcrt_por_episodio=[int(x) for x in insumo], interrompida_300=bool(parou),
-                bloqueados_portao=int(bloq), parte_forca_regiao=regiao, ramos_na_regiao=n_regiao, **({"retratos": (snD, snF, snN)} if retratos else {}))
+                bloqueados_portao=int(bloq), COMP=COMP, TAUC=TAUC, XNH=XNH, fortalecimentos_disparo=int(n_pot), enfraquecimentos_disparo=int(n_dep), parte_forca_regiao=regiao, ramos_na_regiao=n_regiao, **({"retratos": (snD, snF, snN)} if retratos else {}))

@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio (adendo): competição ligada ao disparo
 
-**Estado:** RASCUNHO para aprovação do responsável. Nada de código antes da aprovação.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026 ("Aprovo, pode rodar").
 **Redação:** assistente (Claude), 17/11/2026. **Base:** [investigação da competição](../investigacao-competicao.md); decisão do responsável de 17/11: "ligada ao disparo".
 **Relação com o registro anterior:** acrescenta uma regra ao [motor por eventos](pcrt-incidencias.md); todo o resto fica igual (Pcrt restrita às incidências, quase-acerto na Uint, broto condicionado a acerto recente).
 **Legenda:** [R] decisão do responsável; [A] proposta do assistente (a aprovar); [L] literatura.
