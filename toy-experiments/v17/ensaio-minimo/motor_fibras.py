@@ -103,6 +103,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
     tdec = 0.0; parou = False; estab = 0; novas = 0; nac = 0
     nev = np.zeros(NEP, np.int64); nram = np.zeros(NEP, np.int64)   # medida de custo (não altera nada)
     dsil = np.zeros(K, np.int64)   # disparos no trecho de silêncio do último episódio (só medida)
+    dfd = np.zeros((2, NEP))   # diagnóstico: força ganha nos acertos e perdida na punição da quase-sincronia, por episódio
     e1 = np.zeros((K, NEP), np.int64); e2 = np.zeros((K, NEP), np.int64); et = np.zeros((K, NEP), np.int64)   # diagnóstico por episódio (só medida)
     for ep in range(NEP):
         nh = 0
@@ -245,7 +246,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
                                 R_f[rr] *= 2.0 ** (-(T - R_td[rr]) / MEIA); R_td[rr] = T
                             RS[k, zs] = RC - (RC - RS[k, zs]) * np.exp(-(T - tRS[k, zs]) / TAUR); tRS[k, zs] = T
                             g = min(DF * RS[k, zs] / RC, 1.0 - R_f[rr])
-                            if g > 0.0: R_f[rr] += g; RS[k, zs] -= g
+                            if g > 0.0: R_f[rr] += g; RS[k, zs] -= g; dfd[0, ep] += g
                             if np.isnan(R_fi[rr]): R_fi[rr] = T
                             R_la[rr] = T
                             if (not R_es[rr]) and T - R_fi[rr] >= EST_SEP and R_f[rr] >= EST_F:
@@ -264,7 +265,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
                             if abs(dif - DLT) <= W: hv[k] += 1
                     j -= 1
             elif (not R_es[r]) and W < T - ufav[k] <= 3 * W:
-                R_f[r] = max(0.0, R_f[r] - 1.05 * DF)
+                dfd[1, ep] += min(R_f[r], 1.05 * DF); R_f[r] = max(0.0, R_f[r] - 1.05 * DF)
             disparou = False
             if DURO:
                 if T - udisp[k] > W and V >= LIM: disparou = True
@@ -330,7 +331,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
         for r in range(nR):
             if (not R_es[r]) and tfim > R_td[r]: R_f[r] *= 2.0 ** (-(tfim - R_td[r]) / MEIA)
     return (R_s[:nR].copy(), R_b[:nR].copy(), R_u[:nR].copy(), R_k[:nR].copy(), R_d[:nR].copy(), R_f[:nR].copy(), UD.copy(), UA.copy(),
-            disp, hv, ht_, insumo, parou or estouro, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif, mat.copy(), nev, nram, e1, e2, et, dsil)
+            disp, hv, ht_, insumo, parou or estouro, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif, mat.copy(), nev, nram, e1, e2, et, dsil, dfd)
 
 
 def trens_2(semente, faixa, dur, d1=DELTA, d2=-DELTA):
@@ -433,7 +434,7 @@ def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False,
     INC_T, INC_B, ini, fim = trens_fibras(semente, faixa, dur, F, ESP, SIL, delta)
     ALC = alcance(semente, F, K, AMIN, AMAX)
     razao, off, taui = INIB[cond]
-    (Rs, Rb, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et, dsil) = _rodar(
+    (Rs, Rb, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et, dsil, dfd) = _rodar(
         INC_T, INC_B, ini, fim, 2 * F, F, ALC, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
         RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0), 1 if PART else 0, NPART)
     sint = []; presa = []; pares = []
@@ -455,7 +456,7 @@ def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False,
         c = np.cumsum(h); i = int(np.searchsorted(c, c[-1] / 2.0)); return round(i / 100.0 - 20.0, 2)
     pref_med = [_med(hdif[k]) for k in sint if hdif[k].sum()]
     ramos_lado = [int(((Rk == k) & (Rs == z)).sum()) for k in range(K) for z in range(2)]
-    return dict(disparos_silencio=[int(x) for x in dsil], diag_e1=e1, diag_e2=e2, diag_et=et, eventos_por_episodio=[int(x) for x in nev], ramos_fim_episodio=[int(x) for x in nram], incidencias_por_episodio=[int(fim[e] - ini[e]) for e in range(len(ini))], alcance=ALC.copy(),
+    return dict(diag_forca_ganha=[round(float(x), 2) for x in dfd[0]], diag_forca_perdida=[round(float(x), 2) for x in dfd[1]], disparos_silencio=[int(x) for x in dsil], diag_e1=e1, diag_e2=e2, diag_et=et, eventos_por_episodio=[int(x) for x in nev], ramos_fim_episodio=[int(x) for x in nram], incidencias_por_episodio=[int(fim[e] - ini[e]) for e in range(len(ini))], alcance=ALC.copy(),
                 cond=cond, faixa=faixa, semente=semente, fixo=cond_fixo, unica=unica, K=K, RC=RC, TAUR=TAUR, TETA=TETA, TEL=TEL, NEXP=NEXP,
                 classe=classe, diferenca_preferida_sintonizadas=pref, diferenca_preferida_mediana_sintonizadas=pref_med,
                 espalhamento_preferida=round(float(np.std(pref)), 4) if len(pref) > 1 else 0.0,

@@ -495,3 +495,39 @@ Registro prévio: [passo2-espontanea.md](passo2-espontanea.md) (aprovado). Scrip
 
 ## Errata (17/11, noite) — o relógio da eliminação competitiva conta o intervalo entre episódios
 Encontrado ao investigar o colapso com 8 fibras: o tempo TEL (60 s abaixo de θ) da correção 2 é medido em tempo absoluto. Como os episódios duram 10 s e são separados por 170 s sem mundo, **toda eliminação aconteceu na virada de episódio**, contando o tempo sem experiência. Isso vale para **todos** os ensaios com a correção 2. Os números medidos continuam válidos como resultados do motor que rodou, mas a descrição do mecanismo nos registros ("60 s contínuos") não corresponde ao que o motor fez. Detalhes e propostas: [investigacao-competicao-fibras.md](../investigacao-competicao-fibras.md). Erro do assistente.
+
+## Eliminação por não participação (17/11, noite)
+
+Registro prévio: [participacao.md](participacao.md) (aprovado). Script `participacao.py`; dados `participacao-saida.csv`. 300 execuções, sementes 221–250. Modelo: passo 1 + espontânea + relógio corrigido.
+
+| Condição | Grave | Agudo (em fase) | Colapsos no agudo | Eliminados (mediana, grave) | Ramos (mediana, grave) |
+|---|---|---|---|---|---|
+| **N = 100** (1 fibra) | **26/30** | **0/30** | 30 | 67 | 164 |
+| N = 1000 (1 fibra) | 15/30 | 0/30 | 29 | 0 | 232 |
+| Referência: critério antigo, relógio corrigido | 15/30 | 0/30 | 29 | 0 | 232 |
+| 8 fibras, N = 100 (descritivo) | 16/30 | 0/30 | 30 | 66 | 271 |
+| 8 fibras, N = 1000 (descritivo) | 7/30 | 0/30 | 30 | 0 | 329 |
+
+**Pelas regras fixadas:** nenhum N passa (o agudo falha em todas as condições) → levar ao responsável com diagnóstico.
+
+**O que se vê:**
+- No **grave**, a participação com N = 100 **funciona**: 26/30, contra 15/30 da referência. Os ramos que não participam saem (67) e os outros ficam (164). Com N = 1000, nenhum ramo chega a ser eliminado, e o resultado é igual ao da referência.
+- Com o relógio corrigido e o critério antigo, a eliminação some (0), como previsto, e o grave cai para 15/30.
+- O **agudo colapsa em todas as condições**, inclusive na referência.
+
+### Diagnóstico do agudo (só medidas; motor instrumentado: força ganha nos acertos e força perdida pela punição da quase-sincronia, por episódio)
+Sementes 221–222, agudo, conjunto B, inibição I1:
+
+| Configuração | Força ganha no episódio 1 | Força perdida no episódio 1 | Classe |
+|---|---|---|---|
+| Sorteio + decaimento exponencial (referência antiga) | 18,7 | 10–16 | seleção / difuso |
+| Sorteio + **janela retangular** | 17–18 | **46** | colapso / difuso |
+| **Limiar duro** + decaimento exponencial | 18,6 | 8–9 | difuso, sem colapso |
+| Limiar duro + janela retangular (passo 1) | 17–18 | **41–42** | colapso |
+| Sem inibição, limiar duro + exponencial | 18,7 | 8–10 | difuso |
+| **Sem inibição**, limiar duro + **retangular** | 18,7 | 5–11 | difuso, sem colapso |
+
+**Leitura:**
+- **O colapso do agudo não vem do fim do sorteio**: o limiar duro sozinho não colapsa.
+- Vem da **inibição do plano B em forma retangular**: −0,5 por inteiro durante 0,30 ms, começando uma janela depois de cada chegada. No agudo (período de 0,6–0,9 ms, vários ramos), essa inibição cai em cima das chegadas seguintes, que deixam de favorecer e passam a ser **punidas**. A perda fica 2,5× maior que o ganho no primeiro episódio, a força morre antes de qualquer disparo, e os ramos são podados.
+- **Correção da leitura do passo 1:** lá eu disse que a causa era "falta de disparos" pelo fim do sorteio. A falta de disparos era o **sintoma**; a causa é a interação da janela retangular com a inibição do plano B, que já era uma adaptação declarada.

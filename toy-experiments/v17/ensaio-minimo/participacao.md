@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: eliminação por não participação (critério NB) com o relógio corrigido
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026 ("Aprovo, pode rodar").
 **Redação:** assistente (Claude), 17/11/2026.
 **Base:**
 - decisões do responsável (17/11, noite): relógio só com mundo (fica); "pesquisar a forma NB" do critério; "Pular para participação";

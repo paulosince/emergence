@@ -1,4 +1,4 @@
-"""Registro prévio participacao.md (RASCUNHO: só rodar depois da aprovação do responsável).
+"""Registro prévio participacao.md (APROVADO em 17/11/2026).
 Eliminação por não participação (N = 100, 1000) no modelo atual (passo 1 + espontânea, relógio corrigido), 1 fibra (julgado) e
 8 fibras (descritivo); referência: critério antigo com relógio corrigido. Degrau 1, grave e agudo, sementes 221-250.
 Uso: ../../../../venv-nb/bin/python -I participacao.py  (gera participacao-saida.csv)"""
