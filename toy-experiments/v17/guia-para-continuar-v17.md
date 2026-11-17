@@ -3,6 +3,12 @@
 **Escrito em:** 16/11/2026, ao fim de uma sessão longa com o Claude. **Responsável:** Paulo Rogério da Silva.
 **Estatuto:** guia de passagem. Não é pré-registro, não decide nada, não substitui os documentos citados. Se este guia e um documento de origem divergirem, vale o documento de origem (e avise o Paulo).
 
+## Atualização de 17/11/2026 (leia antes do resto)
+- O motor do ensaio mínimo rodava a Pcrt sobre todos os pares de ramos, contra a decisão de 15/11 ([errata](ensaio-minimo/resultados.md)). Foi substituído pelo **motor por eventos** (`ensaio-minimo/motor_eventos.py`): Pcrt restrita às incidências sem integração; integrada = fez a Uint disparar; quase-acerto = Uint perto do limiar (≥ 75%) sem disparar, avaliado pela própria Uint; broto só perto de acerto recente; competição ligada ao disparo (adendo). Registros prévios: `pcrt-incidencias.md` e `competicao-disparo.md` (aprovados). Uma execução do agudo caiu de mais de 10 min para ~1 s.
+- **Estado: ensaios PAUSADOS pelo responsável para revisão do mecanismo.** O grave cumpre o critério (8/10), mas por desempate do classificador; a força vai para a região da relação verdadeira em 10/10, dividida entre vizinhos e cópias; o agudo colapsa.
+- Novas investigações: `investigacao-escala.md` (ChatGPT), `investigacao-pre-audicao.md` (três camadas: dado, atividade própria antes do mundo, selecionado pelo mundo), `investigacao-competicao.md` (precedente: Gerstner et al. 1996).
+- O que está abaixo (seções 3–4) descreve o estado de 16/11 e vale com essas correções.
+
 ## 0. Antes de tudo
 
 1. Leia **inteiro** o [CONTINUITY.md](../../CONTINUITY.md), o [CLAUDE.md](../../CLAUDE.md), a [metodologia](../../docs/program-methodology.md) e a [nomenclatura](../../docs/nomenclature.md). Este guia só cobre a V0.17.
