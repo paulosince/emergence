@@ -161,6 +161,12 @@
 - **Leitura do assistente (não aprovada):** três camadas (dado; atividade própria do sensor antes do mundo; selecionado pelo mundo). A V0.17 mira a terceira.
 - **O que falta:** decisão do responsável sobre as camadas; precedentes computacionais de "fase de atividade própria antes do mundo" (as ondas da retina são o caso clássico; busca não feita).
 
+## 19. Competição entre ramos e seleção de atrasos (investigação, 17/11/2026)
+- **Evidência:** [investigação](../toy-experiments/v17/investigacao-competicao.md).
+- **O que existe [L]:** uma regra hebbiana local **seleciona atrasos que combinam** a partir de axônios com atrasos aleatórios, inclusive de duas orelhas (Gerstner et al. 1996, resumo); a competição por tempo de chegada em relação ao disparo dispensa restrição global (Song et al. 2000, integral via extração); competição pós-sináptica por recursos locais (Triesch et al. 2018).
+- **Consequência para alegações:** "seleção de atrasos binaurais por regra local" **não é novidade nossa**. O que pode ser: construção gradual por exuberância e poda com custo guiado por incidências, e a separação dinâmica do Sdom / avaliação na Uint / Pcrt.
+- **O que falta:** ler Gerstner 1996 integral; decisão do responsável sobre a regra de competição.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
