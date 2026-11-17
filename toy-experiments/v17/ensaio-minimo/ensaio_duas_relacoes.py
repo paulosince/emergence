@@ -1,4 +1,4 @@
-"""Degrau 2 da escada — registro prévio duas-relacoes.md (RASCUNHO: só rodar depois da aprovação do responsável).
+"""Degrau 2 da escada — registro prévio duas-relacoes.md (APROVADO em 17/11/2026).
 Duas fontes independentes, Δ1 = +0,458 e Δ2 = -0,458 ms, grave (julgado) e agudo (descritivo), conjunto B, I1, sementes 101-130.
 Controle: só a fonte 1 (Δ1), mesmas sementes, grave. Motor: motor_rapido com fila por cursor (idêntico à referência).
 Uso: ../../../../venv-nb/bin/python -I ensaio_duas_relacoes.py  (gera duas-relacoes-saida.csv)"""

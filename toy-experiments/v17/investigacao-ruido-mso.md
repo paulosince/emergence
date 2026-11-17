@@ -1,0 +1,95 @@
+# V0.17 — Investigação: o ruído na MSO e o disparo da Uint (correção 8)
+
+**Pedido do responsável (17/11):** "Quero discutir os modelos usados em redes neurais, com funções específicas de integração. Além disso, pesquise a fundo o ruído na MSO."
+**Contexto:** desde a correção 8, a Uint dispara por sorteio, com chance p = min(1, (V/1,5)^n), n = 16 no conjunto B. O responsável perguntou se isso se justifica.
+**Redação:** assistente (Claude), 17/11/2026. Leitura por buscas na web e extração de páginas por um modelo auxiliar; nível de leitura indicado em cada fonte.
+**Legenda:** [L] literatura; [I] inferência do assistente; [A] proposta (a aprovar); [M] conhecimento geral do assistente, de memória (sem link; confiança indicada).
+
+---
+
+## 1. De onde vem o ruído na MSO [L]
+
+### 1.1 A fonte principal: entradas espontâneas
+- **In vivo, a MSO recebe um bombardeio de eventos sinápticos espontâneos**, mesmo em silêncio:
+  - em registro de célula inteira (n = 3): **~900 eventos/s** acima de 0,5 mV, com meia-largura de ~0,6 ms;
+  - em registro justacelular (n = 19): **mais de 500 eventos/s** em 14 de 19 células, e esse número é só um limite inferior.
+  - [L] van der Heijden et al. 2013, *Neuron* 78:936; gerbil anestesiado; **texto integral** (por extração).
+- **Em fatias, essas entradas espontâneas não aparecem** (mesma fonte). [I] Portanto, boa parte do ruído do potencial é **atividade de fundo que chega pelas fibras**, não algo interno à célula.
+- **Disparo espontâneo da MSO:** de 0 a 12,5 disparos/s, com mediana de **0,4/s** (mesma fonte). [I] As entradas de fundo quase nunca levam a célula a disparar sozinhas; elas mexem o potencial perto do limiar.
+- **A origem a montante:** as fibras do nervo auditivo têm atividade espontânea que pode chegar a ~100 Hz. [L] Svirskis et al. 2002 (*J Neurosci* 22:11019, resumo e introdução no PMC), citando Liberman 1978. Os neurônios do MNTB também disparam espontaneamente in vivo (… von Gersdorff, Grothe & Klug 2007, *J Neurophysiol* 98:807, resumo; o primeiro autor não aparece na página lida, a conferir).
+- **O som reduz a variabilidade:** durante o som, a variância do potencial cai abaixo do nível espontâneo em 64% do ciclo, chegando a 5% dele (van der Heijden 2013). [I] O som organiza o fundo: o "ruído" é maior no silêncio do que durante o estímulo.
+
+### 1.2 Como a célula trata esse ruído
+- **A curva entrada → disparo é expansiva, do tipo potência:** pequenos aumentos no potencial do corpo produzem grandes aumentos na chance de disparo.
+  - [L] van der Heijden 2013 (integral) e Mackenbach & Borst 2023 (*J Neurosci* 43:4093, texto quase integral pelo PDF dos autores).
+  - **Nenhum dos dois dá o expoente nem a curva ajustada no texto**; ela só aparece em figura.
+- **O mesmo tamanho de EPSP às vezes dispara e às vezes não?** O texto não diz explicitamente. [I] A curva de probabilidade contínua implica que sim.
+- **Tempo do disparo:**
+  - do EPSP ao disparo, 168 ± 20 µs, com coeficiente de variação 0,24;
+  - EPSPs que **mal passam do limiar** produzem a maior parte da variação de tempo (van der Heijden 2013).
+- **Uma corrente de potássio de baixo limiar** (I_KLT) faz a MSO responder às subidas rápidas e ignorar as lentas. Assim, a célula separa o sinal do ruído de fundo.
+  - Em fatias com ruído artificial somado a um sinal abaixo do limiar, o disparo fica travado na fase do sinal; sem I_KLT, aumenta o disparo espontâneo.
+  - [L] Svirskis et al. 2002 (resumo); *J Neurophysiol* 2009, "Noise-gated encoding of slow inputs…" (resumo; autoria não conferida).
+- **Poucas entradas, grandes:**
+  - bastam **2–4 fibras excitatórias por dendrito** para disparar, de pelo menos 4–8 no total;
+  - **2–3 fibras inibitórias** (do MNTB);
+  - a força excitação : inibição fica perto de **1:1 a 1,3:1** em condutância (adulto, P60–100).
+  - [L] Couchman, Grothe & Felmy 2010, *J Neurosci* 30:17111, **texto integral** (por extração). Franken, Bremen & Joris 2014 (resumo): modelos com **≤ 10 entradas por lado**, sensíveis a uma única coincidência binaural.
+
+### 1.3 Ruído intrínseco (canais)
+- Não encontrei medida específica de ruído de canais na MSO. [I] Com ~900 eventos espontâneos por segundo, o ruído sináptico de fundo deve dominar; isto é inferência, com confiança média.
+
+---
+
+## 2. Modelos de integração usados em redes neurais [M]
+Conhecimento geral, de memória. A existência e as ideias centrais são clássicas (confiança alta); detalhes de cada artigo, confiança média. Posso buscar e ler qualquer um deles se você quiser aprofundar.
+
+| Família | Como integra | Como decide a saída | Ruído |
+|---|---|---|---|
+| **Limiar binário** (McCulloch & Pitts 1943; perceptron, Rosenblatt 1958) | soma ponderada | degrau: acima do limiar, 1; abaixo, 0 | nenhum |
+| **Redes artificiais de taxa** (sigmoide, tanh, ReLU) | soma ponderada | função contínua da soma (taxa ou "ativação") | nenhum; o sorteio aparece no treino, não no neurônio |
+| **Integra-e-dispara com vazamento** (LIF; Lapicque 1907) | potencial que soma entradas e decai | limiar duro: cruzou, dispara e reinicia | só se for somado de fora (ruído no potencial) |
+| **LIF com ruído difusivo** | idem | limiar duro | ruído contínuo no potencial; a chance de disparar vira uma curva suave |
+| **Ruído de escape / Spike Response Model** (Gerstner & Kistler) | potencial filtrado | **sorteio** a cada instante, com chance que cresce (em geral exponencialmente) com a distância ao limiar | o sorteio **é** o ruído, sem modelar sua origem |
+| **Linear–não linear–Poisson (LNP/GLM)** | filtro linear | não linearidade (exponencial ou potência) seguida de sorteio de Poisson | idem |
+| **Lei de potência** (córtex visual; Priebe, Ferster e outros; Miller & Troyer; Hansel & van Vreeswijk) | potencial médio | taxa ∝ (V − limiar)^n, com n ≈ 2–5 | explica a potência como **efeito do ruído** sobre um limiar duro |
+| **Hodgkin–Huxley e modelos de compartimentos** | correntes iônicas reais em dendritos e corpo | o disparo emerge dos canais | ruído de canais e sinapses, se modelado |
+
+[I] **Onde está a nossa Uint:** é um modelo de **ruído de escape** com não linearidade de potência, a mesma família do LNP e do Spike Response Model. A soma linear dos dois lados segue a MSO; o sorteio substitui o ruído **sem dizer de onde ele vem**.
+
+[I] **O ponto conceitual:** a família "lei de potência" mostra que uma curva expansiva pode **surgir** de um limiar duro com ruído no potencial. Se a origem do ruído é conhecida (aqui, entradas espontâneas), dá para trocar o sorteio pelo mecanismo.
+
+---
+
+## 3. Opções para a Uint [A] (decisão do responsável)
+
+1. **Manter o sorteio (como está).**
+   - Equivale a ruído de escape.
+   - Perdas: a origem do ruído não existe no modelo; o ruído é independente entre momentos e entre Uints; o expoente (16) não tem fonte, porque o texto lido não dá o valor.
+2. **Limiar duro + ruído no potencial.** Um termo aleatório somado a V a cada avaliação. Fica mais perto do LIF com ruído, mas o sorteio continua, só que em outro lugar, e ainda sem origem.
+3. **Limiar duro + atividade espontânea nas fibras (o mecanismo NB).**
+   - As fibras A e B passam a ter **incidências espontâneas** além das causadas pelo mundo, com taxa de fundo das fibras de entrada.
+   - O ruído vira **chegadas reais na Uint**: passam pela mesma soma, pelos mesmos ramos, e somem com o som organizando o fundo.
+   - Liga-se à **segunda camada** já registrada (atividade própria do sensor antes do mundo).
+   - Riscos [I]:
+     - a atividade espontânea também passa pela Pcrt e pode criar Upros e ramos por acaso, o que é uma previsão testável;
+     - aumenta o custo (mais incidências);
+     - pede números: taxa de fundo por fibra e quanto dela chega à Uint.
+   - [I] A biologia sugere que a MSO resolve isso com poucas entradas grandes e com a I_KLT, que filtra subidas lentas.
+4. **Híbrido:** atividade espontânea nas fibras **e** um limiar menos duro, se o primeiro sozinho não bastar.
+
+[I] Pelo método (modelo NB → mecanismo entendido → equivalência com perdas declaradas), a opção 3 é a mais fiel. A 1 é uma simplificação aceitável enquanto a origem não for modelada, mas a perda deve ficar escrita.
+
+## 4. Fontes lidas
+- [van der Heijden et al. 2013, Neuron (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3741096) — texto integral (extração).
+- [Mackenbach & Borst 2023, J Neurosci (PDF dos autores)](https://yarmo.eu/mackenbach-2023-dzw-mso.pdf) — texto quase integral (extração).
+- [Couchman, Grothe & Felmy 2010, J Neurosci (CORE)](https://core.ac.uk/download/12174948.pdf) — texto integral, figuras só nas legendas (extração).
+- [Svirskis et al. 2002, J Neurosci (PubMed)](https://pubmed.ncbi.nlm.nih.gov/12486197/) e [introdução no PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC3677217) — resumo e introdução.
+- ["Noise-gated encoding…", J Neurophysiol 2009](https://journals.physiology.org/doi/full/10.1152/jn.00538.2009) — resumo.
+- [Franken, Bremen & Joris 2014 (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC4013490) — resumo.
+- [Calyx de Held sob atividade in vivo, J Neurophysiol 2007](https://epub.ub.uni-muenchen.de/60729/) — resumo.
+
+**Pendências:**
+- a curva entrada → disparo com números (só nas figuras de van der Heijden 2013 e Mackenbach & Borst 2023);
+- taxas espontâneas das células esféricas (entradas excitatórias da MSO) no gerbil;
+- quanto da atividade espontânea das fibras chega à MSO jovem (antes e depois de P12).

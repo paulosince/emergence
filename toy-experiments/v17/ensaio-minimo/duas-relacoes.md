@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: degrau 2 da escada — duas relações verdadeiras (uma por alto-falante)
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável. Nada foi rodado.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026 ("Aprovo, pode rodar").
 **Redação:** assistente (Claude), 17/11/2026. **Base:** [guia](../guia-para-continuar-v17.md), escada de ensaios, degrau 2; [pré-experimento](../pre-experimento.md) (sala com dois alto-falantes em paredes opostas, robô de lado); [replicação do conjunto B](replicacao-b.md) (passou: grave 28/30, agudo em fase 27/30).
 **Ponto de partida:** conjunto B, inibição I1 (plano B), motor com fila por cursor (saída idêntica à referência; ver resultados de 17/11). Nada mais muda.
 **Legenda:** [R] decisão do responsável; [A] proposta do assistente (a aprovar); [I] inferência.
