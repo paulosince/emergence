@@ -25,7 +25,8 @@
 **Faixa, partida e enfraquecimento — decididos [R, 17/11]** (base: [L] Artola, Bröcher e Singer 1990, resumo: dois limiares de despolarização, LTD entre eles e LTP acima; Golding, Staff e Spruston 2002, resumo: potenciação sem disparo do axônio, por eventos locais regenerativos; Harvey e Svoboda 2007, resumo: estímulo abaixo do limiar só produziu potenciação e aumento de espinha **perto de uma espinha recém-potenciada**, efeito de ~10 min e ~10 µm):
 - **Faixa do quase-acerto:** hipótese do responsável, a integração é não linear e **acima de ~75% do limiar** já é quase-acerto (soma ≥ 1,125 sem chegar a 1,5). Nenhuma fonte dá esse número em fração do limiar (os limiares da literatura vêm em mV, com voltagem fixada). **Mapear em torno de 75%:** 50%, 75% e 90%.
 - **Partida: aceita.** Com força inicial 0,15, nada chega a 75% de 1,5 no começo; o brotamento só começa depois de haver acertos que fortaleçam ramos. Registrado como **previsão** (coerente com Harvey e Svoboda 2007), não como defeito.
-- **Enfraquecer no quase-acerto: testar (subteste com e sem).** Proposta do assistente para o valor, a aprovar junto com este registro: os ramos cujas chegadas contribuíram para o quase-acerto perdem **1,05 × ganho** (o mesmo valor do enfraquecimento por sincronia), além de brotar.
+- **Regra de duas mãos [R, 17/11]: o broto é condicionado.** No quase-acerto, cada ramo que contribuiu para a soma **brota** se ele mesmo, ou um ramo vizinho da mesma Upro, **acertou há pouco**; se não, o quase-acerto é isolado e o ramo **não brota**. Base: Harvey e Svoboda 2007 (perto de um sucesso recente, o estímulo abaixo do limiar fortalece e faz crescer) e Artola, Bröcher e Singer 1990 (isolado, tende a enfraquecer). Propostas do assistente, a aprovar: **vizinho** = atraso a até 2 passos (±0,20 ms; equivalente, no par de vias, à proximidade espacial de ~10 µm, que aqui não existe); **"há pouco"** = janela a mapear em **10 s, 60 s e 600 s** (600 s ≈ os ~10 min de Harvey e Svoboda, em hipocampo de roedor).
+- **Enfraquecer no quase-acerto isolado: testar (subteste com e sem).** Proposta do assistente para o valor, a aprovar junto com este registro: os ramos de um quase-acerto **isolado** perdem **1,05 × ganho** (o mesmo valor do enfraquecimento por sincronia), além de brotar.
 
 **Q3. Até onde vai o rastro vivo na comparação?** [A] Proposta: ±19,5 ms (a maior diferença que algum par de ramos pode realizar, 20 − 0,5). No agudo, cerca de 25 incidências da outra Upro por incidência fixada; no grave, cerca de 4. É um teto fixo, que não cresce com os ramos.
 
@@ -45,10 +46,10 @@
 
 **Controle de código** (engenharia): com a Pcrt desligada (sem brotamento) e o corte de 5 constantes de tempo imitado, o motor novo deve dar **resultado idêntico** ao antigo na mesma condição. Isso separa erro de programação de efeito do modelo.
 
-**Grade:** a confirmação de 16/11 (10 sementes; notas e período fixo; portão 0,30) e a inibição (I0 e I1), no **grave** e no **agudo**, cruzadas com a faixa do quase-acerto (50%, 75%, 90%) e com o enfraquecimento no quase-acerto (com e sem): 2 × 2 × 2 × 3 × 2 × 10 = **480 execuções**. Mais o tempo de execução, medido junto com o motor antigo na mesma máquina. Se o custo for alto, a ordem é: primeiro grave, notas, I1 (60 execuções), e o responsável vê antes do resto.
+**Grade, em duas etapas.** **Etapa A** (grave, notas, I1, 10 sementes): faixa do quase-acerto (50%, 75%, 90%) × janela do "há pouco" (10 s, 60 s, 600 s) × enfraquecimento do isolado (com e sem) = 18 combinações, **180 execuções**. O responsável vê o mapa e escolhe o conjunto, como no mapa de 16/11. **Etapa B**, com o conjunto escolhido: a confirmação de 16/11 (notas e período fixo; I0 e I1; grave e agudo; 10 sementes) = 80 execuções. Tempo de execução medido junto com o motor antigo na mesma máquina.
 
 **Regras de leitura (fixadas agora):**
-- Lidas **por combinação** de faixa e enfraquecimento. I1 no grave com notas seleciona em **≥ 8 de 10**: o conjunto atual é mantido para os degraus seguintes.
+- Na etapa B: I1 no grave com notas seleciona em **≥ 8 de 10**: o conjunto atual é mantido para os degraus seguintes.
 - Seleciona em **4–7 de 10**: refazer o mapa de sensibilidade (mesmas faixas registradas em [mapa-faixas.md](mapa-faixas.md)) antes de qualquer decisão.
 - **≤ 3 de 10**: parar e levar ao responsável, sem ajustar nada.
 - O agudo é lido à parte. Explosão ou colapso no agudo vai ao responsável como achado, não se corrige com parâmetro.
