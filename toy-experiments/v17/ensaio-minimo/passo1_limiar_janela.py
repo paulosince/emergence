@@ -1,4 +1,4 @@
-"""Passo 1 — registro prévio passo1-limiar-janela.md (RASCUNHO: só rodar depois da aprovação do responsável).
+"""Passo 1 — registro prévio passo1-limiar-janela.md (APROVADO em 17/11/2026).
 Limiar duro + janela retangular (LE = LI = 0,30 ms) contra a referência (conjunto B com sorteio), degrau 1, grave e agudo,
 sementes 131-160. Motor: motor_rapido com fila por cursor.
 Uso: ../../../../venv-nb/bin/python -I passo1_limiar_janela.py  (gera passo1-saida.csv)"""

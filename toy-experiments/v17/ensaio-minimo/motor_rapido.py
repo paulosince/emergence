@@ -61,7 +61,7 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO):
+def _rodar(trensA, trensB, ini, fim, iniB, fimB, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO):
     np.random.seed(semente)
     UD = np.zeros((2, MAXU)); UA = np.zeros((2, MAXU), np.bool_); nU = np.zeros(2, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
@@ -100,17 +100,18 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
     ufav = np.full(K, -1e18); udisp = np.full(K, -1e18)
     disp = np.zeros(K, np.int64); hv = np.zeros(K, np.int64); ht_ = np.zeros(K, np.int64)
     nA_tot = trensA.size
-    integ = np.zeros(2 * nA_tot, np.bool_); insumo = np.zeros(NEP, np.int64)
+    integ = np.zeros(nA_tot + trensB.size, np.bool_); insumo = np.zeros(NEP, np.int64)
     tdec = 0.0; parou = False; estab = 0; novas = 0; nac = 0
     nev = np.zeros(NEP, np.int64); nram = np.zeros(NEP, np.int64)   # medida de custo (não altera nada)
+    dsil = np.zeros(K, np.int64)   # disparos no trecho de silêncio do último episódio (só medida)
     e1 = np.zeros((K, NEP), np.int64); e2 = np.zeros((K, NEP), np.int64); et = np.zeros((K, NEP), np.int64)   # diagnóstico por episódio (só medida)
     for ep in range(NEP):
         nh = 0
         for k in range(K): b0[k] = 0; b1[k] = 0
-        ia = ini[ep]; ib = ini[ep]; fa = fim[ep]; ultimo = ep == NEP - 1
+        ia = ini[ep]; ib = iniB[ep]; fa = fim[ep]; fb = fimB[ep]; ultimo = ep == NEP - 1
         while True:
             tia = trensA[ia] if ia < fa else 1e300
-            tib = trensB[ib] if ib < fa else 1e300
+            tib = trensB[ib] if ib < fb else 1e300
             tinc = min(tia, tib); tev = ht[0] if nh > 0 else 1e300
             if tinc == 1e300 and tev == 1e300: break
             if tinc <= tev:
@@ -271,6 +272,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
                 if np.random.random() < pd: disparou = True
             if disparou:
                 if ultimo: disp[k] += 1
+                if ultimo and T > (NEP - 1) * CICLO + dur: dsil[k] += 1
                 udisp[k] = T
                 j = b1[k] - 1
                 while j >= b0[k]:
@@ -302,6 +304,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
         cont = 0
         for x in range(ini[ep], fim[ep]):
             if not integ[x]: cont += 1
+        for x in range(iniB[ep], fimB[ep]):
             if not integ[nA_tot + x]: cont += 1
         insumo[ep] = cont
         tf = ep * CICLO + dur; m = 0
@@ -324,7 +327,7 @@ def _rodar(trensA, trensB, ini, fim, dur, semente, K, unica, DF, F0, MEIA, FBROT
         for r in range(nR):
             if (not R_es[r]) and tfim > R_td[r]: R_f[r] *= 2.0 ** (-(tfim - R_td[r]) / MEIA)
     return (R_s[:nR].copy(), R_u[:nR].copy(), R_k[:nR].copy(), R_d[:nR].copy(), R_f[:nR].copy(), UD.copy(), UA.copy(),
-            disp, hv, ht_, insumo, parou or estouro, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif, mat.copy(), nev, nram, e1, e2, et)
+            disp, hv, ht_, insumo, parou or estouro, estab, novas, nac, elim, podas, RS.copy(), sdif, ndif, hdif, mat.copy(), nev, nram, e1, e2, et, dsil)
 
 
 def trens_2(semente, faixa, dur, d1=DELTA, d2=-DELTA):
@@ -343,6 +346,22 @@ def trens_2(semente, faixa, dur, d1=DELTA, d2=-DELTA):
         a = np.sort(np.concatenate(a_ep)); b = np.sort(np.concatenate(b_ep))
         TA.append(a); TB.append(b); ini.append(pos); pos += a.size; fim.append(pos)
     return np.concatenate(TA), np.concatenate(TB), np.array(ini), np.array(fim)
+
+
+def trens_esp(semente, faixa, dur, taxa, sil=2000.0, delta=DELTA):
+    """Passo 2: o mundo igual ao de trens_d (mesma sequência aleatória) e, em cada fibra, incidências espontâneas
+    (Poisson, `taxa` por segundo, independentes entre fibras e do mundo) de t0 até t0 + dur + sil, com um trecho de
+    silêncio de `sil` ms no fim de cada episódio. Gerador próprio para o espontâneo (o mundo não muda).
+    Devolve TA, TB, iniA, fimA, iniB, fimB."""
+    TA, TB, ini, fim = trens_d(semente, faixa, dur, False, delta)
+    rng = np.random.default_rng(semente + 1_000_003); out = ([], []); idx = ([], [], [], []); pos = [0, 0]
+    for ep in range(NEP):
+        t0 = ep * CICLO
+        for z, fib in enumerate((TA, TB)):
+            n = rng.poisson(taxa * (dur + sil) / 1000.0); esp = t0 + rng.uniform(0.0, dur + sil, n)
+            e = np.sort(np.concatenate((fib[ini[ep]:fim[ep]], esp)))
+            out[z].append(e); idx[2 * z].append(pos[z]); pos[z] += e.size; idx[2 * z + 1].append(pos[z])
+    return (np.concatenate(out[0]), np.concatenate(out[1]), np.array(idx[0]), np.array(idx[1]), np.array(idx[2]), np.array(idx[3]))
 
 
 def trens_d(semente, faixa, dur, cond_fixo=False, delta=DELTA):
@@ -368,11 +387,15 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, duas=None, RET=False, LE=0.30, LI=0.30, DURO=False):
-    tA, tB, ini, fim = trens_d(semente, faixa, dur, cond_fixo, delta) if duas is None else trens_2(semente, faixa, dur, duas[0], duas[1])
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, duas=None, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0):
+    if ESP > 0.0:
+        tA, tB, ini, fim, iniB, fimB = trens_esp(semente, faixa, dur, ESP, SIL, delta)
+    else:
+        tA, tB, ini, fim = trens_d(semente, faixa, dur, cond_fixo, delta) if duas is None else trens_2(semente, faixa, dur, duas[0], duas[1])
+        iniB, fimB = ini, fim
     razao, off, taui = INIB[cond]
-    (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et) = _rodar(
-        tA, tB, ini, fim, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
+    (Rs, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et, dsil) = _rodar(
+        tA, tB, ini, fim, iniB, fimB, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
         RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, (duas[1] if duas is not None else -1e9), RET, LE, LI, DURO)
     sint = []; presa = []; pares = []
     for k in range(K):
@@ -393,7 +416,7 @@ def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False,
         c = np.cumsum(h); i = int(np.searchsorted(c, c[-1] / 2.0)); return round(i / 100.0 - 20.0, 2)
     pref_med = [_med(hdif[k]) for k in sint if hdif[k].sum()]
     ramos_lado = [int(((Rk == k) & (Rs == z)).sum()) for k in range(K) for z in range(2)]
-    return dict(diag_e1=e1, diag_e2=e2, diag_et=et, eventos_por_episodio=[int(x) for x in nev], ramos_fim_episodio=[int(x) for x in nram], incidencias_por_episodio=[int(2 * (fim[e] - ini[e])) for e in range(len(ini))],
+    return dict(disparos_silencio=[int(x) for x in dsil], diag_e1=e1, diag_e2=e2, diag_et=et, eventos_por_episodio=[int(x) for x in nev], ramos_fim_episodio=[int(x) for x in nram], incidencias_por_episodio=[int((fim[e] - ini[e]) + (fimB[e] - iniB[e])) for e in range(len(ini))],
                 cond=cond, faixa=faixa, semente=semente, fixo=cond_fixo, unica=unica, K=K, RC=RC, TAUR=TAUR, TETA=TETA, TEL=TEL, NEXP=NEXP,
                 classe=classe, diferenca_preferida_sintonizadas=pref, diferenca_preferida_mediana_sintonizadas=pref_med,
                 espalhamento_preferida=round(float(np.std(pref)), 4) if len(pref) > 1 else 0.0,

@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: passo 1 — tirar o sorteio (limiar duro e janela retangular)
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026 (L_E = L_I = 0,30 ms; "Aprovo, com a regra"). Declaração: antes da aprovação, um teste de funcionamento na semente 31 (fora deste conjunto) deu grave em seleção e agudo em colapso sem disparos.
 **Redação:** assistente (Claude), 17/11/2026.
 **Base:**
 - decisões do responsável de 17/11 (17h): fim do sorteio; janela retangular também na inibição; um mecanismo por vez; ordem 1 → 2 → 3;

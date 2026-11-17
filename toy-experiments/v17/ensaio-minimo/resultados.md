@@ -457,3 +457,16 @@ Script `diagnostico_duas_relacoes.py`; saída `diagnostico-duas-relacoes-saida.t
 - Algumas Uints **trocam** de relação ao longo dos episódios (ex.: semente 124, "·22·1"; 128, "·2221").
 
 **Leitura do assistente:** a hipótese 1 fica **refinada**. Não é o mesmo par de Upros servindo todas as Uints; é o **conjunto de atrasos disponíveis** que se inclina, no episódio 1, para a relação que ganhou os primeiros quase-acertos. As Upros novas nascem perto delas e têm ramos para todas as Uints, e todas recebem das mesmas duas fibras. A hipótese 2 (falta de diversidade de entrada) continua de pé.
+
+## Passo 1 — limiar duro e janela retangular (17/11)
+
+Registro prévio: [passo1-limiar-janela.md](passo1-limiar-janela.md) (aprovado; L_E = L_I = 0,30 ms). Script `passo1_limiar_janela.py`; dados `passo1-saida.csv`. 120 execuções, sementes 131–160.
+
+| Motor | Grave (seleção) | Agudo (seleção em fase) | Colapsos no agudo |
+|---|---|---|---|
+| **Passo 1** (sem sorteio) | **25/30** (66–93%) | **7/30** (12–41%) | 18 |
+| Referência (conjunto B, com sorteio) | 28/30 | 27/30 | 0 |
+
+**Pelas regras fixadas:** o grave passa e o agudo não. **Diagnóstico da causa:** as **18 colapsadas tiveram zero disparos** no último episódio, e os ramos sumiram (mediana 2). Mais uma execução terminou difusa com zero disparos. Nas que não colapsaram, os disparos foram 13 mil a 83 mil, contra uma mediana de 146 mil na referência. A causa é **falta de disparos**: o "ovo e a galinha" voltou no agudo sem o sorteio.
+
+**Aplicação da regra aprovada:** o passo 1 **fica**, e seguimos para o passo 2 (atividade espontânea), que é o mecanismo NB previsto para os disparos perto do limiar. Antes de rodar, o passo 2 precisa de registro aprovado.
