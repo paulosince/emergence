@@ -363,3 +363,15 @@ Registro prévio: [maturacao.md](maturacao.md) (aprovado). Script `ensaio_matura
 **O que se vê:** com maturação, as Uints quase não acertam, a maturidade não sobe (fica perto de 0) e os ramos desaparecem (mediana 0 ramos no fim em 12 combinações). A única tendência: excitação jovem mais longa (1,5 ms), passo rápido (30 acertos) e regressão lenta (1 h) dão 6 difusos e maturidade 0,29.
 
 **Leitura do assistente (conferível):** é o mesmo colapso da versão fiel de 16/11. Na inibição jovem (força 0,77, decaimento 4 ms), cada chegada deixa uma carga inibitória de ~0,77 × 4 = 3,1 (em unidades de força × ms), contra 0,6–1,5 da excitação jovem. Com chegadas a cada poucos milissegundos, a inibição acumulada vence sempre; sem acertos, a maturidade não sobe, e a inibição nunca amadurece. A faixa de excitação jovem escolhida (0,6–1,5 ms, sem fonte) é **curta demais** em relação à inibição jovem (4 ms, com fonte). Na biologia, os dois amadurecem juntos, mas o valor inicial da excitação jovem na MSO não foi encontrado.
+
+## Replicação do conjunto B com 30 sementes (17/11/2026)
+
+Registro prévio: [replicacao-b.md](replicacao-b.md) (aprovado). Script `replicacao_b.py`; dados `replicacao-b-saida.csv`. **60 execuções em 104 s.**
+
+| Faixa | Sucessos (sementes 31–60) | Taxa | Intervalo de confiança de 95% (Wilson) | Pela regra |
+|---|---|---|---|---|
+| grave (seleção de Δ) | **28/30** | 93% | 79% a 98% | **passa** (≥ 24) |
+| agudo (seleção em fase) | **27/30** | 90% | 74% a 97% | **passa** (≥ 24) |
+
+**Exploratório (todas as sementes vistas):** grave 44/50 (sementes 1–10: 9; 21–30: 7; 31–60: 28); agudo em fase 45/50.
+**Leitura:** o 7/10 das sementes 21–30 foi variação de amostra; o conjunto B se sustenta, com taxa perto de 90% nas duas faixas.

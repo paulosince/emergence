@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: replicação do conjunto B com 30 sementes
 
-**Estado:** RASCUNHO para aprovação do responsável. **Redação:** assistente (Claude), 17/11/2026.
+**Estado:** **APROVADO** pelo responsável em 17/11/2026. **Redação:** assistente (Claude), 17/11/2026.
 **Motivo:** o conjunto B deu 9/10 no grave (sementes 1–10) e 7/10 (sementes 21–30, referência do ensaio da maturação). Com 10 sementes não dá para separar "passa" de "não passa" perto do limite. Decisão do responsável (17/11): estimar com mais sementes.
 **Motor:** `motor_correcoes.py`, conjunto B (reposição 60 s, recurso 1,0, fração 0,50, tempo 60 s, expoente 16), inibição do plano B (I1), sem maturação. Nada muda.
 
