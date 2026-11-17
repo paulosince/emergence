@@ -48,7 +48,13 @@ Com várias Uints por par de fibras e ramos de pequeno atraso para cada uma, as 
 5. **Medidas novas:** força por Uint; quantas Uints acabam sintonizadas na relação verdadeira; se as cópias se separam em Uints diferentes; crescimento total da força (risco de explosão).
 6. **Custo:** proporcional a incidências × Upros × ramos. Com N = 8 e poucas Upros, deve continuar em segundos (estimativa, confiança média).
 
-## 7. Decisões pedidas ao responsável
+## 7. Decisões do responsável (17/11)
+- Proposta 3: **aprovada** (dados, sorteados sem ordem).
+- Proposta 4: **estoque na Uint** (opção b).
+- Upro nova: **±10% de uma Upro com quase-acerto** (opção a da seção 4).
+- Propostas 1 e 2: em discussão.
+
+## 7a. Decisões que tinham sido pedidas
 1. Proposta 1 (um ponto de chegada por ramo).
 2. Proposta 2 (Upro com ramos para várias Uints; N = 8 no ensaio).
 3. Proposta 3 (atrasos pequenos dos ramos dados e espalhados sem ordem).
