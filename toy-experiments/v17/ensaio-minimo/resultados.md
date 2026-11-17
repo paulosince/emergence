@@ -184,3 +184,19 @@ Registro prévio: [pcrt-incidencias.md](pcrt-incidencias.md) (aprovado). Código
 Os trens de pulsos são idênticos nos dois motores (verificado). O número de acertos é ~1,4–1,7 vez maior no novo, pela diferença (1) de contagem.
 
 **Tempo com brotamento (Q = 0,75; janela 60 s; sem enfraquecimento; semente 1; I1):** grave **0,13 s**, agudo **0,97 s** por execução (o motor antigo passava de 10 min no agudo sem terminar). Esse resultado único foi visto pelo assistente antes da etapa A: grave = seleção (crédito 0,814; 3 estabilizações; força máxima ~0,25; a Uint quase não dispara no último episódio); agudo = difuso (crédito 0,098).
+
+## Etapa A — motor por eventos (17/11/2026)
+
+Controle aceito pelo responsável (comparação, ver seção anterior). Script `etapa_a.py`; dados `etapa-a-saida.csv`. Grave, notas, I1, 10 sementes por combinação; **180 execuções em 6,7 s** no total (2 processos).
+
+| Quase-acerto (fração do limiar) | Janela do acerto recente | Enfraquecimento do isolado | Seleção | Difuso | Explosão | Colapso | Crédito (mediana) | Força máxima (mediana) |
+|---|---|---|---|---|---|---|---|---|
+| 0,50 | 10, 60 ou 600 s | sem / com | 4 | 6 | 0 | 0 | 0,79 | 0,26 / 0,30 |
+| 0,75 | 10, 60 ou 600 s | sem / com | 4 | 6 | 0 | 0 | 0,80 / 0,82 | 0,25 |
+| 0,90 | 10, 60 ou 600 s | sem / com | 3 | 7 | 0 | 0 | 0,84 | 0,33 |
+
+**O que se vê:** nenhuma combinação seleciona em mais de 4 de 10. A janela e o enfraquecimento quase não mudam nada (as classes são idênticas entre as janelas). Nenhuma explosão e nenhum colapso. A Uint dispara cerca de 1 vez no último episódio (mediana), e ~96% das incidências do último episódio terminam sem integração (insumo da Pcrt).
+
+**Comparação que ajuda a ler (dados do controle, brotamento desligado):** sem brotamento, a força máxima chega a **1,0** e a Uint dispara ~2.000 vezes no último episódio, nos dois motores; a seleção é de 6–7 de 10. No motor antigo **com** brotamento, a força máxima também ficava em ~0,2–0,3.
+
+**Hipótese do assistente (não verificada):** a força total de cada Upro é conservada (1,0); os ramos que brotam ao lado do verdadeiro também coincidem e dividem essa força. Com cada ramo em ~0,25, a soma raramente chega ao limiar, e o portão do broto (0,30) quase nunca é atingido. Por isso a janela não faz diferença: o gargalo seria o portão, não o acerto recente.
