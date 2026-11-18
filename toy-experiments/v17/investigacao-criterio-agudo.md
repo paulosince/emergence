@@ -36,3 +36,19 @@
 - [Revisão sobre o código de diferença de tempo (PMC3170859)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3170859) — trecho.
 - [Batra & Yin 2004 (PMC2504554)](https://pmc.ncbi.nlm.nih.gov/articles/PMC2504554) — trecho.
 - [Melhores atrasos no colículo inferior (PMC1568946)](https://pmc.ncbi.nlm.nih.gov/articles/PMC1568946) — trecho.
+
+## 5. Valores biológicos para um piso de R (pesquisa pedida em 18/11)
+
+| Achado [L] | Fonte e leitura | Confiança |
+|---|---|---|
+| Coeficiente de sincronização à fase interaural de neurônios da MSO (gato): **0,72** num neurônio de Yin & Chan (1990); **0,30** no neurônio de Goldberg & Brown (1969). As frequências citadas no texto vão de ~150 a ~445 Hz | Batra & Yin 2004, *JARO* (PMC2504554; texto principal, sem as figuras) | média (dois exemplos, frequência baixa) |
+| O coeficiente interaural é aproximadamente o **produto** dos coeficientes das entradas dos dois lados; pela teoria, ~0,79 para neurônios de baixa frequência | Batra & Yin 2004; Batra, Kuwada & Fitzpatrick 1997, *J Neurophysiol* 78:1237 (trechos) | média-alta |
+| Neurônios do MNTB perto de **1 kHz** com coeficiente de **~0,6** (dados que se sobrepõem na figura) | Tollin & Yin 2005, *J Neurosci* 25:10648 (legenda; gato) | média |
+
+**Leitura [I]:**
+- Se as entradas têm ~0,6–0,8 de sincronização perto de 1–1,5 kHz, o coeficiente interaural esperado é da ordem de **0,36–0,64**.
+- Exemplo biológico mais baixo: 0,30.
+- O nosso R (modelo sem força por fibra) teve mediana de **0,32**: no **limite inferior** do biológico. A referência antiga teve 0,52.
+- Atenção: o nosso R é medido nos **acertos** (coincidências de ramos), não nos disparos de saída. É análogo, não idêntico.
+
+**Proposta de piso [A]:** R ≥ **0,3** (o menor exemplo biológico) como piso mínimo, ou R ≥ **0,4** (produto de entradas com ~0,6). Decisão do responsável; a amostra biológica lida é pequena.
