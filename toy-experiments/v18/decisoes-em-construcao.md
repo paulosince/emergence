@@ -22,6 +22,7 @@
 | Fibras por faixa | **Uma fibra por faixa** (64 por ouvido) | 18/11 |
 | Capacidade por fibra | **Proposta do responsável, em avaliação:** até 240 Upros por fibra (2 por decibel, 120 dB). Comparação NB: ~550 neurônios por 1/64 da cóclea humana (conta do assistente, confiança média) | 18/11 |
 | Limiares das Upros | **Vagas fixas** (dadas pelo hardware): cada Upro nasce numa vaga de limiar já definida, de baixo para cima. **Não** nasce "onde o som cair". A distribuição das vagas **não deve ser linear**: mais vagas nos níveis em que há mais fibras na biologia (forma a definir) | 18/11 |
+| Forma das vagas | **B: convolução** dos limiares das fibras biológicas com a faixa de crescimento de cada fibra ("Eu já sabia"). Parâmetros da primeira conta a aprovar ([investigação](investigacao-limiares-fibras.md)) | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)

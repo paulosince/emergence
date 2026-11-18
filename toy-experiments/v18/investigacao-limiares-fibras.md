@@ -38,3 +38,29 @@ Limiares contados **a partir do limiar mais sensível da faixa** (o zero de cada
 - Perdas declaradas em qualquer opção: sem taxa graduada por Upro, sem saturação gradual, sem adaptação (item próprio, mais adiante).
 
 **Decisão do responsável pendente.**
+
+## Decisão do responsável (18/11): **B, a convolução**
+"B — Eu já sabia." A distribuição das vagas é a dos limiares **combinada com a faixa de crescimento de cada fibra**.
+
+## Primeira conta da distribuição B [proposta do assistente; parâmetros a aprovar]
+**Parâmetros usados** (cada um tem uma fonte, mas a forma é simplificada):
+- Limiares relativos ao zero da faixa, distribuição uniforme em cada grupo: atividade alta 0–10 dB (61%); média 1–14 dB (23%; 10–15 dB de espalhamento, ~7–8 dB acima da alta); baixa 15–80 dB (16%; leitura das figuras).
+- Crescimento de cada fibra, do limiar à saturação, **linear**: 30 dB para as de atividade alta e média ("menos de 30 dB" na maioria; Heinz & Carney 2001, citando May & Sachs 1992; resumo); 50 dB para as de atividade baixa (média no gato para atividade espontânea abaixo de 15/s; artigo em *Exp Brain Res*, resumo; autoria não conferida).
+- 240 vagas postas nos quantis da distribuição resultante.
+
+**Resultado (conta, confiança da forma: média; dos números exatos: baixa, porque dependem dos parâmetros):**
+
+| Nível do som (dB acima do zero da faixa) | Upros ativas (de 240) |
+|---|---|
+| 5 | 7 |
+| 10 | 30 |
+| 20 | 96 |
+| 30 | 165 |
+| 40 | 204 |
+| 60 | 214 |
+| 80 | 225 |
+| 120 | 239 |
+
+- A densidade é maior entre 10 e 40 dB (5–7 vagas por dB). Acima de 40 dB há uma cauda longa e rala (0,3–0,6 por dB), feita pelas de atividade baixa.
+- A distribuição combinada vai até **~120 dB**, sem que isso tenha sido imposto: são os 80 dB dos limiares mais altos somados aos 50 dB de crescimento.
+- Só com os limiares (opção A), 10 dB já ativariam 185 das 240.
