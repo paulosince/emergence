@@ -607,3 +607,25 @@ Registro prévio: [depressao-nb.md](depressao-nb.md) (aprovado). Script `depress
 - Com **A = 0,02**, as Uints disparam **0,5/s no silêncio**, perto dos **0,4/s** da MSO (van der Heijden 2013). Com A = 0,005, ~10/s; sem depressão, 24/s.
 - **Ressalva importante:** o agudo **não colapsa, mas quase não dispara**. São 250–950 disparos no último episódio, somando as 8 Uints, contra 111 mil com 1 fibra. Nenhuma Uint chega aos 100 disparos que o critério de fase exige, e nada é eliminado (a participação só age quando a Uint dispara).
 - **Hipótese do assistente:** o estoque por lado da Uint (correção 1, RC = 1,0) foi pensado quando uma fibra levava tudo. Com fibras que pulam ciclos (cada uma dispara a ~1 em cada 5 ciclos no agudo), só parte da força de cada lado chega em cada ciclo, e a soma raramente alcança o limiar. É a pendência "força por fibra", decidida para depois do passo 3. Na MSO, uma fibra dá ~1/3 do limiar e há 2–4 por dendrito (Couchman 2010).
+
+## Força por fibra (18/11)
+
+Registro prévio: [forca-fibra.md](forca-fibra.md) (aprovado). Script `forca_fibra.py`; dados `forca-fibra-saida.csv`. 120 execuções, sementes 341–370. Modelo: 8 fibras, limite 300/s, depressão NB (A = 0,02), sem inibição.
+
+| Condição | Grave | Colapsos (agudo) | Agudo: sementes com Uint ≥ 100 disparos | Agudo: disparos totais (mediana) |
+|---|---|---|---|---|
+| **Com força por fibra** | **30/30** | 0 | **0/30** | 0 |
+| Modelo atual | 30/30 | 0 | 30/30 | 883 |
+
+**Pelas regras fixadas:** não passa (o agudo não dispara) → levar ao responsável, sem ajustar.
+
+**Diagnóstico (só medidas):**
+- Com a força por fibra, o agudo ganha ~8,4 de força por episódio e não perde nada (sem disparo, não há depressão nem eliminação por participação). A força total chega a ~24, como no grave, mas espalhada entre ramos de atrasos certos e errados, com cada fibra limitada a 0,5. Em nenhum ciclo a soma alcança o limiar.
+- No modelo atual, o agudo dispara pouco (~100–135 por Uint no último episódio, sementes 341–343). A **fração em fase fica em 0,27–0,31, que é o nível do acaso** para a máscara de fase do agudo.
+
+**Correção de uma afirmação minha (depressão NB, acima):** eu disse que "nenhuma Uint chega aos 100 disparos" no agudo. **Estava errado.** Eu só tinha a soma das 8 Uints; aqui, na mesma configuração e com outras sementes, há Uints com ≥ 100 disparos em 30/30 sementes (mediana de 5 Uints por semente). O agudo falha no critério de fase por **sintonia no nível do acaso**, não por falta de disparos.
+
+**Leitura do assistente:**
+- No agudo, o fortalecimento por coincidência não seleciona: com período de 0,6–0,9 ms, janela de soma de 0,30 ms e janela de coincidência de 0,21 ms, quase toda combinação de atrasos coincide em algum ciclo.
+- Na MSO, quem estreita a janela é a inibição, que ainda não está no modelo.
+- Também é preciso conferir se o critério de fase do agudo é realista: na MSO, a sintonia a ~1,3 kHz é **cíclica e larga** (pesquisar).

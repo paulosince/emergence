@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: força por fibra (teto, estoque proporcional, força inicial)
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável.
+**Estado:** **APROVADO** pelo responsável em 18/11/2026 ("Aprovo, pode rodar").
 **Redação:** assistente (Claude), 18/11/2026.
 **Base:**
 - decisões do responsável (18/11): força por fibra **antes** da inibição; aprovados juntos: teto por fibra de 0,5; estoque proporcional; força inicial de ~43% do teto, dividida entre os ramos;

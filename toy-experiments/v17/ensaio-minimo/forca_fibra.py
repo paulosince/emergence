@@ -1,4 +1,4 @@
-"""Registro prévio forca-fibra.md (RASCUNHO: só rodar depois da aprovação do responsável).
+"""Registro prévio forca-fibra.md (APROVADO em 18/11/2026).
 Força por fibra (teto 0,5; estoque proporcional; força inicial 0,43 do teto) contra o modelo atual (8 fibras, limite 300/s, depressão NB A=0,02),
 sem inibição. Degrau 1, grave e agudo, sementes 341-370. Uso: ../../../../venv-nb/bin/python -I forca_fibra.py  (gera forca-fibra-saida.csv)"""
 import csv, os, sys
