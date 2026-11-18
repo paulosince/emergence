@@ -1,0 +1,8 @@
+grave: fração de ciclos em que cada fibra dispara (com som): mediana 1.188, mín 1.152, máx 1.219
+agudo: fração de ciclos em que cada fibra dispara (com som): mediana 0.227, mín 0.216, máx 0.237
+nenhuma   grave  | disparos (med) 28004.0 | pares Uint-fibra 295 | ramos por par (med) 3 | soma por fibra (med) 0.480 | maior ramo (med) 0.186 | concentração maior/soma (med) 0.39 | V potencial por Uint (med) 1.18 (mín 0.90, máx 2.47)
+nenhuma   agudo  | disparos (med) 800.0 | pares Uint-fibra 300 | ramos por par (med) 6.0 | soma por fibra (med) 0.741 | maior ramo (med) 0.153 | concentração maior/soma (med) 0.20 | V potencial por Uint (med) 1.04 (mín 0.87, máx 1.18)
+só teto   grave  | disparos (med) 21976.5 | pares Uint-fibra 296 | ramos por par (med) 2.0 | soma por fibra (med) 0.499 | maior ramo (med) 0.207 | concentração maior/soma (med) 0.51 | V potencial por Uint (med) 1.40 (mín 0.54, máx 2.92)
+só teto   agudo  | disparos (med) 0.0 | pares Uint-fibra 300 | ramos por par (med) 6.0 | soma por fibra (med) 0.500 | maior ramo (med) 0.104 | concentração maior/soma (med) 0.21 | V potencial por Uint (med) 0.68 (mín 0.40, máx 0.87)
+as três   grave  | disparos (med) 23527.5 | pares Uint-fibra 300 | ramos por par (med) 2.0 | soma por fibra (med) 0.500 | maior ramo (med) 0.261 | concentração maior/soma (med) 0.52 | V potencial por Uint (med) 1.57 (mín 0.90, máx 2.73)
+as três   agudo  | disparos (med) 0.0 | pares Uint-fibra 300 | ramos por par (med) 6.0 | soma por fibra (med) 0.500 | maior ramo (med) 0.110 | concentração maior/soma (med) 0.22 | V potencial por Uint (med) 0.74 (mín 0.49, máx 0.89)

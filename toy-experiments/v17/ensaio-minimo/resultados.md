@@ -664,3 +664,23 @@ Script `diagnostico_forca_fibra.py`; saída `diagnostico-forca-fibra-saida.txt`.
 - O **estoque proporcional sozinho ajuda** (3× mais disparos no agudo).
 - A força inicial é neutra.
 - **Hipótese do assistente:** o teto (0,5 por fibra em cada Uint) é dividido entre os 6 ramos iniciais da fibra (atrasos de 0,5 a 20 ms). Os de atraso errado também guardam força, e só saem se a Uint disparar (participação, depressão). No agudo, onde as fibras pulam ciclos, o ramo certo de cada fibra nunca passa de ~0,1–0,2, a Uint não dispara, e nada tira os errados: um impasse. No grave, as fibras disparam a cada ciclo e coincidem; por isso ele passa. O dado da MSO (1/3 do limiar por fibra) é do **adulto**, depois da seleção; no jovem, a força de uma fibra pode estar espalhada por vários contatos.
+
+### Diagnóstico: a hipótese do impasse do teto (18/11; só medidas)
+Script `diagnostico_teto_impasse.py`; saída `diagnostico-teto-impasse-saida.txt`. Estado final, sementes 371–376.
+
+| Variante, faixa | Disparos | Ramos por fibra | Soma por fibra | Maior ramo | Maior / soma |
+|---|---|---|---|---|---|
+| nenhuma, grave | 28.004 | 3 | 0,48 | 0,19 | 0,39 |
+| nenhuma, agudo | 800 | 6 | **0,74** | 0,15 | 0,20 |
+| só teto, grave | 21.977 | 2 | 0,50 | 0,21 | 0,51 |
+| só teto, agudo | 0 | 6 | **0,50** (cheio) | 0,10 | 0,21 |
+| as três, agudo | 0 | 6 | 0,50 (cheio) | 0,11 | 0,22 |
+
+Do mundo: cada fibra dispara em **~23% dos ciclos** no agudo (mediana 0,227) e em todos os ciclos no grave (1,19 por ciclo, com a espontânea).
+
+**Leitura:**
+1. **Confirmado:** com o teto, as Uints do agudo nunca disparam. Cada fibra está **cheia** (0,500), e a força está dividida quase igualmente pelos 6 ramos (maior ≈ 0,10; a divisão igual daria 0,083). Sem disparo, nada seleciona: é o impasse.
+2. **Não confirmado como causa distintiva:** o espalhamento também existe **sem** o teto (6 ramos, maior/soma 0,20). O que muda é a **força total por fibra**: 0,74 sem teto contra 0,50 com teto. O teto age por limitar a força total que chega à Uint, e não por espalhar. Com fibras que disparam em só ~23% dos ciclos, essa força não basta para chegar ao limiar.
+3. No grave, as fibras disparam em todo ciclo. A Uint dispara, a participação elimina ramos, e a força se concentra (2 ramos, maior/soma ~0,5).
+4. **Achado lateral:** mesmo **passando** (sem teto), o agudo não seleciona ramos: são 6 por fibra, espalhados, com poucos disparos (~100 por Uint). Ele passa no critério de fase com estrutura difusa. Isso pesa na discussão do piso de R.
+5. **Corrigido pelo assistente:** a métrica "V potencial" (a soma dos maiores ramos de cada fibra) **não** é um teto do V possível. Ramos de uma mesma fibra, vindos de ciclos diferentes, podem chegar juntos. Ela foi removida da leitura.
