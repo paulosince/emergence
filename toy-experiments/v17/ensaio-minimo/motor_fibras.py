@@ -362,7 +362,19 @@ def trens_2(semente, faixa, dur, d1=DELTA, d2=-DELTA):
     return np.concatenate(TA), np.concatenate(TB), np.array(ini), np.array(fim)
 
 
-def trens_fibras(semente, faixa, dur, F, taxa, sil=2000.0, delta=DELTA, NINH=None, LATI=0.2, ESPI=60.0):
+def _limita(cand_mundo, cand_esp, p, ABS, TREC, rng):
+    """Limite por fibra: cada ciclo do mundo é candidato com chance p (acaso físico do sensor); o espontâneo também é candidato;
+    depois o refratário: rejeita se < ABS do último disparo aceito; senão aceita com chance 1 - exp(-(dt - ABS)/TREC)."""
+    w = cand_mundo[rng.random(cand_mundo.size) < p]
+    c = np.sort(np.concatenate((w, cand_esp))); out = []; ult = -1e18
+    for t in c:
+        dt = t - ult
+        if dt < ABS: continue
+        if rng.random() < 1.0 - np.exp(-(dt - ABS) / TREC): out.append(t); ult = t
+    return np.array(out)
+
+
+def trens_fibras(semente, faixa, dur, F, taxa, sil=2000.0, delta=DELTA, NINH=None, LATI=0.2, ESPI=60.0, LIMF=False, RMAX=300.0, ABS=0.4, TREC=0.4):
     """F fibras por ouvido. O mundo (ritmo e relação) é o mesmo de trens_d; a fibra 0 de cada ouvido recebe o mesmo tremor de
     trens_d, as outras um tremor próprio (gerador separado). Atividade espontânea por fibra (Poisson, `taxa`/s; mesmo gerador e
     ordem de trens_esp quando F = 1), com `sil` ms de silêncio no fim de cada episódio se taxa > 0.
@@ -372,6 +384,7 @@ def trens_fibras(semente, faixa, dur, F, taxa, sil=2000.0, delta=DELTA, NINH=Non
     rng = np.random.default_rng(semente); rj = np.random.default_rng(semente + 3_000_017); re = np.random.default_rng(semente + 1_000_003)
     T, B, ini, fim = [], [], [], []; pos = 0; durt = dur + (sil if taxa > 0 else 0.0)
     ri = np.random.default_rng(semente + 4_000_037); IT, IK, iini, ifim = [], [], [], []; ipos = 0
+    rl = np.random.default_rng(semente + 6_000_101)
     for ep in range(NEP):
         t0 = ep * CICLO; lo, hi = FAIXA[faixa]; base = []; t = 0.0
         while t < dur:
@@ -381,7 +394,12 @@ def trens_fibras(semente, faixa, dur, F, taxa, sil=2000.0, delta=DELTA, NINH=Non
         fibs = [None] * (2 * F); fibs[0] = a0; fibs[F] = b0
         for f in range(1, F):
             fibs[f] = t0 + base + rj.normal(0, JIT, base.size); fibs[F + f] = t0 + base + delta + rj.normal(0, JIT, base.size)
-        if taxa > 0:
+        if LIMF:   # limite por fibra: chance por ciclo para a taxa sustentada RMAX, mais o refratário (gerador próprio)
+            pc = min(1.0, RMAX * (dur / max(base.size, 1)) / 1000.0)
+            for f in range(2 * F):
+                esp = t0 + rl.uniform(0.0, durt, rl.poisson(taxa * durt / 1000.0)) if taxa > 0 else np.zeros(0)
+                fibs[f] = _limita(fibs[f], esp, pc, ABS, TREC, rl)
+        elif taxa > 0:
             for f in list(range(F)) + list(range(F, 2 * F)):
                 n = re.poisson(taxa * durt / 1000.0); fibs[f] = np.sort(np.concatenate((fibs[f], t0 + re.uniform(0.0, durt, n))))
         tt = np.concatenate(fibs); bb = np.concatenate([np.full(x.size, f, np.int64) for f, x in enumerate(fibs)])
@@ -452,13 +470,13 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False, PART=False, NPART=1000, INHP=False, NIMIN=2, NIMAX=3, LATI=0.2, ESPI=60.0, RI=1.0, DI=3.0, FI=0.5):
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False, PART=False, NPART=1000, INHP=False, NIMIN=2, NIMAX=3, LATI=0.2, ESPI=60.0, RI=1.0, DI=3.0, FI=0.5, LIMF=False, RMAX=300.0, ABS=0.4, TREC=0.4):
     F = int(FIB)
     if INHP:
         rI = np.random.default_rng(semente + 5_000_011); NINH = rI.integers(NIMIN, NIMAX + 1, size=(K, 2))
         INC_T, INC_B, ini, fim, INH_T, INH_K, iniI, fimI = trens_fibras(semente, faixa, dur, F, ESP, SIL, delta, NINH, LATI, ESPI)
     else:
-        INC_T, INC_B, ini, fim = trens_fibras(semente, faixa, dur, F, ESP, SIL, delta)
+        INC_T, INC_B, ini, fim = trens_fibras(semente, faixa, dur, F, ESP, SIL, delta, LIMF=LIMF, RMAX=RMAX, ABS=ABS, TREC=TREC)
         INH_T = np.zeros(1); INH_K = np.zeros(1, np.int64); iniI = np.zeros(NEP, np.int64); fimI = np.zeros(NEP, np.int64)
     ALC = alcance(semente, F, K, AMIN, AMAX)
     razao, off, taui = INIB[cond]
