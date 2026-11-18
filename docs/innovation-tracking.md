@@ -202,6 +202,11 @@
 - **O que seria novo em nós [I]:** uma fase offline com mecanismo próprio (limpeza de ramos e Upros sem uso, repetição) no lugar de intervalos mortos, como parte da arquitetura do domínio representacional.
 - **O que falta:** ler o artigo (provavelmente pago); buscar o mecanismo da limpeza e da consolidação no sono em termos que se traduzam para a arquitetura; decisão do responsável sobre se e quando isso entra (depois da V0.17).
 
+## 24. Encerramento da V0.17: nenhuma alegação de constituição (18/11/2026)
+- **Origem [R]:** V0.17 encerrada pelo responsável. As Uints (8) e as Upros iniciais (6 por fibra) eram **dadas**; as regras só esculpiram (grave) ou não mudaram nada (agudo). Ver [encerramento](../toy-experiments/v17/encerramento-v17.md).
+- **Consequência para as alegações:** nenhum resultado da V0.17 pode ser usado como evidência de **constituição** de Upro ou Uint. No máximo, como evidência descritiva de seleção sobre malha dada, num par de vias com pulsos ideais. O critério de fase do agudo não mede aprendizado (seção 6 da [investigação do critério](../toy-experiments/v17/investigacao-criterio-agudo.md)); o resultado "agudo 30/30" não vale como evidência.
+- **O que continua de pé:** as leituras de literatura das investigações da V0.17, com o grau de leitura indicado em cada uma.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).

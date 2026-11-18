@@ -1,3 +1,5 @@
+> **V0.17 ENCERRADA em 18/11/2026** pelo responsável (Uints e Upros iniciais eram dadas, contra a pergunta vigente de constituição). Ver [encerramento](encerramento-v17.md). Este documento fica como registro histórico.
+
 # V0.17 — guia para quem for continuar o trabalho (por exemplo, o ChatGPT)
 
 **Escrito em:** 16/11/2026, ao fim de uma sessão longa com o Claude. **Responsável:** Paulo Rogério da Silva.

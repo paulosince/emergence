@@ -6,6 +6,8 @@ date: "16/11/2026 — RASCUNHO v0.4, NÃO CONGELADO (decisões tomadas; repetiç
 lang: pt-BR
 ---
 
+> **V0.17 ENCERRADA em 18/11/2026** pelo responsável (Uints e Upros iniciais eram dadas, contra a pergunta vigente de constituição). Ver [encerramento](encerramento-v17.md). Este documento fica como registro histórico.
+
 # Estado deste documento
 
 - **Etapa:** I (pré-experimento) do ciclo obrigatório da [metodologia](../../docs/program-methodology.md).
