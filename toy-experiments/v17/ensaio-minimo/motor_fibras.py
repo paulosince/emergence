@@ -65,14 +65,19 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO, RELOG, DEP, PART, NPART, INHP, INH_T, INH_K, iniI, fimI, RI, DI, FI, PUNI, LTDN, ALTD):
+def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO, RELOG, DEP, PART, NPART, INHP, INH_T, INH_K, iniI, fimI, RI, DI, FI, PUNI, LTDN, ALTD, FORCAF, TFIB):
     np.random.seed(semente)
     UD = np.zeros((NF, MAXU)); UA = np.zeros((NF, MAXU), np.bool_); nU = np.zeros(NF, np.int64); R_b = np.zeros(MAXRAM, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
     R_d = np.zeros(MAXRAM); R_f = np.zeros(MAXRAM); R_fi = np.full(MAXRAM, np.nan); R_la = np.full(MAXRAM, np.nan)
     R_na = np.zeros(MAXRAM); R_es = np.zeros(MAXRAM, np.bool_); R_q = np.zeros(MAXRAM, np.int64)
     prot = np.zeros(MAXRAM, np.bool_); R_ok = np.ones(MAXRAM, np.bool_); R_bx = np.full(MAXRAM, np.nan)
-    RS = np.full((K, 2), RC); tRS = np.zeros((K, 2)); fmx = np.zeros((K, 2))
+    RCk = np.full((K, 2), RC)   # estoque por lado: proporcional às fibras que alcançam o lado (FORCAF)
+    if FORCAF:
+        for k in range(K):
+            for b in range(NF): RCk[k, b // FPO] += TFIB if ALC[b, k] else 0.0
+            RCk[k, 0] -= RC; RCk[k, 1] -= RC
+    RS = RCk.copy(); tRS = np.zeros((K, 2)); fmx = np.zeros((K, 2))
     mat = np.zeros(K); tmat = np.zeros(K); passo_m = 1.0 / (1.0 / (1.0 - 0.5 ** (1.0 / NMEIO)))
     HB = 5.0 * max(TAUJ, TAU) if MAT else HEXC
     LF = np.zeros((NF, MAXRAM), np.int64); nLF = np.zeros(NF, np.int64); nR_lf = -1
@@ -254,8 +259,14 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
                             zs = R_s[rr]
                             if OPT >= 2 and (not R_es[rr]) and T > R_td[rr]:
                                 R_f[rr] *= 2.0 ** (-(T - R_td[rr]) / MEIA); R_td[rr] = T
-                            RS[k, zs] = RC - (RC - RS[k, zs]) * np.exp(-(T - tRS[k, zs]) / TAUR); tRS[k, zs] = T
-                            g = min(DF * RS[k, zs] / RC, 1.0 - R_f[rr])
+                            RS[k, zs] = RCk[k, zs] - (RCk[k, zs] - RS[k, zs]) * np.exp(-(T - tRS[k, zs]) / TAUR); tRS[k, zs] = T
+                            g = min(DF * RS[k, zs] / RCk[k, zs], 1.0 - R_f[rr])
+                            if FORCAF:   # teto por fibra: soma dos ramos da mesma fibra nesta Uint <= TFIB
+                                sf = 0.0; bb = R_b[rr]
+                                for ii in range(nLF[bb]):
+                                    x = LF[bb, ii]
+                                    if R_ok[x] and R_k[x] == k: sf += R_f[x]
+                                g = min(g, TFIB - sf)
                             if g > 0.0: R_f[rr] += g; RS[k, zs] -= g; dfd[0, ep] += g
                             if np.isnan(R_fi[rr]): R_fi[rr] = T
                             R_la[rr] = T
@@ -473,7 +484,7 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False, PART=False, NPART=1000, INHP=False, NIMIN=2, NIMAX=3, LATI=0.2, ESPI=60.0, RI=1.0, DI=3.0, FI=0.5, LIMF=False, RMAX=300.0, ABS=0.4, TREC=0.4, PUNI=True, LTDN=False, ALTD=0.01):
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False, PART=False, NPART=1000, INHP=False, NIMIN=2, NIMAX=3, LATI=0.2, ESPI=60.0, RI=1.0, DI=3.0, FI=0.5, LIMF=False, RMAX=300.0, ABS=0.4, TREC=0.4, PUNI=True, LTDN=False, ALTD=0.01, FORCAF=False, TFIB=0.5, FINI=0.43):
     F = int(FIB)
     if INHP:
         rI = np.random.default_rng(semente + 5_000_011); NINH = rI.integers(NIMIN, NIMAX + 1, size=(K, 2))
@@ -483,9 +494,10 @@ def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False,
         INH_T = np.zeros(1); INH_K = np.zeros(1, np.int64); iniI = np.zeros(NEP, np.int64); fimI = np.zeros(NEP, np.int64)
     ALC = alcance(semente, F, K, AMIN, AMAX)
     razao, off, taui = INIB[cond]
+    if FORCAF: F0 = FINI * TFIB / NINI   # força inicial por fibra (fração do teto), dividida entre os ramos da fibra na Uint
     (Rs, Rb, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et, dsil, dfd) = _rodar(
         INC_T, INC_B, ini, fim, 2 * F, F, ALC, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
-        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0), 1 if PART else 0, NPART, 1 if INHP else 0, INH_T, INH_K, iniI, fimI, RI, DI, FI, 1 if PUNI else 0, 1 if LTDN else 0, ALTD)
+        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0), 1 if PART else 0, NPART, 1 if INHP else 0, INH_T, INH_K, iniI, fimI, RI, DI, FI, 1 if PUNI else 0, 1 if LTDN else 0, ALTD, 1 if FORCAF else 0, TFIB)
     sint = []; presa = []; pares = []
     for k in range(K):
         frac = hv[k] / ht[k] if ht[k] else 0.0
