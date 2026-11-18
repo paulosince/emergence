@@ -646,3 +646,21 @@ No grave, R mediano ~0,99 em todos.
 - Com o critério em fase, o modelo **sem força por fibra passa no agudo em 30/30**: as Uints têm sintonia acima do acaso e na fase de Δ. O que parecia "agudo no acaso" era, em boa parte, o critério antigo, que pedia uma precisão acima da biológica e usava uma máscara larga demais.
 - Com a força por fibra, o agudo continua **mudo** (não dispara), e por isso não passa.
 - **Limite do critério (já declarado):** com dezenas de milhares de acertos, até um R pequeno é significativo; a força real da sintonia (0,32 no modelo b, contra 0,52 na referência antiga) não tem ainda um piso biológico.
+
+### Diagnóstico: qual peça da força por fibra emudece o agudo (18/11; só medidas)
+Script `diagnostico_forca_fibra.py`; saída `diagnostico-forca-fibra-saida.txt`. Sementes 371–376 (já vistas), critério de fase no agudo.
+
+| Peças ligadas | Grave | Agudo | Disparos no agudo (mediana) |
+|---|---|---|---|
+| nenhuma | 6/6 | 6/6 | 800 |
+| **só o teto por fibra (0,5)** | 6/6 | **0/6** | **0** |
+| só o estoque proporcional | 6/6 | 6/6 | **2.638** |
+| só a força inicial | 6/6 | 6/6 | 748 |
+| teto + estoque | 6/6 | 0/6 | 0 |
+| as três | 6/6 | 0/6 | 0 |
+
+**Leitura:**
+- Quem emudece o agudo é o **teto por fibra**.
+- O **estoque proporcional sozinho ajuda** (3× mais disparos no agudo).
+- A força inicial é neutra.
+- **Hipótese do assistente:** o teto (0,5 por fibra em cada Uint) é dividido entre os 6 ramos iniciais da fibra (atrasos de 0,5 a 20 ms). Os de atraso errado também guardam força, e só saem se a Uint disparar (participação, depressão). No agudo, onde as fibras pulam ciclos, o ramo certo de cada fibra nunca passa de ~0,1–0,2, a Uint não dispara, e nada tira os errados: um impasse. No grave, as fibras disparam a cada ciclo e coincidem; por isso ele passa. O dado da MSO (1/3 do limiar por fibra) é do **adulto**, depois da seleção; no jovem, a força de uma fibra pode estar espalhada por vários contatos.

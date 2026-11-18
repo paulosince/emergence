@@ -1,0 +1,12 @@
+nenhuma            grave  sucesso 6/6 | disparos (med) 28004.0 | força total (med) 25.389 | ganho ep2 (med) 17.759999999999998
+nenhuma            agudo  sucesso 6/6 | disparos (med) 800.0 | força total (med) 40.101 | ganho ep2 (med) 18.049999999999997
+só teto            grave  sucesso 6/6 | disparos (med) 21976.5 | força total (med) 22.991999999999997 | ganho ep2 (med) 13.870000000000001
+só teto            agudo  sucesso 0/6 | disparos (med) 0.0 | força total (med) 25.493000000000002 | ganho ep2 (med) 0.7050000000000001
+só estoque         grave  sucesso 6/6 | disparos (med) 33316.0 | força total (med) 34.255 | ganho ep2 (med) 28.3
+só estoque         agudo  sucesso 6/6 | disparos (med) 2638.5 | força total (med) 41.9325 | ganho ep2 (med) 28.665
+só força inicial   grave  sucesso 6/6 | disparos (med) 24658.0 | força total (med) 23.4015 | ganho ep2 (med) 17.740000000000002
+só força inicial   agudo  sucesso 6/6 | disparos (med) 748.0 | força total (med) 40.2375 | ganho ep2 (med) 18.02
+teto + estoque     grave  sucesso 6/6 | disparos (med) 23514.0 | força total (med) 25.491 | ganho ep2 (med) 16.189999999999998
+teto + estoque     agudo  sucesso 0/6 | disparos (med) 0.0 | força total (med) 25.4935 | ganho ep2 (med) 0.7050000000000001
+as três            grave  sucesso 6/6 | disparos (med) 23527.5 | força total (med) 25.484 | ganho ep2 (med) 22.310000000000002
+as três            agudo  sucesso 0/6 | disparos (med) 0.0 | força total (med) 25.4935 | ganho ep2 (med) 8.91
