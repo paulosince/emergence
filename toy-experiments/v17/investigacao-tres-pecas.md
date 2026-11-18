@@ -100,3 +100,19 @@
 1. **Teto por fibra:** a soma das forças dos ramos de **uma mesma fibra** numa Uint fica limitada a **0,5** (1/3 do limiar), no lugar do teto de 1,0 por ramo [L: Couchman 2010]. Uma fibra sozinha nunca dispara a Uint, como na MSO.
 2. **Estoque por lado proporcional às fibras:** RC do lado = **0,5 × número de fibras** que alcançam aquele lado da Uint (2–4 fibras → 1,0–2,0). Evidência só indireta: mais entradas, mais terminais e recursos locais. Confiança baixa.
 3. **Força inicial por fibra:** ~0,43 do teto (≈ 0,2 por fibra, início da audição; Franzen 2020), **dividida entre os ramos** daquela fibra na Uint (≈ 0,036 por ramo, com 6 ramos). Hoje são 0,15 por ramo, ou 0,9 por fibra.
+
+## 8. O jovem: força por fibra contra o limiar, e janela de soma (pedido de 18/11: "Pesquise e meça")
+
+| Achado [L] | Fonte e leitura | Confiança |
+|---|---|---|
+| Fibras ativadas ao mesmo tempo necessárias para a MSO disparar: **4,62 no jovem** (P9/10, antes do início da audição) e **3,27 no maduro** (~P73), em repouso, no início do estímulo | Kladisios, Fischer & Felmy 2020, *Front Cell Neurosci* 14:592213 (texto integral, lido por ferramenta de resumo até ~2/3 da página) | média-alta |
+| Corrente de uma fibra: **0,7 nA** (P9/10) → **1,88 nA** (maduro). Reobase: **0,49 → 4,78 nA** | idem | média-alta |
+| Com atividade contínua (depressão sináptica), o maduro precisa de "cerca de quatro a **dez**" fibras; os autores chamam dez de estimativa **mínima** | idem (Discussão) | média |
+| Janela de soma temporal: **1,64 ms em P14 → 0,87 ms em P21**. A meia-largura do EPSP vai de 0,78 para ~0,55 ms. O estreitamento vem da corrente de potássio de baixo limiar | Scott, Mathews & Golding 2005, *J Neurosci* 25:7887 (texto integral, lido por ferramenta de resumo) | média-alta |
+| Entre P14 e P28–30, o limiar de corrente sobe ~3× e a resistência de entrada cai ~3× | idem | média |
+
+**Leitura [I]:**
+1. A hipótese "no jovem a fibra é mais forte em relação ao limiar" **não** se sustenta: é o contrário. No jovem, uma fibra vale ~1/4,6 do limiar; no maduro, ~1/3,3. O nosso teto (0,5 de 1,5 = 1/3) corresponde ao **maduro**.
+2. O que o jovem tem a mais é **janela**: a soma temporal é ~2× mais longa em P14 do que em P21. Nossa janela retangular de 0,30 ms não é diretamente comparável com essa "janela de soma" (as medidas são diferentes), então a comparação tem confiança baixa.
+3. **Tensão na literatura:** com atividade contínua, o maduro precisa de ~10 fibras ao mesmo tempo, mas a convergência mínima estimada é de 2–4 por lado (Couchman 2010). Ou chegam mais fibras do que o mínimo funcional, ou as fibras reais disparam mais juntas. O nosso alcance (2–4 por lado) usa o **mínimo**, não a convergência anatômica, que não li.
+4. A medida mostra uma falta de ~25% nos melhores momentos (seção de resultados de 18/11). Pistas NB para fechar essa falta, sem nada decidido: **janela mais longa no jovem** (maturação, apoiada em Scott 2005) ou **convergência maior** (a pesquisar).
