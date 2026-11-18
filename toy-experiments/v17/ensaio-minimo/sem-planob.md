@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: retirar a inibição do plano B (adaptação), antes da inibição da MSO
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável.
+**Estado:** **APROVADO** pelo responsável em 18/11/2026 ("Aprovo, pode rodar").
 **Redação:** assistente (Claude), 18/11/2026.
 **Base:**
 - diagnóstico de 17/11 ([resultados](resultados.md), participação): o colapso do agudo vem da inibição do plano B em janela retangular; sem inibição, o agudo não colapsou (sementes 221–222, diagnóstico);

@@ -531,3 +531,19 @@ Sementes 221–222, agudo, conjunto B, inibição I1:
 - **O colapso do agudo não vem do fim do sorteio**: o limiar duro sozinho não colapsa.
 - Vem da **inibição do plano B em forma retangular**: −0,5 por inteiro durante 0,30 ms, começando uma janela depois de cada chegada. No agudo (período de 0,6–0,9 ms, vários ramos), essa inibição cai em cima das chegadas seguintes, que deixam de favorecer e passam a ser **punidas**. A perda fica 2,5× maior que o ganho no primeiro episódio, a força morre antes de qualquer disparo, e os ramos são podados.
 - **Correção da leitura do passo 1:** lá eu disse que a causa era "falta de disparos" pelo fim do sorteio. A falta de disparos era o **sintoma**; a causa é a interação da janela retangular com a inibição do plano B, que já era uma adaptação declarada.
+
+## Sem o plano B (18/11)
+
+Registro prévio: [sem-planob.md](sem-planob.md) (aprovado). Script `sem_planob.py`; dados `sem-planob-saida.csv`. 120 execuções, sementes 251–280. Modelo: passo 1 + espontânea + relógio corrigido + participação (N = 100).
+
+| Condição | Grave | Agudo (em fase) | Colapsos no agudo | Ramos (mediana, agudo) |
+|---|---|---|---|---|
+| **Sem inibição** | **28/30** | **1/30** | **0** | 176 |
+| Com o plano B | 24/30 | 0/30 | 30 | 0 |
+
+**Pelas regras fixadas:** o agudo não passa (1/30 ≤ 17) → levar ao responsável. O grave passa.
+
+**O que se vê:**
+- **O colapso do agudo acabou** (30 → 0), como o diagnóstico previa.
+- O agudo agora fica **difuso, sem presas**. Diagnóstico de 4 sementes (251–254): as Uints que disparam têm **fração em fase de 0,39 a 0,52**, abaixo do critério (0,6) e acima do de "presa" (0,2). As diferenças preferidas (moda) se espalham: algumas em Δ (0,45–0,49), outras em −0,46, −0,39, −0,15 ou −1,01. A sintonia é **larga**.
+- [I] É o que se espera sem inibição. Na MSO, a inibição que chega antes **estreita a janela de coincidência** (Roberts 2013). Com janela retangular de 0,30 ms e período de 0,6–0,9 ms, quase toda diferença de atraso cai perto de algum equivalente de fase.

@@ -1,4 +1,4 @@
-"""Registro prévio sem-planob.md (RASCUNHO: só rodar depois da aprovação do responsável).
+"""Registro prévio sem-planob.md (APROVADO em 18/11/2026).
 Modelo atual (passo 1 + espontânea + relógio corrigido + participação N=100) sem inibição (I0) contra com o plano B (I1).
 Degrau 1, grave e agudo, sementes 251-280. Uso: ../../../../venv-nb/bin/python -I sem_planob.py  (gera sem-planob-saida.csv)"""
 import csv, os, sys
