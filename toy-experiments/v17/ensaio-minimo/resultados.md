@@ -717,3 +717,27 @@ Script `diagnostico_fase_episodios.py`; saída `diagnostico-fase-episodios-saida
 2. **Erro de desenho do critério (do assistente, que o propôs):** a fase de um acerto é calculada da diferença de atraso dos dois ramos que coincidiram. Se as duas chegadas coincidem e vêm do mesmo ciclo do mundo, essa diferença é, por construção, ≈ Δ mais um número inteiro de períodos. Dobrada no período, a fase sai ≈ 0. Ou seja: **qualquer coincidência movida pelo mundo parece sintonizada**. O R mede a proporção de coincidências vindas do mundo (contra as espontâneas) e a largura da janela em relação ao período, e não o que a Uint aprendeu.
 3. Os acertos são muitos: ~122 mil por Uint por episódio, contra ~100 disparos por Uint no total. Eles não dependem de a Uint disparar.
 4. **Consequência:** o resultado "agudo 30/30" da reavaliação pelo critério de fase **não** é evidência de formação da relação no agudo. O critério precisa ser revisto com o responsável.
+
+### Diagnóstico: o que existe e o que foi criado (18/11; só medidas; pedido do responsável)
+Script `diagnostico_malha.py`; saída `diagnostico-malha-saida.txt`. Modelo atual (8 fibras, limite 300/s, depressão NB, força por fibra, sem inibição) e o mesmo sem força por fibra. Sementes 371–376. Medianas.
+
+**Dado desde o início (não criado):** 8 Uints [R, registro estrutura-ramos]; 8 fibras por ouvido; quais fibras cada Uint alcança (2–4 por lado, sorteio anatômico); 6 Upros por fibra (96 no total), com atrasos fixos de 0,5 a 20 ms; cada Upro nasce com **um ramo para cada Uint que a sua fibra alcança** (1 a 6; mediana 3).
+
+| | Grave (atual) | Agudo (atual) | Grave (sem força por fibra) | Agudo (sem força por fibra) |
+|---|---|---|---|---|
+| Incidências por fibra, com som / no silêncio | ~253/s / ~58/s | ~306/s / ~57/s | ~253/s / ~58/s | ~306/s / ~57/s |
+| Incidências inibitórias | 0 | 0 | 0 | 0 |
+| Chegadas a ramos por episódio | 680 mil → 335 mil | ~970 mil | 345 mil → 417 mil | ~970 mil |
+| Upros novas criadas pela Pcrt | **26** (24–35) | **0** | **36** (34–42) | **0** |
+| Upros vivas no fim (de 96 + novas) | 42 | 96 | 50 | 96 |
+| Ramos vivos ao fim dos episódios 1→5 | 232 → 119 | 306 (sem mudança) | 81 → 158 | 306 (sem mudança) |
+| Ramos eliminados por não participar | 268 | 0 | 276 | 0 |
+| Ramos por lado de Uint, no fim | 8 | 18 | 9 | 18 |
+| Maior ramo / força do lado | 0,17 | 0,08 | 0,14 | 0,07 |
+| Ramos com ≥ metade da força do maior | 6 | 16 | 8 | 17 |
+
+**Leitura:**
+1. **No agudo, nada foi criado nem removido:** a malha do fim é exatamente a malha dada. A Pcrt não brota porque o broto exige força ≥ 0,3, e nenhum ramo do agudo chega lá.
+2. **No grave**, a Pcrt criou 24–42 Upros (cópias a ±10% do atraso de Upros existentes), e a participação removeu ~270 ramos. É **escultura** de uma malha dada, mais um pequeno brotamento local.
+3. **Convergência fraca, mesmo no grave:** cada lado de Uint termina com 8–9 ramos, o maior com ~15% da força e 6–8 ramos com pelo menos metade da força do maior. A "seleção" do grave é medida nos acertos, não numa estrutura concentrada.
+4. **Incidências:** só vêm da transdução (um pulso por ciclo, quando a fibra dispara) e da atividade espontânea (60/s por fibra). Não há inibição no modelo atual: o plano B saiu em 18/11, e a inibição da MSO está implementada, mas não foi adotada.

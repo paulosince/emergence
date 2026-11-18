@@ -1,0 +1,46 @@
+ALCANCE (dado, semente 371): fibras de cada lado que cada Uint alcança: Uint 0: A4/B2; Uint 1: A2/B4; Uint 2: A4/B3; Uint 3: A3/B3; Uint 4: A4/B4; Uint 5: A3/B4; Uint 6: A2/B3; Uint 7: A3/B3
+Uints alcançadas por fibra (semente 371): 3 4 5 3 4 1 2 3 3 5 2 5 5 4 1 1
+
+== atual (com força por fibra) | grave ==
+incidências por episódio (todas as 16 fibras): 42342; com som (10 s): 40494 = 253/s por fibra; no silêncio (2 s): 1860 = 58/s por fibra
+chegadas a ramos por episódio: 679842 545346 403868 339775 334525
+incidências sem integração (insumo da Pcrt), por episódio: 23860 9696 8516 7493 7514
+Upros: iniciais 96 (6 por fibra); novas criadas pela Pcrt 26 (mín 24, máx 35); vivas no fim 42
+ramos vivos ao fim de cada episódio: 232 180 148 124 119 | eliminados por não participar 268 | podados por não acertar 0
+ramos por Upro viva (mediana; mín-máx): 3 (1-6)
+por lado de Uint: ramos 8 | força somada 1.50 | maior ramo / soma 0.17 | ramos com ≥ metade do maior 6
+maior número de lados de Uint em que a MESMA Upro tem o ramo mais forte (mediana entre sementes): 2
+disparos (5 episódios, 8 Uints): 23528
+
+== atual (com força por fibra) | agudo ==
+incidências por episódio (todas as 16 fibras): 50818; com som (10 s): 49030 = 306/s por fibra; no silêncio (2 s): 1836 = 57/s por fibra
+chegadas a ramos por episódio: 966621 963423 973755 969357 969264
+incidências sem integração (insumo da Pcrt), por episódio: 50818 50630 50816 50683 50661
+Upros: iniciais 96 (6 por fibra); novas criadas pela Pcrt 0 (mín 0, máx 0); vivas no fim 96
+ramos vivos ao fim de cada episódio: 306 306 306 306 306 | eliminados por não participar 0 | podados por não acertar 0
+ramos por Upro viva (mediana; mín-máx): 3 (1-6)
+por lado de Uint: ramos 18 | força somada 1.50 | maior ramo / soma 0.08 | ramos com ≥ metade do maior 16
+maior número de lados de Uint em que a MESMA Upro tem o ramo mais forte (mediana entre sementes): 2
+disparos (5 episódios, 8 Uints): 0
+
+== sem força por fibra | grave ==
+incidências por episódio (todas as 16 fibras): 42342; com som (10 s): 40494 = 253/s por fibra; no silêncio (2 s): 1860 = 58/s por fibra
+chegadas a ramos por episódio: 345450 323845 335168 392348 416803
+incidências sem integração (insumo da Pcrt), por episódio: 8058 7852 8205 7500 7482
+Upros: iniciais 96 (6 por fibra); novas criadas pela Pcrt 36 (mín 34, máx 42); vivas no fim 50
+ramos vivos ao fim de cada episódio: 81 112 134 150 158 | eliminados por não participar 276 | podados por não acertar 0
+ramos por Upro viva (mediana; mín-máx): 3 (1-6)
+por lado de Uint: ramos 9 | força somada 1.56 | maior ramo / soma 0.14 | ramos com ≥ metade do maior 8
+maior número de lados de Uint em que a MESMA Upro tem o ramo mais forte (mediana entre sementes): 2
+disparos (5 episódios, 8 Uints): 28004
+
+== sem força por fibra | agudo ==
+incidências por episódio (todas as 16 fibras): 50818; com som (10 s): 49030 = 306/s por fibra; no silêncio (2 s): 1836 = 57/s por fibra
+chegadas a ramos por episódio: 966621 963423 973755 969357 969264
+incidências sem integração (insumo da Pcrt), por episódio: 27691 39118 39771 40511 40022
+Upros: iniciais 96 (6 por fibra); novas criadas pela Pcrt 0 (mín 0, máx 0); vivas no fim 96
+ramos vivos ao fim de cada episódio: 306 306 306 306 306 | eliminados por não participar 0 | podados por não acertar 0
+ramos por Upro viva (mediana; mín-máx): 3 (1-6)
+por lado de Uint: ramos 18 | força somada 2.46 | maior ramo / soma 0.07 | ramos com ≥ metade do maior 17
+maior número de lados de Uint em que a MESMA Upro tem o ramo mais forte (mediana entre sementes): 2
+disparos (5 episódios, 8 Uints): 800
