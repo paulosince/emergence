@@ -24,14 +24,18 @@ lf = np.log2(fc)
 zero = np.interp(lf, np.log2(fiso), tiso)
 baixo = np.zeros(64, bool)   # sem extrapolação: 50 Hz a 8 kHz estão dentro da tabela
 
-# --- capacidade: posição na cóclea (Greenwood 1990, humano: f = 165,4·(10^(2,1x) − 0,88); constantes de memória, padrão da área)
+# --- capacidade: dados humanos de Wu et al. 2019 (Neuroscience 407:8-20; texto integral, figuras lidas visualmente)
+#     fibras (tipo I) por posição de célula ciliada interna, grupo < 60 anos (Fig. 5D, leitura visual, ±0,5) e
+#     células ciliadas por mm (Fig. 5C: y = 101,22 − 9,0935·log10(f em kHz), r² = 0,91)
+fw = np.array([0.17, 0.24, 0.35, 0.49, 0.70, 0.98, 1.4, 2.0, 2.8, 3.9, 5.6, 8.0, 11.0, 16.0]) * 1000
+vw = np.array([3.7, 6.8, 7.6, 8.7, 10.2, 10.2, 10.4, 10.1, 9.0, 8.2, 7.1, 5.7, 4.2, 1.2])
+porcel = np.interp(np.log2(fc), np.log2(fw), vw)      # abaixo de 170 Hz: mantém 3,7 (suposição declarada)
+ihc_mm = 101.22 - 9.0935 * np.log10(fc / 1000)
+# comprimento de cada faixa na cóclea: Greenwood humano (1990; constantes de memória), cóclea de 35 mm
 X = lambda f: np.log10(f / 165.4 + 0.88) / 2.1
-dx = np.diff(X(fe)); xc = X(fc)
-ihc = 3500 * dx                                     # ~3.000-3.500 células ciliadas internas, densidade suposta uniforme
-porcel = 6.5 + (14 - 6.5) * np.sin(np.pi * xc)      # 6,5 nas pontas, 14 no meio (Nadol 1988; Viana et al. 2015); forma suposta
-# escala: "podemos ter menos que o humano, não mais" -> normaliza para ~30.000 fibras na cóclea humana inteira
-xs = np.linspace(0, 1, 100001); total_inteira = 3500 * np.mean(6.5 + (14 - 6.5) * np.sin(np.pi * xs))
-escala = min(1.0, 30000 / total_inteira)
+mm = np.diff(X(fe)) * 35.0; xc = X(fc)
+ihc = ihc_mm * mm
+escala = 1.0                                          # "menos que o humano, não mais": o grupo < 60 anos já fica abaixo do jovem
 cap = np.floor(ihc * porcel * escala).astype(int)
 
 # --- vagas de limiar dentro da faixa (decisão B: limiares ⊛ crescimento de cada fibra); formas realistas + S, 30/30/50 dB
@@ -98,6 +102,6 @@ a.legend(frameon=False, fontsize=9, labelcolor=TX2, loc="lower right"); a.set_xl
 a.set_title("4. Recrutamento: quantas Upros um som aciona", loc="left", color=TXT, fontsize=11.5)
 
 fig.suptitle("V0.18 — Cóclea: 64 faixas (proposta para revisão)", x=0.01, ha="left", fontsize=14, color=TXT, fontweight="bold")
-fig.text(0.01, 0.005, "Fontes: limiar humano ISO 389-7:2005 (via GB/T 4854.7-2008); capacidade escalada para ~30 mil fibras na cóclea humana inteira; fibras por célula ciliada: Nadol 1988, Viana et al. 2015; limiares por grupo: Liberman 1978 (gato, adaptação); "
+fig.text(0.01, 0.005, "Fontes: limiar humano ISO 389-7:2005 (via GB/T 4854.7-2008); capacidade: fibras por célula ciliada e células por mm de Wu et al. 2019 (humanos < 60 anos); limiares por grupo: Liberman 1978 (gato, adaptação); "
          "crescimento por fibra 30/30/50 dB (gato, adaptação). Formas simplificadas e declaradas na investigação.", fontsize=7.5, color=TX2, wrap=True)
 fig.tight_layout(rect=(0, 0.03, 1, 0.96)); fig.savefig("tabela-faixas.png", dpi=150, facecolor=SURF)

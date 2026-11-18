@@ -122,3 +122,22 @@ Script `tabela_faixas.py`; saídas `tabela-faixas.csv` e `tabela-faixas.png`.
 - **Graves:** "Ajuste a interpolação dos graves." O zero agora vem da **tabela completa** do limiar humano de referência em campo livre, **ISO 389-7:2005**, reproduzida de forma idêntica na norma chinesa GB/T 4854.7-2008 (tabela 1; valores lidos de uma página com OCR; alguns rótulos de frequência estavam embaralhados; **não conferidos com o original**). Valores entre 50 Hz e 8 kHz, por exemplo: 50 Hz **44,0**; 100 Hz **26,5**; 250 Hz **11,4**; 1 kHz **2,4**; 3,15 kHz **−6,0**; 4 kHz **−5,4**; 8 kHz **12,6** dB SPL. Não há mais extrapolação. A extrapolação anterior (28 dB a 50 Hz) subestimava o grave em 16 dB.
 - **Escala:** "Podemos ter menos que o humano, não mais. Não temos a mesma capacidade de processamento." O perfil foi escalado para dar ~30.000 fibras na cóclea humana inteira (fator 0,76). Resultado: **308 a 434 Upros por faixa**, **25.143 por ouvido** nas 64 faixas (que cobrem ~77% da cóclea).
 - **Pico em ~1,2 kHz, e não em ~4 kHz:** o pico de fibras por célula "no meio da cóclea" vem de Viana et al. 2015 (pessoas de 54 anos ou mais, já com perda pela idade). A **forma senoidal** e o lugar exato do pico são **suposições do assistente**. No camundongo, o número de sinapses por célula tem pico onde a cóclea é mais sensível (Meyer et al. 2009). No humano, a maior sensibilidade em 3–4 kHz é atribuída em grande parte à ressonância do canal do ouvido (de memória, a conferir), e não necessariamente à densidade de fibras. Para saber onde fica o pico humano, é preciso ler as figuras de Viana et al. 2015 ou de Wu et al. 2019.
+
+## Wu et al. 2019 e Viana et al. 2015: o perfil humano lido nos artigos (18/11)
+**Fontes (texto integral, PDFs enviados pelo responsável; não versionados):**
+- Wu, P. Z., Liberman, L. D., Bennett, K., de Gruttola, V., O'Malley, J. T., & Liberman, M. C. (2019). Primary neural degeneration in the human cochlea: Evidence for hidden hearing loss in the aging ear. *Neuroscience*, 407, 8–20. DOI 10.1016/j.neuroscience.2018.07.053 (manuscrito do autor no PMC).
+- Viana, L. M., et al. (2015). Cochlear neuropathy in human presbycusis: Confocal analysis of hidden hearing loss in post-mortem tissue. *Hearing Research*, 327, 78–88. DOI 10.1016/j.heares.2015.04.014.
+
+| Achado [literatura] | Onde | Confiança |
+|---|---|---|
+| A densidade de fibras do tipo I **tem pico no meio da cóclea**, com **mais de 5 vezes** mais fibras por unidade de comprimento perto da região de **1 kHz** do que nas pontas | Wu 2019, texto | alta |
+| Pico de **~16 fibras por célula ciliada** nos ouvidos mais jovens, um dos mais baixos entre os mamíferos (camundongo 18, chinchila 18, rhesus 18, cobaia 20, rato 24, gato 30) | Wu 2019, Discussão | alta |
+| Células ciliadas internas por mm: **y = 101,22 − 9,0935·log10(f em kHz)**, r² = 0,91 (~108/mm a 200 Hz, ~92/mm a 10 kHz) | Wu 2019, Fig. 5C | alta (equação impressa) |
+| Fibras por posição de célula ciliada, grupo < 60 anos (leitura visual, ±0,5): 0,17 kHz 3,7; 0,24 kHz 6,8; 0,5 kHz 8,7; 0,7–2 kHz ~10–10,4; 2,8 kHz 9,0; 3,9 kHz 8,2; 5,6 kHz 7,1; 8 kHz 5,7; 11 kHz 4,2; 16 kHz 1,2 | Wu 2019, Fig. 5D | média |
+| Perda com a idade: metade apical (0,2–1 kHz) y = −0,0843·idade + 12,36; metade basal (1,4–8 kHz) y = −0,123·idade + 14,59 (fibras por posição de célula) | Wu 2019, Fig. 6 | alta (equações impressas) |
+| Viana 2015: pico no meio da cóclea, ~14 fibras por célula na orelha mais jovem (54 anos); coerente com Wu | Viana 2015, texto | alta |
+
+**Leitura:**
+1. **No humano, o pico fica perto de 1 kHz, e não de 4 kHz.** O "pico ≈ 1,2 kHz" da tabela anterior estava perto do certo. A grande sensibilidade humana em 3–4 kHz não vem da densidade de fibras (a explicação pela ressonância do canal do ouvido é de memória, a conferir).
+2. **Nova capacidade** (substitui a forma senoidal e a escala de 30 mil): fibras por célula (Fig. 5D, < 60 anos) × células por mm (Fig. 5C) × comprimento de cada faixa na cóclea (Greenwood, cóclea de 35 mm). Resultado: **199 a 445 Upros por faixa**, **pico ≈ 730 Hz**, **21.731 por ouvido**. Por usar o grupo abaixo de 60 anos (já com alguma perda), fica abaixo do humano jovem, como pedido ("menos que o humano, não mais").
+3. **Artefato a declarar:** abaixo de 170 Hz não há dado; mantive 3,7 fibras por célula. Como o trecho da cóclea por faixa cresce nos graves, as faixas 1–8 ficam um pouco acima da 9 (degrau visível no painel 2). Também a cóclea de 35 mm é a do modelo de Greenwood; Wu indica 32–35 mm.
