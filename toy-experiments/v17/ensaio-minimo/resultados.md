@@ -629,3 +629,20 @@ Registro prévio: [forca-fibra.md](forca-fibra.md) (aprovado). Script `forca_fib
 - No agudo, o fortalecimento por coincidência não seleciona: com período de 0,6–0,9 ms, janela de soma de 0,30 ms e janela de coincidência de 0,21 ms, quase toda combinação de atrasos coincide em algum ciclo.
 - Na MSO, quem estreita a janela é a inibição, que ainda não está no modelo.
 - Também é preciso conferir se o critério de fase do agudo é realista: na MSO, a sintonia a ~1,3 kHz é **cíclica e larga** (pesquisar).
+
+## Reavaliação com o critério de fase do agudo (18/11)
+
+Registro: [criterio-fase.md](criterio-fase.md) (aprovado). Script `criterio_fase_reavaliacao.py`; dados `criterio-fase-saida.csv`. 180 execuções, sementes 371–400.
+
+| Modelo | Grave (critério antigo) | Agudo (critério de fase) | R mediano no agudo (Uints ≥ 100 disparos) |
+|---|---|---|---|
+| (a) Atual: 8 fibras, limite, depressão NB, **com** força por fibra | 30/30 | **0/30** (sem disparos) | — |
+| (b) O mesmo **sem** força por fibra | 30/30 | **30/30** | **0,32** |
+| (c) Referência antiga (1 fibra, sorteio, plano B) | 28/30 | 30/30 | 0,52 |
+
+No grave, R mediano ~0,99 em todos.
+
+**O que se vê:**
+- Com o critério em fase, o modelo **sem força por fibra passa no agudo em 30/30**: as Uints têm sintonia acima do acaso e na fase de Δ. O que parecia "agudo no acaso" era, em boa parte, o critério antigo, que pedia uma precisão acima da biológica e usava uma máscara larga demais.
+- Com a força por fibra, o agudo continua **mudo** (não dispara), e por isso não passa.
+- **Limite do critério (já declarado):** com dezenas de milhares de acertos, até um R pequeno é significativo; a força real da sintonia (0,32 no modelo b, contra 0,52 na referência antiga) não tem ainda um piso biológico.
