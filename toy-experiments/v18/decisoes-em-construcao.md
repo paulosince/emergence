@@ -23,11 +23,11 @@
 | Capacidade por fibra | **Proposta do responsável, em avaliação:** até 240 Upros por fibra (2 por decibel, 120 dB). Comparação NB: ~550 neurônios por 1/64 da cóclea humana (conta do assistente, confiança média) | 18/11 |
 | Limiares das Upros | **Vagas fixas** (dadas pelo hardware): cada Upro nasce numa vaga de limiar já definida, de baixo para cima. **Não** nasce "onde o som cair". A distribuição das vagas **não deve ser linear**: mais vagas nos níveis em que há mais fibras na biologia (forma a definir) | 18/11 |
 | Forma das vagas | **B: convolução** dos limiares das fibras biológicas com a faixa de crescimento de cada fibra ("Eu já sabia"). Parâmetros da primeira conta a aprovar ([investigação](investigacao-limiares-fibras.md)) | 18/11 |
+| Referência biológica | **"Sempre que tivermos o exemplo humano, seguimos por ele. Quando não, adaptamos."** Dado não humano entra declarado como adaptação, com a espécie | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
 1. Intensidade: forma da distribuição não linear das vagas e sua extensão (até ~80 dB acima do limiar da faixa, ou 120 dB?); referência dos decibéis por faixa; nome Cpro. Ler Liberman 1978 (texto integral) para os limiares por grupo.
-2. Referência biológica (espécie ou escala).
 3. Antes da cóclea: microfones, cabeça, ouvido externo e médio.
 4. Faixa de frequências e escala das 64 faixas.
 5. Resolução temporal (amostragem, acompanhamento de fase, refratário, taxa máxima).
