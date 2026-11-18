@@ -94,3 +94,18 @@ Seis variações da conta B (Upros ativas, de 240, por nível acima do zero da f
 1. **Entre faixas, também há convolução.** O som de uma frequência acorda faixas vizinhas, com limiar que sobe conforme a frequência se afasta (curva em V, assimétrica). Quanto mais alto o som, mais faixas acordam. No nosso hardware, os filtros da cóclea já se sobrepõem: combinados com as vagas de limiar, eles fazem essa convolução de frequência × intensidade sem nada a mais. **Perda:** um filtro linear não alarga com o nível, e o da biologia alarga.
 2. **A sensibilidade por frequência tem duas origens:** o filtro do ouvido externo e médio (o "zero" de cada faixa) e **quantas fibras há em cada lugar**, que é máximo onde a cóclea é mais sensível. É a intuição do responsável: "poucas acionadas em uma, muitas em outras" vale também para a frequência. A capacidade por fibra (240) poderia variar com a faixa.
 3. **A combinação frequência × decibéis existe e tem nome na biologia: a curva de sintonia** (o limiar de uma fibra para cada frequência). Fig. 13 e Fig. 16 (à direita) de Liberman 1978.
+
+## Dados humanos (decisão de 18/11: "sempre que tivermos o exemplo humano, seguimos por ele")
+
+| Achado [literatura] | Fonte e leitura | Confiança |
+|---|---|---|
+| Limiar de audição normal (dB SPL): 250 Hz **12**; 500 Hz **5**; 1 kHz **2**; 2 kHz **−2**; 4 kHz **−5**; 8 kHz **13** | Tabela extraída da ISO (2003), reproduzida em GreenFacts (página lida) | média-alta (poucos pontos; a tabela completa está na norma, paga) |
+| Faixa audível: de 0 dB SPL (limiar) a 120–140 dB SPL (limiar de dor) | idem | média |
+| Contatos por célula ciliada interna em humanos: **11,1 a 13,3** na orelha mais jovem da amostra (54 anos); fibras por célula com **pico de ~14 no meio da cóclea**; microscopia eletrônica (64 anos): **6,5 a 12,5** conforme o lugar | Viana et al. 2015, *Hear Res* (texto integral, lido por resumo; os valores por frequência só nas figuras); Nadol 1988 citado ali | média-alta |
+| Com a idade, a perda de fibras é grande: em 7 de 11 pessoas acima de 60 anos, mais de 60% de perda | Wu et al. 2019, *Neuroscience* (resumo) | alta |
+| Não há registro de fibras isoladas do nervo auditivo humano: limiares por grupo e faixas de crescimento vêm de animais (gato) → **adaptação declarada** | inferência | alta |
+
+**Leitura [inferência]:**
+- As amostras humanas com números por lugar são de pessoas de 54 anos ou mais, com perda pela idade. Para um sistema "jovem", os números devem ser maiores. Wu et al. 2019 tem pessoas de 0 a 89 anos, mas os valores por lugar só aparecem nas figuras.
+- Se as 64 faixas forem espaçadas como a cóclea (ERB), cada faixa cobre um trecho parecido da cóclea: ~3.500 / 64 ≈ 55 células ciliadas internas por faixa. Com 6,5 a 14 fibras por célula, seriam **~360 a ~770 fibras por faixa**, com pico no meio. Conta do assistente; confiança baixa.
+- **Proposta [A]:** capacidade por fibra (Cpro) variando com a faixa, proporcional ao perfil humano de fibras por célula ciliada, em vez de 240 fixo. Decisão do responsável.
