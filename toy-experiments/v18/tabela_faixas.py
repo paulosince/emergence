@@ -14,20 +14,25 @@ Einv = lambda e: (10 ** (e / 21.4) - 1) * 1000 / 4.37
 ec = np.linspace(E(50), E(8000), 64); fc = Einv(ec)
 step = ec[1] - ec[0]; fe = Einv(np.concatenate(([ec[0] - step / 2], (ec[:-1] + ec[1:]) / 2, [ec[-1] + step / 2])))
 
-# --- zero de cada faixa: limiar humano (ISO 2003, tabela reproduzida em GreenFacts): interpolação em log da frequência;
-#     abaixo de 250 Hz, extrapolação linear com a inclinação de 250-500 Hz (perda declarada; provavelmente subestima)
-fiso = np.array([250, 500, 1000, 2000, 4000, 8000.0]); tiso = np.array([12, 5, 2, -2, -5, 13.0])
+# --- zero de cada faixa: limiar humano de referência em campo livre (ISO 389-7:2005, reproduzido de forma idêntica na
+#     GB/T 4854.7-2008, tabela 1; valores lidos por OCR, não conferidos com o original), interpolado em log da frequência
+fiso = np.array([20, 25, 31.5, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 750, 800, 1000, 1250, 1500, 1600, 2000,
+                 2500, 3000, 3150, 4000, 5000, 6000, 6300, 8000, 9000, 10000, 11200, 12500, 14000, 16000.0])
+tiso = np.array([78.5, 68.7, 59.5, 51.1, 44.0, 37.5, 31.5, 26.5, 22.1, 17.9, 14.4, 11.4, 8.6, 6.2, 4.4, 3.0, 2.4, 2.2, 2.4, 3.5, 2.4, 1.7, -1.3,
+                 -4.2, -5.8, -6.0, -5.4, -1.5, 4.3, 6.0, 12.6, 13.9, 13.9, 13.0, 12.3, 18.4, 40.2])
 lf = np.log2(fc)
 zero = np.interp(lf, np.log2(fiso), tiso)
-inc = (tiso[1] - tiso[0]) / (np.log2(500) - np.log2(250)); baixo = fc < 250
-zero[baixo] = tiso[0] + inc * (lf[baixo] - np.log2(250))
+baixo = np.zeros(64, bool)   # sem extrapolação: 50 Hz a 8 kHz estão dentro da tabela
 
 # --- capacidade: posição na cóclea (Greenwood 1990, humano: f = 165,4·(10^(2,1x) − 0,88); constantes de memória, padrão da área)
 X = lambda f: np.log10(f / 165.4 + 0.88) / 2.1
 dx = np.diff(X(fe)); xc = X(fc)
 ihc = 3500 * dx                                     # ~3.000-3.500 células ciliadas internas, densidade suposta uniforme
 porcel = 6.5 + (14 - 6.5) * np.sin(np.pi * xc)      # 6,5 nas pontas, 14 no meio (Nadol 1988; Viana et al. 2015); forma suposta
-cap = np.round(ihc * porcel).astype(int)
+# escala: "podemos ter menos que o humano, não mais" -> normaliza para ~30.000 fibras na cóclea humana inteira
+xs = np.linspace(0, 1, 100001); total_inteira = 3500 * np.mean(6.5 + (14 - 6.5) * np.sin(np.pi * xs))
+escala = min(1.0, 30000 / total_inteira)
+cap = np.floor(ihc * porcel * escala).astype(int)
 
 # --- vagas de limiar dentro da faixa (decisão B: limiares ⊛ crescimento de cada fibra); formas realistas + S, 30/30/50 dB
 dd = 0.01; x = np.arange(-20, 160, dd)
@@ -47,7 +52,7 @@ with open("tabela-faixas.csv", "w", newline="") as fh:
     for i in range(64):
         v = vagas(cap[i]) + zero[i]
         w.writerow([i + 1, round(fc[i], 1), round(zero[i], 1), "extrapolado" if baixo[i] else "interpolado", round(ihc[i], 1), round(porcel[i], 1), cap[i], round(v.min(), 1), round(v.max(), 1)])
-print("capacidade: mín", cap.min(), "máx", cap.max(), "total por ouvido", cap.sum(), "| zero: mín", round(zero.min(), 1), "máx", round(zero.max(), 1))
+print("escala", round(escala, 3), "| capacidade: mín", cap.min(), "máx", cap.max(), "total por ouvido", cap.sum(), "| zero: mín", round(zero.min(), 1), "máx", round(zero.max(), 1))
 
 # --- figura (paleta de referência: azul série 1, laranja série 2, aqua série 3; texto em tinta neutra)
 B1, O2, A3, TXT, TX2, GRID, SURF = "#2a78d6", "#eb6834", "#1baf7a", "#0b0b0b", "#52514e", "#e6e5e1", "#fcfcfb"
@@ -58,9 +63,9 @@ for a in ax.flat: a.set_facecolor(SURF); a.grid(True, color=GRID, lw=0.8); a.set
 tk = [50, 100, 250, 500, 1000, 2000, 4000, 8000]; tl = ["50", "100", "250", "500", "1k", "2k", "4k", "8k"]
 
 a = ax[0, 0]
-a.plot(fc[~baixo], zero[~baixo], color=B1, lw=2, label="interpolado (entre pontos humanos)")
-a.plot(fc[baixo | (np.roll(baixo, 1))], zero[baixo | (np.roll(baixo, 1))], color=B1, lw=2, ls="--", label="extrapolado (abaixo de 250 Hz)")
-a.scatter(fiso, tiso, s=60, color=O2, zorder=3, edgecolor=SURF, lw=2, label="limiar humano (ISO 2003)")
+a.plot(fc, zero, color=B1, lw=2, label="zero das 64 faixas (interpolado)")
+k = (fiso >= 50) & (fiso <= 8000)
+a.scatter(fiso[k], tiso[k], s=40, color=O2, zorder=3, edgecolor=SURF, lw=1.5, label="limiar humano (ISO 389-7)")
 a.set_xscale("log"); a.set_xticks(tk); a.set_xticklabels(tl); a.set_xlabel("frequência (Hz)"); a.set_ylabel("dB SPL")
 a.set_title("1. O zero de cada faixa (limiar de audição)", loc="left", color=TXT, fontsize=11.5)
 a.legend(frameon=False, fontsize=9, labelcolor=TX2)
@@ -93,6 +98,6 @@ a.legend(frameon=False, fontsize=9, labelcolor=TX2, loc="lower right"); a.set_xl
 a.set_title("4. Recrutamento: quantas Upros um som aciona", loc="left", color=TXT, fontsize=11.5)
 
 fig.suptitle("V0.18 — Cóclea: 64 faixas (proposta para revisão)", x=0.01, ha="left", fontsize=14, color=TXT, fontweight="bold")
-fig.text(0.01, 0.005, "Fontes: limiar humano ISO 2003 (pontos de 250 Hz a 8 kHz); fibras por célula ciliada: Nadol 1988, Viana et al. 2015; limiares por grupo: Liberman 1978 (gato, adaptação); "
+fig.text(0.01, 0.005, "Fontes: limiar humano ISO 389-7:2005 (via GB/T 4854.7-2008); capacidade escalada para ~30 mil fibras na cóclea humana inteira; fibras por célula ciliada: Nadol 1988, Viana et al. 2015; limiares por grupo: Liberman 1978 (gato, adaptação); "
          "crescimento por fibra 30/30/50 dB (gato, adaptação). Formas simplificadas e declaradas na investigação.", fontsize=7.5, color=TX2, wrap=True)
 fig.tight_layout(rect=(0, 0.03, 1, 0.96)); fig.savefig("tabela-faixas.png", dpi=150, facecolor=SURF)
