@@ -64,3 +64,33 @@ Limiares contados **a partir do limiar mais sensível da faixa** (o zero de cada
 - A densidade é maior entre 10 e 40 dB (5–7 vagas por dB). Acima de 40 dB há uma cauda longa e rala (0,3–0,6 por dB), feita pelas de atividade baixa.
 - A distribuição combinada vai até **~120 dB**, sem que isso tenha sido imposto: são os 80 dB dos limiares mais altos somados aos 50 dB de crescimento.
 - Só com os limiares (opção A), 10 dB já ativariam 185 das 240.
+
+## Vale a pena melhorar as formas? Teste de sensibilidade (18/11, pedido do responsável)
+Seis variações da conta B (Upros ativas, de 240, por nível acima do zero da faixa):
+
+| Variação | 5 | 10 | 20 | 30 | 40 | 60 | 80 | 120 dB |
+|---|---|---|---|---|---|---|---|---|
+| zonas uniformes + crescimento linear (conta inicial) | 7 | 30 | 96 | 165 | 204 | 214 | 225 | 239 |
+| uniformes + crescimento em S (sigmoide) | 4 | 19 | 85 | 154 | 191 | 211 | 223 | 238 |
+| formas realistas (sinos; cauda assimétrica nas de atividade baixa) + linear | 9 | 35 | 101 | 169 | 205 | 219 | 233 | 240 |
+| formas realistas + S | 5 | 22 | 90 | 157 | 192 | 217 | 231 | 239 |
+| formas realistas + S, crescimento **20/20/40 dB** | 8 | 39 | 141 | 192 | 205 | 222 | 234 | 240 |
+| formas realistas + S, crescimento **40/40/60 dB** | 3 | 15 | 60 | 119 | 166 | 209 | 226 | 238 |
+
+**Leitura:** refinar a forma das zonas e do crescimento muda pouco (5 a 15 Upros). O que muda muito é a **largura do crescimento** de cada fibra (a 20 dB: de 60 a 141 Upros). Vale buscar dados de população para essa largura, e não refinar a forma.
+**Exemplos do próprio Liberman (Fig. 16, um neurônio de cada grupo, leitura visual, confiança média):** atividade alta cresce em ~20–25 dB; média em ~30 dB; baixa em mais de 40 dB, saturando numa taxa baixa. Saturação média de ~200 disparos/s nas de atividade alta e média; nas de atividade baixa, de 40 a 190 (texto, p. 451).
+
+## Frequência: o mesmo mecanismo? (pesquisa de 18/11; resumos e trechos, salvo indicação)
+
+| Achado [literatura] | Fonte | Confiança |
+|---|---|---|
+| Curvas de sintonia (chinchila): uma ponta que vai até 30–40 dB acima do limiar na frequência característica, com inclinações de −60 e +120 dB por oitava; uma "cauda" rasa nos graves e um corte muito íngreme nos agudos | Temchin, Rich & Ruggero 2008 (resumo) | alta |
+| A largura do filtro coclear cresce com o nível, sobretudo 30–40 dB acima do limiar (no gato, de 1,1 a 2,5 vezes a 100–110 dB) | Evans (texto de revisão, trecho) | média |
+| A transmissão do ouvido médio é um determinante do audiograma (gerbil) | Ravicz e colegas (resumo; autoria a conferir) | média-alta |
+| O número de sinapses por célula ciliada interna **é máximo onde a cóclea é mais sensível** (camundongo) | Meyer et al. 2009, *Nature Neuroscience* (resumo) | alta |
+| De 5 a 30 fibras por célula ciliada interna; a diferença de limiar entre elas vem de gradientes no tamanho das sinapses | Liberman, Wang & Liberman 2011 (resumo) | alta |
+
+**Leitura [inferência]:**
+1. **Entre faixas, também há convolução.** O som de uma frequência acorda faixas vizinhas, com limiar que sobe conforme a frequência se afasta (curva em V, assimétrica). Quanto mais alto o som, mais faixas acordam. No nosso hardware, os filtros da cóclea já se sobrepõem: combinados com as vagas de limiar, eles fazem essa convolução de frequência × intensidade sem nada a mais. **Perda:** um filtro linear não alarga com o nível, e o da biologia alarga.
+2. **A sensibilidade por frequência tem duas origens:** o filtro do ouvido externo e médio (o "zero" de cada faixa) e **quantas fibras há em cada lugar**, que é máximo onde a cóclea é mais sensível. É a intuição do responsável: "poucas acionadas em uma, muitas em outras" vale também para a frequência. A capacidade por fibra (240) poderia variar com a faixa.
+3. **A combinação frequência × decibéis existe e tem nome na biologia: a curva de sintonia** (o limiar de uma fibra para cada frequência). Fig. 13 e Fig. 16 (à direita) de Liberman 1978.
