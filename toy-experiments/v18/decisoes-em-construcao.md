@@ -26,6 +26,8 @@
 | Referência biológica | **"Sempre que tivermos o exemplo humano, seguimos por ele. Quando não, adaptamos."** Dado não humano entra declarado como adaptação, com a espécie | 18/11 |
 | Capacidade por fibra | **Segue o perfil humano** de fibras por célula ciliada interna ao longo da cóclea (mais Upros no meio), em vez de 240 fixo. Escala a definir | 18/11 |
 | Zero de cada faixa | Limiar de audição humano (ISO 2003): **usar os pontos disponíveis (250 Hz a 8 kHz) e interpolar**, com a perda declarada | 18/11 |
+| Cóclea (hardware) | **Mantida a especificação já decidida em 16/11 (V0.17):** 64 faixas na escala ERB, de ~50 Hz a 8 kHz (~0,5 ERB entre faixas); microfones a 48 kHz. Consequência: limiar humano interpolado de 250 Hz a 8 kHz e **extrapolado** de 50 a 250 Hz (perda declarada) | 18/11 |
+| Escala da capacidade | **Números biológicos** humanos por faixa (não 240) | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
