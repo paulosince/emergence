@@ -684,3 +684,19 @@ Do mundo: cada fibra dispara em **~23% dos ciclos** no agudo (mediana 0,227) e e
 3. No grave, as fibras disparam em todo ciclo. A Uint dispara, a participação elimina ramos, e a força se concentra (2 ramos, maior/soma ~0,5).
 4. **Achado lateral:** mesmo **passando** (sem teto), o agudo não seleciona ramos: são 6 por fibra, espalhados, com poucos disparos (~100 por Uint). Ele passa no critério de fase com estrutura difusa. Isso pesa na discussão do piso de R.
 5. **Corrigido pelo assistente:** a métrica "V potencial" (a soma dos maiores ramos de cada fibra) **não** é um teto do V possível. Ramos de uma mesma fibra, vindos de ciclos diferentes, podem chegar juntos. Ela foi removida da leitura.
+
+### Diagnóstico: distância até o limiar, com e sem teto (18/11; só medidas)
+Script `diagnostico_distancia_limiar.py`; saída `diagnostico-distancia-limiar-saida.txt`. O motor ganhou uma medida que **não muda a dinâmica** (identidade com o motor de referência conferida): histograma do V em cada chegada e maior V de cada Uint, no último episódio, com som. Sementes 371–376.
+
+| Variante, faixa | Chegadas com V ≥ 1,2 | Chegadas com V ≥ 1,5 | Maior V por Uint (mediana; mín–máx) |
+|---|---|---|---|
+| nenhuma, grave | 52,7% | 45,3% | 3,77 (3,24–4,84) |
+| nenhuma, agudo | 1,6% | 0,14% | **2,01** (1,80–2,23) |
+| só teto, grave | 43,1% | 35,6% | 3,01 (1,33–3,65) |
+| só teto, agudo | 0,005% | ~0 (1 chegada) | **1,19** (0,83–1,52) |
+| as três, agudo | 0,005% | ~0 (1 chegada) | 1,24 (0,92–1,55) |
+
+**Leitura:**
+- Com o teto, o agudo chega no máximo a **~80% do limiar** na Uint típica. A falta é de ~25% nos melhores momentos.
+- A distribuição inteira do V se desloca para baixo, mais ou menos na razão da força por fibra (0,50 contra 0,74).
+- O grave passa com folga mesmo com o teto.

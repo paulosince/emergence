@@ -1,0 +1,13 @@
+nenhuma   grave  | chegadas 2297033 | V≥0,9: 60.799% | V≥1,2: 52.651% | V≥1,5 (dispara): 45.253% | maior V por Uint: mediana 3.77, mín 3.24, máx 4.84
+nenhuma   agudo  | chegadas 5486140 | V≥0,9: 11.381% | V≥1,2: 1.625% | V≥1,5 (dispara): 0.141% | maior V por Uint: mediana 2.01, mín 1.80, máx 2.23
+só teto   grave  | chegadas 2032763 | V≥0,9: 51.176% | V≥1,2: 43.072% | V≥1,5 (dispara): 35.565% | maior V por Uint: mediana 3.01, mín 1.33, máx 3.65
+só teto   agudo  | chegadas 5486140 | V≥0,9: 0.353% | V≥1,2: 0.005% | V≥1,5 (dispara): 0.000% | maior V por Uint: mediana 1.19, mín 0.83, máx 1.52
+as três   grave  | chegadas 1892820 | V≥0,9: 59.400% | V≥1,2: 51.718% | V≥1,5 (dispara): 43.843% | maior V por Uint: mediana 3.00, mín 1.94, máx 4.00
+as três   agudo  | chegadas 5486140 | V≥0,9: 0.380% | V≥1,2: 0.005% | V≥1,5 (dispara): 0.000% | maior V por Uint: mediana 1.24, mín 0.92, máx 1.55
+histograma somado (faixas de 0,1; a última é ≥ 1,5):
+  nenhuma   grave  37143 151881 122597 128610 119503 103344 89231 77925 70223 65469 61892 59812 56183 57637 56097 1039486
+  nenhuma   agudo  37401 198048 435317 686068 830086 860866 772148 610535 431276 277939 166233 91063 47767 22898 10753 7742
+  só teto   grave  137658 178115 159206 117773 133958 84721 61183 64491 55366 62553 56851 45328 60399 40333 51878 722950
+  só teto   agudo  167723 654981 1190056 1335757 1038954 616622 297313 121771 43596 13967 4136 1003 218 38 4 1
+  as três   grave  73117 98912 125448 93931 149148 67708 55658 56286 48283 56189 48150 41065 57414 38302 53342 829867
+  as três   agudo  166319 684155 1196989 1303156 1016116 617935 305885 128079 46664 15067 4402 1089 237 41 5 1
