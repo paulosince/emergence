@@ -65,7 +65,7 @@
 | Disparo pós-sináptico até 20 ms depois da ativação pré-sináptica → potenciação; disparo antes → depressão. **Potenciação significativa só em sinapses inicialmente fracas**; a depressão **não depende** da força inicial (em termos relativos). Janela da depressão ~34 ± 13 ms; da potenciação, ~17 ± 9 ms (hipocampo em cultura) | Bi & Poo 1998, *J Neurosci* 18:10464 (resumo e trechos) | alta |
 | Modelo com essas observações (potenciação menor para sinapses fortes; depressão proporcional à força) gera distribuição de pesos **estável**; nele, a competição é fraca | van Rossum, Bi & Turrigiano 2000, *J Neurosci* 20:8812 (resumo) | alta |
 | Depressão **aditiva** (fixa, independente da força) dá competição forte, mas é **instável** e precisa de limites duros; depressão **multiplicativa** dá estabilidade | Gilson & Fukai 2011, *PLoS ONE* 6:e25339 (resumo) | alta |
-| Plasticidade heterossináptica **equilibrada**: potenciação e depressão se compensam, e a entrada total da célula se preserva | Volgushev et al. 2016, *J Neurosci* 36:8842 (trecho) | média |
+| Plasticidade heterossináptica **equilibrada**: potenciação e depressão se compensam, e a entrada total da célula se preserva | *J Neurosci* 2016, 36:8842 (PDF do laboratório de Volgushev; trecho; autoria a conferir) | média |
 
 **Leitura [I]:**
 - A nossa punição é **aditiva** (valor fixo por chegada), o tipo instável.
