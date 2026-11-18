@@ -193,6 +193,15 @@
 - **Relação com a seção 21:** a hipótese "o mundo seleciona a fase pela inibição" ganha um **contra-argumento** (Sierksma & Borst consideram improvável o papel da inibição na preferência durante o desenvolvimento) e um **apoio parcial** (Chirila et al. propõem poda de inibição com atraso inadequado). Fica em aberto.
 - **O que falta para alegar:** (Chirila 2007 e Roberts 2013 lidos em 17/11: a inibição madura chega 0,32–0,38 ms antes, em P15–20; o tempo jovem não foi medido) buscar se há modelo publicado de seleção de atrasos por criação/eliminação de ramos na MSO; mostrar no ensaio que a seleção vem do mundo (controle da preferência da estrutura já feito: parte vem da estrutura).
 
+## 23. Fases sem mundo como "sono": ruído no momento certo reforça as ondas de limpeza (18/11/2026)
+- **O que existe [L]:** Levitt, Lewis e colegas (MIT e Boston University), *Science Translational Medicine*, set/2026 — **só notícia do MIT e reportagens** (artigo não lido). 14 voluntários dormiram num aparelho de ressonância com EEG. Rajadas de 50 ms de ruído rosa, dadas no pico previsto das ondas lentas do sono não REM, **aumentaram as ondas lentas** e, com elas, as **ondas de líquido cefalorraquidiano** que lavam resíduos do cérebro. Segundo as reportagens, o efeito dependia do momento da rajada; ruído contínuo não fazia o mesmo. Antes disso, Lewis (2019) havia mostrado as ondas de líquido acopladas às ondas lentas; em 2026 o grupo relatou que essas ondas estão reduzidas em idosos.
+- **Por que interessa [I]:**
+  1. Os nossos episódios têm intervalos de 170 s sem mundo, hoje "tempo morto" (o relógio corrigido já não conta esse tempo). Na biologia, o período offline (sono) é ativo: consolidação, repetição e **limpeza**.
+  2. Conversa com a pergunta do responsável sobre "para onde vão os traços que somem" e com a **hipótese glial** dele. A limpeza pelo líquido é um processo **não neuronal**, ligado à glia e ao sistema glinfático.
+  3. Mostra que um sinal **fraco, no momento certo** reforça uma dinâmica que já existe, e que o momento importa mais que a quantidade. É o mesmo princípio de sincronia que decide a eliminação.
+- **O que seria novo em nós [I]:** uma fase offline com mecanismo próprio (limpeza de ramos e Upros sem uso, repetição) no lugar de intervalos mortos, como parte da arquitetura do domínio representacional.
+- **O que falta:** ler o artigo (provavelmente pago); buscar o mecanismo da limpeza e da consolidação no sono em termos que se traduzam para a arquitetura; decisão do responsável sobre se e quando isso entra (depois da V0.17).
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
