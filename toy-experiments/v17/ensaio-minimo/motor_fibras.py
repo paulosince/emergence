@@ -65,7 +65,7 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO, RELOG, DEP, PART, NPART, INHP, INH_T, INH_K, iniI, fimI, RI, DI, FI):
+def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO, RELOG, DEP, PART, NPART, INHP, INH_T, INH_K, iniI, fimI, RI, DI, FI, PUNI):
     np.random.seed(semente)
     UD = np.zeros((NF, MAXU)); UA = np.zeros((NF, MAXU), np.bool_); nU = np.zeros(NF, np.int64); R_b = np.zeros(MAXRAM, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
@@ -274,7 +274,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
                             if 0 <= bdx < 4001: hdif[k, bdx] += 1
                             if abs(dif - DLT) <= W: hv[k] += 1
                     j -= 1
-            elif (not R_es[r]) and W < T - ufav[k] <= 3 * W:
+            elif PUNI and (not R_es[r]) and W < T - ufav[k] <= 3 * W:
                 dfd[1, ep] += min(R_f[r], 1.05 * DF); R_f[r] = max(0.0, R_f[r] - 1.05 * DF)
             disparou = False
             if DURO:
@@ -470,7 +470,7 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False, PART=False, NPART=1000, INHP=False, NIMIN=2, NIMAX=3, LATI=0.2, ESPI=60.0, RI=1.0, DI=3.0, FI=0.5, LIMF=False, RMAX=300.0, ABS=0.4, TREC=0.4):
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False, PART=False, NPART=1000, INHP=False, NIMIN=2, NIMAX=3, LATI=0.2, ESPI=60.0, RI=1.0, DI=3.0, FI=0.5, LIMF=False, RMAX=300.0, ABS=0.4, TREC=0.4, PUNI=True):
     F = int(FIB)
     if INHP:
         rI = np.random.default_rng(semente + 5_000_011); NINH = rI.integers(NIMIN, NIMAX + 1, size=(K, 2))
@@ -482,7 +482,7 @@ def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False,
     razao, off, taui = INIB[cond]
     (Rs, Rb, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et, dsil, dfd) = _rodar(
         INC_T, INC_B, ini, fim, 2 * F, F, ALC, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
-        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0), 1 if PART else 0, NPART, 1 if INHP else 0, INH_T, INH_K, iniI, fimI, RI, DI, FI)
+        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0), 1 if PART else 0, NPART, 1 if INHP else 0, INH_T, INH_K, iniI, fimI, RI, DI, FI, 1 if PUNI else 0)
     sint = []; presa = []; pares = []
     for k in range(K):
         frac = hv[k] / ht[k] if ht[k] else 0.0

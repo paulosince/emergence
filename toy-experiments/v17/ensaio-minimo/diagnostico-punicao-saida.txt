@@ -1,0 +1,12 @@
+1 fibra                punição=sim grave  sucesso 10/10 colapsos 0 | ep1 ganha 18.0 perdida 38.1 | ramos 155.0
+1 fibra                punição=sim agudo  sucesso 0/10 colapsos 0 | ep1 ganha 18.9 perdida 18.2 | ramos 187.0
+1 fibra                punição=não grave  sucesso 10/10 colapsos 0 | ep1 ganha 18.7 perdida 0.0 | ramos 111.0
+1 fibra                punição=não agudo  sucesso 0/10 colapsos 0 | ep1 ganha 19.0 perdida 0.0 | ramos 208.0
+8 fibras               punição=sim grave  sucesso 8/10 colapsos 0 | ep1 ganha 17.6 perdida 58.8 | ramos 218.0
+8 fibras               punição=sim agudo  sucesso 0/10 colapsos 8 | ep1 ganha 18.5 perdida 41.7 | ramos 165.5
+8 fibras               punição=não grave  sucesso 10/10 colapsos 0 | ep1 ganha 18.8 perdida 0.0 | ramos 189.5
+8 fibras               punição=não agudo  sucesso 0/10 colapsos 0 | ep1 ganha 19.1 perdida 0.0 | ramos 354.5
+8 fibras + limite 150  punição=sim grave  sucesso 4/10 colapsos 2 | ep1 ganha 17.9 perdida 58.3 | ramos 219.0
+8 fibras + limite 150  punição=sim agudo  sucesso 0/10 colapsos 10 | ep1 ganha 16.7 perdida 55.6 | ramos 0.0
+8 fibras + limite 150  punição=não grave  sucesso 10/10 colapsos 0 | ep1 ganha 19.0 perdida 0.0 | ramos 182.0
+8 fibras + limite 150  punição=não agudo  sucesso 0/10 colapsos 0 | ep1 ganha 19.1 perdida 0.0 | ramos 311.0

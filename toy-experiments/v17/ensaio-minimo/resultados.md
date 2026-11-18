@@ -575,3 +575,14 @@ Registro prévio: [limite-fibra.md](limite-fibra.md) (aprovado). Script `limite_
 - A **perda** pela punição da quase-sincronia **cresce com o número de chegadas**: com 8 fibras, cada Uint recebe de 12 a 24 ramos por lado, e cada chegada fora do acerto, de 1 a 3 janelas depois de um favorecimento, perde 1,05 × DF.
 - Com mais fibras, a perda passa de 3× o ganho no primeiro episódio. A força morre, e os ramos são podados.
 - **Hipótese do assistente:** a punição não é limitada por nada, enquanto o fortalecimento é limitado pelo estoque. A assimetria aparece quando as chegadas se multiplicam. O limite por fibra não é a causa principal: com 8 fibras **sem** limite, a perda já é 58,7 no grave.
+
+### Diagnóstico da punição da quase-sincronia (18/11; só medidas)
+Script `diagnostico_punicao.py`; saída `diagnostico-punicao-saida.txt`. Sementes 281–290 (já vistas), mesmo modelo, com e sem a punição.
+
+| Estrutura | Punição | Grave | Colapsos (agudo) | Perda no episódio 1 |
+|---|---|---|---|---|
+| 1 fibra | sim / não | 10/10 / 10/10 | 0 / 0 | 38 / 0 |
+| 8 fibras | sim / não | 8/10 / **10/10** | **8 / 0** | 59 / 0 |
+| 8 fibras + limite 150/s | sim / não | 4/10 / **10/10** | **10 / 0** | 58 / 0 |
+
+**Confirmado:** sem a punição, **nenhum colapso** em nenhuma estrutura, e o grave vai a 10/10 também com 8 fibras e limite por fibra. O agudo continua sem passar em fase (falta a inibição), mas não morre. A punição da quase-sincronia é a causa do colapso com várias fibras.

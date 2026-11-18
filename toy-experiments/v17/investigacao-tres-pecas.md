@@ -54,3 +54,24 @@
 - [Roberts et al. 2013, Figura 7 (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC3690812/figure/F7) — legenda; texto integral pelo PDF do responsável.
 - [Hennig et al. 2008 (PMC)](https://pmc.ncbi.nlm.nih.gov/articles/PMC2538789) — resumo.
 - Couchman et al. 2010; van der Heijden et al. 2013; Mackenbach & Borst 2023 — já lidos.
+
+---
+
+## 6. A punição da quase-sincronia: forma NB da depressão ligada ao tempo (18/11)
+**Contexto:** com 8 fibras, a punição (−1,05 × DF por chegada que cai de 1 a 3 janelas depois de um favorecimento) derruba tudo. Sem ela, nenhum colapso ([resultados](ensaio-minimo/resultados.md)).
+
+| Achado [L] | Fonte e leitura | Confiança |
+|---|---|---|
+| Disparo pós-sináptico até 20 ms depois da ativação pré-sináptica → potenciação; disparo antes → depressão. **Potenciação significativa só em sinapses inicialmente fracas**; a depressão **não depende** da força inicial (em termos relativos). Janela da depressão ~34 ± 13 ms; da potenciação, ~17 ± 9 ms (hipocampo em cultura) | Bi & Poo 1998, *J Neurosci* 18:10464 (resumo e trechos) | alta |
+| Modelo com essas observações (potenciação menor para sinapses fortes; depressão proporcional à força) gera distribuição de pesos **estável**; nele, a competição é fraca | van Rossum, Bi & Turrigiano 2000, *J Neurosci* 20:8812 (resumo) | alta |
+| Depressão **aditiva** (fixa, independente da força) dá competição forte, mas é **instável** e precisa de limites duros; depressão **multiplicativa** dá estabilidade | Gilson & Fukai 2011, *PLoS ONE* 6:e25339 (resumo) | alta |
+| Plasticidade heterossináptica **equilibrada**: potenciação e depressão se compensam, e a entrada total da célula se preserva | Volgushev et al. 2016, *J Neurosci* 36:8842 (trecho) | média |
+
+**Leitura [I]:**
+- A nossa punição é **aditiva** (valor fixo por chegada), o tipo instável.
+- Ela é disparada pelo **favorecimento**, não pelo **disparo** da Uint; na biologia, a depressão ligada ao tempo é disparada pelo **disparo pós-sináptico** que vem antes da chegada.
+- E, enquanto o fortalecimento é limitado pelo estoque do lado, a punição não tem limite nenhum.
+
+**Opções [A]:**
+1. **Retirar a punição.** A eliminação por participação, que já está no modelo, faz o papel de tirar os ramos errados.
+2. **Trocar pela forma NB:** depressão **depois do disparo** da Uint (não do favorecimento), **proporcional à força** do ramo (multiplicativa), na janela de 1–3 janelas. Opcional: a força perdida **volta ao estoque** do lado (conservação, como na heterossináptica equilibrada), com evidência indireta.
