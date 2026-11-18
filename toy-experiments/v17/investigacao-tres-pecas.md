@@ -75,3 +75,28 @@
 **Opções [A]:**
 1. **Retirar a punição.** A eliminação por participação, que já está no modelo, faz o papel de tirar os ramos errados.
 2. **Trocar pela forma NB:** depressão **depois do disparo** da Uint (não do favorecimento), **proporcional à força** do ramo (multiplicativa), na janela de 1–3 janelas. Opcional: a força perdida **volta ao estoque** do lado (conservação, como na heterossináptica equilibrada), com evidência indireta.
+
+---
+
+## 7. Força por fibra e estoque por lado (pedido de 18/11: "Força por fibra antes")
+
+**O problema:** com 8 fibras que pulam ciclos, o agudo quase não dispara (250–950 disparos no último episódio, somando as 8 Uints).
+
+**O que já está lido [L]:**
+- **Força de uma fibra na MSO adulta:** ~37 nS, ou 2,5 nA. O disparo precisa de ~8 nA, ou seja, de **~3 fibras coincidentes** (2–4 por dendrito). Cada célula recebe pelo menos 4–8 fibras excitatórias; a condutância excitatória total fica em ~180–200 nS (Couchman et al. 2010, texto integral).
+- **A força de uma fibra cresce depois de ouvir:** −1,07 nA em P11, −1,54 nA em P14, −1,89 nA em P17 (Franzen et al. 2020, texto integral). No adulto, ~2,5 nA. No início da audição, cada fibra tem **~0,43** da força adulta.
+- **No tálamo**, as entradas que sobram se fortalecem ~50× (Chen & Regehr 2000, resumo).
+
+**Como o modelo faz hoje [C]:**
+- cada ramo começa com 0,15 e pode chegar a 1,0. **Dois ramos fortes, um de cada lado, bastam para disparar**, ao contrário da MSO;
+- o estoque de cada lado (RC = 1,0, reposto com τ = 60 s) dá ~1,0 de crescimento no primeiro episódio e ~0,18 por episódio depois. Ele é dividido entre todos os ramos do lado (12–24 com 8 fibras, incluindo os de atraso errado).
+
+**Conta [I]:**
+- com cada fibra disparando ~1 a cada 5 ciclos no agudo, a chance de ~3 das ~6 fibras de uma Uint dispararem no mesmo ciclo é da ordem de 5–10%. Isso dá **dezenas a ~100 disparos por segundo**, perto do que a MSO faz;
+- mas isso só funciona se cada fibra certa tiver ~0,5 (1/3 do limiar), ou seja, ~1,0–2,0 por lado nas fibras certas;
+- hoje o estoque mal chega a isso no começo e se divide entre ramos certos e errados.
+
+**Propostas [A]:**
+1. **Teto por fibra:** a soma das forças dos ramos de **uma mesma fibra** numa Uint fica limitada a **0,5** (1/3 do limiar), no lugar do teto de 1,0 por ramo [L: Couchman 2010]. Uma fibra sozinha nunca dispara a Uint, como na MSO.
+2. **Estoque por lado proporcional às fibras:** RC do lado = **0,5 × número de fibras** que alcançam aquele lado da Uint (2–4 fibras → 1,0–2,0). Evidência só indireta: mais entradas, mais terminais e recursos locais. Confiança baixa.
+3. **Força inicial por fibra:** ~0,43 do teto (≈ 0,2 por fibra, início da audição; Franzen 2020), **dividida entre os ramos** daquela fibra na Uint (≈ 0,036 por ramo, com 6 ramos). Hoje são 0,15 por ramo, ou 0,9 por fibra.
