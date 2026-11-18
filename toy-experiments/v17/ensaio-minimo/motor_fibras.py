@@ -65,7 +65,7 @@ def _conservar_lado(k, s, R_s, R_k, R_f, prot, nR, EST):
 
 
 @njit(cache=True)
-def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO, RELOG, DEP, PART, NPART):
+def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR, RC, TAUR, TETA, TEL, NEXP, DLT, MAT, TAUJ, NMEIO, MMEIA, OPT, CUR, DLT2, RET, LE, LI, DURO, RELOG, DEP, PART, NPART, INHP, INH_T, INH_K, iniI, fimI, RI, DI, FI):
     np.random.seed(semente)
     UD = np.zeros((NF, MAXU)); UA = np.zeros((NF, MAXU), np.bool_); nU = np.zeros(NF, np.int64); R_b = np.zeros(MAXRAM, np.int64)
     R_s = np.zeros(MAXRAM, np.int64); R_u = np.zeros(MAXRAM, np.int64); R_k = np.zeros(MAXRAM, np.int64)
@@ -97,6 +97,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
     # janela retangular (RET): cada chegada vale inteira por LE (excitação) ou LI (inibição) e depois sai
     RBM = (1 << 12) - 1; eT = np.zeros((K, RBM + 1)); eW = np.zeros((K, RBM + 1)); iT = np.zeros((K, RBM + 1)); iW = np.zeros((K, RBM + 1))
     ra0 = np.zeros(K, np.int64); ra1 = np.zeros(K, np.int64); ri0 = np.zeros(K, np.int64); ri1 = np.zeros(K, np.int64)
+    hT = np.zeros((K, RBM + 1)); h0 = np.zeros(K, np.int64); h1 = np.zeros(K, np.int64); pI = 0; fI = 0   # inibição de caminho próprio (rampa + platô)
     ufav = np.full(K, -1e18); udisp = np.full(K, -1e18)
     disp = np.zeros(K, np.int64); hv = np.zeros(K, np.int64); ht_ = np.zeros(K, np.int64)
     integ = np.zeros(INC_T.size, np.bool_); insumo = np.zeros(NEP, np.int64)
@@ -109,6 +110,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
         nh = 0
         for k in range(K): b0[k] = 0; b1[k] = 0
         ia = ini[ep]; fa = fim[ep]; ultimo = ep == NEP - 1
+        if INHP: pI = iniI[ep]; fI = fimI[ep]
         while True:
             tinc = INC_T[ia] if ia < fa else 1e300; tev = ht[0] if nh > 0 else 1e300
             if tinc == 1e300 and tev == 1e300: break
@@ -222,6 +224,14 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
             if OPT >= 2 and (not R_es[r]) and T > R_td[r]:
                 R_f[r] *= 2.0 ** (-(T - R_td[r]) / MEIA); R_td[r] = T
             w = R_f[r]; exc[k] += w; V = exc[k] + inh[k]
+            if INHP:
+                while pI < fI and INH_T[pI] <= T:
+                    k2 = INH_K[pI]; hT[k2, h1[k2] & RBM] = INH_T[pI]; h1[k2] += 1; pI += 1
+                while h0[k] < h1[k] and T - hT[k, h0[k] & RBM] >= DI: h0[k] += 1
+                sI = 0.0
+                for jj in range(h0[k], h1[k]):
+                    dt = T - hT[k, jj & RBM]; sI += FI * (dt / RI if dt < RI else 1.0)
+                V -= sI
             if RET:
                 eT[k, ra1[k] & RBM] = T; eW[k, ra1[k] & RBM] = w; ra1[k] += 1
             while b0[k] < b1[k] and bt[k, b0[k] % BCAP] < T - HB: b0[k] += 1
@@ -324,7 +334,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
         for z in range(NF):
             for u in range(nU[z]): UA[z, u] = False
         for r in range(nR): UA[R_b[r], R_u[r]] = True
-        for k in range(K): exc[k] = 0.0; inh[k] = 0.0; ra0[k] = ra1[k]; ri0[k] = ri1[k]
+        for k in range(K): exc[k] = 0.0; inh[k] = 0.0; ra0[k] = ra1[k]; ri0[k] = ri1[k]; h0[k] = h1[k]
         if parou: break
     if OPT >= 2:
         tfim = (NEP - 1) * CICLO + dur
@@ -352,7 +362,7 @@ def trens_2(semente, faixa, dur, d1=DELTA, d2=-DELTA):
     return np.concatenate(TA), np.concatenate(TB), np.array(ini), np.array(fim)
 
 
-def trens_fibras(semente, faixa, dur, F, taxa, sil=2000.0, delta=DELTA):
+def trens_fibras(semente, faixa, dur, F, taxa, sil=2000.0, delta=DELTA, NINH=None, LATI=0.2, ESPI=60.0):
     """F fibras por ouvido. O mundo (ritmo e relação) é o mesmo de trens_d; a fibra 0 de cada ouvido recebe o mesmo tremor de
     trens_d, as outras um tremor próprio (gerador separado). Atividade espontânea por fibra (Poisson, `taxa`/s; mesmo gerador e
     ordem de trens_esp quando F = 1), com `sil` ms de silêncio no fim de cada episódio se taxa > 0.
@@ -361,6 +371,7 @@ def trens_fibras(semente, faixa, dur, F, taxa, sil=2000.0, delta=DELTA):
     from motor_eventos import FAIXA, JIT
     rng = np.random.default_rng(semente); rj = np.random.default_rng(semente + 3_000_017); re = np.random.default_rng(semente + 1_000_003)
     T, B, ini, fim = [], [], [], []; pos = 0; durt = dur + (sil if taxa > 0 else 0.0)
+    ri = np.random.default_rng(semente + 4_000_037); IT, IK, iini, ifim = [], [], [], []; ipos = 0
     for ep in range(NEP):
         t0 = ep * CICLO; lo, hi = FAIXA[faixa]; base = []; t = 0.0
         while t < dur:
@@ -375,7 +386,19 @@ def trens_fibras(semente, faixa, dur, F, taxa, sil=2000.0, delta=DELTA):
                 n = re.poisson(taxa * durt / 1000.0); fibs[f] = np.sort(np.concatenate((fibs[f], t0 + re.uniform(0.0, durt, n))))
         tt = np.concatenate(fibs); bb = np.concatenate([np.full(x.size, f, np.int64) for f, x in enumerate(fibs)])
         o = np.lexsort((bb, tt)); T.append(tt[o]); B.append(bb[o]); ini.append(pos); pos += tt.size; fim.append(pos)
-    return np.concatenate(T), np.concatenate(B), np.array(ini), np.array(fim)
+        if NINH is not None:   # fibras inibitórias próprias de cada Uint (caminho próprio): mundo do seu lado + LATI + tremor + espontânea
+            it_, ik_ = [], []
+            for k in range(NINH.shape[0]):
+                for lado in range(2):
+                    for j in range(NINH[k, lado]):
+                        x = t0 + base + (delta if lado else 0.0) + LATI + ri.normal(0, JIT, base.size)
+                        if ESPI > 0: x = np.concatenate((x, t0 + ri.uniform(0.0, durt, ri.poisson(ESPI * durt / 1000.0))))
+                        it_.append(x); ik_.append(np.full(x.size, k, np.int64))
+            tt2 = np.concatenate(it_); kk2 = np.concatenate(ik_); o2 = np.argsort(tt2, kind="stable")
+            IT.append(tt2[o2]); IK.append(kk2[o2]); iini.append(ipos); ipos += tt2.size; ifim.append(ipos)
+    if NINH is None:
+        return np.concatenate(T), np.concatenate(B), np.array(ini), np.array(fim)
+    return (np.concatenate(T), np.concatenate(B), np.array(ini), np.array(fim), np.concatenate(IT), np.concatenate(IK), np.array(iini), np.array(ifim))
 
 
 def alcance(semente, F, K, amin=2, amax=4):
@@ -429,14 +452,19 @@ INIB = {"I0": (0.0, 0.0, TAU), "I1": (0.5, W, 0.30)}
 
 
 def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False, DF=0.0065, F0=0.15, MEIA=300_000.0,
-          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False, PART=False, NPART=1000):
+          FBROTO=0.30, Q=0.75, JAN=60_000.0, VIZ=0.20, EST=1.0, DMAXR=0.2, RC=1.0, TAUR=60_000.0, TETA=0.25, TEL=60_000.0, NEXP=8.0, hist=False, delta=DELTA, MAT=False, TAUJ=1.0, NMEIO=100.0, MMEIA=3_600_000.0, OPT=1, CUR=False, RET=False, LE=0.30, LI=0.30, DURO=False, ESP=0.0, SIL=2000.0, FIB=1, AMIN=2, AMAX=4, RELOG=False, PART=False, NPART=1000, INHP=False, NIMIN=2, NIMAX=3, LATI=0.2, ESPI=60.0, RI=1.0, DI=3.0, FI=0.5):
     F = int(FIB)
-    INC_T, INC_B, ini, fim = trens_fibras(semente, faixa, dur, F, ESP, SIL, delta)
+    if INHP:
+        rI = np.random.default_rng(semente + 5_000_011); NINH = rI.integers(NIMIN, NIMAX + 1, size=(K, 2))
+        INC_T, INC_B, ini, fim, INH_T, INH_K, iniI, fimI = trens_fibras(semente, faixa, dur, F, ESP, SIL, delta, NINH, LATI, ESPI)
+    else:
+        INC_T, INC_B, ini, fim = trens_fibras(semente, faixa, dur, F, ESP, SIL, delta)
+        INH_T = np.zeros(1); INH_K = np.zeros(1, np.int64); iniI = np.zeros(NEP, np.int64); fimI = np.zeros(NEP, np.int64)
     ALC = alcance(semente, F, K, AMIN, AMAX)
     razao, off, taui = INIB[cond]
     (Rs, Rb, Ru, Rk, Rd, Rf, UD, UA, disp, hv, ht, insumo, parou, estab, novas, nac, elim, podas, RS, sdif, ndif, hdif, matf, nev, nram, e1, e2, et, dsil, dfd) = _rodar(
         INC_T, INC_B, ini, fim, 2 * F, F, ALC, dur, semente, K, 1 if unica else 0, DF, F0, MEIA, FBROTO, razao, off, taui, Q, JAN, VIZ, EST, DMAXR,
-        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0), 1 if PART else 0, NPART)
+        RC, TAUR, TETA, TEL, NEXP, delta, 1 if MAT else 0, TAUJ, NMEIO, MMEIA, OPT, CUR, -1e9, RET, LE, LI, DURO, RELOG, dur + (SIL if ESP > 0 else 0.0), 1 if PART else 0, NPART, 1 if INHP else 0, INH_T, INH_K, iniI, fimI, RI, DI, FI)
     sint = []; presa = []; pares = []
     for k in range(K):
         frac = hv[k] / ht[k] if ht[k] else 0.0
