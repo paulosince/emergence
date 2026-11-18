@@ -42,8 +42,8 @@
 | Achado [L] | Fonte e leitura | Confiança |
 |---|---|---|
 | Coeficiente de sincronização à fase interaural de neurônios da MSO (gato): **0,72** num neurônio de Yin & Chan (1990); **0,30** no neurônio de Goldberg & Brown (1969). As frequências citadas no texto vão de ~150 a ~445 Hz | Batra & Yin 2004, *JARO* (PMC2504554; texto principal, sem as figuras) | média (dois exemplos, frequência baixa) |
-| O coeficiente interaural é aproximadamente o **produto** dos coeficientes das entradas dos dois lados; pela teoria, ~0,79 para neurônios de baixa frequência | Batra & Yin 2004; Batra, Kuwada & Fitzpatrick 1997, *J Neurophysiol* 78:1237 (trechos) | média-alta |
-| Neurônios do MNTB perto de **1 kHz** com coeficiente de **~0,6** (dados que se sobrepõem na figura) | Tollin & Yin 2005, *J Neurosci* 25:10648 (legenda; gato) | média |
+| O coeficiente interaural é aproximadamente o **produto** dos coeficientes das entradas dos dois lados; pela teoria, ~0,79 para neurônios de baixa frequência | Batra & Yin 2004; *J Neurophysiol* 1997, 78:1237 (trechos; autoria de memória: Batra, Kuwada & Fitzpatrick) | média-alta |
+| Neurônios do MNTB perto de **1 kHz** com coeficiente de **~0,6** (dados que se sobrepõem na figura) | *J Neurosci* 2005, 25:10648 (legenda; gato; autoria de memória: Tollin & Yin) | média |
 
 **Leitura [I]:**
 - Se as entradas têm ~0,6–0,8 de sincronização perto de 1–1,5 kHz, o coeficiente interaural esperado é da ordem de **0,36–0,64**.
