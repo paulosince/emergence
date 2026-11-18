@@ -109,3 +109,11 @@ Seis variações da conta B (Upros ativas, de 240, por nível acima do zero da f
 - As amostras humanas com números por lugar são de pessoas de 54 anos ou mais, com perda pela idade. Para um sistema "jovem", os números devem ser maiores. Wu et al. 2019 tem pessoas de 0 a 89 anos, mas os valores por lugar só aparecem nas figuras.
 - Se as 64 faixas forem espaçadas como a cóclea (ERB), cada faixa cobre um trecho parecido da cóclea: ~3.500 / 64 ≈ 55 células ciliadas internas por faixa. Com 6,5 a 14 fibras por célula, seriam **~360 a ~770 fibras por faixa**, com pico no meio. Conta do assistente; confiança baixa.
 - **Proposta [A]:** capacidade por fibra (Cpro) variando com a faixa, proporcional ao perfil humano de fibras por célula ciliada, em vez de 240 fixo. Decisão do responsável.
+
+## Tabela das 64 faixas (proposta para revisão, 18/11)
+Script `tabela_faixas.py`; saídas `tabela-faixas.csv` e `tabela-faixas.png`.
+- **Frequências:** 64 centros na escala ERB, de 50 Hz a 8 kHz (fórmula de Glasberg & Moore 1990, de memória, padrão da área).
+- **Zero de cada faixa:** limiar humano (ISO 2003) interpolado em log da frequência entre 250 Hz e 8 kHz. Abaixo de 250 Hz, extrapolado com a inclinação de 250–500 Hz (7 dB por oitava), o que dá 28 dB a 50 Hz. **Provavelmente subestima** o limiar grave real (o limiar humano sobe mais rápido nos graves; não confirmado aqui).
+- **Capacidade:** posição na cóclea pela função de Greenwood humana (1990; constantes de memória), 3.500 células ciliadas internas com densidade uniforme, e fibras por célula indo de 6,5 nas pontas a 14 no meio (forma senoidal suposta, a partir dos extremos de Nadol 1988 e de Viana et al. 2015). Resultado: **406 a 572 Upros por faixa** (pico perto de 1,2–1,4 kHz); **33.116 por ouvido**.
+- **Inconsistência a declarar:** 33 mil por ouvido, numa faixa que cobre só ~77% da cóclea, passa dos ~30 mil do nervo humano inteiro (média adulta). O perfil de 6,5–14 por célula combinado com 3.500 células dá ~40 mil na cóclea toda. Para fechar com 30 mil, a capacidade cairia ~25% (≈ 300–430 por faixa). Decisão do responsável.
+- **Vagas de limiar:** decisão B (convolução), formas realistas + crescimento em S, 30/30/50 dB. As vagas mais altas passam de 140 dB SPL: vagas que, como previsto pelo responsável, provavelmente nunca serão criadas.
