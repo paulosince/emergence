@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: depressão NB (depois do disparo, proporcional à força) no lugar da punição, com 8 fibras e limite por fibra
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável.
+**Estado:** **APROVADO** pelo responsável em 18/11/2026 ("Aprovo, pode rodar").
 **Redação:** assistente (Claude), 18/11/2026.
 **Base:**
 - decisões do responsável (18/11): trocar a punição da quase-sincronia pela forma NB; a força perdida **não** volta ao estoque; ordem aprovada (8 fibras + limite → inibição da MSO → depressão de curto prazo, se necessária);

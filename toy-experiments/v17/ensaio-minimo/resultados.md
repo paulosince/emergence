@@ -586,3 +586,24 @@ Script `diagnostico_punicao.py`; saída `diagnostico-punicao-saida.txt`. Semente
 | 8 fibras + limite 150/s | sim / não | 4/10 / **10/10** | **10 / 0** | 58 / 0 |
 
 **Confirmado:** sem a punição, **nenhum colapso** em nenhuma estrutura, e o grave vai a 10/10 também com 8 fibras e limite por fibra. O agudo continua sem passar em fase (falta a inibição), mas não morre. A punição da quase-sincronia é a causa do colapso com várias fibras.
+
+## Depressão NB com 8 fibras e limite por fibra (18/11)
+
+Registro prévio: [depressao-nb.md](depressao-nb.md) (aprovado). Script `depressao_nb.py`; dados `depressao-nb-saida.csv`. 360 execuções, sementes 311–340. Sem inibição.
+
+| Condição | Grave | Colapsos (agudo) | Disparo no silêncio por Uint (grave, mediana) | Disparos no agudo (último episódio, mediana, 8 Uints) |
+|---|---|---|---|---|
+| Limite 150/s, A = 0,005 | **30/30** | 0 | 9,5/s | — |
+| Limite 150/s, A = 0,02 | **30/30** | 0 | **0,5/s** | 246 |
+| Limite 300/s, A = 0,005 | **30/30** | 0 | 11/s | — |
+| Limite 300/s, A = 0,02 | **30/30** | 0 | **0,5/s** | 847 |
+| Limite 150/s, sem depressão | 30/30 | 0 | 24/s | 954 |
+| Modelo atual (1 fibra, punição antiga) | 27/30 | 0 | 0 | 111.356 |
+
+**Pelas regras fixadas:** as **4 combinações passam** (grave ≥ 24/30; agudo sem colapso). A escolha é do responsável.
+
+**O que se vê:**
+- Com a depressão NB, **o grave seleciona em 30/30** com 8 fibras e limite por fibra.
+- Com **A = 0,02**, as Uints disparam **0,5/s no silêncio**, perto dos **0,4/s** da MSO (van der Heijden 2013). Com A = 0,005, ~10/s; sem depressão, 24/s.
+- **Ressalva importante:** o agudo **não colapsa, mas quase não dispara**. São 250–950 disparos no último episódio, somando as 8 Uints, contra 111 mil com 1 fibra. Nenhuma Uint chega aos 100 disparos que o critério de fase exige, e nada é eliminado (a participação só age quando a Uint dispara).
+- **Hipótese do assistente:** o estoque por lado da Uint (correção 1, RC = 1,0) foi pensado quando uma fibra levava tudo. Com fibras que pulam ciclos (cada uma dispara a ~1 em cada 5 ciclos no agudo), só parte da força de cada lado chega em cada ciclo, e a soma raramente alcança o limiar. É a pendência "força por fibra", decidida para depois do passo 3. Na MSO, uma fibra dá ~1/3 do limiar e há 2–4 por dendrito (Couchman 2010).

@@ -1,4 +1,4 @@
-"""Registro prévio depressao-nb.md (RASCUNHO: só rodar depois da aprovação do responsável).
+"""Registro prévio depressao-nb.md (APROVADO em 18/11/2026).
 8 fibras + limite (150, 300/s) com a depressão NB (A = 0,005; 0,02) no lugar da punição; comparação: sem punição nem depressão (limite 150/s)
 e o modelo atual de 1 fibra com a punição antiga. Sem inibição. Degrau 1, grave e agudo, sementes 311-340.
 Uso: ../../../../venv-nb/bin/python -I depressao_nb.py  (gera depressao-nb-saida.csv)"""
