@@ -30,6 +30,7 @@
 | Escala da capacidade | **Números biológicos** humanos por faixa (não 240) | 18/11 |
 | Ouvido externo | **Por ora, não modelado à parte**: o reforço do canal fica embutido no zero de cada faixa (o limiar ISO 389-7 é de campo livre). "É um refinamento detalhado" | 18/11 |
 | Próximo passo | **Transdução em incidências**, testada com Bach em "força total", para avaliar se as incidências são descritivas o bastante para o Sdom criar caminhos (entendimento a confirmar) | 18/11 |
+| Teste da transdução | Bach **completo e sem atenuação de intensidade** ("fraco onde é fraco, forte onde é forte"); **mesma cena da V0.17** (sala 2 × 2 × 3 m, dois alto-falantes, a gravação da Tocata e Fuga, robô parado); as peças que faltam na transdução (resolução temporal, atividade espontânea, adaptação) são **definidas antes** de rodar. Quais Upros existem no teste: **pendente**, após as ponderações | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
