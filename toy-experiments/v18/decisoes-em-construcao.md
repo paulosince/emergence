@@ -21,10 +21,11 @@
 | Intensidade e criação | A **faixa** define a fibra que o som atinge; os **decibéis** definem quais **Upros** daquela fibra propagam as incidências (cada Upro tem o seu limiar). **Upros são criadas dinamicamente**; a fibra passa a existir quando há Upro naquela faixa. As mais sensíveis a sons baixos tendem a ser criadas primeiro; as sensíveis só a sons muito altos podem nunca ser criadas | 18/11 |
 | Fibras por faixa | **Uma fibra por faixa** (64 por ouvido) | 18/11 |
 | Capacidade por fibra | **Proposta do responsável, em avaliação:** até 240 Upros por fibra (2 por decibel, 120 dB). Comparação NB: ~550 neurônios por 1/64 da cóclea humana (conta do assistente, confiança média) | 18/11 |
+| Limiares das Upros | **Vagas fixas** (dadas pelo hardware): cada Upro nasce numa vaga de limiar já definida, de baixo para cima. **Não** nasce "onde o som cair". A distribuição das vagas **não deve ser linear**: mais vagas nos níveis em que há mais fibras na biologia (forma a definir) | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
-1. Intensidade: espaçamento dos limiares (grade de 0,5 dB ou onde o som cair); referência dos decibéis por faixa; nome Cpro.
+1. Intensidade: forma da distribuição não linear das vagas e sua extensão (até ~80 dB acima do limiar da faixa, ou 120 dB?); referência dos decibéis por faixa; nome Cpro. Ler Liberman 1978 (texto integral) para os limiares por grupo.
 2. Referência biológica (espécie ou escala).
 3. Antes da cóclea: microfones, cabeça, ouvido externo e médio.
 4. Faixa de frequências e escala das 64 faixas.
