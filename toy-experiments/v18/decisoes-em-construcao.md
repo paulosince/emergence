@@ -24,6 +24,8 @@
 | Limiares das Upros | **Vagas fixas** (dadas pelo hardware): cada Upro nasce numa vaga de limiar já definida, de baixo para cima. **Não** nasce "onde o som cair". A distribuição das vagas **não deve ser linear**: mais vagas nos níveis em que há mais fibras na biologia (forma a definir) | 18/11 |
 | Forma das vagas | **B: convolução** dos limiares das fibras biológicas com a faixa de crescimento de cada fibra ("Eu já sabia"). Parâmetros da primeira conta a aprovar ([investigação](investigacao-limiares-fibras.md)) | 18/11 |
 | Referência biológica | **"Sempre que tivermos o exemplo humano, seguimos por ele. Quando não, adaptamos."** Dado não humano entra declarado como adaptação, com a espécie | 18/11 |
+| Capacidade por fibra | **Segue o perfil humano** de fibras por célula ciliada interna ao longo da cóclea (mais Upros no meio), em vez de 240 fixo. Escala a definir | 18/11 |
+| Zero de cada faixa | Limiar de audição humano (ISO 2003): **usar os pontos disponíveis (250 Hz a 8 kHz) e interpolar**, com a perda declarada | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
