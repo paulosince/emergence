@@ -18,10 +18,13 @@
 | Equilíbrio | O robô "baixa a suspensão" e fica com **as 4 rodas no chão**, estável. **Equilíbrio não será trabalhado agora** | 18/11 |
 | O que é a Utrd | "O elemento físico que realiza a transformação dos sinais sensoriais em incidências." Na audição, **a Utrd é o conjunto microfone + cóclea**; não há "uma Utrd por faixa" (substitui a especificação de 10/11). Hardware 100% pré-configurado, "sem que isso fira a autonomia do sistema" | 18/11 |
 | Cóclea | Hardware que **divide o sinal do microfone em 64 faixas** | 18/11 |
-| Saídas por faixa | Quantas variará com o **refinamento de intensidade** (em discussão; ver pendências) | 18/11 |
+| Intensidade e criação | A **faixa** define a fibra que o som atinge; os **decibéis** definem quais **Upros** daquela fibra propagam as incidências (cada Upro tem o seu limiar). **Upros são criadas dinamicamente**; a fibra passa a existir quando há Upro naquela faixa. As mais sensíveis a sons baixos tendem a ser criadas primeiro; as sensíveis só a sons muito altos podem nunca ser criadas | 18/11 |
+| Fibras por faixa | **Uma fibra por faixa** (64 por ouvido) | 18/11 |
+| Capacidade por fibra | **Proposta do responsável, em avaliação:** até 240 Upros por fibra (2 por decibel, 120 dB). Comparação NB: ~550 neurônios por 1/64 da cóclea humana (conta do assistente, confiança média) | 18/11 |
+| Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
-1. Saídas por faixa e refinamento de intensidade. Pergunta aberta: as saídas por faixa são as fibras (prontas, parte da Utrd) ou Upros (criadas)?
+1. Intensidade: espaçamento dos limiares (grade de 0,5 dB ou onde o som cair); referência dos decibéis por faixa; nome Cpro.
 2. Referência biológica (espécie ou escala).
 3. Antes da cóclea: microfones, cabeça, ouvido externo e médio.
 4. Faixa de frequências e escala das 64 faixas.
