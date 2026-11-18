@@ -1,0 +1,30 @@
+# V0.18 — Decisões em construção
+
+**Responsável:** Paulo Rogério da Silva (conduz a V0.18). **Redação:** assistente (Claude).
+**Regra desta versão:** todo registro começa declarando **o que é dado** e **o que é criado**, e confere isso contra a pergunta vigente de constituição ([regras de 11/11](../../docs/regras-cientificas-e-continuidade-2026-11-11.md), seção 4). Lição do [encerramento da V0.17](../v17/encerramento-v17.md).
+
+## O que é dado e o que é criado (estado atual)
+
+| Dado (pronto, hardware pré-configurado) | Criado dinamicamente (a definir como) |
+|---|---|
+| Robô (corpo, sentidos, reflexos), conforme [especificação v1](../../docs/robot-spec-v1.md), com as mudanças abaixo | **Tudo da cabeça para dentro** |
+| Utrd auditiva: microfone + cóclea (uma por ouvido) | |
+
+## Decisões
+
+| Tema | Decisão do responsável | Data |
+|---|---|---|
+| Nocicepção | **Fora por ora** (não será trabalhada ainda) | 18/11 |
+| Equilíbrio | O robô "baixa a suspensão" e fica com **as 4 rodas no chão**, estável. **Equilíbrio não será trabalhado agora** | 18/11 |
+| O que é a Utrd | "O elemento físico que realiza a transformação dos sinais sensoriais em incidências." Na audição, **a Utrd é o conjunto microfone + cóclea**; não há "uma Utrd por faixa" (substitui a especificação de 10/11). Hardware 100% pré-configurado, "sem que isso fira a autonomia do sistema" | 18/11 |
+| Cóclea | Hardware que **divide o sinal do microfone em 64 faixas** | 18/11 |
+| Saídas por faixa | Quantas variará com o **refinamento de intensidade** (em discussão; ver pendências) | 18/11 |
+
+## Pendências (primeiro objetivo: do microfone à cóclea)
+1. Saídas por faixa e refinamento de intensidade. Pergunta aberta: as saídas por faixa são as fibras (prontas, parte da Utrd) ou Upros (criadas)?
+2. Referência biológica (espécie ou escala).
+3. Antes da cóclea: microfones, cabeça, ouvido externo e médio.
+4. Faixa de frequências e escala das 64 faixas.
+5. Resolução temporal (amostragem, acompanhamento de fase, refratário, taxa máxima).
+6. Atividade espontânea e adaptação.
+7. Máximo de Upros por fibra.
