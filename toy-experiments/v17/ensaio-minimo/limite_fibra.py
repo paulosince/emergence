@@ -1,4 +1,4 @@
-"""Registro prévio limite-fibra.md (RASCUNHO: só rodar depois da aprovação do responsável).
+"""Registro prévio limite-fibra.md (APROVADO em 18/11/2026).
 8 fibras por ouvido + alcance 2-4 + limite por fibra (150, 300/s) contra 8 fibras sem limite e o modelo atual (1 fibra), sem inibição.
 Degrau 1, grave e agudo, sementes 281-310. Uso: ../../../../venv-nb/bin/python -I limite_fibra.py  (gera limite-fibra-saida.csv)"""
 import csv, os, sys

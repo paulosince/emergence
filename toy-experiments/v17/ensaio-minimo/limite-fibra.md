@@ -1,6 +1,6 @@
 # V0.17 — Registro prévio: 8 fibras por ouvido com limite de disparo por fibra (refratário + chance por ciclo)
 
-**Estado:** **RASCUNHO** — aguarda aprovação do responsável.
+**Estado:** **APROVADO** pelo responsável em 18/11/2026 ("Aprovo, pode rodar").
 **Redação:** assistente (Claude), 18/11/2026.
 **Base:**
 - decisões do responsável (18/11): ordem (1) limite por fibra junto com as 8 fibras; (2) inibição da MSO; (3) depressão só se necessária; taxas a mapear: 150 e 300/s;

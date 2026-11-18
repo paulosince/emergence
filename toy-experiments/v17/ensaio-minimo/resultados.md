@@ -547,3 +547,31 @@ Registro prévio: [sem-planob.md](sem-planob.md) (aprovado). Script `sem_planob.
 - **O colapso do agudo acabou** (30 → 0), como o diagnóstico previa.
 - O agudo agora fica **difuso, sem presas**. Diagnóstico de 4 sementes (251–254): as Uints que disparam têm **fração em fase de 0,39 a 0,52**, abaixo do critério (0,6) e acima do de "presa" (0,2). As diferenças preferidas (moda) se espalham: algumas em Δ (0,45–0,49), outras em −0,46, −0,39, −0,15 ou −1,01. A sintonia é **larga**.
 - [I] É o que se espera sem inibição. Na MSO, a inibição que chega antes **estreita a janela de coincidência** (Roberts 2013). Com janela retangular de 0,30 ms e período de 0,6–0,9 ms, quase toda diferença de atraso cai perto de algum equivalente de fase.
+
+## 8 fibras por ouvido com limite por fibra (18/11)
+
+Registro prévio: [limite-fibra.md](limite-fibra.md) (aprovado). Script `limite_fibra.py`; dados `limite-fibra-saida.csv`. 240 execuções, sementes 281–310. Modelo: passo 1 + espontânea + relógio corrigido + participação (N = 100), sem inibição.
+
+| Condição | Grave | Colapsos (grave) | Agudo (em fase) | Colapsos (agudo) |
+|---|---|---|---|---|
+| 8 fibras + limite 150/s | 15/30 | 4 | 0/30 | **30** |
+| 8 fibras + limite 300/s | 11/30 | 18 | 0/30 | **30** |
+| 8 fibras sem limite | 22/30 | 0 | 0/30 | 23 |
+| Modelo atual (1 fibra) | **28/30** | 0 | 0/30 | **0** |
+
+**Pelas regras fixadas:** nenhuma taxa passa (grave < 24 e agudo colapsa) → levar ao responsável, sem ajustar.
+
+**Diagnóstico (só medidas: força ganha nos acertos × força perdida na punição da quase-sincronia, medianas, episódio 1):**
+
+| Condição | Grave: ganha / perdida | Agudo: ganha / perdida |
+|---|---|---|
+| 8 fibras + limite 150/s | 18,1 / **58,4** | 16,7 / **55,6** |
+| 8 fibras + limite 300/s | 18,2 / **58,3** | 16,5 / **57,1** |
+| 8 fibras sem limite | 17,6 / **58,7** | 18,6 / 40,5 |
+| 1 fibra (atual) | 18,1 / 39,2 | 18,9 / 19,2 |
+
+**Leitura:**
+- O **ganho** fica em ~17–19 por episódio em **todas** as condições: ele é limitado pelo estoque de cada lado da Uint (correção 1).
+- A **perda** pela punição da quase-sincronia **cresce com o número de chegadas**: com 8 fibras, cada Uint recebe de 12 a 24 ramos por lado, e cada chegada fora do acerto, de 1 a 3 janelas depois de um favorecimento, perde 1,05 × DF.
+- Com mais fibras, a perda passa de 3× o ganho no primeiro episódio. A força morre, e os ramos são podados.
+- **Hipótese do assistente:** a punição não é limitada por nada, enquanto o fortalecimento é limitado pelo estoque. A assimetria aparece quando as chegadas se multiplicam. O limite por fibra não é a causa principal: com 8 fibras **sem** limite, a perda já é 58,7 no grave.
