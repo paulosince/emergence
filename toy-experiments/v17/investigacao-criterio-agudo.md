@@ -52,3 +52,8 @@
 - Atenção: o nosso R é medido nos **acertos** (coincidências de ramos), não nos disparos de saída. É análogo, não idêntico.
 
 **Proposta de piso [A]:** R ≥ **0,3** (o menor exemplo biológico) como piso mínimo, ou R ≥ **0,4** (produto de entradas com ~0,6). Decisão do responsável; a amostra biológica lida é pequena.
+
+## 6. O critério de fase mede o mundo, não o aprendizado (18/11)
+Medida por episódio (resultados.md, 18/11): R ≈ 0,32 e todas as Uints em fase já no episódio 1, sem mudança até o 5. A fase dos acertos é ≈ 0 por construção sempre que a coincidência vem do mesmo ciclo do mundo (a diferença de atraso dos ramos coincidentes é ≈ Δ + nT). **O critério aprovado em 18/11 não distingue aprendizado.** Em revisão com o responsável.
+
+**Ideia para discussão [A, não decidida]:** a medida clássica da MSO é a **taxa de disparo da Uint em função da diferença de tempo entre os ouvidos**, com um pico no melhor atraso (Yin & Chan 1990, conhecido; não relido agora). O teste seria: congelar a plasticidade e apresentar o mundo com várias Δ, **antes** e **depois** do treino. Há aprendizado se, depois do treino, o pico de taxa cai na Δ treinada e, antes, não.

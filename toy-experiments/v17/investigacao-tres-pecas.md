@@ -116,3 +116,18 @@
 2. O que o jovem tem a mais é **janela**: a soma temporal é ~2× mais longa em P14 do que em P21. Nossa janela retangular de 0,30 ms não é diretamente comparável com essa "janela de soma" (as medidas são diferentes), então a comparação tem confiança baixa.
 3. **Tensão na literatura:** com atividade contínua, o maduro precisa de ~10 fibras ao mesmo tempo, mas a convergência mínima estimada é de 2–4 por lado (Couchman 2010). Ou chegam mais fibras do que o mínimo funcional, ou as fibras reais disparam mais juntas. O nosso alcance (2–4 por lado) usa o **mínimo**, não a convergência anatômica, que não li.
 4. A medida mostra uma falta de ~25% nos melhores momentos (seção de resultados de 18/11). Pistas NB para fechar essa falta, sem nada decidido: **janela mais longa no jovem** (maturação, apoiada em Scott 2005) ou **convergência maior** (a pesquisar).
+
+## 9. Convergência: quantas fibras chegam a cada neurônio da MSO (pedido de 18/11: "As duas pesquisas")
+
+| Achado [L] | Fonte e leitura | Confiança |
+|---|---|---|
+| "Pelo menos 4–8" fibras excitatórias no total por neurônio (2–4 por lado). Os autores dizem que é um **limite inferior**, estimado pelas fibras necessárias para disparar | Couchman, Grothe & Felmy 2010, *J Neurosci* 30:17111 (trechos) | média-alta |
+| Anatomia (gerbil, P21–30): mediana de **4 botões por axônio**, **15 botões por dendrito** (de 5 a 29). Limite inferior de **7 fibras por dendrito**, que os autores chamam de subestimativa grosseira; limite superior de ~70, que chamam de exagerado. O modelo deles favorece "algumas dezenas" | Callan, Heß, Felmy & Leibold 2021, *J Neurosci* 41:269 (texto quase integral, lido por resumo; faltam uma legenda e as equações) | média-alta |
+| No **jovem**, os dendritos são mais complexos e as entradas ficam distribuídas em **pequenos botões**. O tamanho de uma fibra cresce no fim do desenvolvimento | idem (Discussão; não estudado diretamente) | média |
+| Com trens de disparo reais de entradas de gato (frequências até ~1,5 kHz), uma saída fisiológica exige **tipicamente ≥ 4 entradas por lado** (janela de 50 µs). Janelas mais longas reduzem o número necessário (**~2,5 com 250 µs**), mas pioram a modulação. O neurônio deve responder a uma **única coincidência binaural** (limiar binaural de 2 disparos). A estimativa para o gerbil é de ~10 no total | Franken, Bremen & Joris 2014, *Front Neural Circuits* 8:42 (até a metade da Discussão, por resumo) | média-alta |
+
+**Leitura [I]:**
+1. O nosso alcance de 2–4 por lado é o **limite inferior funcional**. A anatomia indica ≥ 7 por lado e talvez dezenas.
+2. A imagem do **jovem** (força de cada fibra espalhada em pequenos contatos, que crescem com o desenvolvimento) se parece com o que o modelo faz com os ramos. É uma analogia, ainda não verificada.
+3. Janela e convergência se trocam: uma janela maior pede menos fibras, mas modula menos (Franken 2014). Isso liga as duas pistas da seção 8.
+4. Nenhuma mudança proposta antes de rever o critério de sucesso do agudo, porque hoje não sabemos medir se o agudo aprende.

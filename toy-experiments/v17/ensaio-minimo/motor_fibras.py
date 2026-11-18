@@ -109,7 +109,7 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
     tdec = 0.0; parou = False; estab = 0; novas = 0; nac = 0
     nev = np.zeros(NEP, np.int64); nram = np.zeros(NEP, np.int64)   # medida de custo (não altera nada)
     dsil = np.zeros(K, np.int64)   # disparos no trecho de silêncio do último episódio (só medida)
-    aux = np.zeros((8, max(NEP, K))); pn = 0   # linhas 5-6: histograma do V nas chegadas (último episódio, com som; faixas de 0,1, a última ≥ 1,5); 7: maior V por Uint   # linhas 0-1: força ganha/perdida por episódio; 2-4: fase dos acertos (cos, sen, n) por Uint   # fase dos acertos no último episódio (cos, sen, n), no período da nota do momento   # diagnóstico: força ganha nos acertos e perdida na punição da quase-sincronia, por episódio
+    aux = np.zeros((8 + 3 * NEP, max(NEP, K))); pn = 0   # linhas 8+3·ep: fase dos acertos por episódio (cos, sen, n) por Uint   # linhas 5-6: histograma do V nas chegadas (último episódio, com som; faixas de 0,1, a última ≥ 1,5); 7: maior V por Uint   # linhas 0-1: força ganha/perdida por episódio; 2-4: fase dos acertos (cos, sen, n) por Uint   # fase dos acertos no último episódio (cos, sen, n), no período da nota do momento   # diagnóstico: força ganha nos acertos e perdida na punição da quase-sincronia, por episódio
     e1 = np.zeros((K, NEP), np.int64); e2 = np.zeros((K, NEP), np.int64); et = np.zeros((K, NEP), np.int64)   # diagnóstico por episódio (só medida)
     for ep in range(NEP):
         nh = 0
@@ -275,10 +275,13 @@ def _rodar(INC_T, INC_B, ini, fim, NF, FPO, ALC, dur, semente, K, unica, DF, F0,
                         if bs[k, q] != s:
                             ra = r if s == 0 else rr; rb = rr if s == 0 else r
                             dif0 = (UD[R_b[ra], R_u[ra]] + R_d[ra]) - (UD[R_b[rb], R_u[rb]] + R_d[rb]); et[k, ep] += 1
-                            if ultimo and NOT_T.size > 1:
+                            if NOT_T.size > 1:   # só medida: fase dos acertos por episódio (linhas 8+3·ep) e no último (linhas 2-4)
                                 while pn + 1 < NOT_T.size and NOT_T[pn + 1] <= T: pn += 1
                                 ph = 2.0 * np.pi * (dif0 - DLT) / NOT_P[pn]
-                                aux[2, k] += np.cos(ph); aux[3, k] += np.sin(ph); aux[4, k] += 1.0
+                                if aux.shape[0] >= 8 + 3 * NEP:
+                                    aux[8 + 3 * ep, k] += np.cos(ph); aux[9 + 3 * ep, k] += np.sin(ph); aux[10 + 3 * ep, k] += 1.0
+                                if ultimo:
+                                    aux[2, k] += np.cos(ph); aux[3, k] += np.sin(ph); aux[4, k] += 1.0
                             if abs(dif0 - DLT) <= W: e1[k, ep] += 1
                             if abs(dif0 - DLT2) <= W: e2[k, ep] += 1
                         if ultimo and bs[k, q] != s:
@@ -532,7 +535,7 @@ def rodar(cond, faixa, semente, K=8, unica=False, dur=10_000.0, cond_fixo=False,
         c = np.cumsum(h); i = int(np.searchsorted(c, c[-1] / 2.0)); return round(i / 100.0 - 20.0, 2)
     pref_med = [_med(hdif[k]) for k in sint if hdif[k].sum()]
     ramos_lado = [int(((Rk == k) & (Rs == z)).sum()) for k in range(K) for z in range(2)]
-    return dict(hist_V=aux[5:7, :8].ravel().copy(), vmax_uint=aux[7, :K].copy(), fase_acertos=aux[2:5, :K].copy(), diag_forca_ganha=[round(float(x), 2) for x in aux[0, :NEP]], diag_forca_perdida=[round(float(x), 2) for x in aux[1, :NEP]], disparos_silencio=[int(x) for x in dsil], diag_e1=e1, diag_e2=e2, diag_et=et, eventos_por_episodio=[int(x) for x in nev], ramos_fim_episodio=[int(x) for x in nram], incidencias_por_episodio=[int(fim[e] - ini[e]) for e in range(len(ini))], alcance=ALC.copy(),
+    return dict(fase_por_episodio=aux[8:8 + 3 * NEP, :K].reshape(NEP, 3, K).copy(), hist_V=aux[5:7, :8].ravel().copy(), vmax_uint=aux[7, :K].copy(), fase_acertos=aux[2:5, :K].copy(), diag_forca_ganha=[round(float(x), 2) for x in aux[0, :NEP]], diag_forca_perdida=[round(float(x), 2) for x in aux[1, :NEP]], disparos_silencio=[int(x) for x in dsil], diag_e1=e1, diag_e2=e2, diag_et=et, eventos_por_episodio=[int(x) for x in nev], ramos_fim_episodio=[int(x) for x in nram], incidencias_por_episodio=[int(fim[e] - ini[e]) for e in range(len(ini))], alcance=ALC.copy(),
                 cond=cond, faixa=faixa, semente=semente, fixo=cond_fixo, unica=unica, K=K, RC=RC, TAUR=TAUR, TETA=TETA, TEL=TEL, NEXP=NEXP,
                 classe=classe, diferenca_preferida_sintonizadas=pref, diferenca_preferida_mediana_sintonizadas=pref_med,
                 espalhamento_preferida=round(float(np.std(pref)), 4) if len(pref) > 1 else 0.0,

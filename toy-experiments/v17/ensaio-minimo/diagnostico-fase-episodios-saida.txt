@@ -1,0 +1,6 @@
+último episódio: sucesso pelo critério 30/30; fase do último episódio igual à medida antiga: True
+episódio 1: acertos 29372684 | Uints com ≥100 acertos 240 | R mediano 0.321 | |fase| mediana 0.214 rad | em fase (p<0,01 e |fase|<π/4) 240/240
+episódio 2: acertos 29174008 | Uints com ≥100 acertos 240 | R mediano 0.318 | |fase| mediana 0.236 rad | em fase (p<0,01 e |fase|<π/4) 240/240
+episódio 3: acertos 29264605 | Uints com ≥100 acertos 240 | R mediano 0.317 | |fase| mediana 0.229 rad | em fase (p<0,01 e |fase|<π/4) 240/240
+episódio 4: acertos 29153871 | Uints com ≥100 acertos 240 | R mediano 0.319 | |fase| mediana 0.226 rad | em fase (p<0,01 e |fase|<π/4) 240/240
+episódio 5: acertos 29336431 | Uints com ≥100 acertos 240 | R mediano 0.319 | |fase| mediana 0.225 rad | em fase (p<0,01 e |fase|<π/4) 240/240

@@ -700,3 +700,20 @@ Script `diagnostico_distancia_limiar.py`; saída `diagnostico-distancia-limiar-s
 - Com o teto, o agudo chega no máximo a **~80% do limiar** na Uint típica. A falta é de ~25% nos melhores momentos.
 - A distribuição inteira do V se desloca para baixo, mais ou menos na razão da força por fibra (0,50 contra 0,74).
 - O grave passa com folga mesmo com o teto.
+
+### Diagnóstico: o agudo aprende a fase? (18/11; só medidas) — **não**; e o critério de fase mede o mundo
+Script `diagnostico_fase_episodios.py`; saída `diagnostico-fase-episodios-saida.txt`. Modelo adotado (sem força por fibra), sementes 371–400. O motor ganhou uma medida da fase por episódio que **não muda a dinâmica** (identidade conferida). O último episódio reproduz a medida antiga e o resultado 30/30.
+
+| Episódio | Acertos (soma) | R mediano | \|fase\| mediana | Uints em fase |
+|---|---|---|---|---|
+| 1 | 29,4 milhões | 0,321 | 0,21 rad | 240/240 |
+| 2 | 29,2 milhões | 0,318 | 0,24 rad | 240/240 |
+| 3 | 29,3 milhões | 0,317 | 0,23 rad | 240/240 |
+| 4 | 29,2 milhões | 0,319 | 0,23 rad | 240/240 |
+| 5 | 29,3 milhões | 0,319 | 0,23 rad | 240/240 |
+
+**Leitura:**
+1. A fase já é boa no **primeiro episódio** e não melhora. Não há aprendizado de fase.
+2. **Erro de desenho do critério (do assistente, que o propôs):** a fase de um acerto é calculada da diferença de atraso dos dois ramos que coincidiram. Se as duas chegadas coincidem e vêm do mesmo ciclo do mundo, essa diferença é, por construção, ≈ Δ mais um número inteiro de períodos. Dobrada no período, a fase sai ≈ 0. Ou seja: **qualquer coincidência movida pelo mundo parece sintonizada**. O R mede a proporção de coincidências vindas do mundo (contra as espontâneas) e a largura da janela em relação ao período, e não o que a Uint aprendeu.
+3. Os acertos são muitos: ~122 mil por Uint por episódio, contra ~100 disparos por Uint no total. Eles não dependem de a Uint disparar.
+4. **Consequência:** o resultado "agudo 30/30" da reavaliação pelo critério de fase **não** é evidência de formação da relação no agudo. O critério precisa ser revisto com o responsável.
