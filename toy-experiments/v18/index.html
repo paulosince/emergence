@@ -63,6 +63,17 @@ details li { margin: 4px 0; }
     <button type="button" data-obra="chaconne" aria-pressed="false">Violino</button>
     <span class="sub" id="credito"></span>
   </div>
+  <div class="linha" role="group" aria-label="Bateria de testes">
+    <span class="sub">Bateria:</span>
+    <button type="button" data-obra="bateria/1-tons-puros" aria-pressed="false">1 Tons puros</button>
+    <button type="button" data-obra="bateria/2-intensidade" aria-pressed="false">2 Intensidade</button>
+    <button type="button" data-obra="bateria/3-tom-e-semitom" aria-pressed="false">3 Tom e semitom</button>
+    <button type="button" data-obra="bateria/4-tempo" aria-pressed="false">4 Tempo</button>
+    <button type="button" data-obra="bateria/5-direcao" aria-pressed="false">5 Direção</button>
+    <button type="button" data-obra="bateria/6-voz" aria-pressed="false">6 Voz</button>
+    <button type="button" data-obra="bateria/7-duas-fontes" aria-pressed="false">7 Duas fontes</button>
+  </div>
+  <div class="linha"><label class="sub" for="condicao">Condição:</label> <select id="condicao" aria-label="Ir para a condição"></select></div>
 </header>
 <div id="palco">
   <canvas id="tela" aria-label="Som chegando à cóclea e incidências por faixa e ponto transdutivo"></canvas>
@@ -118,15 +129,43 @@ details li { margin: 4px 0; }
   const BASE = document.querySelector('meta[name="dados"]')?.content || "";
   const bin = async n => {
     const cru = n.replace(/-bin\.json$/, ".bin").replace(/-ogg\.json$/, ".ogg");
-    if (BASE) { const r = await fetch(BASE + cru); if (r.ok) return new Uint8Array(await r.arrayBuffer()); }
+    if (BASE) {
+      if (cru.endsWith(".bin")) {                     // bateria: dados comprimidos (gzip), descomprimidos no navegador
+        const z = await fetch(BASE + cru + ".gz");
+        if (z.ok) return new Uint8Array(await new Response(z.body.pipeThrough(new DecompressionStream("gzip"))).arrayBuffer());
+      }
+      const r = await fetch(BASE + cru); if (r.ok) return new Uint8Array(await r.arrayBuffer());
+    }
     const s = (await (await fetch(BASE + n)).json()).base64, b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u;
   };
   const OUV = ["esq", "dir"];
   const OBRAS = {
     bach: { titulo: "Órgão — Bach, Tocata e Fuga BWV 565", credito: "gravação: Ashtar Moïra, domínio público" },
     satie: { titulo: "Piano — Satie, Gymnopédie nº 1", credito: "gravação: Robin Alciatore (Musopen), domínio público" },
-    chaconne: { titulo: "Violino — Bach, Chaconne BWV 1004", credito: "gravação: Ben Goldstein, CC BY-SA 3.0 (Wikimedia Commons)" }
+    chaconne: { titulo: "Violino — Bach, Chaconne BWV 1004", credito: "gravação: Ben Goldstein, CC BY-SA 3.0 (Wikimedia Commons)" },
+    "bateria/1-tons-puros": { titulo: "Bateria 1 — Tons puros", credito: "sons sintéticos; fonte virtual a 1 m" },
+    "bateria/2-intensidade": { titulo: "Bateria 2 — Intensidade fina", credito: "sons sintéticos; fonte virtual a 1 m" },
+    "bateria/3-tom-e-semitom": { titulo: "Bateria 3 — Tom e semitom", credito: "sons sintéticos; fonte virtual a 1 m" },
+    "bateria/4-tempo": { titulo: "Bateria 4 — Separação no tempo", credito: "sons sintéticos; fonte virtual a 1 m" },
+    "bateria/5-direcao": { titulo: "Bateria 5 — Direção", credito: "sons sintéticos; fonte virtual a 1 m, em direções diferentes" },
+    "bateria/6-voz": { titulo: "Bateria 6 — Voz", credito: "vogais sintéticas; fala: LibriVox (Machado de Assis; Artur Azevedo), domínio público" },
+    "bateria/7-duas-fontes": { titulo: "Bateria 7 — Duas fontes", credito: "500 Hz a 30° à esquerda + 600 Hz a 30° à direita" }
   };
+  // rótulo de cada trecho da bateria
+  function rotulo(t) {
+    const r = t.rep !== undefined ? ` · rep. ${t.rep + 1}` : "", db = v => `${fmt(v, 0)} dB`;
+    switch (t.grupo) {
+      case "1-tons-puros": return `${t.f} Hz · ${db(t.db_nominal)}${r}`;
+      case "2-intensidade": return `${t.f} Hz · ${t.base} dB +${fmt(t.delta_db, 1)} dB${r}`;
+      case "3-tom-e-semitom": return `${t.f.toFixed(0)} Hz · ${t.delta} · ${t.papel === "referencia" ? "referência" : "comparação"}${r}`;
+      case "4-tempo": return t.teste === "pausa" ? `pausa de ${t.pausa_ms} ms no ${t.portador === "ruido" ? "ruído" : "tom de 1 kHz"}${r}`
+        : t.teste === "assincronia" ? `inícios separados por ${t.assincronia_ms} ms · ${t.ordem}${r}` : `ritmo de ${t.pulsos_por_s} pulsos/s`;
+      case "5-direcao": return `${t.portador === "ruido" ? "ruído" : "tom de 500 Hz"} a ${t.azimute_nominal}°${r}`;
+      case "6-voz": return t.teste === "vogal" ? `vogal /${t.vogal}/ · ${t.f0} Hz${r}` : `fala: ${t.arquivo.includes("machado") ? "Machado de Assis" : "Artur Azevedo"}`;
+      case "7-duas-fontes": return `500 Hz (esq.) + 600 Hz (dir.)${r}`;
+    }
+    return "";
+  }
   const cache = {};
   let meta, G, S, G1, NF, FR, SUB, DUR, FC, CAP, DEST, JAN, PT, P99, obra = "bach";
   async function dados(id) {
@@ -158,6 +197,13 @@ details li { margin: 4px 0; }
     $("#titulo").textContent = OBRAS[id].titulo + ` (${fmt(meta.ini, 1)} a ${fmt(meta.ini + meta.dur, 1)} s)`;
     $("#credito").textContent = OBRAS[id].credito;
     document.querySelectorAll("[data-obra]").forEach(x => x.setAttribute("aria-pressed", x.dataset.obra === id));
+    $("#tempo").max = String(DUR);
+    const sel = $("#condicao"); sel.innerHTML = "";
+    if (meta.trechos) {
+      sel.disabled = false;
+      meta.trechos.forEach((t, i) => { const o = document.createElement("option"); o.value = i; o.textContent = `${fmt(t.inicio, 1)} s · ${rotulo(t)}`; sel.appendChild(o); });
+    } else { sel.disabled = true; const o = document.createElement("option"); o.textContent = "(obra: sem condições)"; sel.appendChild(o); }
+    $("#destaques").style.display = DEST.length ? "flex" : "none";
     $("#carregando")?.remove();
   }
   const fmt = (x, d) => x.toFixed(d).replace(".", ",");
@@ -213,12 +259,14 @@ details li { margin: 4px 0; }
     }
   }
   botoesDestaque();
+  $("#condicao").onchange = e => { const t = meta.trechos?.[+e.target.value]; if (t) irPara(Math.max(0, t.inicio - 0.05)); };
+  function trechoAtual() { if (!meta.trechos) return ""; const t = meta.trechos.find(t => T >= t.inicio && T < t.fim + 0.15); return t ? " · " + rotulo(t) : ""; }
   document.querySelectorAll("[data-obra]").forEach(bt => bt.onclick = async () => {
     if (bt.dataset.obra === obra) return;
     tocando = false; $("#play").textContent = "▶ Tocar"; sincronizarAudio();
-    await carregar(bt.dataset.obra); tabelas(); botoesDestaque(); legenda(); u0 = 0; span = 64; irPara(2.6);
+    await carregar(bt.dataset.obra); tabelas(); botoesDestaque(); legenda(); u0 = 0; span = 64; irPara(meta.trechos ? 0 : 2.6);
   });
-  const legenda = () => $("#legenda").innerHTML = `<span><b class="amarelo">amarelo</b> = som chegando a cada faixa (espectro da gravação no microfone, antes da cóclea; 20 a 75 dB SPL)</span><span>teclado = cóclea (64 faixas)</span><span><b class="verde">verde neon</b> = incidências, efeito excitatório; brilho = magnitude (reserva de efeito da Upro)</span><span>de perto, cada faixa se abre em colunas em ordem de limiar (a mais sensível à esquerda); nas três faixas em destaque, de ${fmt(meta.ini + JAN[0], 1)} a ${fmt(meta.ini + JAN[1], 1)} s, cada coluna é um ponto transdutivo e cada luz uma incidência</span><span>a subida é o trânsito pela Upro na escala do visual (igual para todas)</span>`;
+  const legenda = () => $("#legenda").innerHTML = `<span><b class="amarelo">amarelo</b> = som chegando a cada faixa (espectro da gravação no microfone, antes da cóclea; 20 a 75 dB SPL)</span><span>teclado = cóclea (64 faixas)</span><span><b class="verde">verde neon</b> = incidências, efeito excitatório; brilho = magnitude (reserva de efeito da Upro)</span><span>de perto, cada faixa se abre em colunas em ordem de limiar (a mais sensível à esquerda); ${DEST.length ? `nas três faixas em destaque, de ${fmt(meta.ini + JAN[0], 1)} a ${fmt(meta.ini + JAN[1], 1)} s, cada coluna` : "nas obras (não na bateria), nas faixas em destaque, cada coluna"} é um ponto transdutivo e cada luz uma incidência</span><span>a subida é o trânsito pela Upro na escala do visual (igual para todas)</span>`;
   legenda();
 
   // ---------- gestos: pinça, arrastar, roda, toque duplo ----------
@@ -362,7 +410,7 @@ details li { margin: 4px 0; }
     }
     // nome do ouvido
     ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillStyle = "#d7e3df"; ctx.font = "600 11px 'IBM Plex Sans Condensed', sans-serif";
-    if (ouvido === "ambos") ctx.fillText(e === "esq" ? "ESQUERDO" : "DIREITO", p.x + 8, 44);
+    if (ouvido === "ambos") ctx.fillText(e === "esq" ? "ESQUERDO" : "DIREITO", p.x + 8, 64);
     ctx.restore();
   }
 
@@ -393,7 +441,7 @@ details li { margin: 4px 0; }
     const j = janela();
     $("#rotulo-tempo").textContent = fmt(meta.ini + T, 3) + " s";
     const vtxt = v === 1 ? "1×" : v >= 0.1 ? fmt(v, 2) + "×" : "1/" + Math.round(1 / v) + "×";
-    $("#leitura").textContent = `${fHz(FC[Math.min(63, Math.floor(u0))])} a ${fHz(FC[Math.min(63, Math.ceil(u0 + span) - 1)])} · trânsito na tela ${j >= 1 ? fmt(j, 1) + " s" : fmt(j * 1000, 0) + " ms"} · velocidade ${vtxt}`;
+    $("#leitura").textContent = `${fHz(FC[Math.min(63, Math.floor(u0))])} a ${fHz(FC[Math.min(63, Math.ceil(u0 + span) - 1)])} · trânsito na tela ${j >= 1 ? fmt(j, 1) + " s" : fmt(j * 1000, 0) + " ms"} · velocidade ${vtxt}${trechoAtual()}`;
     requestAnimationFrame(quadro);
   }
   // parâmetros de teste local (?t=6&u=8&s=0.5&o=esq)

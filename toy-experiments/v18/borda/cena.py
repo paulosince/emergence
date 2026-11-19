@@ -102,3 +102,13 @@ def microfones(inicio, dur, gravacao=None, cru=False):
     mic = {k: v * s for k, v in o.items()}
     if cru: return mic, (L * g, R * g), nivel_reflexo(o)
     return mic, (L * g, R * g)
+
+def fonte_virtual(x, azimute_graus):
+    """Bateria de testes: fonte a 1 m no plano dos ouvidos; azimute positivo = para a esquerda do robô. O sinal x já vem
+    com o nível no ponto da cabeça (por isso não se aplica a perda com a distância). Atraso comum de 1 ms (irrelevante)."""
+    ang = -azimute_graus                                   # na convenção desta cena, o ouvido esquerdo fica em −100°
+    out = {}
+    for ear, a_ear in EARS.items():
+        rel = ((ang - a_ear + 180) % 360) - 180
+        out[ear] = atrasar(sombra(x, rel), 1e-3 + woodworth(rel))
+    return out

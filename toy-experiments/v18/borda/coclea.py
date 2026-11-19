@@ -103,3 +103,19 @@ def comando(p, reflexo_db=None, compressao=False):   # compressão retirada pelo
 def limiar_pa(db_spl):
     """Limiar de um ponto transdutivo (dB SPL de um tom) em Pa de pico."""
     return P_REF * 10 ** (np.asarray(db_spl) / 20) * np.sqrt(2)
+
+class CocleaContinua:
+    """A mesma cóclea, processando um sinal longo em pedaços com continuidade exata (histórico dos filtros e estado da
+    janela de fase guardados entre pedaços)."""
+    def __init__(self):
+        self.H = max(len(h) for h in filtros()); self.hist = np.zeros(self.H)
+        self.zi = [np.zeros((_SOS_FASE.shape[0], 2)) for _ in range(N_FAIXAS)]
+    def processar(self, x, reflexo_db=None):
+        kap = _kappa(); xx = np.concatenate([self.hist, x]); out = np.empty((N_FAIXAS, len(x)))
+        for i in range(N_FAIXAS):
+            y = oaconvolve(xx, filtros()[i])[self.H:self.H + len(x)]
+            if reflexo_db is not None: y = y * 10 ** (-reflexo_db[i] / 20)
+            z, self.zi[i] = sosfilt(_SOS_FASE, np.maximum(y, 0.0), zi=self.zi[i])
+            out[i] = z / kap[i]
+        self.hist = xx[-self.H:]
+        return out
