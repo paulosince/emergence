@@ -55,7 +55,8 @@ res["diferenca_de_volume"] = dict(descricao="média, em janelas de 50 ms, de (po
                                                   frac_ativos_dir=float(ativos['dir'][:, b].mean() / cap[b])) for b in range(64)])
 
 # 3. Notas e ritmo: energia da gravação (canal do alto-falante próximo, espectro independente da cóclea) × pontos ativos
-mic, (Lsrc, Rsrc) = cena.microfones(ini, dur)
+GRAV = str(z["gravacao"]) if "gravacao" in z.files and str(z["gravacao"]) else None
+mic, (Lsrc, Rsrc) = cena.microfones(ini, dur, GRAV)
 fs = cena.FS; nper = int(jan * fs)
 fr, tt, S = stft(mic["esq"], fs=fs, nperseg=4096, noverlap=4096 - nper, boundary=None, padded=False)
 ec = coclea.E(fc); step = ec[1] - ec[0]; fe = coclea.Einv(np.r_[ec[0] - step / 2, (ec[:-1] + ec[1:]) / 2, ec[-1] + step / 2])

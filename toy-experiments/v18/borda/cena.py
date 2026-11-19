@@ -45,20 +45,22 @@ def ouvidos(sinais):
         out[ear] = acc
     return out
 
-def ler(inicio=None, dur=None):
+def ler(inicio=None, dur=None, gravacao=None):
     cmd = ["ffmpeg", "-v", "error"]
     if inicio is not None: cmd += ["-ss", str(inicio)]
     if dur is not None: cmd += ["-t", str(dur)]
-    cmd += ["-i", GRAVACAO, "-f", "f32le", "-acodec", "pcm_f32le", "-ac", "2", "-"]
+    cmd += ["-i", gravacao or GRAVACAO, "-f", "f32le", "-acodec", "pcm_f32le", "-ac", "2", "-"]
     raw = subprocess.run(cmd, capture_output=True, check=True).stdout
     x = np.frombuffer(raw, dtype=np.float32).reshape(-1, 2).astype(np.float64)
     return [resample_poly(x[:, i], 160, 147) for i in (0, 1)]       # 44,1 -> 48 kHz
 
-def ganho_calibracao():
-    """Ganho (Pa por unidade digital) que leva o trecho mais forte da peça inteira a 85 dB SPL no microfone mais próximo."""
-    cache = os.path.join(AQUI, "ganho-calibracao.txt")
+def ganho_calibracao(gravacao=None):
+    """Ganho (Pa por unidade digital) que leva o trecho mais forte da peça inteira a 85 dB SPL no microfone mais próximo.
+    Mesma regra para toda gravação (decisão de 18/11 para o Bach, estendida às outras obras: escolha declarada)."""
+    nome = "" if gravacao is None else "-" + os.path.splitext(os.path.basename(gravacao))[0]
+    cache = os.path.join(AQUI, f"ganho-calibracao{nome}.txt")
     if os.path.exists(cache): return float(open(cache).read().split()[0])
-    L, R = ler()
+    L, R = ler(gravacao=gravacao)
     o = ouvidos([(L, NEAR), (R, FAR)])
     n = int(JANELA_PICO * FS); best = 0.0
     for ear in o:
@@ -68,9 +70,9 @@ def ganho_calibracao():
     open(cache, "w").write(f"{float(g)!r} Pa/unidade; RMS máximo (125 ms) = {float(best)!r} unidades; pico = {PICO_DB} dB SPL\n")
     return g
 
-def microfones(inicio, dur):
+def microfones(inicio, dur, gravacao=None):
     """Pressão (Pa) nos dois microfones, 48 kHz, para o trecho [inicio, inicio + dur) da gravação; canal esquerdo no alto-falante próximo."""
-    g = ganho_calibracao()
-    L, R = ler(inicio, dur)
+    g = ganho_calibracao(gravacao)
+    L, R = ler(inicio, dur, gravacao)
     o = ouvidos([(L, NEAR), (R, FAR)])
     return {k: v * g for k, v in o.items()}, (L * g, R * g)
