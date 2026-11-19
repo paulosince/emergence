@@ -43,7 +43,7 @@
 | Recuperação por Upro | Sorteio uniforme de **±50% em torno de 0,43 ms** (~0,2 a ~0,65 ms), **provisório** até achar a dispersão real entre fibras | 18/11 |
 | Estoque de neurotransmissor | **Incluído**, determinístico, por Upro: limita a taxa sustentada (~200/s nas fibras reais) e produz a adaptação rápida e curta (a "poeira luminosa" do ataque). Parâmetros a definir | 18/11 |
 | Cabeça | **Esférica** (10 cm, como na V0.17), como aproximação declarada da caixa de 8 × 10 × 9 cm | 18/11 |
-| Suavizador (fase) | "Use nossos dados de curvas para interpolar melhor": ajustar o filtro aos pontos achados na literatura (proposta em curso) | 18/11 |
+| Suavizador (fase) | **Filtro de 2ª ordem com canto em 1,2 kHz** dentro da Utrd, ajustado aos pontos de gato e gerbil (constante abaixo de ~1 kHz, insignificante acima de 4–5 kHz; queda de 40 dB por década, Klug, Encke & Dietz 2023). Adaptação declarada (sem dado humano); canto único para todas as zonas por ora | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
