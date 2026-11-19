@@ -36,6 +36,9 @@
 | Volume da sala | Trecho mais forte de Bach = **85 dB SPL** no ouvido do robô; o resto proporcional, sem compressão | 18/11 |
 | Interface de visualização | O inverso dos vídeos de piano: embaixo, as 64 faixas; de cada faixa sobem colunas (Upros possíveis); **a luz é a incidência transitando pela Upro** (a velocidade de propagação pode aparecer); a intensidade é a "poeira luminosa" que sobe no ataque da nota; zoom no estilo dos quadros de atividade; verde neon = excitatório, vermelho = inibitório. Criatividade livre ao assistente | 18/11 |
 | Atraso das Upros | **Por ora, igual para todas.** Depois, será a distância dividida pela velocidade, "com ou sem mielina" | 18/11 |
+| Pausa depois do disparo | **Valores humanos** (implante coclear): pausa absoluta ~0,39 ms e recuperação gradual com constante ~0,43 ms | 18/11 |
+| Acaso no disparo | **Determinístico** (acima do limiar, dispara sempre que a pausa permitir) | 18/11 |
+| Atividade espontânea | **Sem espontânea por ora** | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
