@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cóclea em luz — Bach 10 s</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Um só mundo visual (escuro), por escolha: a luz verde precisa de fundo escuro. Layout: palco em cima, controles embaixo. */
+  --fundo: #05070a;
+  --palco: #070b0d;
+  --linha: #1a2428;
+  --texto: #d7e3df;
+  --apagado: #7d8f8a;
+  --excit: #39ff14;      /* efeito excitatório (decisão do responsável) */
+  --inib: #ff2d3a;       /* efeito inibitório (não ocorre neste teste) */
+  --corpo: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--fundo); color: var(--texto); font-family: var(--corpo); }
+body { display: flex; flex-direction: column; }
+header { padding: 12px 16px 6px; display: grid; gap: 2px; }
+h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; text-wrap: balance; }
+.sub { color: var(--apagado); font-size: .85rem; max-width: 65ch; }
+#palco { position: relative; flex: 1; min-height: 300px; margin: 0 16px; background: var(--palco); border: 1px solid var(--linha); border-radius: 6px; overflow: hidden; touch-action: manipulation; }
+canvas { display: block; width: 100%; height: 100%; }
+#leitura { position: absolute; left: 10px; top: 8px; font: 500 .78rem var(--mono); color: var(--texto); text-shadow: 0 0 6px #000; pointer-events: none; font-variant-numeric: tabular-nums; }
+#carregando { position: absolute; inset: 0; display: grid; place-items: center; color: var(--apagado); font: .9rem var(--mono); }
+.controles { padding: 10px 16px 6px; display: grid; gap: 8px; }
+.linha { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button, select { font: 500 .85rem var(--corpo); color: var(--texto); background: #0d1417; border: 1px solid #2a3a3e; border-radius: 6px; padding: 7px 11px; cursor: pointer; }
+button[aria-pressed="true"] { border-color: var(--excit); color: var(--excit); box-shadow: 0 0 8px #39ff1433 inset; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--excit); outline-offset: 2px; }
+#play { min-width: 92px; font-weight: 600; }
+#tempo { flex: 1; min-width: 160px; accent-color: var(--excit); }
+#rotulo-tempo { font: 500 .85rem var(--mono); font-variant-numeric: tabular-nums; min-width: 92px; text-align: right; }
+.grupo { display: flex; gap: 4px; align-items: center; }
+.grupo > span { color: var(--apagado); font-size: .8rem; margin-right: 2px; }
+.legenda { color: var(--apagado); font-size: .8rem; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.legenda b { color: var(--excit); font-weight: 600; }
+details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .88rem; }
+summary { cursor: pointer; color: var(--texto); font-weight: 600; }
+details ol { padding-left: 20px; max-width: 70ch; line-height: 1.45; }
+details li { margin: 4px 0; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+@media (max-width: 480px) { header { padding: 10px 12px 4px; } #palco { margin: 0 12px; } .controles { padding: 8px 12px; } details { margin: 4px 12px 12px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Cóclea em luz — Tocata e Fuga BWV 565, primeiros 10 s</h1>
+  <div class="sub">V0.18, primeiro teste da borda auditiva. Nada é criado: cada coluna é um ponto transdutivo que <em>seria</em> uma Upro, e cada luz é a incidência que ela receberia, subindo por ela.</div>
+</header>
+<div id="palco">
+  <canvas id="tela" aria-label="Visualização das incidências por faixa e ponto transdutivo"></canvas>
+  <div id="leitura"></div>
+  <div id="carregando">carregando incidências…</div>
+</div>
+<div class="controles">
+  <div class="linha">
+    <button id="play" type="button">▶ Tocar</button>
+    <input id="tempo" type="range" min="0" max="10" step="0.001" value="0" aria-label="Posição no tempo">
+    <span id="rotulo-tempo">0,000 s</span>
+  </div>
+  <div class="linha">
+    <div class="grupo" role="group" aria-label="Zoom"><span>Zoom</span>
+      <button type="button" data-nivel="1" aria-pressed="true">64 faixas</button>
+      <button type="button" data-nivel="2" aria-pressed="false">8 faixas</button>
+      <button type="button" data-nivel="3" aria-pressed="false">Pontos</button>
+    </div>
+    <div class="grupo" role="group" aria-label="Ouvido"><span>Ouvido</span>
+      <button type="button" data-ouvido="esq" aria-pressed="true">Esquerdo</button>
+      <button type="button" data-ouvido="dir" aria-pressed="false">Direito</button>
+    </div>
+    <div class="grupo"><span>Velocidade</span>
+      <select id="vel" aria-label="Velocidade">
+        <option value="1">1×</option><option value="0.25">¼×</option><option value="0.05">1/20×</option><option value="0.01">1/100×</option>
+      </select>
+    </div>
+    <div class="grupo" id="grupo-faixa"><span id="rot-faixa">Faixa</span>
+      <button type="button" id="ant" aria-label="Faixas mais graves">◀</button>
+      <select id="faixa" aria-label="Faixa em destaque"></select>
+      <button type="button" id="prox" aria-label="Faixas mais agudas">▶</button>
+    </div>
+    <button type="button" id="som" aria-pressed="false">♪ Som (1×)</button>
+  </div>
+  <div class="legenda" id="legenda"></div>
+</div>
+<details>
+  <summary>O que o teste de 10 s mostrou (conferências do observador)</summary>
+  <ol>
+    <li><b>Diferença de chegada:</b> nas faixas até 1,2 kHz, o ouvido esquerdo (perto do alto-falante próximo) recebe primeiro, com atraso do direito de <span class="num">0,25–0,56 ms</span>; o esperado pela cabeça esférica é <span class="num">0,35 ms</span>. Parte do excesso pode vir do som mais forte à esquerda, que faz o acumulador completar antes (a conferir).</li>
+    <li><b>Diferença de volume:</b> o ouvido esquerdo aciona mais pontos, sobretudo nos agudos (até <span class="num">+16</span> pontos por faixa acima de 5 kHz).</li>
+    <li><b>Notas e ritmo:</b> o número de pontos ativos acompanha a energia de cada faixa na gravação (correlação de postos de <span class="num">0,32 a 0,95</span>; a maioria entre 0,7 e 0,9).</li>
+    <li><b>Ataques:</b> o início de cada trecho aparece como subida, mas quase sem rajada acima do sustentado (pico/sustentado <span class="num">1,03–1,07</span>).</li>
+    <li><b>Perdas:</b> cerca de <span class="num">80%</span> dos pontos ficam ativos o tempo todo nas faixas acima de ~300 Hz (o som está alto: média de 74 dB SPL no ouvido esquerdo). A janela de refratariedade barra só <span class="num">0,6%</span> das emissões. A magnitude média cai para <span class="num">0,27</span>, porque a reserva de efeito das Upros se esgota com o uso contínuo.</li>
+  </ol>
+  <p class="sub">Os critérios de "suficiente" ainda vão ser definidos pelo responsável. Números: <span class="num">conferencias-0-10-conferencias.json</span> no repositório.</p>
+</details>
+<audio id="audio" preload="auto"></audio>
+<script>
+(async function () {
+  const $ = s => document.querySelector(s);
+  const tela = $("#tela"), ctx = tela.getContext("2d");
+  const meta = await (await fetch("meta.json")).json();
+  // arquivos binários vêm embrulhados em JSON (base64), porque o servidor só serve texto e páginas
+  const bin = async n => { const s = (await (await fetch(n)).json()).base64, b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
+  const G = { esq: await bin("grade-esq-bin.json"), dir: await bin("grade-dir-bin.json") };
+  const NF = meta.quadros, FR = meta.quadro, SUB = meta.sub, DUR = meta.dur, FC = meta.fc, CAP = meta.cap;
+  // visão geral: média das 16 colunas de cada faixa
+  const G1 = {};
+  for (const e of ["esq", "dir"]) {
+    const a = new Uint8Array(NF * 64), g = G[e];
+    for (let f = 0; f < NF; f++) for (let b = 0; b < 64; b++) {
+      let s = 0; const o = (f * 64 + b) * SUB; for (let j = 0; j < SUB; j++) s += g[o + j];
+      a[f * 64 + b] = s / SUB;
+    }
+    G1[e] = a;
+  }
+  // incidências individuais das faixas em destaque
+  const DEST = meta.destaque.faixas, JAN = meta.destaque.janela, PT = {};
+  for (const b of DEST) {
+    const buf = (await bin(`pontos-${b}-bin.json`)).buffer;
+    const n = new Uint32Array(buf.slice(0, 8)); let off = 8; PT[b] = {};
+    ["esq", "dir"].forEach((e, i) => {
+      const m = n[i];
+      const t = new Float32Array(buf.slice(off, off + 4 * m)); off += 4 * m;
+      const k = new Uint16Array(buf.slice(off, off + 2 * m)); off += 2 * m;
+      const g = new Uint8Array(buf.slice(off, off + m)); off += m;
+      PT[b][e] = { t, k, g };
+    });
+  }
+  try { const a = await bin("audio-ogg.json"); $("#audio").src = URL.createObjectURL(new Blob([a], { type: "audio/ogg" })); } catch (e) {}
+  $("#carregando").remove();
+
+  // estado
+  let T = 0, tocando = false, nivel = 1, ouvido = "esq", vel = 1, foco = 24, dest = DEST[0], somLigado = false;
+  const audio = $("#audio");
+  const reduzir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // janela de trânsito visual (tempo de simulação que a luz leva da base ao topo da coluna)
+  const JANELA = { 1: 2.0, 2: 1.0, 3: 0.03 };
+
+  // tabela de cor: verde neon com núcleo claro nos valores altos
+  const LUT = new Uint8ClampedArray(256 * 4);
+  for (let v = 0; v < 256; v++) {
+    const x = Math.pow(v / 255, 0.55), w = Math.max(0, (v / 255 - 0.7) / 0.3);
+    LUT[v * 4] = 57 * x + 200 * w; LUT[v * 4 + 1] = 255 * x; LUT[v * 4 + 2] = 20 * x + 190 * w; LUT[v * 4 + 3] = 255;
+  }
+  const fmt = (x, d) => x.toFixed(d).replace(".", ",");
+  const fHz = f => f >= 1000 ? fmt(f / 1000, f >= 10000 ? 0 : 1).replace(",0", "") + " kHz" : Math.round(f) + " Hz";
+
+  // controles
+  const selF = $("#faixa");
+  function preencherFaixas() {
+    selF.innerHTML = "";
+    const lista = nivel === 3 ? DEST : [...Array(64).keys()];
+    for (const b of lista) { const o = document.createElement("option"); o.value = b; o.textContent = `${b + 1} · ${fHz(FC[b])}`; selF.appendChild(o); }
+    selF.value = nivel === 3 ? dest : foco;
+    $("#rot-faixa").textContent = nivel === 3 ? "Faixa em destaque" : "Faixa central";
+    $("#grupo-faixa").style.display = nivel === 1 ? "none" : "flex";
+  }
+  selF.onchange = () => { if (nivel === 3) dest = +selF.value; else foco = +selF.value; };
+  $("#ant").onclick = () => { if (nivel === 3) { const i = DEST.indexOf(dest); dest = DEST[Math.max(0, i - 1)]; } else foco = Math.max(4, foco - 8); preencherFaixas(); };
+  $("#prox").onclick = () => { if (nivel === 3) { const i = DEST.indexOf(dest); dest = DEST[Math.min(DEST.length - 1, i + 1)]; } else foco = Math.min(59, foco + 8); preencherFaixas(); };
+  document.querySelectorAll("[data-nivel]").forEach(bt => bt.onclick = () => {
+    nivel = +bt.dataset.nivel;
+    document.querySelectorAll("[data-nivel]").forEach(x => x.setAttribute("aria-pressed", x === bt));
+    if (nivel === 3) { if (T < JAN[0] || T >= JAN[1]) irPara(5.60); if (vel > 0.05) definirVel(0.05); }
+    particulas.length = 0; preencherFaixas(); legenda();
+  });
+  document.querySelectorAll("[data-ouvido]").forEach(bt => bt.onclick = () => {
+    ouvido = bt.dataset.ouvido; document.querySelectorAll("[data-ouvido]").forEach(x => x.setAttribute("aria-pressed", x === bt));
+  });
+  function definirVel(v) { vel = v; $("#vel").value = String(v); sincronizarAudio(); }
+  $("#vel").onchange = e => definirVel(+e.target.value);
+  const barra = $("#tempo");
+  function irPara(t) { T = Math.min(Math.max(t, 0), DUR - 1e-3); barra.value = T; if (!audio.paused) audio.currentTime = T; particulas.length = 0; }
+  barra.oninput = () => irPara(+barra.value);
+  $("#play").onclick = () => { tocando = !tocando; $("#play").textContent = tocando ? "❚❚ Pausar" : "▶ Tocar"; if (tocando && T >= DUR - 0.01) irPara(nivel === 3 ? JAN[0] : 0); sincronizarAudio(); };
+  $("#som").onclick = () => { somLigado = !somLigado; $("#som").setAttribute("aria-pressed", somLigado); sincronizarAudio(); };
+  function sincronizarAudio() {
+    const deve = somLigado && tocando && vel === 1;
+    if (deve && audio.paused) { audio.currentTime = T; audio.play().catch(() => {}); }
+    if (!deve && !audio.paused) audio.pause();
+  }
+  // toque na visão geral escolhe a faixa central e abre o zoom de 8 faixas
+  tela.addEventListener("click", ev => {
+    if (nivel !== 1) return;
+    const r = tela.getBoundingClientRect(); const b = Math.floor((ev.clientX - r.left) / r.width * 64);
+    foco = Math.min(59, Math.max(4, b)); document.querySelector('[data-nivel="2"]').click();
+  });
+  function legenda() {
+    const j = JANELA[nivel];
+    const altura = j >= 1 ? fmt(j, 0) + " s" : fmt(j * 1000, 0) + " ms";
+    const col = nivel === 1 ? "cada coluna é uma faixa (Cpro), dos graves à esquerda aos agudos à direita"
+      : nivel === 2 ? "cada faixa se divide em 16 colunas, em ordem de limiar: a mais sensível à esquerda"
+      : "cada coluna é um ponto transdutivo, em ordem de limiar; marcas embaixo: áreas sensível, intermediária e som forte";
+    $("#legenda").innerHTML = `<span><b>verde neon</b> = efeito excitatório</span><span>brilho = magnitude (reserva de efeito da Upro)</span><span>${col}</span><span>altura da coluna = trânsito da incidência pela Upro, na escala do visual (${altura} de simulação; igual para todas)</span><span>poeira = ataque (subida brusca)</span>`;
+  }
+
+  // tamanho
+  let W = 0, H = 0, DPR = 1;
+  function medir() {
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    const r = tela.getBoundingClientRect(); W = r.width; H = r.height;
+    tela.width = Math.round(W * DPR); tela.height = Math.round(H * DPR); ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  new ResizeObserver(medir).observe(tela); medir();
+
+  const TECLA = 30;                    // altura do teclado (px)
+  const off = document.createElement("canvas"), octx = off.getContext("2d");
+  const particulas = [];
+
+  // valor de uma coluna num quadro
+  function colunas() {
+    if (nivel === 1) return { n: 64, val: (f, c) => G1[ouvido][f * 64 + c], faixa: c => c };
+    const b0 = Math.min(56, Math.max(0, foco - 4));
+    return { n: 8 * SUB, val: (f, c) => G[ouvido][(f * 64 + b0 + (c >> 4)) * SUB + (c & 15)], faixa: c => b0 + (c >> 4), b0 };
+  }
+
+  function desenharGrade() {
+    const C = colunas(), j = JANELA[nivel], hU = H - TECLA;
+    const fAgora = T / FR, nLin = Math.ceil(j / FR) + 2, f0 = Math.floor(fAgora);
+    if (off.width !== C.n || off.height !== nLin) { off.width = C.n; off.height = nLin; }
+    const img = octx.createImageData(C.n, nLin), d = img.data;
+    for (let r = 0; r < nLin; r++) {          // linha 0 = quadro atual (embaixo)
+      const f = f0 - r; const y = nLin - 1 - r;
+      for (let c = 0; c < C.n; c++) {
+        const v = f >= 0 && f < NF ? C.val(f, c) : 0, p = (y * C.n + c) * 4, q = v * 4;
+        d[p] = LUT[q]; d[p + 1] = LUT[q + 1]; d[p + 2] = LUT[q + 2]; d[p + 3] = 255;
+      }
+    }
+    octx.putImageData(img, 0, 0);
+    const pxQ = hU / (j / FR), frac = fAgora - f0;
+    const yTopo = hU - nLin * pxQ + frac * pxQ;
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(off, 0, 0, C.n, nLin, 0, yTopo + pxQ, W, nLin * pxQ);
+    // brilho difuso
+    if (!reduzir) { ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.filter = "blur(6px)"; ctx.globalAlpha = 0.55; ctx.imageSmoothingEnabled = true;
+      ctx.drawImage(off, 0, 0, C.n, nLin, 0, yTopo + pxQ, W, nLin * pxQ); ctx.restore(); }
+    // separadores de faixa no zoom de 8 faixas
+    if (nivel === 2) { ctx.fillStyle = "#05070a"; for (let i = 1; i < 8; i++) ctx.fillRect(i * W / 8 - 1, 0, 2, hU); }
+    // poeira de ataque
+    if (tocando && !reduzir && f0 > 8 && f0 < NF) {
+      const cw = W / C.n;
+      for (let c = 0; c < C.n; c++) {
+        const v = C.val(f0, c); let m = 0; for (let k = 3; k <= 8; k++) m += C.val(f0 - k, c); m /= 6;
+        const sobe = v - m;
+        if (sobe > 28 && Math.random() < Math.min(1, sobe / 60) * Math.min(1, vel * 4 + 0.2)) {
+          const n = 1 + Math.floor(sobe / 40);
+          for (let i = 0; i < n; i++) particulas.push({ x: (c + Math.random()) * cw, y: hU - 2, vx: (Math.random() - 0.5) * 30, vy: -40 - Math.random() * 90, vida: 1, a: Math.min(1, v / 200) });
+        }
+      }
+    }
+    return C;
+  }
+
+  function desenharPontos() {
+    const b = dest, P = PT[b][ouvido], n = CAP[b], j = JANELA[3], hU = H - TECLA, cw = W / n;
+    const t = T - JAN[0];
+    // busca binária do início da janela visível
+    let lo = 0, hi = P.t.length; const tMin = t - j;
+    while (lo < hi) { const m = (lo + hi) >> 1; if (P.t[m] < tMin) lo = m + 1; else hi = m; }
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    const r = Math.max(1.2, Math.min(3, cw * 0.9));
+    for (let i = lo; i < P.t.length && P.t[i] <= t; i++) {
+      const y = hU - (t - P.t[i]) / j * hU, x = (P.k[i] + 0.5) * cw, a = P.g[i] / 255;
+      ctx.fillStyle = `rgba(57,255,20,${0.25 + 0.75 * a})`;
+      ctx.fillRect(x - r / 2, y - r * 2, r, r * 4);
+      if (!reduzir) { ctx.fillStyle = `rgba(57,255,20,${0.12 * a})`; ctx.fillRect(x - r * 2, y - r * 4, r * 4, r * 8); }
+      if (tocando && t - P.t[i] < 0.0006 && !reduzir) particulas.push({ x, y: hU - 2, vx: (Math.random() - 0.5) * 20, vy: -30 - Math.random() * 40, vida: 0.6, a: 0.5 * a });
+    }
+    ctx.restore();
+    // marcas das áreas de intensidade transdutiva
+    const ar = meta.areas[b], nomes = ["sensível", "intermediária", "som forte"]; let x0 = 0;
+    ctx.font = "11px 'IBM Plex Mono', monospace"; ctx.textBaseline = "top";
+    for (let i = 0; i < 3; i++) {
+      const w = ar[i] * cw; ctx.fillStyle = ["#39ff1440", "#39ff1428", "#39ff1418"][i]; ctx.fillRect(x0, hU + 2, w - 2, 6);
+      ctx.fillStyle = "#7d8f8a"; if (w > 60) ctx.fillText(nomes[i], x0 + 3, hU + 11); x0 += w;
+    }
+    // atividade total da faixa neste quadro (para a leitura)
+    return { b };
+  }
+
+  function desenharTeclado(C) {
+    const hU = H - TECLA, f = Math.min(NF - 1, Math.floor(T / FR));
+    ctx.fillStyle = "#0a1012"; ctx.fillRect(0, hU, W, TECLA);
+    if (nivel === 3) return;
+    const kw = W / C.n;
+    for (let c = 0; c < C.n; c++) {
+      const v = C.val(f, c) / 255;
+      ctx.fillStyle = `rgba(57,255,20,${0.08 + 0.9 * Math.pow(v, 0.6)})`;
+      ctx.fillRect(c * kw + (kw > 4 ? 1 : 0), hU + 2, Math.max(1, kw - (kw > 4 ? 2 : 0)), 8);
+    }
+    ctx.font = "11px 'IBM Plex Mono', monospace"; ctx.fillStyle = "#7d8f8a"; ctx.textBaseline = "top";
+    if (nivel === 1) {
+      const marcas = [100, 200, 500, 1000, 2000, 4000, 8000]; let ult = -1e9;
+      for (const m of marcas) { let b = 0, d = 1e9; FC.forEach((x, i) => { const e = Math.abs(Math.log(x / m)); if (e < d) { d = e; b = i; } });
+        const x = (b + 0.5) * kw; if (x - ult < 46 && m !== 8000) continue; ult = x; ctx.fillRect(x, hU + 11, 1, 3); ctx.textAlign = m === 8000 ? "right" : "center"; ctx.fillText(fHz(m), m === 8000 ? W - 2 : x, hU + 15); }
+    } else {
+      ctx.textAlign = "center";
+      for (let i = 0; i < 8; i++) ctx.fillText(fHz(FC[C.b0 + i]), (i + 0.5) * W / 8, hU + 15);
+    }
+    ctx.textAlign = "left";
+  }
+
+  function desenharParticulas(dt) {
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    for (let i = particulas.length - 1; i >= 0; i--) {
+      const p = particulas[i]; p.vida -= dt * 1.1; if (p.vida <= 0) { particulas.splice(i, 1); continue; }
+      p.x += p.vx * dt; p.y += p.vy * dt; p.vy *= 0.985;
+      ctx.fillStyle = `rgba(190,255,170,${p.a * p.vida})`; ctx.fillRect(p.x, p.y, 1.6, 1.6);
+    }
+    if (particulas.length > 4000) particulas.splice(0, particulas.length - 4000);
+    ctx.restore();
+  }
+
+  let antes = performance.now();
+  function quadro(agora) {
+    const dt = Math.min(0.1, (agora - antes) / 1000); antes = agora;
+    if (tocando) {
+      if (!audio.paused && vel === 1) T = audio.currentTime; else T += dt * vel;
+      if (nivel === 3 && T >= JAN[1]) T = JAN[0];
+      if (T >= DUR - 1e-3) { T = DUR - 1e-3; tocando = false; $("#play").textContent = "▶ Tocar"; sincronizarAudio(); }
+      barra.value = T;
+    }
+    ctx.fillStyle = "#070b0d"; ctx.fillRect(0, 0, W, H);
+    let C = null, info = "";
+    const f = Math.min(NF - 1, Math.floor(T / FR));
+    if (nivel === 3) {
+      if (T < JAN[0] || T >= JAN[1]) { ctx.fillStyle = "#7d8f8a"; ctx.font = "13px 'IBM Plex Sans Condensed', sans-serif"; ctx.textAlign = "center";
+        ctx.fillText(`No zoom de pontos, as incidências individuais existem de ${fmt(JAN[0], 1)} a ${fmt(JAN[1], 1)} s.`, W / 2, H / 2); ctx.textAlign = "left"; }
+      else desenharPontos();
+      info = `faixa ${dest + 1} · ${fHz(FC[dest])} · ${CAP[dest]} pontos`;
+    } else {
+      C = desenharGrade();
+      let s = 0; for (let b = 0; b < 64; b++) s += G1[ouvido][f * 64 + b];
+      info = nivel === 1 ? `atividade média ${Math.round(s / 64 / 2.55)}%` : `faixas ${C.b0 + 1}–${C.b0 + 8}`;
+    }
+    desenharTeclado(C || { n: 0 });
+    desenharParticulas(tocando ? dt : 0);
+    $("#rotulo-tempo").textContent = fmt(T, 3) + " s";
+    $("#leitura").textContent = `ouvido ${ouvido === "esq" ? "esquerdo" : "direito"} · ${info}`;
+    requestAnimationFrame(quadro);
+  }
+  // parâmetros de teste local (?t=6&n=2): posição e zoom iniciais
+  try { const q = new URLSearchParams(location.search); if (q.get("n")) document.querySelector(`[data-nivel="${q.get("n")}"]`).click(); if (q.get("t")) irPara(+q.get("t")); } catch (e) {}
+  preencherFaixas(); legenda(); requestAnimationFrame(quadro);
+})();
+</script>
+</body>
+</html>

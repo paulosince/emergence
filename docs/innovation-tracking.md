@@ -207,6 +207,12 @@
 - **Consequência para as alegações:** nenhum resultado da V0.17 pode ser usado como evidência de **constituição** de Upro ou Uint. No máximo, como evidência descritiva de seleção sobre malha dada, num par de vias com pulsos ideais. O critério de fase do agudo não mede aprendizado (seção 6 da [investigação do critério](../toy-experiments/v17/investigacao-criterio-agudo.md)); o resultado "agudo 30/30" não vale como evidência.
 - **O que continua de pé:** as leituras de literatura das investigações da V0.17, com o grau de leitura indicado em cada uma.
 
+## 25. V0.18: borda auditiva por eventos e o que o primeiro teste mostrou (19/11/2026)
+- **O que existe [L]:** a cóclea com filtros gamatone, a retificação de meia onda seguida de filtro passa-baixa (perda de fase) e a reserva de vesículas em compartimentos com reposição são o padrão dos modelos do nervo auditivo (ex.: Bruce, Erfani e Zilany 2018; Westerman e Smith). A depressão de curto prazo com recuperação em dois tempos também é conhecida (bulbo de Held). **Precedente, não novidade.**
+- **O que seria nosso [A]:** (1) a borda **determinística**, com a regra de emissão por acumulação do excesso relativo (aprovada pelo responsável em 19/11) e o cálculo **por eventos com fórmula fechada** (ideia do responsável); (2) o mesmo mecanismo de reserva na Utrd (quantas emissões) e na Upro (magnitude), com nomes agnósticos de substrato. Não foi feita busca para saber se a combinação já existe: **pendente** antes de qualquer alegação.
+- **Evidência do teste de 10 s [M]:** a diferença de chegada e a de volume aparecem na direção certa; a atividade acompanha a energia de cada faixa (Spearman mediana ~0,8); mas, a 85 dB SPL de pico, cerca de 80% dos pontos transdutivos ficam ativos o tempo todo acima de ~300 Hz e o ataque quase não se destaca do sustentado. A forma determinística da reserva da Utrd reproduz o teto (~200/s), mas não a adaptação rápida nem a curta. [Calibração](../toy-experiments/v18/borda/calibracao.md); [registro do teste](../toy-experiments/v18/borda/teste-10s.md).
+- **O que falta para alegar:** critérios de "suficiente" do responsável; decisão sobre a adaptação da Utrd; busca de precedentes para a regra de emissão determinística.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).

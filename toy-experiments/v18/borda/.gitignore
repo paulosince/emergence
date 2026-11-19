@@ -1,3 +1,8 @@
 __pycache__/
 *.nbc
 *.nbi
+*.npz
+visual/*.bin
+visual/*-bin.json
+visual/*-ogg.json
+visual/audio.ogg
