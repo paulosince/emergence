@@ -1,4 +1,5 @@
 """V0.18 — cóclea (parte da Utrd, hardware): 64 faixas gamatone de 4ª ordem na escala ERB (50 Hz a 8 kHz),
+[19/11, proposta a aprovar] atenuação para som forte (como o reflexo do ouvido médio) e compressão (como a da cóclea humana),
 retificação de meia onda e janela de fase (filtro de 2ª ordem, canto em 1,2 kHz).
 Saída: o "sinal de comando" de cada faixa, em Pa equivalentes ao pico de um tom na frequência central da faixa
 (assim, o limiar de um ponto transdutivo em dB SPL compara direto com o sinal)."""
@@ -56,11 +57,46 @@ def filtros():
     if _FILTROS is None: _FILTROS = _filtros()
     return _FILTROS
 
-def comando(p):
-    """p: pressão (Pa) num microfone. Devolve matriz (64, n): sinal de comando de cada faixa em Pa de pico equivalentes."""
+# ---- Compressão (19/11; responsável: "um pouco de cada"; números: proposta do assistente a aprovar) ----
+# Linear até o joelho, depois 0,25 dB/dB, de forma instantânea na saída de cada faixa (como o "broken-stick" dos modelos
+# de dupla via). Inclinação 0,2–0,3 dB/dB em todas as frequências centrais de 500 a 8000 Hz (Lopez-Poveda, Plack e Meddis
+# 2003, texto integral via extração automática); joelho a 30 dB acima do zero da faixa (Plack e O'Hanlon 2003 observaram
+# compressão a 30 dB acima do limiar; o joelho exato não é medido ali: escolha do assistente).
+COMPR_INCL = 0.25
+COMPR_JOELHO_DB = 30.0
+
+def zeros():
+    from pontos import FISO, TISO
+    return np.interp(np.log2(centros()), np.log2(FISO), TISO)
+
+def comprimir(y, i):
+    kp = P_REF * 10 ** ((zeros()[i] + COMPR_JOELHO_DB) / 20) * np.sqrt(2)
+    a = np.abs(y); m = a > kp
+    out = y.copy(); out[m] = np.sign(y[m]) * kp * (a[m] / kp) ** COMPR_INCL
+    return out
+
+# ---- Atenuação para som forte (como o reflexo do ouvido médio; proposta do assistente a aprovar) ----
+# Limiar 80 dB SPL (faixa humana 70–100 dB SPL; sons largos baixam o limiar). Em 500 Hz e abaixo: começa no limiar, cresce
+# 0,7 dB por dB e chega a 20 dB; em 2 kHz: começa 10 dB acima do limiar, chega a ~10 dB (Bell's palsy, resumo, Acta
+# Otolaryngol 1978); em 1,45 kHz, 0–6 dB a 16 dB acima do limiar (Acta Otolaryngol 1968, resumo). Acima de 4 kHz: zero
+# (o reflexo "protege sobretudo os graves"; número do assistente). Bilateral: comandado pelo ouvido mais forte.
+REFL_LIMIAR = 80.0
+_RF = np.log2([500.0, 2000.0, 4000.0])
+def atenuacao_reflexo(nivel_db):
+    """nivel_db: (n,) nível que comanda o reflexo. Devolve (64, n) atenuação em dB."""
+    lf = np.log2(centros())
+    amax = np.interp(lf, _RF, [20.0, 10.0, 0.0]); atraso = np.interp(lf, _RF, [0.0, 10.0, 10.0]); incl = np.interp(lf, _RF, [0.7, 0.5, 0.5])
+    ex = np.maximum(nivel_db[None, :] - REFL_LIMIAR - atraso[:, None], 0.0)
+    return np.minimum(incl[:, None] * ex, amax[:, None])
+
+def comando(p, reflexo_db=None, compressao=True):
+    """p: pressão (Pa) num microfone. reflexo_db: (64, n) atenuação do reflexo, ou None.
+    Devolve matriz (64, n): sinal de comando de cada faixa em Pa de pico equivalentes."""
     kap = _kappa(); out = np.empty((N_FAIXAS, len(p)))
     for i in range(N_FAIXAS):
         y = filtrar(i, p)
+        if reflexo_db is not None: y = y * 10 ** (-reflexo_db[i] / 20)
+        if compressao: y = comprimir(y, i)
         out[i] = sosfilt(_SOS_FASE, np.maximum(y, 0.0)) / kap[i]
     return out
 

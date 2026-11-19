@@ -1,74 +1,81 @@
-"""V0.18 — calibrações da borda, com tons constantes (antes de qualquer Bach). Grava calibracao.json e calibracao.md.
-Alvos (especificação, seções 6 e 7):
-1. Unidade do acumulador: um ponto transdutivo logo acima do limiar emite uma vez por ciclo nos graves.
-   Operacionalização [A]: o ponto mais sensível da faixa mais próxima de 125 Hz, com tom na frequência central a +1 dB
-   do seu limiar, completa exatamente uma unidade por ciclo (unidade = 0,9 × excesso relativo acumulado num ciclo).
-2. Tamanho da reserva lenta da Utrd (M): teto sustentado de ~200/s com som forte (tom de 4 kHz, +40 dB sobre o ponto).
-3. Fração gasta do g da Upro (f): queda de ~38% (meio de 35–40%) ao fim de 1 s de incidências a 100/s.
-   Tamanho do compartimento lento do g: M_g = 1 [A, provisório]."""
+"""V0.18 — calibrações da borda, com tons constantes (antes de qualquer obra). Grava calibracao.json.
+Revisão de 19/11 (responsável: "emissão proporcional à reserva"): o acumulador soma excesso_saturado × reserva/capacidade.
+Alvos:
+1. Unidade do acumulador (U): o ponto mais sensível da faixa de ~117 Hz, com tom a +1 dB do limiar, emite 1 vez por ciclo.
+2. Saturação do excesso (emax): com som forte e reserva cheia, a primeira emissão depois da do início vem a ~1 ms
+   (taxa de início ~1.000/s) [A: alvo do assistente, de memória das curvas de adaptação do nervo auditivo do gato; a conferir].
+3. Reserva lenta da Utrd (M): teto sustentado de ~200/s (0,5–1 s) com som forte; se inalcançável com os números aprovados,
+   usa o maior M testado e registra.
+4. Fração gasta do g da Upro (f): queda de ~38% ao fim de 1 s a 100/s (M_g = 1, provisório).
+Tons calibrados no domínio da cóclea (Pa no tímpano, sem o microfone), sem compressão nem atenuação. A compressão e a
+atenuação ficam fora da calibração e entram nas obras."""
 import json, numpy as np
 from scipy.optimize import brentq
+from scipy.signal import sosfilt
 import coclea, pontos, motor
 
 FS = coclea.FS
 P = pontos.construir(); FC = coclea.centros()
-par = dict(tcU=16.5e-3, tcU3=40e-3, tdU=0.100, MU=None, tcG=25e-3, tdG=2.0, MG=1.0, fG=None, U=None)
+R_INICIO = 1000.0
+par = dict(tcU=16.5e-3, tcU3=40e-3, tdU=0.100, MU=400.0, tcG=25e-3, tdG=2.0, MG=1.0, fG=0.0, U=1e-4, emax=0.0)
 
 def tom(f, db, dur):
     t = np.arange(int(dur * FS)) / FS
-    return coclea.limiar_pa(db) * np.sin(2 * np.pi * f * t)          # amplitude de pico
+    return coclea.limiar_pa(db) * np.sin(2 * np.pi * f * t)
 
 def comando_faixa(b, x):
-    from scipy.signal import sosfilt
     return sosfilt(coclea._SOS_FASE, np.maximum(coclea.filtrar(b, x), 0)) / coclea._kappa()[b]
 
-# 1. unidade
-b1 = int(np.argmin(abs(FC - 125))); f1 = FC[b1]; th_db = P[b1]["limiar_db"][0]
-d = comando_faixa(b1, tom(f1, th_db + 1.0, 0.5)); th = coclea.limiar_pa(th_db)
-ex = np.maximum(d / th - 1, 0) / FS
-nper = FS / f1; i0 = int(0.3 * FS); ciclos = int((len(d) - i0) / nper) - 1
-por_ciclo = np.sum(ex[i0:i0 + int(ciclos * nper)]) / ciclos
-par["U"] = 0.9 * por_ciclo
-
-def rodar_tom(b, f, db_rel, dur, ponto=0, par=par, so_ponto=True):
+_cache = {}
+def rodar_tom(b, f, db_rel, dur, ponto=0, par=par):
     th_db = P[b]["limiar_db"][ponto]
-    d = comando_faixa(b, tom(f, th_db + db_rel, dur))
-    pp = dict(P[b]);
-    if so_ponto:
-        pp = dict(fc=P[b]["fc"], zero=P[b]["zero"], limiar_db=P[b]["limiar_db"][ponto:ponto + 1], area=P[b]["area"][ponto:ponto + 1],
-                  refr=P[b]["refr"][ponto:ponto + 1])
+    chave = (b, round(f, 3), db_rel, dur, ponto)
+    if chave not in _cache: _cache[chave] = comando_faixa(b, tom(f, th_db + db_rel, dur))
+    d = _cache[chave]
+    pp = dict(fc=P[b]["fc"], zero=P[b]["zero"], limiar_db=P[b]["limiar_db"][ponto:ponto + 1], area=P[b]["area"][ponto:ponto + 1],
+              refr=P[b]["refr"][ponto:ponto + 1])
     B = motor.Borda([pp], par)
     ev = B.rodar(d[None, :], 0.0)[0]
     return ev, B.cont[0].copy()
 
-# 2. M da Utrd: taxa sustentada (de 0,5 a 1,0 s) com tom forte de 4 kHz no ponto mais sensível
+b1 = int(np.argmin(abs(FC - 125))); f1 = FC[b1]
 b2 = int(np.argmin(abs(FC - 4000))); f2 = FC[b2]
-def taxa_sust(MU):
-    ev, c = rodar_tom(b2, f2, 40.0, 1.0, par=dict(par, MU=MU, fG=0.0))
-    t = ev[0]; return np.sum((t > 0.5) & (t < 1.0)) / 0.5
-taxas = {M: taxa_sust(M) for M in [1, 2, 5, 10, 20, 50, 100, 1000]}
-alvo = 200.0
-Ms = sorted(taxas); ok = [m for m in Ms if taxas[m] >= alvo]
-if ok:
-    lo = max([m for m in Ms if taxas[m] < alvo] or [Ms[0]]); hi = min(ok)
-    for _ in range(25):
-        mid = np.sqrt(lo * hi)
-        if taxa_sust(mid) < alvo: lo = mid
+def emis_ciclo(p, dbr=1.0):
+    ev, _ = rodar_tom(b1, f1, dbr, 0.6, par=p); t = ev[0]
+    return np.sum((t > 0.3) & (t < 0.6)) / (0.3 * f1)
+def taxa_inicio(p):
+    ev, _ = rodar_tom(b2, f2, 40.0, 0.05, par=p); t = ev[0]
+    return 1 / (t[1] - t[0]) if len(t) > 1 else 0.0
+def taxa_sust(p):
+    ev, _ = rodar_tom(b2, f2, 40.0, 1.0, par=p); t = ev[0]
+    return np.sum((t > 0.5) & (t < 1.0)) / 0.5
+
+def bissec_log(fun, alvo, lo, hi, n=30, crescente=True):
+    for _ in range(n):
+        mid = np.sqrt(lo * hi); v = fun(mid)
+        if (v < alvo) == crescente: lo = mid
         else: hi = mid
-    par["MU"] = hi
-else:
-    par["MU"] = Ms[-1]
+    return np.sqrt(lo * hi)
 
-# conferência da unidade: emissões por ciclo a +1 dB
-ev, c = rodar_tom(b1, f1, 1.0, 0.5, par=dict(par, fG=0.0))
-t = ev[0]; t = t[t > 0.3]
-emis_ciclo = len(t) / ((0.5 - 0.3) * f1)
-# e a +3, +6 e +10 dB
-emis_rel = {}
-for dbr in (3.0, 6.0, 10.0, 20.0):
-    evr, _ = rodar_tom(b1, f1, dbr, 0.5, par=dict(par, fG=0.0)); tr = evr[0]; emis_rel[f"+{dbr:.0f} dB"] = np.sum(tr > 0.3) / ((0.5 - 0.3) * f1)
+def U_graves(p):
+    return bissec_log(lambda U: emis_ciclo(dict(p, U=U)), 1.0, 1e-8, 1e-1, crescente=False, n=34)
+def inicio_com(p, e):
+    q = dict(p, emax=e); q["U"] = U_graves(q); return taxa_inicio(q), q["U"]
+# emax: a taxa de início (1/primeiro intervalo) não varia de forma monotônica com emax (U amarrado à regra dos graves):
+# ~1.050/s em emax = 0,001; ~1.500/s em 0,03; ~1.140/s em 0,1; cai para ~200/s a partir de 0,3, porque a segunda emissão
+# passa a cair dentro da janela de refratariedade. Escolha do assistente: emax = 0,1 (início ~1.100/s; resposta graduada
+# ao longo de ~1 dB acima do limiar). Varredura registrada em "varredura_emax".
+varredura = {}
+for e in (1e-3, 1e-2, 0.03, 0.1, 0.3, 1.0):
+    r, u = inicio_com(par, e); varredura[str(e)] = dict(inicio=r, U=u)
+par["emax"] = 0.1
+par["U"] = U_graves(par)
+taxas = {M: taxa_sust(dict(par, MU=M)) for M in [3, 10, 30, 100, 300, 1000, 1e4]}
+if max(taxas.values()) >= 200: par["MU"] = bissec_log(lambda M: taxa_sust(dict(par, MU=M)), 200.0, 1.0, 1e4)
+else: par["MU"] = 1e4
+par["U"] = U_graves(par)
+hist = varredura
 
-# 3. f do g: trem a 100/s por 1 s
 PG = motor.lambdas(1.0, par["tcG"], par["tdG"], par["MG"])
 def g_trem(f, n, isi=0.01):
     gq, gs = 1.0, 1.0; out = []
@@ -79,20 +86,23 @@ def g_trem(f, n, isi=0.01):
 par["fG"] = brentq(lambda f: g_trem(f, 100)[-1] - 0.62, 1e-4, 0.9)
 gt = g_trem(par["fG"], 1000)
 
-# curso temporal da Utrd com os valores calibrados (tom forte de 4 kHz, ponto mais sensível)
-ev, c = rodar_tom(b2, f2, 40.0, 1.0, par=dict(par))
-te = ev[0]
+ev, c = rodar_tom(b2, f2, 40.0, 1.0, par=par); te = ev[0]
 def taxa(a, b): return np.sum((te >= a) & (te < b)) / (b - a)
-curso = {f"{a*1000:.0f}-{b*1000:.0f} ms": taxa(a, b) for a, b in [(0, .002), (0, .005), (.005, .02), (.02, .05), (.05, .1), (.1, .2), (.2, .5), (.5, 1.0)]}
-# área de som forte: ponto da área 3, tom forte
+janelas = [(0, .002), (.002, .005), (.005, .01), (.01, .02), (.02, .05), (.05, .1), (.1, .2), (.2, .5), (.5, 1.0)]
+curso = {f"{a*1000:.0f}-{b*1000:.0f} ms": taxa(a, b) for a, b in janelas}
 k3 = int(np.where(P[b2]["area"] == 3)[0][0])
-ev3, c3 = rodar_tom(b2, f2, 40.0, 1.0, ponto=k3, par=dict(par))
-t3 = ev3[0]; taxa3 = np.sum((t3 > 0.5) & (t3 < 1.0)) / 0.5
+ev3, _ = rodar_tom(b2, f2, 40.0, 1.0, ponto=k3, par=par); t3 = ev3[0]
+taxa3 = np.sum((t3 > 0.5) & (t3 < 1.0)) / 0.5
+emis_rel = {f"+{d:g} dB": emis_ciclo(par, d) for d in (1.0, 3.0, 10.0, 20.0)}
+nivel = {}
+for d in (0.5, 1, 2, 5, 10, 20, 40):
+    evn, _ = rodar_tom(b2, f2, float(d), 0.5, par=par); tn = evn[0]; nivel[f"+{d:g} dB"] = float(np.sum((tn > 0.2) & (tn < 0.5)) / 0.3)
 
-res = dict(parametros=par, unidade=dict(faixa=b1 + 1, fc=f1, limiar_db=th_db, excesso_por_ciclo=por_ciclo, emissoes_por_ciclo_a_1dB=emis_ciclo, emissoes_por_ciclo_acima=emis_rel),
-           reserva_utrd=dict(faixa=b2 + 1, fc=f2, taxas_por_M={str(k): v for k, v in taxas.items()}, curso_4kHz_40dB=curso,
+res = dict(parametros=par, alvo_inicio=R_INICIO, varredura_emax=hist, taxa_inicio_final=taxa_inicio(par),
+           unidade=dict(faixa=b1 + 1, fc=f1, emissoes_por_ciclo=emis_rel),
+           reserva_utrd=dict(faixa=b2 + 1, fc=f2, taxas_sustentadas_por_M={str(k): v for k, v in taxas.items()}, curso_4kHz_40dB=curso,
                              contadores_4kHz=dict(emitidas=int(c[0]), repassadas=int(c[1]), bloq_refr=int(c[2]), sem_reserva=int(c[3])),
-                             taxa_sustentada_area3=taxa3),
+                             taxa_sustentada_area3=taxa3, taxa_por_nivel_4kHz=nivel),
            reserva_upro=dict(g_apos_20=float(gt[19]), g_apos_100=float(gt[99]), g_apos_1000=float(gt[999])))
 json.dump(res, open("calibracao.json", "w"), indent=1, default=float)
 print(json.dumps(res, indent=1, default=float))

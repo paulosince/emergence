@@ -14,6 +14,8 @@ EARS = {"esq": -100.0, "dir": +100.0}
 P_REF = 20e-6                     # Pa
 PICO_DB = 85.0                    # decisão de 18/11
 JANELA_PICO = 0.125               # s (RMS "rápido" de medidor de nível; escolha declarada do assistente)
+SENSIB_MIC_DB = -10.0             # responsável, 19/11: zero +10 dB (microfone 10 dB menos sensível que o ouvido humano)
+REFL_SUBIDA, REFL_DESCIDA = 0.050, 0.200   # s; latência do reflexo 25–150 ms (fonte secundária, baixa confiança); assistente
 AQUI = os.path.dirname(os.path.abspath(__file__))
 GRAVACAO = os.path.join(AQUI, "..", "..", "v17", "estimulo", "Toccata_et_Fugue_BWV565.ogg")
 
@@ -70,9 +72,33 @@ def ganho_calibracao(gravacao=None):
     open(cache, "w").write(f"{float(g)!r} Pa/unidade; RMS máximo (125 ms) = {float(best)!r} unidades; pico = {PICO_DB} dB SPL\n")
     return g
 
-def microfones(inicio, dur, gravacao=None):
-    """Pressão (Pa) nos dois microfones, 48 kHz, para o trecho [inicio, inicio + dur) da gravação; canal esquerdo no alto-falante próximo."""
+def nivel_reflexo(o):
+    """Nível (dB SPL) que comanda a atenuação para som forte: RMS de 125 ms do ouvido mais forte (som real, antes do
+    microfone), com subida e descida lentas (primeira ordem). Bilateral."""
+    n = int(JANELA_PICO * FS); best = None
+    for v in o.values():
+        cs = np.concatenate(([0.0], np.cumsum(v ** 2))); i = np.arange(len(v))
+        rms = np.sqrt(np.maximum(cs[i + 1] - cs[np.maximum(i + 1 - n, 0)], 0) / n)
+        best = rms if best is None else np.maximum(best, rms)
+    L = 20 * np.log10(best / P_REF + 1e-12)
+    out = np.empty_like(L); y = L[0]; au, ad = np.exp(-1 / (REFL_SUBIDA * FS)), np.exp(-1 / (REFL_DESCIDA * FS))
+    from numba import njit
+    @njit(cache=False)
+    def suaviza(L, out, au, ad):
+        y = L[0]
+        for k in range(len(L)):
+            a = au if L[k] > y else ad
+            y = a * y + (1 - a) * L[k]; out[k] = y
+        return out
+    return suaviza(L, out, au, ad)
+
+def microfones(inicio, dur, gravacao=None, cru=False):
+    """Pressão (Pa) nos dois microfones, 48 kHz, para o trecho [inicio, inicio + dur) da gravação; canal esquerdo no
+    alto-falante próximo. Já inclui a sensibilidade do microfone (−10 dB). Com cru=True, devolve também o nível do reflexo."""
     g = ganho_calibracao(gravacao)
     L, R = ler(inicio, dur, gravacao)
-    o = ouvidos([(L, NEAR), (R, FAR)])
-    return {k: v * g for k, v in o.items()}, (L * g, R * g)
+    o = {k: v * g for k, v in ouvidos([(L, NEAR), (R, FAR)]).items()}
+    s = 10 ** (SENSIB_MIC_DB / 20)
+    mic = {k: v * s for k, v in o.items()}
+    if cru: return mic, (L * g, R * g), nivel_reflexo(o)
+    return mic, (L * g, R * g)
