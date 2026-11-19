@@ -40,6 +40,10 @@
 | Acaso no disparo | **Determinístico** (acima do limiar, dispara sempre que a pausa permitir) | 18/11 |
 | Atividade espontânea | **Sem espontânea por ora** | 18/11 |
 | Fase e "salva" | **Aprovado:** (1) cada Upro recebe, uma vez, um **tempo de recuperação próprio**, sorteado numa faixa em torno do valor humano (ideia do responsável: "latência de refratariedade"); o disparo continua determinístico, e o acaso fica numa propriedade anatômica fixa; (2) um **suavizador fixo dentro da Utrd** (a "lâmpada lenta" da célula ciliada) faz a fase se perder gradualmente nos agudos. Valores a buscar. Latência fixa por Upro: opcional, não adotada | 18/11 |
+| Recuperação por Upro | Sorteio uniforme de **±50% em torno de 0,43 ms** (~0,2 a ~0,65 ms), **provisório** até achar a dispersão real entre fibras | 18/11 |
+| Estoque de neurotransmissor | **Incluído**, determinístico, por Upro: limita a taxa sustentada (~200/s nas fibras reais) e produz a adaptação rápida e curta (a "poeira luminosa" do ataque). Parâmetros a definir | 18/11 |
+| Cabeça | **Esférica** (10 cm, como na V0.17), como aproximação declarada da caixa de 8 × 10 × 9 cm | 18/11 |
+| Suavizador (fase) | "Use nossos dados de curvas para interpolar melhor": ajustar o filtro aos pontos achados na literatura (proposta em curso) | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
