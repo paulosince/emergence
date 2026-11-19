@@ -63,3 +63,16 @@ Mudanças: ver [decisões](../decisoes-em-construcao.md) e [calibração](calibr
 | Magnitude média | 0,27 → 0,31 | 0,38 | 0,31 |
 
 **Leitura provisória [A]:** a área sensível satura menos e os ataques passam a se destacar. O preço: a área de som forte quase não entra mais nestes trechos, e era ela que acompanhava melhor a forma do espectro. A versão anterior dos eventos está em `v1/` (não versionada).
+
+## Sensibilidade por área (19/11, "estar muda não é bom")
+
+Limiares +20 dB na área sensível, +10 dB na intermediária e 0 na de som forte; microfone de volta a 0 dB. Versão anterior dos eventos em `v2/` (não versionada).
+
+| [M], ouvido esquerdo | Órgão | Piano | Violino |
+|---|---|---|---|
+| Pontos ativos, faixas 11–64 (sensível / intermediária / som forte): 1ª versão → agora | 96/85/23 → **81/69/24%** | 78/50/5 → **45/27/5%** | 90/75/17 → **73/63/17%** |
+| Forma do espectro (entre faixas; por área): 1ª versão → agora | 0,39/0,51/0,53 → **0,53/0,54/0,53** | — | 0,39/0,56/0,64 → **0,61/0,66/0,64** |
+| Ataques (pico / sustentado) | **1,21–1,50** | até **2,99** | até **1,65** |
+| Diferença de chegada, mediana (esperado 0,35 ms) | **0,35 ms** | 0,30 ms | 0,44 ms |
+| Notas e ritmo (Spearman, mediana) | 0,80 | 0,70 | 0,73 |
+| Incidências em 10 s | 22,2 M | 11,0 M | 20,7 M |

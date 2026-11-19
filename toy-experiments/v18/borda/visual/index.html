@@ -97,13 +97,13 @@ details li { margin: 4px 0; }
 </div>
 <details>
   <summary>O que os testes mostraram (borda revista em 19/11)</summary>
-  <p class="sub">Borda revista: microfone 20 dB menos sensível; atenuação para som forte a partir de 70 dB SPL; sem compressão; emissão proporcional à reserva da Utrd; janela de carregamento que se alonga com o uso. Medidas descritivas, ouvido esquerdo. Os critérios de "suficiente" ainda vão ser definidos pelo responsável.</p>
+  <p class="sub">Borda revista: limiares 20 dB acima na área sensível e 10 dB na intermediária (som forte sem mudança); atenuação para som forte a partir de 70 dB SPL; sem compressão; emissão proporcional à reserva da Utrd; janela de carregamento que se alonga com o uso. Medidas descritivas, ouvido esquerdo. Os critérios de "suficiente" ainda vão ser definidos pelo responsável.</p>
   <ol>
-    <li><b>Pontos ativos</b> (faixas acima de ~250 Hz; sensível / intermediária / som forte), antes → agora: órgão <span class="num">96/85/23% → 81/46/2%</span>; piano <span class="num">78/50/5% → 45/9/0%</span>; violino <span class="num">90/75/17% → 73/36/0%</span>.</li>
-    <li><b>Incidências em 10 s</b> (ouvido esquerdo), antes → agora: órgão <span class="num">31,1 → 19,7 milhões</span>; piano <span class="num">24,9 → 9,6</span>; violino <span class="num">28,5 → 17,8</span>.</li>
-    <li><b>Ataques</b> (pico nos primeiros 20 ms / sustentado 50–100 ms): órgão <span class="num">1,03–1,07 → 1,17–1,49</span>; piano até <span class="num">2,76</span>; violino até <span class="num">1,57</span>.</li>
-    <li><b>Atenuação para som forte:</b> chega a <span class="num">5,7–6,7 dB</span> nos graves nos trechos mais fortes.</li>
-    <li><b>Preço:</b> a área de som forte quase não entra mais nestes trechos (0–2%).</li>
+    <li><b>Pontos ativos</b> (faixas acima de ~250 Hz; sensível / intermediária / som forte), primeira versão → agora: órgão <span class="num">96/85/23% → 81/69/24%</span>; piano <span class="num">78/50/5% → 45/27/5%</span>; violino <span class="num">90/75/17% → 73/63/17%</span>.</li>
+    <li><b>Forma do espectro</b> (entre faixas, no mesmo instante, nível × fração ativa; sensível / intermediária / som forte): órgão <span class="num">0,39/0,51/0,53 → 0,53/0,54/0,53</span>; violino <span class="num">0,39/0,56/0,64 → 0,61/0,66/0,64</span>.</li>
+    <li><b>Ataques</b> (pico 0–20 ms / sustentado 50–100 ms): órgão <span class="num">1,03–1,07 → 1,21–1,50</span>; piano até <span class="num">2,99</span>; violino até <span class="num">1,65</span>.</li>
+    <li><b>Diferença de chegada</b> (mediana nas faixas até 1,2 kHz): órgão <span class="num">0,35 ms</span> (esperado 0,35 ms); piano 0,30 ms; violino 0,44 ms.</li>
+    <li><b>Incidências em 10 s:</b> órgão <span class="num">31,1 → 22,2 milhões</span>; piano <span class="num">24,9 → 11,0</span>; violino <span class="num">28,5 → 20,7</span>. Atenuação para som forte até <span class="num">5,7–6,7 dB</span> nos graves.</li>
   </ol>
 </details>
 <audio id="audio" preload="auto"></audio>
@@ -318,11 +318,11 @@ details li { margin: 4px 0; }
         if (tocando && !reduzir && tJ - P.t[i] < j * 0.02) particulas.push({ x, y: yT, vx: (Math.random() - 0.5) * 20, vy: -30 - Math.random() * 40, vida: 0.6, a: 0.5 * a });
       }
       ctx.restore();
-      // áreas de intensidade transdutiva
-      const ar = meta.areas[b], nomes = ["sensível", "intermediária", "som forte"]; let x0 = xb;
-      ctx.font = "10px 'IBM Plex Mono', monospace"; ctx.textBaseline = "bottom";
-      for (let i = 0; i < 3; i++) { const w = ar[i] * pxPonto; ctx.fillStyle = ["#39ff1455", "#39ff1433", "#39ff141c"][i]; ctx.fillRect(x0, hV - 5, w - 2, 4);
-        ctx.fillStyle = "#9fb3ad"; if (w > 70) ctx.fillText(nomes[i], x0 + 3, hV - 7); x0 += w; }
+      // áreas de intensidade transdutiva: uma marca por ponto, na cor da sua área (as áreas se misturam depois do deslocamento por área)
+      const ap = (meta.area_pontos || {})[b], cores = ["#39ff1499", "#39ff144d", "#ffffff40"];
+      if (ap) { for (let i = 0; i < ap.length; i++) { ctx.fillStyle = cores[+ap[i] - 1]; ctx.fillRect(xb + i * pxPonto, hV - 5, Math.max(1, pxPonto - (pxPonto > 3 ? 1 : 0)), 4); } }
+      ctx.font = "10px 'IBM Plex Mono', monospace"; ctx.textBaseline = "bottom"; ctx.fillStyle = "#9fb3ad";
+      if (pxFaixa > 160) ctx.fillText("áreas: sensível ▮ intermediária ▮ som forte ▯", xb + 4, hV - 8);
     }
     // poeira de ataque (a partir do teclado)
     if (tocando && !reduzir && f0 > 8 && f0 < NF) {

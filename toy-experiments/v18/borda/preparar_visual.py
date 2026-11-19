@@ -33,6 +33,7 @@ else:
     DEST = [int(np.argmin(abs(fc - x))) for x in (200, 1000, 4000)]
     J0, J1 = 5.0, 6.5
 meta["destaque"] = dict(faixas=DEST, janela=[J0, J1])
+meta["area_pontos"] = {str(b): "".join(str(int(a)) for a in P[b]["area"]) for b in DEST}   # área de cada ponto, em ordem de limiar
 for b in DEST:
     partes = []; cont = []
     for e in ("esq", "dir"):

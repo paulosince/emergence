@@ -12,6 +12,10 @@ TISO = np.array([78.5, 68.7, 59.5, 51.1, 44.0, 37.5, 31.5, 26.5, 22.1, 17.9, 14.
 FW = np.array([0.17, 0.24, 0.35, 0.49, 0.70, 0.98, 1.4, 2.0, 2.8, 3.9, 5.6, 8.0, 11.0, 16.0]) * 1000
 VW = np.array([3.7, 6.8, 7.6, 8.7, 10.2, 10.2, 10.4, 10.1, 9.0, 8.2, 7.1, 5.7, 4.2, 1.2])
 REFR_MEIO, REFR_VAR = 0.39e-3, 0.5
+# Sensibilidade por área (responsável, 19/11): limiares sobem 20 dB na área sensível, 10 dB na intermediária e nada na de
+# som forte. O robô deixa de ouvir os sons mais fracos e mantém a resolução nos fortes. As áreas são atribuídas antes do
+# deslocamento (pela posição na convolução); depois os pontos são reordenados pelo novo limiar.
+DESLOC_AREA_DB = {1: 20.0, 2: 10.0, 3: 0.0}
 SEMENTE = 18
 
 def _curva_vagas():
@@ -40,6 +44,8 @@ def construir():
         n = cap[i]; lim = np.interp((np.arange(n) + 0.5) / n, C, x) + zero[i]
         area = np.where(np.arange(n) < 0.61 * n, 1, np.where(np.arange(n) < 0.84 * n, 2, 3)).astype(np.int8)
         refr = REFR_MEIO * (1 + REFR_VAR * (2 * rng.random(n) - 1))
+        lim = lim + np.array([DESLOC_AREA_DB[int(a)] for a in area])
+        o = np.argsort(lim, kind="stable"); lim, area, refr = lim[o], area[o], refr[o]
         out.append(dict(fc=fc[i], zero=zero[i], limiar_db=lim, area=area, refr=refr))
     return out
 
