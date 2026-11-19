@@ -102,7 +102,7 @@ details li { margin: 4px 0; }
       <button type="button" id="tudo">Ver tudo</button>
     </div>
     <div class="grupo" id="destaques" role="group" aria-label="Ir para faixa com incidências individuais"><span>Incidências individuais</span></div>
-    <button type="button" id="som" aria-pressed="false">♪ Som</button>
+    <button type="button" id="som" aria-pressed="true">♪ Som</button>
   </div>
   <div class="legenda" id="legenda"></div>
 </div>
@@ -184,7 +184,10 @@ details li { margin: 4px 0; }
         const q = new Uint16Array(buf.slice(off, off + 2 * k)); off += 2 * k;
         const gm = new Uint8Array(buf.slice(off, off + k)); off += k; pt[b][e] = { t, k: q, g: gm }; });
     }
-    let audioUrl = null; try { audioUrl = URL.createObjectURL(new Blob([await bin(`${id}/audio-ogg.json`)], { type: "audio/ogg" })); } catch (e) {}
+    // áudio em MP3 (toca em todos os navegadores, inclusive no iPhone, que não toca Ogg); no artefato, Ogg embrulhado em JSON
+    let audioUrl = null;
+    try { const r = await fetch(`${BASE}${id}/audio.mp3`); if (r.ok) audioUrl = URL.createObjectURL(new Blob([await r.arrayBuffer()], { type: "audio/mpeg" })); } catch (e) {}
+    if (!audioUrl) { try { audioUrl = URL.createObjectURL(new Blob([await bin(`${id}/audio-ogg.json`)], { type: "audio/ogg" })); } catch (e) {} }
     return (cache[id] = { m, g, s, g1, pt, audioUrl });
   }
   async function carregar(id) {
@@ -209,7 +212,7 @@ details li { margin: 4px 0; }
   await carregar("bach");
 
   // ---------- estado ----------
-  let T = 2.6, tocando = false, ouvido = "ambos", velSel = "auto", somLigado = false;
+  let T = 2.6, tocando = false, ouvido = "ambos", velSel = "auto", somLigado = true;
   let u0 = 0, span = 64;                        // vista: faixa da borda esquerda e quantas faixas cabem
   const SPAN_MIN = 0.04;
   const audio = $("#audio");
@@ -434,6 +437,7 @@ details li { margin: 4px 0; }
       barra.value = T;
     }
     if (somLigado && tocando) sincronizarAudio();
+    $("#som").textContent = somLigado ? (v === 1 ? "♪ Som ligado" : "♪ Som (só toca em 1×)") : "♪ Som desligado";
     ctx.fillStyle = "#070b0d"; ctx.fillRect(0, 0, W, H);
     for (const p of paineis()) painel(p);
     desenharParticulas(tocando ? dt : 0);
