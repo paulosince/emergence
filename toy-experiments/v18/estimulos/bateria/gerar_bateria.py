@@ -141,13 +141,12 @@ for nome, ini in (("voz-machado-advertencia-librivox.mp3", 20.0), ("voz-azevedo-
     g.add(ler_mp3(nome, ini, 10.0, 65), teste="fala", arquivo=nome, trecho_s=[ini, ini + 10], db=65, azimute=0.0); g.pausa(0.5)
 grupos.append(g)
 
-# 7. Duas fontes ao mesmo tempo (posições diferentes)
-g = Grupo("7-duas-fontes")
+# 7. Duas fontes ao mesmo tempo (posições diferentes): duas trilhas separadas, A e B, tocando juntas
+g = Grupo("7-duas-fontes"); trilhaB = []
 for r in range(REP):
     a, b = tom(500, 60, 1.0), tom(600, 60, 1.0)
-    g.add(a, teste="dois-tons", fonte="500 Hz", azimute=30.0, par=r); g.cat[-1]["simultaneo_com_proximo"] = True
-    g.t -= 1.0; g.partes.pop(); g.add(b, teste="dois-tons", fonte="600 Hz", azimute=-30.0, par=r)
-    g.partes[-1] = a + b; g.pausa(0.5)          # o arquivo mono guarda a soma só para ouvir; a cena usa as fontes separadas
+    g.add(a, teste="dois-tons", fonte_A="500 Hz", azimute=30.0, fonte_B="600 Hz", azimute_B=-30.0, rep=r)
+    trilhaB.append(b); g.pausa(0.5); trilhaB.append(silencio(0.5))
 grupos.append(g)
 
 cat = []
@@ -157,6 +156,12 @@ for g in grupos:
     y = (x / np.abs(x).max() * 0.8).astype(np.float32)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(FS), "-ac", "1", "-i", "-", "-c:a", "libvorbis", "-q:a", "4",
                     os.path.join(AQUI, f"previa-{g.nome}.ogg")], input=y.tobytes(), check=True)
+    if g.nome == "7-duas-fontes":
+        np.concatenate(trilhaB).astype(np.float32).tofile(os.path.join(AQUI, f"bateria-{g.nome}-B.f32"))
+        x = x + np.concatenate(trilhaB).astype(np.float32)          # prévia com as duas
+        y = (x / np.abs(x).max() * 0.8).astype(np.float32)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(FS), "-ac", "1", "-i", "-", "-c:a", "libvorbis", "-q:a", "4",
+                        os.path.join(AQUI, f"previa-{g.nome}.ogg")], input=y.tobytes(), check=True)
     cat += g.cat
     print(f"{g.nome}: {len(g.cat)} trechos, {g.t:.1f} s")
 json.dump(dict(fs=FS, unidade="Pa no ponto da cabeça (campo livre)", repeticoes=REP, variacao=dict(db=JIT_DB, azimute_graus=JIT_AZ, fase="ao acaso"),

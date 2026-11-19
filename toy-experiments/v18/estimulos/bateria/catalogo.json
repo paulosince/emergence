@@ -7674,95 +7674,55 @@
    "inicio": 0.0,
    "fim": 1.0,
    "teste": "dois-tons",
-   "fonte": "500 Hz",
+   "fonte_A": "500 Hz",
    "azimute": 30.0,
-   "par": 0,
-   "simultaneo_com_proximo": true
-  },
-  {
-   "grupo": "7-duas-fontes",
-   "inicio": 0.0,
-   "fim": 1.0,
-   "teste": "dois-tons",
-   "fonte": "600 Hz",
-   "azimute": -30.0,
-   "par": 0
+   "fonte_B": "600 Hz",
+   "azimute_B": -30.0,
+   "rep": 0
   },
   {
    "grupo": "7-duas-fontes",
    "inicio": 1.5,
    "fim": 2.5,
    "teste": "dois-tons",
-   "fonte": "500 Hz",
+   "fonte_A": "500 Hz",
    "azimute": 30.0,
-   "par": 1,
-   "simultaneo_com_proximo": true
-  },
-  {
-   "grupo": "7-duas-fontes",
-   "inicio": 1.5,
-   "fim": 2.5,
-   "teste": "dois-tons",
-   "fonte": "600 Hz",
-   "azimute": -30.0,
-   "par": 1
+   "fonte_B": "600 Hz",
+   "azimute_B": -30.0,
+   "rep": 1
   },
   {
    "grupo": "7-duas-fontes",
    "inicio": 3.0,
    "fim": 4.0,
    "teste": "dois-tons",
-   "fonte": "500 Hz",
+   "fonte_A": "500 Hz",
    "azimute": 30.0,
-   "par": 2,
-   "simultaneo_com_proximo": true
-  },
-  {
-   "grupo": "7-duas-fontes",
-   "inicio": 3.0,
-   "fim": 4.0,
-   "teste": "dois-tons",
-   "fonte": "600 Hz",
-   "azimute": -30.0,
-   "par": 2
+   "fonte_B": "600 Hz",
+   "azimute_B": -30.0,
+   "rep": 2
   },
   {
    "grupo": "7-duas-fontes",
    "inicio": 4.5,
    "fim": 5.5,
    "teste": "dois-tons",
-   "fonte": "500 Hz",
+   "fonte_A": "500 Hz",
    "azimute": 30.0,
-   "par": 3,
-   "simultaneo_com_proximo": true
-  },
-  {
-   "grupo": "7-duas-fontes",
-   "inicio": 4.5,
-   "fim": 5.5,
-   "teste": "dois-tons",
-   "fonte": "600 Hz",
-   "azimute": -30.0,
-   "par": 3
+   "fonte_B": "600 Hz",
+   "azimute_B": -30.0,
+   "rep": 3
   },
   {
    "grupo": "7-duas-fontes",
    "inicio": 6.0,
    "fim": 7.0,
    "teste": "dois-tons",
-   "fonte": "500 Hz",
+   "fonte_A": "500 Hz",
    "azimute": 30.0,
-   "par": 4,
-   "simultaneo_com_proximo": true
-  },
-  {
-   "grupo": "7-duas-fontes",
-   "inicio": 6.0,
-   "fim": 7.0,
-   "teste": "dois-tons",
-   "fonte": "600 Hz",
-   "azimute": -30.0,
-   "par": 4
+   "fonte_B": "600 Hz",
+   "azimute_B": -30.0,
+   "rep": 4
   }
  ]
 }
