@@ -75,3 +75,19 @@ Borda atual (sensibilidade por área, atenuação para som forte a 70 dB, janela
 | 7. Duas fontes | 7,5 s | 2,4 M / 2,5 M | 0 |
 
 Na página do Pages, cada grupo virou um botão, com a lista de condições para pular direto ao trecho. Na bateria não há o zoom de incidências individuais (só até 16 colunas por faixa). As incidências completas ficam em `borda/bateria/` (não versionadas). **Ainda não há medidas do observador**: são o próximo passo, depois dos critérios de "suficiente" do responsável.
+
+## 8. Primeiras medidas do observador (19/11/2026; descritivas)
+
+Código: [borda/observador_bateria.py](borda/observador_bateria.py); números: [borda/observador-bateria.json](borda/observador-bateria.json). Critério provisório do assistente: duas condições "separam" quando a diferença entre as médias passa de 2 desvios-padrão das repetições (ou, no padrão de pontos, quando a menor distância entre condições passa da maior distância entre repetições). Ouvido esquerdo, salvo na direção.
+
+| Medida [M] | Resultado | Régua humana |
+|---|---|---|
+| Direção, ruído | separa **1°** de 0° (8,0 ± 2,6 µs contra 1,1 ± 1,6 µs) | ~1° (ângulo mínimo audível; ~10 µs) |
+| Direção, tom de 500 Hz | separa **2°**; 1° não (4,6 ± 3,3 µs) | idem |
+| Escala da diferença de chegada | ~1,5× a de Woodworth em todos os ângulos (ex.: 90°: 455 µs contra 375 µs) | coerente com a física de uma esfera em baixas frequências (de memória: ~3a/c·senθ; a conferir) |
+| Frequência pelo lugar (quais pontos acendem) | **semitom** separa em 250, 1.000 e 4.000 Hz; **1%** separa em 1.000 e 4.000 Hz (por pouco); 0,5% e 0,2% não | ~0,2–0,5% perto de 1 kHz (de memória) |
+| Frequência pelo tempo (período das incidências) | **inconclusivo**: o estimador do assistente mostra um viés sistemático de −2,5% a −3,6% ainda não explicado | — |
+| Pausa em ruído | **3 ms** detectável (queda de 36% das incidências na janela); 1–2 ms não | 2–3 ms |
+| Pausa em tom de 1 kHz | a pausa aparece como **rajada** na volta do som (mais incidências, não menos); a medida de queda não serve para tons | — |
+
+**Limites:** a borda é determinística e a única variação é a do mundo (±0,5 dB, ±0,5°, fase); com ruído interno, as resoluções seriam piores. Intensidade, ordem dos inícios, ritmo, vogais, fala e duas fontes ainda não medidos.
