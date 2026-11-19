@@ -37,3 +37,32 @@
 
 ## Contagem "sem reserva"
 Cada vez que o acumulador completa a unidade com a reserva vazia, conta-se uma tentativa barrada. Como a unidade é pequena, esse número é grande e depende da unidade; serve para comparar faixas entre si, não como número absoluto.
+
+---
+
+## Revisão de 19/11 (borda revista)
+
+**Decisões do responsável:** emissão proporcional à reserva; janela de carregamento que se alonga com o uso ("melhor que deu pra fazer"); microfone −20 dB; atenuação para som forte a partir de 70 dB SPL; sem compressão.
+
+| Parâmetro | Valor | Origem |
+|---|---|---|
+| Janela de carregamento (áreas sensível e intermediária) | base **14 ms**, +0,4 ms por reposição, volta em 60 ms | [L] pôster de Bruce, Erfani e Zilany (ARO 2017; extração automática; preliminar). O artigo de 2018 (resumo) dá ~4 pontos e ~16–17 ms em média |
+| Janela de carregamento (área de som forte) | base 40 ms, mesmo crescimento | [R] 18/11 + [A] |
+| Saturação do excesso (emax) | 0,1 | [A] (a taxa de início não é monotônica em emax; varredura no JSON) |
+| Unidade do acumulador | 1,27 × 10⁻⁵ s | calibrada: 1,03 emissão por ciclo a +1 dB em 117 Hz |
+| Reserva lenta (M) | 10.000 (sem efeito prático) | o teto de 200/s não é alcançado; o maior M testado dá **186/s** |
+
+**Resultados [M]** (tom de 4,09 kHz, +40 dB, ponto mais sensível):
+- Início: **~1.080/s** (1/primeiro intervalo); 2 incidências passam no 1º ms, 2 são barradas pela janela de refratariedade.
+- Curso: 0–2 ms 1.000/s; 2–5 ms 0; 5–10 ms 400/s; 10–100 ms 200/s; 100–200 ms 190/s; 200–1.000 ms ~185/s.
+- Teto sustentado **186/s** (alvo ~200/s); área de som forte 82/s.
+- Taxa por nível: zero até +2 dB acima do limiar, ~185/s a partir de +5 dB (pontos quase binários, como na convolução).
+
+**Testes de código** ([test_motor.py](test_motor.py)): todos passam, incluindo cálculo por eventos = passo a passo (mesma discretização, diferença 0), integração fina (mesma contagem e taxa) e sinal com pausas (mesma contagem).
+
+**Fontes lidas nesta revisão** (grau de leitura):
+- Bruce, I. C., Erfani, Y., e Zilany, M. S. A. (2018). *Hearing Research* 360, 40–54. https://doi.org/10.1016/j.heares.2017.12.016 — **resumo** (texto integral não aberto).
+- Bruce, Erfani e Zilany, pôster ARO 2017, https://www.ece.mcmaster.ca/~ibruce/papers/Bruce_ARO2017_poster.pdf — **extração automática** do PDF.
+- Lopez-Poveda, E. A., Plack, C. J., e Meddis, R. (2003). *J. Acoust. Soc. Am.* 113, 951–960 — **extração automática do texto integral** (compressão 0,2–0,3 dB/dB de 500 a 8.000 Hz).
+- Plack, C. J., e O'Hanlon, C. G. (2003). *JARO* 4, 405–415 (PMC3202736) — **resumo**.
+- Reflexo do ouvido médio: resumos de *Acta Oto-Laryngologica* (1968, doi 10.3109/00016486809126311; 1978, doi 10.3109/00016487809123491) e Wikipédia (limiar 70–100 dB SPL). **Baixa a média confiança**; a latência (25–150 ms) vem de fonte secundária.

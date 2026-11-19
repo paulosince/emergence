@@ -10,41 +10,34 @@ def borda_um(theta, refr=0.39e-3, area=1, par=CAL):
     B = motor.Borda([p], par); B.P[0]["theta"][:] = theta
     return B
 
-def ref_passo_a_passo(d, theta, refr, par, sub=20):
-    """Referência independente: integra as reservas por Euler com sub-passos (sem fórmula fechada nem atalhos)."""
-    U = par["U"]; dt = 1 / FS; h = dt / sub
-    q, s, gq, gs = 4.0, 1.0, 1.0, 1.0; acc = 0.0; last_pass = -1.0; ev = []
-    def passo(q, s, Q, tc, td, M):
-        fl = (Q * s - q) / tc
-        return q + h * fl, s + h * ((1 - s) / td - fl / M)
+def ref_passo_a_passo(d, theta, refr, par, sub=200):
+    """Referência independente: integra a reserva da Utrd (q, s, janela que se alonga) por Euler com sub-passos em toda
+    amostra, sem fórmula fechada nem atalhos; mesma regra de emissão (excesso saturado × reserva/capacidade)."""
+    U, emax = par["U"], par["emax"]; dt = 1 / FS; h = dt / sub
+    tau0, ttau, dtau, td, M = par.get("tau0U", par["tcU"]), par.get("ttauU", 0.06), par.get("dtauU", 0.0), par["tdU"], par["MU"]
+    q, s, tau, gq, gs = 4.0, 1.0, tau0, 1.0, 1.0; acc = 0.0; last_pass = -1.0; ev = []; gt = 0.0
+    PG = motor.lambdas(1.0, par["tcG"], par["tdG"], par["MG"])
     prev_above = False
     for i, x in enumerate(d):
+        if i > 0:
+            for _ in range(sub):
+                fl = (4.0 * s - q) / tau
+                q += h * fl; s += h * ((1 - s) / td - fl / M); tau += h * ((tau0 - tau) / ttau + dtau * max(fl, 0.0))
         if x > theta:
             if not prev_above: acc = 0.0
-            inc = (x / theta - 1) * dt
+            e = x / theta - 1; sat = emax * e / (emax + e) if emax > 0 else e
+            inc = sat * dt * q / 4.0
             if acc + inc >= U:
-                fr = (U - acc) / inc; t = (i - 1 + fr) * dt
-                # avança as reservas até t por Euler (já estão no instante i-1; completa a fração)
-                for _ in range(int(round(fr * sub))):
-                    q, s = passo(q, s, 4.0, par["tcU"], par["tdU"], par["MU"])
-                    gq, gs = passo(gq, gs, 1.0, par["tcG"], par["tdG"], par["MG"])
-                rest = sub - int(round(fr * sub))
-                acc = 0.0
+                t = (i - 1 + (U - acc) / inc) * dt; acc = 0.0
                 if q >= 1.0:
                     q -= 1.0
                     if t - last_pass >= refr:
-                        ev.append((t, gq)); gq -= par["fG"] * gq; last_pass = t
-                for _ in range(rest):
-                    q, s = passo(q, s, 4.0, par["tcU"], par["tdU"], par["MU"])
-                    gq, gs = passo(gq, gs, 1.0, par["tcG"], par["tdG"], par["MG"])
-                prev_above = True; continue
-            acc += inc
+                        gq, gs = motor.avancar(gq, gs, t - gt, 1.0, PG); ev.append((t, gq)); gq -= par["fG"] * gq; gt = t; last_pass = t
+            else:
+                acc += inc
             prev_above = True
         else:
             prev_above = False
-        for _ in range(sub):
-            q, s = passo(q, s, 4.0, par["tcU"], par["tdU"], par["MU"])
-            gq, gs = passo(gq, gs, 1.0, par["tcG"], par["tdG"], par["MG"])
     return np.array(ev)
 
 def sinal(f=4000.0, dur=0.3, amp=0.05):
@@ -58,11 +51,25 @@ def checa(nome, cond, extra=""):
 # 1. eventos por fórmula fechada (preguiçosa) = integração passo a passo
 d = sinal(); theta = 0.005
 B = borda_um(theta); ev = B.rodar(d[None, :], 0.0)[0]
-R = ref_passo_a_passo(d, theta, 0.39e-3, CAL, sub=200)
+# (a) mesma discretização (um passo por amostra): o cálculo por eventos tem de reproduzir o passo a passo exatamente
+R = ref_passo_a_passo(d, theta, 0.39e-3, CAL, sub=1)
 n = min(len(ev[0]), len(R))
 checa("mesmo número de incidências (preguiçoso × passo a passo)", len(ev[0]) == len(R), f"{len(ev[0])} × {len(R)}")
 checa("mesmos instantes (|dif| < 1 amostra)", n > 0 and np.max(abs(ev[0][:n] - R[:n, 0])) < 1 / FS, f"máx {np.max(abs(ev[0][:n]-R[:n,0]))*1e6:.2f} µs")
+# (b) integração fina (50 sub-passos): mesma contagem e taxa (empates no limiar podem deslocar uma emissão)
+R2 = ref_passo_a_passo(d, theta, 0.39e-3, CAL, sub=50)
+checa("integração fina: mesma contagem (±1) e taxa média (±1%)", abs(len(R2) - len(ev[0])) <= 1 and abs((R2[-1, 0] - R2[0, 0]) / (ev[0][-1] - ev[0][0]) - 1) < 0.01,
+      f"{len(ev[0])} × {len(R2)}")
 checa("mesmas magnitudes (|dif| < 1e-3)", n > 0 and np.max(abs(ev[2][:n] - R[:n, 1])) < 1e-3, f"máx {np.max(abs(ev[2][:n]-R[:n,1])):.2e}")
+
+# 1b. com pausas (exercita o atalho de intervalos longos): mesma contagem (±1) e instantes próximos
+tt = np.arange(len(d)) / FS
+dg = d * ((np.sin(2 * np.pi * 9 * tt) > 0.3))
+Bg = borda_um(theta); eg = Bg.rodar(dg[None, :], 0.0)[0]
+Rg = ref_passo_a_passo(dg, theta, 0.39e-3, CAL, sub=1)
+ng = min(len(eg[0]), len(Rg))
+checa("com pausas: mesma contagem (±1) e mediana da diferença < 1 amostra", abs(len(eg[0]) - len(Rg)) <= 1 and ng > 0 and np.median(abs(eg[0][:ng] - Rg[:ng, 0])) < 1 / FS,
+      f"{len(eg[0])} × {len(Rg)}")
 
 # 2. abaixo do limiar: nada
 B = borda_um(1.0); ev = B.rodar(d[None, :], 0.0)[0]
@@ -74,7 +81,7 @@ checa("nenhum repasse com intervalo menor que a janela de refratariedade", np.al
 checa("incidências bloqueadas são contadas e não repassadas", B.cont[0][2] > 0 and B.cont[0][1] == len(ev[0]) and B.cont[0][0] == B.cont[0][1] + B.cont[0][2])
 
 # 4. reserva de efeito da Utrd: com a reserva vazia, não emite
-B = borda_um(theta); B.P[0]["q"][:] = 0.0; B.P[0]["s"][:] = 0.0
+B = borda_um(theta); B.P[0]["q"][:] = 0.0; B.P[0]["s"][:] = 0.0; B.P[0]["iu"][:] = 0
 ev = B.rodar(d[None, :2000], 0.0)[0]
 checa("reserva vazia: nenhuma emissão no primeiro instante", len(ev[0]) == 0 or ev[0][0] > 1e-3, f"primeira em {ev[0][0]*1000 if len(ev[0]) else float('nan'):.2f} ms")
 checa("tentativas sem reserva são contadas", B.cont[0][3] > 0)

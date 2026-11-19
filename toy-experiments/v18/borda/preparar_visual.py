@@ -58,7 +58,7 @@ for e in ("esq", "dir"):
         pw = 2 * np.abs(np.fft.rfft(x[c - NFFT // 2:c + NFFT // 2] * w)) ** 2 / (NFFT * np.sum(w ** 2))
         ok = (grupo >= 0) & (grupo < 64)
         S[f_] = np.bincount(grupo[ok], weights=pw[ok], minlength=64)
-    db = 10 * np.log10(S + 1e-30) - 20 * np.log10(20e-6)
+    db = 10 * np.log10(S + 1e-30) - 20 * np.log10(20e-6) - cena.SENSIB_MIC_DB    # som real no ouvido (antes do microfone)
     (np.clip(db, 0, 90) / 90 * 255).round().astype(np.uint8).tofile(f"{OUT}/som-{e}.bin")
 meta["som_db_max"] = 90
 # escala de exibição do verde: percentil 99 da grade

@@ -80,7 +80,7 @@ def comprimir(y, i):
 # 0,7 dB por dB e chega a 20 dB; em 2 kHz: começa 10 dB acima do limiar, chega a ~10 dB (Bell's palsy, resumo, Acta
 # Otolaryngol 1978); em 1,45 kHz, 0–6 dB a 16 dB acima do limiar (Acta Otolaryngol 1968, resumo). Acima de 4 kHz: zero
 # (o reflexo "protege sobretudo os graves"; número do assistente). Bilateral: comandado pelo ouvido mais forte.
-REFL_LIMIAR = 80.0
+REFL_LIMIAR = 70.0   # responsável, 19/11: ponta baixa da faixa humana (70–100 dB SPL)
 _RF = np.log2([500.0, 2000.0, 4000.0])
 def atenuacao_reflexo(nivel_db):
     """nivel_db: (n,) nível que comanda o reflexo. Devolve (64, n) atenuação em dB."""
@@ -89,7 +89,7 @@ def atenuacao_reflexo(nivel_db):
     ex = np.maximum(nivel_db[None, :] - REFL_LIMIAR - atraso[:, None], 0.0)
     return np.minimum(incl[:, None] * ex, amax[:, None])
 
-def comando(p, reflexo_db=None, compressao=True):
+def comando(p, reflexo_db=None, compressao=False):   # compressão retirada pelo responsável em 19/11 (os limiares já a incluem)
     """p: pressão (Pa) num microfone. reflexo_db: (64, n) atenuação do reflexo, ou None.
     Devolve matriz (64, n): sinal de comando de cada faixa em Pa de pico equivalentes."""
     kap = _kappa(); out = np.empty((N_FAIXAS, len(p)))

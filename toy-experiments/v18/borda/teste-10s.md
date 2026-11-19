@@ -49,3 +49,17 @@ Trechos: **Satie, Gymnopédie nº 1** (piano), 9 a 19 s, onde entra a melodia; *
 **Leitura provisória [A]:** a área sensível satura em todas as obras. A forma do espectro sobrevive melhor nas áreas intermediária e de som forte (órgão e violino), o que lembra o papel atribuído às fibras de baixa atividade espontânea no nervo auditivo (de memória, Sachs e Young 1979; **não lido aqui**). No piano, mais baixo, a área de som forte quase não entra e a medida entre faixas fica fraca (a medida é do assistente e pode ser ruim para sons que decaem). No piano, os ataques aparecem como pico com decaimento.
 
 **Ruído da gravação:** no violino, antes da primeira nota, o chiado, levado junto com a música para 85 dB de pico, já gera ~0,5 milhão de incidências por segundo.
+
+## Borda revista (19/11, depois de "ouvido de cachorro")
+
+Mudanças: ver [decisões](../decisoes-em-construcao.md) e [calibração](calibracao.md). Mesmos trechos.
+
+| [M], ouvido esquerdo | Órgão | Piano | Violino |
+|---|---|---|---|
+| Incidências em 10 s (antes → agora) | 31,1 → **19,7 M** | 24,9 → **9,6 M** | 28,5 → **17,8 M** |
+| Pontos ativos, faixas 11–64 (sensível / intermediária / som forte) | 96/85/23 → **81/46/2%** | 78/50/5 → **45/9/0%** | 90/75/17 → **73/36/0%** |
+| Ataques (pico 0–20 ms / sustentado 50–100 ms) | 1,03–1,07 → **1,17–1,49** | até **2,76** | até **1,57** |
+| Atenuação para som forte (máxima, graves) | — | 5,7 dB | 6,7 dB (órgão: 6,1 dB) |
+| Magnitude média | 0,27 → 0,31 | 0,38 | 0,31 |
+
+**Leitura provisória [A]:** a área sensível satura menos e os ataques passam a se destacar. O preço: a área de som forte quase não entra mais nestes trechos, e era ela que acompanhava melhor a forma do espectro. A versão anterior dos eventos está em `v1/` (não versionada).

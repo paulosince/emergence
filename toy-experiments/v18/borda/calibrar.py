@@ -17,7 +17,10 @@ import coclea, pontos, motor
 FS = coclea.FS
 P = pontos.construir(); FC = coclea.centros()
 R_INICIO = 1000.0
-par = dict(tcU=16.5e-3, tcU3=40e-3, tdU=0.100, MU=400.0, tcG=25e-3, tdG=2.0, MG=1.0, fG=0.0, U=1e-4, emax=0.0)
+# Janela de carregamento que se alonga com o uso (19/11; responsável: "melhor que deu pra fazer"; pôster de Bruce, Erfani e
+# Zilany 2017, preliminar): base 14 ms, +0,4 ms por reposição, volta em 60 ms (a média em atividade fica perto dos 16–17 ms
+# do artigo de 2018). Área de som forte: base de 40 ms (suposição de 18/11), mesmo crescimento.
+par = dict(tcU=16.5e-3, tcU3=40e-3, tau0U=14e-3, ttauU=0.060, dtauU=0.4e-3, tdU=0.100, MU=400.0, tcG=25e-3, tdG=2.0, MG=1.0, fG=0.0, U=1e-4, emax=0.0)
 
 def tom(f, db, dur):
     t = np.arange(int(dur * FS)) / FS

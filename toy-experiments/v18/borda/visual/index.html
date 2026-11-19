@@ -96,15 +96,14 @@ details li { margin: 4px 0; }
   <div class="legenda" id="legenda"></div>
 </div>
 <details>
-  <summary>O que os testes mostraram (conferências do observador)</summary>
-  <p class="sub">Medidas descritivas, no ouvido esquerdo salvo indicação. Os critérios de "suficiente" ainda vão ser definidos pelo responsável. Números completos nos arquivos <span class="num">conferencias-*.json</span> do repositório.</p>
+  <summary>O que os testes mostraram (borda revista em 19/11)</summary>
+  <p class="sub">Borda revista: microfone 20 dB menos sensível; atenuação para som forte a partir de 70 dB SPL; sem compressão; emissão proporcional à reserva da Utrd; janela de carregamento que se alonga com o uso. Medidas descritivas, ouvido esquerdo. Os critérios de "suficiente" ainda vão ser definidos pelo responsável.</p>
   <ol>
-    <li><b>Nas três obras, quase tudo acende acima da nota mais grave.</b> Fração média de pontos ativos (faixas acima de ~250 Hz), por área de intensidade transdutiva (sensível / intermediária / som forte): órgão <span class="num">96% / 85% / 23%</span>; piano <span class="num">78% / 50% / 5%</span>; violino <span class="num">90% / 75% / 17%</span>.</li>
-    <li><b>Por quê (medido no órgão):</b> harmônicos tão fortes quanto a nota (Lá de 872 Hz a 64 dB com harmônicos de 1,7 a 3,5 kHz a ~63 dB); vazamento de cada harmônico para as faixas vizinhas (filtros sobrepostos); limiares da audição humana (~0 dB). Um tom puro de 440 Hz acende 10 faixas a 40 dB, 44 a 60 dB e 56 a 80 dB.</li>
-    <li><b>Onde ficou a forma do espectro:</b> entre faixas, no mesmo instante, a fração ativa acompanha o nível do som melhor nas áreas intermediária e de som forte (correlação de postos, órgão <span class="num">0,39 / 0,51 / 0,53</span>; violino <span class="num">0,39 / 0,56 / 0,64</span>) do que na sensível, que satura. No piano, mais baixo, a área de som forte quase não entra.</li>
-    <li><b>Ataques:</b> no piano cada nota aparece como pico seguido de decaimento, com os agudos apagando antes; no órgão e no violino o ataque é um degrau quase sem rajada.</li>
-    <li><b>Diferença de chegada e de volume (órgão):</b> esquerdo primeiro, com <span class="num">0,25–0,56 ms</span> (esperado pela cabeça esférica: 0,35 ms); esquerdo aciona mais pontos nos agudos. No piano o atraso varia de faixa para faixa, porque os dois canais da gravação diferem.</li>
-    <li><b>Ruído da gravação:</b> no violino, antes da primeira nota, o chiado da gravação, levado a 85 dB de pico junto com a música, já acende pontos sensíveis (~0,5 milhão de incidências por segundo).</li>
+    <li><b>Pontos ativos</b> (faixas acima de ~250 Hz; sensível / intermediária / som forte), antes → agora: órgão <span class="num">96/85/23% → 81/46/2%</span>; piano <span class="num">78/50/5% → 45/9/0%</span>; violino <span class="num">90/75/17% → 73/36/0%</span>.</li>
+    <li><b>Incidências em 10 s</b> (ouvido esquerdo), antes → agora: órgão <span class="num">31,1 → 19,7 milhões</span>; piano <span class="num">24,9 → 9,6</span>; violino <span class="num">28,5 → 17,8</span>.</li>
+    <li><b>Ataques</b> (pico nos primeiros 20 ms / sustentado 50–100 ms): órgão <span class="num">1,03–1,07 → 1,17–1,49</span>; piano até <span class="num">2,76</span>; violino até <span class="num">1,57</span>.</li>
+    <li><b>Atenuação para som forte:</b> chega a <span class="num">5,7–6,7 dB</span> nos graves nos trechos mais fortes.</li>
+    <li><b>Preço:</b> a área de som forte quase não entra mais nestes trechos (0–2%).</li>
   </ol>
 </details>
 <audio id="audio" preload="auto"></audio>

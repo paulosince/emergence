@@ -10,10 +10,12 @@ apelido = sys.argv[4] if len(sys.argv) > 4 else ""
 par = json.load(open("calibracao.json"))["parametros"]
 P = pontos.construir()
 t0 = time.time()
-mic, _ = cena.microfones(ini, dur, grav)
+mic, _, nivel = cena.microfones(ini, dur, grav, cru=True)
+ATEN = coclea.atenuacao_reflexo(nivel)          # atenuação para som forte (bilateral)
+print(f"atenuação para som forte: máx {ATEN.max():.1f} dB; nível máx {nivel.max():.1f} dB SPL")
 out = {}; cont = {}
 for ear in ("esq", "dir"):
-    D = coclea.comando(mic[ear])
+    D = coclea.comando(mic[ear], reflexo_db=ATEN)
     B = motor.Borda(P, par)
     ev = B.rodar(D, 0.0, cap=2_000_000)
     T = np.concatenate([e[0] for e in ev]); F = np.concatenate([np.full(len(e[0]), b, np.int8) for b, e in enumerate(ev)])
@@ -23,6 +25,6 @@ for ear in ("esq", "dir"):
     print(ear, f"{len(T):,} incidências repassadas", f"{time.time()-t0:.1f} s")
 nome = f"eventos-{apelido + '-' if apelido else ''}{ini:g}-{dur:g}.npz"
 np.savez_compressed(nome, **{f"{e}_{c}": v for e in out for c, v in zip("tfkm", out[e])},
-                    **{f"{e}_cont": cont[e] for e in cont}, ini=ini, dur=dur, gravacao=str(grav or ""), apelido=apelido,
+                    **{f"{e}_cont": cont[e] for e in cont}, ini=ini, dur=dur, gravacao=str(grav or ""), apelido=apelido, aten_max=float(ATEN.max()), sensib_mic_db=cena.SENSIB_MIC_DB,
                     cap=np.array([len(p["limiar_db"]) for p in P]), fc=coclea.centros())
 print("gravado", nome)

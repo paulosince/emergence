@@ -38,8 +38,32 @@ def avancar(q, s, dt, Q, P):
     return Q + z0, 1.0 + z1
 
 @njit(cache=True)
-def banda(d, t0, i0, theta, area, refr, U, emax, QU, PU12, PU3, E12, E3, QG, PG, fG,
-          st_acc, st_last, st_q, st_s, st_iu, st_gq, st_gs, st_gt, st_pass,
+def passo_res(q, s, tau, h, Q, td, M, tau0, ttau, dtau):
+    """Reserva da Utrd com janela de carregamento que se alonga com o uso (19/11; pôster de Bruce, Erfani e Zilany 2017:
+    cresce dtau a cada reposição e volta a tau0 com ttau). Em h, tau fica fixo para a parte linear (fórmula fechada);
+    depois tau relaxa e recebe o acréscimo pelas reposições do intervalo."""
+    a11 = -1.0 / tau; a12 = Q / tau; a21 = 1.0 / (tau * M); a22 = -1.0 / td - Q / (tau * M)
+    tr = a11 + a22; det = a11 * a22 - a12 * a21; r = np.sqrt(tr * tr / 4 - det)
+    P = np.empty(6); P[0] = a11; P[1] = a12; P[2] = a21; P[3] = a22; P[4] = tr / 2 + r; P[5] = tr / 2 - r
+    q2, s2 = avancar(q, s, h, Q, P)
+    tau2 = tau0 + (tau - tau0) * np.exp(-h / ttau) + dtau * max(q2 - q, 0.0)
+    return q2, s2, tau2
+
+@njit(cache=True)
+def avancar_res(q, s, tau, gap, Q, td, M, tau0, ttau, dtau):
+    """Intervalo longo sem emissões: sub-passos de até 0,5 ms (ou um só, se já em repouso)."""
+    if abs(q - Q) < 1e-9 and abs(s - 1.0) < 1e-9 and abs(tau - tau0) < 1e-9:
+        return q, s, tau
+    hmax = 0.5e-3; n = int(np.ceil(gap / hmax)); h = gap / n
+    for _ in range(n):
+        q, s, tau = passo_res(q, s, tau, h, Q, td, M, tau0, ttau, dtau)
+        if abs(q - Q) < 1e-9 and abs(s - 1.0) < 1e-9 and abs(tau - tau0) < 1e-9:
+            break
+    return q, s, tau
+
+@njit(cache=True)
+def banda(d, t0, i0, theta, area, refr, U, emax, QU, tdU, MU, tau12, tau3, ttau, dtau, QG, PG, fG,
+          st_acc, st_last, st_q, st_s, st_tau, st_iu, st_gq, st_gs, st_gt, st_pass,
           ev_t, ev_k, ev_m, n_ev, cont):
     """Processa uma faixa. theta: limiares (Pa de pico) crescentes. cont = [emitidas, repassadas, bloq_refr, sem_reserva].
     Regra de emissão revista em 19/11 (responsável: "emissão proporcional à reserva"): o acumulado cresce com
@@ -60,19 +84,17 @@ def banda(d, t0, i0, theta, area, refr, U, emax, QU, PU12, PU3, E12, E3, QG, PG,
             if st_last[k] != ig - 1:
                 st_acc[k] = 0.0                       # esteve abaixo do limiar: acumulado zerado
             st_last[k] = ig
-            # reserva de efeito da Utrd levada até esta amostra (exata: uma amostra pela matriz, várias pela fórmula fechada)
-            if area[k] == 3:
-                P = PU3; Em = E3
-            else:
-                P = PU12; Em = E12
+            # reserva de efeito da Utrd levada até esta amostra
+            tau0 = tau3 if area[k] == 3 else tau12
             gap = ig - st_iu[k]
-            q = st_q[k]; s = st_s[k]
+            q = st_q[k]; s = st_s[k]; tau = st_tau[k]
             if gap == 1:
-                y0 = q - QU; y1 = s - 1.0
-                q = QU + Em[0] * y0 + Em[1] * y1; s = 1.0 + Em[2] * y0 + Em[3] * y1
+                fl = (QU * s - q) / tau                   # uma amostra: passo direto (h = 21 µs << tau)
+                q += fl * dt; s += ((1.0 - s) / tdU - fl / MU) * dt
+                tau += ((tau0 - tau) / ttau + dtau * max(fl, 0.0)) * dt
             elif gap > 1:
-                q, s = avancar(q, s, gap * dt, QU, P)
-            st_iu[k] = ig
+                q, s, tau = avancar_res(q, s, tau, gap * dt, QU, tdU, MU, tau0, ttau, dtau)
+            st_iu[k] = ig; st_tau[k] = tau
             e = x / theta[k] - 1.0
             sat = e if emax <= 0.0 else emax * e / (emax + e)
             inc = sat * dt * (q / QU)
@@ -117,12 +139,14 @@ class Borda:
         PG = lambdas(1.0, par["tcG"], par["tdG"], par["MG"])
         self.PU12, self.PU3, self.PG = PU12, PU3, PG
         self.E12, self.E3 = propagador(4.0, PU12), propagador(4.0, PU3)
+        self.tau12 = par.get("tau0U", par["tcU"]); self.tau3 = par["tcU3"]
+        self.ttau = par.get("ttauU", 0.060); self.dtau = par.get("dtauU", 0.0)
         for p in pontos:
             K = len(p["limiar_db"])
             self.P.append(dict(theta=limiar_pa(p["limiar_db"]).astype(np.float64), area=p["area"].astype(np.int64),
                                refr=p["refr"].astype(np.float64),
                                acc=np.zeros(K), last=np.full(K, -10, np.int64), q=np.full(K, 4.0), s=np.ones(K),
-                               iu=np.zeros(K, np.int64), gq=np.ones(K), gs=np.ones(K), gt=np.zeros(K),
+                               iu=np.zeros(K, np.int64), tau=np.where(p["area"] == 3, par["tcU3"], par.get("tau0U", par["tcU"])).astype(np.float64), gq=np.ones(K), gs=np.ones(K), gt=np.zeros(K),
                                ps=np.full(K, -1.0)))
         self.cont = np.zeros((len(pontos), 4), np.int64)
 
@@ -132,8 +156,9 @@ class Borda:
         par = self.par; out = []
         for b, p in enumerate(self.P):
             ev_t = np.empty(cap); ev_k = np.empty(cap, np.int32); ev_m = np.empty(cap, np.float32); n_ev = np.zeros(1, np.int64)
-            banda(D[b], t0, int(round(t0 * FS)), p["theta"], p["area"], p["refr"], par["U"], par.get("emax", 0.0), 4.0, self.PU12, self.PU3,
-                  self.E12, self.E3, 1.0, self.PG, par["fG"], p["acc"], p["last"], p["q"], p["s"], p["iu"], p["gq"], p["gs"], p["gt"], p["ps"],
+            banda(D[b], t0, int(round(t0 * FS)), p["theta"], p["area"], p["refr"], par["U"], par.get("emax", 0.0), 4.0, par["tdU"], par["MU"],
+                  self.tau12, self.tau3, self.ttau, self.dtau, 1.0, self.PG, par["fG"], p["acc"], p["last"], p["q"], p["s"], p["tau"], p["iu"],
+                  p["gq"], p["gs"], p["gt"], p["ps"],
                   ev_t, ev_k, ev_m, n_ev, self.cont[b])
             m = int(n_ev[0]); assert m <= cap, "capacidade de eventos excedida"
             out.append((ev_t[:m].copy(), ev_k[:m].copy(), ev_m[:m].copy()))
