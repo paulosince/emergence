@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cóclea em luz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Um só mundo visual (escuro), por escolha: as luzes precisam de fundo escuro.
+     Layout: palco (verde em cima = incidências; teclado = cóclea; amarelo embaixo = som chegando), controles embaixo. */
+  --fundo: #05070a;
+  --palco: #070b0d;
+  --linha: #1a2428;
+  --texto: #d7e3df;
+  --apagado: #7d8f8a;
+  --excit: #39ff14;      /* efeito excitatório (decisão do responsável) */
+  --som: #ffd23f;        /* som chegando à cóclea */
+  --corpo: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--fundo); color: var(--texto); font-family: var(--corpo); }
+body { display: flex; flex-direction: column; }
+header { padding: 12px 16px 6px; display: grid; gap: 2px; }
+h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; text-wrap: balance; }
+.sub { color: var(--apagado); font-size: .85rem; max-width: 70ch; }
+#palco { position: relative; flex: 1; min-height: 340px; margin: 0 16px; background: var(--palco); border: 1px solid var(--linha); border-radius: 6px; overflow: hidden; touch-action: none; }
+canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+#leitura { position: absolute; left: 10px; top: 8px; right: 10px; font: 500 .74rem var(--mono); color: var(--texto); text-shadow: 0 0 6px #000; pointer-events: none; font-variant-numeric: tabular-nums; }
+#carregando { position: absolute; inset: 0; display: grid; place-items: center; color: var(--apagado); font: .9rem var(--mono); }
+.controles { padding: 10px 16px 6px; display: grid; gap: 8px; }
+.linha { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+button, select { font: 500 .85rem var(--corpo); color: var(--texto); background: #0d1417; border: 1px solid #2a3a3e; border-radius: 6px; padding: 7px 11px; cursor: pointer; }
+button[aria-pressed="true"] { border-color: var(--excit); color: var(--excit); box-shadow: 0 0 8px #39ff1433 inset; }
+button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--excit); outline-offset: 2px; }
+#play { min-width: 92px; font-weight: 600; }
+#tempo { flex: 1; min-width: 160px; accent-color: var(--excit); }
+#rotulo-tempo { font: 500 .85rem var(--mono); font-variant-numeric: tabular-nums; min-width: 92px; text-align: right; }
+.grupo { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.grupo > span { color: var(--apagado); font-size: .8rem; margin-right: 2px; }
+.legenda { color: var(--apagado); font-size: .8rem; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.legenda b { font-weight: 600; }
+.verde { color: var(--excit); } .amarelo { color: var(--som); }
+details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .88rem; }
+summary { cursor: pointer; color: var(--texto); font-weight: 600; }
+details ol { padding-left: 20px; max-width: 72ch; line-height: 1.45; }
+details li { margin: 4px 0; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+@media (max-width: 480px) { header { padding: 10px 12px 4px; } #palco { margin: 0 12px; } .controles { padding: 8px 12px; } details { margin: 4px 12px 12px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="titulo">Cóclea em luz</h1>
+  <div class="sub">V0.18, primeiros testes da borda auditiva. Nada é criado: cada coluna é um ponto transdutivo que <em>seria</em> uma Upro. Em cada obra, 10 s. O som (amarelo) sobe até a cóclea (teclado) e vira incidências (verde) que continuam subindo pelas Upros. Pinça ou roda do mouse: zoom; arrastar: deslocar; toque duplo: ver tudo.</div>
+  <div class="linha" role="group" aria-label="Obra" style="margin-top:6px">
+    <button type="button" data-obra="bach" aria-pressed="true">Órgão</button>
+    <button type="button" data-obra="satie" aria-pressed="false">Piano</button>
+    <button type="button" data-obra="chaconne" aria-pressed="false">Violino</button>
+    <span class="sub" id="credito"></span>
+  </div>
+</header>
+<div id="palco">
+  <canvas id="tela" aria-label="Som chegando à cóclea e incidências por faixa e ponto transdutivo"></canvas>
+  <div id="leitura"></div>
+  <div id="carregando">carregando incidências…</div>
+</div>
+<div class="controles">
+  <div class="linha">
+    <button id="play" type="button">▶ Tocar</button>
+    <input id="tempo" type="range" min="0" max="10" step="0.001" value="0" aria-label="Posição no tempo">
+    <span id="rotulo-tempo">0,000 s</span>
+  </div>
+  <div class="linha">
+    <div class="grupo" role="group" aria-label="Ouvido"><span>Ouvido</span>
+      <button type="button" data-ouvido="ambos" aria-pressed="true">Ambos</button>
+      <button type="button" data-ouvido="esq" aria-pressed="false">Esquerdo</button>
+      <button type="button" data-ouvido="dir" aria-pressed="false">Direito</button>
+    </div>
+    <div class="grupo"><span>Velocidade</span>
+      <select id="vel" aria-label="Velocidade">
+        <option value="auto">Automática</option><option value="1">1×</option><option value="0.25">¼×</option><option value="0.05">1/20×</option><option value="0.01">1/100×</option>
+      </select>
+    </div>
+    <div class="grupo" role="group" aria-label="Zoom"><span>Zoom</span>
+      <button type="button" id="menos" aria-label="Afastar">−</button>
+      <button type="button" id="mais" aria-label="Aproximar">+</button>
+      <button type="button" id="tudo">Ver tudo</button>
+    </div>
+    <div class="grupo" id="destaques" role="group" aria-label="Ir para faixa com incidências individuais"><span>Incidências individuais</span></div>
+    <button type="button" id="som" aria-pressed="false">♪ Som</button>
+  </div>
+  <div class="legenda" id="legenda"></div>
+</div>
+<details>
+  <summary>O que os testes mostraram (borda revista em 19/11)</summary>
+  <p class="sub">Borda revista: limiares 20 dB acima na área sensível e 10 dB na intermediária (som forte sem mudança); atenuação para som forte a partir de 70 dB SPL; sem compressão; emissão proporcional à reserva da Utrd; janela de carregamento que se alonga com o uso. Medidas descritivas, ouvido esquerdo. Os critérios de "suficiente" ainda vão ser definidos pelo responsável.</p>
+  <ol>
+    <li><b>Pontos ativos</b> (faixas acima de ~250 Hz; sensível / intermediária / som forte), primeira versão → agora: órgão <span class="num">96/85/23% → 81/69/24%</span>; piano <span class="num">78/50/5% → 45/27/5%</span>; violino <span class="num">90/75/17% → 73/63/17%</span>.</li>
+    <li><b>Forma do espectro</b> (entre faixas, no mesmo instante, nível × fração ativa; sensível / intermediária / som forte): órgão <span class="num">0,39/0,51/0,53 → 0,53/0,54/0,53</span>; violino <span class="num">0,39/0,56/0,64 → 0,61/0,66/0,64</span>.</li>
+    <li><b>Ataques</b> (pico 0–20 ms / sustentado 50–100 ms): órgão <span class="num">1,03–1,07 → 1,21–1,50</span>; piano até <span class="num">2,99</span>; violino até <span class="num">1,65</span>.</li>
+    <li><b>Diferença de chegada</b> (mediana nas faixas até 1,2 kHz): órgão <span class="num">0,35 ms</span> (esperado 0,35 ms); piano 0,30 ms; violino 0,44 ms.</li>
+    <li><b>Incidências em 10 s:</b> órgão <span class="num">31,1 → 22,2 milhões</span>; piano <span class="num">24,9 → 11,0</span>; violino <span class="num">28,5 → 20,7</span>. Atenuação para som forte até <span class="num">5,7–6,7 dB</span> nos graves.</li>
+  </ol>
+</details>
+<audio id="audio" preload="auto"></audio>
+<script>
+(async function () {
+  const $ = s => document.querySelector(s);
+  const tela = $("#tela"), ctx = tela.getContext("2d");
+  // arquivos binários vêm embrulhados em JSON (base64), porque o servidor só serve texto e páginas
+  // dados: na página do GitHub Pages (toy-experiments/v18/index.html) ficam em borda/visual/, em binário; no artefato, ao
+  // lado da página, embrulhados em JSON (base64), porque o servidor de artefatos só serve texto.
+  const BASE = document.querySelector('meta[name="dados"]')?.content || "";
+  const bin = async n => {
+    const cru = n.replace(/-bin\.json$/, ".bin").replace(/-ogg\.json$/, ".ogg");
+    if (BASE) { const r = await fetch(BASE + cru); if (r.ok) return new Uint8Array(await r.arrayBuffer()); }
+    const s = (await (await fetch(BASE + n)).json()).base64, b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u;
+  };
+  const OUV = ["esq", "dir"];
+  const OBRAS = {
+    bach: { titulo: "Órgão — Bach, Tocata e Fuga BWV 565", credito: "gravação: Ashtar Moïra, domínio público" },
+    satie: { titulo: "Piano — Satie, Gymnopédie nº 1", credito: "gravação: Robin Alciatore (Musopen), domínio público" },
+    chaconne: { titulo: "Violino — Bach, Chaconne BWV 1004", credito: "gravação: Ben Goldstein, CC BY-SA 3.0 (Wikimedia Commons)" }
+  };
+  const cache = {};
+  let meta, G, S, G1, NF, FR, SUB, DUR, FC, CAP, DEST, JAN, PT, P99, obra = "bach";
+  async function dados(id) {
+    if (cache[id]) return cache[id];
+    const m = await (await fetch(`${BASE}${id}/meta.json`)).json(), g = {}, s = {}, g1 = {}, pt = {};
+    for (const e of OUV) { g[e] = await bin(`${id}/grade-${e}-bin.json`); s[e] = await bin(`${id}/som-${e}-bin.json`); }
+    for (const e of OUV) {
+      const a = new Uint8Array(m.quadros * 64), gg = g[e];
+      for (let f = 0; f < m.quadros; f++) for (let b = 0; b < 64; b++) { let t = 0; const o = (f * 64 + b) * m.sub; for (let j = 0; j < m.sub; j++) t += gg[o + j]; a[f * 64 + b] = t / m.sub; }
+      g1[e] = a;
+    }
+    for (const b of m.destaque.faixas) {
+      const buf = (await bin(`${id}/pontos-${b}-bin.json`)).buffer;
+      const n = new Uint32Array(buf.slice(0, 8)); let off = 8; pt[b] = {};
+      OUV.forEach((e, i) => { const k = n[i];
+        const t = new Float32Array(buf.slice(off, off + 4 * k)); off += 4 * k;
+        const q = new Uint16Array(buf.slice(off, off + 2 * k)); off += 2 * k;
+        const gm = new Uint8Array(buf.slice(off, off + k)); off += k; pt[b][e] = { t, k: q, g: gm }; });
+    }
+    let audioUrl = null; try { audioUrl = URL.createObjectURL(new Blob([await bin(`${id}/audio-ogg.json`)], { type: "audio/ogg" })); } catch (e) {}
+    return (cache[id] = { m, g, s, g1, pt, audioUrl });
+  }
+  async function carregar(id) {
+    if (!$("#carregando")) $("#palco").insertAdjacentHTML("beforeend", '<div id="carregando">carregando incidências…</div>');
+    const d = await dados(id); obra = id;
+    meta = d.m; G = d.g; S = d.s; G1 = d.g1; PT = d.pt;
+    NF = meta.quadros; FR = meta.quadro; SUB = meta.sub; DUR = meta.dur; FC = meta.fc; CAP = meta.cap; DEST = meta.destaque.faixas; JAN = meta.destaque.janela; P99 = meta.verde_p99 || 255;
+    if (d.audioUrl) $("#audio").src = d.audioUrl;
+    $("#titulo").textContent = OBRAS[id].titulo + ` (${fmt(meta.ini, 1)} a ${fmt(meta.ini + meta.dur, 1)} s)`;
+    $("#credito").textContent = OBRAS[id].credito;
+    document.querySelectorAll("[data-obra]").forEach(x => x.setAttribute("aria-pressed", x.dataset.obra === id));
+    $("#carregando")?.remove();
+  }
+  const fmt = (x, d) => x.toFixed(d).replace(".", ",");
+  await carregar("bach");
+
+  // ---------- estado ----------
+  let T = 2.6, tocando = false, ouvido = "ambos", velSel = "auto", somLigado = false;
+  let u0 = 0, span = 64;                        // vista: faixa da borda esquerda e quantas faixas cabem
+  const SPAN_MIN = 0.04;
+  const audio = $("#audio");
+  const reduzir = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const janela = () => Math.max(0.006, 2.0 * span / 64);            // trânsito visual (s de simulação) da base ao topo
+  const velEf = () => velSel === "auto" ? Math.min(1, janela() / 1.6) : +velSel;
+  const fHz = f => f >= 1000 ? (Math.round(f / 100) / 10).toString().replace(".", ",") + " kHz" : Math.round(f) + " Hz";
+
+  // tabelas de cor
+  const LUTV = new Uint8ClampedArray(256 * 3), LUTA = new Uint8ClampedArray(256 * 3);
+  function tabelas() { for (let v = 0; v < 256; v++) {
+    const x = Math.pow(Math.min(1, v / P99), 0.85), w = Math.max(0, (Math.min(1, v / P99) - 0.8) / 0.2);
+    LUTV[v * 3] = 57 * x + 160 * w; LUTV[v * 3 + 1] = 255 * x; LUTV[v * 3 + 2] = 20 * x + 150 * w;
+    const db = v / 255 * meta.som_db_max, y = Math.max(0, Math.min(1, (db - 20) / 55));   // 20 a 75 dB SPL
+    const yy = Math.pow(y, 1.2);
+    LUTA[v * 3] = 255 * yy; LUTA[v * 3 + 1] = 210 * yy; LUTA[v * 3 + 2] = 63 * yy;
+  } }
+  tabelas();
+
+  // ---------- controles ----------
+  const barra = $("#tempo");
+  function irPara(t) { T = Math.min(Math.max(t, 0), DUR - 1e-3); barra.value = T; if (!audio.paused) audio.currentTime = T; particulas.length = 0; }
+  barra.oninput = () => irPara(+barra.value);
+  $("#play").onclick = () => { tocando = !tocando; $("#play").textContent = tocando ? "❚❚ Pausar" : "▶ Tocar"; if (tocando && T >= DUR - 0.01) irPara(0); sincronizarAudio(); };
+  $("#som").onclick = () => { somLigado = !somLigado; $("#som").setAttribute("aria-pressed", somLigado); sincronizarAudio(); };
+  $("#vel").onchange = e => { velSel = e.target.value; sincronizarAudio(); };
+  document.querySelectorAll("[data-ouvido]").forEach(bt => bt.onclick = () => {
+    ouvido = bt.dataset.ouvido; document.querySelectorAll("[data-ouvido]").forEach(x => x.setAttribute("aria-pressed", x === bt));
+  });
+  function sincronizarAudio() {
+    const deve = somLigado && tocando && velEf() === 1;
+    if (deve && audio.paused) { audio.currentTime = T; audio.play().catch(() => {}); }
+    if (!deve && !audio.paused) audio.pause();
+  }
+  function limitarVista() { span = Math.min(64, Math.max(SPAN_MIN, span)); u0 = Math.min(64 - span, Math.max(0, u0)); }
+  function zoomEm(fator, uCentro) { const novo = Math.min(64, Math.max(SPAN_MIN, span / fator)); u0 = uCentro - (uCentro - u0) * novo / span; span = novo; limitarVista(); particulas.length = 0; sincronizarAudio(); }
+  $("#mais").onclick = () => zoomEm(2, u0 + span / 2);
+  $("#menos").onclick = () => zoomEm(0.5, u0 + span / 2);
+  $("#tudo").onclick = () => { u0 = 0; span = 64; particulas.length = 0; sincronizarAudio(); };
+  function botoesDestaque() {
+    document.querySelectorAll("#destaques button").forEach(x => x.remove());
+    for (const b of DEST) {
+      const bt = document.createElement("button"); bt.type = "button"; bt.textContent = fHz(FC[b]);
+      bt.onclick = () => { span = 0.5; u0 = b + 0.5 - span / 2; limitarVista(); if (T < JAN[0] || T >= JAN[1]) irPara(JAN[0] + 0.6); particulas.length = 0; sincronizarAudio(); };
+      $("#destaques").appendChild(bt);
+    }
+  }
+  botoesDestaque();
+  document.querySelectorAll("[data-obra]").forEach(bt => bt.onclick = async () => {
+    if (bt.dataset.obra === obra) return;
+    tocando = false; $("#play").textContent = "▶ Tocar"; sincronizarAudio();
+    await carregar(bt.dataset.obra); tabelas(); botoesDestaque(); legenda(); u0 = 0; span = 64; irPara(2.6);
+  });
+  const legenda = () => $("#legenda").innerHTML = `<span><b class="amarelo">amarelo</b> = som chegando a cada faixa (espectro da gravação no microfone, antes da cóclea; 20 a 75 dB SPL)</span><span>teclado = cóclea (64 faixas)</span><span><b class="verde">verde neon</b> = incidências, efeito excitatório; brilho = magnitude (reserva de efeito da Upro)</span><span>de perto, cada faixa se abre em colunas em ordem de limiar (a mais sensível à esquerda); nas três faixas em destaque, de ${fmt(meta.ini + JAN[0], 1)} a ${fmt(meta.ini + JAN[1], 1)} s, cada coluna é um ponto transdutivo e cada luz uma incidência</span><span>a subida é o trânsito pela Upro na escala do visual (igual para todas)</span>`;
+  legenda();
+
+  // ---------- gestos: pinça, arrastar, roda, toque duplo ----------
+  let W = 0, H = 0, DPR = 1;
+  function paineis() {
+    const lista = ouvido === "ambos" ? OUV : [ouvido], gap = lista.length > 1 ? 8 : 0, pw = (W - gap * (lista.length - 1)) / lista.length;
+    return lista.map((e, i) => ({ e, x: i * (pw + gap), w: pw }));
+  }
+  function uEm(px) { const p = paineis().find(p => px >= p.x && px <= p.x + p.w) || paineis()[0]; return u0 + (px - p.x) / p.w * span; }
+  const toques = new Map(); let pinca0 = null, ultimo = null, ultimoToque = 0;
+  tela.addEventListener("pointerdown", e => { tela.setPointerCapture?.(e.pointerId); toques.set(e.pointerId, [e.clientX, e.clientY]); ultimo = [e.clientX, e.clientY];
+    const agora = Date.now(); if (agora - ultimoToque < 300 && toques.size === 1) { u0 = 0; span = 64; particulas.length = 0; } ultimoToque = agora; });
+  tela.addEventListener("pointermove", e => {
+    if (!toques.has(e.pointerId)) return;
+    toques.set(e.pointerId, [e.clientX, e.clientY]);
+    const r = tela.getBoundingClientRect(), pts = [...toques.values()];
+    if (pts.length === 2) {
+      const d = Math.abs(pts[0][0] - pts[1][0]) + 0.3 * Math.abs(pts[0][1] - pts[1][1]);
+      const mx = (pts[0][0] + pts[1][0]) / 2 - r.left;
+      if (pinca0) zoomEm(d / pinca0, uEm(mx)); pinca0 = Math.max(d, 1); return;
+    }
+    if (!ultimo) return;
+    const dx = e.clientX - ultimo[0]; ultimo = [e.clientX, e.clientY];
+    const p = paineis()[0]; u0 -= dx / p.w * span; limitarVista();
+  });
+  const fim = e => { toques.delete(e.pointerId); if (toques.size < 2) pinca0 = null; if (!toques.size) ultimo = null; };
+  tela.addEventListener("pointerup", fim); tela.addEventListener("pointercancel", fim);
+  tela.addEventListener("wheel", e => { e.preventDefault(); const r = tela.getBoundingClientRect(); zoomEm(Math.exp(-e.deltaY * 0.0015), uEm(e.clientX - r.left)); }, { passive: false });
+
+  // ---------- desenho ----------
+  function medir() {
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    const r = tela.getBoundingClientRect(); W = r.width; H = r.height;
+    tela.width = Math.round(W * DPR); tela.height = Math.round(H * DPR); ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  new ResizeObserver(medir).observe(tela); medir();
+  const TECLA = 30;
+  const off = document.createElement("canvas"), octx = off.getContext("2d");
+  const particulas = [];
+  const geom = () => { const hV = Math.round((H - TECLA) * 0.64); return { hV, yT: hV, yA: hV + TECLA, hA: H - hV - TECLA }; };
+
+  // imagem com colunas c0..c1 (no nível de detalhe nivel: 1 = faixa, 16 = coluna) e linhas = quadros
+  function imagem(e, nivel, c0, c1, f0, nLin, passado, lut) {
+    const nc = c1 - c0; if (nc <= 0) return null;
+    if (off.width !== nc || off.height !== nLin) { off.width = nc; off.height = nLin; }
+    const img = octx.createImageData(nc, nLin), d = img.data;
+    for (let r = 0; r < nLin; r++) {
+      const f = passado ? f0 - r : f0 + r, y = passado ? nLin - 1 - r : r;
+      for (let c = 0; c < nc; c++) {
+        let v = 0;
+        if (f >= 0 && f < NF) {
+          const cc = c0 + c;
+          if (lut === LUTA) v = S[e][f * 64 + cc];
+          else v = nivel === 1 ? G1[e][f * 64 + cc] : G[e][(f * 64 + (cc >> 4)) * SUB + (cc & 15)];
+        }
+        const p = (y * nc + c) * 4, q = v * 3; d[p] = lut[q]; d[p + 1] = lut[q + 1]; d[p + 2] = lut[q + 2]; d[p + 3] = 255;
+      }
+    }
+    octx.putImageData(img, 0, 0); return off;
+  }
+
+  function painel(p) {
+    const { hV, yT, yA, hA } = geom(), j = janela(), e = p.e;
+    const pxFaixa = p.w / span, nivel = pxFaixa < 18 ? 1 : 16;
+    const fA = T / FR, f0 = Math.floor(fA), frac = fA - f0, pxQ = hV / (j / FR);
+    const c0 = Math.floor(u0 * nivel), c1 = Math.min(64 * nivel, Math.ceil((u0 + span) * nivel));
+    const xDe = c => p.x + (c / nivel - u0) * pxFaixa;
+    ctx.save(); ctx.beginPath(); ctx.rect(p.x, 0, p.w, H); ctx.clip();
+    ctx.imageSmoothingEnabled = false;
+    // verde: incidências (passado, sobe a partir do teclado)
+    const nV = Math.ceil(j / FR) + 2;
+    const imV = imagem(e, nivel, c0, c1, f0, nV, true, LUTV);
+    if (imV) {
+      const yTopo = hV - nV * pxQ + frac * pxQ + pxQ;
+      ctx.drawImage(imV, 0, 0, c1 - c0, nV, xDe(c0), yTopo, (c1 - c0) / nivel * pxFaixa, nV * pxQ);
+      if (!reduzir) { ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.filter = "blur(5px)"; ctx.globalAlpha = 0.5; ctx.imageSmoothingEnabled = true;
+        ctx.drawImage(imV, 0, 0, c1 - c0, nV, xDe(c0), yTopo, (c1 - c0) / nivel * pxFaixa, nV * pxQ); ctx.restore(); }
+    }
+    // amarelo: som chegando (futuro, sobe até o teclado); mesma velocidade das luzes
+    const nA = Math.ceil(hA / pxQ) + 2, b0 = Math.floor(u0), b1 = Math.min(64, Math.ceil(u0 + span));
+    const imA = imagem(e, 1, b0, b1, f0, nA, false, LUTA);
+    if (imA) {
+      ctx.imageSmoothingEnabled = false;
+      ctx.drawImage(imA, 0, 0, b1 - b0, nA, xDe(b0 * nivel), yA - frac * pxQ, (b1 - b0) * pxFaixa, nA * pxQ);
+      if (!reduzir) { ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.filter = "blur(4px)"; ctx.globalAlpha = 0.35; ctx.imageSmoothingEnabled = true;
+        ctx.drawImage(imA, 0, 0, b1 - b0, nA, xDe(b0 * nivel), yA - frac * pxQ, (b1 - b0) * pxFaixa, nA * pxQ); ctx.restore(); }
+    }
+    // separadores de faixa quando cada faixa se abre em colunas
+    if (nivel === 16) { ctx.fillStyle = "#05070a"; for (let b = b0 + 1; b < b1; b++) ctx.fillRect(p.x + (b - u0) * pxFaixa - 1, 0, 2, hV); }
+    // incidências individuais nas faixas em destaque
+    const tJ = T - JAN[0];
+    for (const b of DEST) {
+      if (b + 1 < u0 || b > u0 + span) continue;
+      const pxPonto = pxFaixa / CAP[b]; if (pxPonto < 0.6 || T < JAN[0] || T >= JAN[1]) continue;
+      const xb = p.x + (b - u0) * pxFaixa, P = PT[b][e];
+      ctx.fillStyle = "#070b0d"; ctx.fillRect(xb, 0, pxFaixa, hV);
+      let lo = 0, hi = P.t.length; const tMin = tJ - j;
+      while (lo < hi) { const m = (lo + hi) >> 1; if (P.t[m] < tMin) lo = m + 1; else hi = m; }
+      ctx.save(); ctx.globalCompositeOperation = "lighter";
+      const r = Math.max(1.2, Math.min(4, pxPonto * 0.8));
+      for (let i = lo; i < P.t.length && P.t[i] <= tJ; i++) {
+        const y = hV - (tJ - P.t[i]) / j * hV, x = xb + (P.k[i] + 0.5) * pxPonto, a = P.g[i] / 255;
+        ctx.fillStyle = `rgba(57,255,20,${0.3 + 0.7 * a})`; ctx.fillRect(x - r / 2, y - r * 2, r, r * 4);
+        if (!reduzir) { ctx.fillStyle = `rgba(57,255,20,${0.1 * a})`; ctx.fillRect(x - r * 2, y - r * 4, r * 4, r * 8); }
+        if (tocando && !reduzir && tJ - P.t[i] < j * 0.02) particulas.push({ x, y: yT, vx: (Math.random() - 0.5) * 20, vy: -30 - Math.random() * 40, vida: 0.6, a: 0.5 * a });
+      }
+      ctx.restore();
+      // áreas de intensidade transdutiva: uma marca por ponto, na cor da sua área (as áreas se misturam depois do deslocamento por área)
+      const ap = (meta.area_pontos || {})[b], cores = ["#39ff1499", "#39ff144d", "#ffffff40"];
+      if (ap) { for (let i = 0; i < ap.length; i++) { ctx.fillStyle = cores[+ap[i] - 1]; ctx.fillRect(xb + i * pxPonto, hV - 5, Math.max(1, pxPonto - (pxPonto > 3 ? 1 : 0)), 4); } }
+      ctx.font = "10px 'IBM Plex Mono', monospace"; ctx.textBaseline = "bottom"; ctx.fillStyle = "#9fb3ad";
+      if (pxFaixa > 160) ctx.fillText("áreas: sensível ▮ intermediária ▮ som forte ▯", xb + 4, hV - 8);
+    }
+    // poeira de ataque (a partir do teclado)
+    if (tocando && !reduzir && f0 > 8 && f0 < NF) {
+      for (let b = b0; b < b1; b++) {
+        const v = G1[e][f0 * 64 + b]; let m = 0; for (let k = 3; k <= 8; k++) m += G1[e][(f0 - k) * 64 + b]; m /= 6;
+        const sobe = v - m;
+        if (sobe > 22 && Math.random() < Math.min(1, sobe / 50)) {
+          const n = 1 + Math.floor(sobe / 30);
+          for (let i = 0; i < n; i++) particulas.push({ x: p.x + (b - u0 + Math.random()) * pxFaixa, y: yT - 2, vx: (Math.random() - 0.5) * 30, vy: -40 - Math.random() * 90, vida: 1, a: Math.min(1, v / 160) });
+        }
+      }
+    }
+    // teclado (cóclea)
+    ctx.fillStyle = "#0a1012"; ctx.fillRect(p.x, yT, p.w, TECLA);
+    const fc0 = Math.min(NF - 1, Math.max(0, f0));
+    for (let b = b0; b < b1; b++) {
+      const v = Math.min(1, G1[e][fc0 * 64 + b] / P99), s = S[e][fc0 * 64 + b] * 3;
+      const x = p.x + (b - u0) * pxFaixa, w = pxFaixa;
+      ctx.fillStyle = `rgba(255,210,63,${0.06 + 0.9 * LUTA[s] / 255})`; ctx.fillRect(x + (w > 4 ? 1 : 0), yT + 16, Math.max(1, w - (w > 4 ? 2 : 0)), 4);
+      ctx.fillStyle = `rgba(57,255,20,${0.08 + 0.9 * Math.pow(v, 0.8)})`; ctx.fillRect(x + (w > 4 ? 1 : 0), yT + 2, Math.max(1, w - (w > 4 ? 2 : 0)), 8);
+    }
+    // rótulos de frequência
+    ctx.font = "10px 'IBM Plex Mono', monospace"; ctx.fillStyle = "#9fb3ad"; ctx.textBaseline = "top"; ctx.textAlign = "center";
+    let ult = -1e9;
+    if (pxFaixa > 38) { for (let b = b0; b < b1; b++) { const x = p.x + (b + 0.5 - u0) * pxFaixa; if (x - ult > 44) { ctx.fillText(fHz(FC[b]), x, yT + 21); ult = x; } } }
+    else for (const m of [100, 200, 500, 1000, 2000, 4000, 8000]) {
+      let b = 0, dmin = 1e9; FC.forEach((x, i) => { const d = Math.abs(Math.log(x / m)); if (d < dmin) { dmin = d; b = i; } });
+      const x = p.x + (b + 0.5 - u0) * pxFaixa; if (x < p.x + 12 || x > p.x + p.w - 12 || x - ult < 40) continue; ctx.fillText(fHz(m), x, yT + 21); ult = x;
+    }
+    // nome do ouvido
+    ctx.textAlign = "left"; ctx.textBaseline = "top"; ctx.fillStyle = "#d7e3df"; ctx.font = "600 11px 'IBM Plex Sans Condensed', sans-serif";
+    if (ouvido === "ambos") ctx.fillText(e === "esq" ? "ESQUERDO" : "DIREITO", p.x + 8, 44);
+    ctx.restore();
+  }
+
+  function desenharParticulas(dt) {
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    for (let i = particulas.length - 1; i >= 0; i--) {
+      const p = particulas[i]; p.vida -= dt * 1.1; if (p.vida <= 0) { particulas.splice(i, 1); continue; }
+      p.x += p.vx * dt; p.y += p.vy * dt; p.vy *= 0.985;
+      ctx.fillStyle = `rgba(190,255,170,${p.a * p.vida})`; ctx.fillRect(p.x, p.y, 1.6, 1.6);
+    }
+    if (particulas.length > 4000) particulas.splice(0, particulas.length - 4000);
+    ctx.restore();
+  }
+
+  let antes = performance.now();
+  function quadro(agora) {
+    const dt = Math.min(0.1, (agora - antes) / 1000); antes = agora;
+    const v = velEf();
+    if (tocando) {
+      if (!audio.paused && v === 1) T = audio.currentTime; else T += dt * v;
+      if (T >= DUR - 1e-3) { T = DUR - 1e-3; tocando = false; $("#play").textContent = "▶ Tocar"; sincronizarAudio(); }
+      barra.value = T;
+    }
+    if (somLigado && tocando) sincronizarAudio();
+    ctx.fillStyle = "#070b0d"; ctx.fillRect(0, 0, W, H);
+    for (const p of paineis()) painel(p);
+    desenharParticulas(tocando ? dt : 0);
+    const j = janela();
+    $("#rotulo-tempo").textContent = fmt(meta.ini + T, 3) + " s";
+    const vtxt = v === 1 ? "1×" : v >= 0.1 ? fmt(v, 2) + "×" : "1/" + Math.round(1 / v) + "×";
+    $("#leitura").textContent = `${fHz(FC[Math.min(63, Math.floor(u0))])} a ${fHz(FC[Math.min(63, Math.ceil(u0 + span) - 1)])} · trânsito na tela ${j >= 1 ? fmt(j, 1) + " s" : fmt(j * 1000, 0) + " ms"} · velocidade ${vtxt}`;
+    requestAnimationFrame(quadro);
+  }
+  // parâmetros de teste local (?t=6&u=8&s=0.5&o=esq)
+  try { const q = new URLSearchParams(location.search); if (q.get("t")) T = +q.get("t"); if (q.get("s")) span = +q.get("s"); if (q.get("u")) u0 = +q.get("u"); if (q.get("o")) document.querySelector(`[data-ouvido="${q.get("o")}"]`).click(); limitarVista();
+    if (q.get("obra")) { await carregar(q.get("obra")); tabelas(); botoesDestaque(); legenda(); if (q.get("t")) T = +q.get("t"); } } catch (e) {}
+  barra.value = T;
+  requestAnimationFrame(quadro);
+})();
+</script>
+</body>
+</html>
