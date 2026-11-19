@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cóclea em luz — Bach 10 s</title>
+<title>Cóclea em luz</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -54,8 +54,14 @@ details li { margin: 4px 0; }
 </head>
 <body>
 <header>
-  <h1>Cóclea em luz — Tocata e Fuga BWV 565, primeiros 10 s</h1>
-  <div class="sub">V0.18, primeiro teste da borda auditiva. Nada é criado: cada coluna é um ponto transdutivo que <em>seria</em> uma Upro. O som (amarelo) sobe até a cóclea (teclado) e vira incidências (verde) que continuam subindo pelas Upros. Pinça ou roda do mouse: zoom; arrastar: deslocar; toque duplo: ver tudo.</div>
+  <h1 id="titulo">Cóclea em luz</h1>
+  <div class="sub">V0.18, primeiros testes da borda auditiva. Nada é criado: cada coluna é um ponto transdutivo que <em>seria</em> uma Upro. Em cada obra, 10 s. O som (amarelo) sobe até a cóclea (teclado) e vira incidências (verde) que continuam subindo pelas Upros. Pinça ou roda do mouse: zoom; arrastar: deslocar; toque duplo: ver tudo.</div>
+  <div class="linha" role="group" aria-label="Obra" style="margin-top:6px">
+    <button type="button" data-obra="bach" aria-pressed="true">Órgão</button>
+    <button type="button" data-obra="satie" aria-pressed="false">Piano</button>
+    <button type="button" data-obra="chaconne" aria-pressed="false">Violino</button>
+    <span class="sub" id="credito"></span>
+  </div>
 </header>
 <div id="palco">
   <canvas id="tela" aria-label="Som chegando à cóclea e incidências por faixa e ponto transdutivo"></canvas>
@@ -90,50 +96,65 @@ details li { margin: 4px 0; }
   <div class="legenda" id="legenda"></div>
 </div>
 <details>
-  <summary>O que o teste de 10 s mostrou (conferências do observador)</summary>
+  <summary>O que os testes mostraram (conferências do observador)</summary>
+  <p class="sub">Medidas descritivas, no ouvido esquerdo salvo indicação. Os critérios de "suficiente" ainda vão ser definidos pelo responsável. Números completos nos arquivos <span class="num">conferencias-*.json</span> do repositório.</p>
   <ol>
-    <li><b>Diferença de chegada:</b> nas faixas até 1,2 kHz, o ouvido esquerdo (perto do alto-falante próximo) recebe primeiro, com atraso do direito de <span class="num">0,25–0,56 ms</span>; o esperado pela cabeça esférica é <span class="num">0,35 ms</span>. Parte do excesso pode vir do som mais forte à esquerda, que faz o acumulador completar antes (a conferir).</li>
-    <li><b>Diferença de volume:</b> o ouvido esquerdo aciona mais pontos, sobretudo nos agudos (até <span class="num">+16</span> pontos por faixa acima de 5 kHz).</li>
-    <li><b>Notas e ritmo:</b> o número de pontos ativos acompanha a energia de cada faixa na gravação (correlação de postos de <span class="num">0,32 a 0,95</span>; a maioria entre 0,7 e 0,9).</li>
-    <li><b>Ataques:</b> o início de cada trecho aparece como subida, mas quase sem rajada acima do sustentado (pico/sustentado <span class="num">1,03–1,07</span>).</li>
-    <li><b>Perdas:</b> cerca de <span class="num">80%</span> dos pontos ficam ativos o tempo todo acima de ~300 Hz. Três causas medidas: o órgão tem harmônicos tão fortes quanto a nota (ex.: Lá de 872 Hz a 64 dB com harmônicos de 1,7 a 3,5 kHz a ~63 dB); cada harmônico vaza para as faixas vizinhas (filtros sobrepostos); e os limiares são os da audição humana (~0 dB), então uma faixa a 50 dB já acende ~80% dos pontos. A janela de refratariedade barra só <span class="num">0,6%</span> das emissões; a magnitude média cai para <span class="num">0,27</span> (reserva de efeito das Upros esgotada).</li>
+    <li><b>Nas três obras, quase tudo acende acima da nota mais grave.</b> Fração média de pontos ativos (faixas acima de ~250 Hz), por área de intensidade transdutiva (sensível / intermediária / som forte): órgão <span class="num">96% / 85% / 23%</span>; piano <span class="num">78% / 50% / 5%</span>; violino <span class="num">90% / 75% / 17%</span>.</li>
+    <li><b>Por quê (medido no órgão):</b> harmônicos tão fortes quanto a nota (Lá de 872 Hz a 64 dB com harmônicos de 1,7 a 3,5 kHz a ~63 dB); vazamento de cada harmônico para as faixas vizinhas (filtros sobrepostos); limiares da audição humana (~0 dB). Um tom puro de 440 Hz acende 10 faixas a 40 dB, 44 a 60 dB e 56 a 80 dB.</li>
+    <li><b>Onde ficou a forma do espectro:</b> entre faixas, no mesmo instante, a fração ativa acompanha o nível do som melhor nas áreas intermediária e de som forte (correlação de postos, órgão <span class="num">0,39 / 0,51 / 0,53</span>; violino <span class="num">0,39 / 0,56 / 0,64</span>) do que na sensível, que satura. No piano, mais baixo, a área de som forte quase não entra.</li>
+    <li><b>Ataques:</b> no piano cada nota aparece como pico seguido de decaimento, com os agudos apagando antes; no órgão e no violino o ataque é um degrau quase sem rajada.</li>
+    <li><b>Diferença de chegada e de volume (órgão):</b> esquerdo primeiro, com <span class="num">0,25–0,56 ms</span> (esperado pela cabeça esférica: 0,35 ms); esquerdo aciona mais pontos nos agudos. No piano o atraso varia de faixa para faixa, porque os dois canais da gravação diferem.</li>
+    <li><b>Ruído da gravação:</b> no violino, antes da primeira nota, o chiado da gravação, levado a 85 dB de pico junto com a música, já acende pontos sensíveis (~0,5 milhão de incidências por segundo).</li>
   </ol>
-  <p class="sub">Os critérios de "suficiente" ainda vão ser definidos pelo responsável. Números: <span class="num">conferencias-0-10-conferencias.json</span> no repositório.</p>
 </details>
 <audio id="audio" preload="auto"></audio>
 <script>
 (async function () {
   const $ = s => document.querySelector(s);
   const tela = $("#tela"), ctx = tela.getContext("2d");
-  const meta = await (await fetch("meta.json")).json();
   // arquivos binários vêm embrulhados em JSON (base64), porque o servidor só serve texto e páginas
   const bin = async n => { const s = (await (await fetch(n)).json()).base64, b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
   const OUV = ["esq", "dir"];
-  const G = {}, S = {};
-  for (const e of OUV) { G[e] = await bin(`grade-${e}-bin.json`); S[e] = await bin(`som-${e}-bin.json`); }
-  const NF = meta.quadros, FR = meta.quadro, SUB = meta.sub, DUR = meta.dur, FC = meta.fc, CAP = meta.cap;
-  const G1 = {};
-  for (const e of OUV) {
-    const a = new Uint8Array(NF * 64), g = G[e];
-    for (let f = 0; f < NF; f++) for (let b = 0; b < 64; b++) {
-      let s = 0; const o = (f * 64 + b) * SUB; for (let j = 0; j < SUB; j++) s += g[o + j]; a[f * 64 + b] = s / SUB;
+  const OBRAS = {
+    bach: { titulo: "Órgão — Bach, Tocata e Fuga BWV 565", credito: "gravação: Ashtar Moïra, domínio público" },
+    satie: { titulo: "Piano — Satie, Gymnopédie nº 1", credito: "gravação: Robin Alciatore (Musopen), domínio público" },
+    chaconne: { titulo: "Violino — Bach, Chaconne BWV 1004", credito: "gravação: Ben Goldstein, CC BY-SA 3.0 (Wikimedia Commons)" }
+  };
+  const cache = {};
+  let meta, G, S, G1, NF, FR, SUB, DUR, FC, CAP, DEST, JAN, PT, P99, obra = "bach";
+  async function dados(id) {
+    if (cache[id]) return cache[id];
+    const m = await (await fetch(`${id}/meta.json`)).json(), g = {}, s = {}, g1 = {}, pt = {};
+    for (const e of OUV) { g[e] = await bin(`${id}/grade-${e}-bin.json`); s[e] = await bin(`${id}/som-${e}-bin.json`); }
+    for (const e of OUV) {
+      const a = new Uint8Array(m.quadros * 64), gg = g[e];
+      for (let f = 0; f < m.quadros; f++) for (let b = 0; b < 64; b++) { let t = 0; const o = (f * 64 + b) * m.sub; for (let j = 0; j < m.sub; j++) t += gg[o + j]; a[f * 64 + b] = t / m.sub; }
+      g1[e] = a;
     }
-    G1[e] = a;
+    for (const b of m.destaque.faixas) {
+      const buf = (await bin(`${id}/pontos-${b}-bin.json`)).buffer;
+      const n = new Uint32Array(buf.slice(0, 8)); let off = 8; pt[b] = {};
+      OUV.forEach((e, i) => { const k = n[i];
+        const t = new Float32Array(buf.slice(off, off + 4 * k)); off += 4 * k;
+        const q = new Uint16Array(buf.slice(off, off + 2 * k)); off += 2 * k;
+        const gm = new Uint8Array(buf.slice(off, off + k)); off += k; pt[b][e] = { t, k: q, g: gm }; });
+    }
+    let audioUrl = null; try { audioUrl = URL.createObjectURL(new Blob([await bin(`${id}/audio-ogg.json`)], { type: "audio/ogg" })); } catch (e) {}
+    return (cache[id] = { m, g, s, g1, pt, audioUrl });
   }
-  const DEST = meta.destaque.faixas, JAN = meta.destaque.janela, PT = {};
-  for (const b of DEST) {
-    const buf = (await bin(`pontos-${b}-bin.json`)).buffer;
-    const n = new Uint32Array(buf.slice(0, 8)); let off = 8; PT[b] = {};
-    OUV.forEach((e, i) => {
-      const m = n[i];
-      const t = new Float32Array(buf.slice(off, off + 4 * m)); off += 4 * m;
-      const k = new Uint16Array(buf.slice(off, off + 2 * m)); off += 2 * m;
-      const g = new Uint8Array(buf.slice(off, off + m)); off += m;
-      PT[b][e] = { t, k, g };
-    });
+  async function carregar(id) {
+    if (!$("#carregando")) $("#palco").insertAdjacentHTML("beforeend", '<div id="carregando">carregando incidências…</div>');
+    const d = await dados(id); obra = id;
+    meta = d.m; G = d.g; S = d.s; G1 = d.g1; PT = d.pt;
+    NF = meta.quadros; FR = meta.quadro; SUB = meta.sub; DUR = meta.dur; FC = meta.fc; CAP = meta.cap; DEST = meta.destaque.faixas; JAN = meta.destaque.janela; P99 = meta.verde_p99 || 255;
+    if (d.audioUrl) $("#audio").src = d.audioUrl;
+    $("#titulo").textContent = OBRAS[id].titulo + ` (${fmt(meta.ini, 1)} a ${fmt(meta.ini + meta.dur, 1)} s)`;
+    $("#credito").textContent = OBRAS[id].credito;
+    document.querySelectorAll("[data-obra]").forEach(x => x.setAttribute("aria-pressed", x.dataset.obra === id));
+    $("#carregando")?.remove();
   }
-  try { const a = await bin("audio-ogg.json"); $("#audio").src = URL.createObjectURL(new Blob([a], { type: "audio/ogg" })); } catch (e) {}
-  $("#carregando").remove();
+  const fmt = (x, d) => x.toFixed(d).replace(".", ",");
+  await carregar("bach");
 
   // ---------- estado ----------
   let T = 2.6, tocando = false, ouvido = "ambos", velSel = "auto", somLigado = false;
@@ -143,19 +164,18 @@ details li { margin: 4px 0; }
   const reduzir = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const janela = () => Math.max(0.006, 2.0 * span / 64);            // trânsito visual (s de simulação) da base ao topo
   const velEf = () => velSel === "auto" ? Math.min(1, janela() / 1.6) : +velSel;
-  const fmt = (x, d) => x.toFixed(d).replace(".", ",");
   const fHz = f => f >= 1000 ? (Math.round(f / 100) / 10).toString().replace(".", ",") + " kHz" : Math.round(f) + " Hz";
 
   // tabelas de cor
-  const P99 = meta.verde_p99 || 255;
   const LUTV = new Uint8ClampedArray(256 * 3), LUTA = new Uint8ClampedArray(256 * 3);
-  for (let v = 0; v < 256; v++) {
+  function tabelas() { for (let v = 0; v < 256; v++) {
     const x = Math.pow(Math.min(1, v / P99), 0.85), w = Math.max(0, (Math.min(1, v / P99) - 0.8) / 0.2);
     LUTV[v * 3] = 57 * x + 160 * w; LUTV[v * 3 + 1] = 255 * x; LUTV[v * 3 + 2] = 20 * x + 150 * w;
     const db = v / 255 * meta.som_db_max, y = Math.max(0, Math.min(1, (db - 20) / 55));   // 20 a 75 dB SPL
     const yy = Math.pow(y, 1.2);
     LUTA[v * 3] = 255 * yy; LUTA[v * 3 + 1] = 210 * yy; LUTA[v * 3 + 2] = 63 * yy;
-  }
+  } }
+  tabelas();
 
   // ---------- controles ----------
   const barra = $("#tempo");
@@ -177,12 +197,22 @@ details li { margin: 4px 0; }
   $("#mais").onclick = () => zoomEm(2, u0 + span / 2);
   $("#menos").onclick = () => zoomEm(0.5, u0 + span / 2);
   $("#tudo").onclick = () => { u0 = 0; span = 64; particulas.length = 0; sincronizarAudio(); };
-  for (const b of DEST) {
-    const bt = document.createElement("button"); bt.type = "button"; bt.textContent = fHz(FC[b]);
-    bt.onclick = () => { span = 0.5; u0 = b + 0.5 - span / 2; limitarVista(); if (T < JAN[0] || T >= JAN[1]) irPara(5.6); particulas.length = 0; sincronizarAudio(); };
-    $("#destaques").appendChild(bt);
+  function botoesDestaque() {
+    document.querySelectorAll("#destaques button").forEach(x => x.remove());
+    for (const b of DEST) {
+      const bt = document.createElement("button"); bt.type = "button"; bt.textContent = fHz(FC[b]);
+      bt.onclick = () => { span = 0.5; u0 = b + 0.5 - span / 2; limitarVista(); if (T < JAN[0] || T >= JAN[1]) irPara(JAN[0] + 0.6); particulas.length = 0; sincronizarAudio(); };
+      $("#destaques").appendChild(bt);
+    }
   }
-  $("#legenda").innerHTML = `<span><b class="amarelo">amarelo</b> = som chegando a cada faixa (espectro da gravação no microfone, antes da cóclea; 20 a 75 dB SPL)</span><span>teclado = cóclea (64 faixas)</span><span><b class="verde">verde neon</b> = incidências, efeito excitatório; brilho = magnitude (reserva de efeito da Upro)</span><span>de perto, cada faixa se abre em colunas em ordem de limiar (a mais sensível à esquerda); nas três faixas em destaque, de 5,0 a 6,5 s, cada coluna é um ponto transdutivo e cada luz uma incidência</span><span>a subida é o trânsito pela Upro na escala do visual (igual para todas)</span>`;
+  botoesDestaque();
+  document.querySelectorAll("[data-obra]").forEach(bt => bt.onclick = async () => {
+    if (bt.dataset.obra === obra) return;
+    tocando = false; $("#play").textContent = "▶ Tocar"; sincronizarAudio();
+    await carregar(bt.dataset.obra); tabelas(); botoesDestaque(); legenda(); u0 = 0; span = 64; irPara(2.6);
+  });
+  const legenda = () => $("#legenda").innerHTML = `<span><b class="amarelo">amarelo</b> = som chegando a cada faixa (espectro da gravação no microfone, antes da cóclea; 20 a 75 dB SPL)</span><span>teclado = cóclea (64 faixas)</span><span><b class="verde">verde neon</b> = incidências, efeito excitatório; brilho = magnitude (reserva de efeito da Upro)</span><span>de perto, cada faixa se abre em colunas em ordem de limiar (a mais sensível à esquerda); nas três faixas em destaque, de ${fmt(meta.ini + JAN[0], 1)} a ${fmt(meta.ini + JAN[1], 1)} s, cada coluna é um ponto transdutivo e cada luz uma incidência</span><span>a subida é o trânsito pela Upro na escala do visual (igual para todas)</span>`;
+  legenda();
 
   // ---------- gestos: pinça, arrastar, roda, toque duplo ----------
   let W = 0, H = 0, DPR = 1;
@@ -354,13 +384,14 @@ details li { margin: 4px 0; }
     for (const p of paineis()) painel(p);
     desenharParticulas(tocando ? dt : 0);
     const j = janela();
-    $("#rotulo-tempo").textContent = fmt(T, 3) + " s";
+    $("#rotulo-tempo").textContent = fmt(meta.ini + T, 3) + " s";
     const vtxt = v === 1 ? "1×" : v >= 0.1 ? fmt(v, 2) + "×" : "1/" + Math.round(1 / v) + "×";
     $("#leitura").textContent = `${fHz(FC[Math.min(63, Math.floor(u0))])} a ${fHz(FC[Math.min(63, Math.ceil(u0 + span) - 1)])} · trânsito na tela ${j >= 1 ? fmt(j, 1) + " s" : fmt(j * 1000, 0) + " ms"} · velocidade ${vtxt}`;
     requestAnimationFrame(quadro);
   }
   // parâmetros de teste local (?t=6&u=8&s=0.5&o=esq)
-  try { const q = new URLSearchParams(location.search); if (q.get("t")) T = +q.get("t"); if (q.get("s")) span = +q.get("s"); if (q.get("u")) u0 = +q.get("u"); if (q.get("o")) document.querySelector(`[data-ouvido="${q.get("o")}"]`).click(); limitarVista(); } catch (e) {}
+  try { const q = new URLSearchParams(location.search); if (q.get("t")) T = +q.get("t"); if (q.get("s")) span = +q.get("s"); if (q.get("u")) u0 = +q.get("u"); if (q.get("o")) document.querySelector(`[data-ouvido="${q.get("o")}"]`).click(); limitarVista();
+    if (q.get("obra")) { await carregar(q.get("obra")); tabelas(); botoesDestaque(); legenda(); if (q.get("t")) T = +q.get("t"); } } catch (e) {}
   barra.value = T;
   requestAnimationFrame(quadro);
 })();

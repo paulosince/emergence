@@ -29,3 +29,23 @@ Números completos: [conferencias-0-10-conferencias.json](conferencias-0-10-conf
 ## Leitura provisória do assistente (a discutir; não é decisão)
 1. A transdução carrega tempo (fase nos graves, diferença de chegada) e **qual faixa** está ativa. O que se perde é a **gradação de intensidade** e o **ataque**, porque a 85 dB de pico quase todos os pontos ficam acima do limiar e sem adaptação.
 2. As duas causas ligadas a escolhas abertas: (a) a reserva da Utrd não reproduz a adaptação rápida nem a curta (ver calibração); (b) a reserva de efeito das Upros cai para ~0,27 em uso contínuo, o que apaga diferenças de magnitude.
+
+## Comparação com piano e violino (19/11, pedido do responsável)
+
+Trechos: **Satie, Gymnopédie nº 1** (piano), 9 a 19 s, onde entra a melodia; **Bach, Chaconne BWV 1004** (violino solo), 3,5 a 13,5 s, começando no tema. Fontes e licenças: [estímulos](../estimulos/README.md). Mesma borda, mesma calibração, mesma regra de volume.
+
+| [M] | Órgão | Piano | Violino |
+|---|---|---|---|
+| Incidências repassadas, ouvido esquerdo, 10 s | 31,1 M | 24,9 M | 28,5 M |
+| Fração média de pontos ativos acima da faixa 10 (área sensível / intermediária / som forte) | 96% / 85% / 23% | 78% / 50% / 5% | 90% / 75% / 17% |
+| Correlação de postos entre faixas, no mesmo instante, nível do som × fração ativa (por área) | 0,39 / 0,51 / 0,53 | 0,06 / 0,30 / −0,24 | 0,39 / 0,56 / 0,64 |
+
+**Por que quase tudo acende, mesmo com piano e violino [M]:**
+1. Os instrumentos têm harmônicos fortes. No órgão, um Lá de 872 Hz a 64 dB vem com harmônicos de 1,7 a 3,5 kHz a ~63 dB.
+2. Cada harmônico vaza para as faixas vizinhas (filtros lineares sobrepostos, centros a ~0,5 ERB). Ex.: faixa de 1.026 Hz com ~0 dB no espectro e 54 dB na saída do filtro.
+3. Os limiares são os humanos (~0 dB): uma faixa a 50 dB acende quase toda a área sensível.
+   Tom puro de 440 Hz: algum ponto ativo em 10 faixas a 40 dB, 44 a 60 dB e 56 a 80 dB.
+
+**Leitura provisória [A]:** a área sensível satura em todas as obras. A forma do espectro sobrevive melhor nas áreas intermediária e de som forte (órgão e violino), o que lembra o papel atribuído às fibras de baixa atividade espontânea no nervo auditivo (de memória, Sachs e Young 1979; **não lido aqui**). No piano, mais baixo, a área de som forte quase não entra e a medida entre faixas fica fraca (a medida é do assistente e pode ser ruim para sons que decaem). No piano, os ataques aparecem como pico com decaimento.
+
+**Ruído da gravação:** no violino, antes da primeira nota, o chiado, levado junto com a música para 85 dB de pico, já gera ~0,5 milhão de incidências por segundo.

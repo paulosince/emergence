@@ -6,3 +6,7 @@ visual/*.bin
 visual/*-bin.json
 visual/*-ogg.json
 visual/audio.ogg
+visual/*/*.bin
+visual/*/*-bin.json
+visual/*/*-ogg.json
+visual/*/audio.ogg
