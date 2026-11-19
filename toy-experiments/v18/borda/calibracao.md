@@ -42,7 +42,7 @@ Cada vez que o acumulador completa a unidade com a reserva vazia, conta-se uma t
 
 ## Revisão de 19/11 (borda revista)
 
-**Decisões do responsável:** emissão proporcional à reserva; janela de carregamento que se alonga com o uso ("melhor que deu pra fazer"); microfone −20 dB; atenuação para som forte a partir de 70 dB SPL; sem compressão.
+**Decisões do responsável:** emissão proporcional à reserva; janela de carregamento que se alonga com o uso (escolhida pelo responsável); microfone −20 dB; atenuação para som forte a partir de 70 dB SPL; sem compressão.
 
 | Parâmetro | Valor | Origem |
 |---|---|---|
