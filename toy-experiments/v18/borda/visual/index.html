@@ -112,7 +112,14 @@ details li { margin: 4px 0; }
   const $ = s => document.querySelector(s);
   const tela = $("#tela"), ctx = tela.getContext("2d");
   // arquivos binários vêm embrulhados em JSON (base64), porque o servidor só serve texto e páginas
-  const bin = async n => { const s = (await (await fetch(n)).json()).base64, b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; };
+  // dados: na página do GitHub Pages (toy-experiments/v18/index.html) ficam em borda/visual/, em binário; no artefato, ao
+  // lado da página, embrulhados em JSON (base64), porque o servidor de artefatos só serve texto.
+  const BASE = document.querySelector('meta[name="dados"]')?.content || "";
+  const bin = async n => {
+    const cru = n.replace(/-bin\.json$/, ".bin").replace(/-ogg\.json$/, ".ogg");
+    if (BASE) { const r = await fetch(BASE + cru); if (r.ok) return new Uint8Array(await r.arrayBuffer()); }
+    const s = (await (await fetch(BASE + n)).json()).base64, b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u;
+  };
   const OUV = ["esq", "dir"];
   const OBRAS = {
     bach: { titulo: "Órgão — Bach, Tocata e Fuga BWV 565", credito: "gravação: Ashtar Moïra, domínio público" },
@@ -123,7 +130,7 @@ details li { margin: 4px 0; }
   let meta, G, S, G1, NF, FR, SUB, DUR, FC, CAP, DEST, JAN, PT, P99, obra = "bach";
   async function dados(id) {
     if (cache[id]) return cache[id];
-    const m = await (await fetch(`${id}/meta.json`)).json(), g = {}, s = {}, g1 = {}, pt = {};
+    const m = await (await fetch(`${BASE}${id}/meta.json`)).json(), g = {}, s = {}, g1 = {}, pt = {};
     for (const e of OUV) { g[e] = await bin(`${id}/grade-${e}-bin.json`); s[e] = await bin(`${id}/som-${e}-bin.json`); }
     for (const e of OUV) {
       const a = new Uint8Array(m.quadros * 64), gg = g[e];
