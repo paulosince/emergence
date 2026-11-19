@@ -1,0 +1,1 @@
+0.7422378082224936 Pa/unidade; RMS máximo (125 ms) = 0.479167024460135 unidades; pico = 85.0 dB SPL
