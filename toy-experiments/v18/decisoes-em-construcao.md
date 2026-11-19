@@ -39,6 +39,7 @@
 | Pausa depois do disparo | **Valores humanos** (implante coclear): pausa absoluta ~0,39 ms e recuperação gradual com constante ~0,43 ms | 18/11 |
 | Acaso no disparo | **Determinístico** (acima do limiar, dispara sempre que a pausa permitir) | 18/11 |
 | Atividade espontânea | **Sem espontânea por ora** | 18/11 |
+| Fase e "salva" | **Aprovado:** (1) cada Upro recebe, uma vez, um **tempo de recuperação próprio**, sorteado numa faixa em torno do valor humano (ideia do responsável: "latência de refratariedade"); o disparo continua determinístico, e o acaso fica numa propriedade anatômica fixa; (2) um **suavizador fixo dentro da Utrd** (a "lâmpada lenta" da célula ciliada) faz a fase se perder gradualmente nos agudos. Valores a buscar. Latência fixa por Upro: opcional, não adotada | 18/11 |
 | Nome da fibra | "Se o nome está invertido, está ruim. Upro é Unidade Propagadora." Na biologia, cada "fibra do nervo" corresponde à Upro; a fibra do nosso modelo corresponde ao conjunto de neurônios de um lugar da cóclea. **Sugestão do responsável, a confirmar:** "Conjunto propagador (Cpro)" | 18/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
