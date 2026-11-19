@@ -118,3 +118,16 @@ A CLEAR separa três operações que a maior parte da literatura chama indistint
 | Incerteza esperada (média das falhas) | "incerteza esperada" | Estatística de **projeções não cumpridas**; não é previsão | Média móvel de frequência, sem alocação de estado futuro |
 | Pré-ativação de sucessores (proposta do desenho, ainda **não implementada**) | "antecipação" | **Preparação do campo representacional relacional** (definição confirmada) | Incidências dos nós acessados favorecem o acesso dos nós relacionados |
 | Nenhum mecanismo atual faz **previsão** no sentido da CLEAR | — | — | Não há cálculo probabilístico de tendência sobre dados passados |
+
+## Termos de dinâmica das unidades (responsável, 18/11/2026, V0.18)
+Definições do responsável, a usar exatamente assim. O assistente não deve trocar por sinônimos próprios.
+
+| Termo oficial | Definição do responsável |
+|---|---|
+| **Janela de refratariedade** | Tempo de recuperação da unidade após disparar (tendo integrado incidências ou não) |
+| **Janela de reabastecimento de efeito** | Tempo de recuperação do efeito empregado na incidência (todo disparo, mesmo que não mude nada, gasta um pouco dessa reserva) |
+| **Reserva de efeito** | Quantidade que cada unidade tem para aplicar efeito (ou não) nas incidências que dispara |
+| **Janela de propagação** | Tempo que a incidência leva para percorrer uma Upro |
+| **Velocidade de propagação** | Velocidade de percorrimento de incidências de uma Upro |
+
+Termos usados pelo assistente na V0.18 **sem aprovação** (a substituir ou confirmar): "vaga" (de limiar), "zona 1/2/3", "suavizador", "copos e jarra", "pausa absoluta", "recuperação", "catraca", "salva". "Conjunto propagador (Cpro)": sugestão do responsável, a confirmar.
