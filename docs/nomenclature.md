@@ -130,4 +130,4 @@ Definições do responsável, a usar exatamente assim. O assistente não deve tr
 | **Janela de propagação** | Tempo que a incidência leva para percorrer uma Upro |
 | **Velocidade de propagação** | Velocidade de percorrimento de incidências de uma Upro |
 
-Termos usados pelo assistente na V0.18 **sem aprovação** (a substituir ou confirmar): "vaga" (de limiar), "zona 1/2/3", "suavizador", "copos e jarra", "pausa absoluta", "recuperação", "catraca", "salva". "Conjunto propagador (Cpro)": sugestão do responsável, a confirmar.
+Termos usados pelo assistente na V0.18 **sem aprovação** (a substituir ou confirmar): "vaga" (de limiar), "zona 1/2/3", "suavizador", "copos e jarra", "pausa absoluta", "recuperação", "catraca", "salva". **Cpro (Conjunto propagador)** — aprovado (18/11): a fibra de cada faixa, o conjunto das Upros de uma faixa da cóclea. Em discussão (18/11): "janela de dispersão" e "janela de carregamento" (os dois ritmos da janela de reabastecimento de efeito); "túnel transdutivo" (vaga); "área de intensidade transdutiva" (zona); "janela de fase" (suavizador).
