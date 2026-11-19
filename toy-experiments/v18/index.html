@@ -252,12 +252,17 @@ details li { margin: 4px 0; }
     const ir = () => { try { audio.currentTime = T; } catch (e) {} };
     try { if (audio.readyState >= 1) ir(); else audio.addEventListener("loadedmetadata", ir, { once: true }); } catch (e) {}
   }
+  let tentandoTocar = false;
   function sincronizarAudio() {
+    // só é chamada a partir de toques/cliques (o iPhone só deixa tocar dentro de um toque), nunca a cada quadro
     const deve = somLigado && tocando && velEf() === 1;
-    if (deve && audio.paused) {
-      const p = audio.play();                         // chamado primeiro, ainda dentro do toque (exigência do iPhone)
+    if (deve && audio.paused && !tentandoTocar) {
+      tentandoTocar = true; erroSom = "";
+      const p = audio.play();                         // chamado primeiro, ainda dentro do toque
       posicionarAudio();
-      if (p && p.catch) p.then(() => { erroSom = ""; }).catch(err => { erroSom = err && err.name === "NotAllowedError" ? "bloqueado: toque em Tocar de novo" : "erro ao tocar"; });
+      const fim = () => { tentandoTocar = false; };
+      if (p && p.then) p.then(fim).catch(err => { fim(); erroSom = err && err.name === "NotAllowedError" ? "bloqueado: toque em Tocar de novo" : `erro (${err && err.name})`; });
+      else fim();
     }
     if (!deve && !audio.paused) audio.pause();
   }
@@ -450,7 +455,7 @@ details li { margin: 4px 0; }
       if (T >= DUR - 1e-3) { T = DUR - 1e-3; tocando = false; $("#play").textContent = "▶ Tocar"; sincronizarAudio(); }
       barra.value = T;
     }
-    if (somLigado && tocando) sincronizarAudio();
+    if (!(somLigado && tocando && v === 1) && !audio.paused) audio.pause();   // pausar pode ser a qualquer momento; tocar, só no toque
     $("#som").textContent = !somLigado ? "♪ Som desligado" : erroSom ? `♪ Som ${erroSom}` : (v === 1 ? "♪ Som ligado" : "♪ Som (só toca em 1×)");
     ctx.fillStyle = "#070b0d"; ctx.fillRect(0, 0, W, H);
     for (const p of paineis()) painel(p);
