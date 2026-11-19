@@ -59,3 +59,19 @@ Sala com eco, ruído de fundo, distância e altura da fonte, fontes em movimento
 - Pausa em ruído largo, 2–3 ms (Plomp 1964; Green 1985) — **fontes secundárias**.
 - Wier, Jesteadt e Green (1977), *J. Acoust. Soc. Am.* 61, 178–184; Jesteadt, Wier e Green (1977), *J. Acoust. Soc. Am.* 61, 169–177, https://doi.org/10.1121/1.381278 — **resumos**; os valores da tabela são **de memória**.
 - Peterson, G. E., e Barney, H. L. (1952). Control methods used in a study of the vowels. *J. Acoust. Soc. Am.* 24, 175–184 — **de memória** (formantes).
+
+## 7. Rodada (19/11/2026, com a proposta, a pedido do responsável: "rodar agora com a proposta")
+
+Borda atual (sensibilidade por área, atenuação para som forte a 70 dB, janela de carregamento que se alonga). Código: [borda/rodar_bateria.py](borda/rodar_bateria.py). A cena ganhou a fonte virtual em qualquer direção e duas fontes ao mesmo tempo; a cóclea processa em pedaços de 10 s com continuidade exata (diferença para o processamento inteiro: ~10⁻¹⁷).
+
+| Grupo | Duração | Incidências (esq. / dir.) [M] | Atenuação máx. |
+|---|---|---|---|
+| 1. Tons puros | 84 s | 12,2 M / 12,2 M | 10,4 dB (tons de 85 dB) |
+| 2. Intensidade | 72 s | 10,8 M / 10,8 M | 3,5 dB |
+| 3. Tom e semitom | 126 s | 16,8 M / 16,8 M | 0 |
+| 4. Tempo | 126 s | 52,2 M / 52,2 M | 0 |
+| 5. Direção | 48 s | 23,8 M / 21,1 M | 0 |
+| 6. Voz | 42 s | 27,9 M / 27,9 M | 0,9 dB |
+| 7. Duas fontes | 7,5 s | 2,4 M / 2,5 M | 0 |
+
+Na página do Pages, cada grupo virou um botão, com a lista de condições para pular direto ao trecho. Na bateria não há o zoom de incidências individuais (só até 16 colunas por faixa). As incidências completas ficam em `borda/bateria/` (não versionadas). **Ainda não há medidas do observador**: são o próximo passo, depois dos critérios de "suficiente" do responsável.
