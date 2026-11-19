@@ -135,3 +135,27 @@
 ## 7. Fica de fora (declarado)
 
 Ruído interno da borda (determinismo); a adaptação em lei de potência (efeito de um som sobre o seguinte); sala com eco; fontes em movimento; distância e altura da fonte.
+
+---
+
+## Andamento
+
+**19/11/2026, decisões do responsável:** (1) testes e estímulos aprovados; (2) variação entre repetições aprovada; (3) critérios de "suficiente" definidos **um teste de cada vez**; (4) leitura das referências humanas **antes** de medir ([régua humana](regua-humana.md)).
+
+### Viés do código de tempo: resultado [M]
+
+Script: [borda/vies_tempo.py](borda/vies_tempo.py); números: [borda/vies-tempo.json](borda/vies-tempo.json). Tom sintético direto na cóclea, 60 dB, 1 s, faixas vizinhas à frequência.
+
+| Estimador | 250 Hz | 1.000 Hz |
+|---|---|---|
+| Picos do sinal de comando (referência) | 250,0 | 1.000,0 |
+| Fase das incidências no ciclo (força de travamento de fase) | **249,8** | **1.000,0** |
+| Intervalos entre incidências do **mesmo ponto** | **243,9 (−2,4%)** | **1.000,0** |
+| Autocorrelação da soma de todos os pontos (o estimador usado antes) | 243,7 (−2,5%) | 947,0 (−5,3%) |
+| Autocorrelação com a reserva da Utrd sempre cheia (teste de código) | 250,0 | 1.000,0 |
+
+**Leitura:**
+1. **Não é defeito de código.** Com a reserva sempre cheia, o viés some.
+2. **A frequência está nas incidências.** A fase de cada incidência no ciclo dá a frequência certa nos dois casos.
+3. **A autocorrelação da soma era um estimador ruim.** Ela mistura pontos que disparam em fases diferentes (a varredura), e por isso saiu −5,3% em 1 kHz.
+4. **Em 250 Hz há um efeito real da transdução.** Com a emissão proporcional à reserva, a reserva baixa depois de cada emissão faz a próxima completar mais tarde no ciclo. Os intervalos de um mesmo ponto ficam ~2,4% maiores que um número inteiro de períodos. Em 1 kHz o efeito não aparece. Até onde o assistente sabe (de memória, a conferir), no nervo auditivo os intervalos se agrupam em múltiplos inteiros do período. Seria então um desvio do modelo neurobiológico, **para o responsável decidir** se corrige.

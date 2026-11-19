@@ -1,0 +1,20 @@
+{
+ "250.0": {
+  "autocorr": 243.66471734892787,
+  "isi_mesmo_ponto": 243.89490036873775,
+  "fase": 249.775,
+  "picos_do_comando": 249.99999999999977,
+  "n_incid": 151765,
+  "autocorr_reserva_cheia": 250.0,
+  "fase_reserva_cheia": 249.5
+ },
+ "1000.0": {
+  "autocorr": 946.9696969696971,
+  "isi_mesmo_ponto": 999.9983525029102,
+  "fase": 1000.0,
+  "picos_do_comando": 999.9999999999991,
+  "n_incid": 281903,
+  "autocorr_reserva_cheia": 1000.0,
+  "fase_reserva_cheia": 1000.125
+ }
+}
