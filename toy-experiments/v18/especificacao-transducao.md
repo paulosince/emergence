@@ -11,9 +11,9 @@ O primeiro experimento da V0.18 **não cria Sdom, apenas entra nele** [R]. A per
 
 | Dado (hardware pronto) | Criado | Neste experimento |
 |---|---|---|
-| Robô (especificação v1, com 4 rodas no chão, sem dor) [R] | Tudo da cabeça para dentro [R] | **Nada é criado.** Os túneis transdutivos aparecem como colunas que **seriam** Upros, e mostra-se quais receberiam incidências [R] |
+| Robô (especificação v1, com 4 rodas no chão, sem dor) [R] | Tudo da cabeça para dentro [R] | **Nada é criado.** Os pontos transdutivos aparecem como colunas que **seriam** Upros, e mostra-se quais receberiam incidências [R] |
 | Utrd auditiva = microfone + cóclea, uma por ouvido [R] | | |
-| Túneis transdutivos de cada Cpro (posições de limiar) [R] | Upros (no futuro, pela Pcrt) | |
+| Pontos transdutivos de cada Cpro (posições de limiar) [R] | Upros (no futuro, pela Pcrt) | |
 
 ## 2. Cena [R]
 - Sala de 2 × 2 × 3 m da V0.17, dois alto-falantes, robô parado, **sem reflexões** (por ora).
@@ -36,22 +36,22 @@ O primeiro experimento da V0.18 **não cria Sdom, apenas entra nele** [R]. A per
 | Atividade espontânea | Nenhuma, por ora | [R] |
 | Disparo | Determinístico; o acaso só entra em propriedades anatômicas fixas, sorteadas uma vez (semente registrada) | [R] |
 
-## 4. Cpro e túneis transdutivos
+## 4. Cpro e pontos transdutivos
 - **Um Cpro por faixa** (64 por ouvido) [R].
-- **Capacidade de cada Cpro (quantos túneis):** fibras por célula ciliada interna (Wu et al. 2019, grupo abaixo de 60 anos) × células por mm (Wu et al. 2019) × comprimento da faixa na cóclea (Greenwood, 35 mm). Resultado: **199 a 445 túneis por Cpro**, pico perto de ~730 Hz, **21.731 por ouvido** [R] + [L]. Abaixo de 170 Hz, sem dado: valor mantido (artefato declarado).
-- **Limiar de cada túnel:** distribuição em **convolução** dos limiares das fibras biológicas (grupos de Liberman 1978: 61% / 23% / 16%) com a faixa de crescimento de cada fibra (30 / 30 / 50 dB), contada a partir do zero da faixa [R] + [L] (adaptação, gato).
-- **Áreas de intensidade transdutiva:** os três grupos de túneis (sensível, intermediária, som forte) [R].
+- **Capacidade de cada Cpro (quantos pontos transdutivos):** fibras por célula ciliada interna (Wu et al. 2019, grupo abaixo de 60 anos) × células por mm (Wu et al. 2019) × comprimento da faixa na cóclea (Greenwood, 35 mm). Resultado: **199 a 445 pontos transdutivos por Cpro**, pico perto de ~730 Hz, **21.731 por ouvido** [R] + [L]. Abaixo de 170 Hz, sem dado: valor mantido (artefato declarado).
+- **Limiar de cada ponto transdutivo:** distribuição em **convolução** dos limiares das fibras biológicas (grupos de Liberman 1978: 61% / 23% / 16%) com a faixa de crescimento de cada fibra (30 / 30 / 50 dB), contada a partir do zero da faixa [R] + [L] (adaptação, gato).
+- **Áreas de intensidade transdutiva:** os três grupos de pontos transdutivos (sensível, intermediária, som forte) [R].
 - Tabela das 64 faixas: [tabela-faixas.csv](tabela-faixas.csv); figura: [tabela-faixas.png](tabela-faixas.png).
 
 ## 5. Quem faz o quê na borda [R]
 
 **A Utrd decide quando e para quais Upros sai uma incidência:**
 1. O som de cada faixa passa pela retificação e pela janela de fase.
-2. A Utrd compara esse sinal com o limiar de cada túnel transdutivo.
-3. Usa a **reserva de efeito da Utrd** daquele túnel. **Com a reserva vazia, não emite.**
+2. A Utrd compara esse sinal com o limiar de cada ponto transdutivo.
+3. Usa a **reserva de efeito da Utrd** daquele ponto transdutivo. **Com a reserva vazia, não emite.**
 
-**A Upro (o túnel que receberia) recebe e repassa, modificando:**
-- **Janela de refratariedade** própria (só bloqueia): 0,39 ms ± 50%, sorteada uma vez por túnel. Uma incidência que chega com a janela aberta **não passa**.
+**A Upro (o ponto transdutivo que receberia) recebe e repassa, modificando:**
+- **Janela de refratariedade** própria (só bloqueia): 0,39 ms ± 50%, sorteada uma vez por ponto transdutivo. Uma incidência que chega com a janela aberta **não passa**.
 - **Reserva de efeito** da Upro: multiplica a magnitude. Com a reserva baixa, repassa **fraco**; reabastecida, **normal**.
 - **Janela de propagação** igual para todas (por ora).
 
@@ -61,7 +61,7 @@ O primeiro experimento da V0.18 **não cria Sdom, apenas entra nele** [R]. A per
 
 | Onde | Elemento | Valor | Origem |
 |---|---|---|---|
-| Utrd (por túnel) | Reserva de efeito | 4 pontos de liberação | [L] Bruce, Erfani & Zilany 2018 |
+| Utrd (por ponto transdutivo) | Reserva de efeito | 4 pontos de liberação | [L] Bruce, Erfani & Zilany 2018 |
 | Utrd | Janela de carregamento (rápida) | ~16,5 ms por ponto (dá ~240/s sustentado) | [L] idem |
 | Utrd | Janela de dispersão (lenta) | ~100 ms (gato 73–116 ms; gerbil 115 ms); tamanho da reserva lenta **calibrado** para reproduzir o tempo rápido (~5 ms), o lento (~100 ms) e o teto (~200/s) | [L] + calibração |
 | Utrd | Área de intensidade de som forte | Janela de carregamento de ~40 ms (~100/s; dentro de 40–190/s de Liberman 1978) | [R] + suposição |
@@ -71,11 +71,11 @@ O primeiro experimento da V0.18 **não cria Sdom, apenas entra nele** [R]. A per
 
 **Calibrações:** feitas só na borda, com sons de teste (tom constante), **antes** de qualquer execução com Bach, e registradas com o resultado.
 
-## 7. A regra de emissão da Utrd: um ponto a aprovar [A]
+## 7. A regra de emissão da Utrd [R, aprovada em 19/11: "sua proposta parece fazer muito sentido"]
 Com disparo determinístico, falta dizer **em que instante** a Utrd emite enquanto o sinal está acima do limiar:
 - Se emitir **só quando o sinal cruza o limiar subindo**, nos graves sai uma incidência por ciclo, em fase (certo). Mas nos agudos o sinal, já sem fase, fica acima do limiar sem cruzar: só haveria emissão no ataque e silêncio no sustentado (errado; as fibras reais sustentam ~200/s).
 - Se emitir **sempre que estiver acima e a reserva permitir**, nos agudos fica certo, mas nos graves sairiam várias emissões por ciclo (errado).
-- **Proposta:** a Utrd **acumula o quanto o sinal passou do limiar** e emite quando o acumulado completa uma unidade. Depois de emitir, zera o acumulado e respeita a reserva de efeito. Nos graves, isso dá cerca de uma emissão por ciclo, perto do topo da onda (em fase). Nos agudos, dá emissões regulares no sustentado, num ritmo que cresce com o volume e é limitado pela reserva. É a forma determinística do que a sinapse da célula ciliada faz. O tamanho da "unidade" é **calibrado** para que um túnel logo acima do seu limiar emita uma vez por ciclo nos graves.
+- **Proposta:** a Utrd **acumula o quanto o sinal passou do limiar** e emite quando o acumulado completa uma unidade. Depois de emitir, zera o acumulado e respeita a reserva de efeito. Nos graves, isso dá cerca de uma emissão por ciclo, perto do topo da onda (em fase). Nos agudos, dá emissões regulares no sustentado, num ritmo que cresce com o volume e é limitado pela reserva. É a forma determinística do que a sinapse da célula ciliada faz. O tamanho da "unidade" é **calibrado** para que um ponto transdutivo logo acima do seu limiar emita uma vez por ciclo nos graves.
 
 ## 8. Precisão do tempo [R]
 O instante de cada incidência é calculado **entre as medidas** do microfone (interpolando o cruzamento), e não arredondado para a grade de ~21 µs.
@@ -83,17 +83,17 @@ O instante de cada incidência é calculado **entre as medidas** do microfone (i
 ## 9. Conferências do observador (fixadas antes de rodar) [R]
 São feitas **fora do robô** e não alteram nada.
 1. **Diferença de chegada:** nas faixas graves, os instantes das incidências esquerda e direita mostram os ~0,46 ms do alto-falante próximo (e o sinal oposto para o distante)?
-2. **Diferença de volume:** nos agudos, o ouvido mais perto aciona mais túneis?
+2. **Diferença de volume:** nos agudos, o ouvido mais perto aciona mais pontos transdutivos?
 3. **Notas e ritmo:** as faixas certas acendem nos momentos certos (comparação com o espectro da gravação)?
 4. **Ataques:** o início das notas aparece como rajada separável do sustentado?
-5. **Perdas:** quanta informação se perde, e por quê. Conta-se, por faixa: incidências bloqueadas pela janela de refratariedade; emissões que não saíram por reserva vazia; perda de fase acima da janela de fase; túneis saturados.
+5. **Perdas:** quanta informação se perde, e por quê. Conta-se, por faixa: incidências bloqueadas pela janela de refratariedade; emissões que não saíram por reserva vazia; perda de fase acima da janela de fase; pontos transdutivos saturados.
 
 **Critérios de "suficiente"** (o que conta como sim ou não em cada conferência): **a definir com o responsável** antes de rodar.
 
 ## 10. Engenharia [A]
-- Cálculo **por eventos**, com o estado de cada túnel atualizado só quando há incidência, por fórmula fechada a partir do instante anterior (ideia do responsável). Só o som (64 filtros × 2 ouvidos a 48 kHz) roda amostra por amostra.
+- Cálculo **por eventos**, com o estado de cada ponto transdutivo atualizado só quando há incidência, por fórmula fechada a partir do instante anterior (ideia do responsável). Só o som (64 filtros × 2 ouvidos a 48 kHz) roda amostra por amostra.
 - Testes de código: o cálculo por eventos dá o mesmo resultado do passo a passo; as calibrações batem com os alvos; cada regra da seção 5 tem um teste.
-- Interface: embaixo, as 64 faixas; colunas por túnel; a luz é a incidência subindo pela Upro (verde neon = excitatório); a força (magnitude) no brilho; a "poeira" no ataque; zoom; **player com pausa e barra de tempo** [R]. Primeiro o teste de 10 s.
+- Interface: embaixo, as 64 faixas; colunas por ponto transdutivo; a luz é a incidência subindo pela Upro (verde neon = excitatório); a força (magnitude) no brilho; a "poeira" no ataque; zoom; **player com pausa e barra de tempo** [R]. Primeiro o teste de 10 s.
 
 ## 11. Perdas declaradas
 Ouvido externo embutido no zero; filtros lineares; sem atividade espontânea; disparo determinístico (sem o acaso da sinapse); trecho de refratariedade "com dificuldade" omitido; cabeça esférica; sem reflexões; dados de animais onde não há humanos (limiares por grupo, crescimento, janela de fase, reservas); capacidade abaixo de 170 Hz sem dado.
