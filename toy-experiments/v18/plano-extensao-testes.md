@@ -210,3 +210,28 @@ Inícios separados por 0, 1, 2, 3, 5, 7, 10, 20 e 40 ms, nas duas ordens; 60 dB;
 | 500 + 2.000 Hz, ±30° | **5 ms** / **7 ms** | 10 → 10,8 ± 1,3; 20 → 19,2 ± 3,0; 40 → 40,6 ± 1,3 |
 
 **Leitura:** as incidências guardam a ordem e a separação dos inícios **bem abaixo** dos ~20 ms humanos. O mesmo cuidado de antes vale: sem ruído interno, o resultado é otimista. O observador também usa as latências próprias de cada faixa; um sistema que não as conhecesse teria um viés de alguns décimos de milissegundo (a condição de 0 ms deu −0,6 a +0,1 ms).
+
+### Teste 3: duas fontes simultâneas (20/11) [M]
+
+**Critério do responsável:** "suficiente" = as incidências permitem **detectar "duas fontes"**. Régua humana (Schwartz, McDermott e Shinn-Cunningham 2012): duas fontes relatadas em 89,5% das vezes com elas em lados opostos, e em 12,5% com elas no mesmo lugar.
+
+**Estímulos:** grupo 10 da bateria, 86 s: dois tons (500 Hz + 1 semitom, 4 semitons ou uma oitava); duas vogais (/a/ a 120 Hz e /i/ a 220 Hz); fala + piano (Machado de Assis + Satie); início atrasado em 50 ms. Fonte A a +30° e fonte B a −30°, ou as duas no mesmo lugar (controle). 5 repetições (3 na fala + piano).
+
+**Detector [A]:** em janelas de 50 ms, a diferença de chegada em cada faixa até 1,2 kHz e a melhor divisão das faixas em dois grupos. "Duas fontes" quando os centros dos grupos diferem mais de 100 µs e cada grupo tem ao menos 15% das incidências. Por apresentação: "duas fontes" se a maioria das janelas disser duas. Script: [borda/observador_duas_fontes.py](borda/observador_duas_fontes.py); números: [borda/observador-duas-fontes.json](borda/observador-duas-fontes.json).
+
+**Resultado:** o critério **passa em todas as configurações**.
+
+| Configuração | Lugares diferentes: apresentações / janelas com "duas" | Mesmo lugar: apresentações / janelas com "duas" |
+|---|---|---|
+| Dois tons, 1 semitom | 5/5 · 100% | 0/5 · 0% |
+| Dois tons, 4 semitons | 5/5 · 100% | 0/5 · 0% |
+| Dois tons, oitava | 5/5 · 100% | 0/5 · 0% |
+| Duas vogais | 5/5 · 100% | 0/5 · 0% |
+| Fala + piano | 3/3 · 64% | 0/3 · 0% |
+| Início atrasado (50 ms) | 5/5 · 95% | 0/5 · 0% |
+
+**Leitura e cuidados:**
+1. Com as fontes em lados opostos, as incidências mostram **duas direções** em todas as apresentações, e nunca mostram duas quando as fontes estão no mesmo lugar.
+2. **Fala + piano:** só 64% das janelas, porque há trechos em que só uma fonte soa (pausas da fala, notas que se apagam).
+3. **1 semitom:** os dois tons caem nas mesmas faixas, e os centros ficam em ±~100 µs em vez de ±~220 µs (as direções se misturam). Ainda assim, separa.
+4. **O que não foi medido:** fontes mais próximas que ±30°; separar **o conteúdo** de cada fonte (o humano faz isso mal só pela direção); fontes diferentes no mesmo lugar, que exigem outras pistas (frequência fundamental, início). Pelo detector de direção, as duas vogais no mesmo lugar contam como uma fonte.
