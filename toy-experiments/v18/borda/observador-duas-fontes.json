@@ -1,0 +1,286 @@
+{
+ "dois-tons | 1 semitom | lugares diferentes": {
+  "janelas": 93,
+  "duas": 93,
+  "exemplo": {
+   "centros_us": [
+    -91.6006235724903,
+    103.16949897450922
+   ],
+   "pesos": [
+    0.668922032254153,
+    0.33107796774584697
+   ]
+  },
+  "por_repeticao": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "fracao_duas": 1.0,
+  "apresentacoes_duas": 5,
+  "apresentacoes": 5
+ },
+ "dois-tons | 1 semitom | mesmo lugar": {
+  "janelas": 90,
+  "duas": 0,
+  "exemplo": {
+   "centros_us": [
+    -5.0,
+    0.0
+   ],
+   "pesos": [
+    0.0020894071914480078,
+    0.997910592808552
+   ]
+  },
+  "por_repeticao": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "fracao_duas": 0.0,
+  "apresentacoes_duas": 0,
+  "apresentacoes": 5
+ },
+ "dois-tons | 4 semitons | lugares diferentes": {
+  "janelas": 90,
+  "duas": 90,
+  "exemplo": {
+   "centros_us": [
+    -187.23306599671466,
+    210.47862156987875
+   ],
+   "pesos": [
+    0.5691267047954246,
+    0.43087329520457546
+   ]
+  },
+  "por_repeticao": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "fracao_duas": 1.0,
+  "apresentacoes_duas": 5,
+  "apresentacoes": 5
+ },
+ "dois-tons | 4 semitons | mesmo lugar": {
+  "janelas": 90,
+  "duas": 0,
+  "exemplo": {
+   "centros_us": [
+    -5.0,
+    0.0
+   ],
+   "pesos": [
+    0.001635217814687563,
+    0.9983647821853124
+   ]
+  },
+  "por_repeticao": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "fracao_duas": 0.0,
+  "apresentacoes_duas": 0,
+  "apresentacoes": 5
+ },
+ "dois-tons | oitava | lugares diferentes": {
+  "janelas": 94,
+  "duas": 94,
+  "exemplo": {
+   "centros_us": [
+    -211.2472491909385,
+    231.8930219593025
+   ],
+   "pesos": [
+    0.48902464114453925,
+    0.5109753588554607
+   ]
+  },
+  "por_repeticao": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "fracao_duas": 1.0,
+  "apresentacoes_duas": 5,
+  "apresentacoes": 5
+ },
+ "dois-tons | oitava | mesmo lugar": {
+  "janelas": 95,
+  "duas": 0,
+  "exemplo": {
+   "centros_us": [
+    -5.0,
+    0.0
+   ],
+   "pesos": [
+    0.0950809216295942,
+    0.9049190783704057
+   ]
+  },
+  "por_repeticao": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "fracao_duas": 0.0,
+  "apresentacoes_duas": 0,
+  "apresentacoes": 5
+ },
+ "duas-vogais | /a/ 120 Hz | lugares diferentes": {
+  "janelas": 55,
+  "duas": 55,
+  "exemplo": {
+   "centros_us": [
+    -168.7836596927506,
+    210.97182998145772
+   ],
+   "pesos": [
+    0.3649629086166137,
+    0.6350370913833864
+   ]
+  },
+  "por_repeticao": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "fracao_duas": 1.0,
+  "apresentacoes_duas": 5,
+  "apresentacoes": 5
+ },
+ "duas-vogais | /a/ 120 Hz | mesmo lugar": {
+  "janelas": 55,
+  "duas": 0,
+  "exemplo": {
+   "centros_us": [
+    0.0,
+    5.0
+   ],
+   "pesos": [
+    0.908534527577369,
+    0.09146547242263105
+   ]
+  },
+  "por_repeticao": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "fracao_duas": 0.0,
+  "apresentacoes_duas": 0,
+  "apresentacoes": 5
+ },
+ "fala-e-piano | fala (Machado de Assis) | lugares diferentes": {
+  "janelas": 117,
+  "duas": 75,
+  "exemplo": {
+   "centros_us": [
+    67.42160278745645,
+    206.88617367737822
+   ],
+   "pesos": [
+    0.22728072645361114,
+    0.7727192735463888
+   ]
+  },
+  "por_repeticao": [
+   0.6666666666666666,
+   0.6153846153846154,
+   0.6410256410256411
+  ],
+  "fracao_duas": 0.6410256410256411,
+  "apresentacoes_duas": 3,
+  "apresentacoes": 3
+ },
+ "fala-e-piano | fala (Machado de Assis) | mesmo lugar": {
+  "janelas": 117,
+  "duas": 0,
+  "exemplo": {
+   "centros_us": [
+    0.0,
+    0.0
+   ],
+   "pesos": [
+    0.0036134017852351395,
+    0.9963865982147648
+   ]
+  },
+  "por_repeticao": [
+   0.0,
+   0.0,
+   0.0
+  ],
+  "fracao_duas": 0.0,
+  "apresentacoes_duas": 0,
+  "apresentacoes": 3
+ },
+ "inicio-atrasado | 4 semitons, B 50 ms depois | lugares diferentes": {
+  "janelas": 100,
+  "duas": 95,
+  "exemplo": {
+   "centros_us": [
+    -207.5393606534291,
+    171.84065013404825
+   ],
+   "pesos": [
+    0.5979588055981272,
+    0.4020411944018728
+   ]
+  },
+  "por_repeticao": [
+   0.95,
+   0.95,
+   0.95,
+   0.95,
+   0.95
+  ],
+  "fracao_duas": 0.95,
+  "apresentacoes_duas": 5,
+  "apresentacoes": 5
+ },
+ "inicio-atrasado | 4 semitons, B 50 ms depois | mesmo lugar": {
+  "janelas": 100,
+  "duas": 0,
+  "exemplo": {
+   "centros_us": [
+    0.0,
+    0.0
+   ],
+   "pesos": [
+    0.014448425037177234,
+    0.9855515749628228
+   ]
+  },
+  "por_repeticao": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "fracao_duas": 0.0,
+  "apresentacoes_duas": 0,
+  "apresentacoes": 5
+ }
+}

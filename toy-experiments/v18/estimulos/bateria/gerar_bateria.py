@@ -179,6 +179,29 @@ for par_, fa, fb, lugar in CONF:
                 trilhaB9.append(xb); g.pausa(0.45); trilhaB9.append(silencio(0.45))
 grupos.append(g)
 
+# 10. Duas fontes ampliado (plano de extensão, teste 3; critério do responsável: detectar "duas fontes"). Fonte A na
+#     trilha principal, fonte B na trilha B; "lugares diferentes" = A a +30° (esq.), B a −30° (dir.); controle no mesmo lugar.
+g = Grupo("10-duas-fontes-ampliado"); trilhaB10 = []
+def par10(xa, xb, meta):
+    n = max(len(xa), len(xb)); A_ = np.zeros(n); B_ = np.zeros(n); A_[:len(xa)] = xa; B_[:len(xb)] = xb
+    for lugar in ("lugares diferentes", "mesmo lugar"):
+        for r in range(meta.get("reps", REP)):
+            _, aj = jit(); azA, azB = (30.0 + aj, -30.0 + aj) if lugar == "lugares diferentes" else (aj, aj)
+            g.add(A_.copy(), lugar=lugar, azimute=azA, azimute_B=azB, rep=r, **{k: v for k, v in meta.items() if k != "reps"})
+            trilhaB10.append(B_.copy()); g.pausa(0.5); trilhaB10.append(silencio(0.5))
+for nome, fb in (("1 semitom", 500 * 2 ** (1 / 12)), ("4 semitons", 500 * 2 ** (4 / 12)), ("oitava", 1000.0)):
+    par10(tom(500, 60, 1.0), tom(fb, 60, 1.0), dict(teste="dois-tons", separacao=nome, fA=500.0, fB=fb))
+par10(vogal("a", 120, 62, 0.6), vogal("i", 220, 62, 0.6), dict(teste="duas-vogais", fonteA="/a/ 120 Hz", fonteB="/i/ 220 Hz"))
+def ler_trecho(nome, ini, dur, db):          # qualquer formato que o ffmpeg leia (aqui, o Ogg do Satie)
+    raw = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(ini), "-t", str(dur), "-i", os.path.join(AQUI, "..", nome),
+                          "-f", "f32le", "-ac", "1", "-ar", str(FS), "-"], capture_output=True, check=True).stdout
+    x = np.frombuffer(raw, np.float32).astype(np.float64); return rampa(pa(db) * x / np.sqrt(np.mean(x ** 2)), 10.0)
+par10(ler_mp3("voz-machado-advertencia-librivox.mp3", 40.0, 2.0, 62), ler_trecho("satie-gymnopedie1-alciatore.ogg", 12.0, 2.0, 62),
+      dict(teste="fala-e-piano", fonteA="fala (Machado de Assis)", fonteB="piano (Satie)", reps=3))
+atraso = np.zeros(int(0.05 * FS))
+par10(tom(500, 60, 1.0), np.r_[atraso, tom(500 * 2 ** (4 / 12), 60, 1.0)], dict(teste="inicio-atrasado", separacao="4 semitons, B 50 ms depois", fA=500.0, fB=500 * 2 ** (4 / 12)))
+grupos.append(g)
+
 cat = []
 for g in grupos:
     x = g.sinal().astype(np.float32)
@@ -186,8 +209,8 @@ for g in grupos:
     y = (x / np.abs(x).max() * 0.8).astype(np.float32)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(FS), "-ac", "1", "-i", "-", "-c:a", "libvorbis", "-q:a", "4",
                     os.path.join(AQUI, f"previa-{g.nome}.ogg")], input=y.tobytes(), check=True)
-    if g.nome in ("7-duas-fontes", "9-ordem-dos-inicios"):
-        tb = np.concatenate(trilhaB if g.nome.startswith("7-") else trilhaB9).astype(np.float32)
+    if g.nome in ("7-duas-fontes", "9-ordem-dos-inicios", "10-duas-fontes-ampliado"):
+        tb = np.concatenate({"7-duas-fontes": trilhaB, "9-ordem-dos-inicios": trilhaB9, "10-duas-fontes-ampliado": trilhaB10}[g.nome]).astype(np.float32)
         tb.tofile(os.path.join(AQUI, f"bateria-{g.nome}-B.f32"))
         x = x + tb                                                     # prévia com as duas
         y = (x / np.abs(x).max() * 0.8).astype(np.float32)
