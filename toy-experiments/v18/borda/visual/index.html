@@ -72,6 +72,7 @@ details li { margin: 4px 0; }
     <button type="button" data-obra="bateria/6-voz" aria-pressed="false">6 Voz</button>
     <button type="button" data-obra="bateria/7-duas-fontes" aria-pressed="false">7 Duas fontes</button>
     <button type="button" data-obra="bateria/8-intensidade-ampliada" aria-pressed="false">8 Intensidade ampliada</button>
+    <button type="button" data-obra="bateria/9-ordem-dos-inicios" aria-pressed="false">9 Ordem dos inícios</button>
   </div>
   <div class="linha"><label class="sub" for="condicao">Condição:</label> <select id="condicao" aria-label="Ir para a condição"></select></div>
 </header>
@@ -150,6 +151,7 @@ details li { margin: 4px 0; }
     "bateria/5-direcao": { titulo: "Bateria 5 — Direção", credito: "sons sintéticos; fonte virtual a 1 m, em direções diferentes" },
     "bateria/6-voz": { titulo: "Bateria 6 — Voz", credito: "vogais sintéticas; fala: LibriVox (Machado de Assis; Artur Azevedo), domínio público" },
     "bateria/7-duas-fontes": { titulo: "Bateria 7 — Duas fontes", credito: "500 Hz a 30° à esquerda + 600 Hz a 30° à direita" },
+    "bateria/9-ordem-dos-inicios": { titulo: "Bateria 9 — Ordem dos inícios", credito: "pares 500+2.000 Hz e 1.000+1.200 Hz, no mesmo lugar ou a ±30°; inícios separados por 0 a 40 ms" },
     "bateria/8-intensidade-ampliada": { titulo: "Bateria 8 — Intensidade ampliada", credito: "tons de 250, 1.000 e 4.000 Hz e ruído; bases de 40, 70 e 85 dB; acréscimos de 0,5 a 6 dB" }
   };
   // rótulo de cada trecho da bateria
@@ -164,6 +166,7 @@ details li { margin: 4px 0; }
       case "5-direcao": return `${t.portador === "ruido" ? "ruído" : "tom de 500 Hz"} a ${t.azimute_nominal}°${r}`;
       case "6-voz": return t.teste === "vogal" ? `vogal /${t.vogal}/ · ${t.f0} Hz${r}` : `fala: ${t.arquivo.includes("machado") ? "Machado de Assis" : "Artur Azevedo"}`;
       case "7-duas-fontes": return `500 Hz (esq.) + 600 Hz (dir.)${r}`;
+      case "9-ordem-dos-inicios": return `${t.fA}+${t.fB} Hz · ${t.lugar} · ${t.assincronia_ms} ms · ${t.ordem === "A primeiro" ? t.fA + " Hz primeiro" : t.fB + " Hz primeiro"}${r}`;
       case "8-intensidade-ampliada": return `${t.portador === "ruido" ? "ruído" : t.portador.slice(3) + " Hz"} · ${t.base} dB +${fmt(t.delta_db, 1)} dB${r}`;
     }
     return "";

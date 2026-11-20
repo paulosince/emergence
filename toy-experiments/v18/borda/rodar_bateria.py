@@ -20,7 +20,8 @@ def gz(caminho, dados):
 
 def ouvidos_do_grupo(g):
     x = np.fromfile(os.path.join(BAT, f"bateria-{g}.f32"), np.float32).astype(np.float64)
-    B = np.fromfile(os.path.join(BAT, f"bateria-{g}-B.f32"), np.float32).astype(np.float64) if g.startswith("7-") else None
+    fb = os.path.join(BAT, f"bateria-{g}-B.f32")
+    B = np.fromfile(fb, np.float32).astype(np.float64) if os.path.exists(fb) else None
     n = len(x) + FS // 100; ear = {"esq": np.zeros(n), "dir": np.zeros(n)}
     for t in [t for t in CAT if t["grupo"] == g]:
         i0, i1 = int(round(t["inicio"] * FS)), int(round(t["fim"] * FS))

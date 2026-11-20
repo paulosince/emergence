@@ -161,6 +161,24 @@ for port in ("tom250", "tom1000", "tom4000", "ruido"):
                 g.add(x, portador=port, db=db, base=base, delta_db=d, azimute=aj, rep=r); g.pausa(0.3)
 grupos.append(g)
 
+# 9. Ordem dos inícios (plano de extensão, teste 2; critério do responsável: ordem certa a partir de 20 ms). Cada tom é uma
+#    fonte própria: o primeiro par fica na trilha A, o segundo na trilha B (a cena os põe em lugares iguais ou diferentes).
+g = Grupo("9-ordem-dos-inicios"); trilhaB9 = []
+CONF = [("500-2000", 500.0, 2000.0, "mesmo lugar"), ("1000-1200", 1000.0, 1200.0, "mesmo lugar"), ("500-2000", 500.0, 2000.0, "lugares diferentes")]
+for par_, fa, fb, lugar in CONF:
+    for ass_ms in (0, 1, 2, 3, 5, 7, 10, 20, 40):
+        for ordem in ("A primeiro", "B primeiro"):
+            for r in range(REP):
+                dj, aj = jit(); n = int(ass_ms / 1000 * FS); a, b = tom(fa, 60 + dj, 0.3), tom(fb, 60 + dj, 0.3)
+                xa = np.zeros(len(a) + n); xb = np.zeros(len(a) + n)
+                if ordem == "A primeiro": xa[:len(a)] = a; xb[n:n + len(b)] = b
+                else: xb[:len(b)] = b; xa[n:n + len(a)] = a
+                azA, azB = (aj, aj) if lugar == "mesmo lugar" else (30.0 + aj, -30.0 + aj)
+                g.add(xa, teste="ordem", par=par_, fA=fa, fB=fb, lugar=lugar, assincronia_ms=ass_ms, ordem=ordem, db=60 + dj,
+                      azimute=azA, azimute_B=azB, rep=r)
+                trilhaB9.append(xb); g.pausa(0.45); trilhaB9.append(silencio(0.45))
+grupos.append(g)
+
 cat = []
 for g in grupos:
     x = g.sinal().astype(np.float32)
@@ -168,9 +186,10 @@ for g in grupos:
     y = (x / np.abs(x).max() * 0.8).astype(np.float32)
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(FS), "-ac", "1", "-i", "-", "-c:a", "libvorbis", "-q:a", "4",
                     os.path.join(AQUI, f"previa-{g.nome}.ogg")], input=y.tobytes(), check=True)
-    if g.nome == "7-duas-fontes":
-        np.concatenate(trilhaB).astype(np.float32).tofile(os.path.join(AQUI, f"bateria-{g.nome}-B.f32"))
-        x = x + np.concatenate(trilhaB).astype(np.float32)          # prévia com as duas
+    if g.nome in ("7-duas-fontes", "9-ordem-dos-inicios"):
+        tb = np.concatenate(trilhaB if g.nome.startswith("7-") else trilhaB9).astype(np.float32)
+        tb.tofile(os.path.join(AQUI, f"bateria-{g.nome}-B.f32"))
+        x = x + tb                                                     # prévia com as duas
         y = (x / np.abs(x).max() * 0.8).astype(np.float32)
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "f32le", "-ar", str(FS), "-ac", "1", "-i", "-", "-c:a", "libvorbis", "-q:a", "4",
                         os.path.join(AQUI, f"previa-{g.nome}.ogg")], input=y.tobytes(), check=True)
