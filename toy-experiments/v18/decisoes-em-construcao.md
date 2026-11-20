@@ -61,6 +61,7 @@
 | Área de som forte muda | "Estar muda não é bom." A redução de sensibilidade sai do microfone e vai para os **limiares, por área**: **+20 dB na sensível, +10 dB na intermediária, nada na de som forte** (microfone volta a 0 dB). Os pontos são reordenados pelo novo limiar. Resultado (órgão, ouvido esquerdo): 81/69/24% de pontos ativos por área | 19/11 |
 | Testes antes do Sdom | Bateria aprovada; variação entre repetições aprovada; critérios "um a um": intensidade **até 2 dB**, ordem dos inícios **certa a partir de 20 ms**, duas fontes **detectar "duas fontes"** (todos passaram). Sem variação de volume no teste de intensidade (mantido pelo responsável). O viés dos graves: pesquisar antes de decidir | 19–20/11 |
 | Fechamento da transdução | "Fechar a transdução e ir ao Sdom." Registro: [encerramento-transducao.md](encerramento-transducao.md) | 20/11 |
+| **V0.18 encerrada** | "V18 fechou. Ela só vai até aqui. Iniciamos a V19." A V0.18 termina com a transdução fechada; o Sdom começa na V0.19 | 20/11 |
 
 ## Pendências (primeiro objetivo: do microfone à cóclea)
 1. Intensidade: forma da distribuição não linear das vagas e sua extensão (até ~80 dB acima do limiar da faixa, ou 120 dB?); referência dos decibéis por faixa; nome Cpro. Ler Liberman 1978 (texto integral) para os limiares por grupo.
