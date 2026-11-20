@@ -149,6 +149,18 @@ for r in range(REP):
     trilhaB.append(b); g.pausa(0.5); trilhaB.append(silencio(0.5))
 grupos.append(g)
 
+# 8. Intensidade ampliada (plano de extensão, teste 1; aprovado em 19/11). Sem variação de volume entre repetições
+#    (o volume é a própria variável medida, como nos experimentos humanos); variação de direção e fase mantida.
+g = Grupo("8-intensidade-ampliada")
+for port in ("tom250", "tom1000", "tom4000", "ruido"):
+    for base in (40, 70, 85):
+        for d in (0, 0.5, 1, 2, 3, 6):
+            for r in range(REP):
+                _, aj = jit(); db = base + d
+                x = ruido(db, 0.3) if port == "ruido" else tom(float(port[3:]), db, 0.3)
+                g.add(x, portador=port, db=db, base=base, delta_db=d, azimute=aj, rep=r); g.pausa(0.3)
+grupos.append(g)
+
 cat = []
 for g in grupos:
     x = g.sinal().astype(np.float32)
