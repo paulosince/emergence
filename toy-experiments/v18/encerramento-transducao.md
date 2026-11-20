@@ -2,6 +2,8 @@
 
 **Data:** 20/11/2026. **Decisão do responsável:** "Fechar a transdução e ir ao Sdom." Os três testes da extensão passaram nos critérios dele.
 
+> **A V0.18 está encerrada** (responsável, 20/11/2026): "V18 fechou. Ela só vai até aqui. Iniciamos a V19." O Sdom começa na V0.19.
+
 ## Dado × criado
 
 - **Dado:** robô parado e a Utrd auditiva de cada ouvido (microfone + cóclea, hardware 100% pré-configurado). A Utrd tem 64 faixas e os pontos transdutivos de cada Cpro (21.731 por ouvido).
