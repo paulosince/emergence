@@ -159,3 +159,31 @@ Script: [borda/vies_tempo.py](borda/vies_tempo.py); números: [borda/vies-tempo.
 2. **A frequência está nas incidências.** A fase de cada incidência no ciclo dá a frequência certa nos dois casos.
 3. **A autocorrelação da soma era um estimador ruim.** Ela mistura pontos que disparam em fases diferentes (a varredura), e por isso saiu −5,3% em 1 kHz.
 4. **Em 250 Hz há um efeito real da transdução.** Com a emissão proporcional à reserva, a reserva baixa depois de cada emissão faz a próxima completar mais tarde no ciclo. Os intervalos de um mesmo ponto ficam ~2,4% maiores que um número inteiro de períodos. Em 1 kHz o efeito não aparece. Até onde o assistente sabe (de memória, a conferir), no nervo auditivo os intervalos se agrupam em múltiplos inteiros do período. Seria então um desvio do modelo neurobiológico, **para o responsável decidir** se corrige.
+
+### Viés do tempo: o que diz a literatura (19/11)
+
+- Rose, Brugge, Anderson e Hind (1967), *J. Neurophysiol.* 30(4), 769–793, https://doi.org/10.1152/jn.1967.30.4.769 (**resumo**): no nervo auditivo do macaco-de-cheiro, os intervalos entre disparos se agrupam **em torno** dos múltiplos inteiros do período.
+- Estudo sobre a base neural do "alargamento da oitava" (**resumo**; autores a confirmar, de memória McKinney e Delgutte 1999, *J. Acoust. Soc. Am.*): os intervalos do nervo auditivo **desviam sistematicamente** dos múltiplos inteiros e ficam **um pouco maiores** que o período. Abaixo de 500 Hz, os intervalos de primeira ordem ficam menores, por causa de vários disparos no mesmo ciclo.
+- **Leitura provisória:** o alongamento que medimos em 250 Hz (2,4%) **tem a mesma direção** do que se vê no nervo. Falta comparar o **tamanho** (precisa do texto integral).
+
+### Teste 1: intensidade (19–20/11) [M]
+
+**Critério do responsável:** "suficiente" = menor diferença separável **até 2 dB**.
+
+**Estímulos:** grupo 8 da bateria, 216 s: tons de 250, 1.000 e 4.000 Hz e ruído largo; bases de 40, 70 e 85 dB; acréscimos de 0; 0,5; 1; 2; 3 e 6 dB; 5 repetições. **Escolha do assistente:** sem variação de volume entre repetições, porque o volume é a própria variável medida, como nos experimentos humanos. A variação de direção e de fase ficou.
+
+**Script:** [borda/observador_intensidade.py](borda/observador_intensidade.py); números: [borda/observador-intensidade.json](borda/observador-intensidade.json).
+
+**Resultado:** o critério de 2 dB **passa nas 12 condições**.
+
+| Condição | Menor Δ separável: pontos ativos / incidências / padrão completo | Observação |
+|---|---|---|
+| Tons (250, 1.000, 4.000 Hz) a 40, 70 e 85 dB | **0,5–1 dB** / **0,5 dB** / **0,5 dB** | ex.: 1 kHz a 70 dB: 3.497 → 3.566 → 3.642 pontos ativos com +0,5 e +1 dB |
+| Ruído a 40 dB | 0,5 / 0,5 / 1 dB | |
+| Ruído a 70 dB | 1 / 1 / 2 dB | |
+| Ruído a 85 dB | **2** / 3 / 6 dB | a área sensível satura (Δ de 6 dB); a de som forte separa 1 dB |
+
+**Cuidados:**
+1. **O resultado é otimista.** A borda é determinística, e a única variação é a do mundo (direção e fase). Sem ruído interno, diferenças de 0,5 dB sempre deixam rastro. A informação de volume **está lá**, mas a resolução humana inclui um ruído que a borda não tem.
+2. **A magnitude** (reserva de efeito das Upros) **não serve** como medida de volume aqui. Ela depende da história (o trecho anterior), e mais incidências gastam mais reserva. Em vários casos ela nem separa 6 dB.
+3. **No som forte largo (ruído a 85 dB)**, a informação fica quase só na área de som forte, como se esperava.
