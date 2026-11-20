@@ -187,3 +187,26 @@ Script: [borda/vies_tempo.py](borda/vies_tempo.py); números: [borda/vies-tempo.
 1. **O resultado é otimista.** A borda é determinística, e a única variação é a do mundo (direção e fase). Sem ruído interno, diferenças de 0,5 dB sempre deixam rastro. A informação de volume **está lá**, mas a resolução humana inclui um ruído que a borda não tem.
 2. **A magnitude** (reserva de efeito das Upros) **não serve** como medida de volume aqui. Ela depende da história (o trecho anterior), e mais incidências gastam mais reserva. Em vários casos ela nem separa 6 dB.
 3. **No som forte largo (ruído a 85 dB)**, a informação fica quase só na área de som forte, como se esperava.
+
+### Teste 2: ordem dos inícios (20/11) [M]
+
+**Critério do responsável:** "suficiente" = **ordem certa a partir de 20 ms**, em todas as repetições, nas duas ordens.
+
+**Estímulos:** grupo 9 da bateria, 205 s; cada tom é uma fonte própria. Três configurações:
+- 500 + 2.000 Hz no mesmo lugar;
+- 1.000 + 1.200 Hz no mesmo lugar (faixas sobrepostas);
+- 500 + 2.000 Hz a ±30°.
+
+Inícios separados por 0, 1, 2, 3, 5, 7, 10, 20 e 40 ms, nas duas ordens; 60 dB; 5 repetições.
+
+**Observador [A]:** para cada tom, uma faixa afastada meio ERB do outro tom; o início é o instante da maior subida da taxa de incidências. A assincronia estimada desconta a média da condição de 0 ms, ou seja, o observador conhece as latências próprias de cada faixa. Script: [borda/observador_ordem.py](borda/observador_ordem.py); números: [borda/observador-ordem.json](borda/observador-ordem.json).
+
+**Resultado:** o critério de 20 ms **passa nas 3 configurações, nos dois ouvidos**.
+
+| Configuração | Menor assincronia com ordem sempre certa (esq. / dir.) | Exemplos da assincronia estimada (esq., "A primeiro") |
+|---|---|---|
+| 500 + 2.000 Hz, mesmo lugar | **7 ms** / **7 ms** | 10 → 9,8 ± 1,4 ms; 20 → 19,8 ± 1,0; 40 → 39,1 ± 0,7 |
+| 1.000 + 1.200 Hz, mesmo lugar | **2 ms** / **2 ms** | 10 → 9,8 ± 0,5; 20 → 20,2 ± 0,7; 40 → 40,5 ± 1,3 |
+| 500 + 2.000 Hz, ±30° | **5 ms** / **7 ms** | 10 → 10,8 ± 1,3; 20 → 19,2 ± 3,0; 40 → 40,6 ± 1,3 |
+
+**Leitura:** as incidências guardam a ordem e a separação dos inícios **bem abaixo** dos ~20 ms humanos. O mesmo cuidado de antes vale: sem ruído interno, o resultado é otimista. O observador também usa as latências próprias de cada faixa; um sistema que não as conhecesse teria um viés de alguns décimos de milissegundo (a condição de 0 ms deu −0,6 a +0,1 ms).
