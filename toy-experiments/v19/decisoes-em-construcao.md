@@ -34,6 +34,7 @@
 | Efeito na malha [R] | **O efeito (excitação ou inibição) entra como ingrediente, mas é adicionado às incidências pelas "arestas" (Upro)** | 22/11 |
 | Direções das ligações [R] | Pode haver **lateral, descendente e ascendente**. Por ora, falar de **alças** no genérico; se for preciso distinguir, ver o que faz sentido no nosso caso | 22/11 |
 | Efeito por Upro [R] | **Cada Upro pode ter o seu efeito** (Upros da mesma unidade podem ter efeitos diferentes) | 22/11 |
+| Onde fica o efeito [R] | **Na incidência.** A Upro modifica a incidência; a incidência é uma abstração sem correspondente direto no modelo neurobiológico | 22/11 |
 | Onde fica o efeito [R] | **Na incidência** — "uma abstração para a qual não vai encontrar algo direto na NB"; a Upro adiciona o efeito à incidência | 22/11 |
 | Construção da malha: tempo [R] | **O "temporo" não é constitutivo de toda relação.** Isso tem de ficar claro na regra de criação da malha | 22/11 |
 
