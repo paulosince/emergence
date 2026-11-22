@@ -32,7 +32,8 @@
 | Obra escolhida [R] | **Gymnopédie n.º 1** (Satie) | 22/11 |
 | Malha topológica [R, em reflexão] | Antes da questão temporal, a malha teria basicamente **convergência, divergência e feedback (alças)**, que, conforme os níveis de profundidade, formam outros tipos de relação | 22/11 |
 | Efeito na malha [R] | **O efeito (excitação ou inibição) entra como ingrediente, mas é adicionado às incidências pelas "arestas" (Upro)** | 22/11 |
-| Direções das ligações [R, em reflexão] | Pode haver **lateral, descendente e ascendente** | 22/11 |
+| Direções das ligações [R] | Pode haver **lateral, descendente e ascendente**. Por ora, falar de **alças** no genérico; se for preciso distinguir, ver o que faz sentido no nosso caso | 22/11 |
+| Efeito por Upro [R] | **Cada Upro pode ter o seu efeito** (Upros da mesma unidade podem ter efeitos diferentes) | 22/11 |
 | Construção da malha: tempo [R] | **O "temporo" não é constitutivo de toda relação.** Isso tem de ficar claro na regra de criação da malha | 22/11 |
 
 ## Base da decisão sobre o determinismo [L]
@@ -57,5 +58,5 @@
 11. **Níveis e tempo na regra de criação** [A]: ponderações em 22/11 (níveis precisam surgir, não vir desenhados; tempo como condição × tempo como conteúdo; o nível de episódio pede crescimento de uma só vez, em tensão com "estrutura construída aos poucos"). A decidir pelo responsável.
 12. **Retomar a investigação da V0.16** [A]: o dossiê HCMT (`v16/dossie-hcmt.md`) já achou que "folhas" por instante não aparecem no modelo neurobiológico, que o tempo aparece como eixo de mapa ou janela de integração, que o tempo fino vira taxa e lugar acima do tronco encefálico, e que há mapas com dois eixos independentes. E a regra aprovada em `docs/mesh-rules-v0.1.md`: "nível = 1 + maior nível das entradas; sem camadas predefinidas". A confirmar se valem para a V0.19.
 13. Em reflexão pelo responsável (22/11): se o tipo de convergência sai do que convergiu (HCMT original) e se a regra de criação separa o tempo como condição do tempo como conteúdo.
-14. **Efeito por Upro ou por origem** [A]: no modelo neurobiológico, o princípio de Dale diz que o neurônio exerce a mesma ação química em todas as suas sinapses (regra prática com exceções conhecidas de co-liberação); a inibição costuma passar por um neurônio inibitório intermediário. A decidir: Upros da mesma unidade podem ter efeitos diferentes?
+14. **Simplificação agnóstica a declarar: efeito por Upro** [R decidiu; A propõe a redação]: diverge do princípio de Dale (o neurônio exerce a mesma ação química em todas as suas sinapses, regra prática com exceções). Equivalência candidata: uma Upro inibitória equivale a um ramo excitatório + uma unidade inibitória intermediária, recolhidos numa só aresta. Perdas candidatas: o atraso de uma sinapse a mais; a integração própria da unidade inibitória (que pode juntar várias entradas e servir a vários alvos); a plasticidade própria dela. A aprovar.
 15. **Nível e alças** [A]: com "nível = 1 + maior nível das entradas", uma alça (A→B→A) faria o nível subir sem fim. Proposta: o nível é fixado na constituição, pelas entradas que constituíram a unidade; ligações laterais e descendentes criadas depois não o mudam. A decidir.
