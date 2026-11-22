@@ -28,7 +28,7 @@
 | Percurso [R] | **Contínuo de um ponto a outro, sem saltos, sem "aparecer do nada"** | 22/11 |
 | Construção da malha: níveis [R] | **Níveis de organização, do mais genérico (e portanto mais reutilizável) ao mais específico; e um nível específico para "episódio"** | 22/11 |
 | Construção da malha: multidimensional [R] | **"A ideia é uma organização multidimensional"**; a imagem de rede em camadas só serviu para lembrar do desenho dele (folhas 2D em camadas 3D, hipótese HCMT da V0.15) | 22/11 |
-| Níveis [R] | **Vale para a V0.19 a regra aprovada "nível = 1 + maior nível das entradas; sem camadas predefinidas"** (`docs/mesh-rules-v0.1.md`) | 22/11 |
+| Níveis [R] | **Correção (22/11):** o "sim" do responsável foi à proposição (níveis que surgem, sem camadas predefinidas, do genérico ao específico), **não à fórmula estrita** "nível = 1 + maior nível das entradas", que foi sugestão do assistente. Se o nível entra ou não na regra de criação está em aberto | 22/11 |
 | Obra escolhida [R] | **Gymnopédie n.º 1** (Satie) | 22/11 |
 | Malha topológica [R, em reflexão] | Antes da questão temporal, a malha teria basicamente **convergência, divergência e feedback (alças)**, que, conforme os níveis de profundidade, formam outros tipos de relação | 22/11 |
 | Efeito na malha [R] | **O efeito (excitação ou inibição) entra como ingrediente, mas é adicionado às incidências pelas "arestas" (Upro)** | 22/11 |
