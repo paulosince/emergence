@@ -220,6 +220,12 @@
 - **O que seria nosso [A]:** níveis que **surgem** da própria regra da Pcrt (ela só cria sobre o que não encontrou representação, então o genérico absorve o que pode e só o resto vira específico), sem camadas desenhadas antes; e a regra de criação declarar, para cada relação, se o tempo é **condição** (precisa chegar junto para integrar) ou **conteúdo** (o intervalo ou a ordem é o que a relação representa).
 - **O que falta para alegar:** decisão do responsável; busca de precedentes para níveis emergentes por criação só sobre o não representado; teste.
 
+## 27. Glias como construtoras locais da malha (responsável, 22/11/2026)
+- **Proposta [R]:** um processo central de testes de convergência fica inviável com o crescimento; glias que agem localmente na malha, em apoio ao Sdom (retoma a hipótese glial de 17/11, seção 16).
+- **O que existe [L, resumos]:** astrócitos imaturos secretam trombospondinas que promovem a formação de sinapses e funcionam como chave permissiva que marca o tempo da sinaptogênese (Christopherson et al. 2005); astrócitos eliminam sinapses por fagocitose dependente de atividade, inclusive no adulto (Chung et al. 2013); a plasticidade da mielina (oligodendrócitos) ajusta a velocidade de condução, e atrasos menores que 1 ms mudam a fase em ~30° (Pajevic, Basser e Fields 2014; modelo de retroalimentação em Pajevic et al. 2023); territórios astrocitários em grande parte exclusivos (Bushong et al. 2002); astrócitos humanos 2,6 × maiores e com 10 × mais prolongamentos que os de roedor (Oberheim et al. 2009).
+- **O que seria nosso [A]:** a construção da malha (criar, podar e ajustar atrasos) feita por unidades locais com território, de modo que o custo cresça com o conteúdo de cada território, e não com combinações sobre a malha inteira; o critério que distingue glia de Uint: a glia avalia onde ainda **não** há Uint (o que não encontrou representação).
+- **O que falta para alegar:** decisões do responsável (seção 18 das pendências da V0.19); definição de vizinhança sem espaço anatômico; busca de precedentes de construção de rede por agentes locais com território; teste.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
@@ -239,3 +245,8 @@
 - Hasson, U., Yang, E., Vallines, I., Heeger, D. J., e Rubin, N. (2008). A hierarchy of temporal receptive windows in human cortex. *J Neurosci* 28(10), 2539–2550. doi:10.1523/JNEUROSCI.5487-07.2008.
 - Lerner, Y., Honey, C. J., Silbert, L. J., e Hasson, U. (2011). Topographic mapping of a hierarchy of temporal receptive windows using a narrated story. *J Neurosci* 31(8), 2906–2915. doi:10.1523/JNEUROSCI.3684-10.2011.
 - Feng, L., e Wang, X. (2017). Harmonic template neurons in primate auditory cortex underlying complex sound processing. *PNAS* 114(5), E840–E848. doi:10.1073/pnas.1607519114.
+- Christopherson, K. S., Ullian, E. M., Stokes, C. C., et al., e Barres, B. A. (2005). Thrombospondins are astrocyte-secreted proteins that promote CNS synaptogenesis. *Cell* 120(3), 421–433. doi:10.1016/j.cell.2004.12.020.
+- Chung, W.-S., Clarke, L. E., Wang, G. X., et al., e Barres, B. A. (2013). Astrocytes mediate synapse elimination through MEGF10 and MERTK pathways. *Nature* 504(7480), 394–400. doi:10.1038/nature12776.
+- Pajevic, S., Basser, P. J., e Fields, R. D. (2014). Role of myelin plasticity in oscillations and synchrony of neuronal activity. *Neuroscience* 276, 135–147.
+- Pajevic, S., Plenz, D., Basser, P. J., e Fields, R. D. (2023). Oligodendrocyte-mediated myelin plasticity and its role in neural synchronization. *eLife* 12, e81982. doi:10.7554/eLife.81982.
+- Oberheim, N. A., Takano, T., Han, X., et al., e Nedergaard, M. (2009). Uniquely hominid features of adult human astrocytes. *J Neurosci* 29(10), 3276–3287. doi:10.1523/JNEUROSCI.4707-08.2009.
