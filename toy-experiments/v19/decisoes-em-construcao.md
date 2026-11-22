@@ -37,6 +37,8 @@
 | V0.18 preservada [R] | **Nada da V0.18 (a borda que gera incidências) será perdido ou refeito; tudo é aproveitado. A V0.19 avança sobre aquele trabalho, sem mudar nada nele** | 22/11 |
 | Borda e posicionamento [R] | **A borda do Sdom (Utrd, terreno da V0.18) não muda.** O que vem agora: estudar a **regra de posicionamento na região** (proximidade, agrupamento em região etc.) | 22/11 |
 | Onde nascem as Upros [R] | **As Upros nascem onde as incidências falham em convergir para um caminho já criado** (regra da Pcrt sobre o que falhou, V0.17). **Isso agora é tarefa glial.** A decidir: a Pcrt cria as glias localmente primeiro, ou já se começa com glias próximas às Utrd (o responsável aceita sugestões) | 22/11 |
+| Glias iniciais [R] | **Aceita a sugestão:** glias iniciais perto das Utrd, multiplicando-se localmente por carga (sem a Pcrt criar glias) | 22/11 |
+| Densidade glial [R] | Pesquisar a densidade pela **capacidade do hardware** (a nossa cóclea): [investigação](investigacao-densidade-glial.md) | 22/11 |
 | Obra escolhida [R] | **Gymnopédie n.º 1** (Satie) | 22/11 |
 | Malha topológica [R, em reflexão] | Antes da questão temporal, a malha teria basicamente **convergência, divergência e feedback (alças)**, que, conforme os níveis de profundidade, formam outros tipos de relação | 22/11 |
 | Efeito na malha [R] | **O efeito (excitação ou inibição) entra como ingrediente, mas é adicionado às incidências pelas "arestas" (Upro)** | 22/11 |
