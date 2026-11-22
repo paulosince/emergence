@@ -27,6 +27,7 @@
 | Som da fonte em movimento [R] | **Sintético e contínuo**, para que a mudança seja só a posição de chegada | 22/11 |
 | Percurso [R] | **Contínuo de um ponto a outro, sem saltos, sem "aparecer do nada"** | 22/11 |
 | Construção da malha: níveis [R] | **Níveis de organização, do mais genérico (e portanto mais reutilizável) ao mais específico; e um nível específico para "episódio"** | 22/11 |
+| Construção da malha: multidimensional [R] | **"A ideia é uma organização multidimensional"**; a imagem de rede em camadas só serviu para lembrar do desenho dele (folhas 2D em camadas 3D, hipótese HCMT da V0.15) | 22/11 |
 | Construção da malha: tempo [R] | **O "temporo" não é constitutivo de toda relação.** Isso tem de ficar claro na regra de criação da malha | 22/11 |
 
 ## Base da decisão sobre o determinismo [L]
@@ -49,3 +50,4 @@
 9. **Obra com 4 gravações** [A]: candidata nova — Gymnopédie n.º 1 (Satie): Robin Alciatore (Musopen, domínio público; já em `v18/estimulos`, 3 min 4 s), Kevin MacLeod (CC BY 3.0, 3 min 7 s), "Gymnopedie No. 1..ogg" no Commons (3 min 25 s, licença a ver), Gregor Quendel (CC BY-NC 4.0, sobre arranjo de Hiroshi Munekawa). Andamentos próximos entre si, ao contrário da Sonata ao Luar (5 min 36 s × 7 min 53 s). Só páginas lidas.
 10. **Som sintético da fonte em movimento** [A]: qual sinal (ruído de banda larga, tom harmônico ou tom puro) e quais pontos de partida e chegada. Notas: tom puro localiza mal; o Doppler (~0,4% a 1,4 m/s, ordem de grandeza) e a mudança de nível com a distância fazem parte da física do mundo, não do sinal.
 11. **Níveis e tempo na regra de criação** [A]: ponderações em 22/11 (níveis precisam surgir, não vir desenhados; tempo como condição × tempo como conteúdo; o nível de episódio pede crescimento de uma só vez, em tensão com "estrutura construída aos poucos"). A decidir pelo responsável.
+12. **Retomar a investigação da V0.16** [A]: o dossiê HCMT (`v16/dossie-hcmt.md`) já achou que "folhas" por instante não aparecem no modelo neurobiológico, que o tempo aparece como eixo de mapa ou janela de integração, que o tempo fino vira taxa e lugar acima do tronco encefálico, e que há mapas com dois eixos independentes. E a regra aprovada em `docs/mesh-rules-v0.1.md`: "nível = 1 + maior nível das entradas; sem camadas predefinidas". A confirmar se valem para a V0.19.
