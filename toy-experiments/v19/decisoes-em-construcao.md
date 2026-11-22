@@ -23,6 +23,11 @@
 | Variação entre apresentações [R] | **A mesma obra em gravações diferentes** (ideal: 3 ou 4 gravações da mesma obra) | 21/11 |
 | Fonte em movimento [R] | Aprovada, "se dá pra fazer direito" | 21/11 |
 | Pcrt nas sessões de uso [R] | **Ligada** | 21/11 |
+| Obra [R] | Uma obra com **pelo menos 4 gravações diferentes: 2 para aprendizado e 2 para conferir a reutilização da malha** | 22/11 |
+| Som da fonte em movimento [R] | **Sintético e contínuo**, para que a mudança seja só a posição de chegada | 22/11 |
+| Percurso [R] | **Contínuo de um ponto a outro, sem saltos, sem "aparecer do nada"** | 22/11 |
+| Construção da malha: níveis [R] | **Níveis de organização, do mais genérico (e portanto mais reutilizável) ao mais específico; e um nível específico para "episódio"** | 22/11 |
+| Construção da malha: tempo [R] | **O "temporo" não é constitutivo de toda relação.** Isso tem de ficar claro na regra de criação da malha | 22/11 |
 
 ## Base da decisão sobre o determinismo [L]
 
@@ -39,5 +44,8 @@
 3. **Declarar a simplificação agnóstica** da construção determinística (regra 1 da metodologia): no modelo neurobiológico a construção é estocástica. Mecanismo, equivalência e perdas a escrever com o responsável. Perda possível, inferência do assistente [A]: viés da grade de atrasos das candidatas da Pcrt (o que fica entre elas só se alcança pelo brotamento).
 4. **Gravações ao vivo: direitos da gravação** [A]: a obra em domínio público não basta; a gravação precisa estar em domínio público ou com licença livre. Candidatas encontradas (só páginas de arquivo lidas, licença a conferir uma a uma): gravações ao vivo do Musopen (domínio público); Banda dos Fuzileiros Navais dos EUA, Sinfonia n.º 1 de Beethoven ao vivo (27/01/2019, domínio público); Orquestra Sinfônica de Fulda, Sinfonia n.º 5 de Beethoven (EFF Open Audio License).
 5. **Localização em movimento** [A]: gravações binaurais ou "8D" já trazem os ouvidos de outra cabeça, e o robô tem a própria; proposta: criar o efeito na cena (fonte que se move na sala do robô). A cena da V0.18 só tem fontes paradas; a fonte em movimento precisa ser acrescentada. A gravação do Pateta é da Disney (protegida) e não pode entrar no repositório público.
-6. **Sessões de uso** [A]: o que conta como "nunca ouvido" (gravação da mesma obra deixada fora do aprendizado, obra diferente, ou as duas) — a confirmar com o responsável.
+6. **Sessões de uso** [A]: as 2 gravações de conferência testam **generalização**; falta decidir se entra também uma **obra diferente** como controle de **especificidade** (não deveria ser percorrida pela malha em sua maioria).
 7. **Candidatas por obra** [A] (só páginas de arquivo lidas; licenças a conferir): Sinfonia n.º 5, 1.º movimento — Orquestra Sinfônica de Fulda/Schindler (2002, EFF Open Audio License) e Skidmore College Orchestra (Musopen, domínio público); Sonata ao Luar, 1.º movimento — Paul Pitman (Musopen, domínio público), Juan Felipe Arjona (CC BY 2.5), Bernd Krueger (MIDI tocado em piano digital, CC BY-SA 2.0 DE) e German Kitkin (IMSLP, licença a ver). Gravações antigas (Bernstein 1963, Walter 1956) aparecem no Internet Archive/IMSLP, mas sem licença livre clara: fora.
+9. **Obra com 4 gravações** [A]: candidata nova — Gymnopédie n.º 1 (Satie): Robin Alciatore (Musopen, domínio público; já em `v18/estimulos`, 3 min 4 s), Kevin MacLeod (CC BY 3.0, 3 min 7 s), "Gymnopedie No. 1..ogg" no Commons (3 min 25 s, licença a ver), Gregor Quendel (CC BY-NC 4.0, sobre arranjo de Hiroshi Munekawa). Andamentos próximos entre si, ao contrário da Sonata ao Luar (5 min 36 s × 7 min 53 s). Só páginas lidas.
+10. **Som sintético da fonte em movimento** [A]: qual sinal (ruído de banda larga, tom harmônico ou tom puro) e quais pontos de partida e chegada. Notas: tom puro localiza mal; o Doppler (~0,4% a 1,4 m/s, ordem de grandeza) e a mudança de nível com a distância fazem parte da física do mundo, não do sinal.
+11. **Níveis e tempo na regra de criação** [A]: ponderações em 22/11 (níveis precisam surgir, não vir desenhados; tempo como condição × tempo como conteúdo; o nível de episódio pede crescimento de uma só vez, em tensão com "estrutura construída aos poucos"). A decidir pelo responsável.

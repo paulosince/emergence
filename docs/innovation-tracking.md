@@ -214,6 +214,12 @@
 - **O que falta para alegar:** critérios de "suficiente" do responsável; busca de precedentes para a regra de emissão determinística.
 - **Revisão de 19/11 [L/A]:** a janela de carregamento que se alonga com o uso é **precedente** (pôster de Bruce, Erfani e Zilany 2017: redocagem adaptativa produz a adaptação curta de ~60 ms; a rápida de ~2 ms vem dos ~4 pontos). A emissão proporcional à reserva tem **precedente direto** em Bruce, Erfani e Zilany 2018 (texto integral, equação 8: liberação por ponto ocupado = comando/N); a janela que se alonga é a equação 7 do mesmo artigo. Nossa versão é determinística e por eventos; novidade não alegada sem busca.
 
+## 26. Níveis de organização do genérico ao específico, nível de episódio e tempo não constitutivo de toda relação (proposta do responsável, 22/11/2026)
+- **Proposta [R]:** a malha se organiza em níveis, do mais genérico (mais reutilizável) ao mais específico, com um nível específico para "episódio"; o tempo não é constitutivo de toda relação, e a regra de criação tem de deixar isso claro.
+- **O que existe [L]:** hierarquia de janelas temporais no córtex humano — áreas iniciais respondem ao estímulo do momento, áreas mais altas só a sequências coerentes mais longas (Hasson et al. 2008; Lerner et al. 2011; **resumos**). Neurônios do córtex auditivo primário do sagui que respondem a combinações harmônicas e pouco a harmônicos isolados (Feng e Wang 2017; **resumo**). Aprendizado rápido de episódios separado do aprendizado lento e generalizante (sistemas complementares de aprendizado; McClelland, McNaughton e O'Reilly 1995 — **de conhecimento prévio, não relido nesta sessão**).
+- **O que seria nosso [A]:** níveis que **surgem** da própria regra da Pcrt (ela só cria sobre o que não encontrou representação, então o genérico absorve o que pode e só o resto vira específico), sem camadas desenhadas antes; e a regra de criação declarar, para cada relação, se o tempo é **condição** (precisa chegar junto para integrar) ou **conteúdo** (o intervalo ou a ordem é o que a relação representa).
+- **O que falta para alegar:** decisão do responsável; busca de precedentes para níveis emergentes por criação só sobre o não representado; teste.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
@@ -230,3 +236,6 @@
 - Potjans, W., Morrison, A., e Diesmann, M. (2010). Enabling functional neural circuit simulations with distributed computing of neuromodulated plasticity. *Frontiers in Computational Neuroscience* 4, 141.
 - Tadros, T., Krishnan, G. P., Ramyaa, R., e Bazhenov, M. (2022). Sleep-like unsupervised replay reduces catastrophic forgetting in artificial neural networks. *Nature Communications* 13, 7742.
 - Zubler, F., e Douglas, R. (2009). A framework for modeling the growth and development of neurons and networks. *Frontiers in Computational Neuroscience* 3, 25.
+- Hasson, U., Yang, E., Vallines, I., Heeger, D. J., e Rubin, N. (2008). A hierarchy of temporal receptive windows in human cortex. *J Neurosci* 28(10), 2539–2550. doi:10.1523/JNEUROSCI.5487-07.2008.
+- Lerner, Y., Honey, C. J., Silbert, L. J., e Hasson, U. (2011). Topographic mapping of a hierarchy of temporal receptive windows using a narrated story. *J Neurosci* 31(8), 2906–2915. doi:10.1523/JNEUROSCI.3684-10.2011.
+- Feng, L., e Wang, X. (2017). Harmonic template neurons in primate auditory cortex underlying complex sound processing. *PNAS* 114(5), E840–E848. doi:10.1073/pnas.1607519114.
