@@ -66,6 +66,10 @@
 
 1. Unidades novas nascem **perto das fontes aferentes** (economia de fiação) [R 09/11].
 2. Atraso = distância ÷ velocidade [V18 18/11]; a Utad muda a velocidade.
+   - **Espaço em cubos iguais; o cubo é a unidade de distância** [R 23/11].
+   - **Velocidade basal:** a da Upro sem mielina, antes da Utad, em cubos por unidade de tempo, escolhida para que atravessar um cubo leve um tempo próximo do modelo neurobiológico [R 23/11].
+   - Os intervalos entre estações da via auditiva humana servem para conferir o resultado, não para calibrar [A, leitura confirmada 23/11].
+   - Em aberto: o tamanho real do cubo; o atraso sináptico somado (variante aprovada em 09/11) aguarda confirmação.
 3. [A] Relações do mesmo tipo ficam agrupadas na região da sua organização. **A regra de posicionamento (proximidade, agrupamento em região) ainda será estudada** [R 22/11].
 
 ## 8. Condições a comparar

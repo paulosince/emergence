@@ -232,6 +232,12 @@
 - **O que seria nosso [A]:** (1) a mesma regra de exuberância com seleção pelo uso aplicada à construção estrutural e ao ajuste de atrasos por unidades gliais com território, numa arquitetura agnóstica de substrato; (2) o registro local de fracassos da Ustr como representação do que o Sdom faz, **dentro do próprio Sdom** (correção do responsável, 23/11: sem Utrd entre glias e unidades representacionais, não há segundo Sdom; as glias reforçam o papel representacional do Sdom), testado com e sem relações entre as Ustr.
 - **O que falta para alegar:** decisões do responsável; busca de precedentes em IA e em modelos de construção de rede por agentes gliais; teste; cuidado com a CLEAR (metarrepresentação).
 
+## 29. Espaço em cubos e velocidade basal (responsável, 23/11/2026)
+- **Proposta [R]:** o Sdom é dividido em cubos iguais; a velocidade basal (Upro sem mielina, antes da Utad) é escolhida, em cubos por unidade de tempo, para aproximar o modelo neurobiológico; os atrasos saem dos percursos, e os intervalos da via auditiva humana servem só para conferir.
+- **O que existe [L]:** espaço discretizado em voxels e atraso por distância e velocidade são comuns em simulação de redes espaciais; velocidades sem mielina de ~0,25–0,5 m/s no hipocampo; atraso sináptico ~0,4 ms a 36 °C no cálice de Held. Detalhes em `toy-experiments/v19/investigacao-escala-e-velocidade.md`.
+- **O que seria nosso [A]:** pouco, isoladamente. O que pode ser novo é a combinação: um atraso basal sem mielina que só se aproxima dos intervalos da via auditiva depois do ajuste local pela Utad, sem impor esses intervalos.
+- **O que falta para alegar:** busca de precedentes de mielinização adaptativa em modelos espaciais; resultado do teste.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
