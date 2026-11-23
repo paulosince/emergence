@@ -37,11 +37,15 @@
 **Regra aprovada:** janela permissiva + avaliação por território + marca e remoção, com a atividade protegendo da poda.
 
 1. **Registro [A]:** cada Ustr guarda, no seu território, o rastro dos fracassos (onde, quando, de qual ponto transdutivo). Esse registro já é uma representação do que o Sdom faz [R 23/11: parte do Sdom, reforçando seu papel representacional].
-2. **Comparação, "cubo mágico" [A, sobre a visão do responsável da V0.17]:** a Ustr compara os fracassos com rastro ainda vivo no território, fixando um e testando os outros ("while que fixa uma variável" [V17]). Testa as diferenças possíveis: **entre faixas**, **entre ouvidos**, **entre momentos**.
+2. **Comparação, "cubo mágico" local [R 23/11]:** a Ustr compara só os fracassos com rastro ainda vivo **no próprio território**, fixando um e testando os outros ("while que fixa uma variável" [V17]). O espaço faz o giro: as diferenças que ela pode achar (entre faixas, entre ouvidos, entre momentos) dependem do que fisicamente chega ali. As Upros crescem por proximidade, sem destino [R 23/11]; onde as dos dois ouvidos se encontram, aparece a relação entre ouvidos.
 3. **Criação na janela permissiva [A]:** onde fracassos coincidem de novo, a Ustr cria **candidatas** — Upros nos pontos transdutivos (das mais sensíveis primeiro [V18]), com ramos para uma Uint candidata posta perto das fontes [R 09/11]. **Exuberância** de atrasos: faixa limitada pela fibra, candidatas espaçadas proporcionalmente, brotamento perto dos quase-acertos [V17]. Sem calcular o atraso: o uso seleciona [V17].
 4. **Crescimento e estabilização [V17, faixa de partida]:** crescer com 10–100 acertos em segundos a minutos; estabilizar com acertos em episódios espaçados (~1 h).
 5. **Marca e remoção [R 23/11]:** a candidata que não acerta é marcada; a atividade tira a marca; a marcada que continua sem acertar é removida (sumir em 1–4 dias sem acerto [V17]).
 6. **Multiplicação [R 22/11]:** quando a carga do território passa da capacidade, a Ustr se divide; a nova se integra à rede local.
+
+## 4b. Inibição [R 23/11]
+
+Toda Upro nasce excitatória e é selecionada pelo uso como as demais; depois, a **chegada fora de tempo** faz a Upro trocar de sinal (modelo neurobiológico: Kim e Kandler 2003). A declarar como simplificação; falta definir "fora de tempo".
 
 ## 5. O tipo, o nível e o tempo
 
@@ -73,9 +77,9 @@
 
 1. ~~Há Utad no instante zero?~~ **Decidido (23/11): sim, na mesma proporção das Ustr.**
 2. ~~Destino da Upro~~ **Decidido (23/11): pode nascer sem destino; proximidade, com possibilidade de união entre diferentes Utrd.**
-3. Como nasce a inibição (Upro com efeito inibitório): quando e por quê?
+3. ~~Inibição~~ **Decidido (23/11): nasce excitatória e troca de sinal depois; o gatilho é a chegada fora de tempo.** Falta definir "fora de tempo" e quantas repetições; declarar como simplificação.
 4. ~~Carga~~ **Decidido (23/11): número de fracassos registrados por tempo.** Falta a capacidade (o limite).
 5. A posição 3D dos pontos transdutivos (hardware da borda) e a regra de posicionamento.
 6. O critério de "em sua maioria".
-7. O "cubo mágico" (item 4.2 e 5.1): **a repensar (23/11)** — era central; o modelo agora é paralelo, local e regional. A redação do tempo (item 5.4) segue em reflexão.
+7. ~~"Cubo mágico"~~ **Decidido (23/11): local.** O espaço faz o giro; cada Ustr compara só o próprio território; os tipos dependem do que se encontra ali (perto de um ouvido: entre faixas; onde Upros dos dois ouvidos se encontram: entre ouvidos); o regional é a condição com relações entre Ustr. A redação do tempo (item 5.4) segue em reflexão.
 8. Simplificações a declarar: construção determinística; astrócito e micróglia juntos na Ustr; constante glial adaptada do córtex de camundongo; efeito por Upro (ramos de uma Upro com o mesmo efeito).
