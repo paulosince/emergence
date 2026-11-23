@@ -47,6 +47,7 @@
 | Regra da Ustr [R] | **Janela permissiva + avaliação por território + marca e remoção, com a atividade protegendo da poda** (base: Christopherson et al. 2005; Chung et al. 2013, 2015; Schafer et al. 2012) | 23/11 |
 | Regra da Utad [R] | **Excesso inicial, estabilização pelo uso e janela que se fecha** (base: Hines et al. 2015) | 23/11 |
 | Segundo Sdom [R] | **O registro de fracassos da Ustr já é a primeira forma** de representar o que o Sdom 1 faz. **Haverá uma versão com segundo Sdom (relações entre as Ustr) e uma sem**, para comparar | 23/11 |
+| Correção: não é um segundo Sdom [R] | **"A menos que tenhamos que introduzir Utrd entre glias e unidades representacionais, não é um segundo Sdom. São parte do Sdom, reforçando seu papel representacional."** As duas versões passam a ser: com relações entre as Ustr e sem. O termo "segundo Sdom" deixa de ser usado | 23/11 |
 | Obra escolhida [R] | **Gymnopédie n.º 1** (Satie) | 22/11 |
 | Malha topológica [R, em reflexão] | Antes da questão temporal, a malha teria basicamente **convergência, divergência e feedback (alças)**, que, conforme os níveis de profundidade, formam outros tipos de relação | 22/11 |
 | Efeito na malha [R] | **O efeito (excitação ou inibição) entra como ingrediente, mas é adicionado às incidências pelas "arestas" (Upro)** | 22/11 |
