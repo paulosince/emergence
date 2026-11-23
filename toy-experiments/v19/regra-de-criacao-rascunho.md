@@ -45,7 +45,7 @@
 
 ## 4b. Inibição [R 23/11]
 
-Toda Upro nasce excitatória e é selecionada pelo uso como as demais; depois, a **chegada fora de tempo** faz a Upro trocar de sinal (modelo neurobiológico: Kim e Kandler 2003). A declarar como simplificação; falta definir "fora de tempo".
+**Revisto pelo modelo neurobiológico (23/11, opção A):** (1) a chegada **depois** do disparo da unidade que recebe **enfraquece** (20–100 ms; 60–100 repetições; Bi e Poo 1998); a chegada antes, seguida de disparo, **fortalece**. (2) Uma parte das Upros **nasce destinada a ser inibitória** (predisposição de nascimento, como a linhagem), numa proporção a pesquisar para a via auditiva; elas também passam pela seleção enquanto ainda excitatórias e trocam de sinal depois (Kim e Kandler 2003).
 
 ## 5. O tipo, o nível e o tempo
 
@@ -77,7 +77,7 @@ Toda Upro nasce excitatória e é selecionada pelo uso como as demais; depois, a
 
 1. ~~Há Utad no instante zero?~~ **Decidido (23/11): sim, na mesma proporção das Ustr.**
 2. ~~Destino da Upro~~ **Decidido (23/11): pode nascer sem destino; proximidade, com possibilidade de união entre diferentes Utrd.**
-3. ~~Inibição~~ **Decidido (23/11): nasce excitatória e troca de sinal depois; o gatilho é a chegada fora de tempo.** Falta definir "fora de tempo" e quantas repetições; declarar como simplificação.
+3. ~~Inibição~~ **Decidido (23/11, revisto pelo modelo neurobiológico): opção A** (item 4b). Falta a proporção de Upros inibitórias na via auditiva e o momento da troca.
 4. ~~Carga~~ **Decidido (23/11): número de fracassos registrados por tempo.** Falta a capacidade (o limite).
 5. A posição 3D dos pontos transdutivos (hardware da borda) e a regra de posicionamento.
 6. O critério de "em sua maioria".
