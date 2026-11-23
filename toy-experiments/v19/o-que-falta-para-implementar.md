@@ -38,3 +38,24 @@
 
 19. A redação do tempo como condição e como conteúdo.
 20. O nível de "episódio": entra na V0.19 ou fica para depois?
+
+## Ordem de discussão (pedida pelo responsável em 23/11: primeiro o que pode responder outros)
+
+| Ordem | Item | Destrava |
+|---|---|---|
+| 1 | 2 — escala do espaço e velocidade de propagação | 3, 1, 14, 15 |
+| 2 | 3 — posição 3D da borda e das glias iniciais | 1, 14 |
+| 3 | 1 — crescimento da Upro e criação da Uint (posicionamento) | 5, 7, 14 |
+| 4 | 4 — números da Uint | 13, 8 |
+| 5 | 13 — regra do ramo (promoção e punição) | 6 |
+| 6 | 5 — Upros inibitórias: de onde e quando | — |
+| 7 | 14 e 15 — números da Ustr e da Utad | 7, 6 |
+| 8 | 7 — relações entre Ustr | — |
+| 9 | 17 — custo medido | 6, 11 |
+| 10 | 6 — calendário das sessões | 8 |
+| 11 | 9 — controle com obra diferente | 11 |
+| 12 | 11 e 12 — gravações e fonte em movimento | — |
+| 13 | 8 e 18 — critério, medida e instrumentação | 10 |
+| 14 | 16 — textos das simplificações | 10 |
+| 15 | 10 — registro prévio congelado | implementação |
+| — | 19 e 20 — em reflexão (a qualquer momento) | — |
