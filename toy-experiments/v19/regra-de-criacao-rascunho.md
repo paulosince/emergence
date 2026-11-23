@@ -71,11 +71,11 @@
 
 ## 9. Em aberto (a decidir pelo responsável)
 
-1. Há Utad no instante zero, ou elas nascem junto com as Upros?
-2. A Upro nasce já com destino (Uint candidata), ou pode existir sem destino (hipótese "Upro sem Uint", a testar)?
+1. ~~Há Utad no instante zero?~~ **Decidido (23/11): sim, na mesma proporção das Ustr.**
+2. ~~Destino da Upro~~ **Decidido (23/11): pode nascer sem destino; proximidade, com possibilidade de união entre diferentes Utrd.**
 3. Como nasce a inibição (Upro com efeito inibitório): quando e por quê?
-4. Como se mede a carga e a capacidade de um território glial?
+4. ~~Carga~~ **Decidido (23/11): número de fracassos registrados por tempo.** Falta a capacidade (o limite).
 5. A posição 3D dos pontos transdutivos (hardware da borda) e a regra de posicionamento.
 6. O critério de "em sua maioria".
-7. O "cubo mágico" como reconhecimento do tipo (item 5.1) e a redação do tempo (item 5.4).
+7. O "cubo mágico" (item 4.2 e 5.1): **a repensar (23/11)** — era central; o modelo agora é paralelo, local e regional. A redação do tempo (item 5.4) segue em reflexão.
 8. Simplificações a declarar: construção determinística; astrócito e micróglia juntos na Ustr; constante glial adaptada do córtex de camundongo; efeito por Upro (ramos de uma Upro com o mesmo efeito).
