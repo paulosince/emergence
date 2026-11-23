@@ -226,6 +226,12 @@
 - **O que seria nosso [A]:** a construção da malha (criar, podar e ajustar atrasos) feita por unidades locais com território, de modo que o custo cresça com o conteúdo de cada território, e não com combinações sobre a malha inteira; o critério que distingue glia de Uint: a glia avalia onde ainda **não** há Uint (o que não encontrou representação).
 - **O que falta para alegar:** decisões do responsável (seção 18 das pendências da V0.19); definição de vizinhança sem espaço anatômico; busca de precedentes de construção de rede por agentes locais com território; teste.
 
+## 28. Regras locais das glias (Ustr, Utad) e a hipótese do "segundo Sdom" (responsável, 23/11/2026)
+- **Propostas [R]:** Ustr (Unidade estrutural, o "CRUD" de estrutura) e Utad (Unidade de ajuste temporal); hipótese do responsável de que os astrócitos sirvam como um "segundo Sdom", metarrepresentacional, representando o que o Sdom 1 faz.
+- **O que existe [L]:** oligodendrócitos iniciam bainhas em excesso e a atividade seleciona (~75% somem em 90 min; Hines et al. 2015, texto integral); astrócitos integram ao longo das tentativas um sinal de fracasso vindo de neurônios e mudam o comportamento (Mu et al. 2019, texto integral); astrócitos codificam recompensa esperada (Doron et al. 2022) e posição de modo complementar aos neurônios (Curreli et al. 2022, texto integral); modelo de memória associativa neurônio–astrócito (Kozachkov et al. 2025); hipótese astrocêntrica da consciência (Robertson 2002, 2025; especulativa); controvérsia da gliotransmissão (Fiacco e McCarthy 2018; Savtchouk e Volterra 2018). Detalhes em `toy-experiments/v19/investigacao-glias-e-segundo-sdom.md`.
+- **O que seria nosso [A]:** (1) a mesma regra de exuberância com seleção pelo uso aplicada à construção estrutural e ao ajuste de atrasos por unidades gliais com território, numa arquitetura agnóstica de substrato; (2) o registro local de fracassos da Ustr como primeira forma de representação do que o Sdom faz, com a passagem a um "segundo Sdom" quando as Ustr formarem relações próprias entre si.
+- **O que falta para alegar:** decisões do responsável; busca de precedentes em IA e em modelos de construção de rede por agentes gliais; teste; cuidado com a CLEAR (metarrepresentação).
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
