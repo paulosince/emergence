@@ -239,6 +239,12 @@
 - **Decisões de 24/11 [R]:** cubo de ~20 µm; velocidade basal de 0,3 m/s; atraso sináptico dentro do tempo de integração da Uint (não instantânea), sem soma separada.
 - **O que falta para alegar:** busca de precedentes de mielinização adaptativa em modelos espaciais; resultado do teste.
 
+## 30. Crescimento guiado pelo registro glial de fracassos (24/11/2026)
+- **Decisões [R]:** a Upro cresce rumo aos fracassos vivos no registro das Ustr vizinhas, em tempo estrutural simulado; a Uint nasce onde Upros com fracassos coincidentes se encontram; na condição "com relações", Ustr vizinhas compartilham os fracassos dos cubos de fronteira; promoção pela participação na janela de integração, punição de Bi e Poo.
+- **O que existe [L]:** no cérebro, o primeiro mapa auditivo é montado por pistas moleculares antes da atividade, e a atividade refina (ramificar e podar); astrócitos integram fracassos no tempo (Mu et al. 2019); astrócitos vizinhos se ligam por junções comunicantes. Detalhes em `toy-experiments/v19/investigacao-crescimento-e-alvos.md`.
+- **O que seria nosso [A]:** usar o registro glial de fracassos como a pista que guia o crescimento, num domínio que nasce vazio, sem mapa pré-programado.
+- **O que falta para alegar:** busca de precedentes de crescimento guiado por glia em modelos computacionais; resultado do teste.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).

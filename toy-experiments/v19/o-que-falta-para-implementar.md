@@ -12,7 +12,7 @@
 4. ~~**Os números da Uint:**~~ **Aprovado no pacote (24/11).** janela de integração (já decidida com componente rápida e lenta, mas sem valores para esta via), limiar, janela de refratariedade e reserva de efeito da Uint. **Inclui agora o tempo mínimo entre a chegada e o disparo**, que responde pelo atraso sináptico (decisão de 24/11).
 5. ~~**De onde saem as Upros inibitórias.**~~ **Decidido (24/11):** só Upros que saem de Uints; trocam de sinal ao estabilizar. A saída da Utrd é 100% excitatória (V0.18), então os 20% só podem valer para Upros que saem de Uints. Falta confirmar, e decidir **quando** a troca de sinal acontece.
 6. **O calendário das sessões:** duração de cada sessão, quantas apresentações, intervalo entre sessões e o tempo simulado entre elas. As regras aprovadas falam em ~1 h para estabilizar e 1–4 dias para sumir; sem calendário, essas regras não chegam a agir.
-7. **O que é a condição "com relações entre Ustr"** (o que uma Ustr passa à vizinha e como). **Proposta registrada (24/11):** sobreposição leve dos territórios = "com relações"; territórios exclusivos = "sem". Falta o que passa de uma à outra.
+7. ~~**O que é a condição "com relações entre Ustr"**~~ **Decidido (24/11):** fracassos da fronteira compartilhados nos cubos sobrepostos; (o que uma Ustr passa à vizinha e como). **Proposta registrada (24/11):** sobreposição leve dos territórios = "com relações"; territórios exclusivos = "sem". Falta o que passa de uma à outra.
 8. **O critério de "em sua maioria"** e **como medir** que a reapresentação passou pela malha já vinculada.
 9. **O controle de especificidade** (uma obra diferente nas sessões de uso), que ficou sem decisão.
 10. **O registro prévio, congelado antes de rodar** (lição da V0.17: pré-experimento não congelado).
