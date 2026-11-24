@@ -86,7 +86,7 @@
 | Crescimento da Upro: tempo [R] | **Tempo estrutural simulado entre as sessões, no ritmo do modelo neurobiológico** (média ~35 µm/h, picos de ~200 µm/h; 5 cm ≈ 60 dias simulados). Consequência [A]: o rastro dos fracassos no registro da Ustr precisa durar o suficiente para guiar o crescimento entre sessões (número a propor no pacote da Ustr) | 24/11 |
 | Criação da Uint [R] | **Onde Upros com fracassos coincidentes se encontram**: no mesmo ouvido, perto da faixa (cumpre a regra de 09/11); entre ouvidos, no caminho entre eles | 24/11 |
 | Parada do crescimento [R] | **Quando a Upro forma um ramo numa Uint, ou quando a janela permissiva da Ustr fecha** | 24/11 |
-| Cores da interface [R] | **Amarelo** = som chegando; **verde neon** = incidência excitatória; **vermelho** = inibitória (como na V0.18). **Azul, roxo e uma terceira cor** para nova constituição, acesso a constituição existente e modificação (correspondência a definir) | 24/11 |
+| Cores da interface [R] | **Amarelo** = som chegando; **verde neon** = incidência excitatória; **vermelho** = inibitória (como na V0.18). **Azul, roxo e uma terceira cor** para nova constituição, acesso a constituição existente e modificação **Roxo = nova constituição; azul = acesso a constituição existente; ciano = modificação do que existe** | 24/11 |
 
 ## Base da decisão sobre o determinismo [L]
 
