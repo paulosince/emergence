@@ -9,7 +9,7 @@
 1. ~~**Como cresce uma Upro sem destino** e **onde a Ustr cria uma Uint.**~~ **Decidido (24/11):** cresce rumo aos fracassos vivos no registro das Ustr vizinhas, em tempo estrutural simulado entre sessões no ritmo do modelo neurobiológico; a Uint nasce onde Upros com fracassos coincidentes se encontram; o crescimento para ao formar ramo ou quando a janela permissiva fecha. **Vai para o pacote de números:** duração do rastro dos fracassos (precisa cobrir o crescimento entre sessões), passo de crescimento, ramificação durante o crescimento e quantas candidatas por coincidência.
 2. ~~**A escala do espaço e a velocidade de propagação.**~~ **Decidido (23–24/11):** espaço em cubos de ~20 µm; velocidade basal de 0,3 m/s; atraso sináptico dentro do tempo de integração da Uint.
 3. ~~**A posição 3D da borda** e das glias iniciais.~~ **Decidido (24/11):** faixa desenrolada por frequência e sensibilidade, um ponto por cubo; glias espalhadas por igual ao lado da faixa. Distância entre os ouvidos **confirmada**: ~10 cm, nas posições dos microfones.
-4. **Os números da Uint:** janela de integração (já decidida com componente rápida e lenta, mas sem valores para esta via), limiar, janela de refratariedade e reserva de efeito da Uint. **Inclui agora o tempo mínimo entre a chegada e o disparo**, que responde pelo atraso sináptico (decisão de 24/11).
+4. ~~**Os números da Uint:**~~ **Aprovado no pacote (24/11).** janela de integração (já decidida com componente rápida e lenta, mas sem valores para esta via), limiar, janela de refratariedade e reserva de efeito da Uint. **Inclui agora o tempo mínimo entre a chegada e o disparo**, que responde pelo atraso sináptico (decisão de 24/11).
 5. **De onde saem as Upros inibitórias.** A saída da Utrd é 100% excitatória (V0.18), então os 20% só podem valer para Upros que saem de Uints. Falta confirmar, e decidir **quando** a troca de sinal acontece.
 6. **O calendário das sessões:** duração de cada sessão, quantas apresentações, intervalo entre sessões e o tempo simulado entre elas. As regras aprovadas falam em ~1 h para estabilizar e 1–4 dias para sumir; sem calendário, essas regras não chegam a agir.
 7. **O que é a condição "com relações entre Ustr"** (o que uma Ustr passa à vizinha e como). **Proposta registrada (24/11):** sobreposição leve dos territórios = "com relações"; territórios exclusivos = "sem". Falta o que passa de uma à outra.
@@ -24,10 +24,10 @@
 
 ## C. Posso propor pelo modelo neurobiológico (aprovação do responsável)
 
-13. Forma da regra do ramo (promoção e punição): janelas e tamanho da mudança por par (Bi e Poo 1998; Feldman 2012).
-14. Números da Ustr: tamanho do território, capacidade (fracassos por tempo), duração da janela permissiva, tempos da marca à remoção.
-15. Números da Utad: faixa de velocidades, critério de estabilização, duração da janela (Hines et al. 2015: amostragem nas primeiras horas).
-16. Os textos das simplificações a declarar: construção determinística; atraso sináptico dentro do tempo de integração da Uint (24/11); astrócito e micróglia juntos na Ustr; constante glial do córtex de camundongo; efeito por Upro com ramos iguais; proporção de neurônios aplicada a Upros; mesmo tipo na mesma organização.
+13. ~~Forma da regra do ramo~~ **Aprovado no pacote (24/11).** (promoção e punição): janelas e tamanho da mudança por par (Bi e Poo 1998; Feldman 2012).
+14. ~~Números da Ustr:~~ **Aprovado no pacote (24/11); capacidade a calibrar no primeiro ensaio.** tamanho do território, capacidade (fracassos por tempo), duração da janela permissiva, tempos da marca à remoção.
+15. ~~Números da Utad:~~ **Aprovado no pacote (24/11).** faixa de velocidades, critério de estabilização, duração da janela (Hines et al. 2015: amostragem nas primeiras horas).
+16. ~~Os textos das simplificações a declarar:~~ **Rascunho aprovado no pacote (24/11).** construção determinística; atraso sináptico dentro do tempo de integração da Uint (24/11); astrócito e micróglia juntos na Ustr; constante glial do córtex de camundongo; efeito por Upro com ramos iguais; proporção de neurônios aplicada a Upros; mesmo tipo na mesma organização.
 
 ## D. Viabilidade (engenharia, a medir antes de codar)
 

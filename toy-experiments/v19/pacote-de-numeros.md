@@ -2,7 +2,7 @@
 
 Data: 24/11/2026. Redação: assistente (Claude). Pedido do responsável (24/11): números da Uint, regra do ramo, Ustr, Utad e textos das simplificações num pacote só.
 
-**Como ler:** [L] literatura (grau de leitura e confiança indicados); [A] proposta do assistente; [V17]/[V18] número já usado ou decidido nas versões anteriores (a V0.18 não muda; da V0.17 passam só parâmetros). Nada aqui está aprovado.
+**Como ler:** [L] literatura (grau de leitura e confiança indicados); [A] proposta do assistente; [V17]/[V18] número já usado ou decidido nas versões anteriores (a V0.18 não muda; da V0.17 passam só parâmetros). **Aprovado pelo responsável em 24/11/2026**, com três escolhas: promoção pela janela de integração (Bi e Poo só para punir; revê 23/11); um só conjunto de parâmetros para todas as Uints; rastro do fracasso até a sessão seguinte. Os demais números e textos, como propostos.
 
 ## 1. Uint
 
