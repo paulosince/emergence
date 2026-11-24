@@ -71,6 +71,7 @@
    - Os intervalos entre estações da via auditiva humana servem para conferir o resultado, não para calibrar [A, leitura confirmada 23/11].
    - **Cubo de ~20 µm; velocidade basal de 0,3 m/s (≈ 67 µs por cubo)** [R 24/11].
    - **Atraso = percurso ÷ velocidade (janela de propagação).** O atraso sináptico não é somado: fica dentro do **tempo de integração da Uint, que não é instantânea** [R 24/11, revê a variante de 09/11].
+2b. **Borda [R 24/11]:** pontos transdutivos de cada ouvido numa faixa desenrolada e compacta, bandas na ordem de frequência e, dentro de cada banda, ordem de sensibilidade; um ponto por cubo. Glias iniciais e distância entre ouvidos: em pesquisa.
 3. [A] Relações do mesmo tipo ficam agrupadas na região da sua organização. **A regra de posicionamento (proximidade, agrupamento em região) ainda será estudada** [R 22/11].
 
 ## 8. Condições a comparar

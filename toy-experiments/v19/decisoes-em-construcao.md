@@ -75,6 +75,7 @@
 | Tamanho do cubo [R] | **~20 µm** (escala de um soma e da distância média entre neurônios vizinhos; uma unidade ocupa cerca de um cubo) | 24/11 |
 | Velocidade basal [R] | **0,3 m/s** (centro das medidas em axônios sem mielina; ≈ 67 µs por cubo) | 24/11 |
 | Atraso sináptico [R] | **Fica dentro do tempo de integração da Uint**, que portanto **não pode ser instantânea** (tempo mínimo entre a chegada e o disparo, a fixar nos números da Uint). A comparação de quem chega primeiro (promoção ou punição) **não conta como atraso**: avalia a ordem e muda a conexão para as próximas vezes. A janela de propagação cobre o percurso. **Revê a variante de 09/11** (latência = distância ÷ velocidade + atraso sináptico). Simplificação agnóstica a declarar: junta o atraso sináptico e o tempo até o disparo; perde, a menos que o tempo de integração varie com o uso, o aumento do atraso sináptico com a atividade sustentada (centenas de µs) | 24/11 |
+| Posição da borda [R] | Pontos transdutivos de cada ouvido numa **faixa desenrolada e compacta**: ao longo dela, as 64 bandas na ordem de frequência; **dentro de cada banda, ordem de sensibilidade** (do lado pilar, limiar baixo, ao lado do modíolo, limiar alto; Liberman e colegas); **um ponto por cubo**. A V0.18 não muda: só ganha coordenadas. Simplificação a declarar: perde a vizinhança entre voltas da espiral (faixas distantes em frequência que ficam próximas no espaço). **Em pesquisa:** disposição inicial das glias e distância entre os ouvidos | 24/11 |
 
 ## Base da decisão sobre o determinismo [L]
 
