@@ -1,0 +1,4 @@
+*.ogg
+*.mp3
+bateria/*.f32
+!bateria/previa-*.ogg
