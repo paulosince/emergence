@@ -97,6 +97,7 @@
 | Fica na V0.19 [R] | **Multiplicação das Ustr pela carga.** **Regra do ramo implementada na estrutura, e observa-se se é "chamada"** (se a promoção e a punição chegam a disparar): instrumentar contagens | 24/11 |
 | Alcance da Upro [R] | **A candidata nasce com o comprimento**, ligada a uma Uint candidata (exuberância da V0.17); o uso decide. **Substitui, na V0.19, o crescimento lento em tempo estrutural** (decisão de 24/11, que fica para quando houver processos posteriores); a contagem por cubo como guia do crescimento não é usada | 24/11 |
 | Volta do som [R] | **Outra gravação da mesma obra** (2 gravações formam, 2 outras voltam), para evitar a armadilha do determinismo; e **uma obra diferente** para ver se forma malha diferente | 24/11 |
+| Desenho reduzido [R] | **Fonte em movimento sai** da V0.19. **Obra diferente: Chaconne de Bach, BWV 1004 (violino, Goldstein, CC BY-SA 3.0)**, já usada na V0.18. **Comparação no mesmo Sdom:** a Chaconne entra depois da Gymnopédie, no Sdom já formado | 24/11 |
 
 ## Base da decisão sobre o determinismo [L]
 
