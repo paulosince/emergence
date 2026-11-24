@@ -31,7 +31,7 @@
 
 ## D. Viabilidade (engenharia, a medir antes de codar)
 
-17. **Custo:** a borda gera ~1–2 milhões de incidências por segundo por ouvido em música; uma Gymnopédie de ~3 min dá centenas de milhões por apresentação, antes do Sdom. É preciso medir e talvez decidir trechos mais curtos (decisão do responsável).
+17. **Custo:** estimado em `custo-estimado.md` (24/11); rastro separado em coincidência e guia; peça inteira ou trechos **após piloto de 10 s**. a borda gera ~1–2 milhões de incidências por segundo por ouvido em música; uma Gymnopédie de ~3 min dá centenas de milhões por apresentação, antes do Sdom. É preciso medir e talvez decidir trechos mais curtos (decisão do responsável).
 18. Instrumentação: marcar cada estrutura com a sessão em que nasceu; interface no GitHub Pages (`v19/index.html`). **Estética pedida (24/11):** fundo azul-marinho escuro, linhas de luz azul elétrica com miolo branco, painéis de interface com contorno fino e cantos chanfrados, anéis holográficos (referência: fotos do responsável; sem personagens nem marcas).
 
 ## E. Em reflexão pelo responsável (não bloqueiam o primeiro código, mas entram na regra)
