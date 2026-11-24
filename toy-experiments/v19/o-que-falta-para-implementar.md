@@ -6,7 +6,7 @@
 
 ## A. Bloqueiam a implementação (decisões científicas do responsável)
 
-1. **Como cresce uma Upro sem destino** (direção, alcance, quando para) e **onde e quando a Ustr cria uma Uint** a partir das Upros que se encontram. É a regra de posicionamento, já marcada para estudo. Sem ela não há malha.
+1. ~~**Como cresce uma Upro sem destino** e **onde a Ustr cria uma Uint.**~~ **Decidido (24/11):** cresce rumo aos fracassos vivos no registro das Ustr vizinhas, em tempo estrutural simulado entre sessões no ritmo do modelo neurobiológico; a Uint nasce onde Upros com fracassos coincidentes se encontram; o crescimento para ao formar ramo ou quando a janela permissiva fecha. **Vai para o pacote de números:** duração do rastro dos fracassos (precisa cobrir o crescimento entre sessões), passo de crescimento, ramificação durante o crescimento e quantas candidatas por coincidência.
 2. ~~**A escala do espaço e a velocidade de propagação.**~~ **Decidido (23–24/11):** espaço em cubos de ~20 µm; velocidade basal de 0,3 m/s; atraso sináptico dentro do tempo de integração da Uint.
 3. ~~**A posição 3D da borda** e das glias iniciais.~~ **Decidido (24/11):** faixa desenrolada por frequência e sensibilidade, um ponto por cubo; glias espalhadas por igual ao lado da faixa. Distância entre os ouvidos **confirmada**: ~10 cm, nas posições dos microfones.
 4. **Os números da Uint:** janela de integração (já decidida com componente rápida e lenta, mas sem valores para esta via), limiar, janela de refratariedade e reserva de efeito da Uint. **Inclui agora o tempo mínimo entre a chegada e o disparo**, que responde pelo atraso sináptico (decisão de 24/11).
@@ -45,7 +45,7 @@
 |---|---|---|
 | 1 | 2 — escala do espaço e velocidade de propagação (**decidido 24/11**) | 3, 1, 14, 15 |
 | 2 | 3 — posição 3D da borda e das glias iniciais (**decidido 24/11**) | 1, 14 |
-| 3 | 1 — crescimento da Upro e criação da Uint (posicionamento) | 5, 7, 14 |
+| 3 | 1 — crescimento da Upro e criação da Uint (**decidido 24/11**; detalhes numéricos no pacote) | 5, 7, 14 |
 | 4 | 4 — números da Uint | 13, 8 |
 | 5 | 13 — regra do ramo (promoção e punição) | 6 |
 | 6 | 5 — Upros inibitórias: de onde e quando | — |
