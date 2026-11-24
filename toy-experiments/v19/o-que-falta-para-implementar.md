@@ -8,11 +8,11 @@
 
 1. **Como cresce uma Upro sem destino** (direção, alcance, quando para) e **onde e quando a Ustr cria uma Uint** a partir das Upros que se encontram. É a regra de posicionamento, já marcada para estudo. Sem ela não há malha.
 2. ~~**A escala do espaço e a velocidade de propagação.**~~ **Decidido (23–24/11):** espaço em cubos de ~20 µm; velocidade basal de 0,3 m/s; atraso sináptico dentro do tempo de integração da Uint.
-3. **A posição 3D da borda** (pontos transdutivos dos dois ouvidos) e das glias iniciais.
+3. ~~**A posição 3D da borda** e das glias iniciais.~~ **Decidido (24/11):** faixa desenrolada por frequência e sensibilidade, um ponto por cubo; glias espalhadas por igual ao lado da faixa. **Falta só confirmar** a leitura da distância entre os ouvidos (~10 cm, pela regra de 09/11 e pela cabeça do robô).
 4. **Os números da Uint:** janela de integração (já decidida com componente rápida e lenta, mas sem valores para esta via), limiar, janela de refratariedade e reserva de efeito da Uint. **Inclui agora o tempo mínimo entre a chegada e o disparo**, que responde pelo atraso sináptico (decisão de 24/11).
 5. **De onde saem as Upros inibitórias.** A saída da Utrd é 100% excitatória (V0.18), então os 20% só podem valer para Upros que saem de Uints. Falta confirmar, e decidir **quando** a troca de sinal acontece.
 6. **O calendário das sessões:** duração de cada sessão, quantas apresentações, intervalo entre sessões e o tempo simulado entre elas. As regras aprovadas falam em ~1 h para estabilizar e 1–4 dias para sumir; sem calendário, essas regras não chegam a agir.
-7. **O que é a condição "com relações entre Ustr"** (o que uma Ustr passa à vizinha e como).
+7. **O que é a condição "com relações entre Ustr"** (o que uma Ustr passa à vizinha e como). **Proposta registrada (24/11):** sobreposição leve dos territórios = "com relações"; territórios exclusivos = "sem". Falta o que passa de uma à outra.
 8. **O critério de "em sua maioria"** e **como medir** que a reapresentação passou pela malha já vinculada.
 9. **O controle de especificidade** (uma obra diferente nas sessões de uso), que ficou sem decisão.
 10. **O registro prévio, congelado antes de rodar** (lição da V0.17: pré-experimento não congelado).
@@ -32,7 +32,7 @@
 ## D. Viabilidade (engenharia, a medir antes de codar)
 
 17. **Custo:** a borda gera ~1–2 milhões de incidências por segundo por ouvido em música; uma Gymnopédie de ~3 min dá centenas de milhões por apresentação, antes do Sdom. É preciso medir e talvez decidir trechos mais curtos (decisão do responsável).
-18. Instrumentação: marcar cada estrutura com a sessão em que nasceu; interface no GitHub Pages (`v19/index.html`).
+18. Instrumentação: marcar cada estrutura com a sessão em que nasceu; interface no GitHub Pages (`v19/index.html`). **Estética pedida (24/11):** fundo azul-marinho escuro, linhas de luz azul elétrica com miolo branco, painéis de interface com contorno fino e cantos chanfrados, anéis holográficos (referência: fotos do responsável; sem personagens nem marcas).
 
 ## E. Em reflexão pelo responsável (não bloqueiam o primeiro código, mas entram na regra)
 
@@ -44,7 +44,7 @@
 | Ordem | Item | Destrava |
 |---|---|---|
 | 1 | 2 — escala do espaço e velocidade de propagação (**decidido 24/11**) | 3, 1, 14, 15 |
-| 2 | 3 — posição 3D da borda e das glias iniciais | 1, 14 |
+| 2 | 3 — posição 3D da borda e das glias iniciais (**decidido 24/11; distância a confirmar**) | 1, 14 |
 | 3 | 1 — crescimento da Upro e criação da Uint (posicionamento) | 5, 7, 14 |
 | 4 | 4 — números da Uint | 13, 8 |
 | 5 | 13 — regra do ramo (promoção e punição) | 6 |
