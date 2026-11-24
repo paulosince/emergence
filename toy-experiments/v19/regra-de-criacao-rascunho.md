@@ -69,7 +69,8 @@
    - **Espaço em cubos iguais; o cubo é a unidade de distância** [R 23/11].
    - **Velocidade basal:** a da Upro sem mielina, antes da Utad, em cubos por unidade de tempo, escolhida para que atravessar um cubo leve um tempo próximo do modelo neurobiológico [R 23/11].
    - Os intervalos entre estações da via auditiva humana servem para conferir o resultado, não para calibrar [A, leitura confirmada 23/11].
-   - Em aberto: o tamanho real do cubo; o atraso sináptico somado (variante aprovada em 09/11) aguarda confirmação.
+   - **Cubo de ~20 µm; velocidade basal de 0,3 m/s (≈ 67 µs por cubo)** [R 24/11].
+   - **Atraso = percurso ÷ velocidade (janela de propagação).** O atraso sináptico não é somado: fica dentro do **tempo de integração da Uint, que não é instantânea** [R 24/11, revê a variante de 09/11].
 3. [A] Relações do mesmo tipo ficam agrupadas na região da sua organização. **A regra de posicionamento (proximidade, agrupamento em região) ainda será estudada** [R 22/11].
 
 ## 8. Condições a comparar

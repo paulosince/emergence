@@ -7,9 +7,9 @@
 ## A. Bloqueiam a implementação (decisões científicas do responsável)
 
 1. **Como cresce uma Upro sem destino** (direção, alcance, quando para) e **onde e quando a Ustr cria uma Uint** a partir das Upros que se encontram. É a regra de posicionamento, já marcada para estudo. Sem ela não há malha.
-2. **A escala do espaço e a velocidade de propagação.** Com atraso = distância ÷ velocidade, o tamanho do espaço 3D e a velocidade decidem todos os atrasos; nada disso tem número.
+2. ~~**A escala do espaço e a velocidade de propagação.**~~ **Decidido (23–24/11):** espaço em cubos de ~20 µm; velocidade basal de 0,3 m/s; atraso sináptico dentro do tempo de integração da Uint.
 3. **A posição 3D da borda** (pontos transdutivos dos dois ouvidos) e das glias iniciais.
-4. **Os números da Uint:** janela de integração (já decidida com componente rápida e lenta, mas sem valores para esta via), limiar, janela de refratariedade e reserva de efeito da Uint.
+4. **Os números da Uint:** janela de integração (já decidida com componente rápida e lenta, mas sem valores para esta via), limiar, janela de refratariedade e reserva de efeito da Uint. **Inclui agora o tempo mínimo entre a chegada e o disparo**, que responde pelo atraso sináptico (decisão de 24/11).
 5. **De onde saem as Upros inibitórias.** A saída da Utrd é 100% excitatória (V0.18), então os 20% só podem valer para Upros que saem de Uints. Falta confirmar, e decidir **quando** a troca de sinal acontece.
 6. **O calendário das sessões:** duração de cada sessão, quantas apresentações, intervalo entre sessões e o tempo simulado entre elas. As regras aprovadas falam em ~1 h para estabilizar e 1–4 dias para sumir; sem calendário, essas regras não chegam a agir.
 7. **O que é a condição "com relações entre Ustr"** (o que uma Ustr passa à vizinha e como).
@@ -27,7 +27,7 @@
 13. Forma da regra do ramo (promoção e punição): janelas e tamanho da mudança por par (Bi e Poo 1998; Feldman 2012).
 14. Números da Ustr: tamanho do território, capacidade (fracassos por tempo), duração da janela permissiva, tempos da marca à remoção.
 15. Números da Utad: faixa de velocidades, critério de estabilização, duração da janela (Hines et al. 2015: amostragem nas primeiras horas).
-16. Os textos das simplificações a declarar: construção determinística; astrócito e micróglia juntos na Ustr; constante glial do córtex de camundongo; efeito por Upro com ramos iguais; proporção de neurônios aplicada a Upros; mesmo tipo na mesma organização.
+16. Os textos das simplificações a declarar: construção determinística; atraso sináptico dentro do tempo de integração da Uint (24/11); astrócito e micróglia juntos na Ustr; constante glial do córtex de camundongo; efeito por Upro com ramos iguais; proporção de neurônios aplicada a Upros; mesmo tipo na mesma organização.
 
 ## D. Viabilidade (engenharia, a medir antes de codar)
 
@@ -43,7 +43,7 @@
 
 | Ordem | Item | Destrava |
 |---|---|---|
-| 1 | 2 — escala do espaço e velocidade de propagação | 3, 1, 14, 15 |
+| 1 | 2 — escala do espaço e velocidade de propagação (**decidido 24/11**) | 3, 1, 14, 15 |
 | 2 | 3 — posição 3D da borda e das glias iniciais | 1, 14 |
 | 3 | 1 — crescimento da Upro e criação da Uint (posicionamento) | 5, 7, 14 |
 | 4 | 4 — números da Uint | 13, 8 |

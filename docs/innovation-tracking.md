@@ -236,6 +236,7 @@
 - **Proposta [R]:** o Sdom é dividido em cubos iguais; a velocidade basal (Upro sem mielina, antes da Utad) é escolhida, em cubos por unidade de tempo, para aproximar o modelo neurobiológico; os atrasos saem dos percursos, e os intervalos da via auditiva humana servem só para conferir.
 - **O que existe [L]:** espaço discretizado em voxels e atraso por distância e velocidade são comuns em simulação de redes espaciais; velocidades sem mielina de ~0,25–0,5 m/s no hipocampo; atraso sináptico ~0,4 ms a 36 °C no cálice de Held. Detalhes em `toy-experiments/v19/investigacao-escala-e-velocidade.md`.
 - **O que seria nosso [A]:** pouco, isoladamente. O que pode ser novo é a combinação: um atraso basal sem mielina que só se aproxima dos intervalos da via auditiva depois do ajuste local pela Utad, sem impor esses intervalos.
+- **Decisões de 24/11 [R]:** cubo de ~20 µm; velocidade basal de 0,3 m/s; atraso sináptico dentro do tempo de integração da Uint (não instantânea), sem soma separada.
 - **O que falta para alegar:** busca de precedentes de mielinização adaptativa em modelos espaciais; resultado do teste.
 
 ## Pendências de busca (antes de cada artigo)
