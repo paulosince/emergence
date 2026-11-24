@@ -1,5 +1,7 @@
 # V0.19 — O que falta para implementar (conferência de 23/11/2026)
 
+> **Atualização de 24/11 (escopo reduzido):** a V0.19 é só a formação das primeiras malhas e a reutilização na volta do som. Saem: poda, Utad, troca de sinal das inibitórias, crescimento em tempo estrutural (a candidata nasce com o comprimento), sono e neuromoduladores. O calendário vira só a ordem das sessões. A obra diferente deixa de ser controle opcional e passa a ser parte da pergunta.
+
 **Pedido do responsável:** listar o que falta discutir antes de implementar, conferindo tudo com calma. **Redação:** assistente (Claude), depois de reler `decisoes-em-construcao.md`, `regra-de-criacao-rascunho.md`, as decisões da V0.18 e os documentos de `docs/`.
 
 **Resposta curta:** **ainda não temos tudo.** Há lacunas que impedem escrever o código (A), lacunas de material de teste (B), e itens que posso propor com base no modelo neurobiológico para o responsável aprovar (C).
