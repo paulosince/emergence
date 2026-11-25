@@ -28,4 +28,5 @@ Leitura das páginas: resumo da página feito pela ferramenta de leitura (IMSLP 
 Página da obra: https://imslp.org/wiki/3_Gymnop%C3%A9dies_(Satie%2C_Erik), aba de gravações (Recordings), piano solo, "Lent et douloureux (No.1)". A licença de cada arquivo aparece no campo "Copyright" da entrada. As páginas individuais dos arquivos não puderam ser abertas daqui (o IMSLP bloqueia leitura automática).
 - Baiocchi: entrada enviada por "Daisy78" em 16/08/2021 ("Recorded on a Steinway & Son's- B model").
 - Kolodin: entrada enviada por "Luiskaludin" em 08/04/2023 ("Luis Kolodin, 2020").
-- Coleman: entrada com "Chase Coleman (piano)"; o arquivo recebido traz a etiqueta "pianosociety.com", 2006.
+- Coleman (e Pfaul): **não estão hospedados no IMSLP**; aparecem na seção "Gravações gratuitas" da página como links externos para a Piano Society (print do responsável, 25/11). Por isso não há campo "Copyright" do IMSLP para eles. Os termos da Piano Society não foram encontrados nesta busca: **licença não confirmada**; se usado, só para uso interno de pesquisa, sem redistribuir o arquivo.
+- No celular, a seção "Execuções" (onde estão Baiocchi e Kolodin) aparece recolhida no topo da página.
