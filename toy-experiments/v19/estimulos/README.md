@@ -6,7 +6,7 @@ Levantamento de 24/11/2026 (2.ª rodada: o responsável pediu uma 4.ª interpret
 
 | # | Intérprete | Licença | Duração | Interpretação real? | Fonte | Situação |
 |---|---|---|---|---|---|---|
-| 1 | Robin Alciatore (Musopen) | Domínio público | 3 min 4 s | sim | Commons: `File:Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg` (já em `v18/estimulos`) | **disponível** |
+| 1 | Robin Alciatore (Musopen) | Domínio público | 3 min 4 s | sim | Commons: `File:Erik_Satie_-_gymnopedies_-_la_1_ere._lent_et_douloureux.ogg` | **recebida em 25/11** (`satie-gymnopedie1-alciatore.ogg`, Vorbis 44,1 kHz estéreo, 183,6 s) |
 | 2 | Daria Baiocchi | CC0 1.0 | 3 min 11 s | sim (segundo a página) | IMSLP, página "3 Gymnopédies (Satie, Erik)", arquivo `PMLP4215-Satie Gymnope-die n.1 DariaBaiocchi.mp3` | recomendada |
 | 3 | Luis Kolodin | CC BY-SA 4.0 | não informada | sim (segundo a página) | IMSLP, mesma página, arquivo `PMLP4215-luis-kolodin-plays-satie-s-gymnopédie-no.1.mp3` | recomendada |
 | 4 | Kevin MacLeod (incompetech.com) | CC BY 3.0 | 3 min 7 s | **a conferir** ("arranjo e interpretação"; pode ser instrumento virtual) | Commons: `File:Gymnopedie_No._1_(ISRC_USUAN1100787).mp3` | possível |
@@ -18,8 +18,14 @@ Levantamento de 24/11/2026 (2.ª rodada: o responsável pediu uma 4.ª interpret
 Leitura das páginas: resumo da página feito pela ferramenta de leitura (IMSLP e espelho do Commons). Confiança média nos detalhes de licença e duração; conferir na página ao baixar.
 
 ## Obra diferente
-- J. S. Bach, Chaconne da Partita n.º 2, BWV 1004 (violino solo), Ben Goldstein, CC BY-SA 3.0 — já em `v18/estimulos` (`bach-chaconne-goldstein.ogg`).
+- J. S. Bach, Chaconne da Partita n.º 2, BWV 1004 (violino solo), Ben Goldstein, CC BY-SA 3.0 — **recebida em 25/11** (`bach-chaconne-goldstein.ogg`, Vorbis 44,1 kHz estéreo, 750,3 s ≈ 12 min 30 s).
 
 ## Procurado e não serve
 - Commons, categoria "Gymnopédie lent et douloureux" (14 arquivos): além de Alciatore, MacLeod e o arquivo sem licença, só há arranjo para saxofone e piano (David Hernando Vitores) e violão (Michael Laucke).
 - Classical Connect (David-Michael Dunbar, 1979): sem licença aberta na página.
+
+## Onde baixar (IMSLP)
+Página da obra: https://imslp.org/wiki/3_Gymnop%C3%A9dies_(Satie%2C_Erik), aba de gravações (Recordings), piano solo, "Lent et douloureux (No.1)". A licença de cada arquivo aparece no campo "Copyright" da entrada. As páginas individuais dos arquivos não puderam ser abertas daqui (o IMSLP bloqueia leitura automática).
+- Baiocchi: entrada enviada por "Daisy78" em 16/08/2021 ("Recorded on a Steinway & Son's- B model").
+- Kolodin: entrada enviada por "Luiskaludin" em 08/04/2023 ("Luis Kolodin, 2020").
+- Coleman: entrada com "Chase Coleman (piano)"; o arquivo recebido traz a etiqueta "pianosociety.com", 2006.
