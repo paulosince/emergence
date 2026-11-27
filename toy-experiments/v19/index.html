@@ -37,10 +37,11 @@ h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; tex
 .sub { color: var(--apagado); font-size: .85rem; max-width: 72ch; }
 #palco { position: relative; flex: 1; min-height: 380px; margin: 0 16px; background: var(--palco); border: 1px solid var(--linha); border-radius: 6px; overflow: hidden; touch-action: none; }
 #palco canvas { display: block; width: 100%; height: 100%; cursor: grab; }
-#contagem { position: absolute; left: 10px; top: 8px; font: 500 .74rem var(--mono); text-shadow: 0 0 6px #000; pointer-events: none; font-variant-numeric: tabular-nums; line-height: 1.5; }
+.leitura { margin: 6px 16px 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; }
+#contagem { font: 500 .74rem var(--mono); font-variant-numeric: tabular-nums; line-height: 1.5; }
 #contagem .ok { color: var(--excit); }
 #contagem .zero { color: var(--apagado); }
-#escala { position: absolute; right: 10px; bottom: 8px; font: 500 .72rem var(--mono); color: var(--apagado); text-shadow: 0 0 6px #000; pointer-events: none; text-align: right; line-height: 1.5; }
+#escala { font: 500 .72rem var(--mono); color: var(--apagado); line-height: 1.5; font-variant-numeric: tabular-nums; }
 #carregando { position: absolute; inset: 0; display: grid; place-items: center; color: var(--apagado); font: .9rem var(--mono); }
 .controles { padding: 10px 16px 6px; display: grid; gap: 8px; }
 .linha { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -58,7 +59,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--excit); out
 details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .88rem; }
 summary { cursor: pointer; font-weight: 600; }
 details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
-@media (max-width: 480px) { header { padding: 10px 12px 4px; } #palco { margin: 0 12px; } .controles { padding: 8px 12px; } details { margin: 4px 12px 12px; } }
+@media (max-width: 480px) { header { padding: 10px 12px 4px; } #palco { margin: 0 12px; } .leitura { margin: 6px 12px 0; } .controles { padding: 8px 12px; } details { margin: 4px 12px 12px; } }
 </style>
 </head>
 <body>
@@ -69,9 +70,8 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
 <audio id="audio" preload="auto" src="visual/v18-satie/audio.mp3"></audio>
 <div id="palco" aria-label="Espaço 3D do Sdom">
   <div id="carregando">carregando as coordenadas…</div>
-  <div id="contagem" aria-live="polite"></div>
-  <div id="escala"></div>
 </div>
+<div class="leitura"><div id="contagem" aria-live="polite"></div><div id="escala"></div></div>
 <div class="controles">
   <div class="linha">
     <button id="play" aria-label="Tocar">▶ Tocar</button>
