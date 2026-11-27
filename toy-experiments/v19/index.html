@@ -98,14 +98,15 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
       <button id="cam-pontos" aria-pressed="true">Pontos transdutivos</button>
       <button id="cam-ustr" aria-pressed="true">Ustr</button>
       <button id="cam-som" aria-pressed="true">Som</button>
+      <button id="cam-poeira" aria-pressed="true">Poeira das incidências</button>
     </div>
   </div>
   <div id="obra">Gymnopédie n.º 1 (Satie), Robin Alciatore (Musopen, domínio público), de 9 a 19 s — os mesmos dados da página da V0.18.</div>
   <div class="legenda">
     <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd)</span>
     <span><i style="background:var(--ustr)"></i>Ustr</span>
-    <span><b style="color:var(--som)">som chegando</b> (fora do Sdom)</span>
-    <span><b style="color:var(--excit)">incidência excitatória</b></span>
+    <span><b style="color:var(--som)">som chegando</b> (frentes de onda vindas de fora; velocidade ilustrativa)</span>
+    <span><b style="color:var(--excit)">incidência excitatória</b> (a poeira segue para dentro e some: ainda não há Upro)</span>
     <span>Cores do ponto em repouso e da Ustr: provisórias.</span>
     <span>Reservadas para a criação (ainda não há): <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b> · <b style="color:var(--inib)">inibitória</b></span>
   </div>
@@ -230,24 +231,45 @@ for (const k of ["E", "D"]) {
   for (let i = 0; i < b.length; i++) { celula.push(b[i] * SUB + (z[i] + (dados.largura >> 1))); lados.push(k); }
 }
 const nE = O.E.n_pontos;
-// som: uma fileira de pontos fora de cada faixa, ao longo das bandas (o som vem de fora do Sdom)
-const somPos = [], somBanda = [];
+// ---- Som: frentes de onda que se aproximam de fora e chegam à faixa (amarelo) ----
+// Cada frente corresponde a um quadro futuro de 5 ms; o brilho de cada trecho é o nível do som naquela banda (antes da cóclea).
+// A velocidade de aproximação é ilustrativa (o som real cruza esses milímetros em microssegundos).
+const KF = 30, DELTA = 0.6, FOLGA = 0.25;          // frentes, mm entre frentes (um quadro), mm antes da faixa
+const ondaBase = [], ondaBanda = [], ondaLado = [], ondaK = [];
 for (const [k, lado] of [["E", -1], ["D", 1]]) {
   const b = dec(O[k].pontos.banda, Uint8Array), y = dec(O[k].pontos.y, Int16Array);
   const y0 = new Array(64).fill(1e9), y1 = new Array(64).fill(-1e9);
   for (let i = 0; i < b.length; i++) { y0[b[i]] = Math.min(y0[b[i]], y[i]); y1[b[i]] = Math.max(y1[b[i]], y[i]); }
-  for (let f = 0; f < 64; f++) for (let yy = y0[f]; yy <= y1[f]; yy += 3)
-    for (const zz of [-4, 0, 4]) { somPos.push((lado * 2500 + lado * 40) * MM, zz * MM, -yy * MM); somBanda.push(f); }
+  for (let q = 0; q < KF; q++) for (let f = 0; f < 64; f++) for (let yy = y0[f]; yy <= y1[f]; yy += 6)
+    for (const zz of [-8, 0, 8]) { ondaBase.push(lado * 2500 * MM, zz * MM, -yy * MM); ondaBanda.push(f); ondaLado.push(lado); ondaK.push(q); }
 }
-const som = pontosDe(somPos, cor("--som"), 1.4, cor("--som"));
-const nSomE = somBanda.length / 2;
+const som = pontosDe(ondaBase.slice(), new THREE.Color(0, 0, 0), 1.3, cor("--som"));
 cena.add(som);
 document.getElementById("cam-som").onclick = e => { som.visible = !som.visible; e.currentTarget.setAttribute("aria-pressed", som.visible); };
+
+// ---- Incidências: "poeira luminosa" que nasce nos pontos ativos e segue de fora para dentro (verde) ----
+// Só visual: sem Upro ainda, a poeira se afasta um pouco da faixa e some. Quantidade proporcional à atividade da coluna (V0.18).
+const NP = 14000, pVx = new Float32Array(NP), pVy = new Float32Array(NP), pVz = new Float32Array(NP), pVida = new Float32Array(NP), pA = new Float32Array(NP);
+let pProx = 0;
+const poeira = pontosDe(new Float32Array(NP * 3), new THREE.Color(0, 0, 0), 1.6, new THREE.Color(0.55, 1, 0.45));
+const pPos = poeira.geometry.attributes.position.array;   // a geometria copia o vetor: escrever no dela
+cena.add(poeira);
+document.getElementById("cam-poeira").onclick = e => { poeira.visible = !poeira.visible; e.currentTarget.setAttribute("aria-pressed", poeira.visible); };
+const posPontos = pontos.geometry.attributes.position.array;
+const celulaPontos = [new Map(), new Map()];      // ouvido → célula → índices de pontos
+for (let i = 0; i < celula.length; i++) { const m = celulaPontos[i < nE ? 0 : 1]; if (!m.has(celula[i])) m.set(celula[i], []); m.get(celula[i]).push(i); }
+function soltar(i, a, lado) {
+  const j = pProx; pProx = (pProx + 1) % NP;
+  pPos[3 * j] = posPontos[3 * i]; pPos[3 * j + 1] = posPontos[3 * i + 1]; pPos[3 * j + 2] = posPontos[3 * i + 2];
+  pVx[j] = -lado * (5 + Math.random() * 9); pVy[j] = (Math.random() - 0.5) * 0.8; pVz[j] = (Math.random() - 0.5) * 0.8;
+  pVida[j] = 1; pA[j] = a;
+}
+function limparPoeira() { pVida.fill(0); poeira.luz.fill(0); poeira.geometry.attributes.luz.needsUpdate = true; }
 
 const audio = document.getElementById("audio"), barra = document.getElementById("tempo"), rot = document.getElementById("rotulo-tempo");
 let T = 0, tocando = false, vel = 1, ultimo = performance.now();
 barra.max = DUR - 0.005;
-function irPara(t) { T = Math.min(Math.max(t, 0), DUR - 0.005); barra.value = T; if (!audio.paused) try { audio.currentTime = T; } catch (e) {} }
+function irPara(t) { T = Math.min(Math.max(t, 0), DUR - 0.005); barra.value = T; if (typeof limparPoeira === "function") limparPoeira(); if (!audio.paused) try { audio.currentTime = T; } catch (e) {} }
 barra.oninput = () => irPara(+barra.value);
 function sincronizar() {
   if (tocando && vel === 1) { try { audio.currentTime = T; } catch (e) {} audio.play().catch(() => {}); } else audio.pause();
@@ -268,16 +290,40 @@ function aplicar() {
     L[i] = Math.max(alvo, L[i] * 0.82);                 // rastro curto, só visual
   }
   pontos.geometry.attributes.luz.needsUpdate = true;
-  const LS = som.luz;
+  // frentes de onda: posição pelo tempo que falta para chegar; brilho pelo nível na banda
+  const frac = T / FR - fr, LS = som.luz, PS = som.geometry.attributes.position.array;
   for (let i = 0; i < LS.length; i++) {
-    const v = (i < nSomE ? S.E : S.D)[fr * 64 + somBanda[i]] / 255 * meta.som_db_max;
-    LS[i] = Math.pow(Math.max(0, Math.min(1, (v - 20) / 55)), 1.2);   // 20 a 75 dB SPL, como na V0.18
+    const q = ondaK[i], f = Math.min(NF - 1, fr + q), lado = ondaLado[i];
+    const d = Math.max(0, q - frac) * DELTA + FOLGA;
+    PS[3 * i] = ondaBase[3 * i] + lado * d;
+    const v = (lado < 0 ? S.E : S.D)[f * 64 + ondaBanda[i]] / 255 * meta.som_db_max;
+    LS[i] = Math.pow(Math.max(0, Math.min(1, (v - 20) / 55)), 1.2) * (1 - 0.6 * q / KF);   // 20 a 75 dB SPL, como na V0.18
   }
+  som.geometry.attributes.position.needsUpdate = true;
   som.geometry.attributes.luz.needsUpdate = true;
   rot.textContent = (meta.ini + T).toFixed(3).replace(".", ",") + " s";
 }
+function moverPoeira(dtv, fr) {
+  if (dtv <= 0) return;
+  for (let o = 0; o < 2; o++) {                      // nascimento: proporcional à atividade de cada célula
+    const g = o ? G.D : G.E, mapa = celulaPontos[o], lado = o ? 1 : -1;
+    for (const [cel, lista] of mapa) {
+      const a = Math.min(1, g[fr * 64 * SUB + cel] / P99); if (a < 0.05) continue;
+      const n = 40 * a * a * dtv; let k = Math.floor(n); if (Math.random() < n - k) k++;
+      for (let m = 0; m < k; m++) soltar(lista[(Math.random() * lista.length) | 0], a, lado);
+    }
+  }
+  const L = poeira.luz;
+  for (let j = 0; j < NP; j++) {
+    if (pVida[j] <= 0) { L[j] = 0; continue; }
+    pVida[j] -= dtv * 1.25; pPos[3 * j] += pVx[j] * dtv; pPos[3 * j + 1] += pVy[j] * dtv; pPos[3 * j + 2] += pVz[j] * dtv;
+    L[j] = Math.max(0, pVida[j]) * (0.35 + 0.65 * pA[j]);
+  }
+  poeira.geometry.attributes.position.needsUpdate = true; poeira.geometry.attributes.luz.needsUpdate = true;
+}
 function avancar(agora) {
   const dt = Math.min(0.1, (agora - ultimo) / 1000); ultimo = agora;
+  if (tocando) moverPoeira(dt * vel, Math.min(NF - 1, Math.floor(T / FR)));
   if (tocando) {
     if (vel === 1 && !audio.paused && audio.currentTime > 0) T = audio.currentTime; else T += dt * vel;
     if (T >= DUR - 0.005) { T = DUR - 0.005; tocando = false; document.getElementById("play").textContent = "▶ Tocar"; audio.pause(); }
@@ -290,7 +336,7 @@ function tamanho() {
   const w = palco.clientWidth, h = palco.clientHeight;
   render.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
   const esc = h / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) * render.getPixelRatio();
-  for (const o of [pontos, ustr, typeof som !== "undefined" ? som : null]) if (o) o.material.uniforms.escala.value = esc;
+  for (const o of [pontos, ustr, typeof som !== "undefined" ? som : null, typeof poeira !== "undefined" ? poeira : null]) if (o) o.material.uniforms.escala.value = esc;
 }
 new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
 
