@@ -10,19 +10,21 @@
 <style>
 :root {
   /* Mesmo mundo visual da V0.18 ("Cóclea em luz"): fundo escuro, luzes. */
-  --fundo: #05070a;
-  --palco: #070b0d;
+  --fundo: #04070a;
+  --palco: #050a0d;
   --linha: #1a2428;
   --texto: #d7e3df;
   --apagado: #7d8f8a;
   --excit: #39ff14;      /* incidência excitatória (decisão do responsável) */
   --som: #ffd23f;        /* som chegando */
+  --eletrico: #eef3ff;   /* sinal elétrico do microfone: cor PROVISÓRIA, a confirmar com o responsável */
   --inib: #ff3b3b;       /* incidência inibitória */
   --nova: #b45cff;       /* nova constituição */
   --acesso: #3d7bff;     /* acesso a constituição existente */
   --modif: #29e7ff;      /* modificação do que existe */
   --ponto: #8fa09b;      /* ponto transdutivo em repouso: cor neutra, não decidida */
-  --ustr: #a26b80;       /* Ustr: cor provisória (rosa-acinzentado), não decidida */
+  --ustr: #a26b80;       /* Ustr: cor provisória (rosa-acinzentado), mantida pelo responsável em 27/11 */
+  --grade: #2b3c3a;      /* arestas dos cubos (só de perto) */
   --corpo: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   color-scheme: dark;
@@ -33,16 +35,12 @@ body { display: flex; flex-direction: column; }
 header { padding: 12px 16px 6px; display: grid; gap: 2px; }
 h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; text-wrap: balance; }
 .sub { color: var(--apagado); font-size: .85rem; max-width: 72ch; }
-#palco { position: relative; flex: 1; min-height: 360px; margin: 0 16px; background: var(--palco); border: 1px solid var(--linha); border-radius: 6px; overflow: hidden; touch-action: none; }
+#palco { position: relative; flex: 1; min-height: 380px; margin: 0 16px; background: var(--palco); border: 1px solid var(--linha); border-radius: 6px; overflow: hidden; touch-action: none; }
 #palco canvas { display: block; width: 100%; height: 100%; cursor: grab; }
 #contagem { position: absolute; left: 10px; top: 8px; font: 500 .74rem var(--mono); text-shadow: 0 0 6px #000; pointer-events: none; font-variant-numeric: tabular-nums; line-height: 1.5; }
 #contagem .ok { color: var(--excit); }
 #contagem .zero { color: var(--apagado); }
-#tempo { flex: 1; min-width: 160px; accent-color: var(--excit); }
-#play { min-width: 92px; font-weight: 600; }
-.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
-#rotulo-tempo { min-width: 80px; text-align: right; }
-#escala { position: absolute; right: 10px; bottom: 8px; font: 500 .72rem var(--mono); color: var(--apagado); text-shadow: 0 0 6px #000; pointer-events: none; text-align: right; }
+#escala { position: absolute; right: 10px; bottom: 8px; font: 500 .72rem var(--mono); color: var(--apagado); text-shadow: 0 0 6px #000; pointer-events: none; text-align: right; line-height: 1.5; }
 #carregando { position: absolute; inset: 0; display: grid; place-items: center; color: var(--apagado); font: .9rem var(--mono); }
 .controles { padding: 10px 16px 6px; display: grid; gap: 8px; }
 .linha { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
@@ -51,12 +49,11 @@ h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; tex
 button { font: 500 .85rem var(--corpo); color: var(--texto); background: #0d1417; border: 1px solid #2a3a3e; border-radius: 6px; padding: 7px 11px; cursor: pointer; }
 button[aria-pressed="true"] { border-color: var(--excit); color: var(--excit); box-shadow: 0 0 8px #39ff1433 inset; }
 button:focus-visible, input:focus-visible { outline: 2px solid var(--excit); outline-offset: 2px; }
-button:disabled, input:disabled { opacity: .4; cursor: default; }
 #play { min-width: 92px; font-weight: 600; }
 #tempo { flex: 1; min-width: 160px; accent-color: var(--excit); }
 #rotulo-tempo { font: 500 .85rem var(--mono); font-variant-numeric: tabular-nums; min-width: 72px; text-align: right; }
 #obra { color: var(--apagado); font-size: .8rem; }
-.legenda { color: var(--apagado); font-size: .8rem; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.legenda { color: var(--apagado); font-size: .8rem; display: grid; gap: 4px; max-width: 80ch; }
 .legenda i { display: inline-block; width: .7em; height: .7em; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
 details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .88rem; }
 summary { cursor: pointer; font-weight: 600; }
@@ -67,7 +64,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
 <body>
 <header>
   <h1>Sdom — a borda em luz</h1>
-  <div class="sub">V0.19. O espaço do Sdom em 3D, com as unidades nas posições reais calculadas pelo motor: as duas faixas de pontos transdutivos (Utrd) nas posições dos microfones e as Ustr ao lado. Ainda não há malha. Em reprodução: os mesmos dados da V0.18 (Gymnopédie n.º 1, Alciatore, 9–19 s): o som (amarelo) chega de fora e as incidências (verde) se formam nos pontos transdutivos. Arraste para girar, pince ou role para entrar no Sdom.</div>
+  <div class="sub">V0.19. O espaço do Sdom em 3D, com as unidades nas posições calculadas pelo motor: as duas faixas de pontos transdutivos (Utrd) nas posições dos microfones e as Ustr um cubo para dentro. Ainda não há malha. Em reprodução, os dados da V0.18 (Gymnopédie n.º 1, Alciatore, 9–19 s): o som (amarelo) sai dos alto-falantes em ondas esféricas, chega ao microfone, vira sinal elétrico (branco) que segue por fios até a faixa, e as Utrd soltam incidências (verde). Arraste para girar; pince ou role para entrar no Sdom até ver os cubos.</div>
 </header>
 <audio id="audio" preload="auto" src="visual/v18-satie/audio.mp3"></audio>
 <div id="palco" aria-label="Espaço 3D do Sdom">
@@ -79,7 +76,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
   <div class="linha">
     <button id="play" aria-label="Tocar">▶ Tocar</button>
     <input id="tempo" type="range" min="0" max="10" step="0.005" value="0" aria-label="Tempo">
-    <span id="rotulo-tempo" class="num">0,000 s</span>
+    <span id="rotulo-tempo">9,000 s</span>
     <div class="grupo" role="group" aria-label="Velocidade"><span>Velocidade</span>
       <button data-vel="1" aria-pressed="true">1×</button>
       <button data-vel="0.25">¼×</button>
@@ -88,38 +85,42 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
   </div>
   <div class="linha">
     <div class="grupo" role="group" aria-label="Vistas"><span>Vista</span>
+      <button data-vista="sala">Sala</button>
       <button data-vista="geral">Geral</button>
       <button data-vista="cima">De cima</button>
       <button data-vista="E">Ouvido E</button>
       <button data-vista="D">Ouvido D</button>
-      <button data-vista="detalhe">Detalhe (cubos)</button>
+      <button data-vista="detalhe">Dentro (cubos)</button>
     </div>
     <div class="grupo" role="group" aria-label="Camadas"><span>Mostrar</span>
       <button id="cam-pontos" aria-pressed="true">Pontos transdutivos</button>
       <button id="cam-ustr" aria-pressed="true">Ustr</button>
       <button id="cam-som" aria-pressed="true">Som</button>
-      <button id="cam-poeira" aria-pressed="true">Poeira das incidências</button>
+      <button id="cam-fios" aria-pressed="true">Sinal elétrico</button>
+      <button id="cam-inc" aria-pressed="true">Incidências</button>
+      <button id="cam-grade" aria-pressed="true">Cubos</button>
     </div>
   </div>
   <div id="obra">Gymnopédie n.º 1 (Satie), Robin Alciatore (Musopen, domínio público), de 9 a 19 s — os mesmos dados da página da V0.18.</div>
   <div class="legenda">
-    <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd)</span>
-    <span><i style="background:var(--ustr)"></i>Ustr</span>
-    <span><b style="color:var(--som)">som</b>: ondas esféricas dos dois alto-falantes da sala da V0.18 (a passagem em volta da cabeça não é desenhada) → entra pelo microfone → caminha na faixa da base (agudo) ao ápice (grave); velocidades ilustrativas</span>
-    <span><b style="color:var(--excit)">incidência excitatória</b> (a poeira segue para dentro e some: ainda não há Upro)</span>
-    <span>Cores do ponto em repouso e da Ustr: provisórias.</span>
+    <span><b style="color:var(--som)">som</b>: ondas esféricas que se expandem a partir dos dois alto-falantes da sala da V0.18; o brilho de cada crista é o nível do canal no instante em que ela saiu. Param no microfone (a passagem em volta da cabeça não é desenhada). Velocidade ilustrativa.</span>
+    <span><b style="color:var(--eletrico)">sinal elétrico</b> (cor provisória): um fio do microfone até a base da faixa, que se abre em 64 fios, um por banda. Brilho = nível da banda no ouvido (V0.18), com o atraso real de cada filtro (≈0,5 ms no agudo a ≈16 ms no grave; dá para ver em 1/20×). Os pulsos só indicam o sentido. Os fios não são unidades do Sdom: desenham o caminho do sinal da V0.18.</span>
+    <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (cores provisórias). As bolas ocupam 45% do cubo só para a distância entre elas aparecer: no modelo, as unidades não têm tamanho.</span>
+    <span><b style="color:var(--excit)">incidência excitatória</b>: fóton que sai da Utrd ativa para dentro e some. Ainda não há Upro, então passa pelas Ustr sem interagir.</span>
+    <span>No desenho, o microfone está 3 mm para fora da faixa, para o fio aparecer (no motor, a faixa fica na posição do microfone).</span>
     <span>Reservadas para a criação (ainda não há): <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b> · <b style="color:var(--inib)">inibitória</b></span>
   </div>
 </div>
 <details>
   <summary>O que esta página mostra</summary>
   <ul>
-    <li><b>Dado:</b> as Utrd (microfone + cóclea, V0.18). Cada faixa tem 21.731 pontos transdutivos, um por cubo de 20 µm: ao longo da faixa, as 64 bandas em ordem de frequência; na largura, a ordem de sensibilidade.</li>
+    <li><b>Dado:</b> as Utrd (microfone + cóclea, V0.18). Cada faixa tem 21.731 pontos transdutivos, um por cubo de 20 µm. Ao longo da faixa ficam as 64 bandas em ordem de frequência; na largura, a ordem de sensibilidade.</li>
+    <li>A faixa é reta (desenrolada), como no motor. A espiral da cóclea não é desenhada (decisão do responsável, 27/11).</li>
     <li>As faixas ficam a 10 cm uma da outra, nas posições dos microfones do robô.</li>
-    <li><b>Ustr:</b> uma a cada bloco de ~4 pontos vizinhos, um cubo para dentro da cabeça.</li>
+    <li><b>Ustr:</b> uma para cada bloco de 2 × 2 pontos vizinhos, um cubo para dentro. De perto, a grade dos cubos aparece: as bolas são menores que o cubo, então dá para ver a distância entre elas.</li>
     <li><b>Criado:</b> nada ainda. A contagem confere que não há Uint, Upro, Cpro nem ramos no instante zero (erro que encerrou a V0.17).</li>
     <li>A largura da faixa (16 cubos) é provisória, a confirmar com o responsável.</li>
-    <li><b>Reprodução:</b> são os dados já publicados da V0.18 (mesma gravação e trecho), copiados de <code>v18/borda/visual/satie/</code> para <code>v19/visual/v18-satie/</code>: atividade de cada coluna de sensibilidade de cada banda, em quadros de 5 ms, e o som em cada faixa no ouvido. Cada coluna da V0.18 corresponde a uma coluna da faixa 3D. Nada é recalculado.</li>
+    <li><b>Reprodução:</b> são os dados já publicados da V0.18 (mesma gravação e trecho), copiados para <code>v19/visual/v18-satie/</code>: atividade de cada coluna de sensibilidade de cada banda e o nível de cada banda no ouvido, em quadros de 5 ms. O nível de cada canal da gravação (ondas) vem do próprio arquivo de áudio. Nada da V0.18 é recalculado.</li>
     <li>A página só exibe: não alimenta o motor.</li>
   </ul>
 </details>
@@ -130,308 +131,391 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
 <script type="module">
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
 
 const BASE = document.querySelector('meta[name="dados"]')?.content || "";
 const palco = document.getElementById("palco");
 const css = getComputedStyle(document.documentElement);
 const cor = n => new THREE.Color(css.getPropertyValue(n).trim());
-
 function dec(s, Tipo) { const b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return new Tipo(u.buffer); }
 const fmt = n => n.toLocaleString("pt-BR");
 
 const dados = await (await fetch(BASE + "instante-zero.json")).json();
-document.getElementById("carregando").remove();
-const MM = dados.cubo_mm;
-
-// Eixos do Sdom → cena: x (esquerda/direita) → x; z (sensibilidade, vertical) → y; y (frequência, frente/trás) → −z. Unidade da cena: mm.
-function nuvem(lista, corBase, tamanhoMin, corAtiva) {
-  const pos = [];
-  for (const o of lista) {
-    const x = dec(o.x, Int16Array), y = dec(o.y, Int16Array), z = dec(o.z, Int16Array);
-    for (let i = 0; i < x.length; i++) pos.push(x[i] * MM, z[i] * MM, -y[i] * MM);
-  }
-  return pontosDe(pos, corBase, tamanhoMin, corAtiva);
-}
-function pontosDe(pos, corBase, tamanhoMin, corAtiva) {
-  const g = new THREE.BufferGeometry();
-  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-  const luz = new Float32Array(pos.length / 3);
-  g.setAttribute("luz", new THREE.BufferAttribute(luz, 1));
-  const m = new THREE.ShaderMaterial({
-    uniforms: { cor: { value: corBase }, ativa: { value: corAtiva || corBase }, base: { value: corAtiva ? 0.55 : 1 }, tam: { value: MM }, min: { value: tamanhoMin }, escala: { value: 1 } },
-    vertexShader: `attribute float luz; varying float vL; uniform float tam, min, escala; void main(){ vL = luz; vec4 mv = modelViewMatrix * vec4(position,1.0); gl_PointSize = max(min * (1.0 + 1.2 * luz), tam * escala / -mv.z); gl_Position = projectionMatrix * mv; }`,
-    fragmentShader: `uniform vec3 cor, ativa; uniform float base; varying float vL; void main(){ vec2 c = gl_PointCoord - 0.5; float d = length(c); if (d > 0.5) discard; float a = smoothstep(0.5, 0.0, d); vec3 k = mix(cor * base, ativa * 1.25, vL); gl_FragColor = vec4(k * (0.55 + 0.45 * a), a * (base < 1.0 ? (0.35 + 0.65 * max(vL, 0.0)) : 1.0)); }`,
-    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
-  m.userData.min0 = tamanhoMin;
-  const p = new THREE.Points(g, m); p.luz = luz; return p;
-}
-const cena = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(45, 1, 0.001, 2000);
-const render = new THREE.WebGLRenderer({ antialias: true });
-render.setPixelRatio(Math.min(devicePixelRatio, 2));
-render.setClearColor(cor("--palco"));
-palco.appendChild(render.domElement);
-const ctrl = new OrbitControls(camera, render.domElement);
-ctrl.enableDamping = true; ctrl.minDistance = 0.05; ctrl.maxDistance = 600;
-
-const O = dados.ouvidos;
-const pontos = nuvem([O.E.pontos, O.D.pontos], cor("--ponto"), 1.6, cor("--excit"));
-const ustr = nuvem([O.E.ustr, O.D.ustr], cor("--ustr"), 1.3);
-cena.add(pontos, ustr);
-
-// Referência: linha tênue entre os ouvidos (10 cm) e a marca do centro.
-const meia = 2500 * MM;
-const linhaG = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-meia, 0, 0), new THREE.Vector3(meia, 0, 0)]);
-cena.add(new THREE.Line(linhaG, new THREE.LineDashedMaterial({ color: 0x1f3a40, dashSize: 2, gapSize: 2 })).computeLineDistances());
-
-function rotulo(texto, x, y, z, cls = "") {
-  const d = document.createElement("div");
-  d.textContent = texto;
-  d.style.cssText = "position:absolute;font:500 .72rem var(--mono);color:var(--apagado);text-shadow:0 0 6px #000;pointer-events:none;transform:translate(-50%,-50%);white-space:nowrap";
-  palco.appendChild(d); return { d, v: new THREE.Vector3(x, y, z) };
-}
-const rotulos = [rotulo("Utrd E", -meia, 3, 0), rotulo("Utrd D", meia, 3, 0), rotulo("sem malha inicial", 0, 3, 0), rotulo("10 cm", 0, -2.5, 0)];
-// frequências ao longo de cada faixa: grave numa ponta, agudo na outra (centro de cada banda escolhida)
-{
-  const FC = dados.bandas_fc_hz, marcas = [[0, "50 Hz · grave"], [null, "200 Hz", 200], [null, "1 kHz", 1000], [null, "4 kHz", 4000], [63, "8 kHz · agudo"]];
-  for (const [k, lado] of [["E", -1], ["D", 1]]) {
-    const b = dec(O[k].pontos.banda, Uint8Array), y = dec(O[k].pontos.y, Int16Array), soma = new Float64Array(64), n = new Float64Array(64);
-    for (let i = 0; i < b.length; i++) { soma[b[i]] += y[i]; n[b[i]]++; }
-    for (const [bb, texto, hz] of marcas) {
-      let banda = bb; if (banda === null) { let dm = 1e9; FC.forEach((f, i) => { const d = Math.abs(Math.log(f / hz)); if (d < dm) { dm = d; banda = i; } }); }
-      const r = rotulo(texto, lado * meia, 0.9, -(soma[banda] / n[banda]) * MM);
-      r.d.style.color = "#9fb3ad"; r.perto = bb === null;   // marcas intermediárias só de perto
-      rotulos.push(r);
-    }
-  }
-}
-
-const c = dados.contagem;
-document.getElementById("contagem").innerHTML =
-  `pontos transdutivos <b>${fmt(c.pontos)}</b> · Ustr <b>${fmt(c.ustr)}</b><br>` +
-  `<span class="zero">Uint ${c.uint} · Upro ${c.upro} · Cpro ${c.cpro} · ramos ${c.ramos}</span><br>` +
-  `<span class="ok">conferência do instante zero: nada representacional</span>`;
-document.getElementById("escala").innerHTML = `cubo = ${MM * 1000} µm · faixa ${O.E.comprimento_cubos} × ${dados.largura} cubos (${(O.E.comprimento_cubos * MM).toFixed(1)} × ${(dados.largura * MM).toFixed(2)} mm)`;
-
-const VISTAS = {
-  geral: [new THREE.Vector3(0, 110, 210), new THREE.Vector3(0, 0, 0)],
-  cima: [new THREE.Vector3(0, 150, 0.01), new THREE.Vector3(0, 0, 0)],
-  E: [new THREE.Vector3(-meia + 10, 16, 20), new THREE.Vector3(-meia - 4, 0, 0)],
-  D: [new THREE.Vector3(meia - 10, 16, 20), new THREE.Vector3(meia + 4, 0, 0)],
-  detalhe: [new THREE.Vector3(-meia + 0.35, 0.25, 0.45), new THREE.Vector3(-meia, 0, 0)],
-};
-function vista(n) {
-  const [p, a] = VISTAS[n], k = n === "detalhe" ? 1 : (n === "E" || n === "D") ? Math.max(1, 1.0 / camera.aspect) : Math.max(1, 1.5 / camera.aspect); // telas estreitas: afasta a câmera
-  camera.position.copy(a).add(p.clone().sub(a).multiplyScalar(k)); ctrl.target.copy(a); ctrl.update();
-}
-document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
-for (const [id, obj] of [["cam-pontos", pontos], ["cam-ustr", ustr]]) {
-  const b = document.getElementById(id);
-  b.onclick = () => { obj.visible = !obj.visible; b.setAttribute("aria-pressed", obj.visible); };
-}
-vista("geral");
-
-// ---------- reprodução dos dados da V0.18 ----------
 const V18 = BASE + "v18-satie/";   // cópia dos arquivos publicados da V0.18 (sem alterá-los)
 const meta = await (await fetch(V18 + "meta.json")).json();
 const bin = async n => new Uint8Array(await (await fetch(V18 + n)).arrayBuffer());
 const G = { E: await bin("grade-esq.bin"), D: await bin("grade-dir.bin") };
 const S = { E: await bin("som-esq.bin"), D: await bin("som-dir.bin") };
-const NF = meta.quadros, FR = meta.quadro, SUB = meta.sub, DUR = meta.dur, P99 = meta.verde_p99 || 255;
-if (SUB !== dados.largura) console.warn("colunas da V0.18 ≠ largura da faixa");
-// célula (banda, coluna) de cada ponto, na mesma ordem das posições (E depois D)
-const celula = [], lados = [];
-for (const k of ["E", "D"]) {
-  const b = dec(O[k].pontos.banda, Uint8Array), z = dec(O[k].pontos.z, Int16Array);
-  for (let i = 0; i < b.length; i++) { celula.push(b[i] * SUB + (z[i] + (dados.largura >> 1))); lados.push(k); }
-}
-const nE = O.E.n_pontos;
-// ---- Som: do alto-falante ao microfone e do microfone à faixa (amarelo) ----
-// Como na cena da V0.18: sala de 2 × 2 × 3 m, robô parado de lado para os alto-falantes; o próximo (canal esquerdo) fica 0,6 m à
-// esquerda e o distante (canal direito) 1,4 m à direita, na altura dos ouvidos. O som entra por um ponto: o microfone de cada lado
-// (a orelha do robô; orelha e canal não são modelados). Dentro da faixa, a onda entra pela base (agudo) e caminha até o ápice (grave);
-// cada banda acende com o atraso do seu filtro (gamatone de 4ª ordem: (n−1)/(2π·1,019·ERB)). Velocidades ilustrativas; atrasos
-// dentro da cóclea proporcionais aos do modelo (×40).
-const CV = 40, LAMB = 7, KC = 40;                               // mm/s (ondas, a 1×); mm entre cristas; fator de lentidão na cóclea
-const ALTO = [new THREE.Vector3(-600, 0, 0), new THREE.Vector3(1400, 0, 0)];   // mm, na cena (x, altura, −y)
-const CAB = { x: 50, y: 40, z: 45 };                             // cabeça do robô: 10 × 8 × 9 cm (só para não pôr ondas dentro dela)
 const CAN = await bin("canais.bin");                             // nível de cada canal da gravação, quadros de 5 ms
+document.getElementById("carregando").remove();
+const MM = dados.cubo_mm, O = dados.ouvidos, LARG = dados.largura;
+const NF = meta.quadros, FR = meta.quadro, SUB = meta.sub, DUR = meta.dur, P99 = meta.verde_p99 || 255;
+const meia = 2500 * MM, LADO = { E: -1, D: 1 };
+
+// ---------- palco: câmera, renderização com brilho (bloom) ----------
+// Eixos do Sdom → cena: x (esquerda/direita) → x; z (sensibilidade) → y; y (frequência) → −z. Unidade da cena: mm.
+const cena = new THREE.Scene();
+cena.background = cor("--palco");
+const camera = new THREE.PerspectiveCamera(45, 1, 0.01, 5000);
+const render = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
+render.setPixelRatio(Math.min(devicePixelRatio, 2));
+palco.appendChild(render.domElement);
+const alvoMSAA = new THREE.WebGLRenderTarget(4, 4, { type: THREE.HalfFloatType, samples: 4 });
+const composer = new EffectComposer(render, alvoMSAA);
+composer.addPass(new RenderPass(cena, camera));
+const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 0.7, 0.4, 0.55);
+composer.addPass(bloom);
+composer.addPass(new OutputPass());
+const ctrl = new OrbitControls(camera, render.domElement);
+ctrl.enableDamping = true; ctrl.minDistance = 0.03; ctrl.maxDistance = 4000; ctrl.zoomSpeed = 1.4;
+
+// Uniformes comuns: tamanho de um pixel no mundo (por unidade de profundidade), foco (distância da órbita) e cor de fundo (névoa).
+const COMUM = { uPix: { value: 0.001 }, uFoco: { value: 100 }, uFundo: { value: cor("--palco") } };
+const NEVOA = `float dd = max(0.0, -mv.z - uFoco) / (uFoco * 4.0); vFog = exp(-dd * dd);`;
+
+// (1) unidades como bolas: cartões que sempre olham para a câmera, sombreados como esferas; tamanho real no mundo,
+//     com mínimo em pixels para continuarem visíveis de longe
+function bolas(centros, raio, minPx, corBase, corAtiva) {
+  const g = new THREE.InstancedBufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute([-1, -1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0], 3));
+  g.setIndex([0, 1, 2, 0, 2, 3]);
+  g.setAttribute("centro", new THREE.InstancedBufferAttribute(centros, 3));
+  const luz = new Float32Array(centros.length / 3), aL = new THREE.InstancedBufferAttribute(luz, 1);
+  aL.setUsage(THREE.DynamicDrawUsage); g.setAttribute("luz", aL); g.instanceCount = luz.length;
+  const m = new THREE.ShaderMaterial({
+    uniforms: { ...COMUM, cor: { value: corBase }, ativa: { value: corAtiva || corBase }, raio: { value: raio }, minPx: { value: minPx } },
+    vertexShader: `attribute vec3 centro; attribute float luz; uniform float raio, minPx, uPix, uFoco; varying vec2 vC; varying float vL, vFog;
+      void main(){ vec4 mv = modelViewMatrix * vec4(centro, 1.0); float r = max(raio, 0.5 * minPx * (-mv.z) * uPix);
+        mv.xy += position.xy * r; vC = position.xy; vL = luz; ${NEVOA} gl_Position = projectionMatrix * mv; }`,
+    fragmentShader: `uniform vec3 cor, ativa, uFundo; varying vec2 vC; varying float vL, vFog;
+      void main(){ float d2 = dot(vC, vC); if (d2 > 1.0) discard; vec3 n = vec3(vC, sqrt(1.0 - d2));
+        float dif = max(dot(n, normalize(vec3(-0.35, 0.6, 0.72))), 0.0), rim = pow(1.0 - n.z, 3.0);
+        vec3 repouso = cor * (0.07 + 0.45 * dif) + cor * rim * 0.35;
+        vec3 aceso = ativa * (0.55 + 1.3 * dif) + ativa * rim * 1.6;
+        gl_FragColor = vec4(mix(uFundo, mix(repouso, aceso, clamp(vL, 0.0, 1.0)), vFog), 1.0); }` });
+  m.userData.min0 = minPx;
+  const o = new THREE.Mesh(g, m); o.frustumCulled = false; o.luz = luz; o.aLuz = aL; return o;
+}
+// (2) partículas luminosas (som, incidências): brilho aditivo, núcleo forte (fótons)
+function particulas(n, tam, minPx, corAtiva) {
+  const g = new THREE.BufferGeometry(), pos = new Float32Array(n * 3), luz = new Float32Array(n);
+  g.setAttribute("position", new THREE.BufferAttribute(pos, 3).setUsage(THREE.DynamicDrawUsage));
+  g.setAttribute("luz", new THREE.BufferAttribute(luz, 1).setUsage(THREE.DynamicDrawUsage));
+  const m = new THREE.ShaderMaterial({
+    uniforms: { ...COMUM, ativa: { value: corAtiva }, tam: { value: tam }, minPx: { value: minPx } },
+    vertexShader: `attribute float luz; uniform float tam, minPx, uPix, uFoco; varying float vL, vFog;
+      void main(){ vec4 mv = modelViewMatrix * vec4(position, 1.0); vL = luz; ${NEVOA}
+        gl_PointSize = luz <= 0.0 ? 0.0 : max(minPx * (0.7 + 0.6 * luz), tam / ((-mv.z) * uPix)); gl_Position = projectionMatrix * mv; }`,
+    fragmentShader: `uniform vec3 ativa; varying float vL, vFog;
+      void main(){ vec2 c = gl_PointCoord * 2.0 - 1.0; float d2 = dot(c, c); if (d2 > 1.0) discard;
+        float a = exp(-d2 * 5.0) + 0.7 * exp(-d2 * 45.0); gl_FragColor = vec4(ativa * vL * a * 1.5 * vFog, 1.0); }`,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+  m.userData.min0 = minPx;
+  const o = new THREE.Points(g, m); o.frustumCulled = false; o.pos = pos; o.luz = luz; return o;
+}
+function marcar(o) { o.geometry.attributes.position.needsUpdate = true; o.geometry.attributes.luz.needsUpdate = true; }
+
+// ---------- unidades do instante zero ----------
+function centrosDe(lista) {
+  const pos = [];
+  for (const o of lista) { const x = dec(o.x, Int16Array), y = dec(o.y, Int16Array), z = dec(o.z, Int16Array); for (let i = 0; i < x.length; i++) pos.push(x[i] * MM, z[i] * MM, -y[i] * MM); }
+  return new Float32Array(pos);
+}
+const R_UN = 0.225 * MM;    // raio desenhado: diâmetro = 45% do cubo (ilustrativo; no modelo as unidades não têm tamanho)
+const pontos = bolas(centrosDe([O.E.pontos, O.D.pontos]), R_UN, 1.6, cor("--ponto"), cor("--excit"));
+const ustr = bolas(centrosDe([O.E.ustr, O.D.ustr]), R_UN, 1.4, cor("--ustr"));
+cena.add(pontos, ustr);
+
+// grade dos cubos (as duas camadas de cubos de cada ouvido: a das Utrd e a das Ustr), visível só de perto
+const grade = (() => {
+  const v = [], ymin = -694, ymax = 693, zmin = -8, zmax = 7;
+  for (const lado of [-1, 1]) {
+    const xs = [2498.5, 2499.5, 2500.5].map(a => lado * a * MM);
+    const zE = (yy) => -yy * MM, sE = (zz) => zz * MM;      // frequência → cena z; sensibilidade → cena y
+    for (const x of xs) for (let s = zmin - 0.5; s <= zmax + 0.5; s++) v.push(x, sE(s), zE(ymin - 0.5), x, sE(s), zE(ymax + 0.5));
+    for (let f = ymin - 0.5; f <= ymax + 0.5; f++) {
+      for (const x of xs) v.push(x, sE(zmin - 0.5), zE(f), x, sE(zmax + 0.5), zE(f));
+      for (let s = zmin - 0.5; s <= zmax + 0.5; s++) v.push(xs[0], sE(s), zE(f), xs[2], sE(s), zE(f));
+    }
+  }
+  const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.Float32BufferAttribute(v, 3));
+  const m = new THREE.ShaderMaterial({ uniforms: { ...COMUM, cor: { value: cor("--grade") }, alfa: { value: 0 } },
+    vertexShader: `uniform float uPix, uFoco; varying float vFog; void main(){ vec4 mv = modelViewMatrix * vec4(position, 1.0); ${NEVOA} gl_Position = projectionMatrix * mv; }`,
+    fragmentShader: `uniform vec3 cor; uniform float alfa; varying float vFog; void main(){ gl_FragColor = vec4(cor * 1.6, alfa * vFog); }`,
+    transparent: true, depthWrite: false });
+  const o = new THREE.LineSegments(g, m); o.frustumCulled = false; return o;
+})();
+cena.add(grade);
+
+// ---------- posições de referência ----------
 const baseY = {}, bandaYc = {};
 for (const k of ["E", "D"]) {
   const b = dec(O[k].pontos.banda, Uint8Array), y = dec(O[k].pontos.y, Int16Array), soma = new Float64Array(64), n = new Float64Array(64);
   let ymax = -1e9; for (let i = 0; i < y.length; i++) { soma[b[i]] += y[i]; n[b[i]]++; if (b[i] === 63) ymax = Math.max(ymax, y[i]); }
-  baseY[k] = ymax + 6; bandaYc[k] = Array.from(soma, (v, i) => v / n[i]);
+  baseY[k] = ymax + 1; bandaYc[k] = Array.from(soma, (v, i) => v / n[i]);
 }
-const MIC = { E: new THREE.Vector3(-(2500 * MM + 1.2), 0, -baseY.E * MM), D: new THREE.Vector3(2500 * MM + 1.2, 0, -baseY.D * MM) };
-const TAU = dados.bandas_fc_hz.map(f => 3 / (2 * Math.PI * 1.019 * 24.7 * (4.37 * f / 1000 + 1)));   // s, atraso de grupo de cada filtro
+const zBase = { E: -baseY.E * MM, D: -baseY.D * MM }, zBanda = k => b => -bandaYc[k][b] * MM;
+const MIC = { E: new THREE.Vector3(-(meia + 3), 0, zBase.E - 1.5), D: new THREE.Vector3(meia + 3, 0, zBase.D - 1.5) };   // 3 mm para fora só no desenho
+const ALTO = [new THREE.Vector3(-600, 0, 0), new THREE.Vector3(1400, 0, 0)];   // mm: sala da V0.18 (próximo: canal esquerdo; distante: canal direito)
+const TAU = dados.bandas_fc_hz.map(f => 3 / (2 * Math.PI * 1.019 * 24.7 * (4.37 * f / 1000 + 1)));   // s, atraso de grupo de cada filtro gamatone (n = 4)
 const nivel01 = db => Math.pow(Math.max(0, Math.min(1, (db - 15) / 60)), 0.8);
 
-// (a) ondas esféricas dos dois alto-falantes: a poeira fica sobre as cristas (cascas esféricas) e anda com elas, para fora do alto-falante
-const NW = 30000, LAMW = 16, wDir = new Float32Array(NW * 3), wFase = new Float32Array(NW), wC = new Uint8Array(NW);
-const wRef = [ALTO[0].distanceTo(MIC.E), ALTO[1].distanceTo(MIC.D)], wR0 = [], wSpan = [];
-for (let c = 0; c < 2; c++) { const d = Math.abs(ALTO[c].x); wR0.push(d - 170); wSpan.push(340); }
-for (let i = 0; i < NW; i++) {
-  const c = i % 2; wC[i] = c;
-  const alvo = new THREE.Vector3(0, (Math.random() * 2 - 1) * 55, (Math.random() * 2 - 1) * 60);   // direção: do alto-falante para a região da cabeça
-  const d = alvo.sub(ALTO[c]).normalize(); wDir.set([d.x, d.y, d.z], 3 * i);
-  wFase[i] = Math.floor(Math.random() * (340 / LAMW)) * LAMW + (Math.random() - 0.5) * 1.2;   // em qual crista está (com leve espessura)
-}
-const ondas = pontosDe(new Float32Array(NW * 3), new THREE.Color(0, 0, 0), 1.8, cor("--som")); cena.add(ondas);
-const WP = ondas.geometry.attributes.position.array;
-// (b) entrada: a poeira converge para o microfone de cada lado; (c) dentro da faixa: da base até a banda
-const NE = 3500, NC = 9000, NY = 2 * (NE + NC);
-const yPos = new Float32Array(NY * 3), yV = new Float32Array(NY * 3), yT = new Float32Array(NY), yAlvo = new Int16Array(NY), yU = new Float32Array(NY), yZ = new Float32Array(NY);
-const amarelo = pontosDe(yPos, new THREE.Color(0, 0, 0), 2.2, cor("--som")); cena.add(amarelo);
-const YP = amarelo.geometry.attributes.position.array;
-const orelha = [];                                              // anel do microfone (desenho de referência)
-for (const k of ["E", "D"]) for (let a2 = 0; a2 < 64; a2++) { const t = a2 / 64 * 2 * Math.PI; orelha.push(MIC[k].x, MIC[k].y + 2.4 * Math.cos(t), MIC[k].z + 2.4 * Math.sin(t)); }
-const anel = pontosDe(orelha, cor("--apagado"), 1.6); cena.add(anel);
-for (const r of [rotulo("microfone · canal não modelado", MIC.E.x - 4, -4, MIC.E.z), rotulo("microfone · canal não modelado", MIC.D.x + 4, -4, MIC.D.z)]) { r.perto = true; rotulos.push(r); }
-function nascerEntrada(i) {
-  const k = (i % 2) ? "D" : "E", lado = k === "E" ? -1 : 1, m = MIC[k];
-  const th = Math.acos(Math.random() * 2 - 1), ph = Math.random() * 2 * Math.PI, r = 5 + Math.random() * 5;
-  let dx = Math.abs(Math.sin(th) * Math.cos(ph)) * lado, dy = Math.cos(th), dz = Math.sin(th) * Math.sin(ph);
-  YP[3 * i] = m.x + dx * r; YP[3 * i + 1] = m.y + dy * r; YP[3 * i + 2] = m.z + dz * r;
-  const t = r / 25; yV[3 * i] = -dx * r / t; yV[3 * i + 1] = -dy * r / t; yV[3 * i + 2] = -dz * r / t; yT[i] = t;
-}
-function nascerCoclea(i, fr, k) {
-  const g = k === "E" ? S.E : S.D; let b = (Math.random() * 64) | 0, v = g[fr * 64 + b] / 255 * meta.som_db_max;
-  for (let tent = 0; tent < 3 && nivel01(v) < 0.2; tent++) { b = (Math.random() * 64) | 0; v = g[fr * 64 + b] / 255 * meta.som_db_max; }
-  yAlvo[i] = b; yU[i] = 0; yT[i] = TAU[b] * KC + 0.25; yZ[i] = (Math.random() * 2 - 1) * dados.largura / 2 * MM;
-}
-for (let i = 0; i < NY; i++) { yT[i] = -1; }
-function moverSom(dtv) {
-  const fr = Math.min(NF - 1, Math.floor(T / FR));
-  // (a) ondas: cada partícula numa crista; brilho pelo nível do canal no instante em que aquela crista saiu do alto-falante
-  if (typeof moverSom.t === "undefined") moverSom.t = 0; moverSom.t += dtv;
-  const LW = ondas.luz;
-  for (let i = 0; i < NW; i++) {
-    const c = wC[i], r = wR0[c] + ((wFase[i] + CV * moverSom.t) % wSpan[c] + wSpan[c]) % wSpan[c];
-    const x = ALTO[c].x + wDir[3 * i] * r, y = ALTO[c].y + wDir[3 * i + 1] * r, z = ALTO[c].z + wDir[3 * i + 2] * r;
-    WP[3 * i] = x; WP[3 * i + 1] = y; WP[3 * i + 2] = z;
-    if (Math.abs(x) < CAB.x + 1) { LW[i] = 0; continue; }   // nem dentro nem em volta da cabeça: a passagem em volta (sombra) não é desenhada
-    const f = Math.min(NF - 1, Math.max(0, Math.floor(T / FR - (r - wRef[c]) / CV / FR)));
-    const perto = Math.max(0, 1 - Math.abs(x) / 160);                                                 // mais forte perto da cabeça
-    LW[i] = nivel01(CAN[c * NF + f] / 255 * 90) * (0.35 + 0.65 * perto);
+// nível de cada banda no ouvido (V0.18) + nível total do ouvido, numa textura (130 colunas: E 0–64, D 65–129; 2000 linhas = quadros)
+const TEXD = new Uint8Array(130 * NF), TOTAL = { E: new Float32Array(NF), D: new Float32Array(NF) };
+["E", "D"].forEach((k, o) => {
+  const g = S[k];
+  for (let f = 0; f < NF; f++) {
+    let pw = 0;
+    for (let b = 0; b < 64; b++) { const v = g[f * 64 + b]; TEXD[f * 130 + o * 65 + b] = v; pw += Math.pow(10, v / 255 * meta.som_db_max / 10); }
+    const db = 10 * Math.log10(pw + 1e-9); TEXD[f * 130 + o * 65 + 64] = Math.max(0, Math.min(255, Math.round(db / 90 * 255))); TOTAL[k][f] = nivel01(db);
   }
-  ondas.geometry.attributes.position.needsUpdate = true; ondas.geometry.attributes.luz.needsUpdate = true;
-  // (b) e (c)
-  const LY = amarelo.luz, total = { E: 0, D: 0 };
-  for (const k of ["E", "D"]) { const g = k === "E" ? S.E : S.D; let pw = 0; for (let b = 0; b < 64; b++) pw += Math.pow(10, g[fr * 64 + b] / 255 * meta.som_db_max / 10); total[k] = nivel01(10 * Math.log10(pw + 1e-9)); }
-  for (let i = 0; i < NY; i++) {
-    const entrada = i < 2 * NE, k = (i % 2) ? "D" : "E", lado = k === "E" ? -1 : 1;
-    if (entrada) {
-      if (yT[i] <= 0) { if (dtv > 0 || yT[i] === -1) nascerEntrada(i); }
-      if (dtv > 0) { YP[3 * i] += yV[3 * i] * dtv; YP[3 * i + 1] += yV[3 * i + 1] * dtv; YP[3 * i + 2] += yV[3 * i + 2] * dtv; yT[i] -= dtv; }
-      LY[i] = total[k] * Math.min(1, yT[i] * 3 + 0.2);
-    } else {
-      if (yT[i] <= 0 && dtv > 0) nascerCoclea(i, fr, k);
-      if (yT[i] <= 0) { LY[i] = 0; continue; }
-      const b = yAlvo[i], dur = TAU[b] * KC;
-      if (dtv > 0) { yU[i] += dtv / dur; yT[i] -= dtv; }
-      const u = Math.min(1, yU[i]), yy = baseY[k] + (bandaYc[k][b] - baseY[k]) * u;
-      YP[3 * i] = lado * (2500 * MM + 0.1); YP[3 * i + 1] = yZ[i]; YP[3 * i + 2] = -yy * MM;
-      const v = nivel01((k === "E" ? S.E : S.D)[fr * 64 + b] / 255 * meta.som_db_max);
-      LY[i] = 0.7 * v * (u < 1 ? 0.35 + 0.4 * u : Math.max(0, yT[i] / 0.25));
-    }
-  }
-  amarelo.geometry.attributes.position.needsUpdate = true; amarelo.geometry.attributes.luz.needsUpdate = true;
-}
-const som = { set visible(v) { ondas.visible = amarelo.visible = v; }, get visible() { return ondas.visible; }, material: ondas.material };
-document.getElementById("cam-som").onclick = e => { som.visible = !som.visible; e.currentTarget.setAttribute("aria-pressed", som.visible); };
+});
+const texNivel = new THREE.DataTexture(TEXD, 130, NF, THREE.RedFormat, THREE.UnsignedByteType);
+texNivel.unpackAlignment = 1; texNivel.magFilter = texNivel.minFilter = THREE.NearestFilter; texNivel.needsUpdate = true;
 
-// ---- Incidências: "poeira luminosa" que nasce nos pontos ativos e segue de fora para dentro (verde) ----
-// Só visual: sem Upro ainda, a poeira se afasta um pouco da faixa e some. Quantidade proporcional à atividade da coluna (V0.18).
-const NP = 14000, pVx = new Float32Array(NP), pVy = new Float32Array(NP), pVz = new Float32Array(NP), pVida = new Float32Array(NP), pA = new Float32Array(NP);
+// ---------- fios do sinal elétrico ----------
+// Um fio do microfone até a base da faixa; ali ele se abre em 64 fios (feixe 8 × 8 rente à borda de baixo da faixa, do lado de fora),
+// cada um correndo ao longo da faixa até o centro da sua banda, onde sobe e toca a borda. Brilho = nível da banda no ouvido no instante
+// (T − atraso), com o atraso real do filtro proporcional ao trecho percorrido; pulsos só indicam o sentido.
+const fios = (() => {
+  const P = [], D = [], A = [], ARC = [], COL = [], RAI = [], IDX = [];
+  const R = 5, up = new THREE.Vector3(0, 1, 0), ax = new THREE.Vector3(1, 0, 0);
+  function tubo(pts, atr, col, raio, arc0) {
+    const base = P.length / 3; let arc = arc0;
+    for (let i = 0; i < pts.length; i++) {
+      const t = (i < pts.length - 1 ? pts[i + 1].clone().sub(pts[i]) : pts[i].clone().sub(pts[i - 1])).normalize();
+      const n = new THREE.Vector3().crossVectors(t, Math.abs(t.y) > 0.9 ? ax : up).normalize(), bb = new THREE.Vector3().crossVectors(t, n);
+      if (i > 0) arc += pts[i].distanceTo(pts[i - 1]);
+      for (let j = 0; j < R; j++) {
+        const a = j / R * 2 * Math.PI, d = n.clone().multiplyScalar(Math.cos(a)).addScaledVector(bb, Math.sin(a));
+        P.push(pts[i].x, pts[i].y, pts[i].z); D.push(d.x, d.y, d.z); A.push(atr[i]); ARC.push(arc); COL.push(col); RAI.push(raio);
+      }
+      if (i > 0) for (let j = 0; j < R; j++) { const a0 = base + (i - 1) * R + j, a1 = base + (i - 1) * R + (j + 1) % R, b0 = a0 + R, b1 = a1 + R; IDX.push(a0, b0, a1, a1, b0, b1); }
+    }
+    return arc;
+  }
+  ["E", "D"].forEach((k, o) => {
+    const lado = LADO[k], m = MIC[k], zb = zBase[k], zB = zBanda(k);
+    const p0 = new THREE.Vector3(lado * (meia + 0.11), -0.30, zb - 0.35);            // onde o fio se abre
+    const ctl = new THREE.Vector3(lado * (meia + 1.6), -0.8, zb - 1.3), cab = [];
+    for (let i = 0; i <= 28; i++) { const t = i / 28; cab.push(new THREE.Vector3().copy(m).multiplyScalar((1 - t) ** 2).addScaledVector(ctl, 2 * t * (1 - t)).addScaledVector(p0, t * t)); }
+    const arcCab = tubo(cab, cab.map(() => 0), o * 65 + 64, 0.03, 0);
+    for (let b = 0; b < 64; b++) {
+      const i8 = b % 8, j8 = b >> 3, bx = lado * (meia + 0.035 + i8 * 0.007), by = -0.205 - j8 * 0.007, zf = zB(b), pts = [], atr = [];
+      for (let s = 0; s <= 6; s++) { const t = s / 6; pts.push(new THREE.Vector3(p0.x + (bx - p0.x) * t, p0.y + (by - p0.y) * t, p0.z + (zb - p0.z) * t)); atr.push(0); }
+      const L = Math.max(0.05, zf - zb), nS = Math.max(2, Math.ceil(L / 0.2));
+      for (let s = 1; s <= nS; s++) { const u = s / nS; pts.push(new THREE.Vector3(bx, by, zb + L * u)); atr.push(TAU[b] * u); }
+      for (let s = 1; s <= 6; s++) { const t = s / 6, e = t * t * (3 - 2 * t); pts.push(new THREE.Vector3(bx + (lado * meia - bx) * e, by + (-0.17 - by) * e, zf + 0.12 * t)); atr.push(TAU[b]); }
+      tubo(pts, atr, o * 65 + b, 0.0025, arcCab);
+    }
+  });
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(P, 3)); g.setAttribute("dir", new THREE.Float32BufferAttribute(D, 3));
+  g.setAttribute("atraso", new THREE.Float32BufferAttribute(A, 1)); g.setAttribute("arco", new THREE.Float32BufferAttribute(ARC, 1));
+  g.setAttribute("coluna", new THREE.Float32BufferAttribute(COL, 1)); g.setAttribute("raio", new THREE.Float32BufferAttribute(RAI, 1)); g.setIndex(IDX);
+  const m = new THREE.ShaderMaterial({
+    uniforms: { ...COMUM, cor: { value: cor("--eletrico") }, tex: { value: texNivel }, uT: { value: 0 }, uTv: { value: 0 }, quadro: { value: FR }, nq: { value: NF }, minPx: { value: 1.2 } },
+    vertexShader: `attribute vec3 dir; attribute float atraso, arco, coluna, raio; uniform sampler2D tex; uniform float uT, uTv, quadro, nq, minPx, uPix, uFoco;
+      varying float vB, vFog;
+      void main(){ vec4 c = modelViewMatrix * vec4(position, 1.0); float r = max(raio, 0.5 * minPx * (-c.z) * uPix);
+        vec4 mv = modelViewMatrix * vec4(position + dir * r, 1.0);
+        float f = clamp(floor((uT - atraso) / quadro), 0.0, nq - 1.0);
+        float v = texture2D(tex, vec2((coluna + 0.5) / 130.0, (f + 0.5) / nq)).r;
+        float lvl = pow(clamp((v * 90.0 - 15.0) / 60.0, 0.0, 1.0), 0.8);
+        float ph = fract(arco / 0.8 - uTv * 5.0 / 0.8); float dash = exp(-pow((ph - 0.5) * 5.0, 2.0));
+        vB = lvl * (0.22 + 1.1 * dash); ${NEVOA} gl_Position = projectionMatrix * mv; }`,
+    fragmentShader: `uniform vec3 cor; varying float vB, vFog; void main(){ gl_FragColor = vec4(cor * (0.03 + 0.45 * vB) * vFog, 1.0); }`,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+  m.userData.min0 = 1.2;
+  const o = new THREE.Mesh(g, m); o.frustumCulled = false; return o;
+})();
+cena.add(fios);
+
+// microfones (acendem com o nível total do ouvido) e alto-falantes (referência)
+const mics = bolas(new Float32Array([MIC.E.x, MIC.E.y, MIC.E.z, MIC.D.x, MIC.D.y, MIC.D.z]), 0.7, 3, new THREE.Color(0.55, 0.6, 0.62), cor("--eletrico"));
+const altos = bolas(new Float32Array([...ALTO[0].toArray(), ...ALTO[1].toArray()]), 30, 4, new THREE.Color(0.35, 0.38, 0.4), cor("--som"));
+cena.add(mics, altos);
+
+// ---------- som: ondas esféricas que se expandem a partir de cada alto-falante ----------
+// Duas populações por alto-falante: perto do robô (densa, cristas a cada 16 mm) e no caminho todo (rala, a cada 40 mm, cone largo).
+// Cada partícula fica numa crista e anda para fora com ela; o brilho é o nível do canal no instante em que a crista saiu.
+const CV = 60, NW = 24000;
+const dMic = [ALTO[0].distanceTo(MIC.E), ALTO[1].distanceTo(MIC.D)], micX = [MIC.E.x, MIC.D.x];
+const wDir = new Float32Array(NW * 3), wFase = new Float32Array(NW), wR0 = new Float32Array(NW), wSpan = new Float32Array(NW), wPeso = new Float32Array(NW);
+for (let i = 0; i < NW; i++) {
+  const c = i % 2, perto = ((i >> 1) % 10) < 7, m = c ? MIC.D : MIC.E;
+  const alvo = perto ? new THREE.Vector3(m.x, (Math.random() * 2 - 1) * 60, m.z + (Math.random() * 2 - 1) * 70)
+                     : new THREE.Vector3(400 * (Math.random() * 2 - 1), (Math.random() * 2 - 1) * 420, (Math.random() * 2 - 1) * 520);
+  const d = alvo.sub(ALTO[c]).normalize(); wDir.set([d.x, d.y, d.z], 3 * i);
+  const lam = perto ? 16 : 40; wR0[i] = perto ? dMic[c] - 170 : 40; wSpan[i] = perto ? 175 : dMic[c] - 30;
+  wFase[i] = Math.floor(Math.random() * (wSpan[i] / lam)) * lam + (Math.random() - 0.5) * (perto ? 1.5 : 3);
+  wPeso[i] = perto ? 0.32 : 0.22;
+}
+const ondas = particulas(NW, 0.3, 1.6, cor("--som")); cena.add(ondas);
+let Tv = 0;   // relógio visual (avança com a velocidade escolhida)
+function moverOndas() {
+  const P = ondas.pos, L = ondas.luz;
+  for (let i = 0; i < NW; i++) {
+    const c = i % 2, r = wR0[i] + ((wFase[i] + CV * Tv) % wSpan[i] + wSpan[i]) % wSpan[i];
+    const x = ALTO[c].x + wDir[3 * i] * r, y = ALTO[c].y + wDir[3 * i + 1] * r, z = ALTO[c].z + wDir[3 * i + 2] * r;
+    P[3 * i] = x; P[3 * i + 1] = y; P[3 * i + 2] = z;
+    if (c === 0 ? x > micX[0] : x < micX[1]) { L[i] = 0; continue; }       // a onda para no plano do microfone
+    const f = Math.min(NF - 1, Math.max(0, Math.floor(T / FR - (r - dMic[c]) / CV / FR)));
+    L[i] = nivel01(CAN[c * NF + f] / 255 * 90) * wPeso[i];
+  }
+  marcar(ondas);
+}
+
+// ---------- incidências: fótons que nascem nas Utrd ativas e seguem para dentro (verde) ----------
+// Só visual: sem Upro ainda, o fóton se afasta da faixa (passa pelas Ustr sem interagir) e some. Quantidade proporcional à atividade da
+// coluna (V0.18). A distância percorrida é proporcional ao zoom, para o movimento ser visível em qualquer escala.
+const NP = 20000, pDir = new Float32Array(NP * 3), pVida = new Float32Array(NP), pA = new Float32Array(NP);
 let pProx = 0;
-const poeira = pontosDe(new Float32Array(NP * 3), new THREE.Color(0, 0, 0), 1.6, new THREE.Color(0.55, 1, 0.45));
-const pPos = poeira.geometry.attributes.position.array;   // a geometria copia o vetor: escrever no dela
-cena.add(poeira);
-document.getElementById("cam-poeira").onclick = e => { poeira.visible = !poeira.visible; e.currentTarget.setAttribute("aria-pressed", poeira.visible); };
-const posPontos = pontos.geometry.attributes.position.array;
-const celulaPontos = [new Map(), new Map()];      // ouvido → célula → índices de pontos
+const fotons = particulas(NP, 0.007, 1.8, new THREE.Color(0.45, 1, 0.3)); cena.add(fotons);
+const posPontos = pontos.geometry.attributes.centro.array, nE = O.E.n_pontos;
+const celula = [];
+for (const k of ["E", "D"]) { const b = dec(O[k].pontos.banda, Uint8Array), z = dec(O[k].pontos.z, Int16Array); for (let i = 0; i < b.length; i++) celula.push(b[i] * SUB + (z[i] + (LARG >> 1))); }
+const celulaPontos = [new Map(), new Map()];
 for (let i = 0; i < celula.length; i++) { const m = celulaPontos[i < nE ? 0 : 1]; if (!m.has(celula[i])) m.set(celula[i], []); m.get(celula[i]).push(i); }
 function soltar(i, a, lado) {
   const j = pProx; pProx = (pProx + 1) % NP;
-  pPos[3 * j] = posPontos[3 * i]; pPos[3 * j + 1] = posPontos[3 * i + 1]; pPos[3 * j + 2] = posPontos[3 * i + 2];
-  pVx[j] = -lado * (5 + Math.random() * 9); pVy[j] = (Math.random() - 0.5) * 0.8; pVz[j] = (Math.random() - 0.5) * 0.8;
+  fotons.pos[3 * j] = posPontos[3 * i]; fotons.pos[3 * j + 1] = posPontos[3 * i + 1]; fotons.pos[3 * j + 2] = posPontos[3 * i + 2];
+  pDir[3 * j] = -lado * (0.3 + Math.random() * 0.6); pDir[3 * j + 1] = (Math.random() - 0.5) * 0.12; pDir[3 * j + 2] = (Math.random() - 0.5) * 0.12;
   pVida[j] = 1; pA[j] = a;
 }
-function limparPoeira() { pVida.fill(0); poeira.luz.fill(0); poeira.geometry.attributes.luz.needsUpdate = true; }
-
-const audio = document.getElementById("audio"), barra = document.getElementById("tempo"), rot = document.getElementById("rotulo-tempo");
-let T = 0, tocando = false, vel = 1, ultimo = performance.now();
-barra.max = DUR - 0.005;
-function irPara(t) { T = Math.min(Math.max(t, 0), DUR - 0.005); barra.value = T; if (typeof limparPoeira === "function") limparPoeira(); if (!audio.paused) try { audio.currentTime = T; } catch (e) {} }
-barra.oninput = () => irPara(+barra.value);
-function sincronizar() {
-  if (tocando && vel === 1) { try { audio.currentTime = T; } catch (e) {} audio.play().catch(() => {}); } else audio.pause();
-}
-document.getElementById("play").onclick = e => {
-  tocando = !tocando; e.currentTarget.textContent = tocando ? "❚❚ Pausar" : "▶ Tocar";
-  if (tocando && T >= DUR - 0.01) irPara(0); sincronizar();
-};
-document.querySelectorAll("[data-vel]").forEach(b => b.onclick = () => {
-  vel = +b.dataset.vel; document.querySelectorAll("[data-vel]").forEach(x => x.setAttribute("aria-pressed", x === b)); sincronizar();
-});
-function aplicar() {
-  const fr = Math.min(NF - 1, Math.floor(T / FR));
-  const L = pontos.luz;
-  for (let i = 0; i < L.length; i++) {
-    const g = (i < nE ? G.E : G.D)[fr * 64 * SUB + celula[i]];
-    const alvo = Math.pow(Math.min(1, g / P99), 0.85);
-    L[i] = Math.max(alvo, L[i] * 0.82);                 // rastro curto, só visual
-  }
-  pontos.geometry.attributes.luz.needsUpdate = true;
-  rot.textContent = (meta.ini + T).toFixed(3).replace(".", ",") + " s";
-}
-function moverPoeira(dtv, fr) {
-  if (dtv <= 0) return;
-  for (let o = 0; o < 2; o++) {                      // nascimento: proporcional à atividade de cada célula
-    const g = o ? G.D : G.E, mapa = celulaPontos[o], lado = o ? 1 : -1;
-    for (const [cel, lista] of mapa) {
+function limparFotons() { pVida.fill(0); fotons.luz.fill(0); marcar(fotons); }
+function moverFotons(dtv, fr, esc) {
+  if (dtv > 0) for (let o = 0; o < 2; o++) {
+    const g = o ? G.D : G.E, lado = o ? 1 : -1;
+    for (const [cel, lista] of celulaPontos[o]) {
       const a = Math.min(1, g[fr * 64 * SUB + cel] / P99); if (a < 0.05) continue;
       const n = 40 * a * a * dtv; let k = Math.floor(n); if (Math.random() < n - k) k++;
       for (let m = 0; m < k; m++) soltar(lista[(Math.random() * lista.length) | 0], a, lado);
     }
   }
-  const L = poeira.luz;
+  const L = fotons.luz, P = fotons.pos;
   for (let j = 0; j < NP; j++) {
     if (pVida[j] <= 0) { L[j] = 0; continue; }
-    pVida[j] -= dtv * 1.25; pPos[3 * j] += pVx[j] * dtv; pPos[3 * j + 1] += pVy[j] * dtv; pPos[3 * j + 2] += pVz[j] * dtv;
-    L[j] = Math.max(0, pVida[j]) * (0.35 + 0.65 * pA[j]);
+    if (dtv > 0) { pVida[j] -= dtv * 0.9; P[3 * j] += pDir[3 * j] * esc * dtv; P[3 * j + 1] += pDir[3 * j + 1] * esc * dtv; P[3 * j + 2] += pDir[3 * j + 2] * esc * dtv; }
+    const v = Math.max(0, pVida[j]); L[j] = v * Math.min(1, (1 - v) * 8 + 0.3) * (0.4 + 0.6 * pA[j]);
   }
-  poeira.geometry.attributes.position.needsUpdate = true; poeira.geometry.attributes.luz.needsUpdate = true;
-}
-function avancar(agora) {
-  const dt = Math.min(0.1, (agora - ultimo) / 1000); ultimo = agora;
-  if (tocando) moverPoeira(dt * vel, Math.min(NF - 1, Math.floor(T / FR)));
-  moverSom(tocando ? dt * vel : 0);
-  if (tocando) {
-    if (vel === 1 && !audio.paused && audio.currentTime > 0) T = audio.currentTime; else T += dt * vel;
-    if (T >= DUR - 0.005) { T = DUR - 0.005; tocando = false; document.getElementById("play").textContent = "▶ Tocar"; audio.pause(); }
-    barra.value = T;
-  }
-  aplicar();
+  marcar(fotons);
 }
 
+// ---------- rótulos (com prioridade: os de trás somem se sobrepõem os da frente) ----------
+const rotulos = [];
+function rotulo(texto, x, y, z, ate = Infinity, cls = "") {
+  const d = document.createElement("div"); d.textContent = texto;
+  d.style.cssText = `position:absolute;font:500 .72rem var(--mono);color:${cls || "var(--apagado)"};text-shadow:0 0 6px #000;pointer-events:none;transform:translate(-50%,-50%);white-space:nowrap`;
+  palco.appendChild(d); const r = { d, v: new THREE.Vector3(x, y, z), ate, w: texto.length * 7 + 8 }; rotulos.push(r); return r;
+}
+{
+  const FC = dados.bandas_fc_hz, marcas = [[0, "50 Hz · grave", 0], [63, "8 kHz · agudo", 0], [null, "1 kHz", 1000], [null, "200 Hz", 200], [null, "4 kHz", 4000]];
+  for (const k of ["E", "D"]) for (const [bb, texto, hz] of marcas) {
+    let banda = bb; if (banda === null) { let dm = 1e9; FC.forEach((f, i) => { const d = Math.abs(Math.log(f / hz)); if (d < dm) { dm = d; banda = i; } }); }
+    rotulo(texto, LADO[k] * meia, 0.9, zBanda(k)(banda), bb === null ? 45 : 300, "#9fb3ad");
+  }
+}
+rotulo("Utrd E", -meia, 2.4, 0, 400); rotulo("Utrd D", meia, 2.4, 0, 400);
+rotulo("microfone E", MIC.E.x - 1, -2.6, MIC.E.z, 60); rotulo("microfone D", MIC.D.x + 1, -2.6, MIC.D.z, 60);
+rotulo("fios do sinal elétrico", -meia - 0.4, -0.9, 3, 12); rotulo("fios do sinal elétrico", meia + 0.4, -0.9, 3, 12);
+rotulo("Ustr (1 cubo para dentro)", -meia + 0.02, 0.1, zBanda("E")(24) - 0.06, 0.6); rotulo("Ustr (1 cubo para dentro)", meia - 0.02, 0.1, zBanda("D")(24) - 0.06, 0.6);
+rotulo("sem malha inicial", 0, 3, 0, 400); rotulo("10 cm", 0, -2.5, 0, 400);
+rotulo("alto-falante próximo · canal esquerdo", ALTO[0].x, 70, 0); rotulo("alto-falante distante · canal direito", ALTO[1].x, 70, 0);
+const linhaG = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-meia, 0, 0), new THREE.Vector3(meia, 0, 0)]);
+cena.add(new THREE.Line(linhaG, new THREE.LineDashedMaterial({ color: 0x1f3a40, dashSize: 2, gapSize: 2 })).computeLineDistances());
+
+const c0 = dados.contagem;
+document.getElementById("contagem").innerHTML =
+  `pontos transdutivos <b>${fmt(c0.pontos)}</b> · Ustr <b>${fmt(c0.ustr)}</b><br>` +
+  `<span class="zero">Uint ${c0.uint} · Upro ${c0.upro} · Cpro ${c0.cpro} · ramos ${c0.ramos}</span><br>` +
+  `<span class="ok">conferência do instante zero: nada representacional</span>`;
+const escalaEl = document.getElementById("escala");
+const escalaFixa = `faixa ${O.E.comprimento_cubos} × ${LARG} cubos (${(O.E.comprimento_cubos * MM).toFixed(1)} × ${(LARG * MM).toFixed(2)} mm)`;
+
+// ---------- vistas ----------
+const zb24 = zBanda("E")(24);
+const VISTAS = {
+  sala: [new THREE.Vector3(400, 900, 1900), new THREE.Vector3(400, 0, 0)],
+  geral: [new THREE.Vector3(0, 110, 210), new THREE.Vector3(0, 0, 0)],
+  cima: [new THREE.Vector3(0, 160, 0.01), new THREE.Vector3(0, 0, 0)],
+  E: [new THREE.Vector3(-meia + 13, 12, 22), new THREE.Vector3(-meia - 1.5, 0, -1.5)],
+  D: [new THREE.Vector3(meia - 13, 12, 22), new THREE.Vector3(meia + 1.5, 0, -1.5)],
+  detalhe: [new THREE.Vector3(-meia + 0.17, 0.07, zb24 + 0.13), new THREE.Vector3(-meia + 0.005, 0, zb24)],
+};
+function vista(n) {
+  const [p, a] = VISTAS[n], k = n === "detalhe" ? 1 : (n === "E" || n === "D") ? Math.max(1, 1.0 / camera.aspect) : Math.max(1, 1.5 / camera.aspect);
+  camera.position.copy(a).add(p.clone().sub(a).multiplyScalar(k)); ctrl.target.copy(a); ctrl.update();
+}
+document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
+const camadas = { "cam-pontos": [pontos], "cam-ustr": [ustr], "cam-som": [ondas, altos], "cam-fios": [fios, mics], "cam-inc": [fotons], "cam-grade": [grade] };
+for (const [id, objs] of Object.entries(camadas)) {
+  const b = document.getElementById(id);
+  b.onclick = () => { const v = !objs[0].visible; objs.forEach(o => o.visible = v); b.setAttribute("aria-pressed", v); };
+}
+
+// ---------- reprodução ----------
+const audio = document.getElementById("audio"), barra = document.getElementById("tempo"), rot = document.getElementById("rotulo-tempo");
+let T = 0, tocando = false, vel = 1, ultimo = performance.now();
+barra.max = DUR - 0.005;
+function irPara(t) { T = Math.min(Math.max(t, 0), DUR - 0.005); barra.value = T; limparFotons(); if (!audio.paused) try { audio.currentTime = T; } catch (e) {} }
+barra.oninput = () => irPara(+barra.value);
+function sincronizar() { if (tocando && vel === 1) { try { audio.currentTime = T; } catch (e) {} audio.play().catch(() => {}); } else audio.pause(); }
+document.getElementById("play").onclick = e => { tocando = !tocando; e.currentTarget.textContent = tocando ? "❚❚ Pausar" : "▶ Tocar"; if (tocando && T >= DUR - 0.01) irPara(0); sincronizar(); };
+document.querySelectorAll("[data-vel]").forEach(b => b.onclick = () => { vel = +b.dataset.vel; document.querySelectorAll("[data-vel]").forEach(x => x.setAttribute("aria-pressed", x === b)); sincronizar(); });
+
+function aplicar(fr) {
+  const L = pontos.luz;
+  for (let i = 0; i < L.length; i++) { const g = (i < nE ? G.E : G.D)[fr * 64 * SUB + celula[i]]; L[i] = Math.max(Math.pow(Math.min(1, g / P99), 0.85), L[i] * 0.82); }
+  pontos.aLuz.needsUpdate = true;
+  mics.luz[0] = 0.45 * TOTAL.E[fr]; mics.luz[1] = 0.45 * TOTAL.D[fr]; mics.aLuz.needsUpdate = true;
+  altos.luz[0] = nivel01(CAN[fr] / 255 * 90) * 0.6; altos.luz[1] = nivel01(CAN[NF + fr] / 255 * 90) * 0.6; altos.aLuz.needsUpdate = true;
+  rot.textContent = (meta.ini + T).toFixed(3).replace(".", ",") + " s";
+}
 function tamanho() {
-  const w = palco.clientWidth, h = palco.clientHeight;
-  render.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-  const esc = h / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) * render.getPixelRatio();
-  for (const o of [pontos, ustr, typeof ondas !== "undefined" ? ondas : null, typeof amarelo !== "undefined" ? amarelo : null, typeof anel !== "undefined" ? anel : null, typeof poeira !== "undefined" ? poeira : null]) if (o) { o.material.uniforms.escala.value = esc; o.material.uniforms.min.value = o.material.userData.min0 * render.getPixelRatio(); }  // tamanho mínimo em pixels de tela, também em telas de alta densidade
+  const w = palco.clientWidth, h = palco.clientHeight, pr = render.getPixelRatio();
+  render.setSize(w, h, false); composer.setPixelRatio(pr); composer.setSize(w, h);
+  camera.aspect = w / h; camera.updateProjectionMatrix();
+  COMUM.uPix.value = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) / (h * pr);
+  for (const o of [pontos, ustr, mics, altos, ondas, fotons, fios]) o.material.uniforms.minPx.value = o.material.userData.min0 * pr;   // mínimo em pixels de tela, também em telas densas
 }
 new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
 
-const tmp = new THREE.Vector3();
+const tmp = new THREE.Vector3(); let nq = 0;
 (function quadro() {
-  requestAnimationFrame(quadro); avancar(performance.now()); ctrl.update(); render.render(cena, camera);
-  const w = palco.clientWidth, h = palco.clientHeight;
+  requestAnimationFrame(quadro);
+  const agora = performance.now(), dt = Math.min(0.1, (agora - ultimo) / 1000); ultimo = agora;
+  const dtv = tocando ? dt * vel : 0;
+  if (tocando) {
+    if (vel === 1 && !audio.paused && audio.currentTime > 0) T = audio.currentTime; else T += dtv;
+    if (T >= DUR - 0.005) { T = DUR - 0.005; tocando = false; document.getElementById("play").textContent = "▶ Tocar"; audio.pause(); }
+    barra.value = T;
+  }
+  Tv += dtv;
+  const fr = Math.min(NF - 1, Math.floor(T / FR));
+  ctrl.update();
+  const dist = camera.position.distanceTo(ctrl.target);
+  camera.near = dist / 400; camera.far = Math.max(dist * 4000, 6000); camera.updateProjectionMatrix();
+  COMUM.uFoco.value = dist;
+  grade.material.uniforms.alfa.value = Math.max(0, Math.min(1, (1.0 - dist) / 0.7)) * 0.55;
+  fios.material.uniforms.uT.value = T; fios.material.uniforms.uTv.value = Tv;
+  moverOndas(); moverFotons(dtv, fr, Math.max(0.05, Math.min(20, dist))); aplicar(fr);
+  composer.render();
+  const w = palco.clientWidth, h = palco.clientHeight, postos = [];
   for (const r of rotulos) {
     tmp.copy(r.v).project(camera);
-    const vis = tmp.z < 1 && Math.abs(tmp.x) < 1.1 && Math.abs(tmp.y) < 1.1 && !(r.perto && camera.position.distanceTo(r.v) > 45);
+    let vis = tmp.z < 1 && Math.abs(tmp.x) < 1.05 && Math.abs(tmp.y) < 1.05 && camera.position.distanceTo(r.v) <= r.ate;
+    const x = (tmp.x + 1) / 2 * w, y = (1 - tmp.y) / 2 * h;
+    if (vis) for (const p of postos) if (Math.abs(p.x - x) < (p.w + r.w) / 2 && Math.abs(p.y - y) < 15) { vis = false; break; }
     r.d.style.display = vis ? "" : "none";
-    if (vis) { r.d.style.left = (tmp.x + 1) / 2 * w + "px"; r.d.style.top = (1 - tmp.y) / 2 * h + "px"; }
+    if (vis) { r.d.style.left = x + "px"; r.d.style.top = y + "px"; postos.push({ x, y, w: r.w }); }
+  }
+  if (++nq % 10 === 0) {
+    const px = MM / (dist * COMUM.uPix.value) / render.getPixelRatio();
+    escalaEl.innerHTML = `1 cubo (20 µm) ≈ ${px < 1 ? "menos de 1" : fmt(Math.round(px))} px na tela<br>${escalaFixa}`;
   }
 })();
 </script>
