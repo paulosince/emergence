@@ -26,6 +26,12 @@ import numpy as np
 from numba import njit
 
 CUBO_S = 0.02e-3 / 0.3            # s por cubo à velocidade basal (≈ 66,7 µs)
+# Nervo [R 27/11]: a fibra é a Upro que nasce no ponto transdutivo (a vaga) quando chega estímulo, e cresce até a zona de
+# entrada do núcleo: 790 cubos (15,8 mm, comprimento medido no gato, Rattay et al. 2013), 1 cubo a cada ~12 reacessos do
+# ponto (a mesma regra de crescimento dos ramos). Velocidade basal (sem mielina; a Utad fica para a próxima versão): ~53 ms.
+NERVO = 790
+TR_PASSOS = 12 * NERVO
+TR_S = NERVO * CUBO_S
 
 # ---- números aprovados ----
 LIMIAR, T_DISPARO, REFR_UINT = 1.5, 0.6e-3, 0.5e-3
@@ -103,7 +109,7 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             p_a, p_b, p_u, p_cnt, p_dmin, p_dmax, p_r0, p_r1, p_nv, p_vr,
             r_src, r_dst, r_len, r_atr, r_f, r_ok, r_part, r_sem, r_head, r_next, r_born, a_head, a_next,
             u_ring_t, u_ring_a, u_ring_r, u_ring_i, u_rn, u_refr, u_pend, u_last, u_q, u_s, u_qt, u_nin,
-            integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W, ht, hk, ha, hb, hc, hw, glob, t_ini, ne0, npar0, nr0, obs, log_c):
+            integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W, ht, hk, ha, hb, hc, hw, glob, t_ini, ne0, npar0, nr0, obs, log_c, tr_cnt, log_t):
     """Processa um ouvido. Emissores: pontos 0..N-1; Uints N.. . Devolve (n_emissores, n_pares, n_ramos)."""
     N = px.shape[0]
     ne = ne0; npar = npar0; nr = nr0          # o Sdom continua de onde parou (não zera entre apresentações)
@@ -140,9 +146,21 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             # ---- emissão (borda: tipo 9; Uint: tipo 3) ----
             if tipo == 3:
                 e = a; m = w; iid = c
+                if e >= N:
+                    cont[0] += 1
             else:
                 integ[iid & MASK] = 0
-            cont[0] += 1
+                cont[0] += 1
+                # ---- a fibra (Upro do ponto transdutivo): cresce com os reacessos; depois leva a incidência até a ponta ----
+                if tr_cnt[e] < TR_PASSOS:
+                    tr_cnt[e] += 1
+                    cont[17] += 1              # incidência que expirou no próprio ponto (a fibra ainda não chegou ao núcleo)
+                    if tr_cnt[e] % (12 * 79) == 0 and cont[18] < log_t.shape[0]:
+                        log_t[cont[18], 0] = t; log_t[cont[18], 1] = e; log_t[cont[18], 2] = tr_cnt[e] / TR_PASSOS
+                        cont[18] += 1
+                    continue
+                nh = _push(nh, ht, hk, ha, hb, hc, hw, t + TR_S, 3, e, 0, iid, m)
+                continue
             r = r_head[e]
             if r < 0:
                 # sem ramo funcionando: o fracasso é imediato, registrado pela Ustr do território
@@ -399,4 +417,4 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
 CONTADORES = ["emissões", "fracassos", "incidências que integraram (desceram por ramo)", "coincidências", "comparações",
               "pares", "ramos que passaram a funcionar", "variantes criadas", "participações (promoções)", "punições",
               "coincidências em pares já integrados (sem novas candidatas)", "sem lugar (território cheio ou capacidade esgotada)",
-              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio", "passos de crescimento registrados", "chegadas na janela de observação"]
+              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio", "passos de crescimento registrados", "chegadas na janela de observação", "incidências que expiraram no ponto (fibra crescendo)", "marcas de crescimento das fibras"]

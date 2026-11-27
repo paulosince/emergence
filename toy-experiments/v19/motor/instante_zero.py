@@ -16,6 +16,7 @@ import pontos  # V0.18: pontos transdutivos por banda (capacidade e limiares, j�
 
 CUBO_MM = 0.02            # [R] ~20 µm
 MEIA_DIST = 2500          # [R] 10 cm entre os microfones = 5.000 cubos; cada faixa a ±2.500 cubos do centro
+NERVO = 790               # [R 27/11] cubos da cóclea à zona de entrada do núcleo (15,8 mm, gato; Rattay et al. 2013). A fibra não existe no instante zero: cresce com os reacessos
 LARGURA = 16              # [R, 27/11] cubos no eixo da sensibilidade: uma coluna de sensibilidade da V0.18 por linha
 
 def faixa(P, lado):
@@ -42,6 +43,12 @@ def ustr(xs, ys, zs, lado):
     n = len(blocos)
     return np.full(n, lado * (MEIA_DIST - 1)), blocos[:, 0] * 2 + 1, blocos[:, 1] * 2 + 1
 
+def ustr_entrada(xs, ys, zs, lado):
+    """Ustr da zona de entrada do núcleo [R 27/11: glias nos dois lugares]: mesma partição 2 × 2, um cubo para dentro das
+    pontas das fibras (que ficarão a NERVO cubos da cóclea quando as fibras crescerem)."""
+    ux, uy, uz = ustr(xs, ys, zs, lado)
+    return np.full(len(ux), lado * (MEIA_DIST - NERVO - 1)), uy, uz
+
 def b64(a, tipo):
     return base64.b64encode(np.asarray(a, dtype=tipo).tobytes()).decode()
 
@@ -52,18 +59,20 @@ def main(saida):
     for nome, lado in (("E", -1), ("D", +1)):
         x, y, z, banda, posto = faixa(P, lado)
         ux, uy, uz = ustr(x, y, z, lado)
+        vx, vy, vz = ustr_entrada(x, y, z, lado)
         # conferência: um ponto por cubo
         assert len(np.unique(np.stack([x, y, z], 1), axis=0)) == len(x), "dois pontos no mesmo cubo"
-        cont["pontos"] += len(x); cont["ustr"] += len(ux)
+        cont["pontos"] += len(x); cont["ustr"] += len(ux) + len(vx)
         dados["ouvidos"][nome] = dict(
             n_pontos=len(x), n_ustr=len(ux),
             pontos=dict(x=b64(x, "<i2"), y=b64(y, "<i2"), z=b64(z, "<i2"), banda=b64(banda, "u1")),
             ustr=dict(x=b64(ux, "<i2"), y=b64(uy, "<i2"), z=b64(uz, "<i2")),
+            ustr_entrada=dict(x=b64(vx, "<i2"), y=b64(vy, "<i2"), z=b64(vz, "<i2")),
             comprimento_cubos=int(y.max() - y.min() + 1))
     # CONFERÊNCIA OBRIGATÓRIA DO INSTANTE ZERO: nada representacional existe
     for k in ("uint", "upro", "cpro", "ramos"):
         assert cont[k] == 0, f"violação: {k} no instante zero"
-    dados["contagem"] = cont
+    dados["contagem"] = cont; dados["nervo_cubos"] = NERVO
     dados["bandas_fc_hz"] = [round(float(p["fc"]), 1) for p in P]
     pathlib.Path(saida).parent.mkdir(parents=True, exist_ok=True)
     pathlib.Path(saida).write_text(json.dumps(dados))

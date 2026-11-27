@@ -120,6 +120,8 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
       <button data-vista="E">Ouvido E</button>
       <button data-vista="D">Ouvido D</button>
       <button data-vista="detalhe">Dentro (cubos)</button>
+      <button data-vista="nervo">Nervo E</button>
+      <button data-vista="nucleo">Núcleo E (zona de entrada)</button>
     </div>
     <div class="grupo" role="group" aria-label="Camadas"><span>Mostrar</span>
       <button id="cam-pontos" aria-pressed="true">Pontos transdutivos</button>
@@ -132,7 +134,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
     </div>
   </div>
   <div class="linha" id="linha-ap" hidden>
-    <div class="grupo" role="group" aria-label="Apresentações"><span>Apresentações (Sdom contínuo)</span><span id="botoes-ap"></span></div>
+    <div class="grupo" role="group" aria-label="Apresentações"><span>Ensaio (Sdom contínuo) · ir para o fim de</span><span id="botoes-ap"></span></div>
   </div>
   <div id="painel-ap" class="legenda" hidden></div>
   <div id="obra">Gymnopédie n.º 1 (Satie), Robin Alciatore (Musopen, domínio público), de 9 a 19 s — os mesmos dados da página da V0.18.</div>
@@ -298,7 +300,7 @@ const R_UN = 0.225 * MM;    // ponto transdutivo: diâmetro desenhado = 45% do c
 const R_UINT = 0.5 * MM;    // Uint: diâmetro ≈ 1 cubo (corpos de ~18–25 µm no núcleo coclear) [R 27/11: menor ou igual a 1 cubo, não muda o motor]
 const R_USTR = 0.42 * MM;   // Ustr: estrela (astrócito); tamanho desenhado, não medido
 const pontos = bolas(centrosDe([O.E.pontos, O.D.pontos]), R_UN, 1.6, cor("--ponto"), cor("--excit"));
-const ustr = bolas(centrosDe([O.E.ustr, O.D.ustr]), R_USTR, 1.6, cor("--ustr"), undefined, 1);
+const ustr = bolas(centrosDe([O.E.ustr, O.D.ustr, ...(O.E.ustr_entrada ? [O.E.ustr_entrada, O.D.ustr_entrada] : [])]), R_USTR, 1.6, cor("--ustr"), undefined, 1);   // Ustr na cóclea e na zona de entrada do núcleo
 cena.add(pontos, ustr);
 
 // grade dos cubos (as duas camadas de cubos de cada ouvido: a das Utrd e a das Ustr), visível só de perto
@@ -570,16 +572,18 @@ const obs = await (async () => {
       } };
   } catch (e) { console.warn("sem janela de observação", e); return null; }
 })();
-// ---------- apresentações completas no mesmo Sdom: estado ao fim de cada uma (só o que o motor registrou) ----------
+// ---------- ensaio com as gravações completas: gravação da constituição (play, pausa, avançar, retroceder) ----------
 const sessoes = await (async () => {
   let mj; try { const r = await fetch(BASE + "sessoes.json"); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }
   const linha = document.getElementById("linha-ap"), bots = document.getElementById("botoes-ap"), painel = document.getElementById("painel-ap");
   linha.hidden = false;
-  const aps = mj.ouvidos.esq.apresentacoes, NOMES = ["forma", "forma", "volta", "volta"];
-  let dados = null, ativo = null;
+  const aps = mj.ouvidos.esq.apresentacoes, NOMES = ["forma", "forma", "volta", "volta"], NERVO = mj.ouvidos.esq.nervo || 0;
+  const FIM = aps[aps.length - 1].inicio + aps[aps.length - 1].dur;
+  let D = null, tE = 0, tocandoE = false, velE = 10, ativo = false, ultReal = performance.now(), tDesenhado = -1, ultDiario = -1e9;
+  const NOVA = cor("--nova"), ACESSO = cor("--acesso"), FEITA = cor("--uint"), EXC = cor("--excit");
   function bolasCor(centros, raio, minPx) {
     const o = bolas(centros, raio, minPx, new THREE.Color(1, 1, 1), new THREE.Color(1, 1, 1));
-    const c = new Float32Array(centros.length); const at = new THREE.InstancedBufferAttribute(c, 3); o.geometry.setAttribute("corI", at); o.cor = c; o.aCor = at;
+    const c = new Float32Array(centros.length); const at = new THREE.InstancedBufferAttribute(c, 3); at.setUsage(THREE.DynamicDrawUsage); o.geometry.setAttribute("corI", at); o.cor = c; o.aCor = at;
     o.material.vertexShader = o.material.vertexShader.replace("attribute float luz;", "attribute float luz; attribute vec3 corI; varying vec3 vK;").replace("vL = luz;", "vL = luz; vK = corI;");
     o.material.fragmentShader = o.material.fragmentShader.replace("varying vec2 vC;", "varying vec2 vC; varying vec3 vK;")
       .replace("vec3 aceso = ativa * (0.55 + 1.3 * dif) + ativa * rim * 1.6;", "vec3 aceso = vK * (0.55 + 1.3 * dif) + vK * rim * 1.6;")
@@ -588,67 +592,105 @@ const sessoes = await (async () => {
   }
   async function carregar() {
     const buf = await (await fetch(BASE + "sessoes.bin")).arrayBuffer();
-    const T = { int16: Int16Array, uint8: Uint8Array, uint16: Uint16Array, int32: Int32Array };
-    const A = n => new T[mj[n].tipo](buf, mj[n].off, mj[n].n);
-    const D = {};
+    const T_ = { int16: Int16Array, uint8: Uint8Array, uint16: Uint16Array, int32: Int32Array, float32: Float32Array };
+    const A = n => new T_[mj[n].tipo](buf, mj[n].off, mj[n].n);
+    const out = {};
     for (const o of ["esq", "dir"]) {
+      const lado = o === "esq" ? -1 : 1, K = o === "esq" ? "E" : "D";
       const uxyz = A(o + "_u_xyz"), nU = uxyz.length / 3, cen = new Float32Array(nU * 3);
       for (let i = 0; i < nU; i++) { cen[3 * i] = uxyz[3 * i] * MM; cen[3 * i + 1] = uxyz[3 * i + 2] * MM; cen[3 * i + 2] = -uxyz[3 * i + 1] * MM; }
-      const u = bolasCor(cen, R_UINT, 1.5); cena.add(u);
+      const u = bolasCor(cen, R_UINT, 1.5); u.luz.fill(-1); cena.add(u);
       const rs = A(o + "_r_src"), rd = A(o + "_r_dst"), nR = rd.length, pa = new Float32Array(nR * 3), pb = new Float32Array(nR * 3), col = new Float32Array(nR * 3);
       for (let i = 0; i < nR; i++) {
         pa[3 * i] = rs[3 * i] * MM; pa[3 * i + 1] = rs[3 * i + 2] * MM; pa[3 * i + 2] = -rs[3 * i + 1] * MM;
         pb[3 * i] = cen[3 * rd[i]]; pb[3 * i + 1] = cen[3 * rd[i] + 1]; pb[3 * i + 2] = cen[3 * rd[i] + 2];
       }
-      const lr = tubos(pa, pb, W_UPRO, 1.4, [["corR", col, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`,
-        { decl: "varying vec3 vK;", corpo: "vK = corR;" });
-      const ac = lr.geometry.attributes.corR; ac.setUsage(THREE.DynamicDrawUsage); cena.add(lr);
-      D[o] = { u, lr, col, ac, nU, nR, u_ap: A(o + "_u_ap"), u_f: A(o + "_u_fires"), r_ap: A(o + "_r_ap"), r_uso: A(o + "_r_uso"), r_dst: rd };
+      const lr = tubos(pa, pb, W_UPRO, 1.4, [["corR", col, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`, { decl: "varying vec3 vK;", corpo: "vK = corR;" });
+      lr.geometry.attributes.corR.setUsage(THREE.DynamicDrawUsage); cena.add(lr);
+      // fibras do nervo: do ponto transdutivo (cóclea) rumo à zona de entrada, crescendo com os reacessos
+      const P = centrosDe([O[K].pontos]), nP = P.length / 3, fa = new Float32Array(P), fb = new Float32Array(P), fc = new Float32Array(nP * 3);
+      const fib = tubos(fa, fb, W_UPRO, 1.2, [["corF", fc, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`, { decl: "varying vec3 vK;", corpo: "vK = corF;" });
+      fib.geometry.attributes.pb.setUsage(THREE.DynamicDrawUsage); fib.geometry.attributes.corF.setUsage(THREE.DynamicDrawUsage); cena.add(fib);
+      const fp = A(o + "_f_p"), ft = A(o + "_f_t"), ffr = A(o + "_f_fr"), ini = new Int32Array(nP + 1);
+      for (let i = 0; i < fp.length; i++) ini[fp[i] + 1]++; for (let i = 0; i < nP; i++) ini[i + 1] += ini[i];
+      out[o] = { lado, u, lr, fib, col, fc, P, nU, nR, nP, ini, ft, ffr, u_t: A(o + "_u_t"), r_t: A(o + "_r_t"), u_ap: A(o + "_u_ap"), u_f: A(o + "_u_fires"), r_ap: A(o + "_r_ap"), r_uso: A(o + "_r_uso") };
     }
-    return D;
+    return out;
   }
-  const NOVA = cor("--nova"), ACESSO = cor("--acesso"), FEITA = cor("--uint");
-  async function mostrar(p) {
-    if (!dados) { painel.hidden = false; painel.textContent = "carregando o estado do Sdom…"; dados = await carregar(); }
-    ativo = p;
-    if (malha) malha.objs.forEach(o => o.visible = p === null);
-    const linhas = [];
+  const apDe = t => { let a = -1; aps.forEach((x, i) => { if (t >= x.inicio) a = i; }); return a; };
+  function desenhar(t) {
+    if (!D) return; const a = apDe(t), noAp = a >= 0 && t <= aps[a].inicio + aps[a].dur;
+    const tot = { f: 0, u: 0, r: 0 };
     for (const o of ["esq", "dir"]) {
-      const d = dados[o]; let novas = 0, reus = 0, rn = 0, ru = 0;
+      const d = D[o];
+      // fibras
+      const fb = d.fib.geometry.attributes.pb.array, fc = d.fc, dx = -d.lado * NERVO * MM;
+      for (let p = 0; p < d.nP; p++) {
+        let fr = 0, recente = false; for (let k = d.ini[p]; k < d.ini[p + 1]; k++) { if (d.ft[k] <= t) { fr = d.ffr[k] / 100; recente = t - d.ft[k] < 8; } else break; }
+        fb[3 * p] = d.P[3 * p] + dx * fr; fb[3 * p + 1] = d.P[3 * p + 1]; fb[3 * p + 2] = d.P[3 * p + 2];
+        const k = fr >= 1 ? FEITA : NOVA, v = fr <= 0 ? 0 : fr >= 1 ? 0.10 : recente ? 0.9 : 0.35;
+        fc[3 * p] = k.r * v; fc[3 * p + 1] = k.g * v; fc[3 * p + 2] = k.b * v; if (fr >= 1) tot.f++;
+      }
+      d.fib.geometry.attributes.pb.needsUpdate = true; d.fib.geometry.attributes.corF.needsUpdate = true;
+      // Uints
       const L = d.u.luz, C = d.u.cor;
       for (let i = 0; i < d.nU; i++) {
-        let k = FEITA, v = 0.22;
-        if (p === null || p < 0 || d.u_ap[i] > p) { L[i] = -1; continue; }
-        const f = d.u_f[p * d.nU + i];
-        if (d.u_ap[i] === p) { k = NOVA; v = 1; novas++; }
-        else if (f > 0) { k = ACESSO; v = 0.45 + 0.55 * Math.min(1, Math.log10(1 + f) / 3); reus++; }
+        if (d.u_t[i] > t) { L[i] = -1; continue; } tot.u++;
+        let k = FEITA, v = 0.25;
+        if (t - d.u_t[i] < 5) { k = NOVA; v = 1; }
+        else if (noAp && d.u_ap[i] < a && d.u_f[a * d.nU + i] > 0) { k = ACESSO; v = 0.75; }
         L[i] = v; C[3 * i] = k.r; C[3 * i + 1] = k.g; C[3 * i + 2] = k.b;
       }
       d.u.aLuz.needsUpdate = true; d.u.aCor.needsUpdate = true;
+      // ramos
       const col = d.col;
       for (let i = 0; i < d.nR; i++) {
         let k = null, v = 0;
-        if (p !== null && p >= 0 && d.r_ap[i] <= p) {
-          if (d.r_ap[i] === p) { k = NOVA; v = 0.8; rn++; }
-          else if ((d.r_uso[i] >> p) & 1) { k = ACESSO; v = 0.6; ru++; }
-          else { k = FEITA; v = 0.12; }
-        }
+        if (d.r_t[i] <= t) { tot.r++;
+          if (t - d.r_t[i] < 5) { k = NOVA; v = 0.9; }
+          else if (noAp && d.r_ap[i] < a && ((d.r_uso[i] >> a) & 1)) { k = ACESSO; v = 0.6; }
+          else { k = FEITA; v = 0.12; } }
         col[3 * i] = k ? k.r * v : 0; col[3 * i + 1] = k ? k.g * v : 0; col[3 * i + 2] = k ? k.b * v : 0;
       }
-      d.ac.needsUpdate = true;
-      if (p !== null && p >= 0) {
-        const r = mj.ouvidos[o].apresentacoes[p], c = r.contadores, integ = 1 - c["fracassos"] / Math.max(1, c["emissões"]);
-        linhas.push(`<span><b>Ouvido ${o === "esq" ? "E" : "D"}:</b> <b style="color:var(--nova)">${fmt(novas)} Uints novas</b> · <b style="color:var(--acesso)">${fmt(reus)} Uints antigas que dispararam</b> · ${fmt(d.u_ap.filter(a => a < p).length)} já existiam · ramos: <span style="color:var(--nova)">${fmt(rn)} novos</span>, <span style="color:var(--acesso)">${fmt(ru)} antigos usados</span> · disparos ${fmt(c["disparos de Uint"])} · incidências que integraram ${(100 * integ).toFixed(2).replace(".", ",")}%</span>`);
-      }
+      d.lr.geometry.attributes.corR.needsUpdate = true;
     }
-    painel.hidden = p === null;
-    painel.innerHTML = p === null ? "" : p < 0 ? "<span>Instante zero: nada representacional (nenhuma Uint, nenhum ramo).</span>" :
-      `<span><b>Fim da apresentação ${p + 1} — ${aps[p].gravacao.replace("satie-gymnopedie1-", "")} (${NOMES[p] || ""}).</b> O Sdom é o mesmo desde a primeira: <b style="color:var(--nova)">roxo</b> = nasceu nesta apresentação; <b style="color:var(--acesso)">azul</b> = já existia e foi usado nesta apresentação (Uint que disparou; ramo que participou de um disparo); neutro = já existia e não foi usado. Ensaio exploratório com escolhas provisórias (ver <code>piloto-10s.md</code>).</span>` + linhas.join("");
-    document.querySelectorAll("[data-ap]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.ap === String(p))));
+    rotE.textContent = `${fmtT(t)} de ${fmtT(FIM)} · ${a >= 0 ? (noAp ? `apresentação ${a + 1} (${aps[a].gravacao.replace("satie-gymnopedie1-", "")}, ${NOMES[a]})` : "silêncio entre apresentações") : "antes da primeira"}`;
+    barraE.value = t;
+    painel.innerHTML = `<span><b>Gravação do ensaio</b> (os dois ouvidos, o mesmo Sdom do começo ao fim): fibras do nervo que já chegaram ao núcleo <b>${fmt(tot.f)}</b> de ${fmt(D.esq.nP + D.dir.nP)} · <b style="color:var(--nova)">Uints ${fmt(tot.u)}</b> · ramos funcionando ${fmt(tot.r)}. <b style="color:var(--nova)">Roxo</b> = acabou de nascer (fibra crescendo, Uint ou ramo novos); <b style="color:var(--acesso)">azul</b> = já existia e foi usado nesta apresentação; neutro = já existia. As fibras crescem da cóclea até a zona de entrada do núcleo (${(NERVO * MM).toFixed(1).replace(".", ",")} mm), 1 cubo a cada ~12 reacessos do ponto; os fracassos, as coincidências e as Uints acontecem lá.</span>`;
+    if (tocandoE && performance.now() - ultDiario > 1500 && D.ult) {
+      const df = tot.f - D.ult.f, du = tot.u - D.ult.u, dr = tot.r - D.ult.r, partes = [];
+      if (df > 0) partes.push(`<b>+${fmt(df)} fibras chegaram</b> ao núcleo (cresceram 790 cubos com os reacessos dos seus pontos)`);
+      if (du > 0) partes.push(`<b style="color:var(--nova)">+${fmt(du)} Uints</b> nasceram na zona de entrada (pontas de fibras vizinhas que fracassaram juntas)`);
+      if (dr > 0) partes.push(`<b style="color:var(--nova)">+${fmt(dr)} ramos</b> chegaram à sua Uint`);
+      if (partes.length) diario(`<b>${fmtT(t)}</b> · ${partes.join(" · ")}`);
+      ultDiario = performance.now(); D.ult = tot;
+    }
+    if (!D.ult) D.ult = tot;
   }
-  const rot = [["-1", "Instante zero"], ...aps.map((a, i) => [String(i), `${i + 1} · ${a.gravacao.replace("satie-gymnopedie1-", "")}`])];
-  for (const [v, t] of rot) { const b = document.createElement("button"); b.dataset.ap = v; b.textContent = t; b.onclick = () => (ativo === +v ? mostrar(null) : mostrar(+v)); bots.appendChild(b); }
-  return { mostrar };
+  const fmtT = t => { const m = Math.floor(t / 60), s2 = t - 60 * m; return `${m}:${s2.toFixed(1).padStart(4, "0").replace(".", ",")}`; };
+  // controles da gravação
+  const ctl = document.createElement("div"); ctl.className = "linha"; ctl.innerHTML =
+    `<button id="e-play">▶ Gravação do ensaio</button><input id="e-tempo" type="range" min="0" max="${FIM}" step="0.1" value="0" style="flex:1;min-width:160px;accent-color:var(--nova)" aria-label="Tempo do ensaio">` +
+    `<div class="grupo"><button data-ep="-30">⏮ 30 s</button><button data-ep="-5">◀ 5 s</button><button data-ep="5">5 s ▶</button><button data-ep="30">30 s ⏭</button></div>` +
+    `<div class="grupo" role="group" aria-label="Velocidade do ensaio"><span>Velocidade</span><button data-ev="1">1×</button><button data-ev="10" aria-pressed="true">10×</button><button data-ev="60">60×</button></div>` +
+    `<span id="e-rot" class="num" style="font:500 .8rem var(--mono);color:var(--apagado)"></span>`;
+  linha.after(ctl);
+  const barraE = ctl.querySelector("#e-tempo"), rotE = ctl.querySelector("#e-rot"), playE = ctl.querySelector("#e-play");
+  async function ligar() {
+    if (!D) { painel.hidden = false; painel.textContent = "carregando a gravação do ensaio…"; D = await carregar(); }
+    if (!ativo) { ativo = true; if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); pontos.luz.fill(0); painel.hidden = false;
+      diario("<b>Gravação do ensaio.</b> As 4 gravações completas, em sequência, no mesmo Sdom: as fibras do nervo crescem, depois nascem as Uints e os ramos na zona de entrada do núcleo."); }
+  }
+  function irE(t) { tE = Math.min(Math.max(t, 0), FIM); desenhar(tE); }
+  playE.onclick = async () => { await ligar(); tocandoE = !tocandoE; playE.textContent = tocandoE ? "❚❚ Pausar gravação" : "▶ Gravação do ensaio"; if (tocandoE && tE >= FIM) irE(0); };
+  barraE.oninput = async () => { await ligar(); irE(+barraE.value); };
+  ctl.querySelectorAll("[data-ep]").forEach(b => b.onclick = async () => { await ligar(); irE(tE + Number(b.dataset.ep)); });
+  ctl.querySelectorAll("[data-ev]").forEach(b => b.onclick = () => { velE = +b.dataset.ev; ctl.querySelectorAll("[data-ev]").forEach(x => x.setAttribute("aria-pressed", x === b)); });
+  const rot = [["-1", "Instante zero"], ...aps.map((x, i) => [String(i), `${i + 1} · ${x.gravacao.replace("satie-gymnopedie1-", "")}`])];
+  for (const [v, t] of rot) { const b = document.createElement("button"); b.dataset.ap = v; b.textContent = t; b.onclick = async () => { await ligar(); irE(+v < 0 ? 0 : aps[+v].inicio + aps[+v].dur); }; bots.appendChild(b); }
+  return { quadro() { if (!ativo) return; const agora = performance.now(), dt = Math.min(0.1, (agora - ultReal) / 1000); ultReal = agora;
+      if (tocandoE) { tE += dt * velE; if (tE >= FIM) { tE = FIM; tocandoE = false; playE.textContent = "▶ Gravação do ensaio"; } }
+      if (Math.abs(tE - tDesenhado) > 0.049) { desenhar(tE); tDesenhado = tE; } } };
 })();
 // ---------- rótulos (com prioridade: os de trás somem se sobrepõem os da frente) ----------
 const rotulos = [];
@@ -688,6 +730,8 @@ const VISTAS = {
   geral: [new THREE.Vector3(0, 110, 210), new THREE.Vector3(0, 0, 0)],
   cima: [new THREE.Vector3(0, 160, 0.01), new THREE.Vector3(0, 0, 0)],
   E: [new THREE.Vector3(-meia + 13, 12, 22), new THREE.Vector3(-meia - 1.5, 0, -1.5)],
+  nucleo: [new THREE.Vector3(-meia + (dados.nervo_cubos || 0) * MM + 0.5, 0.3, 0.6), new THREE.Vector3(-meia + (dados.nervo_cubos || 0) * MM + 0.03, 0, 0)],
+  nervo: [new THREE.Vector3(-meia + 8, 14, 26), new THREE.Vector3(-meia + 8, 0, 0)],
   D: [new THREE.Vector3(meia - 13, 12, 22), new THREE.Vector3(meia + 1.5, 0, -1.5)],
   detalhe: [new THREE.Vector3(-meia + 0.32, 0.14, zb24 + 0.26), new THREE.Vector3(-meia + 0.03, 0, zb24)],
 };
@@ -773,6 +817,7 @@ const tmp = new THREE.Vector3(); let nq = 0;
   grade.material.uniforms.alfa.value = Math.max(0, Math.min(1, (1.0 - dist) / 0.7)) * 0.55;
   fios.material.uniforms.uT.value = T; fios.material.uniforms.uTv.value = Tv;
   moverOndas(); aplicar(fr);
+  if (sessoes) sessoes.quadro();
   if (obs) obs.atualizar(T);
   if (malha) { const v = malha.atualizar(T); narrar(T, v); if (nq % 6 === 0) vivoEl.innerHTML = `piloto, ouvido E, até agora: <b style="color:var(--nova)">Uints ${fmt(v.u)}</b> · ramos funcionando ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.f)}</span>`; }
   composer.render();

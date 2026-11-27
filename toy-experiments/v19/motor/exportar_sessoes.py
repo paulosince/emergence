@@ -32,7 +32,7 @@ def main():
             fires[a] = np.minimum(c - prev, 65535); prev = c
         ok = d["r_ok"] == 1
         src, dst = d["r_src"][ok], d["r_dst"][ok]
-        px, py, pz = d["px"], d["py"], d["pz"]
+        px, py, pz = d["pxe"], d["py"], d["pz"]      # os ramos dos pontos saem da ponta da fibra (zona de entrada)
         sx = np.where(src < N, px[np.minimum(src, N - 1)], ex[np.maximum(src - N, 0)])
         sy = np.where(src < N, py[np.minimum(src, N - 1)], ey[np.maximum(src - N, 0)])
         sz = np.where(src < N, pz[np.minimum(src, N - 1)], ez[np.maximum(src - N, 0)])
@@ -45,7 +45,13 @@ def main():
         poe(p + "u_xyz", np.stack([ex, ey, ez], 1).astype(np.int16)); poe(p + "u_ap", u_ap); poe(p + "u_fires", fires)
         poe(p + "r_src", np.stack([sx, sy, sz], 1).astype(np.int16)); poe(p + "r_dst", (dst - N).astype(np.int32))
         poe(p + "r_ap", r_ap); poe(p + "r_uso", uso)
-        meta["ouvidos"][ouv] = dict(n_uints=int(nU), n_ramos=int(ok.sum()), apresentacoes=res)
+        # linha do tempo da constituição (gravação): nascimento das Uints, chegada dos ramos, crescimento das fibras
+        poe(p + "u_t", d["log_u"][:, 0].astype(np.float32)); poe(p + "r_t", d["r_born"][ok].astype(np.float32))
+        LT = d["log_t"]; o = np.lexsort((LT[:, 0], LT[:, 1]))
+        poe(p + "f_p", LT[o, 1].astype(np.uint16)); poe(p + "f_t", LT[o, 0].astype(np.float32)); poe(p + "f_fr", np.round(LT[o, 2] * 100).astype(np.uint8))
+        trs = np.stack([d[f"ap{a + 1}_tr"] for a in range(NA)]).astype(np.float32) / float(d["tr_passos"])
+        poe(p + "tr_ap", np.round(np.clip(trs, 0, 1) * 100).astype(np.uint8))
+        meta["ouvidos"][ouv] = dict(n_uints=int(nU), n_ramos=int(ok.sum()), apresentacoes=res, nervo=int(d["nervo"]), n_pontos=N)
     vis = AQUI.parent / "visual"
     (vis / "sessoes.bin").write_bytes(bytes(blob)); (vis / "sessoes.json").write_text(json.dumps(meta, ensure_ascii=False))
     print(len(blob) / 1e6, "MB", {o: (m["n_uints"], m["n_ramos"]) for o, m in meta["ouvidos"].items()})
