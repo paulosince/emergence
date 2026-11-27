@@ -99,7 +99,7 @@ Repositório `paulosince/emergence`, ramo `claude/v19`. Marcas: [R] responsável
 | Coleman, Piano Society, 3 min 16 s | Não confirmada; uso interno | Aqui |
 | Pfaul, Piano Society, 3 min 58 s | Não confirmada; uso interno | Aqui |
 | Baiocchi, 3 min 11 s | CC0 (IMSLP) | Aqui (27/11) |
-| Kolodin, 3 min 48 s | CC BY-SA 4.0 no IMSLP; origem do arquivo a confirmar | Aqui (27/11) |
+| Kolodin, 3 min 48 s | CC BY-SA 4.0 (arquivo do IMSLP) | Aqui (27/11) |
 | Chaconne, Goldstein, 12 min 30 s | CC BY-SA 3.0 | Aqui |
 
 Os arquivos de áudio não vão para o repositório (`.gitignore`). Neste ambiente, o Wikimedia recusa downloads e o IMSLP bloqueia a leitura das páginas de arquivo.
