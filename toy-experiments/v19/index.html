@@ -162,6 +162,7 @@ function pontosDe(pos, corBase, tamanhoMin, corAtiva) {
     vertexShader: `attribute float luz; varying float vL; uniform float tam, min, escala; void main(){ vL = luz; vec4 mv = modelViewMatrix * vec4(position,1.0); gl_PointSize = max(min * (1.0 + 1.2 * luz), tam * escala / -mv.z); gl_Position = projectionMatrix * mv; }`,
     fragmentShader: `uniform vec3 cor, ativa; uniform float base; varying float vL; void main(){ vec2 c = gl_PointCoord - 0.5; float d = length(c); if (d > 0.5) discard; float a = smoothstep(0.5, 0.0, d); vec3 k = mix(cor * base, ativa * 1.25, vL); gl_FragColor = vec4(k * (0.55 + 0.45 * a), a * (base < 1.0 ? (0.35 + 0.65 * max(vL, 0.0)) : 1.0)); }`,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+  m.userData.min0 = tamanhoMin;
   const p = new THREE.Points(g, m); p.luz = luz; return p;
 }
 const cena = new THREE.Scene();
@@ -190,6 +191,20 @@ function rotulo(texto, x, y, z, cls = "") {
   palco.appendChild(d); return { d, v: new THREE.Vector3(x, y, z) };
 }
 const rotulos = [rotulo("Utrd E", -meia, 3, 0), rotulo("Utrd D", meia, 3, 0), rotulo("sem malha inicial", 0, 3, 0), rotulo("10 cm", 0, -2.5, 0)];
+// frequências ao longo de cada faixa: grave numa ponta, agudo na outra (centro de cada banda escolhida)
+{
+  const FC = dados.bandas_fc_hz, marcas = [[0, "50 Hz · grave"], [null, "200 Hz", 200], [null, "1 kHz", 1000], [null, "4 kHz", 4000], [63, "8 kHz · agudo"]];
+  for (const [k, lado] of [["E", -1], ["D", 1]]) {
+    const b = dec(O[k].pontos.banda, Uint8Array), y = dec(O[k].pontos.y, Int16Array), soma = new Float64Array(64), n = new Float64Array(64);
+    for (let i = 0; i < b.length; i++) { soma[b[i]] += y[i]; n[b[i]]++; }
+    for (const [bb, texto, hz] of marcas) {
+      let banda = bb; if (banda === null) { let dm = 1e9; FC.forEach((f, i) => { const d = Math.abs(Math.log(f / hz)); if (d < dm) { dm = d; banda = i; } }); }
+      const r = rotulo(texto, lado * meia, 0.9, -(soma[banda] / n[banda]) * MM);
+      r.d.style.color = "#9fb3ad"; r.perto = bb === null;   // marcas intermediárias só de perto
+      rotulos.push(r);
+    }
+  }
+}
 
 const c = dados.contagem;
 document.getElementById("contagem").innerHTML =
@@ -201,12 +216,12 @@ document.getElementById("escala").innerHTML = `cubo = ${MM * 1000} µm · faixa 
 const VISTAS = {
   geral: [new THREE.Vector3(0, 70, 120), new THREE.Vector3(0, 0, 0)],
   cima: [new THREE.Vector3(0, 150, 0.01), new THREE.Vector3(0, 0, 0)],
-  E: [new THREE.Vector3(-meia + 18, 6, 22), new THREE.Vector3(-meia, 0, 0)],
-  D: [new THREE.Vector3(meia - 18, 6, 22), new THREE.Vector3(meia, 0, 0)],
+  E: [new THREE.Vector3(-meia + 10, 16, 20), new THREE.Vector3(-meia - 4, 0, 0)],
+  D: [new THREE.Vector3(meia - 10, 16, 20), new THREE.Vector3(meia + 4, 0, 0)],
   detalhe: [new THREE.Vector3(-meia + 0.35, 0.25, 0.45), new THREE.Vector3(-meia, 0, 0)],
 };
 function vista(n) {
-  const [p, a] = VISTAS[n], k = n === "detalhe" ? 1 : Math.max(1, 1.5 / camera.aspect); // telas estreitas: afasta a câmera
+  const [p, a] = VISTAS[n], k = n === "detalhe" ? 1 : (n === "E" || n === "D") ? Math.max(1, 1.0 / camera.aspect) : Math.max(1, 1.5 / camera.aspect); // telas estreitas: afasta a câmera
   camera.position.copy(a).add(p.clone().sub(a).multiplyScalar(k)); ctrl.target.copy(a); ctrl.update();
 }
 document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
@@ -235,7 +250,7 @@ const nE = O.E.n_pontos;
 // Partículas soltas no espaço de fora de cada faixa, movendo-se para ela. O brilho de cada partícula é o nível do som na banda
 // em frente à qual ela está, no instante em que ela vai chegar (escala da V0.18: 20–75 dB SPL). As cristas de onda são só visuais,
 // e a velocidade de aproximação é ilustrativa (o som real cruza esses milímetros em microssegundos).
-const NS = 24000, VS = 40, DMAX = 18, FOLGA = 0.2, LAMBDA = 1.6;   // por ouvido; mm/s a 1×; mm de alcance; mm antes da faixa; mm entre cristas
+const NS = 26000, VS = 40, DMAX = 12, FOLGA = 0.2, LAMBDA = 1.6;   // por ouvido; mm/s a 1×; mm de alcance; mm antes da faixa; mm entre cristas
 const bandaDeY = {}, yLim = {};
 for (const k of ["E", "D"]) {
   const b = dec(O[k].pontos.banda, Uint8Array), y = dec(O[k].pontos.y, Int16Array);
@@ -245,17 +260,25 @@ for (const k of ["E", "D"]) {
 }
 const sD = new Float32Array(2 * NS), sBanda = new Uint8Array(2 * NS);
 const somArr = new Float32Array(2 * NS * 3);
+const sZ0 = new Float32Array(2 * NS), sZa = new Float32Array(2 * NS), sY0 = new Float32Array(2 * NS), sYa = new Float32Array(2 * NS);
 function semear(i, longe) {
-  const o = i < NS ? "E" : "D", lado = o === "E" ? -1 : 1, [lo, hi] = yLim[o];
-  const yy = lo - 40 + Math.random() * (hi - lo + 80), zz = (Math.random() + Math.random() + Math.random() - 1.5) * 50;
+  // destino: um lugar da própria faixa (y dentro das bandas, z dentro da largura); de longe, a poeira vem espalhada e
+  // converge como um funil até esse destino — assim todo som que chega toca a cóclea, sem passar por cima dela
+  const o = i < NS ? "E" : "D", [lo, hi] = yLim[o], L2 = dados.largura / 2;
+  const yy = lo + Math.random() * (hi - lo), zz = (Math.random() * 2 - 1) * L2;
   sBanda[i] = bandaDeY[o][Math.min(hi - lo, Math.max(0, Math.round(yy) - lo))];
+  sY0[i] = yy; sZ0[i] = zz; sYa[i] = (Math.random() - 0.5) * 120; sZa[i] = (Math.random() + Math.random() - 1) * 90;
   sD[i] = longe ? DMAX + FOLGA - Math.random() * 0.5 : FOLGA + Math.random() * DMAX;
-  somArr[3 * i] = lado * (2500 * MM + sD[i]); somArr[3 * i + 1] = zz * MM; somArr[3 * i + 2] = -yy * MM;
+  posicionar(i, somArr);
+}
+function posicionar(i, A) {
+  const lado = i < NS ? -1 : 1, f = Math.max(0, (sD[i] - FOLGA) / DMAX);     // 1 longe, 0 na faixa
+  A[3 * i] = lado * (2500 * MM + sD[i]); A[3 * i + 1] = (sZ0[i] + sZa[i] * f) * MM; A[3 * i + 2] = -(sY0[i] + sYa[i] * f) * MM;
 }
 for (let i = 0; i < 2 * NS; i++) semear(i, false);
-const som = pontosDe(somArr, new THREE.Color(0, 0, 0), 1.8, cor("--som"));
+const som = pontosDe(somArr, new THREE.Color(0, 0, 0), 2.8, cor("--som"));
 const PS = som.geometry.attributes.position.array;
-for (let i = 0; i < 2 * NS; i++) PS[3 * i] = somArr[3 * i];
+for (let i = 0; i < 2 * NS; i++) posicionar(i, PS);
 cena.add(som);
 document.getElementById("cam-som").onclick = e => { som.visible = !som.visible; e.currentTarget.setAttribute("aria-pressed", som.visible); };
 let tVis = 0;
@@ -266,13 +289,13 @@ function moverSom(dtv) {
     const lado = i < NS ? -1 : 1;
     if (dtv > 0) {
       sD[i] -= VS * dtv;
-      if (sD[i] < FOLGA) { semear(i, true); PS[3 * i + 1] = somArr[3 * i + 1]; PS[3 * i + 2] = somArr[3 * i + 2]; }
-      PS[3 * i] = lado * (2500 * MM + sD[i]);
+      if (sD[i] < FOLGA) semear(i, true);
+      posicionar(i, PS);
     }
     const f = Math.min(NF - 1, Math.floor(fr + (sD[i] - FOLGA) / VS / FR));
     const v = (lado < 0 ? S.E : S.D)[f * 64 + sBanda[i]] / 255 * meta.som_db_max;
-    const nivel = Math.pow(Math.max(0, Math.min(1, (v - 20) / 55)), 1.1);
-    const crista = 0.45 + 0.55 * Math.pow(0.5 + 0.5 * Math.sin(2 * Math.PI * (sD[i] + VS * tVis) / LAMBDA), 2);
+    const nivel = Math.pow(Math.max(0, Math.min(1, (v - 15) / 55)), 0.75);
+    const crista = 0.4 + 0.6 * Math.pow(0.5 + 0.5 * Math.sin(2 * Math.PI * (sD[i] + VS * tVis) / LAMBDA), 2);
     const borda = Math.min(1, (DMAX + FOLGA - sD[i]) / 3) * Math.min(1, sD[i] / 0.6);
     LS[i] = nivel * crista * borda;
   }
@@ -358,7 +381,7 @@ function tamanho() {
   const w = palco.clientWidth, h = palco.clientHeight;
   render.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
   const esc = h / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) * render.getPixelRatio();
-  for (const o of [pontos, ustr, typeof som !== "undefined" ? som : null, typeof poeira !== "undefined" ? poeira : null]) if (o) o.material.uniforms.escala.value = esc;
+  for (const o of [pontos, ustr, typeof som !== "undefined" ? som : null, typeof poeira !== "undefined" ? poeira : null]) if (o) { o.material.uniforms.escala.value = esc; o.material.uniforms.min.value = o.material.userData.min0 * render.getPixelRatio(); }  // tamanho mínimo em pixels de tela, também em telas de alta densidade
 }
 new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
 
@@ -368,7 +391,7 @@ const tmp = new THREE.Vector3();
   const w = palco.clientWidth, h = palco.clientHeight;
   for (const r of rotulos) {
     tmp.copy(r.v).project(camera);
-    const vis = tmp.z < 1 && Math.abs(tmp.x) < 1.1 && Math.abs(tmp.y) < 1.1;
+    const vis = tmp.z < 1 && Math.abs(tmp.x) < 1.1 && Math.abs(tmp.y) < 1.1 && !(r.perto && camera.position.distanceTo(r.v) > 45);
     r.d.style.display = vis ? "" : "none";
     if (vis) { r.d.style.left = (tmp.x + 1) / 2 * w + "px"; r.d.style.top = (1 - tmp.y) / 2 * h + "px"; }
   }
