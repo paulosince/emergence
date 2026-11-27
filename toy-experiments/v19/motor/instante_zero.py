@@ -16,7 +16,7 @@ import pontos  # V0.18: pontos transdutivos por banda (capacidade e limiares, j�
 
 CUBO_MM = 0.02            # [R] ~20 µm
 MEIA_DIST = 2500          # [R] 10 cm entre os microfones = 5.000 cubos; cada faixa a ±2.500 cubos do centro
-LARGURA = 16              # [A, provisório] cubos no eixo da sensibilidade
+LARGURA = 16              # [R, 27/11] cubos no eixo da sensibilidade: uma coluna de sensibilidade da V0.18 por linha
 
 def faixa(P, lado):
     """Coordenadas inteiras (x, y, z) dos pontos de um ouvido. x: esquerda(-)/direita(+); y: frequência; z: sensibilidade."""

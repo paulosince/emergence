@@ -148,8 +148,8 @@ Os arquivos de áudio não vão para o repositório (`.gitignore`). Neste ambien
 ## 7. O que falta, nesta ordem
 
 1. **A escolha** de 4 entre as 5 gravações da Gymnopédie (Alciatore, Coleman, Pfaul, Baiocchi, Kolodin) e de quais formam e quais voltam (responsável, depois de ouvir).
-2. **Decisões para o motor mínimo (27/11):** ~~alcance~~ (só local) · ~~repetição~~ (crescimento por coincidência) · onde nasce a Uint candidata e como os atrasos −10% / igual / +10% viram espaço · largura da faixa · divisão da Ustr.
-3. **Implementar o motor mínimo e rodar o piloto de 10 s,** para medir a velocidade. O instante zero já está feito (27/11): `motor/instante_zero.py`, contagem conferida e página publicada; falta confirmar a largura da faixa (16 cubos, provisória).
+2. ~~**Decisões para o motor mínimo**~~ (todas tomadas em 27/11): alcance só local; crescimento por coincidência (1 cubo a cada ~12); Uint candidata no cubo livre mais próximo; variantes de ±10% só se diferirem ≥1 cubo; largura de 16 cubos (confirmada); filha da Ustr rumo ao centro da carga. Ver `decisoes-em-construcao.md` (27/11).
+3. **Implementar o motor mínimo e rodar o piloto de 10 s,** para medir a velocidade. O instante zero já está feito (27/11): `motor/instante_zero.py`, contagem conferida e página publicada.
 4. **O calendário,** que agora é só a ordem das sessões e o número de apresentações por sessão, dependendo do piloto.
 5. **O critério de "em sua maioria" e a medida,** separando o genérico do específico. O limiar é decisão do responsável.
 6. **A instrumentação:** marcar cada estrutura com a sessão em que nasceu; contadores da regra do ramo; a interface.
