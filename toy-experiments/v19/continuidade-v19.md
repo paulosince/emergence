@@ -1,5 +1,7 @@
 # V0.19 — Continuidade para outro assistente (ChatGPT)
 
+> **Desatualizado (27/11/2026).** O estado vigente está em [estado-e-orientacoes.md](estado-e-orientacoes.md). Este arquivo fica como registro de 21/11.
+
 **Data:** 21/11/2026. **Escrito por:** Claude, a pedido do responsável (Paulo Rogério da Silva), para outro assistente continuar a V0.19 sem perder decisões nem repetir erros.
 **Leia inteiro antes de responder qualquer coisa.** Depois, leia nesta ordem:
 
