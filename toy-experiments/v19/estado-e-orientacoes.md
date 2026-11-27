@@ -98,7 +98,8 @@ Repositório `paulosince/emergence`, ramo `claude/v19`. Marcas: [R] responsável
 | Alciatore, 3 min 4 s | Domínio público | Aqui |
 | Coleman, Piano Society, 3 min 16 s | Não confirmada; uso interno | Aqui |
 | Pfaul, Piano Society, 3 min 58 s | Não confirmada; uso interno | Aqui |
-| Baiocchi (IMSLP, CC0) ou Kolodin (IMSLP, CC BY-SA 4.0) | — | **Falta**: o responsável vai baixar |
+| Baiocchi, 3 min 11 s | CC0 (IMSLP) | Aqui (27/11) |
+| Kolodin, 3 min 48 s | CC BY-SA 4.0 no IMSLP; origem do arquivo a confirmar | Aqui (27/11) |
 | Chaconne, Goldstein, 12 min 30 s | CC BY-SA 3.0 | Aqui |
 
 Os arquivos de áudio não vão para o repositório (`.gitignore`). Neste ambiente, o Wikimedia recusa downloads e o IMSLP bloqueia a leitura das páginas de arquivo.
@@ -142,7 +143,7 @@ Os arquivos de áudio não vão para o repositório (`.gitignore`). Neste ambien
 
 ## 7. O que falta, nesta ordem
 
-1. **A 4.ª gravação,** Baiocchi ou Kolodin (o responsável vai baixar), e a escolha das que formam e das que voltam.
+1. **A escolha** de 4 entre as 5 gravações da Gymnopédie (Alciatore, Coleman, Pfaul, Baiocchi, Kolodin) e de quais formam e quais voltam (responsável, depois de ouvir).
 2. **Implementar o motor mínimo e rodar o piloto de 10 s,** para medir a velocidade; antes, a contagem do instante zero.
 3. **O calendário,** que agora é só a ordem das sessões e o número de apresentações por sessão, dependendo do piloto.
 4. **O critério de "em sua maioria" e a medida,** separando o genérico do específico. O limiar é decisão do responsável.
