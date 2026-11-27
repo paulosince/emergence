@@ -245,6 +245,12 @@
 - **O que seria nosso [A]:** usar o registro glial de fracassos como a pista que guia o crescimento, num domínio que nasce vazio, sem mapa pré-programado.
 - **O que falta para alegar:** busca de precedentes de crescimento guiado por glia em modelos computacionais; resultado do teste.
 
+## 31. Alcance inicial local e princípio do visualizador (27/11/2026)
+- **Decisões [R]:** na V0.19, a primeira camada é só local e tonotópica (o encontro dos ouvidos e as bandas distantes ficam para quando houver crescimento); "o visualizador deve revelar o que o motor constitui, jamais constituir aquilo que pretende revelar".
+- **O que existe [L]:** no cérebro, o alcance das conexões entre estações auditivas (incluindo a convergência binaural) é montado antes do som por pistas moleculares; a atividade estreita (MNTB→LSO ~75% de área de entrada a menos; nervo auditivo do gato ~50% mais largo ao nascer). Kandler, Clause e Noh 2009; Gurung e Fritzsch 2004. Detalhes em `toy-experiments/v19/investigacao-alcance-inicial.md`.
+- **O que seria nosso [A]:** nada novo como alegação; é uma restrição honesta que vem do modelo neurobiológico. Consequência metodológica: num domínio que nasce vazio, a primeira malha tende a espelhar a borda, e a medida de reutilização precisa separar o que vai além do espectro.
+- **O que falta para alegar:** a medida que separa o genérico (espectro) do específico; o resultado do teste.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
@@ -253,6 +259,8 @@
 5. Constituição a partir de vazio com reacesso sem índice (V0.15).
 
 ## Referências novas deste documento (verificadas quanto à existência, por resumo)
+- Kandler, K., Clause, A., e Noh, J. (2009). Tonotopic reorganization of developing auditory brainstem circuits. *Nat Neurosci* 12, 711–717.
+- Gurung, B., e Fritzsch, B. (2004). Time course of embryonic midbrain and thalamic auditory connection development in mice as revealed by carbocyanine dye tracing. *J Comp Neurol* 479(3), 309–327.
 - Chirila, F. V., Rowland, K. C., Thompson, J. M., e Spirou, G. A. (2007). Development of gerbil medial superior olive: integration of temporally delayed excitation and inhibition at physiological temperature. *J Physiol* 584(1), 167–190.
 - Magnusson, A. K., Kapfer, C., Grothe, B., e Koch, U. (2005). Maturation of glycinergic inhibition in the gerbil medial superior olive after hearing onset. *J Physiol* 568(2), 497–512.
 - Sierksma, M. C., e Borst, J. G. G. (2024). Developmental fine-tuning of medial superior olive neurons mitigates their predisposition to contralateral sound sources. *PLoS Biology* 22(4), e3002586.

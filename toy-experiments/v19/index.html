@@ -55,6 +55,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--excit); out
 #rotulo-tempo { font: 500 .85rem var(--mono); font-variant-numeric: tabular-nums; min-width: 72px; text-align: right; }
 #obra { color: var(--apagado); font-size: .8rem; }
 .legenda { color: var(--apagado); font-size: .8rem; display: grid; gap: 4px; max-width: 80ch; }
+.legenda .demo { color: var(--texto); border-left: 2px solid var(--eletrico); padding-left: 8px; }
 .legenda i { display: inline-block; width: .7em; height: .7em; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
 details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .88rem; }
 summary { cursor: pointer; font-weight: 600; }
@@ -103,6 +104,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
   </div>
   <div id="obra">Gymnopédie n.º 1 (Satie), Robin Alciatore (Musopen, domínio público), de 9 a 19 s — os mesmos dados da página da V0.18.</div>
   <div class="legenda">
+    <span class="demo"><b>Demonstração do robô.</b> A sala, os alto-falantes, as ondas, o microfone e os fios mostram o que é constitutivo do robô (a Utrd completa da V0.18: microfone + cóclea) num ambiente virtual simulado. Não fazem parte do Sdom e não mudam nada nele. A posição desenhada do microfone e o traçado dos fios são só desenho; o sinal que eles carregam é o da V0.18.</span>
     <span><b style="color:var(--som)">som</b>: ondas esféricas que se expandem a partir dos dois alto-falantes da sala da V0.18; o brilho de cada crista é o nível do canal no instante em que ela saiu. Param no microfone (a passagem em volta da cabeça não é desenhada). Velocidade ilustrativa.</span>
     <span><b style="color:var(--eletrico)">sinal elétrico</b> (cor provisória): um fio do microfone até a base da faixa, que se abre em 64 fios, um por banda. Brilho = nível da banda no ouvido (V0.18), com o atraso real de cada filtro (≈0,5 ms no agudo a ≈16 ms no grave; dá para ver em 1/20×). Os pulsos só indicam o sentido. Os fios não são unidades do Sdom: desenham o caminho do sinal da V0.18.</span>
     <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (cores provisórias). As bolas ocupam 45% do cubo só para a distância entre elas aparecer: no modelo, as unidades não têm tamanho.</span>
