@@ -176,7 +176,7 @@ ctrl.enableDamping = true; ctrl.minDistance = 0.03; ctrl.maxDistance = 4000; ctr
 
 // Uniformes comuns: tamanho de um pixel no mundo (por unidade de profundidade), foco (distância da órbita) e cor de fundo (névoa).
 const COMUM = { uPix: { value: 0.001 }, uFoco: { value: 100 }, uFundo: { value: cor("--palco") } };
-const NEVOA = `float dd = max(0.0, -mv.z - uFoco) / (uFoco * 4.0); vFog = exp(-dd * dd);`;
+const NEVOA = `float dd = max(0.0, -mv.z - uFoco) / (uFoco * 6.0); vFog = exp(-dd * dd);`;
 
 // (1) unidades como bolas: cartões que sempre olham para a câmera, sombreados como esferas; tamanho real no mundo,
 //     com mínimo em pixels para continuarem visíveis de longe
@@ -188,10 +188,10 @@ function bolas(centros, raio, minPx, corBase, corAtiva) {
   const luz = new Float32Array(centros.length / 3), aL = new THREE.InstancedBufferAttribute(luz, 1);
   aL.setUsage(THREE.DynamicDrawUsage); g.setAttribute("luz", aL); g.instanceCount = luz.length;
   const m = new THREE.ShaderMaterial({
-    uniforms: { ...COMUM, cor: { value: corBase }, ativa: { value: corAtiva || corBase }, raio: { value: raio }, minPx: { value: minPx } },
-    vertexShader: `attribute vec3 centro; attribute float luz; uniform float raio, minPx, uPix, uFoco; varying vec2 vC; varying float vL, vFog;
+    uniforms: { ...COMUM, cor: { value: corBase }, ativa: { value: corAtiva || corBase }, raio: { value: raio }, minPx: { value: minPx }, semNevoa: { value: 0 } },
+    vertexShader: `attribute vec3 centro; attribute float luz; uniform float raio, minPx, uPix, uFoco, semNevoa; varying vec2 vC; varying float vL, vFog;
       void main(){ vec4 mv = modelViewMatrix * vec4(centro, 1.0); float r = max(raio, 0.5 * minPx * (-mv.z) * uPix);
-        mv.xy += position.xy * r; vC = position.xy; vL = luz; ${NEVOA} gl_Position = projectionMatrix * mv; }`,
+        mv.xy += position.xy * r; vC = position.xy; vL = luz; ${NEVOA} vFog = max(vFog, semNevoa); gl_Position = projectionMatrix * mv; }`,
     fragmentShader: `uniform vec3 cor, ativa, uFundo; varying vec2 vC; varying float vL, vFog;
       void main(){ float d2 = dot(vC, vC); if (d2 > 1.0) discard; vec3 n = vec3(vC, sqrt(1.0 - d2));
         float dif = max(dot(n, normalize(vec3(-0.35, 0.6, 0.72))), 0.0), rim = pow(1.0 - n.z, 3.0);
@@ -339,6 +339,7 @@ cena.add(fios);
 // microfones (acendem com o nível total do ouvido) e alto-falantes (referência)
 const mics = bolas(new Float32Array([MIC.E.x, MIC.E.y, MIC.E.z, MIC.D.x, MIC.D.y, MIC.D.z]), 0.7, 3, new THREE.Color(0.55, 0.6, 0.62), cor("--eletrico"));
 const altos = bolas(new Float32Array([...ALTO[0].toArray(), ...ALTO[1].toArray()]), 30, 4, new THREE.Color(0.35, 0.38, 0.4), cor("--som"));
+mics.material.uniforms.semNevoa.value = 1; altos.material.uniforms.semNevoa.value = 1;   // referências da demonstração: não somem na névoa do zoom
 cena.add(mics, altos);
 
 // ---------- som: ondas esféricas que se expandem a partir de cada alto-falante ----------
@@ -473,7 +474,7 @@ function aplicar(fr) {
   const L = pontos.luz;
   for (let i = 0; i < L.length; i++) { const g = (i < nE ? G.E : G.D)[fr * 64 * SUB + celula[i]]; L[i] = Math.max(Math.pow(Math.min(1, g / P99), 0.85), L[i] * 0.82); }
   pontos.aLuz.needsUpdate = true;
-  mics.luz[0] = 0.45 * TOTAL.E[fr]; mics.luz[1] = 0.45 * TOTAL.D[fr]; mics.aLuz.needsUpdate = true;
+  mics.luz[0] = 0.35 + 0.65 * TOTAL.E[fr]; mics.luz[1] = 0.35 + 0.65 * TOTAL.D[fr]; mics.aLuz.needsUpdate = true;
   altos.luz[0] = nivel01(CAN[fr] / 255 * 90) * 0.6; altos.luz[1] = nivel01(CAN[NF + fr] / 255 * 90) * 0.6; altos.aLuz.needsUpdate = true;
   rot.textContent = (meta.ini + T).toFixed(3).replace(".", ",") + " s";
 }
