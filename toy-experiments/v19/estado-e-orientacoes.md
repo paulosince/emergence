@@ -47,7 +47,9 @@ Repositório `paulosince/emergence`, ramo `claude/v19`. Marcas: [R] responsável
 - **Fracasso** = incidência que expirou sem integrar. No começo, tudo é fracasso.
 - **Coincidência:** dois fracassos coincidem quando caem na **janela de integração da Uint** (0,3 ms rápida; 0,9 ms lenta). A Ustr compara só dentro dessa janela [R, 24/11].
 - **Onde nasce a Uint:** onde Upros com fracassos coincidentes se encontram. No mesmo ouvido, isso fica perto da faixa; entre os ouvidos, no caminho entre eles [R].
-- **Toda Upro nasce num ponto transdutivo** (as da borda) **ou numa Uint,** e **já nasce com o comprimento dela**, ligada a uma Uint candidata (exuberância da V0.17); o uso decide [R, 24/11].
+- **Toda Upro nasce num ponto transdutivo** (as da borda) **ou numa Uint**, ligada a uma Uint candidata (exuberância da V0.17).
+- **Crescimento por coincidência [R, 27/11; revê "nasce com o comprimento" de 24/11]:** a Upro cresce rumo à Uint, **1 cubo a cada ~12 coincidências do par**, e só funciona quando chega (a latência é o próprio crescimento).
+- **Alcance só local [R, 27/11]:** a primeira camada é local e tonotópica, como as primeiras estações do cérebro (`investigacao-alcance-inicial.md`). O encontro dos ouvidos e as bandas distantes ficam para quando houver crescimento de longo alcance. A medida precisa mostrar quanto da reutilização vai além do espectro.
 - **Candidatas por coincidência: 3**, com atrasos −10%, igual e +10% [R, pacote].
 - **A Ustr se multiplica pela carga,** medida em fracassos registrados por hora. O teto será calibrado no primeiro ensaio [R].
 - **O rastro de um fracasso dura até a sessão seguinte** [R].
@@ -121,6 +123,8 @@ Os arquivos de áudio não vão para o repositório (`.gitignore`). Neste ambien
   - **azul:** acesso a uma constituição existente;
   - **ciano:** modificação do que existe.
 - **A interface só exibe:** não alimenta o motor (separação de 09/11).
+- **Princípio [R, 27/11]:** "o visualizador deve revelar o que o motor constitui, jamais constituir aquilo que pretende revelar". Ondas, microfone e fios são **demonstração do robô** (Utrd completa em ambiente virtual simulado), com legenda; o voo dos fótons fica até a criação ser implementada.
+- **Estética atual [R, 27/11]:** "por dentro do Sdom" (referência *The Inner Life of the Cell*): unidades como bolas menores que o cubo, grade dos cubos de perto, incidências como fótons; cóclea reta; sinal elétrico em branco (cor provisória).
 
 ## 5. Decidido, mas fora da V0.19 (fica para as versões seguintes, com as regras já aprovadas)
 
@@ -144,11 +148,12 @@ Os arquivos de áudio não vão para o repositório (`.gitignore`). Neste ambien
 ## 7. O que falta, nesta ordem
 
 1. **A escolha** de 4 entre as 5 gravações da Gymnopédie (Alciatore, Coleman, Pfaul, Baiocchi, Kolodin) e de quais formam e quais voltam (responsável, depois de ouvir).
-2. **Implementar o motor mínimo e rodar o piloto de 10 s,** para medir a velocidade. O instante zero já está feito (27/11): `motor/instante_zero.py`, contagem conferida e página publicada; falta confirmar a largura da faixa (16 cubos, provisória).
-3. **O calendário,** que agora é só a ordem das sessões e o número de apresentações por sessão, dependendo do piloto.
-4. **O critério de "em sua maioria" e a medida,** separando o genérico do específico. O limiar é decisão do responsável.
-5. **A instrumentação:** marcar cada estrutura com a sessão em que nasceu; contadores da regra do ramo; a interface.
-6. **Os textos das simplificações a declarar,** em rascunho no `pacote-de-numeros.md`, seção 5. Na V0.19 valem:
+2. **Decisões para o motor mínimo (27/11):** ~~alcance~~ (só local) · ~~repetição~~ (crescimento por coincidência) · onde nasce a Uint candidata e como os atrasos −10% / igual / +10% viram espaço · largura da faixa · divisão da Ustr.
+3. **Implementar o motor mínimo e rodar o piloto de 10 s,** para medir a velocidade. O instante zero já está feito (27/11): `motor/instante_zero.py`, contagem conferida e página publicada; falta confirmar a largura da faixa (16 cubos, provisória).
+4. **O calendário,** que agora é só a ordem das sessões e o número de apresentações por sessão, dependendo do piloto.
+5. **O critério de "em sua maioria" e a medida,** separando o genérico do específico. O limiar é decisão do responsável.
+6. **A instrumentação:** marcar cada estrutura com a sessão em que nasceu; contadores da regra do ramo; a interface.
+7. **Os textos das simplificações a declarar,** em rascunho no `pacote-de-numeros.md`, seção 5. Na V0.19 valem:
    - construção determinística;
    - atraso sináptico no tempo de integração;
    - astrócito e micróglia juntos na Ustr;
@@ -161,8 +166,8 @@ Os arquivos de áudio não vão para o repositório (`.gitignore`). Neste ambien
    - Sdom nascendo vazio;
    - candidata que nasce com o comprimento;
    - um só conjunto de parâmetros por Uint.
-7. **O registro prévio congelado,** antes de rodar o teste de verdade.
-8. **Em reflexão com o responsável,** sem bloquear nada: o tempo como condição × como conteúdo; o nível de episódio.
+8. **O registro prévio congelado,** antes de rodar o teste de verdade.
+9. **Em reflexão com o responsável,** sem bloquear nada: o tempo como condição × como conteúdo; o nível de episódio.
 
 ## 8. Orientações para quem continuar
 
