@@ -609,7 +609,7 @@ const sessoes = await (async () => {
       lr.geometry.attributes.corR.setUsage(THREE.DynamicDrawUsage); cena.add(lr);
       // fibras do nervo: do ponto transdutivo (cóclea) rumo à zona de entrada, crescendo com os reacessos
       const P = centrosDe([O[K].pontos]), nP = P.length / 3, fa = new Float32Array(P), fb = new Float32Array(P), fc = new Float32Array(nP * 3);
-      const fib = tubos(fa, fb, W_UPRO, 1.2, [["corF", fc, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`, { decl: "varying vec3 vK;", corpo: "vK = corF;" });
+      const fib = tubos(fa, fb, W_UPRO, 0.7, [["corF", fc, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`, { decl: "varying vec3 vK;", corpo: "vK = corF;" });
       fib.geometry.attributes.pb.setUsage(THREE.DynamicDrawUsage); fib.geometry.attributes.corF.setUsage(THREE.DynamicDrawUsage); cena.add(fib);
       const fp = A(o + "_f_p"), ft = A(o + "_f_t"), ffr = A(o + "_f_fr"), ini = new Int32Array(nP + 1);
       for (let i = 0; i < fp.length; i++) ini[fp[i] + 1]++; for (let i = 0; i < nP; i++) ini[i + 1] += ini[i];
@@ -628,7 +628,7 @@ const sessoes = await (async () => {
       for (let p = 0; p < d.nP; p++) {
         let fr = 0, recente = false; for (let k = d.ini[p]; k < d.ini[p + 1]; k++) { if (d.ft[k] <= t) { fr = d.ffr[k] / 100; recente = t - d.ft[k] < 8; } else break; }
         fb[3 * p] = d.P[3 * p] + dx * fr; fb[3 * p + 1] = d.P[3 * p + 1]; fb[3 * p + 2] = d.P[3 * p + 2];
-        const k = fr >= 1 ? FEITA : NOVA, v = fr <= 0 ? 0 : fr >= 1 ? 0.10 : recente ? 0.9 : 0.35;
+        const k = fr >= 1 ? FEITA : NOVA, v = fr <= 0 ? 0 : fr >= 1 ? 0.004 : recente ? 0.07 : 0.02;   // brilho baixo: são ~21 mil fibras somando luz
         fc[3 * p] = k.r * v; fc[3 * p + 1] = k.g * v; fc[3 * p + 2] = k.b * v; if (fr >= 1) tot.f++;
       }
       d.fib.geometry.attributes.pb.needsUpdate = true; d.fib.geometry.attributes.corF.needsUpdate = true;

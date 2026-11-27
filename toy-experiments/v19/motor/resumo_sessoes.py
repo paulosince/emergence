@@ -16,7 +16,9 @@ def resumo(ouv):
                         disparos_de_uints_antigas=float(f[ub < a].sum() / max(1, f.sum())),
                         uints_antigas_que_dispararam=int(((f > 0) & (ub < a)).sum()), uints_antigas=int((ub < a).sum()),
                         participacoes_de_ramos_antigos=float(pr[rb < a].sum() / max(1, pr.sum())),
-                        integradas=1 - c["fracassos"] / max(1, c["emissões"])))
+                        integradas=1 - (c["fracassos"] + c.get("incidências que expiraram no ponto (fibra crescendo)", 0)) / max(1, c["emissões"]),
+                        expiraram_no_ponto=c.get("incidências que expiraram no ponto (fibra crescendo)", 0) / max(1, c["emissões"]),
+                        fibras_completas=int((d[f"ap{a+1}_tr"] >= int(d["tr_passos"])).sum()) if f"ap{a+1}_tr" in d.files else None))
     return out
 if __name__ == "__main__":
     for o in sys.argv[1:]:
