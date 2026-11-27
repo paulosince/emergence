@@ -105,7 +105,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
   <div class="legenda">
     <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd)</span>
     <span><i style="background:var(--ustr)"></i>Ustr</span>
-    <span><b style="color:var(--som)">som chegando</b> (poeira em ondas vinda de fora; brilho = nível na banda; cristas e velocidade ilustrativas)</span>
+    <span><b style="color:var(--som)">som</b>: ondas esféricas dos dois alto-falantes da sala da V0.18 (a passagem em volta da cabeça não é desenhada) → entra pelo microfone → caminha na faixa da base (agudo) ao ápice (grave); velocidades ilustrativas</span>
     <span><b style="color:var(--excit)">incidência excitatória</b> (a poeira segue para dentro e some: ainda não há Upro)</span>
     <span>Cores do ponto em repouso e da Ustr: provisórias.</span>
     <span>Reservadas para a criação (ainda não há): <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b> · <b style="color:var(--inib)">inibitória</b></span>
@@ -214,7 +214,7 @@ document.getElementById("contagem").innerHTML =
 document.getElementById("escala").innerHTML = `cubo = ${MM * 1000} µm · faixa ${O.E.comprimento_cubos} × ${dados.largura} cubos (${(O.E.comprimento_cubos * MM).toFixed(1)} × ${(dados.largura * MM).toFixed(2)} mm)`;
 
 const VISTAS = {
-  geral: [new THREE.Vector3(0, 70, 120), new THREE.Vector3(0, 0, 0)],
+  geral: [new THREE.Vector3(0, 110, 210), new THREE.Vector3(0, 0, 0)],
   cima: [new THREE.Vector3(0, 150, 0.01), new THREE.Vector3(0, 0, 0)],
   E: [new THREE.Vector3(-meia + 10, 16, 20), new THREE.Vector3(-meia - 4, 0, 0)],
   D: [new THREE.Vector3(meia - 10, 16, 20), new THREE.Vector3(meia + 4, 0, 0)],
@@ -246,61 +246,99 @@ for (const k of ["E", "D"]) {
   for (let i = 0; i < b.length; i++) { celula.push(b[i] * SUB + (z[i] + (dados.largura >> 1))); lados.push(k); }
 }
 const nE = O.E.n_pontos;
-// ---- Som: poeira em ondas que se aproxima de fora e chega à faixa (amarelo) ----
-// Partículas soltas no espaço de fora de cada faixa, movendo-se para ela. O brilho de cada partícula é o nível do som na banda
-// em frente à qual ela está, no instante em que ela vai chegar (escala da V0.18: 20–75 dB SPL). As cristas de onda são só visuais,
-// e a velocidade de aproximação é ilustrativa (o som real cruza esses milímetros em microssegundos).
-const NS = 26000, VS = 40, DMAX = 12, FOLGA = 0.2, LAMBDA = 1.6;   // por ouvido; mm/s a 1×; mm de alcance; mm antes da faixa; mm entre cristas
-const bandaDeY = {}, yLim = {};
+// ---- Som: do alto-falante ao microfone e do microfone à faixa (amarelo) ----
+// Como na cena da V0.18: sala de 2 × 2 × 3 m, robô parado de lado para os alto-falantes; o próximo (canal esquerdo) fica 0,6 m à
+// esquerda e o distante (canal direito) 1,4 m à direita, na altura dos ouvidos. O som entra por um ponto: o microfone de cada lado
+// (a orelha do robô; orelha e canal não são modelados). Dentro da faixa, a onda entra pela base (agudo) e caminha até o ápice (grave);
+// cada banda acende com o atraso do seu filtro (gamatone de 4ª ordem: (n−1)/(2π·1,019·ERB)). Velocidades ilustrativas; atrasos
+// dentro da cóclea proporcionais aos do modelo (×40).
+const CV = 40, LAMB = 7, KC = 40;                               // mm/s (ondas, a 1×); mm entre cristas; fator de lentidão na cóclea
+const ALTO = [new THREE.Vector3(-600, 0, 0), new THREE.Vector3(1400, 0, 0)];   // mm, na cena (x, altura, −y)
+const CAB = { x: 50, y: 40, z: 45 };                             // cabeça do robô: 10 × 8 × 9 cm (só para não pôr ondas dentro dela)
+const CAN = await bin("canais.bin");                             // nível de cada canal da gravação, quadros de 5 ms
+const baseY = {}, bandaYc = {};
 for (const k of ["E", "D"]) {
-  const b = dec(O[k].pontos.banda, Uint8Array), y = dec(O[k].pontos.y, Int16Array);
-  let lo = 1e9, hi = -1e9; for (let i = 0; i < y.length; i++) { lo = Math.min(lo, y[i]); hi = Math.max(hi, y[i]); }
-  const m = new Uint8Array(hi - lo + 1); for (let i = 0; i < y.length; i++) m[y[i] - lo] = b[i];
-  bandaDeY[k] = m; yLim[k] = [lo, hi];
+  const b = dec(O[k].pontos.banda, Uint8Array), y = dec(O[k].pontos.y, Int16Array), soma = new Float64Array(64), n = new Float64Array(64);
+  let ymax = -1e9; for (let i = 0; i < y.length; i++) { soma[b[i]] += y[i]; n[b[i]]++; if (b[i] === 63) ymax = Math.max(ymax, y[i]); }
+  baseY[k] = ymax + 6; bandaYc[k] = Array.from(soma, (v, i) => v / n[i]);
 }
-const sD = new Float32Array(2 * NS), sBanda = new Uint8Array(2 * NS);
-const somArr = new Float32Array(2 * NS * 3);
-const sZ0 = new Float32Array(2 * NS), sZa = new Float32Array(2 * NS), sY0 = new Float32Array(2 * NS), sYa = new Float32Array(2 * NS);
-function semear(i, longe) {
-  // destino: um lugar da própria faixa (y dentro das bandas, z dentro da largura); de longe, a poeira vem espalhada e
-  // converge como um funil até esse destino — assim todo som que chega toca a cóclea, sem passar por cima dela
-  const o = i < NS ? "E" : "D", [lo, hi] = yLim[o], L2 = dados.largura / 2;
-  const yy = lo + Math.random() * (hi - lo), zz = (Math.random() * 2 - 1) * L2;
-  sBanda[i] = bandaDeY[o][Math.min(hi - lo, Math.max(0, Math.round(yy) - lo))];
-  sY0[i] = yy; sZ0[i] = zz; sYa[i] = (Math.random() - 0.5) * 120; sZa[i] = (Math.random() + Math.random() - 1) * 90;
-  sD[i] = longe ? DMAX + FOLGA - Math.random() * 0.5 : FOLGA + Math.random() * DMAX;
-  posicionar(i, somArr);
+const MIC = { E: new THREE.Vector3(-(2500 * MM + 1.2), 0, -baseY.E * MM), D: new THREE.Vector3(2500 * MM + 1.2, 0, -baseY.D * MM) };
+const TAU = dados.bandas_fc_hz.map(f => 3 / (2 * Math.PI * 1.019 * 24.7 * (4.37 * f / 1000 + 1)));   // s, atraso de grupo de cada filtro
+const nivel01 = db => Math.pow(Math.max(0, Math.min(1, (db - 15) / 60)), 0.8);
+
+// (a) ondas esféricas dos dois alto-falantes: a poeira fica sobre as cristas (cascas esféricas) e anda com elas, para fora do alto-falante
+const NW = 30000, LAMW = 16, wDir = new Float32Array(NW * 3), wFase = new Float32Array(NW), wC = new Uint8Array(NW);
+const wRef = [ALTO[0].distanceTo(MIC.E), ALTO[1].distanceTo(MIC.D)], wR0 = [], wSpan = [];
+for (let c = 0; c < 2; c++) { const d = Math.abs(ALTO[c].x); wR0.push(d - 170); wSpan.push(340); }
+for (let i = 0; i < NW; i++) {
+  const c = i % 2; wC[i] = c;
+  const alvo = new THREE.Vector3(0, (Math.random() * 2 - 1) * 55, (Math.random() * 2 - 1) * 60);   // direção: do alto-falante para a região da cabeça
+  const d = alvo.sub(ALTO[c]).normalize(); wDir.set([d.x, d.y, d.z], 3 * i);
+  wFase[i] = Math.floor(Math.random() * (340 / LAMW)) * LAMW + (Math.random() - 0.5) * 1.2;   // em qual crista está (com leve espessura)
 }
-function posicionar(i, A) {
-  const lado = i < NS ? -1 : 1, f = Math.max(0, (sD[i] - FOLGA) / DMAX);     // 1 longe, 0 na faixa
-  A[3 * i] = lado * (2500 * MM + sD[i]); A[3 * i + 1] = (sZ0[i] + sZa[i] * f) * MM; A[3 * i + 2] = -(sY0[i] + sYa[i] * f) * MM;
+const ondas = pontosDe(new Float32Array(NW * 3), new THREE.Color(0, 0, 0), 1.8, cor("--som")); cena.add(ondas);
+const WP = ondas.geometry.attributes.position.array;
+// (b) entrada: a poeira converge para o microfone de cada lado; (c) dentro da faixa: da base até a banda
+const NE = 3500, NC = 9000, NY = 2 * (NE + NC);
+const yPos = new Float32Array(NY * 3), yV = new Float32Array(NY * 3), yT = new Float32Array(NY), yAlvo = new Int16Array(NY), yU = new Float32Array(NY), yZ = new Float32Array(NY);
+const amarelo = pontosDe(yPos, new THREE.Color(0, 0, 0), 2.2, cor("--som")); cena.add(amarelo);
+const YP = amarelo.geometry.attributes.position.array;
+const orelha = [];                                              // anel do microfone (desenho de referência)
+for (const k of ["E", "D"]) for (let a2 = 0; a2 < 64; a2++) { const t = a2 / 64 * 2 * Math.PI; orelha.push(MIC[k].x, MIC[k].y + 2.4 * Math.cos(t), MIC[k].z + 2.4 * Math.sin(t)); }
+const anel = pontosDe(orelha, cor("--apagado"), 1.6); cena.add(anel);
+for (const r of [rotulo("microfone · canal não modelado", MIC.E.x - 4, -4, MIC.E.z), rotulo("microfone · canal não modelado", MIC.D.x + 4, -4, MIC.D.z)]) { r.perto = true; rotulos.push(r); }
+function nascerEntrada(i) {
+  const k = (i % 2) ? "D" : "E", lado = k === "E" ? -1 : 1, m = MIC[k];
+  const th = Math.acos(Math.random() * 2 - 1), ph = Math.random() * 2 * Math.PI, r = 5 + Math.random() * 5;
+  let dx = Math.abs(Math.sin(th) * Math.cos(ph)) * lado, dy = Math.cos(th), dz = Math.sin(th) * Math.sin(ph);
+  YP[3 * i] = m.x + dx * r; YP[3 * i + 1] = m.y + dy * r; YP[3 * i + 2] = m.z + dz * r;
+  const t = r / 25; yV[3 * i] = -dx * r / t; yV[3 * i + 1] = -dy * r / t; yV[3 * i + 2] = -dz * r / t; yT[i] = t;
 }
-for (let i = 0; i < 2 * NS; i++) semear(i, false);
-const som = pontosDe(somArr, new THREE.Color(0, 0, 0), 2.8, cor("--som"));
-const PS = som.geometry.attributes.position.array;
-for (let i = 0; i < 2 * NS; i++) posicionar(i, PS);
-cena.add(som);
-document.getElementById("cam-som").onclick = e => { som.visible = !som.visible; e.currentTarget.setAttribute("aria-pressed", som.visible); };
-let tVis = 0;
+function nascerCoclea(i, fr, k) {
+  const g = k === "E" ? S.E : S.D; let b = (Math.random() * 64) | 0, v = g[fr * 64 + b] / 255 * meta.som_db_max;
+  for (let tent = 0; tent < 3 && nivel01(v) < 0.2; tent++) { b = (Math.random() * 64) | 0; v = g[fr * 64 + b] / 255 * meta.som_db_max; }
+  yAlvo[i] = b; yU[i] = 0; yT[i] = TAU[b] * KC + 0.25; yZ[i] = (Math.random() * 2 - 1) * dados.largura / 2 * MM;
+}
+for (let i = 0; i < NY; i++) { yT[i] = -1; }
 function moverSom(dtv) {
-  tVis += dtv;
-  const fr = T / FR, LS = som.luz;
-  for (let i = 0; i < 2 * NS; i++) {
-    const lado = i < NS ? -1 : 1;
-    if (dtv > 0) {
-      sD[i] -= VS * dtv;
-      if (sD[i] < FOLGA) semear(i, true);
-      posicionar(i, PS);
-    }
-    const f = Math.min(NF - 1, Math.floor(fr + (sD[i] - FOLGA) / VS / FR));
-    const v = (lado < 0 ? S.E : S.D)[f * 64 + sBanda[i]] / 255 * meta.som_db_max;
-    const nivel = Math.pow(Math.max(0, Math.min(1, (v - 15) / 55)), 0.75);
-    const crista = 0.4 + 0.6 * Math.pow(0.5 + 0.5 * Math.sin(2 * Math.PI * (sD[i] + VS * tVis) / LAMBDA), 2);
-    const borda = Math.min(1, (DMAX + FOLGA - sD[i]) / 3) * Math.min(1, sD[i] / 0.6);
-    LS[i] = nivel * crista * borda;
+  const fr = Math.min(NF - 1, Math.floor(T / FR));
+  // (a) ondas: cada partícula numa crista; brilho pelo nível do canal no instante em que aquela crista saiu do alto-falante
+  if (typeof moverSom.t === "undefined") moverSom.t = 0; moverSom.t += dtv;
+  const LW = ondas.luz;
+  for (let i = 0; i < NW; i++) {
+    const c = wC[i], r = wR0[c] + ((wFase[i] + CV * moverSom.t) % wSpan[c] + wSpan[c]) % wSpan[c];
+    const x = ALTO[c].x + wDir[3 * i] * r, y = ALTO[c].y + wDir[3 * i + 1] * r, z = ALTO[c].z + wDir[3 * i + 2] * r;
+    WP[3 * i] = x; WP[3 * i + 1] = y; WP[3 * i + 2] = z;
+    if (Math.abs(x) < CAB.x + 1) { LW[i] = 0; continue; }   // nem dentro nem em volta da cabeça: a passagem em volta (sombra) não é desenhada
+    const f = Math.min(NF - 1, Math.max(0, Math.floor(T / FR - (r - wRef[c]) / CV / FR)));
+    const perto = Math.max(0, 1 - Math.abs(x) / 160);                                                 // mais forte perto da cabeça
+    LW[i] = nivel01(CAN[c * NF + f] / 255 * 90) * (0.35 + 0.65 * perto);
   }
-  som.geometry.attributes.position.needsUpdate = true; som.geometry.attributes.luz.needsUpdate = true;
+  ondas.geometry.attributes.position.needsUpdate = true; ondas.geometry.attributes.luz.needsUpdate = true;
+  // (b) e (c)
+  const LY = amarelo.luz, total = { E: 0, D: 0 };
+  for (const k of ["E", "D"]) { const g = k === "E" ? S.E : S.D; let pw = 0; for (let b = 0; b < 64; b++) pw += Math.pow(10, g[fr * 64 + b] / 255 * meta.som_db_max / 10); total[k] = nivel01(10 * Math.log10(pw + 1e-9)); }
+  for (let i = 0; i < NY; i++) {
+    const entrada = i < 2 * NE, k = (i % 2) ? "D" : "E", lado = k === "E" ? -1 : 1;
+    if (entrada) {
+      if (yT[i] <= 0) { if (dtv > 0 || yT[i] === -1) nascerEntrada(i); }
+      if (dtv > 0) { YP[3 * i] += yV[3 * i] * dtv; YP[3 * i + 1] += yV[3 * i + 1] * dtv; YP[3 * i + 2] += yV[3 * i + 2] * dtv; yT[i] -= dtv; }
+      LY[i] = total[k] * Math.min(1, yT[i] * 3 + 0.2);
+    } else {
+      if (yT[i] <= 0 && dtv > 0) nascerCoclea(i, fr, k);
+      if (yT[i] <= 0) { LY[i] = 0; continue; }
+      const b = yAlvo[i], dur = TAU[b] * KC;
+      if (dtv > 0) { yU[i] += dtv / dur; yT[i] -= dtv; }
+      const u = Math.min(1, yU[i]), yy = baseY[k] + (bandaYc[k][b] - baseY[k]) * u;
+      YP[3 * i] = lado * (2500 * MM + 0.1); YP[3 * i + 1] = yZ[i]; YP[3 * i + 2] = -yy * MM;
+      const v = nivel01((k === "E" ? S.E : S.D)[fr * 64 + b] / 255 * meta.som_db_max);
+      LY[i] = 0.7 * v * (u < 1 ? 0.35 + 0.4 * u : Math.max(0, yT[i] / 0.25));
+    }
+  }
+  amarelo.geometry.attributes.position.needsUpdate = true; amarelo.geometry.attributes.luz.needsUpdate = true;
 }
+const som = { set visible(v) { ondas.visible = amarelo.visible = v; }, get visible() { return ondas.visible; }, material: ondas.material };
+document.getElementById("cam-som").onclick = e => { som.visible = !som.visible; e.currentTarget.setAttribute("aria-pressed", som.visible); };
 
 // ---- Incidências: "poeira luminosa" que nasce nos pontos ativos e segue de fora para dentro (verde) ----
 // Só visual: sem Upro ainda, a poeira se afasta um pouco da faixa e some. Quantidade proporcional à atividade da coluna (V0.18).
@@ -381,7 +419,7 @@ function tamanho() {
   const w = palco.clientWidth, h = palco.clientHeight;
   render.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
   const esc = h / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) * render.getPixelRatio();
-  for (const o of [pontos, ustr, typeof som !== "undefined" ? som : null, typeof poeira !== "undefined" ? poeira : null]) if (o) { o.material.uniforms.escala.value = esc; o.material.uniforms.min.value = o.material.userData.min0 * render.getPixelRatio(); }  // tamanho mínimo em pixels de tela, também em telas de alta densidade
+  for (const o of [pontos, ustr, typeof ondas !== "undefined" ? ondas : null, typeof amarelo !== "undefined" ? amarelo : null, typeof anel !== "undefined" ? anel : null, typeof poeira !== "undefined" ? poeira : null]) if (o) { o.material.uniforms.escala.value = esc; o.material.uniforms.min.value = o.material.userData.min0 * render.getPixelRatio(); }  // tamanho mínimo em pixels de tela, também em telas de alta densidade
 }
 new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
 
