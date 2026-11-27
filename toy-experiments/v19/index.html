@@ -34,6 +34,15 @@
 html, body { margin: 0; height: 100%; background: var(--fundo); color: var(--texto); font-family: var(--corpo); }
 body { display: flex; flex-direction: column; }
 header { padding: 12px 16px 6px; display: grid; gap: 2px; }
+header .brand { display: flex; align-items: center; gap: 12px; padding: 4px 0 8px; }
+.mark { width: 56px; height: 28px; flex: none; filter: drop-shadow(0 0 6px rgba(57,255,20,.35)); }
+.word { font-size: 30px; font-weight: 800; letter-spacing: .32em; line-height: 1; background: linear-gradient(90deg, #2bd40f, #39ff14 45%, #e9fbe4); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.expand { color: var(--apagado); font-size: 12.5px; margin-top: 5px; }
+.expand b { color: var(--excit); font-weight: 700; }
+.ver { color: var(--apagado); font-weight: 400; font-size: .8rem; margin-left: 6px; letter-spacing: .04em; }
+#diario { margin: 6px 16px 0; max-height: 9.5em; overflow-y: auto; font: .78rem/1.45 var(--mono); color: var(--apagado); border-left: 2px solid var(--linha); padding-left: 8px; }
+#diario b { color: var(--texto); }
+@media (max-width: 420px) { .word { font-size: 26px; letter-spacing: .26em; } .expand { font-size: 11.5px; } }
 h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; text-wrap: balance; }
 .sub { color: var(--apagado); font-size: .85rem; max-width: 72ch; }
 #palco { position: relative; flex: 1; min-height: 380px; margin: 0 16px; background: var(--palco); border: 1px solid var(--linha); border-radius: 6px; overflow: hidden; touch-action: none; }
@@ -66,23 +75,41 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
 </head>
 <body>
 <header>
-  <h1>Sdom — a borda em luz</h1>
-  <div class="sub">V0.19. O espaço do Sdom em 3D, com as unidades nas posições calculadas pelo motor: as duas faixas de pontos transdutivos (Utrd) nas posições dos microfones e as Ustr um cubo para dentro. Ainda não há malha. Em reprodução, os dados da V0.18 (Gymnopédie n.º 1, Alciatore, 9–19 s): o som (amarelo) sai dos alto-falantes em ondas esféricas, chega ao microfone, vira sinal elétrico (branco) que segue por fios até a faixa, e as Utrd soltam incidências (verde). Arraste para girar; pince ou role para entrar no Sdom até ver os cubos.</div>
+  <div class="brand">
+    <svg class="mark" viewBox="0 0 64 32" aria-hidden="true">
+      <defs><linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#39ff14"/><stop offset="1" stop-color="#e9fbe4"/></linearGradient></defs>
+      <path d="M6 6 Q22 8 30 16 M6 26 Q22 24 30 16" fill="none" stroke="url(#cg)" stroke-width="2.2" stroke-linecap="round"/>
+      <path d="M38 16 L58 16" fill="none" stroke="#e9fbe4" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="3 3"/>
+      <circle cx="6" cy="6" r="3.6" fill="#8fa09b"/><circle cx="6" cy="26" r="3.6" fill="#8fa09b"/>
+      <circle cx="34" cy="16" r="6" fill="#39ff14"/><circle cx="34" cy="16" r="2.4" fill="#04070a"/>
+    </svg>
+    <div>
+      <div class="word">CLEAR</div>
+      <div class="expand"><b>C</b>onsciousness as <b>L</b>ocal <b>E</b>ffective <b>A</b>ccess to <b>R</b>epresentations</div>
+    </div>
+  </div>
+  <h1>Sdom — a borda em luz <span class="ver">EMERGENCE · V0.19</span></h1>
+  <div class="sub">O espaço do Sdom (o domínio representacional) em 3D, com cada unidade na posição calculada pelo motor. Nas duas faixas, os pontos transdutivos (Utrd) recebem o som de cada ouvido; ao lado ficam as Ustr (glias). A partir do instante zero, sem nenhuma malha, o motor constitui Uints e Upros sozinho, a partir das incidências. Arraste para girar; pince ou role para entrar no Sdom até ver os cubos.</div>
 </header>
 <audio id="audio" preload="auto" src="visual/v18-satie/audio.mp3"></audio>
 <div id="palco" aria-label="Espaço 3D do Sdom">
   <div id="carregando">carregando as coordenadas…</div>
 </div>
 <div class="leitura"><div id="contagem" aria-live="polite"></div><div id="escala"></div></div>
+<div id="diario" aria-live="polite" aria-label="Diário do Sdom"></div>
 <div class="controles">
   <div class="linha">
     <button id="play" aria-label="Tocar">▶ Tocar</button>
     <input id="tempo" type="range" min="0" max="10" step="0.005" value="0" aria-label="Tempo">
     <span id="rotulo-tempo">9,000 s</span>
+    <div class="grupo" role="group" aria-label="Navegar"><button data-pulo="-1">⏮ 1 s</button><button data-pulo="-0.005">◀ 5 ms</button><button data-pulo="0.005">5 ms ▶</button><button data-pulo="1">1 s ⏭</button></div>
     <div class="grupo" role="group" aria-label="Velocidade"><span>Velocidade</span>
       <button data-vel="1" aria-pressed="true">1×</button>
       <button data-vel="0.25">¼×</button>
       <button data-vel="0.05">1/20×</button>
+      <button data-vel="0.001">1/1.000×</button>
+      <button data-vel="0.0001">1/10.000×</button>
+      <button id="lupa">Ver incidências andando (5 s)</button>
     </div>
   </div>
   <div class="linha">
@@ -99,7 +126,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
       <button id="cam-ustr" aria-pressed="true">Ustr</button>
       <button id="cam-som" aria-pressed="true">Som</button>
       <button id="cam-fios" aria-pressed="true">Sinal elétrico</button>
-      <button id="cam-inc" aria-pressed="true">Incidências</button>
+      <button id="cam-inc" aria-pressed="true">Incidências nas Upros</button>
       <button id="cam-grade" aria-pressed="true">Cubos</button>
       <button id="cam-malha" aria-pressed="true">Malha (piloto, ouvido E)</button>
     </div>
@@ -115,11 +142,23 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
     <span><b style="color:var(--eletrico)">sinal elétrico</b> (cor provisória): um fio do microfone até a base da faixa, que se abre em 64 fios, um por banda. Brilho = nível da banda no ouvido (V0.18), com o atraso real de cada filtro (≈0,5 ms no agudo a ≈16 ms no grave; dá para ver em 1/20×). Os pulsos só indicam o sentido. Os fios não são unidades do Sdom: desenham o caminho do sinal da V0.18.</span>
     <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (cores provisórias). As bolas ocupam 45% do cubo só para a distância entre elas aparecer: no modelo, as unidades não têm tamanho.</span>
     <span><b>Malha do piloto (ouvido esquerdo):</b> o que o motor mínimo constituiu nestes 10 s, a partir do instante zero. <b style="color:var(--nova)">Roxo</b> = nova constituição: a Uint nascendo e cada ramo crescendo cubo a cubo (1 cubo a cada ~12 coincidências do par), passo a passo como o motor registrou. <b style="color:var(--acesso)">Azul</b> = disparo de uma Uint (leitura minha: acesso a uma constituição já formada; a confirmar). Já formados, Uint e ramo ficam em cor neutra (provisória). O motor guarda o comprimento de cada ramo, não o traçado: o ramo-base aparece reto e a variante (mais longa) em arco, só para mostrar o excesso de comprimento. Piloto com escolhas provisórias (ver <code>piloto-10s.md</code>): não é resultado da V0.19.</span>
-    <span><b style="color:var(--excit)">incidência excitatória</b>: fóton que sai da Utrd ativa para dentro e some. Ainda não há Upro, então passa pelas Ustr sem interagir.</span>
+    <span><b>Upros e incidências andando:</b> os ramos são desenhados como tubos de 2 µm (fibra central do nervo auditivo no modelo de Rattay et al. 2013), com espessura mínima na tela. Numa janela de observação do piloto (ouvido E, banda ~600 Hz, de 5 a 6 s), cada incidência que o motor registrou descendo um ramo aparece como um <b style="color:var(--excit)">fóton verde</b> andando da origem até a Uint, no tempo do próprio ramo (comprimento × 66,7 µs, de 0,07 a 0,5 ms). Por isso só dá para ver a 1/1.000× ou mais devagar: use "Ver incidências andando". A Uint <b style="color:var(--excit)">acende em verde</b> conforme a soma das chegadas se aproxima do limiar (1,5) e solta um <b style="color:var(--acesso)">clarão azul</b> quando dispara. Uint ≈ 1 cubo (corpos de ~18–25 µm); Ustr em estrela (astrócito), tamanho desenhado.</span>
+    <span><b style="color:var(--excit)">Ponto transdutivo aceso em verde</b>: a Utrd emitindo incidências. Sem Upro funcionando, a incidência expira ali mesmo (fracasso, registrado pela Ustr do território); com Upro, ela desce pelos ramos até as Uints.</span>
     <span>No desenho, o microfone está 3 mm para fora da faixa, para o fio aparecer (no motor, a faixa fica na posição do microfone).</span>
     <span>Reservadas para a criação (ainda não há): <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b> · <b style="color:var(--inib)">inibitória</b></span>
   </div>
 </div>
+<details open>
+  <summary>O que é cada coisa</summary>
+  <ul>
+    <li><b>Sdom (domínio representacional):</b> o espaço onde as representações se constituem. É dividido em cubos de 20 µm; as incidências andam a 0,3 m/s (≈ 67 µs por cubo).</li>
+    <li><b>Utrd e pontos transdutivos</b> (bolinhas cinza na faixa): a fronteira entre o som e o Sdom. Cada ponto converte o sinal da sua banda e da sua sensibilidade em <b>incidências</b>. Vêm prontos da V0.18 (microfone + cóclea).</li>
+    <li><b>Ustr</b> (estrelas rosadas): as glias. Cada uma cuida de um território de ~4 pontos e registra os <b>fracassos</b> (incidências que expiraram sem integrar). Quando dois fracassos do território caem na mesma janela de 0,3 ms, há uma <b>coincidência</b>.</li>
+    <li><b>Uint</b> (bolas do tamanho de um cubo): unidade que integra. Nasce no cubo livre mais próximo de um par que coincide. Soma o que chega pelos ramos; se a soma passa do limiar (1,5), <b>dispara</b>.</li>
+    <li><b>Upro e ramos</b> (tubos): a Upro sai de um ponto transdutivo ou de uma Uint; seus ramos crescem 1 cubo a cada ~12 coincidências do par até chegar à Uint, e só então funcionam. Uma Upro jovem vale ~1/4,6 do limiar: a Uint só dispara quando ~5 ramos chegam juntos.</li>
+    <li><b>Cores:</b> <b style="color:var(--som)">amarelo</b> = som · <b style="color:var(--excit)">verde</b> = incidência excitatória · <b style="color:var(--nova)">roxo</b> = nova constituição · <b style="color:var(--acesso)">azul</b> = acesso (uso do que já existe) · <b style="color:var(--modif)">ciano</b> = modificação · <b style="color:var(--inib)">vermelho</b> = inibitória (ainda não há).</li>
+  </ul>
+</details>
 <details>
   <summary>O que esta página mostra</summary>
   <ul>
@@ -187,7 +226,7 @@ const NEVOA = `float dd = max(0.0, -mv.z - uFoco) / (uFoco * 6.0); vFog = exp(-d
 
 // (1) unidades como bolas: cartões que sempre olham para a câmera, sombreados como esferas; tamanho real no mundo,
 //     com mínimo em pixels para continuarem visíveis de longe
-function bolas(centros, raio, minPx, corBase, corAtiva) {
+function bolas(centros, raio, minPx, corBase, corAtiva, forma = 0) {
   const g = new THREE.InstancedBufferGeometry();
   g.setAttribute("position", new THREE.Float32BufferAttribute([-1, -1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0], 3));
   g.setIndex([0, 1, 2, 0, 2, 3]);
@@ -195,12 +234,14 @@ function bolas(centros, raio, minPx, corBase, corAtiva) {
   const luz = new Float32Array(centros.length / 3), aL = new THREE.InstancedBufferAttribute(luz, 1);
   aL.setUsage(THREE.DynamicDrawUsage); g.setAttribute("luz", aL); g.instanceCount = luz.length;
   const m = new THREE.ShaderMaterial({
-    uniforms: { ...COMUM, cor: { value: corBase }, ativa: { value: corAtiva || corBase }, raio: { value: raio }, minPx: { value: minPx }, semNevoa: { value: 0 } },
+    uniforms: { ...COMUM, cor: { value: corBase }, ativa: { value: corAtiva || corBase }, raio: { value: raio }, minPx: { value: minPx }, semNevoa: { value: 0 }, forma: { value: forma } },
     vertexShader: `attribute vec3 centro; attribute float luz; uniform float raio, minPx, uPix, uFoco, semNevoa; varying vec2 vC; varying float vL, vFog;
       void main(){ vec4 mv = modelViewMatrix * vec4(centro, 1.0); float r = max(raio, 0.5 * minPx * (-mv.z) * uPix);
         mv.xy += position.xy * r; vC = position.xy; vL = luz; ${NEVOA} vFog = max(vFog, semNevoa); gl_Position = projectionMatrix * mv; }`,
-    fragmentShader: `uniform vec3 cor, ativa, uFundo; varying vec2 vC; varying float vL, vFog;
-      void main(){ if (vL < -0.5) discard; float d2 = dot(vC, vC); if (d2 > 1.0) discard; vec3 n = vec3(vC, sqrt(1.0 - d2));
+    fragmentShader: `uniform vec3 cor, ativa, uFundo; uniform float forma; varying vec2 vC; varying float vL, vFog;
+      void main(){ if (vL < -0.5) discard; vec2 q = vC; if (forma > 0.5) { float ang = atan(vC.y, vC.x), rr = length(vC);
+          float R = 0.32 + 0.68 * pow(abs(cos(3.0 * ang)), 5.0); if (rr > R) discard; q = vC / max(R, 0.32) * 0.9; }
+        float d2 = dot(q, q); if (d2 > 1.0) discard; vec3 n = vec3(q, sqrt(1.0 - d2));
         float dif = max(dot(n, normalize(vec3(-0.35, 0.6, 0.72))), 0.0), rim = pow(1.0 - n.z, 3.0);
         vec3 repouso = cor * (0.07 + 0.45 * dif) + cor * rim * 0.35;
         vec3 aceso = ativa * (0.55 + 1.3 * dif) + ativa * rim * 1.6;
@@ -208,6 +249,26 @@ function bolas(centros, raio, minPx, corBase, corAtiva) {
   m.userData.min0 = minPx;
   const o = new THREE.Mesh(g, m); o.frustumCulled = false; o.luz = luz; o.aLuz = aL; return o;
 }
+
+// (3) tubos: cada segmento vira uma fita voltada para a câmera, com espessura no mundo (W) e mínimo em pixels
+function tubos(p0, p1, W, minPx, extra, fragCorpo, vertExtra) {
+  const n = p0.length / 3, g = new THREE.InstancedBufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute([0, -1, 0, 1, -1, 0, 1, 1, 0, 0, 1, 0], 3)); g.setIndex([0, 1, 2, 0, 2, 3]);
+  g.setAttribute("pa", new THREE.InstancedBufferAttribute(p0, 3)); g.setAttribute("pb", new THREE.InstancedBufferAttribute(p1, 3));
+  let decl = ""; for (const [nome, arr, k] of extra) { g.setAttribute(nome, new THREE.InstancedBufferAttribute(arr, k)); decl += `attribute ${k === 1 ? "float" : "vec" + k} ${nome}; `; }
+  g.instanceCount = n;
+  const m = new THREE.ShaderMaterial({ uniforms: { ...COMUM, W: { value: W }, minPx: { value: minPx }, uT: { value: 0 } },
+    vertexShader: `attribute vec3 pa, pb; ${decl} uniform float W, minPx, uPix, uFoco, uT; varying float vFog; ${vertExtra.decl}
+      void main(){ vec4 a = modelViewMatrix * vec4(pa, 1.0), b = modelViewMatrix * vec4(pb, 1.0);
+        vec2 sa = a.xy / -a.z, sb = b.xy / -b.z; vec2 d = sb - sa; float L = length(d); d = L > 1e-9 ? d / L : vec2(1.0, 0.0);
+        vec2 perp = vec2(-d.y, d.x); vec4 mv = mix(a, b, position.x); float w = max(W, minPx * (-mv.z) * uPix);
+        mv.xy += perp * w * 0.5 * position.y; ${NEVOA} ${vertExtra.corpo} gl_Position = projectionMatrix * mv; }`,
+    fragmentShader: `varying float vFog; ${vertExtra.decl.replace(/attribute[^;]*;/g, "")} void main(){ ${fragCorpo} }`,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+  m.userData.min0 = minPx;
+  const o = new THREE.Mesh(g, m); o.frustumCulled = false; return o;
+}
+const W_UPRO = 0.002;        // espessura desenhada da Upro: 2 µm (processo central da fibra do nervo auditivo no modelo de Rattay et al. 2013)
 // (2) partículas luminosas (som, incidências): brilho aditivo, núcleo forte (fótons)
 function particulas(n, tam, minPx, corAtiva) {
   const g = new THREE.BufferGeometry(), pos = new Float32Array(n * 3), luz = new Float32Array(n);
@@ -233,9 +294,11 @@ function centrosDe(lista) {
   for (const o of lista) { const x = dec(o.x, Int16Array), y = dec(o.y, Int16Array), z = dec(o.z, Int16Array); for (let i = 0; i < x.length; i++) pos.push(x[i] * MM, z[i] * MM, -y[i] * MM); }
   return new Float32Array(pos);
 }
-const R_UN = 0.225 * MM;    // raio desenhado: diâmetro = 45% do cubo (ilustrativo; no modelo as unidades não têm tamanho)
+const R_UN = 0.225 * MM;    // ponto transdutivo: diâmetro desenhado = 45% do cubo (ilustrativo)
+const R_UINT = 0.5 * MM;    // Uint: diâmetro ≈ 1 cubo (corpos de ~18–25 µm no núcleo coclear) [R 27/11: menor ou igual a 1 cubo, não muda o motor]
+const R_USTR = 0.42 * MM;   // Ustr: estrela (astrócito); tamanho desenhado, não medido
 const pontos = bolas(centrosDe([O.E.pontos, O.D.pontos]), R_UN, 1.6, cor("--ponto"), cor("--excit"));
-const ustr = bolas(centrosDe([O.E.ustr, O.D.ustr]), R_UN, 1.4, cor("--ustr"));
+const ustr = bolas(centrosDe([O.E.ustr, O.D.ustr]), R_USTR, 1.6, cor("--ustr"), undefined, 1);
 cena.add(pontos, ustr);
 
 // grade dos cubos (as duas camadas de cubos de cada ouvido: a das Utrd e a das Ustr), visível só de perto
@@ -384,7 +447,7 @@ function moverOndas() {
 // coluna (V0.18). A distância percorrida é proporcional ao zoom, para o movimento ser visível em qualquer escala.
 const NP = 20000, pDir = new Float32Array(NP * 3), pVida = new Float32Array(NP), pA = new Float32Array(NP);
 let pProx = 0;
-const fotons = particulas(NP, 0.007, 1.8, new THREE.Color(0.45, 1, 0.3)); cena.add(fotons);
+const fotons = particulas(NP, 0.007, 1.8, new THREE.Color(0.45, 1, 0.3));   // não entra na cena: as incidências agora andam pelas Upros (janela de observação)
 const posPontos = pontos.geometry.attributes.centro.array, nE = O.E.n_pontos;
 const celula = [];
 for (const k of ["E", "D"]) { const b = dec(O[k].pontos.banda, Uint8Array), z = dec(O[k].pontos.z, Int16Array); for (let i = 0; i < b.length; i++) celula.push(b[i] * SUB + (z[i] + (LARG >> 1))); }
@@ -426,23 +489,20 @@ const malha = await (async () => {
     const ft = A("f_t", Uint16Array), fu = A("f_u", Uint16Array), rft = A("r_fun_t", Uint16Array), SB = mj.sub;
     const nU = ut.length, cen = new Float32Array(nU * 3);
     for (let i = 0; i < nU; i++) { cen[3 * i] = uxyz[3 * i] * MM; cen[3 * i + 1] = uxyz[3 * i + 2] * MM; cen[3 * i + 2] = -uxyz[3 * i + 1] * MM; }
-    const uints = bolas(cen, R_UN, 1.5, cor("--uint"), cor("--nova")); uints.luz.fill(-1); cena.add(uints);
+    const uints = bolas(cen, R_UINT, 1.5, cor("--uint"), cor("--nova")); uints.luz.fill(-1); cena.add(uints);
     // ramos: um segmento por passo de crescimento, aceso a partir do instante do passo
-    const nS = st.length, pos = new Float32Array(nS * 6), tn = new Float32Array(nS * 2);
+    const nS = st.length, pa = new Float32Array(nS * 3), pb = new Float32Array(nS * 3), tn = new Float32Array(nS);
     for (let i = 0; i < nS; i++) {
-      for (let q = 0; q < 2; q++) {
-        const o = 6 * i + 3 * q;
-        pos[o] = sseg[o] / SB * MM; pos[o + 1] = sseg[o + 2] / SB * MM; pos[o + 2] = -sseg[o + 1] / SB * MM;
-        tn[2 * i + q] = st[i] / 1000;
-      }
+      const o = 6 * i;
+      pa[3 * i] = sseg[o] / SB * MM; pa[3 * i + 1] = sseg[o + 2] / SB * MM; pa[3 * i + 2] = -sseg[o + 1] / SB * MM;
+      pb[3 * i] = sseg[o + 3] / SB * MM; pb[3 * i + 1] = sseg[o + 5] / SB * MM; pb[3 * i + 2] = -sseg[o + 4] / SB * MM;
+      tn[i] = st[i] / 1000;
     }
-    const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3)); g.setAttribute("tn", new THREE.BufferAttribute(tn, 1));
-    const mat = new THREE.ShaderMaterial({ uniforms: { ...COMUM, uT: { value: 0 }, nova: { value: cor("--nova") }, feita: { value: cor("--uint") } },
-      vertexShader: `attribute float tn; uniform float uT, uPix, uFoco; varying float vA, vN, vFog; void main(){ vec4 mv = modelViewMatrix * vec4(position, 1.0); ${NEVOA}
-        float idade = uT - tn; vA = idade < 0.0 ? 0.0 : 1.0; vN = idade < 0.0 ? 0.0 : max(0.0, 1.0 - idade / 0.5); gl_Position = projectionMatrix * mv; }`,
-      fragmentShader: `uniform vec3 nova, feita; varying float vA, vN, vFog; void main(){ if (vA < 0.5) discard; vec3 k = mix(feita * 0.05, nova * 0.9, vN); gl_FragColor = vec4(k * vFog, 1.0); }`,
-      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
-    const ramos = new THREE.LineSegments(g, mat); ramos.frustumCulled = false; cena.add(ramos);
+    const ramos = tubos(pa, pb, W_UPRO, 1.4, [["tn", tn, 1]], `if (vA < 0.5) discard; vec3 k = mix(feita * 0.12, nova * 1.1, vN); gl_FragColor = vec4(k * vFog, 1.0);`,
+      { decl: "varying float vA, vN;", corpo: "float idade = uT - tn; vA = idade < 0.0 ? 0.0 : 1.0; vN = idade < 0.0 ? 0.0 : max(0.0, 1.0 - idade / 0.5);" });
+    ramos.material.uniforms.nova = { value: cor("--nova") }; ramos.material.uniforms.feita = { value: cor("--uint") };
+    ramos.material.fragmentShader = "uniform vec3 nova, feita; " + ramos.material.fragmentShader;
+    const mat = ramos.material; cena.add(ramos);
     // disparos: clarão azul na Uint, no instante registrado
     const disp = particulas(ft.length, 0.012, 2.2, cor("--acesso"));
     for (let i = 0; i < ft.length; i++) disp.pos.set(cen.subarray(3 * fu[i], 3 * fu[i] + 3), 3 * i);
@@ -460,6 +520,56 @@ const malha = await (async () => {
   } catch (e) { console.warn("sem dados do piloto", e); return null; }
 })();
 
+
+// ---------- janela de observação do piloto: cada incidência andando pelo ramo até a Uint (como as bolinhas na esteira) ----------
+const obs = await (async () => {
+  try {
+    const mj = await (await fetch(BASE + "obs-esq.json")).json(); if (!malha) return null;
+    const buf = await (await fetch(BASE + "obs-esq.bin")).arrayBuffer();
+    const T_ = { float32: Float32Array, int32: Int32Array }, A = n => new T_[mj[n].tipo](buf, mj[n].off, mj[n].n);
+    const geo = A("r_geo"), atr = A("r_atr"), ru = A("r_u"), uid = A("u_id"), ct = A("c_t"), cr = A("c_r"), ca = A("c_a"), cv = A("c_v"), ft = A("f_t"), fu = A("f_u");
+    const P = (i, k) => { const g = 9 * i + 3 * k; return [geo[g] * MM, geo[g + 2] * MM, -geo[g + 1] * MM]; };
+    // fótons: um por chegada registrada; parte de (chegada − atraso do ramo) e chega na Uint
+    const n = ct.length, q0 = new Float32Array(n * 3), qc = new Float32Array(n * 3), q1 = new Float32Array(n * 3), ta = new Float32Array(n), tb = new Float32Array(n), am = new Float32Array(n);
+    for (let i = 0; i < n; i++) { const r = cr[i]; q0.set(P(r, 0), 3 * i); qc.set(P(r, 1), 3 * i); q1.set(P(r, 2), 3 * i); tb[i] = ct[i]; ta[i] = ct[i] - atr[r]; am[i] = ca[i]; }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.BufferAttribute(q0, 3)); g.setAttribute("qc", new THREE.BufferAttribute(qc, 3)); g.setAttribute("q1", new THREE.BufferAttribute(q1, 3));
+    g.setAttribute("ta", new THREE.BufferAttribute(ta, 1)); g.setAttribute("tb", new THREE.BufferAttribute(tb, 1)); g.setAttribute("am", new THREE.BufferAttribute(am, 1));
+    const m = new THREE.ShaderMaterial({ uniforms: { ...COMUM, uT: { value: 0 }, minPx: { value: 3 }, ativa: { value: new THREE.Color(0.45, 1, 0.3) } },
+      vertexShader: `attribute vec3 qc, q1; attribute float ta, tb, am; uniform float uT, minPx, uPix, uFoco; varying float vL, vFog;
+        void main(){ float f = (uT - ta) / max(tb - ta, 1e-9); vec3 p = position;
+          if (f < 0.0 || f > 1.0) { gl_PointSize = 0.0; gl_Position = vec4(2.0, 2.0, 2.0, 1.0); vL = 0.0; vFog = 0.0; return; }
+          p = (1.0 - f) * (1.0 - f) * position + 2.0 * (1.0 - f) * f * qc + f * f * q1;
+          vec4 mv = modelViewMatrix * vec4(p, 1.0); ${NEVOA} vL = 0.5 + 0.5 * min(1.0, am * 3.0);
+          gl_PointSize = max(minPx, 0.006 / ((-mv.z) * uPix)); gl_Position = projectionMatrix * mv; }`,
+      fragmentShader: `uniform vec3 ativa; varying float vL, vFog; void main(){ vec2 c = gl_PointCoord * 2.0 - 1.0; float d2 = dot(c, c); if (d2 > 1.0) discard;
+          float a = exp(-d2 * 5.0) + 0.7 * exp(-d2 * 45.0); gl_FragColor = vec4(ativa * vL * a * 1.6 * vFog, 1.0); }`,
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+    m.userData.min0 = 3;
+    const fot = new THREE.Points(g, m); fot.frustumCulled = false; cena.add(fot);
+    // Uints da janela: o quanto a soma das chegadas encheu em direção ao limiar (1,5), e o clarão do disparo
+    const nU = uid.length, cen = new Float32Array(nU * 3), porU = Array.from({ length: nU }, () => []);
+    for (let r = 0; r < atr.length; r++) cen.set(P(r, 2), 3 * ru[r]);
+    for (let i = 0; i < n; i++) porU[ru[cr[i]]].push(i);
+    const enche = bolas(cen, R_UINT * 1.03, 1.6, cor("--uint"), cor("--excit")); enche.luz.fill(0); cena.add(enche);
+    const iduU = new Map(); for (let k = 0; k < nU; k++) iduU.set(uid[k], k);
+    const ftU = Array.from(fu, x => iduU.get(x));
+    function eventos(a, b) { const out = []; if (b <= a) return out;
+      let lo = 0, hi = n; while (lo < hi) { const md = (lo + hi) >> 1; if (ct[md] <= a) lo = md + 1; else hi = md; }
+      for (let i = lo; i < n && ct[i] <= b && out.length < 6; i++) out.push({ u: ru[cr[i]], v: cv[i] + ca[i], atr: Math.round(atr[cr[i]] * 1e6) });
+      for (let i = 0; i < ft.length; i++) if (ft[i] > a && ft[i] <= b) out.unshift({ f: true, u: ftU[i] });
+      return out; }
+    return { objs: [fot, enche], t0: mj.t0, t1: mj.t1, eventos, atualizar(T) {
+        m.uniforms.uT.value = T;
+        for (let k = 0; k < nU; k++) {
+          const L = porU[k]; let lo = 0, hi = L.length; while (lo < hi) { const md = (lo + hi) >> 1; if (ct[L[md]] <= T) lo = md + 1; else hi = md; }
+          const j = lo - 1; let v = 0; if (j >= 0 && T - ct[L[j]] <= 0.0009) v = cv[L[j]] + ca[L[j]] * 0;  // soma registrada pelo motor na última chegada (janela de 0,9 ms)
+          enche.luz[k] = Math.min(1, v / 1.5);
+        }
+        enche.aLuz.needsUpdate = true;
+      } };
+  } catch (e) { console.warn("sem janela de observação", e); return null; }
+})();
 // ---------- apresentações completas no mesmo Sdom: estado ao fim de cada uma (só o que o motor registrou) ----------
 const sessoes = await (async () => {
   let mj; try { const r = await fetch(BASE + "sessoes.json"); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }
@@ -484,16 +594,15 @@ const sessoes = await (async () => {
     for (const o of ["esq", "dir"]) {
       const uxyz = A(o + "_u_xyz"), nU = uxyz.length / 3, cen = new Float32Array(nU * 3);
       for (let i = 0; i < nU; i++) { cen[3 * i] = uxyz[3 * i] * MM; cen[3 * i + 1] = uxyz[3 * i + 2] * MM; cen[3 * i + 2] = -uxyz[3 * i + 1] * MM; }
-      const u = bolasCor(cen, R_UN, 1.5); cena.add(u);
-      const rs = A(o + "_r_src"), rd = A(o + "_r_dst"), nR = rd.length, pos = new Float32Array(nR * 6), col = new Float32Array(nR * 6);
+      const u = bolasCor(cen, R_UINT, 1.5); cena.add(u);
+      const rs = A(o + "_r_src"), rd = A(o + "_r_dst"), nR = rd.length, pa = new Float32Array(nR * 3), pb = new Float32Array(nR * 3), col = new Float32Array(nR * 3);
       for (let i = 0; i < nR; i++) {
-        pos[6 * i] = rs[3 * i] * MM; pos[6 * i + 1] = rs[3 * i + 2] * MM; pos[6 * i + 2] = -rs[3 * i + 1] * MM;
-        pos[6 * i + 3] = cen[3 * rd[i]]; pos[6 * i + 4] = cen[3 * rd[i] + 1]; pos[6 * i + 5] = cen[3 * rd[i] + 2];
+        pa[3 * i] = rs[3 * i] * MM; pa[3 * i + 1] = rs[3 * i + 2] * MM; pa[3 * i + 2] = -rs[3 * i + 1] * MM;
+        pb[3 * i] = cen[3 * rd[i]]; pb[3 * i + 1] = cen[3 * rd[i] + 1]; pb[3 * i + 2] = cen[3 * rd[i] + 2];
       }
-      const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3)); const ac = new THREE.BufferAttribute(col, 3); g.setAttribute("color", ac);
-      const lm = new THREE.ShaderMaterial({ uniforms: { ...COMUM }, vertexShader: `attribute vec3 color; uniform float uPix, uFoco; varying vec3 vK; varying float vFog; void main(){ vec4 mv = modelViewMatrix * vec4(position, 1.0); ${NEVOA} vK = color; gl_Position = projectionMatrix * mv; }`,
-        fragmentShader: `varying vec3 vK; varying float vFog; void main(){ if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0); }`, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
-      const lr = new THREE.LineSegments(g, lm); lr.frustumCulled = false; cena.add(lr);
+      const lr = tubos(pa, pb, W_UPRO, 1.4, [["corR", col, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`,
+        { decl: "varying vec3 vK;", corpo: "vK = corR;" });
+      const ac = lr.geometry.attributes.corR; ac.setUsage(THREE.DynamicDrawUsage); cena.add(lr);
       D[o] = { u, lr, col, ac, nU, nR, u_ap: A(o + "_u_ap"), u_f: A(o + "_u_fires"), r_ap: A(o + "_r_ap"), r_uso: A(o + "_r_uso"), r_dst: rd };
     }
     return D;
@@ -520,11 +629,11 @@ const sessoes = await (async () => {
       for (let i = 0; i < d.nR; i++) {
         let k = null, v = 0;
         if (p !== null && p >= 0 && d.r_ap[i] <= p) {
-          if (d.r_ap[i] === p) { k = NOVA; v = 0.5; rn++; }
-          else if ((d.r_uso[i] >> p) & 1) { k = ACESSO; v = 0.35; ru++; }
-          else { k = FEITA; v = 0.035; }
+          if (d.r_ap[i] === p) { k = NOVA; v = 0.8; rn++; }
+          else if ((d.r_uso[i] >> p) & 1) { k = ACESSO; v = 0.6; ru++; }
+          else { k = FEITA; v = 0.12; }
         }
-        for (let q = 0; q < 2; q++) { const o6 = 6 * i + 3 * q; col[o6] = k ? k.r * v : 0; col[o6 + 1] = k ? k.g * v : 0; col[o6 + 2] = k ? k.b * v : 0; }
+        col[3 * i] = k ? k.r * v : 0; col[3 * i + 1] = k ? k.g * v : 0; col[3 * i + 2] = k ? k.b * v : 0;
       }
       d.ac.needsUpdate = true;
       if (p !== null && p >= 0) {
@@ -580,27 +689,52 @@ const VISTAS = {
   cima: [new THREE.Vector3(0, 160, 0.01), new THREE.Vector3(0, 0, 0)],
   E: [new THREE.Vector3(-meia + 13, 12, 22), new THREE.Vector3(-meia - 1.5, 0, -1.5)],
   D: [new THREE.Vector3(meia - 13, 12, 22), new THREE.Vector3(meia + 1.5, 0, -1.5)],
-  detalhe: [new THREE.Vector3(-meia + 0.17, 0.07, zb24 + 0.13), new THREE.Vector3(-meia + 0.005, 0, zb24)],
+  detalhe: [new THREE.Vector3(-meia + 0.32, 0.14, zb24 + 0.26), new THREE.Vector3(-meia + 0.03, 0, zb24)],
 };
 function vista(n) {
   const [p, a] = VISTAS[n], k = n === "detalhe" ? 1 : (n === "E" || n === "D") ? Math.max(1, 1.0 / camera.aspect) : Math.max(1, 1.5 / camera.aspect);
   camera.position.copy(a).add(p.clone().sub(a).multiplyScalar(k)); ctrl.target.copy(a); ctrl.update();
 }
 document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
-const camadas = { "cam-pontos": [pontos], "cam-ustr": [ustr], "cam-som": [ondas, altos], "cam-fios": [fios, mics], "cam-inc": [fotons], "cam-grade": [grade], "cam-malha": malha ? malha.objs : [] };
+const camadas = { "cam-pontos": [pontos], "cam-ustr": [ustr], "cam-som": [ondas, altos], "cam-fios": [fios, mics], "cam-inc": obs ? [obs.objs[0]] : [], "cam-grade": [grade], "cam-malha": malha ? malha.objs : [] };
 for (const [id, objs] of Object.entries(camadas)) {
   const b = document.getElementById(id); if (!objs.length) { b.hidden = true; continue; }
   b.onclick = () => { const v = !objs[0].visible; objs.forEach(o => o.visible = v); b.setAttribute("aria-pressed", v); };
 }
 
+
+// ---------- diário do Sdom: o que o motor está fazendo, em palavras (só a partir dos registros) ----------
+const diarioEl = document.getElementById("diario"); let dUlt = null, dReal = 0, dObs = 0;
+function diario(txt) { const d = document.createElement("div"); d.innerHTML = txt; diarioEl.prepend(d); while (diarioEl.childElementCount > 40) diarioEl.lastChild.remove(); }
+diario("<b>Instante zero.</b> Só existem as Utrd (pontos transdutivos) e as Ustr (glias). Nenhuma Uint, nenhuma Upro: o Sdom nasce vazio.");
+function narrar(T, v) {
+  const ts = (meta.ini + T).toFixed(vel <= 0.001 ? 6 : 3).replace(".", ",") + " s";
+  if (obs && T >= obs.t0 && T <= obs.t1 && vel <= 0.001) {           // lupa do tempo: cada chegada na janela
+    const ev = obs.eventos(dObs, T); dObs = T;
+    for (const e of ev.slice(0, 6)) diario(e.f ? `<b>${ts}</b> · Uint ${e.u} <b style="color:var(--acesso)">disparou</b>: a soma passou do limiar (1,5); ela emite pela própria Upro e entra em refratariedade (0,5 ms).`
+      : `<b>${ts}</b> · incidência chegou à Uint ${e.u} pelo ramo (${e.atr} µs de viagem) · soma ${e.v.toFixed(2).replace(".", ",")} de 1,5`);
+    return;
+  }
+  if (!v || performance.now() - dReal < 700) return; dReal = performance.now();
+  if (dUlt && T >= dUlt.T) {
+    const du = v.u - dUlt.u, dr = v.r - dUlt.r, df = v.f - dUlt.f, partes = [];
+    if (du > 0) partes.push(`<b style="color:var(--nova)">+${fmt(du)} Uints nasceram</b> (pares de pontos vizinhos que fracassaram juntos, na mesma janela de 0,3 ms)`);
+    if (dr > 0) partes.push(`<b style="color:var(--nova)">+${fmt(dr)} ramos chegaram</b> à sua Uint e passaram a funcionar (cada um cresceu 1 cubo a cada ~12 coincidências)`);
+    if (df > 0) partes.push(`<b style="color:var(--acesso)">${fmt(df)} disparos</b> (Uints onde ~5 ramos chegaram juntos)`);
+    if (partes.length) diario(`<b>${ts}</b> · ${partes.join(" · ")}`);
+  }
+  dUlt = { T, ...v };
+}
 // ---------- reprodução ----------
 const audio = document.getElementById("audio"), barra = document.getElementById("tempo"), rot = document.getElementById("rotulo-tempo");
 let T = 0, tocando = false, vel = 1, ultimo = performance.now();
 barra.max = DUR - 0.005;
-function irPara(t) { T = Math.min(Math.max(t, 0), DUR - 0.005); barra.value = T; limparFotons(); if (!audio.paused) try { audio.currentTime = T; } catch (e) {} }
+function irPara(t) { dUlt = null; dObs = Math.min(Math.max(t, 0), DUR - 0.005); T = Math.min(Math.max(t, 0), DUR - 0.005); barra.value = T; limparFotons(); if (!audio.paused) try { audio.currentTime = T; } catch (e) {} }
 barra.oninput = () => irPara(+barra.value);
 function sincronizar() { if (tocando && vel === 1) { try { audio.currentTime = T; } catch (e) {} audio.play().catch(() => {}); } else audio.pause(); }
 document.getElementById("play").onclick = e => { tocando = !tocando; e.currentTarget.textContent = tocando ? "❚❚ Pausar" : "▶ Tocar"; if (tocando && T >= DUR - 0.01) irPara(0); sincronizar(); };
+document.querySelectorAll("[data-pulo]").forEach(b => b.onclick = () => irPara(T + Number(b.dataset.pulo)));
+document.getElementById("lupa").onclick = () => { irPara(5.0); vista("detalhe"); vel = 0.0001; document.querySelectorAll("[data-vel]").forEach(x => x.setAttribute("aria-pressed", x.dataset.vel === "0.0001")); if (!tocando) document.getElementById("play").click(); sincronizar(); };
 document.querySelectorAll("[data-vel]").forEach(b => b.onclick = () => { vel = +b.dataset.vel; document.querySelectorAll("[data-vel]").forEach(x => x.setAttribute("aria-pressed", x === b)); sincronizar(); });
 
 function aplicar(fr) {
@@ -616,7 +750,7 @@ function tamanho() {
   render.setSize(w, h, false); composer.setPixelRatio(pr); composer.setSize(w, h);
   camera.aspect = w / h; camera.updateProjectionMatrix();
   COMUM.uPix.value = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) / (h * pr);
-  for (const o of [pontos, ustr, mics, altos, ondas, fotons, fios]) o.material.uniforms.minPx.value = o.material.userData.min0 * pr;   // mínimo em pixels de tela, também em telas densas
+  cena.traverse(o => { const m = o.material; if (m && m.userData && m.userData.min0 !== undefined && m.uniforms.minPx) m.uniforms.minPx.value = m.userData.min0 * pr; });   // mínimo em pixels de tela, também em telas densas
 }
 new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
 
@@ -638,8 +772,9 @@ const tmp = new THREE.Vector3(); let nq = 0;
   COMUM.uFoco.value = dist;
   grade.material.uniforms.alfa.value = Math.max(0, Math.min(1, (1.0 - dist) / 0.7)) * 0.55;
   fios.material.uniforms.uT.value = T; fios.material.uniforms.uTv.value = Tv;
-  moverOndas(); moverFotons(dtv, fr, Math.max(0.05, Math.min(20, dist))); aplicar(fr);
-  if (malha) { const v = malha.atualizar(T); if (nq % 6 === 0) vivoEl.innerHTML = `piloto, ouvido E, até agora: <b style="color:var(--nova)">Uints ${fmt(v.u)}</b> · ramos funcionando ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.f)}</span>`; }
+  moverOndas(); aplicar(fr);
+  if (obs) obs.atualizar(T);
+  if (malha) { const v = malha.atualizar(T); narrar(T, v); if (nq % 6 === 0) vivoEl.innerHTML = `piloto, ouvido E, até agora: <b style="color:var(--nova)">Uints ${fmt(v.u)}</b> · ramos funcionando ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.f)}</span>`; }
   composer.render();
   const w = palco.clientWidth, h = palco.clientHeight, postos = [];
   for (const r of rotulos) {

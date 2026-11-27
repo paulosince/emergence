@@ -59,19 +59,26 @@ def rodar(arq, ouvido, dur):
     u_ring_t = np.full((MAXU, R), -1e9); u_ring_a = np.zeros((MAXU, R)); u_ring_r = np.zeros((MAXU, R), np.int64); u_ring_i = np.zeros((MAXU, R), np.int64)
     u_rn = np.zeros(E, np.int64); u_refr = np.full(E, -1.0); u_pend = np.full(E, -1.0); u_last = np.full(E, -1.0)
     u_q = np.ones(E); u_s = np.ones(E); u_qt = np.zeros(E); u_nin = np.zeros(E, np.int64)
-    integ = np.zeros(len(ev_t) + 20_000_000, np.int8)
+    integ = np.zeros(1 << 24, np.int8)
     cont = np.zeros(len(sdom.CONTADORES), np.int64)
     ser = np.zeros((int(dur) + 2, 5))
     log_r = np.zeros((MAXR, 5)); log_u = np.zeros((MAXU, 5)); log_s = np.zeros((8_000_000, 3)); log_f = np.zeros((2_000_000, 2))
     par = json.loads((AQUI.parents[1] / "v18" / "borda" / "calibracao.json").read_text())["parametros"]
     PG = m18.lambdas(1.0, par["tcG"], par["tdG"], par["MG"])
+    H = sdom.HCAP
+    heap = [np.empty(H), np.empty(H, np.int8), np.empty(H, np.int64), np.empty(H, np.int64), np.empty(H, np.int64), np.empty(H)]
+    glob = np.array([0, 0, 1 << 40], np.int64)
+    # janela de observação (V19_OBS = "x0,x1,y0,y1,z0,z1,t0,t1" em cubos e s): registra cada chegada nas Uints de lá, para a página
+    obs = np.array([float(v) for v in os.environ.get("V19_OBS", "0,0,0,0,0,0,1e18,1e18").split(",")])
+    log_c = np.zeros((3_000_000, 4))
     t0 = time.time()
     ne, npar, nr = sdom.simular(ev_t, ev_p, ev_m, lado, x, y, z, pu, ux, uy, uz, BU, by0, bz0, PG, par["fG"],
                                 ex, ey, ez, eu, mem, nmem, pslot, lastf, cubos,
                                 p_a, p_b, p_u, p_cnt, p_dmin, p_dmax, p_r0, p_r1, p_nv, p_vr,
                                 r_src, r_dst, r_len, r_atr, r_f, r_ok, r_part, r_sem, r_head, r_next, r_born, a_head, a_next,
                                 u_ring_t, u_ring_a, u_ring_r, u_ring_i, u_rn, u_refr, u_pend, u_last, u_q, u_s, u_qt, u_nin,
-                                integ, cont, ser, log_r, log_u, log_s, log_f, float(dur), sdom.J_RAPIDA)
+                                integ, cont, ser, log_r, log_u, log_s, log_f, float(dur), sdom.J_RAPIDA,
+                                *heap, glob, float(ev_t[0]), N, 0, 0, obs, log_c)
     seg = time.time() - t0
     nU = ne - N
     res = dict(ouvido=ouvido, dur_simulada_s=dur, tempo_maquina_s=round(seg, 1), segundos_por_segundo=round(seg / dur, 2),
@@ -85,7 +92,7 @@ def rodar(arq, ouvido, dur):
     # carga das Ustr: fracassos por segundo (para calibrar o teto de divisão)
     np.savez_compressed(AQUI / "dados" / f"piloto-{ouvido}-{dur:g}.npz", ser=ser, log_r=log_r[:min(cont[6], MAXR)], log_u=log_u[:nU],
                         ex=ex[N:ne], ey=ey[N:ne], ez=ez[N:ne], r_src=r_src[:nr], r_dst=r_dst[:nr], r_len=r_len[:nr], r_ok=r_ok[:nr],
-                        r_born=r_born[:nr], r_f=r_f[:nr], r_part=r_part[:nr], u_nin=u_nin[N:ne], N=N, log_s=log_s[:cont[15]], log_f=log_f[:min(cont[12], len(log_f))], px=x, py=y, pz=z, r_atr=r_atr[:nr], r_sem=r_sem[:nr])
+                        r_born=r_born[:nr], r_f=r_f[:nr], r_part=r_part[:nr], u_nin=u_nin[N:ne], N=N, log_s=log_s[:cont[15]], log_f=log_f[:min(cont[12], len(log_f))], px=x, py=y, pz=z, r_atr=r_atr[:nr], r_sem=r_sem[:nr], log_c=log_c[:min(cont[16], len(log_c))], obs=obs)
     return res
 
 if __name__ == "__main__":

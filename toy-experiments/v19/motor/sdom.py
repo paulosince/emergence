@@ -103,7 +103,7 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             p_a, p_b, p_u, p_cnt, p_dmin, p_dmax, p_r0, p_r1, p_nv, p_vr,
             r_src, r_dst, r_len, r_atr, r_f, r_ok, r_part, r_sem, r_head, r_next, r_born, a_head, a_next,
             u_ring_t, u_ring_a, u_ring_r, u_ring_i, u_rn, u_refr, u_pend, u_last, u_q, u_s, u_qt, u_nin,
-            integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W, ht, hk, ha, hb, hc, hw, glob, t_ini, ne0, npar0, nr0):
+            integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W, ht, hk, ha, hb, hc, hw, glob, t_ini, ne0, npar0, nr0, obs, log_c):
     """Processa um ouvido. Emissores: pontos 0..N-1; Uints N.. . Devolve (n_emissores, n_pares, n_ramos)."""
     N = px.shape[0]
     ne = ne0; npar = npar0; nr = nr0          # o Sdom continua de onde parou (não zera entre apresentações)
@@ -345,6 +345,17 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             pos = u_rn[u] % RING
             u_ring_t[u - N, pos] = t; u_ring_a[u - N, pos] = amp; u_ring_r[u - N, pos] = r; u_ring_i[u - N, pos] = iid
             u_rn[u] += 1
+            # janela de observação (só registro para a página; não muda nada na dinâmica)
+            if obs[6] <= t <= obs[7] and obs[0] <= ex[u] <= obs[1] and obs[2] <= ey[u] <= obs[3] and obs[4] <= ez[u] <= obs[5]:
+                if cont[16] < log_c.shape[0]:
+                    vv = 0.0
+                    nn2 = min(u_rn[u], RING)
+                    for q4 in range(nn2):
+                        dt2 = t - u_ring_t[u - N, q4]
+                        if dt2 >= 0.0 and dt2 <= J_LENTA:
+                            vv += u_ring_a[u - N, q4] * (1.0 if dt2 <= J_RAPIDA else 0.5)
+                    log_c[cont[16], 0] = t; log_c[cont[16], 1] = r; log_c[cont[16], 2] = amp; log_c[cont[16], 3] = vv
+                cont[16] += 1
             if t < u_refr[u] or u_pend[u] >= 0.0:
                 continue
             v = 0.0
@@ -388,4 +399,4 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
 CONTADORES = ["emissões", "fracassos", "incidências que integraram (desceram por ramo)", "coincidências", "comparações",
               "pares", "ramos que passaram a funcionar", "variantes criadas", "participações (promoções)", "punições",
               "coincidências em pares já integrados (sem novas candidatas)", "sem lugar (território cheio ou capacidade esgotada)",
-              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio", "passos de crescimento registrados"]
+              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio", "passos de crescimento registrados", "chegadas na janela de observação"]
