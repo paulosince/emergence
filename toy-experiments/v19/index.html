@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="dados" content="visual/">
-<title>Sdom — instante zero (V0.19)</title>
+<title>Sdom — borda em luz (V0.19)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -21,8 +21,8 @@
   --nova: #b45cff;       /* nova constituição */
   --acesso: #3d7bff;     /* acesso a constituição existente */
   --modif: #29e7ff;      /* modificação do que existe */
-  --ponto: #c9d4d0;      /* ponto transdutivo: cor neutra, não decidida */
-  --ustr: #6f8794;       /* Ustr: cor neutra, não decidida */
+  --ponto: #8fa09b;      /* ponto transdutivo em repouso: cor neutra, não decidida */
+  --ustr: #a26b80;       /* Ustr: cor provisória (rosa-acinzentado), não decidida */
   --corpo: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   color-scheme: dark;
@@ -38,6 +38,10 @@ h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; tex
 #contagem { position: absolute; left: 10px; top: 8px; font: 500 .74rem var(--mono); text-shadow: 0 0 6px #000; pointer-events: none; font-variant-numeric: tabular-nums; line-height: 1.5; }
 #contagem .ok { color: var(--excit); }
 #contagem .zero { color: var(--apagado); }
+#tempo { flex: 1; min-width: 160px; accent-color: var(--excit); }
+#play { min-width: 92px; font-weight: 600; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+#rotulo-tempo { min-width: 80px; text-align: right; }
 #escala { position: absolute; right: 10px; bottom: 8px; font: 500 .72rem var(--mono); color: var(--apagado); text-shadow: 0 0 6px #000; pointer-events: none; text-align: right; }
 #carregando { position: absolute; inset: 0; display: grid; place-items: center; color: var(--apagado); font: .9rem var(--mono); }
 .controles { padding: 10px 16px 6px; display: grid; gap: 8px; }
@@ -46,7 +50,12 @@ h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; tex
 .grupo > span { color: var(--apagado); font-size: .8rem; margin-right: 2px; }
 button { font: 500 .85rem var(--corpo); color: var(--texto); background: #0d1417; border: 1px solid #2a3a3e; border-radius: 6px; padding: 7px 11px; cursor: pointer; }
 button[aria-pressed="true"] { border-color: var(--excit); color: var(--excit); box-shadow: 0 0 8px #39ff1433 inset; }
-button:focus-visible { outline: 2px solid var(--excit); outline-offset: 2px; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--excit); outline-offset: 2px; }
+button:disabled, input:disabled { opacity: .4; cursor: default; }
+#play { min-width: 92px; font-weight: 600; }
+#tempo { flex: 1; min-width: 160px; accent-color: var(--excit); }
+#rotulo-tempo { font: 500 .85rem var(--mono); font-variant-numeric: tabular-nums; min-width: 72px; text-align: right; }
+#obra { color: var(--apagado); font-size: .8rem; }
 .legenda { color: var(--apagado); font-size: .8rem; display: flex; flex-wrap: wrap; gap: 4px 14px; }
 .legenda i { display: inline-block; width: .7em; height: .7em; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
 details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .88rem; }
@@ -57,15 +66,26 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
 </head>
 <body>
 <header>
-  <h1>Sdom — instante zero</h1>
-  <div class="sub">V0.19. O espaço do Sdom em 3D, com as unidades nas posições reais calculadas pelo motor: as duas faixas de pontos transdutivos (Utrd) nas posições dos microfones e as Ustr ao lado. Ainda não há malha. Arraste para girar, pince ou role para entrar no Sdom.</div>
+  <h1>Sdom — a borda em luz</h1>
+  <div class="sub">V0.19. O espaço do Sdom em 3D, com as unidades nas posições reais calculadas pelo motor: as duas faixas de pontos transdutivos (Utrd) nas posições dos microfones e as Ustr ao lado. Ainda não há malha. Em reprodução: os mesmos dados da V0.18 (Gymnopédie n.º 1, Alciatore, 9–19 s): o som (amarelo) chega de fora e as incidências (verde) se formam nos pontos transdutivos. Arraste para girar, pince ou role para entrar no Sdom.</div>
 </header>
-<div id="palco" aria-label="Espaço 3D do Sdom no instante zero">
+<audio id="audio" preload="auto" src="visual/v18-satie/audio.mp3"></audio>
+<div id="palco" aria-label="Espaço 3D do Sdom">
   <div id="carregando">carregando as coordenadas…</div>
   <div id="contagem" aria-live="polite"></div>
   <div id="escala"></div>
 </div>
 <div class="controles">
+  <div class="linha">
+    <button id="play" aria-label="Tocar">▶ Tocar</button>
+    <input id="tempo" type="range" min="0" max="10" step="0.005" value="0" aria-label="Tempo">
+    <span id="rotulo-tempo" class="num">0,000 s</span>
+    <div class="grupo" role="group" aria-label="Velocidade"><span>Velocidade</span>
+      <button data-vel="1" aria-pressed="true">1×</button>
+      <button data-vel="0.25">¼×</button>
+      <button data-vel="0.05">1/20×</button>
+    </div>
+  </div>
   <div class="linha">
     <div class="grupo" role="group" aria-label="Vistas"><span>Vista</span>
       <button data-vista="geral">Geral</button>
@@ -77,13 +97,17 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
     <div class="grupo" role="group" aria-label="Camadas"><span>Mostrar</span>
       <button id="cam-pontos" aria-pressed="true">Pontos transdutivos</button>
       <button id="cam-ustr" aria-pressed="true">Ustr</button>
+      <button id="cam-som" aria-pressed="true">Som</button>
     </div>
   </div>
+  <div id="obra">Gymnopédie n.º 1 (Satie), Robin Alciatore (Musopen, domínio público), de 9 a 19 s — os mesmos dados da página da V0.18.</div>
   <div class="legenda">
     <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd)</span>
     <span><i style="background:var(--ustr)"></i>Ustr</span>
-    <span>Cores destas duas: neutras, ainda não decididas.</span>
-    <span>Reservadas para a formação: <b style="color:var(--som)">som</b> · <b style="color:var(--excit)">excitatória</b> · <b style="color:var(--inib)">inibitória</b> · <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b></span>
+    <span><b style="color:var(--som)">som chegando</b> (fora do Sdom)</span>
+    <span><b style="color:var(--excit)">incidência excitatória</b></span>
+    <span>Cores do ponto em repouso e da Ustr: provisórias.</span>
+    <span>Reservadas para a criação (ainda não há): <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b> · <b style="color:var(--inib)">inibitória</b></span>
   </div>
 </div>
 <details>
@@ -94,6 +118,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
     <li><b>Ustr:</b> uma a cada bloco de ~4 pontos vizinhos, um cubo para dentro da cabeça.</li>
     <li><b>Criado:</b> nada ainda. A contagem confere que não há Uint, Upro, Cpro nem ramos no instante zero (erro que encerrou a V0.17).</li>
     <li>A largura da faixa (16 cubos) é provisória, a confirmar com o responsável.</li>
+    <li><b>Reprodução:</b> são os dados já publicados da V0.18 (mesma gravação e trecho), copiados de <code>v18/borda/visual/satie/</code> para <code>v19/visual/v18-satie/</code>: atividade de cada coluna de sensibilidade de cada banda, em quadros de 5 ms, e o som em cada faixa no ouvido. Cada coluna da V0.18 corresponde a uma coluna da faixa 3D. Nada é recalculado.</li>
     <li>A página só exibe: não alimenta o motor.</li>
   </ul>
 </details>
@@ -118,22 +143,26 @@ document.getElementById("carregando").remove();
 const MM = dados.cubo_mm;
 
 // Eixos do Sdom → cena: x (esquerda/direita) → x; z (sensibilidade, vertical) → y; y (frequência, frente/trás) → −z. Unidade da cena: mm.
-function nuvem(lista, corBase, tamanhoMin) {
+function nuvem(lista, corBase, tamanhoMin, corAtiva) {
   const pos = [];
   for (const o of lista) {
     const x = dec(o.x, Int16Array), y = dec(o.y, Int16Array), z = dec(o.z, Int16Array);
     for (let i = 0; i < x.length; i++) pos.push(x[i] * MM, z[i] * MM, -y[i] * MM);
   }
+  return pontosDe(pos, corBase, tamanhoMin, corAtiva);
+}
+function pontosDe(pos, corBase, tamanhoMin, corAtiva) {
   const g = new THREE.BufferGeometry();
   g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  const luz = new Float32Array(pos.length / 3);
+  g.setAttribute("luz", new THREE.BufferAttribute(luz, 1));
   const m = new THREE.ShaderMaterial({
-    uniforms: { cor: { value: corBase }, tam: { value: MM }, min: { value: tamanhoMin }, escala: { value: 1 } },
-    vertexShader: `uniform float tam, min, escala; void main(){ vec4 mv = modelViewMatrix * vec4(position,1.0); gl_PointSize = max(min, tam * escala / -mv.z); gl_Position = projectionMatrix * mv; }`,
-    fragmentShader: `uniform vec3 cor; void main(){ vec2 c = gl_PointCoord - 0.5; float d = length(c); if (d > 0.5) discard; float a = smoothstep(0.5, 0.0, d); gl_FragColor = vec4(cor * (0.55 + 0.45 * a), a); }`,
+    uniforms: { cor: { value: corBase }, ativa: { value: corAtiva || corBase }, base: { value: corAtiva ? 0.55 : 1 }, tam: { value: MM }, min: { value: tamanhoMin }, escala: { value: 1 } },
+    vertexShader: `attribute float luz; varying float vL; uniform float tam, min, escala; void main(){ vL = luz; vec4 mv = modelViewMatrix * vec4(position,1.0); gl_PointSize = max(min * (1.0 + 1.2 * luz), tam * escala / -mv.z); gl_Position = projectionMatrix * mv; }`,
+    fragmentShader: `uniform vec3 cor, ativa; uniform float base; varying float vL; void main(){ vec2 c = gl_PointCoord - 0.5; float d = length(c); if (d > 0.5) discard; float a = smoothstep(0.5, 0.0, d); vec3 k = mix(cor * base, ativa * 1.25, vL); gl_FragColor = vec4(k * (0.55 + 0.45 * a), a * (base < 1.0 ? (0.35 + 0.65 * max(vL, 0.0)) : 1.0)); }`,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
-  return new THREE.Points(g, m);
+  const p = new THREE.Points(g, m); p.luz = luz; return p;
 }
-
 const cena = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(45, 1, 0.001, 2000);
 const render = new THREE.WebGLRenderer({ antialias: true });
@@ -144,7 +173,7 @@ const ctrl = new OrbitControls(camera, render.domElement);
 ctrl.enableDamping = true; ctrl.minDistance = 0.05; ctrl.maxDistance = 600;
 
 const O = dados.ouvidos;
-const pontos = nuvem([O.E.pontos, O.D.pontos], cor("--ponto"), 1.6);
+const pontos = nuvem([O.E.pontos, O.D.pontos], cor("--ponto"), 1.6, cor("--excit"));
 const ustr = nuvem([O.E.ustr, O.D.ustr], cor("--ustr"), 1.3);
 cena.add(pontos, ustr);
 
@@ -186,17 +215,88 @@ for (const [id, obj] of [["cam-pontos", pontos], ["cam-ustr", ustr]]) {
 }
 vista("geral");
 
+// ---------- reprodução dos dados da V0.18 ----------
+const V18 = BASE + "v18-satie/";   // cópia dos arquivos publicados da V0.18 (sem alterá-los)
+const meta = await (await fetch(V18 + "meta.json")).json();
+const bin = async n => new Uint8Array(await (await fetch(V18 + n)).arrayBuffer());
+const G = { E: await bin("grade-esq.bin"), D: await bin("grade-dir.bin") };
+const S = { E: await bin("som-esq.bin"), D: await bin("som-dir.bin") };
+const NF = meta.quadros, FR = meta.quadro, SUB = meta.sub, DUR = meta.dur, P99 = meta.verde_p99 || 255;
+if (SUB !== dados.largura) console.warn("colunas da V0.18 ≠ largura da faixa");
+// célula (banda, coluna) de cada ponto, na mesma ordem das posições (E depois D)
+const celula = [], lados = [];
+for (const k of ["E", "D"]) {
+  const b = dec(O[k].pontos.banda, Uint8Array), z = dec(O[k].pontos.z, Int16Array);
+  for (let i = 0; i < b.length; i++) { celula.push(b[i] * SUB + (z[i] + (dados.largura >> 1))); lados.push(k); }
+}
+const nE = O.E.n_pontos;
+// som: uma fileira de pontos fora de cada faixa, ao longo das bandas (o som vem de fora do Sdom)
+const somPos = [], somBanda = [];
+for (const [k, lado] of [["E", -1], ["D", 1]]) {
+  const b = dec(O[k].pontos.banda, Uint8Array), y = dec(O[k].pontos.y, Int16Array);
+  const y0 = new Array(64).fill(1e9), y1 = new Array(64).fill(-1e9);
+  for (let i = 0; i < b.length; i++) { y0[b[i]] = Math.min(y0[b[i]], y[i]); y1[b[i]] = Math.max(y1[b[i]], y[i]); }
+  for (let f = 0; f < 64; f++) for (let yy = y0[f]; yy <= y1[f]; yy += 3)
+    for (const zz of [-4, 0, 4]) { somPos.push((lado * 2500 + lado * 40) * MM, zz * MM, -yy * MM); somBanda.push(f); }
+}
+const som = pontosDe(somPos, cor("--som"), 1.4, cor("--som"));
+const nSomE = somBanda.length / 2;
+cena.add(som);
+document.getElementById("cam-som").onclick = e => { som.visible = !som.visible; e.currentTarget.setAttribute("aria-pressed", som.visible); };
+
+const audio = document.getElementById("audio"), barra = document.getElementById("tempo"), rot = document.getElementById("rotulo-tempo");
+let T = 0, tocando = false, vel = 1, ultimo = performance.now();
+barra.max = DUR - 0.005;
+function irPara(t) { T = Math.min(Math.max(t, 0), DUR - 0.005); barra.value = T; if (!audio.paused) try { audio.currentTime = T; } catch (e) {} }
+barra.oninput = () => irPara(+barra.value);
+function sincronizar() {
+  if (tocando && vel === 1) { try { audio.currentTime = T; } catch (e) {} audio.play().catch(() => {}); } else audio.pause();
+}
+document.getElementById("play").onclick = e => {
+  tocando = !tocando; e.currentTarget.textContent = tocando ? "❚❚ Pausar" : "▶ Tocar";
+  if (tocando && T >= DUR - 0.01) irPara(0); sincronizar();
+};
+document.querySelectorAll("[data-vel]").forEach(b => b.onclick = () => {
+  vel = +b.dataset.vel; document.querySelectorAll("[data-vel]").forEach(x => x.setAttribute("aria-pressed", x === b)); sincronizar();
+});
+function aplicar() {
+  const fr = Math.min(NF - 1, Math.floor(T / FR));
+  const L = pontos.luz;
+  for (let i = 0; i < L.length; i++) {
+    const g = (i < nE ? G.E : G.D)[fr * 64 * SUB + celula[i]];
+    const alvo = Math.pow(Math.min(1, g / P99), 0.85);
+    L[i] = Math.max(alvo, L[i] * 0.82);                 // rastro curto, só visual
+  }
+  pontos.geometry.attributes.luz.needsUpdate = true;
+  const LS = som.luz;
+  for (let i = 0; i < LS.length; i++) {
+    const v = (i < nSomE ? S.E : S.D)[fr * 64 + somBanda[i]] / 255 * meta.som_db_max;
+    LS[i] = Math.pow(Math.max(0, Math.min(1, (v - 20) / 55)), 1.2);   // 20 a 75 dB SPL, como na V0.18
+  }
+  som.geometry.attributes.luz.needsUpdate = true;
+  rot.textContent = (meta.ini + T).toFixed(3).replace(".", ",") + " s";
+}
+function avancar(agora) {
+  const dt = Math.min(0.1, (agora - ultimo) / 1000); ultimo = agora;
+  if (tocando) {
+    if (vel === 1 && !audio.paused && audio.currentTime > 0) T = audio.currentTime; else T += dt * vel;
+    if (T >= DUR - 0.005) { T = DUR - 0.005; tocando = false; document.getElementById("play").textContent = "▶ Tocar"; audio.pause(); }
+    barra.value = T;
+  }
+  aplicar();
+}
+
 function tamanho() {
   const w = palco.clientWidth, h = palco.clientHeight;
   render.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
   const esc = h / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) * render.getPixelRatio();
-  pontos.material.uniforms.escala.value = esc; ustr.material.uniforms.escala.value = esc;
+  for (const o of [pontos, ustr, typeof som !== "undefined" ? som : null]) if (o) o.material.uniforms.escala.value = esc;
 }
 new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
 
 const tmp = new THREE.Vector3();
 (function quadro() {
-  requestAnimationFrame(quadro); ctrl.update(); render.render(cena, camera);
+  requestAnimationFrame(quadro); avancar(performance.now()); ctrl.update(); render.render(cena, camera);
   const w = palco.clientWidth, h = palco.clientHeight;
   for (const r of rotulos) {
     tmp.copy(r.v).project(camera);
