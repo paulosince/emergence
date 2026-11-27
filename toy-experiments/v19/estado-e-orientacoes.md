@@ -49,6 +49,8 @@ Repositório `paulosince/emergence`, ramo `claude/v19`. Marcas: [R] responsável
 - **Onde nasce a Uint:** onde Upros com fracassos coincidentes se encontram. No mesmo ouvido, isso fica perto da faixa; entre os ouvidos, no caminho entre eles [R].
 - **Toda Upro nasce num ponto transdutivo** (as da borda) **ou numa Uint**, ligada a uma Uint candidata (exuberância da V0.17).
 - **Crescimento por coincidência [R, 27/11; revê "nasce com o comprimento" de 24/11]:** a Upro cresce rumo à Uint, **1 cubo a cada ~12 coincidências do par**, e só funciona quando chega (a latência é o próprio crescimento).
+- **Exuberância pela incerteza [R, 27/11]:** diferença de chegada do par estável → 1 candidata; variável → candidatas espalhadas pela faixa observada (≥1 cubo entre elas); integrou → o par para de ganhar candidatas (Munz et al. 2014).
+- **"Em sua maioria" [R, 27/11]:** o resultado não é limpo; erros, ruído representado e sons irrelevantes ganhando peso são esperados. O genérico (constitutivo, generalizável, abstraível) deve ser compartilhado e reutilizado em relações novas; a Chaconne deve reutilizar o genérico da Gymnopédie. A medida diz o que foi reutilizado (genérico ou específico) e o que nasceu novo. O motor segue determinístico.
 - **Alcance só local [R, 27/11]:** a primeira camada é local e tonotópica, como as primeiras estações do cérebro (`investigacao-alcance-inicial.md`). O encontro dos ouvidos e as bandas distantes ficam para quando houver crescimento de longo alcance. A medida precisa mostrar quanto da reutilização vai além do espectro.
 - **Candidatas por coincidência: 3**, com atrasos −10%, igual e +10% [R, pacote].
 - **A Ustr se multiplica pela carga,** medida em fracassos registrados por hora. O teto será calibrado no primeiro ensaio [R].
