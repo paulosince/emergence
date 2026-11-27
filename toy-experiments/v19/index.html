@@ -25,6 +25,7 @@
   --ponto: #8fa09b;      /* ponto transdutivo em repouso: cor neutra, não decidida */
   --ustr: #a26b80;       /* Ustr: cor provisória (rosa-acinzentado), mantida pelo responsável em 27/11 */
   --grade: #2b3c3a;      /* arestas dos cubos (só de perto) */
+  --uint: #cfd6d4;       /* Uint e ramo já formados: cor PROVISÓRIA (neutra), a confirmar */
   --corpo: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   color-scheme: dark;
@@ -100,6 +101,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
       <button id="cam-fios" aria-pressed="true">Sinal elétrico</button>
       <button id="cam-inc" aria-pressed="true">Incidências</button>
       <button id="cam-grade" aria-pressed="true">Cubos</button>
+      <button id="cam-malha" aria-pressed="true">Malha (piloto, ouvido E)</button>
     </div>
   </div>
   <div id="obra">Gymnopédie n.º 1 (Satie), Robin Alciatore (Musopen, domínio público), de 9 a 19 s — os mesmos dados da página da V0.18.</div>
@@ -108,6 +110,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
     <span><b style="color:var(--som)">som</b>: ondas esféricas que se expandem a partir dos dois alto-falantes da sala da V0.18; o brilho de cada crista é o nível do canal no instante em que ela saiu. Param no microfone (a passagem em volta da cabeça não é desenhada). Velocidade ilustrativa.</span>
     <span><b style="color:var(--eletrico)">sinal elétrico</b> (cor provisória): um fio do microfone até a base da faixa, que se abre em 64 fios, um por banda. Brilho = nível da banda no ouvido (V0.18), com o atraso real de cada filtro (≈0,5 ms no agudo a ≈16 ms no grave; dá para ver em 1/20×). Os pulsos só indicam o sentido. Os fios não são unidades do Sdom: desenham o caminho do sinal da V0.18.</span>
     <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (cores provisórias). As bolas ocupam 45% do cubo só para a distância entre elas aparecer: no modelo, as unidades não têm tamanho.</span>
+    <span><b>Malha do piloto (ouvido esquerdo):</b> o que o motor mínimo constituiu nestes 10 s, a partir do instante zero. <b style="color:var(--nova)">Roxo</b> = nova constituição: a Uint nascendo e cada ramo crescendo cubo a cubo (1 cubo a cada ~12 coincidências do par), passo a passo como o motor registrou. <b style="color:var(--acesso)">Azul</b> = disparo de uma Uint (leitura minha: acesso a uma constituição já formada; a confirmar). Já formados, Uint e ramo ficam em cor neutra (provisória). O motor guarda o comprimento de cada ramo, não o traçado: o ramo-base aparece reto e a variante (mais longa) em arco, só para mostrar o excesso de comprimento. Piloto com escolhas provisórias (ver <code>piloto-10s.md</code>): não é resultado da V0.19.</span>
     <span><b style="color:var(--excit)">incidência excitatória</b>: fóton que sai da Utrd ativa para dentro e some. Ainda não há Upro, então passa pelas Ustr sem interagir.</span>
     <span>No desenho, o microfone está 3 mm para fora da faixa, para o fio aparecer (no motor, a faixa fica na posição do microfone).</span>
     <span>Reservadas para a criação (ainda não há): <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b> · <b style="color:var(--inib)">inibitória</b></span>
@@ -193,7 +196,7 @@ function bolas(centros, raio, minPx, corBase, corAtiva) {
       void main(){ vec4 mv = modelViewMatrix * vec4(centro, 1.0); float r = max(raio, 0.5 * minPx * (-mv.z) * uPix);
         mv.xy += position.xy * r; vC = position.xy; vL = luz; ${NEVOA} vFog = max(vFog, semNevoa); gl_Position = projectionMatrix * mv; }`,
     fragmentShader: `uniform vec3 cor, ativa, uFundo; varying vec2 vC; varying float vL, vFog;
-      void main(){ float d2 = dot(vC, vC); if (d2 > 1.0) discard; vec3 n = vec3(vC, sqrt(1.0 - d2));
+      void main(){ if (vL < -0.5) discard; float d2 = dot(vC, vC); if (d2 > 1.0) discard; vec3 n = vec3(vC, sqrt(1.0 - d2));
         float dif = max(dot(n, normalize(vec3(-0.35, 0.6, 0.72))), 0.0), rim = pow(1.0 - n.z, 3.0);
         vec3 repouso = cor * (0.07 + 0.45 * dif) + cor * rim * 0.35;
         vec3 aceso = ativa * (0.55 + 1.3 * dif) + ativa * rim * 1.6;
@@ -408,6 +411,50 @@ function moverFotons(dtv, fr, esc) {
   marcar(fotons);
 }
 
+
+// ---------- malha do piloto: o que o motor constituiu (só o que está nos registros dele) ----------
+const malha = await (async () => {
+  try {
+    const mj = await (await fetch(BASE + "piloto-esq.json")).json();
+    const buf = await (await fetch(BASE + "piloto-esq.bin")).arrayBuffer();
+    const A = (n, T) => new T(buf, mj[n].off, mj[n].n);
+    const ut = A("u_t", Uint16Array), uxyz = A("u_xyz", Int16Array), st = A("s_t", Uint16Array), sseg = A("s_seg", Int16Array);
+    const ft = A("f_t", Uint16Array), fu = A("f_u", Uint16Array), rft = A("r_fun_t", Uint16Array), SB = mj.sub;
+    const nU = ut.length, cen = new Float32Array(nU * 3);
+    for (let i = 0; i < nU; i++) { cen[3 * i] = uxyz[3 * i] * MM; cen[3 * i + 1] = uxyz[3 * i + 2] * MM; cen[3 * i + 2] = -uxyz[3 * i + 1] * MM; }
+    const uints = bolas(cen, R_UN, 1.5, cor("--uint"), cor("--nova")); uints.luz.fill(-1); cena.add(uints);
+    // ramos: um segmento por passo de crescimento, aceso a partir do instante do passo
+    const nS = st.length, pos = new Float32Array(nS * 6), tn = new Float32Array(nS * 2);
+    for (let i = 0; i < nS; i++) {
+      for (let q = 0; q < 2; q++) {
+        const o = 6 * i + 3 * q;
+        pos[o] = sseg[o] / SB * MM; pos[o + 1] = sseg[o + 2] / SB * MM; pos[o + 2] = -sseg[o + 1] / SB * MM;
+        tn[2 * i + q] = st[i] / 1000;
+      }
+    }
+    const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3)); g.setAttribute("tn", new THREE.BufferAttribute(tn, 1));
+    const mat = new THREE.ShaderMaterial({ uniforms: { ...COMUM, uT: { value: 0 }, nova: { value: cor("--nova") }, feita: { value: cor("--uint") } },
+      vertexShader: `attribute float tn; uniform float uT, uPix, uFoco; varying float vA, vN, vFog; void main(){ vec4 mv = modelViewMatrix * vec4(position, 1.0); ${NEVOA}
+        float idade = uT - tn; vA = idade < 0.0 ? 0.0 : 1.0; vN = idade < 0.0 ? 0.0 : max(0.0, 1.0 - idade / 0.5); gl_Position = projectionMatrix * mv; }`,
+      fragmentShader: `uniform vec3 nova, feita; varying float vA, vN, vFog; void main(){ if (vA < 0.5) discard; vec3 k = mix(feita * 0.05, nova * 0.9, vN); gl_FragColor = vec4(k * vFog, 1.0); }`,
+      transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+    const ramos = new THREE.LineSegments(g, mat); ramos.frustumCulled = false; cena.add(ramos);
+    // disparos: clarão azul na Uint, no instante registrado
+    const disp = particulas(ft.length, 0.012, 2.2, cor("--acesso"));
+    for (let i = 0; i < ft.length; i++) disp.pos.set(cen.subarray(3 * fu[i], 3 * fu[i] + 3), 3 * i);
+    cena.add(disp);
+    const ate = (arr, v) => { let lo = 0, hi = arr.length; while (lo < hi) { const m = (lo + hi) >> 1; if (arr[m] <= v) lo = m + 1; else hi = m; } return lo; };
+    const ft_ord = Array.from(ft).sort((a, b) => a - b);
+    return { uints, ramos, disp, objs: [uints, ramos, disp], atualizar(T) {
+        const ms = T * 1000, L = uints.luz;
+        for (let i = 0; i < nU; i++) L[i] = ut[i] > ms ? -1 : Math.max(0, 1 - (ms - ut[i]) / 600);
+        uints.aLuz.needsUpdate = true; mat.uniforms.uT.value = T;
+        const D = disp.luz; for (let i = 0; i < ft.length; i++) { const d = ms - ft[i]; D[i] = d < 0 || d > 150 ? 0 : 1 - d / 150; }
+        marcar(disp);
+        return { u: ate(ut, ms), r: ate(rft, ms), f: ate(ft_ord, ms) };
+      } };
+  } catch (e) { console.warn("sem dados do piloto", e); return null; }
+})();
 // ---------- rótulos (com prioridade: os de trás somem se sobrepõem os da frente) ----------
 const rotulos = [];
 function rotulo(texto, x, y, z, ate = Infinity, cls = "") {
@@ -434,9 +481,9 @@ cena.add(new THREE.Line(linhaG, new THREE.LineDashedMaterial({ color: 0x1f3a40, 
 const c0 = dados.contagem;
 document.getElementById("contagem").innerHTML =
   `pontos transdutivos <b>${fmt(c0.pontos)}</b> · Ustr <b>${fmt(c0.ustr)}</b><br>` +
-  `<span class="zero">Uint ${c0.uint} · Upro ${c0.upro} · Cpro ${c0.cpro} · ramos ${c0.ramos}</span><br>` +
-  `<span class="ok">conferência do instante zero: nada representacional</span>`;
-const escalaEl = document.getElementById("escala");
+  `<span class="zero">instante zero: Uint ${c0.uint} · Upro ${c0.upro} · Cpro ${c0.cpro} · ramos ${c0.ramos}</span><br>` +
+  `<span class="ok">conferência do instante zero: nada representacional</span><br><span id="vivo"></span>`;
+const escalaEl = document.getElementById("escala"), vivoEl = document.getElementById("vivo");
 const escalaFixa = `faixa ${O.E.comprimento_cubos} × ${LARG} cubos (${(O.E.comprimento_cubos * MM).toFixed(1)} × ${(LARG * MM).toFixed(2)} mm)`;
 
 // ---------- vistas ----------
@@ -454,9 +501,9 @@ function vista(n) {
   camera.position.copy(a).add(p.clone().sub(a).multiplyScalar(k)); ctrl.target.copy(a); ctrl.update();
 }
 document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
-const camadas = { "cam-pontos": [pontos], "cam-ustr": [ustr], "cam-som": [ondas, altos], "cam-fios": [fios, mics], "cam-inc": [fotons], "cam-grade": [grade] };
+const camadas = { "cam-pontos": [pontos], "cam-ustr": [ustr], "cam-som": [ondas, altos], "cam-fios": [fios, mics], "cam-inc": [fotons], "cam-grade": [grade], "cam-malha": malha ? malha.objs : [] };
 for (const [id, objs] of Object.entries(camadas)) {
-  const b = document.getElementById(id);
+  const b = document.getElementById(id); if (!objs.length) { b.hidden = true; continue; }
   b.onclick = () => { const v = !objs[0].visible; objs.forEach(o => o.visible = v); b.setAttribute("aria-pressed", v); };
 }
 
@@ -506,6 +553,7 @@ const tmp = new THREE.Vector3(); let nq = 0;
   grade.material.uniforms.alfa.value = Math.max(0, Math.min(1, (1.0 - dist) / 0.7)) * 0.55;
   fios.material.uniforms.uT.value = T; fios.material.uniforms.uTv.value = Tv;
   moverOndas(); moverFotons(dtv, fr, Math.max(0.05, Math.min(20, dist))); aplicar(fr);
+  if (malha) { const v = malha.atualizar(T); if (nq % 6 === 0) vivoEl.innerHTML = `piloto, ouvido E, até agora: <b style="color:var(--nova)">Uints ${fmt(v.u)}</b> · ramos funcionando ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.f)}</span>`; }
   composer.render();
   const w = palco.clientWidth, h = palco.clientHeight, postos = [];
   for (const r of rotulos) {

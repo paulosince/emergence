@@ -102,7 +102,7 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             p_a, p_b, p_u, p_cnt, p_dmin, p_dmax, p_r0, p_r1, p_nv, p_vr,
             r_src, r_dst, r_len, r_atr, r_f, r_ok, r_part, r_sem, r_head, r_next, r_born, a_head, a_next,
             u_ring_t, u_ring_a, u_ring_r, u_ring_i, u_rn, u_refr, u_pend, u_last, u_q, u_s, u_qt, u_nin,
-            integ, cont, ser, log_r, log_u, t_fim, W):
+            integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W):
     """Processa um ouvido. Emissores: pontos 0..N-1; Uints N.. . Devolve (n_emissores, n_pares, n_ramos)."""
     N = px.shape[0]
     ne = N; npar = 0; nr = 0
@@ -272,6 +272,13 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
                 if supr:
                     cont[10] += 1
                 cn = p_cnt[pi]
+                if cn % PASSO_COINC == 0:
+                    stp = cn // PASSO_COINC
+                    for q2 in range(2 + p_nv[pi]):
+                        rr = p_r0[pi] if q2 == 0 else (p_r1[pi] if q2 == 1 else p_vr[pi, q2 - 2])
+                        if r_ok[rr] == 0 and stp <= r_len[rr] and cont[15] < log_s.shape[0]:
+                            log_s[cont[15], 0] = t; log_s[cont[15], 1] = rr; log_s[cont[15], 2] = stp
+                            cont[15] += 1
                 for q2 in range(2):
                     rr = p_r0[pi] if q2 == 0 else p_r1[pi]
                     if r_ok[rr] == 0 and cn >= PASSO_COINC * max(r_len[rr], 1):
@@ -306,6 +313,10 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
                             a_next[rr] = a_head[src]; a_head[src] = rr
                             p_vr[pi, p_nv[pi]] = rr; p_nv[pi] += 1
                             cont[7] += 1
+                            for stp in range(1, min(cn // PASSO_COINC, Lv) + 1):
+                                if cont[15] < log_s.shape[0]:
+                                    log_s[cont[15], 0] = t; log_s[cont[15], 1] = rr; log_s[cont[15], 2] = stp
+                                    cont[15] += 1
                     for vv in range(p_nv[pi]):
                         rr = p_vr[pi, vv]
                         if r_ok[rr] == 0 and cn >= PASSO_COINC * r_len[rr]:
@@ -355,6 +366,8 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             # ---- disparo da Uint: emite pela sua Upro (reserva de efeito da V0.18) ----
             u = a
             u_pend[u] = -1.0; u_refr[u] = t + REFR_UINT; u_last[u] = t; u_nin[u] += 1
+            if cont[12] < log_f.shape[0]:
+                log_f[cont[12], 0] = t; log_f[cont[12], 1] = u - N
             cont[12] += 1
             q, s = _reserva(u_q[u], u_s[u], t - u_qt[u], PG)
             m = q
@@ -371,4 +384,4 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
 CONTADORES = ["emissões", "fracassos", "incidências que integraram (desceram por ramo)", "coincidências", "comparações",
               "pares", "ramos que passaram a funcionar", "variantes criadas", "participações (promoções)", "punições",
               "coincidências em pares já integrados (sem novas candidatas)", "sem lugar (território cheio ou capacidade esgotada)",
-              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio"]
+              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio", "passos de crescimento registrados"]
