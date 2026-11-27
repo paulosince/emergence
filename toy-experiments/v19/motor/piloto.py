@@ -78,7 +78,7 @@ def rodar(arq, ouvido, dur):
                                 r_src, r_dst, r_len, r_atr, r_f, r_ok, r_part, r_sem, r_head, r_next, r_born, a_head, a_next,
                                 u_ring_t, u_ring_a, u_ring_r, u_ring_i, u_rn, u_refr, u_pend, u_last, u_q, u_s, u_qt, u_nin,
                                 integ, cont, ser, log_r, log_u, log_s, log_f, float(dur), sdom.J_RAPIDA,
-                                *heap, glob, float(ev_t[0]), N, 0, 0, obs, log_c)
+                                *heap, glob, float(ev_t[0]), N, 0, 0, obs, log_c, np.zeros(E, np.int64), np.zeros((1, 3)), np.zeros(MAXR, np.int64))
     seg = time.time() - t0
     nU = ne - N
     res = dict(ouvido=ouvido, dur_simulada_s=dur, tempo_maquina_s=round(seg, 1), segundos_por_segundo=round(seg / dur, 2),

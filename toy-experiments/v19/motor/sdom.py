@@ -109,7 +109,7 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             p_a, p_b, p_u, p_cnt, p_dmin, p_dmax, p_r0, p_r1, p_nv, p_vr,
             r_src, r_dst, r_len, r_atr, r_f, r_ok, r_part, r_sem, r_head, r_next, r_born, a_head, a_next,
             u_ring_t, u_ring_a, u_ring_r, u_ring_i, u_rn, u_refr, u_pend, u_last, u_q, u_s, u_qt, u_nin,
-            integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W, ht, hk, ha, hb, hc, hw, glob, t_ini, ne0, npar0, nr0, obs, log_c, tr_cnt, log_t):
+            integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W, ht, hk, ha, hb, hc, hw, glob, t_ini, ne0, npar0, nr0, obs, log_c, tr_cnt, log_t, r_ch):
     """Processa um ouvido. Emissores: pontos 0..N-1; Uints N.. . Devolve (n_emissores, n_pares, n_ramos)."""
     N = px.shape[0]
     ne = ne0; npar = npar0; nr = nr0          # o Sdom continua de onde parou (não zera entre apresentações)
@@ -159,15 +159,19 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
                         log_t[cont[18], 0] = t; log_t[cont[18], 1] = e; log_t[cont[18], 2] = tr_cnt[e] / TR_PASSOS
                         cont[18] += 1
                     continue
+                cont[22] += 1                  # incidência que entrou na fibra (caminho percorrido)
                 nh = _push(nh, ht, hk, ha, hb, hc, hw, t + TR_S, 3, e, 0, iid, m)
                 continue
             r = r_head[e]
             if r < 0:
-                # sem ramo funcionando: o fracasso é imediato, registrado pela Ustr do território
+                # sem ramo adiante: a incidência parou aqui (na ponta da fibra, ou na Uint que a emitiu) sem integrar;
+                # a Ustr do território registra (incidência que não integrou)
+                cont[20] += 1
                 fr_t = t; fr_e = e
                 tipo = 7
             else:
                 dmax = 0.0
+                cont[21] += 1                      # incidência que desceu por ramos (caminho percorrido)
                 while r >= 0:
                     nh = _push(nh, ht, hk, ha, hb, hc, hw, t + r_atr[r], 0, r_dst[r], r, iid, m * r_f[r])
                     if r_atr[r] > dmax: dmax = r_atr[r]
@@ -179,6 +183,7 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             if integ[b & MASK] != 0:
                 cont[2] += 1
                 continue
+            cont[19] += 1                          # parou numa Uint sem integrar
             fr_t = w; fr_e = a; tipo = 7
         if tipo == 7:
             # ---- fracasso: a Ustr compara com os fracassos vivos dos outros membros do território ----
@@ -355,6 +360,7 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
         if tipo == 0:
             # ---- chegada numa Uint ----
             u = a; r = b; iid = c; amp = w
+            r_ch[r] += 1                           # chegada por este ramo (para medir quais malhas são percorridas)
             # punição: chegada depois do disparo, até 34 ms
             if u_last[u] >= 0.0 and t > u_last[u] and t - u_last[u] <= PUN_JANELA:
                 r_f[r] -= FRAC_PUN * r_f[r]
@@ -414,7 +420,7 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
     glob[0] = nh; glob[1] = base_id + nev; glob[2] = iu_next
     return ne, npar, nr
 
-CONTADORES = ["emissões", "fracassos", "incidências que integraram (desceram por ramo)", "coincidências", "comparações",
+CONTADORES = ["emissões", "incidências que não integraram", "incidências que integraram (desceram por ramo)", "coincidências", "comparações",
               "pares", "ramos que passaram a funcionar", "variantes criadas", "participações (promoções)", "punições",
               "coincidências em pares já integrados (sem novas candidatas)", "sem lugar (território cheio ou capacidade esgotada)",
-              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio", "passos de crescimento registrados", "chegadas na janela de observação", "incidências que expiraram no ponto (fibra crescendo)", "marcas de crescimento das fibras"]
+              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio", "passos de crescimento registrados", "chegadas na janela de observação", "parou no ponto (fibra ainda crescendo)", "marcas de crescimento das fibras", "parou numa Uint sem integrar", "parou sem ramo adiante (ponta da fibra ou Uint)", "desceu por ramos", "entrou na fibra"]

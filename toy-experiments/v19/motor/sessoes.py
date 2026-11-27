@@ -76,7 +76,7 @@ def main(ouvido, gravs):
     u_ = [np.full((MAXU, R), -1e9), np.zeros((MAXU, R)), np.zeros((MAXU, R), np.int64), np.zeros((MAXU, R), np.int64),
           A(E), np.full(E, -1.0), np.full(E, -1.0), np.full(E, -1.0), np.ones(E), np.ones(E), np.zeros(E), A(E)]
     integ = np.zeros(1 << 24, np.int8); cont = np.zeros(len(sdom.CONTADORES), np.int64)
-    tr_cnt = np.zeros(E, np.int64); log_t = np.zeros((600_000, 3))
+    tr_cnt = np.zeros(E, np.int64); log_t = np.zeros((600_000, 3)); r_ch = np.zeros(MAXR, np.int64)
     log_r = np.zeros((1, 5)); log_u = np.zeros((MAXU, 5)); log_s = np.zeros((1, 3)); log_f = np.zeros((1, 2))
     H = sdom.HCAP
     heap = [np.empty(H), np.empty(H, np.int8), np.empty(H, np.int64), np.empty(H, np.int64), np.empty(H, np.int64), np.empty(H)]
@@ -91,7 +91,7 @@ def main(ouvido, gravs):
         ne, npar, nr = sdom.simular(ev_t, ev_p, ev_m, lado, x, y, z, pu, ux, uy, uz, BU, by0, bz0, PG, par["fG"],
                                     S["ex"], S["ey"], S["ez"], S["eu"], mem, nmem, pslot, lastf, cubos, *p_, *r_, *u_,
                                     integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, sdom.J_RAPIDA, *heap, glob,
-                                    float(ev_t[0]) if len(ev_t) else t_fim, ne, npar, nr, OBS0, LOGC0, tr_cnt, log_t)
+                                    float(ev_t[0]) if len(ev_t) else t_fim, ne, npar, nr, OBS0, LOGC0, tr_cnt, log_t, r_ch)
     LIMITE = float(os.environ.get("V19_LIMITE", "1e9")); SALVAR_CADA = float(os.environ.get("V19_SALVAR", "300")); ult_salvo = [time.time()]
     CK = DADOS / f"estado-{ouvido}.pkl"
     E_ = ["ex", "ey", "ez", "eu"]
@@ -100,7 +100,7 @@ def main(ouvido, gravs):
         st = dict(ne=ne, npar=npar, nr=nr, T0=T0, ap=ap, ini=ini, inst=inst, B=B, c0=c0, ne0=ne0, nr0=nr0, gravs=[str(g) for g in gravs],
                   S={k: S[k][:ne].copy() for k in E_}, mem=mem, nmem=nmem, pslot=pslot, lastf=lastf[:ne].copy(),
                   p_=[a_[:npar].copy() for a_ in p_], r_=[(a_[:ne] if a_.shape[0] == E else a_[:nr]).copy() for a_ in r_],
-                  u_=[(a_[:nU] if i < 4 else a_[:ne]).copy() for i, a_ in enumerate(u_)], integ=integ, cont=cont, tr_cnt=tr_cnt[:N].copy(), log_t=log_t[:cont[18]].copy(),
+                  u_=[(a_[:nU] if i < 4 else a_[:ne]).copy() for i, a_ in enumerate(u_)], integ=integ, cont=cont, tr_cnt=tr_cnt[:N].copy(), log_t=log_t[:cont[18]].copy(), r_ch=r_ch[:nr].copy(),
                   log_u=log_u[:nU].copy(), heap=[h[:nh].copy() for h in heap], glob=glob, tempo=time.time() - t_ini + t_antes)
         tmp = CK.with_suffix(".tmp")
         with open(tmp, "wb") as f: pickle.dump(st, f, protocol=5)
@@ -116,7 +116,7 @@ def main(ouvido, gravs):
         for a_, v in zip(r_, st["r_"]): a_[:len(v)] = v
         for a_, v in zip(u_, st["u_"]): a_[:len(v)] = v
         integ[:] = st["integ"]; cont[:] = st["cont"]; log_u[:ne - N] = st["log_u"]
-        tr_cnt[:N] = st["tr_cnt"]; log_t[:len(st["log_t"])] = st["log_t"]
+        tr_cnt[:N] = st["tr_cnt"]; log_t[:len(st["log_t"])] = st["log_t"]; r_ch[:len(st["r_ch"])] = st["r_ch"]
         for h, v in zip(heap, st["heap"]): h[:len(v)] = v
         glob[:] = st["glob"]
         for i in range(N, ne): cubos[int(sdom._chave(int(S["ex"][i]), int(S["ey"][i]), int(S["ez"][i])))] = i
@@ -157,7 +157,7 @@ def main(ouvido, gravs):
         inst.append(dict(apresentacao=ap + 1, gravacao=pathlib.Path(grav).stem, inicio=T0, dur=dur, ne=int(ne), nr=int(nr),
                          uints=int(ne - N), uints_novas=int(ne - ne0), ramos=int(nr), ramos_novos=int(nr - nr0),
                          contadores={k: int(v) for k, v in zip(sdom.CONTADORES, cont - c0)},
-                         u_nin=u_[11][N:ne].copy(), r_part=r_[6][:nr].copy(), tr=tr_cnt[:N].copy()))
+                         u_nin=u_[11][N:ne].copy(), r_part=r_[6][:nr].copy(), tr=tr_cnt[:N].copy(), rch=r_ch[:nr].copy()))
         T0 += dur + SILENCIO
         salvar(ap + 1, 0.0, None, cont.copy(), ne, nr)
     np.savez_compressed(DADOS / f"sessoes-{ouvido}.npz", N=N, px=x, py=y, pz=z,
@@ -165,6 +165,7 @@ def main(ouvido, gravs):
                         r_src=r_[0][:nr], r_dst=r_[1][:nr], r_len=r_[2][:nr], r_ok=r_[5][:nr], r_born=r_[10][:nr], r_f=r_[4][:nr],
                         r_sem=r_[7][:nr], log_t=log_t[:cont[18]], nervo=sdom.NERVO, tr_passos=sdom.TR_PASSOS, pxe=xe,
                         **{f"ap{i['apresentacao']}_tr": i.pop("tr") for i in inst},
+                        **{f"ap{i['apresentacao']}_rch": i.pop("rch") for i in inst},
                         **{f"ap{i['apresentacao']}_u_nin": i.pop("u_nin") for i in inst},
                         **{f"ap{i['apresentacao']}_r_part": i.pop("r_part") for i in inst},
                         resumo=json.dumps(inst))

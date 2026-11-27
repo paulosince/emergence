@@ -44,19 +44,19 @@ Repositório `paulosince/emergence`, ramo `claude/v19`. Marcas: [R] responsável
 - **Na implementação, o espaço é guardado de forma esparsa.**
 
 ### 4.3 Criação (o que a Ustr faz na V0.19)
-- **Fracasso** = incidência que expirou sem integrar. No começo, tudo é fracasso.
-- **Coincidência:** dois fracassos coincidem quando caem na **janela de integração da Uint** (0,3 ms rápida; 0,9 ms lenta). A Ustr compara só dentro dessa janela [R, 24/11].
-- **Onde nasce a Uint:** onde Upros com fracassos coincidentes se encontram. No mesmo ouvido, isso fica perto da faixa; entre os ouvidos, no caminho entre eles [R].
+- **Incidência que não integrou** [R 27/11; antes "fracasso"]: só se descreve **onde ela parou** (numa Uint sem integrar; sem ramo adiante; no ponto, com a fibra crescendo), nunca o porquê: de fora não dá para saber se chegou aonde tinha de chegar, se a dinâmica mudou, se falta convergência (e algo precisa ser criado) ou se é ruído.
+- **Coincidência:** duas incidências que não integraram coincidem quando caem na **janela de integração da Uint** (0,3 ms rápida; 0,9 ms lenta). A Ustr compara só dentro dessa janela [R, 24/11].
+- **Onde nasce a Uint:** onde se encontram Upros cujas incidências não integraram e coincidiram. No mesmo ouvido, isso fica perto da faixa; entre os ouvidos, no caminho entre eles [R].
 - **Toda Upro nasce num ponto transdutivo** (as da borda) **ou numa Uint**, ligada a uma Uint candidata (exuberância da V0.17).
 - **Crescimento por coincidência [R, 27/11; revê "nasce com o comprimento" de 24/11]:** a Upro cresce rumo à Uint, **1 cubo a cada ~12 coincidências do par**, e só funciona quando chega (a latência é o próprio crescimento).
 - **Exuberância pela incerteza [R, 27/11]:** diferença de chegada do par estável → 1 candidata; variável → candidatas espalhadas pela faixa observada (≥1 cubo entre elas); integrou → o par para de ganhar candidatas (Munz et al. 2014).
 - **"Em sua maioria" [R, 27/11]:** o resultado não é limpo; erros, ruído representado e sons irrelevantes ganhando peso são esperados. O genérico (constitutivo, generalizável, abstraível) deve ser compartilhado e reutilizado em relações novas; a Chaconne deve reutilizar o genérico da Gymnopédie. A medida diz o que foi reutilizado (genérico ou específico) e o que nasceu novo. O motor segue determinístico.
 - **Alcance só local [R, 27/11]:** a primeira camada é local e tonotópica, como as primeiras estações do cérebro (`investigacao-alcance-inicial.md`). O encontro dos ouvidos e as bandas distantes ficam para quando houver crescimento de longo alcance. A medida precisa mostrar quanto da reutilização vai além do espectro.
 - **Candidatas por coincidência: 3**, com atrasos −10%, igual e +10% [R, pacote].
-- **A Ustr se multiplica pela carga,** medida em fracassos registrados por hora. O teto será calibrado no primeiro ensaio [R].
-- **O rastro de um fracasso dura até a sessão seguinte** [R].
+- **A Ustr se multiplica pela carga,** medida em incidências que não integraram registradas por hora. O teto será calibrado no primeiro ensaio [R].
+- **O rastro de uma incidência que não integrou dura até a sessão seguinte** [R].
 - **Relações entre Ustr, em duas condições:**
-  - **"Com relações":** territórios levemente sobrepostos, e nos cubos compartilhados cada Ustr vê os fracassos da vizinha.
+  - **"Com relações":** territórios levemente sobrepostos, e nos cubos compartilhados cada Ustr vê as incidências que não integraram da vizinha.
   - **"Sem relações":** territórios exclusivos [R].
 - **Tipo e nível:**
   - O tipo sai do que convergiu.
@@ -133,7 +133,7 @@ Os arquivos de áudio não vão para o repositório (`.gitignore`). Neste ambien
 - **Poda pela Ustr:** janela permissiva, marca e remoção em 1–4 dias, a atividade protege.
 - **Utad:** excesso inicial, estabilização pelo uso, janela que fecha; de 0,3 até ~25 m/s.
 - **Troca de sinal das inibitórias,** ao estabilizar.
-- **Crescimento lento** rumo aos fracassos vivos (contagem por cubo), em tempo estrutural (~35 µm/h).
+- **Crescimento lento** rumo às incidências que não integraram ainda vivas no registro (contagem por cubo), em tempo estrutural (~35 µm/h).
 - **Fonte sintética em movimento.**
 - **Ciclo de 24 h com sono, vigília e neuromoduladores:** proposto e desfeito em 24/11.
 - **Neuromoduladores,** com os ganchos já reservados: posições 3D e a força das regras como parâmetro.
