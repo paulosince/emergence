@@ -98,6 +98,7 @@
 | Alcance da Upro [R] | **A candidata nasce com o comprimento**, ligada a uma Uint candidata (exuberância da V0.17); o uso decide. **Substitui, na V0.19, o crescimento lento em tempo estrutural** (decisão de 24/11, que fica para quando houver processos posteriores); a contagem por cubo como guia do crescimento não é usada | 24/11 |
 | Volta do som [R] | **Outra gravação da mesma obra** (2 gravações formam, 2 outras voltam), para evitar a armadilha do determinismo; e **uma obra diferente** para ver se forma malha diferente | 24/11 |
 | Desenho reduzido [R] | **Fonte em movimento sai** da V0.19. **Obra diferente: Chaconne de Bach, BWV 1004 (violino, Goldstein, CC BY-SA 3.0)**, já usada na V0.18. **Comparação no mesmo Sdom:** a Chaconne entra depois da Gymnopédie, no Sdom já formado | 24/11 |
+| Interface: referência [R] | Esquema do estado inicial enviado pelo responsável (`interface/referencia-estado-inicial.jpg`): as duas Utrd (E e D) com os pontos transdutivos, as Ustr ao lado, o centro "sem malha inicial" com os contadores (0 Uint, 0 Upro, 0 Cpro, 0 ramos), os totais (43.462 pontos; ~10.860 Ustr). **No estilo de fundo escuro com brilho de atividade ("fMRI") da interface da V0.18, com a visualização 3D manipulável da cabeça do robô.** Nota [A]: no repositório, a interface da V0.18 ("Cóclea em luz") é 2D; o mapa 3D foi concebido em 10/11 (`docs/observatory-interface-v0.md`) e não chegou a ser implementado | 27/11 |
 
 ## Base da decisão sobre o determinismo [L]
 
