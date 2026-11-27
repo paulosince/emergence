@@ -17,7 +17,8 @@ Regras usadas (toy-experiments/v19/decisoes-em-construcao.md e estado-e-orientac
 - regra do ramo: promoção por participação na janela de integração do disparo; punição de uma fração da própria força
   para chegadas até ~34 ms depois do disparo; eliminação após 1.000 disparos sem participar — na V0.19 só observada
   (contada), sem remover [R 24/11: "fica estruturalmente, e vemos se será chamada"];
-- Upros que saem de Uints: reserva de efeito da V0.18 [R 24/11].
+- Upros que saem de Uints: reserva de efeito da V0.18 [R 24/11];
+- força inicial do ramo = 1,5 / 4,6 ≈ 0,33 (fibra jovem, Kladisios, Fischer e Felmy 2020); chegada = força × magnitude [R 27/11].
 
 PROVISÓRIO NO PILOTO [A] (não decidido; a levar ao responsável): ver a lista PROVISORIO abaixo.
 """
@@ -36,8 +37,6 @@ PUN_JANELA, ELIM_N = 34e-3, 1000
 PROVISORIO = {
     "janela de coincidência da Ustr": "0,3 ms (a componente rápida)",
     "forma da janela de integração": "chegada vale 1 até 0,3 ms e 0,5 de 0,3 a 0,9 ms",
-    "força inicial do ramo": "0,15 (V0.17)",
-    "chegada na Uint": "força do ramo × magnitude da incidência",
     "ganho por participação": "+0,0065 (V0.17)",
     "fração da punição": "1/60 da própria força por chegada tardia",
     "Uint no cubo escolhido já ocupado por outra Uint": "reutiliza a mesma Uint (convergência)",
@@ -45,7 +44,7 @@ PROVISORIO = {
     "teto de variantes por par": "8",
 }
 import os
-FORCA0 = float(os.environ.get("V19_FORCA0", "0.15"))   # provisório; variável de ambiente só para ensaios (usar outro NUMBA_CACHE_DIR)
+FORCA0 = float(os.environ.get("V19_FORCA0", str(1.5 / 4.6)))   # [R 27/11] fibra jovem ≈ 1/4,6 do limiar (Kladisios et al. 2020); variável de ambiente só para ensaios (usar outro NUMBA_CACHE_DIR)
 GANHO, FRAC_PUN, MAXVAR = 0.0065, 1.0 / 60.0, 8
 
 MAXM = 32          # membros por território (pontos + Uints)

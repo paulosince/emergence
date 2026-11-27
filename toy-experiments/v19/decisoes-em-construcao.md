@@ -124,6 +124,7 @@
 | Piloto de 10 s [M] | `piloto-10s.md`. Velocidade: borda ~7 s por segundo de som (uma vez só, reaproveitada); Sdom ~4 s por segundo de som por ouvido, um ouvido por núcleo. Em 10 s, ouvido esquerdo: 20.853 Uints, 140.505 ramos funcionando (~135 mil variantes), 360 Uints dispararam (1.210 disparos), 99,95% das incidências fracassam; promoções 22.099, punições 56.039. **Escolhas provisórias do piloto listadas no registro, a decidir pelo responsável**, sobretudo a força inicial e a composição da chegada (decidem se as Uints disparam) | 27/11 |
 | Duração dos estímulos [R] | **Peça inteira** (decidido depois do piloto). A borda de cada gravação é gravada comprimida ou em blocos (disco) | 27/11 |
 | Ver a formação na tela [R] | Sim, já com o piloto: o motor registra **cada passo de crescimento** (princípio do visualizador) e a página mostra as Uints nascendo e os ramos crescendo | 27/11 |
+| **Força inicial do ramo [R]** | **1,5 / 4,6 ≈ 0,33**: no jovem, ~4,6 fibras juntas para disparar (Kladisios, Fischer e Felmy 2020, *Front Cell Neurosci* 14:592213; lido na V0.17). **Chegada = força × magnitude** (magnitude = reserva de efeito da V0.18, que faz o papel da depressão). Consequência medida no piloto: um par sozinho não dispara; a integração exige convergência de ~5 ramos (27% das Uints dispararam em 10 s, contra 1,7% com 0,15). A página passa a mostrar o piloto com esta força | 27/11 |
 
 ## Base da decisão sobre o determinismo [L]
 
