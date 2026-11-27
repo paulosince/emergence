@@ -48,3 +48,20 @@
 | Eliminação após 1.000 disparos sem participar | só contada, sem remover |
 
 **As duas que mais pesam [A]:** a força inicial e a composição da chegada. Elas decidem se as Uints conseguem disparar. Hoje, quase nenhuma dispara, então quase nada é integrado nem selecionado. É o mesmo tipo de impasse do agudo na V0.17 (soma a ~80% do limiar).
+
+## Ensaio de comparação: força inicial pelo modelo neurobiológico (27/11) [M]
+
+Pedido do responsável: pesquisar no modelo neurobiológico a força de uma fibra em relação ao limiar.
+- **Base [L]:** na MSO do gerbil jovem (P9/10, antes da audição) são precisas **~4,6 fibras** ativadas juntas para o disparo; no maduro, ~3,3 (Kladisios, Fischer e Felmy 2020, *Front Cell Neurosci* 14:592213; lido na V0.17, texto integral por extração, confiança média-alta). Uma fibra jovem vale ~1/4,6 do limiar. Com limiar 1,5, isso dá **força inicial ≈ 0,33**, no lugar dos 0,15 da V0.17.
+- **A magnitude já é a da V0.18** (o g da reserva de efeito, que faz o papel da depressão de curto prazo). Então a chegada = força × magnitude segue duas decisões já tomadas.
+
+| Ouvido esquerdo, 10 s | Força 0,15 (V0.17) | Força 0,33 (1,5 / 4,6) |
+|---|---|---|
+| Uints | 20.853 | 27.455 |
+| Uints que dispararam | 360 (1,7%) | **7.512 (27%)** |
+| Disparos | 1.210 | **61.816** |
+| Incidências integradas | 5.874 | 160.423 (1,5%) |
+| Promoções / punições | 22.099 / 56.039 | 523.460 / 1.064.113 |
+| Força dos ramos (mín.–máx.) | 0,06–0,31 | 0,03–0,40 |
+
+Leitura [A]: com a força do jovem, um par sozinho continua sem disparar. O máximo de um par é 0,66, contra o limiar de 1,5. Disparam as Uints onde ~5 ramos chegam juntos: **a integração exige convergência, como no cérebro jovem.** As Uints a mais (27 mil contra 20 mil) vêm dos disparos: a incidência de uma Uint que não integra também fracassa, e isso abre pares com Uints (segundo nível). As punições são o dobro das promoções, então a força média cai.

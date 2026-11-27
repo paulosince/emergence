@@ -44,7 +44,9 @@ PROVISORIO = {
     "variantes": "ramo do emissor que chega antes, alongado em j cubos (j inteiro na faixa observada de diferenças)",
     "teto de variantes por par": "8",
 }
-FORCA0, GANHO, FRAC_PUN, MAXVAR = 0.15, 0.0065, 1.0 / 60.0, 8
+import os
+FORCA0 = float(os.environ.get("V19_FORCA0", "0.15"))   # provisório; variável de ambiente só para ensaios (usar outro NUMBA_CACHE_DIR)
+GANHO, FRAC_PUN, MAXVAR = 0.0065, 1.0 / 60.0, 8
 
 MAXM = 32          # membros por território (pontos + Uints)
 RING = 64          # chegadas guardadas por Uint
