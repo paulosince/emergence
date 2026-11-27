@@ -103,18 +103,20 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             p_a, p_b, p_u, p_cnt, p_dmin, p_dmax, p_r0, p_r1, p_nv, p_vr,
             r_src, r_dst, r_len, r_atr, r_f, r_ok, r_part, r_sem, r_head, r_next, r_born, a_head, a_next,
             u_ring_t, u_ring_a, u_ring_r, u_ring_i, u_rn, u_refr, u_pend, u_last, u_q, u_s, u_qt, u_nin,
-            integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W):
+            integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W, ht, hk, ha, hb, hc, hw, glob, t_ini, ne0, npar0, nr0):
     """Processa um ouvido. Emissores: pontos 0..N-1; Uints N.. . Devolve (n_emissores, n_pares, n_ramos)."""
     N = px.shape[0]
-    ne = N; npar = 0; nr = 0
+    ne = ne0; npar = npar0; nr = nr0          # o Sdom continua de onde parou (não zera entre apresentações)
     nev = ev_t.shape[0]
-    ht = np.empty(HCAP); hk = np.empty(HCAP, np.int8); ha = np.empty(HCAP, np.int64); hb = np.empty(HCAP, np.int64)
-    hc = np.empty(HCAP, np.int64); hw = np.empty(HCAP)
-    nh = 0
+    MASK = integ.shape[0] - 1                 # anel de marcas de integração (potência de 2)
+    nh = glob[0]
+    base_id = glob[1]
     t = 0.0; tipo = 0; a = 0; b = 0; c = 0; w = 0.0; e = 0; m = 0.0; iid = 0; fr_t = 0.0; fr_e = 0
-    iu_next = nev                  # ids das incidências emitidas por Uints
+    iu_next = glob[2]              # ids das incidências emitidas por Uints (faixa própria)
     j = 0
     seg = 0
+    while t_ini + seg + 1.0 <= (ev_t[0] if nev > 0 else t_ini):
+        seg += 1
     while True:
         if nh >= HCAP - 1000:
             cont[14] += 1
@@ -124,20 +126,22 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
         th = ht[0] if nh > 0 else 1e18
         if tb >= 1e17 and th >= 1e17:
             break
+        if tb > t_fim and th > t_fim:
+            break                  # o resto do heap fica para a próxima chamada
         if tb <= th:
-            t = tb; tipo = 9; e = np.int64(ev_p[j]); m = np.float64(ev_m[j]); iid = j; j += 1
+            t = tb; tipo = 9; e = np.int64(ev_p[j]); m = np.float64(ev_m[j]); iid = base_id + j; j += 1
         else:
             nh, t, tk, a, b, c, w = _pop(nh, ht, hk, ha, hb, hc, hw)
             tipo = np.int64(tk)
-        if t > t_fim:
-            break
-        while t >= seg + 1.0:      # série por segundo
+        while t >= t_ini + seg + 1.0 and seg < ser.shape[0] - 1:      # série por segundo
             ser[seg, 0] = ne - N; ser[seg, 1] = nr; ser[seg, 2] = cont[6]; ser[seg, 3] = cont[3]; ser[seg, 4] = cont[1]
             seg += 1
         if tipo == 9 or tipo == 3:
             # ---- emissão (borda: tipo 9; Uint: tipo 3) ----
             if tipo == 3:
                 e = a; m = w; iid = c
+            else:
+                integ[iid & MASK] = 0
             cont[0] += 1
             r = r_head[e]
             if r < 0:
@@ -154,7 +158,7 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
                 continue
         if tipo == 2:
             # ---- verificação de fracasso de uma incidência que desceu por ramos ----
-            if integ[b] != 0:
+            if integ[b & MASK] != 0:
                 cont[2] += 1
                 continue
             fr_t = w; fr_e = a; tipo = 7
@@ -358,7 +362,7 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
                         continue
                     rq = u_ring_r[u - N, q3]
                     r_part[rq] += 1; r_f[rq] += GANHO
-                    integ[u_ring_i[u - N, q3]] = 1
+                    integ[u_ring_i[u - N, q3] & MASK] = 1
                     cont[8] += 1
                 u_pend[u] = t + T_DISPARO
                 nh = _push(nh, ht, hk, ha, hb, hc, hw, t + T_DISPARO, 1, u, 0, 0, 0.0)
@@ -374,12 +378,11 @@ def simular(ev_t, ev_p, ev_m, lado, px, py, pz, pu, ux, uy, uz, BU, by0, bz0, PG
             m = q
             u_q[u] = q - fG * q; u_s[u] = s; u_qt[u] = t
             iid = iu_next; iu_next += 1
-            if iid < integ.shape[0]:
-                nh = _push(nh, ht, hk, ha, hb, hc, hw, t, 3, u, 0, iid, m)
-            else:
-                cont[13] += 1
+            integ[iid & MASK] = 0
+            nh = _push(nh, ht, hk, ha, hb, hc, hw, t, 3, u, 0, iid, m)
             continue
     ser[seg, 0] = ne - N; ser[seg, 1] = nr; ser[seg, 2] = cont[6]; ser[seg, 3] = cont[3]; ser[seg, 4] = cont[1]
+    glob[0] = nh; glob[1] = base_id + nev; glob[2] = iu_next
     return ne, npar, nr
 
 CONTADORES = ["emissões", "fracassos", "incidências que integraram (desceram por ramo)", "coincidências", "comparações",

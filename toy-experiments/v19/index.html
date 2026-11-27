@@ -104,6 +104,10 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
       <button id="cam-malha" aria-pressed="true">Malha (piloto, ouvido E)</button>
     </div>
   </div>
+  <div class="linha" id="linha-ap" hidden>
+    <div class="grupo" role="group" aria-label="Apresentações"><span>Apresentações (Sdom contínuo)</span><span id="botoes-ap"></span></div>
+  </div>
+  <div id="painel-ap" class="legenda" hidden></div>
   <div id="obra">Gymnopédie n.º 1 (Satie), Robin Alciatore (Musopen, domínio público), de 9 a 19 s — os mesmos dados da página da V0.18.</div>
   <div class="legenda">
     <span class="demo"><b>Demonstração do robô.</b> A sala, os alto-falantes, as ondas, o microfone e os fios mostram o que é constitutivo do robô (a Utrd completa da V0.18: microfone + cóclea) num ambiente virtual simulado. Não fazem parte do Sdom e não mudam nada nele. A posição desenhada do microfone e o traçado dos fios são só desenho; o sinal que eles carregam é o da V0.18.</span>
@@ -454,6 +458,88 @@ const malha = await (async () => {
         return { u: ate(ut, ms), r: ate(rft, ms), f: ate(ft_ord, ms) };
       } };
   } catch (e) { console.warn("sem dados do piloto", e); return null; }
+})();
+
+// ---------- apresentações completas no mesmo Sdom: estado ao fim de cada uma (só o que o motor registrou) ----------
+const sessoes = await (async () => {
+  let mj; try { const r = await fetch(BASE + "sessoes.json"); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }
+  const linha = document.getElementById("linha-ap"), bots = document.getElementById("botoes-ap"), painel = document.getElementById("painel-ap");
+  linha.hidden = false;
+  const aps = mj.ouvidos.esq.apresentacoes, NOMES = ["forma", "forma", "volta", "volta"];
+  let dados = null, ativo = null;
+  function bolasCor(centros, raio, minPx) {
+    const o = bolas(centros, raio, minPx, new THREE.Color(1, 1, 1), new THREE.Color(1, 1, 1));
+    const c = new Float32Array(centros.length); const at = new THREE.InstancedBufferAttribute(c, 3); o.geometry.setAttribute("corI", at); o.cor = c; o.aCor = at;
+    o.material.vertexShader = o.material.vertexShader.replace("attribute float luz;", "attribute float luz; attribute vec3 corI; varying vec3 vK;").replace("vL = luz;", "vL = luz; vK = corI;");
+    o.material.fragmentShader = o.material.fragmentShader.replace("varying vec2 vC;", "varying vec2 vC; varying vec3 vK;")
+      .replace("vec3 aceso = ativa * (0.55 + 1.3 * dif) + ativa * rim * 1.6;", "vec3 aceso = vK * (0.55 + 1.3 * dif) + vK * rim * 1.6;")
+      .replace("mix(repouso, aceso, clamp(vL, 0.0, 1.0))", "aceso * max(vL, 0.0)");
+    return o;
+  }
+  async function carregar() {
+    const buf = await (await fetch(BASE + "sessoes.bin")).arrayBuffer();
+    const T = { int16: Int16Array, uint8: Uint8Array, uint16: Uint16Array, int32: Int32Array };
+    const A = n => new T[mj[n].tipo](buf, mj[n].off, mj[n].n);
+    const D = {};
+    for (const o of ["esq", "dir"]) {
+      const uxyz = A(o + "_u_xyz"), nU = uxyz.length / 3, cen = new Float32Array(nU * 3);
+      for (let i = 0; i < nU; i++) { cen[3 * i] = uxyz[3 * i] * MM; cen[3 * i + 1] = uxyz[3 * i + 2] * MM; cen[3 * i + 2] = -uxyz[3 * i + 1] * MM; }
+      const u = bolasCor(cen, R_UN, 1.5); cena.add(u);
+      const rs = A(o + "_r_src"), rd = A(o + "_r_dst"), nR = rd.length, pos = new Float32Array(nR * 6), col = new Float32Array(nR * 6);
+      for (let i = 0; i < nR; i++) {
+        pos[6 * i] = rs[3 * i] * MM; pos[6 * i + 1] = rs[3 * i + 2] * MM; pos[6 * i + 2] = -rs[3 * i + 1] * MM;
+        pos[6 * i + 3] = cen[3 * rd[i]]; pos[6 * i + 4] = cen[3 * rd[i] + 1]; pos[6 * i + 5] = cen[3 * rd[i] + 2];
+      }
+      const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3)); const ac = new THREE.BufferAttribute(col, 3); g.setAttribute("color", ac);
+      const lm = new THREE.ShaderMaterial({ uniforms: { ...COMUM }, vertexShader: `attribute vec3 color; uniform float uPix, uFoco; varying vec3 vK; varying float vFog; void main(){ vec4 mv = modelViewMatrix * vec4(position, 1.0); ${NEVOA} vK = color; gl_Position = projectionMatrix * mv; }`,
+        fragmentShader: `varying vec3 vK; varying float vFog; void main(){ if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0); }`, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+      const lr = new THREE.LineSegments(g, lm); lr.frustumCulled = false; cena.add(lr);
+      D[o] = { u, lr, col, ac, nU, nR, u_ap: A(o + "_u_ap"), u_f: A(o + "_u_fires"), r_ap: A(o + "_r_ap"), r_uso: A(o + "_r_uso"), r_dst: rd };
+    }
+    return D;
+  }
+  const NOVA = cor("--nova"), ACESSO = cor("--acesso"), FEITA = cor("--uint");
+  async function mostrar(p) {
+    if (!dados) { painel.hidden = false; painel.textContent = "carregando o estado do Sdom…"; dados = await carregar(); }
+    ativo = p;
+    if (malha) malha.objs.forEach(o => o.visible = p === null);
+    const linhas = [];
+    for (const o of ["esq", "dir"]) {
+      const d = dados[o]; let novas = 0, reus = 0, rn = 0, ru = 0;
+      const L = d.u.luz, C = d.u.cor;
+      for (let i = 0; i < d.nU; i++) {
+        let k = FEITA, v = 0.22;
+        if (p === null || p < 0 || d.u_ap[i] > p) { L[i] = -1; continue; }
+        const f = d.u_f[p * d.nU + i];
+        if (d.u_ap[i] === p) { k = NOVA; v = 1; novas++; }
+        else if (f > 0) { k = ACESSO; v = 0.45 + 0.55 * Math.min(1, Math.log10(1 + f) / 3); reus++; }
+        L[i] = v; C[3 * i] = k.r; C[3 * i + 1] = k.g; C[3 * i + 2] = k.b;
+      }
+      d.u.aLuz.needsUpdate = true; d.u.aCor.needsUpdate = true;
+      const col = d.col;
+      for (let i = 0; i < d.nR; i++) {
+        let k = null, v = 0;
+        if (p !== null && p >= 0 && d.r_ap[i] <= p) {
+          if (d.r_ap[i] === p) { k = NOVA; v = 0.5; rn++; }
+          else if ((d.r_uso[i] >> p) & 1) { k = ACESSO; v = 0.35; ru++; }
+          else { k = FEITA; v = 0.035; }
+        }
+        for (let q = 0; q < 2; q++) { const o6 = 6 * i + 3 * q; col[o6] = k ? k.r * v : 0; col[o6 + 1] = k ? k.g * v : 0; col[o6 + 2] = k ? k.b * v : 0; }
+      }
+      d.ac.needsUpdate = true;
+      if (p !== null && p >= 0) {
+        const r = mj.ouvidos[o].apresentacoes[p], c = r.contadores, integ = 1 - c["fracassos"] / Math.max(1, c["emissões"]);
+        linhas.push(`<span><b>Ouvido ${o === "esq" ? "E" : "D"}:</b> <b style="color:var(--nova)">${fmt(novas)} Uints novas</b> · <b style="color:var(--acesso)">${fmt(reus)} Uints antigas que dispararam</b> · ${fmt(d.u_ap.filter(a => a < p).length)} já existiam · ramos: <span style="color:var(--nova)">${fmt(rn)} novos</span>, <span style="color:var(--acesso)">${fmt(ru)} antigos usados</span> · disparos ${fmt(c["disparos de Uint"])} · incidências que integraram ${(100 * integ).toFixed(2).replace(".", ",")}%</span>`);
+      }
+    }
+    painel.hidden = p === null;
+    painel.innerHTML = p === null ? "" : p < 0 ? "<span>Instante zero: nada representacional (nenhuma Uint, nenhum ramo).</span>" :
+      `<span><b>Fim da apresentação ${p + 1} — ${aps[p].gravacao.replace("satie-gymnopedie1-", "")} (${NOMES[p] || ""}).</b> O Sdom é o mesmo desde a primeira: <b style="color:var(--nova)">roxo</b> = nasceu nesta apresentação; <b style="color:var(--acesso)">azul</b> = já existia e foi usado nesta apresentação (Uint que disparou; ramo que participou de um disparo); neutro = já existia e não foi usado. Ensaio exploratório com escolhas provisórias (ver <code>piloto-10s.md</code>).</span>` + linhas.join("");
+    document.querySelectorAll("[data-ap]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.ap === String(p))));
+  }
+  const rot = [["-1", "Instante zero"], ...aps.map((a, i) => [String(i), `${i + 1} · ${a.gravacao.replace("satie-gymnopedie1-", "")}`])];
+  for (const [v, t] of rot) { const b = document.createElement("button"); b.dataset.ap = v; b.textContent = t; b.onclick = () => (ativo === +v ? mostrar(null) : mostrar(+v)); bots.appendChild(b); }
+  return { mostrar };
 })();
 // ---------- rótulos (com prioridade: os de trás somem se sobrepõem os da frente) ----------
 const rotulos = [];
