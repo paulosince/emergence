@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="dados" content="visual/">
+<title>Sdom — instante zero (V0.19)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Mesmo mundo visual da V0.18 ("Cóclea em luz"): fundo escuro, luzes. */
+  --fundo: #05070a;
+  --palco: #070b0d;
+  --linha: #1a2428;
+  --texto: #d7e3df;
+  --apagado: #7d8f8a;
+  --excit: #39ff14;      /* incidência excitatória (decisão do responsável) */
+  --som: #ffd23f;        /* som chegando */
+  --inib: #ff3b3b;       /* incidência inibitória */
+  --nova: #b45cff;       /* nova constituição */
+  --acesso: #3d7bff;     /* acesso a constituição existente */
+  --modif: #29e7ff;      /* modificação do que existe */
+  --ponto: #c9d4d0;      /* ponto transdutivo: cor neutra, não decidida */
+  --ustr: #6f8794;       /* Ustr: cor neutra, não decidida */
+  --corpo: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--fundo); color: var(--texto); font-family: var(--corpo); }
+body { display: flex; flex-direction: column; }
+header { padding: 12px 16px 6px; display: grid; gap: 2px; }
+h1 { margin: 0; font-size: 1.15rem; font-weight: 600; letter-spacing: .02em; text-wrap: balance; }
+.sub { color: var(--apagado); font-size: .85rem; max-width: 72ch; }
+#palco { position: relative; flex: 1; min-height: 360px; margin: 0 16px; background: var(--palco); border: 1px solid var(--linha); border-radius: 6px; overflow: hidden; touch-action: none; }
+#palco canvas { display: block; width: 100%; height: 100%; cursor: grab; }
+#contagem { position: absolute; left: 10px; top: 8px; font: 500 .74rem var(--mono); text-shadow: 0 0 6px #000; pointer-events: none; font-variant-numeric: tabular-nums; line-height: 1.5; }
+#contagem .ok { color: var(--excit); }
+#contagem .zero { color: var(--apagado); }
+#escala { position: absolute; right: 10px; bottom: 8px; font: 500 .72rem var(--mono); color: var(--apagado); text-shadow: 0 0 6px #000; pointer-events: none; text-align: right; }
+#carregando { position: absolute; inset: 0; display: grid; place-items: center; color: var(--apagado); font: .9rem var(--mono); }
+.controles { padding: 10px 16px 6px; display: grid; gap: 8px; }
+.linha { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.grupo { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+.grupo > span { color: var(--apagado); font-size: .8rem; margin-right: 2px; }
+button { font: 500 .85rem var(--corpo); color: var(--texto); background: #0d1417; border: 1px solid #2a3a3e; border-radius: 6px; padding: 7px 11px; cursor: pointer; }
+button[aria-pressed="true"] { border-color: var(--excit); color: var(--excit); box-shadow: 0 0 8px #39ff1433 inset; }
+button:focus-visible { outline: 2px solid var(--excit); outline-offset: 2px; }
+.legenda { color: var(--apagado); font-size: .8rem; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+.legenda i { display: inline-block; width: .7em; height: .7em; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .88rem; }
+summary { cursor: pointer; font-weight: 600; }
+details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
+@media (max-width: 480px) { header { padding: 10px 12px 4px; } #palco { margin: 0 12px; } .controles { padding: 8px 12px; } details { margin: 4px 12px 12px; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sdom — instante zero</h1>
+  <div class="sub">V0.19. O espaço do Sdom em 3D, com as unidades nas posições reais calculadas pelo motor: as duas faixas de pontos transdutivos (Utrd) nas posições dos microfones e as Ustr ao lado. Ainda não há malha. Arraste para girar, pince ou role para entrar no Sdom.</div>
+</header>
+<div id="palco" aria-label="Espaço 3D do Sdom no instante zero">
+  <div id="carregando">carregando as coordenadas…</div>
+  <div id="contagem" aria-live="polite"></div>
+  <div id="escala"></div>
+</div>
+<div class="controles">
+  <div class="linha">
+    <div class="grupo" role="group" aria-label="Vistas"><span>Vista</span>
+      <button data-vista="geral">Geral</button>
+      <button data-vista="cima">De cima</button>
+      <button data-vista="E">Ouvido E</button>
+      <button data-vista="D">Ouvido D</button>
+      <button data-vista="detalhe">Detalhe (cubos)</button>
+    </div>
+    <div class="grupo" role="group" aria-label="Camadas"><span>Mostrar</span>
+      <button id="cam-pontos" aria-pressed="true">Pontos transdutivos</button>
+      <button id="cam-ustr" aria-pressed="true">Ustr</button>
+    </div>
+  </div>
+  <div class="legenda">
+    <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd)</span>
+    <span><i style="background:var(--ustr)"></i>Ustr</span>
+    <span>Cores destas duas: neutras, ainda não decididas.</span>
+    <span>Reservadas para a formação: <b style="color:var(--som)">som</b> · <b style="color:var(--excit)">excitatória</b> · <b style="color:var(--inib)">inibitória</b> · <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b></span>
+  </div>
+</div>
+<details>
+  <summary>O que esta página mostra</summary>
+  <ul>
+    <li><b>Dado:</b> as Utrd (microfone + cóclea, V0.18). Cada faixa tem 21.731 pontos transdutivos, um por cubo de 20 µm: ao longo da faixa, as 64 bandas em ordem de frequência; na largura, a ordem de sensibilidade.</li>
+    <li>As faixas ficam a 10 cm uma da outra, nas posições dos microfones do robô.</li>
+    <li><b>Ustr:</b> uma a cada bloco de ~4 pontos vizinhos, um cubo para dentro da cabeça.</li>
+    <li><b>Criado:</b> nada ainda. A contagem confere que não há Uint, Upro, Cpro nem ramos no instante zero (erro que encerrou a V0.17).</li>
+    <li>A largura da faixa (16 cubos) é provisória, a confirmar com o responsável.</li>
+    <li>A página só exibe: não alimenta o motor.</li>
+  </ul>
+</details>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+               "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const BASE = document.querySelector('meta[name="dados"]')?.content || "";
+const palco = document.getElementById("palco");
+const css = getComputedStyle(document.documentElement);
+const cor = n => new THREE.Color(css.getPropertyValue(n).trim());
+
+function dec(s, Tipo) { const b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return new Tipo(u.buffer); }
+const fmt = n => n.toLocaleString("pt-BR");
+
+const dados = await (await fetch(BASE + "instante-zero.json")).json();
+document.getElementById("carregando").remove();
+const MM = dados.cubo_mm;
+
+// Eixos do Sdom → cena: x (esquerda/direita) → x; z (sensibilidade, vertical) → y; y (frequência, frente/trás) → −z. Unidade da cena: mm.
+function nuvem(lista, corBase, tamanhoMin) {
+  const pos = [];
+  for (const o of lista) {
+    const x = dec(o.x, Int16Array), y = dec(o.y, Int16Array), z = dec(o.z, Int16Array);
+    for (let i = 0; i < x.length; i++) pos.push(x[i] * MM, z[i] * MM, -y[i] * MM);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  const m = new THREE.ShaderMaterial({
+    uniforms: { cor: { value: corBase }, tam: { value: MM }, min: { value: tamanhoMin }, escala: { value: 1 } },
+    vertexShader: `uniform float tam, min, escala; void main(){ vec4 mv = modelViewMatrix * vec4(position,1.0); gl_PointSize = max(min, tam * escala / -mv.z); gl_Position = projectionMatrix * mv; }`,
+    fragmentShader: `uniform vec3 cor; void main(){ vec2 c = gl_PointCoord - 0.5; float d = length(c); if (d > 0.5) discard; float a = smoothstep(0.5, 0.0, d); gl_FragColor = vec4(cor * (0.55 + 0.45 * a), a); }`,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+  return new THREE.Points(g, m);
+}
+
+const cena = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, 1, 0.001, 2000);
+const render = new THREE.WebGLRenderer({ antialias: true });
+render.setPixelRatio(Math.min(devicePixelRatio, 2));
+render.setClearColor(cor("--palco"));
+palco.appendChild(render.domElement);
+const ctrl = new OrbitControls(camera, render.domElement);
+ctrl.enableDamping = true; ctrl.minDistance = 0.05; ctrl.maxDistance = 600;
+
+const O = dados.ouvidos;
+const pontos = nuvem([O.E.pontos, O.D.pontos], cor("--ponto"), 1.6);
+const ustr = nuvem([O.E.ustr, O.D.ustr], cor("--ustr"), 1.3);
+cena.add(pontos, ustr);
+
+// Referência: linha tênue entre os ouvidos (10 cm) e a marca do centro.
+const meia = 2500 * MM;
+const linhaG = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-meia, 0, 0), new THREE.Vector3(meia, 0, 0)]);
+cena.add(new THREE.Line(linhaG, new THREE.LineDashedMaterial({ color: 0x1f3a40, dashSize: 2, gapSize: 2 })).computeLineDistances());
+
+function rotulo(texto, x, y, z, cls = "") {
+  const d = document.createElement("div");
+  d.textContent = texto;
+  d.style.cssText = "position:absolute;font:500 .72rem var(--mono);color:var(--apagado);text-shadow:0 0 6px #000;pointer-events:none;transform:translate(-50%,-50%);white-space:nowrap";
+  palco.appendChild(d); return { d, v: new THREE.Vector3(x, y, z) };
+}
+const rotulos = [rotulo("Utrd E", -meia, 3, 0), rotulo("Utrd D", meia, 3, 0), rotulo("sem malha inicial", 0, 3, 0), rotulo("10 cm", 0, -2.5, 0)];
+
+const c = dados.contagem;
+document.getElementById("contagem").innerHTML =
+  `pontos transdutivos <b>${fmt(c.pontos)}</b> · Ustr <b>${fmt(c.ustr)}</b><br>` +
+  `<span class="zero">Uint ${c.uint} · Upro ${c.upro} · Cpro ${c.cpro} · ramos ${c.ramos}</span><br>` +
+  `<span class="ok">conferência do instante zero: nada representacional</span>`;
+document.getElementById("escala").innerHTML = `cubo = ${MM * 1000} µm · faixa ${O.E.comprimento_cubos} × ${dados.largura} cubos (${(O.E.comprimento_cubos * MM).toFixed(1)} × ${(dados.largura * MM).toFixed(2)} mm)`;
+
+const VISTAS = {
+  geral: [new THREE.Vector3(0, 70, 120), new THREE.Vector3(0, 0, 0)],
+  cima: [new THREE.Vector3(0, 150, 0.01), new THREE.Vector3(0, 0, 0)],
+  E: [new THREE.Vector3(-meia + 18, 6, 22), new THREE.Vector3(-meia, 0, 0)],
+  D: [new THREE.Vector3(meia - 18, 6, 22), new THREE.Vector3(meia, 0, 0)],
+  detalhe: [new THREE.Vector3(-meia + 0.35, 0.25, 0.45), new THREE.Vector3(-meia, 0, 0)],
+};
+function vista(n) {
+  const [p, a] = VISTAS[n], k = n === "detalhe" ? 1 : Math.max(1, 1.5 / camera.aspect); // telas estreitas: afasta a câmera
+  camera.position.copy(a).add(p.clone().sub(a).multiplyScalar(k)); ctrl.target.copy(a); ctrl.update();
+}
+document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
+for (const [id, obj] of [["cam-pontos", pontos], ["cam-ustr", ustr]]) {
+  const b = document.getElementById(id);
+  b.onclick = () => { obj.visible = !obj.visible; b.setAttribute("aria-pressed", obj.visible); };
+}
+vista("geral");
+
+function tamanho() {
+  const w = palco.clientWidth, h = palco.clientHeight;
+  render.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+  const esc = h / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2))) * render.getPixelRatio();
+  pontos.material.uniforms.escala.value = esc; ustr.material.uniforms.escala.value = esc;
+}
+new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
+
+const tmp = new THREE.Vector3();
+(function quadro() {
+  requestAnimationFrame(quadro); ctrl.update(); render.render(cena, camera);
+  const w = palco.clientWidth, h = palco.clientHeight;
+  for (const r of rotulos) {
+    tmp.copy(r.v).project(camera);
+    const vis = tmp.z < 1 && Math.abs(tmp.x) < 1.1 && Math.abs(tmp.y) < 1.1;
+    r.d.style.display = vis ? "" : "none";
+    if (vis) { r.d.style.left = (tmp.x + 1) / 2 * w + "px"; r.d.style.top = (1 - tmp.y) / 2 * h + "px"; }
+  }
+})();
+</script>
+</body>
+</html>
