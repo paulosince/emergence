@@ -78,77 +78,124 @@ details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top
 summary { cursor: pointer; font-weight: 600; }
 details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
 @media (max-width: 480px) { header { padding: 10px 12px 4px; } #palco { margin: 0 12px; } .leitura { margin: 6px 12px 0; } .controles { padding: 8px 12px; } details { margin: 4px 12px 12px; } }
-/* ---- player de testes (guia da Clara, 28/11) ---- */
+/* ---- catálogo, miniplayer e player expandido (guia da Clara, revisão de 28/11) ---- */
 body { display: block; }
-.topo { display: flex; align-items: center; gap: 12px; padding: 10px 16px 6px; }
-.voltar { color: var(--texto); text-decoration: none; font-size: .95rem; padding: 8px 10px; border: 1px solid #2a3a3e; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center; }
+.topo { padding: 12px 16px 4px; display: grid; gap: 4px; }
 .marca { display: flex; align-items: center; gap: 8px; }
 .marca .word { font-size: 20px; letter-spacing: .28em; }
-#app { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 0 12px 24px; }
-.capa #palco { margin: 0; height: 58vh; min-height: 320px; flex: none; }
-#escala { position: absolute; left: 8px; bottom: 6px; pointer-events: none; }
-.menu { position: absolute; right: 8px; top: 8px; margin: 0; border: 0; padding: 0; font-size: .85rem; }
-.menu > summary { list-style: none; width: 44px; height: 44px; display: grid; place-items: center; background: #0d1417cc; border: 1px solid #2a3a3e; border-radius: 10px; font-size: 1.3rem; }
-.menu > summary::-webkit-details-marker { display: none; }
-.menu-corpo { position: absolute; right: 0; top: 50px; width: min(86vw, 340px); max-height: 60vh; overflow: auto; background: #0b1114f2; border: 1px solid #2a3a3e; border-radius: 10px; padding: 10px; display: grid; gap: 10px; }
-.menu-grupo > span { color: var(--apagado); font-size: .78rem; display: block; margin-bottom: 4px; }
-.botoes { display: flex; flex-wrap: wrap; gap: 6px; }
-button { min-height: 40px; }
-.card { border: 1px solid var(--linha); border-radius: 10px; padding: 10px 12px; display: grid; gap: 6px; }
-.card .estudo { color: var(--apagado); font-size: .78rem; letter-spacing: .04em; }
-.card h1 { font-size: 1.15rem; }
-.card p { margin: 0; }
-.pergunta { font-weight: 600; }
-.explic, .estado { color: var(--apagado); font-size: .88rem; line-height: 1.45; }
+.topo h1 { font-size: 1.15rem; }
+#catalogo { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 8px 12px; }
+@media (min-width: 760px) { #catalogo { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); align-items: start; } }
+.estudo { border: 1px solid var(--linha); border-radius: 12px; padding: 12px; display: grid; gap: 6px; background: #071014; }
+.estudo.planejado { border-color: #3d7bff66; }
+.estudo.tocando { border-color: var(--nova); box-shadow: 0 0 12px #b45cff33 inset; }
+.estudo h2 { margin: 0; font-size: 1.05rem; }
+.estudo .perg { margin: 0; font-weight: 600; line-height: 1.4; }
+.estudo .linha-e { color: var(--apagado); font-size: .82rem; }
+.estudo .disp { font: 500 .75rem var(--mono); color: var(--apagado); }
+.estudo details { margin: 0; border-top: 1px solid var(--linha); padding-top: 6px; font-size: .88rem; }
+.estudo details summary { min-height: 44px; display: flex; align-items: center; color: var(--texto); }
+.ficha { display: grid; gap: 8px; line-height: 1.45; }
+.ficha h3 { margin: 6px 0 0; font-size: .8rem; color: var(--apagado); text-transform: uppercase; letter-spacing: .06em; }
+.ficha p, .ficha ul { margin: 0; } .ficha ul { padding-left: 18px; }
+.selo { display: inline-block; font: 600 .7rem var(--mono); padding: 2px 6px; border-radius: 6px; border: 1px solid; margin-right: 4px; }
+.selo.prev { color: #9fb3ff; border-color: #3d7bff88; } .selo.obs { color: var(--excit); border-color: #39ff1466; } .selo.aberto { color: var(--apagado); border-color: #2a3a3e; }
 .segmentos { display: inline-flex; border: 1px solid #2a3a3e; border-radius: 10px; overflow: hidden; width: fit-content; }
 .segmentos button { border: 0; border-radius: 0; min-height: 44px; }
-.transporte { display: grid; gap: 6px; }
-#barra { width: 100%; accent-color: var(--nova); min-height: 32px; }
+.reproduzir { min-height: 48px; font-weight: 700; border-color: var(--nova); }
+.sobre { padding: 0 12px; } .sobre details { margin: 6px 0 0; }
+#reserva { height: 0; } body.com-mini #reserva { height: calc(76px + env(safe-area-inset-bottom)); }
+#mini { position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); z-index: 20; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px;
+  background: #0d1417f2; border: 1px solid #2a3a3e; border-radius: 14px; padding: 8px 8px 8px 12px; box-shadow: 0 6px 24px #000a; overflow: hidden; }
+#mini[hidden] { display: none; }
+#mini-prog { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #1a2428; } #mini-prog i { display: block; height: 100%; width: 0; background: var(--nova); }
+#mini-abrir { background: none; border: 0; text-align: left; display: grid; padding: 4px 0; min-height: 48px; }
+#mini-titulo { font-weight: 600; } #mini-sub { color: var(--apagado); font-size: .78rem; }
+.mini-play { width: 48px; height: 48px; border-radius: 50%; padding: 0; font-size: 1.1rem; }
+#player { position: fixed; inset: 0; z-index: 30; background: var(--fundo); display: grid; grid-template-rows: auto minmax(0, 1fr) auto auto; padding-bottom: env(safe-area-inset-bottom); }
+#player[hidden] { display: none; }
+.alca { display: grid; grid-template-columns: auto 1fr; gap: 8px; align-items: center; padding: 6px 10px; touch-action: none; position: relative; }
+.puxador { position: absolute; left: 50%; top: 3px; width: 40px; height: 4px; border-radius: 2px; background: #2a3a3e; transform: translateX(-50%); }
+#recolher { min-height: 44px; }
+.p-tit { display: grid; } .p-tit span { color: var(--apagado); font-size: .78rem; }
+.p-cena { position: relative; min-height: 0; }
+.p-cena #palco { position: absolute; inset: 0; margin: 0 8px; height: auto; min-height: 0; }
+#escala { position: absolute; left: 8px; bottom: 6px; pointer-events: none; }
+.menu { position: absolute; right: 8px; top: 8px; margin: 0; border: 0; padding: 0; font-size: .85rem; z-index: 2; }
+.menu > summary { list-style: none; width: 44px; height: 44px; display: grid; place-items: center; background: #0d1417cc; border: 1px solid #2a3a3e; border-radius: 10px; font-size: 1.3rem; }
+.menu > summary::-webkit-details-marker { display: none; }
+.menu-corpo { position: absolute; right: 0; top: 50px; width: min(86vw, 340px); max-height: 55vh; overflow: auto; background: #0b1114f2; border: 1px solid #2a3a3e; border-radius: 10px; padding: 10px; display: grid; gap: 10px; }
+.menu-grupo > span { color: var(--apagado); font-size: .78rem; display: block; margin-bottom: 4px; }
+.botoes { display: flex; flex-wrap: wrap; gap: 6px; } button { min-height: 40px; }
+.p-controles { display: grid; gap: 6px; padding: 6px 12px 0; }
+.estado { margin: 0; color: var(--apagado); font-size: .8rem; line-height: 1.4; }
+#barra { width: 100%; accent-color: var(--nova); min-height: 30px; margin: 0; }
 .tempos { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; font: 500 .85rem var(--mono); font-variant-numeric: tabular-nums; }
 #t-dur { text-align: right; }
-.play { width: 64px; height: 64px; border-radius: 50%; font-size: 1.5rem; border-color: var(--nova); }
-.vel-atual { color: var(--apagado); font-size: .78rem; text-align: center; }
-.diario #diario, #diario-todos { margin: 6px 0 0; max-height: none; border-left: 0; padding-left: 0; font: inherit; }
-.diario { margin: 0; border: 1px solid var(--linha); border-radius: 10px; padding: 8px 12px; }
-.diario ol { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 4px; }
-.diario li button { width: 100%; text-align: left; background: none; border: 0; padding: 6px 4px; font: .82rem/1.4 var(--mono); color: var(--apagado); }
-.diario li.atual button { color: var(--texto); background: #b45cff1a; border-left: 3px solid var(--nova); }
-.diario .todos { margin: 6px 0 0; border: 0; padding: 0; font-size: .8rem; }
-#diario-todos { max-height: 40vh !important; overflow: auto; }
-.lista { display: grid; gap: 6px; }
-.lista h2 { font-size: 1rem; margin: 6px 0 0; }
-#faixas { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
-.faixa { display: grid; grid-template-columns: 52px 1fr auto; gap: 10px; align-items: center; border: 1px solid var(--linha); border-radius: 10px; padding: 8px; }
-.faixa.ativa { border-color: var(--nova); box-shadow: 0 0 10px #b45cff33 inset; }
-.faixa.destaque { border-color: #3d7bff66; }
-.faixa .fplay { width: 48px; height: 48px; border-radius: 50%; padding: 0; font-size: 1.1rem; }
-.faixa .ft { font-weight: 600; }
-.faixa .fs { color: var(--apagado); font-size: .78rem; }
-.faixa .fd { font: 500 .8rem var(--mono); color: var(--apagado); }
-.sobre details { margin: 4px 0 0; }
+.play { width: 60px; height: 60px; border-radius: 50%; font-size: 1.4rem; border-color: var(--nova); }
+.diario { margin: 0 12px 8px; border: 1px solid var(--linha); border-radius: 10px; padding: 6px 10px; font-size: .85rem; }
+#diario-todos { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 2px; max-height: 24vh; overflow: auto; overscroll-behavior: contain; }
+#diario-todos li button { width: 100%; text-align: left; background: none; border: 0; padding: 6px 4px; font: .78rem/1.4 var(--mono); color: var(--apagado); min-height: 0; }
+#diario-todos li.atual button { color: var(--texto); background: #b45cff1a; border-left: 3px solid var(--nova); }
+#diario-todos li.vizinho button { color: #aebdb8; }
+@media (max-height: 700px) { #diario-todos { max-height: 14vh; } }
+@media (max-height: 560px) { #diario-todos { max-height: 8vh; } }
 @media (min-width: 900px) {
-  #app { grid-template-columns: minmax(0, 1fr) 360px; grid-template-areas: "capa diario" "card diario" "transporte diario" "lista lista" "sobre sobre"; align-items: start; }
-  .capa { grid-area: capa; } .card { grid-area: card; } .transporte { grid-area: transporte; } .diario { grid-area: diario; } .lista { grid-area: lista; } .sobre { grid-area: sobre; }
-  .capa #palco { height: 62vh; }
-  #diario-todos { max-height: 70vh; }
+  #player { grid-template-columns: minmax(0, 1fr) 380px; grid-template-rows: auto minmax(0, 1fr) auto; }
+  .alca { grid-column: 1 / -1; } .p-cena { grid-column: 1; grid-row: 2; } .p-controles { grid-column: 1; grid-row: 3; padding-bottom: 10px; }
+  .diario { grid-column: 2; grid-row: 2 / 4; margin: 0 12px 12px 0; display: flex; flex-direction: column; min-height: 0; }
+  #diario-todos { max-height: none; flex: 1; }
 }
 </style>
 </head>
 <body>
 <header class="topo">
-  <a href="#lista" class="voltar" aria-label="Voltar à lista de testes">← Testes</a>
   <div class="marca"><svg class="mark" viewBox="0 0 64 32" aria-hidden="true">
       <defs><linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#39ff14"/><stop offset="1" stop-color="#e9fbe4"/></linearGradient></defs>
       <path d="M6 6 Q22 8 30 16 M6 26 Q22 24 30 16" fill="none" stroke="url(#cg)" stroke-width="2.2" stroke-linecap="round"/>
       <path d="M38 16 L58 16" fill="none" stroke="#e9fbe4" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="3 3"/>
       <circle cx="6" cy="6" r="3.6" fill="#8fa09b"/><circle cx="6" cy="26" r="3.6" fill="#8fa09b"/>
       <circle cx="34" cy="16" r="6" fill="#39ff14"/><circle cx="34" cy="16" r="2.4" fill="#04070a"/>
-    </svg><span class="word">CLEAR</span><span class="ver">Sdom · EMERGENCE · V19</span></div>
+    </svg><span class="word">CLEAR</span></div>
+  <h1>Sdom · estudos da V19 <span class="ver">EMERGENCE</span></h1>
+  <p class="sub">Cada card é um estudo. Abra a ficha para ler a pergunta, o que muda, o que procurar na cena e o que os dados permitem dizer. O play abre um miniplayer; toque nele para explorar a cena 3D.</p>
 </header>
 <audio id="audio" preload="auto" src="visual/v18-satie/audio.mp3"></audio>
-<main id="app">
-  <section class="capa" aria-label="Cena 3D do Sdom">
-    <div id="palco" aria-label="Espaço 3D do Sdom: arraste para girar, pince ou role para aproximar">
+<main id="catalogo" aria-label="Estudos da V19"></main>
+<section class="sobre">
+  <details><summary>Legenda da cena</summary>
+    <div class="legenda">
+      <span><b>Fidelidade:</b> tempos e posições vêm dos registros do motor. Cores, curvas e brilho são desenho; a proporção física dos eixos é a do motor (uma camada de poucos cubos parece plana diante de uma faixa de 27,8 mm, e é).</span>
+      <span><b style="color:var(--nova)">Roxo</b> = nascendo ou crescendo (Uint candidata; ramo crescendo cubo a cubo; Upro do nervo crescendo) · neutro = já chegou e funciona · <b style="color:var(--acesso)">azul</b> = disparo · <b style="color:var(--excit)">verde</b> = incidência excitatória.</span>
+      <span><b>Upros:</b> traçado curvo só de desenho (o motor guarda comprimento e atraso); espessura mínima de ~1/10 do diâmetro desenhado da Uint.</span>
+      <span class="demo"><b>Demonstração do robô.</b> Sala, alto-falantes, ondas, microfone e fios mostram a Utrd completa da V0.18 num ambiente simulado. Não fazem parte do Sdom. O microfone está desenhado 3 mm para fora da faixa.</span>
+      <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (estrelas; cores provisórias).</span>
+    </div>
+  </details>
+  <details><summary>O que é cada coisa</summary>
+    <ul>
+      <li><b>Sdom:</b> o espaço onde as representações se constituem, em cubos de 20 µm; as incidências andam a 0,3 m/s (≈ 67 µs por cubo).</li>
+      <li><b>Utrd e pontos transdutivos:</b> a fronteira entre o som e o Sdom (V0.18). Cada ponto converte o sinal da sua banda e sensibilidade em <b>incidências</b>.</li>
+      <li><b>Ustr:</b> as glias. Registram, no seu território, as incidências que não integraram; duas na mesma janela de 0,3 ms são uma <b>coincidência</b>.</li>
+      <li><b>Uint:</b> unidade que integra. Nasce como <b>candidata</b> perto de um par que coincide (ou o par reutiliza uma Uint que já está ali); soma o que chega pelos ramos e <b>dispara</b> ao passar do limiar (1,5).</li>
+      <li><b>Upro e ramos:</b> a Upro é a aresta com várias cabeças; cada cabeça é um <b>ramo</b>. Cresce 1 cubo a cada ~12 coincidências (ramos) ou reacessos (nervo) e só funciona quando chega.</li>
+      <li><b>Cpro (a fibra):</b> o feixe das Upros de uma faixa.</li>
+    </ul>
+  </details>
+  <details><summary>Contagem do instante zero</summary><div id="contagem"></div></details>
+</section>
+<div id="reserva" aria-hidden="true"></div>
+<!-- miniplayer: fixo no rodapé, depois do primeiro play -->
+<div id="mini" hidden>
+  <div id="mini-prog"><i></i></div>
+  <button id="mini-abrir" aria-label="Expandir o player"><span id="mini-titulo"></span><span id="mini-sub"></span></button>
+  <button id="mini-play" class="mini-play" aria-label="Reproduzir">▶</button>
+</div>
+<!-- player expandido: cena fixa, transporte e diário -->
+<section id="player" aria-label="Player do estudo" hidden>
+  <div class="alca" id="alca"><span class="puxador" aria-hidden="true"></span><button id="recolher" aria-label="Recolher o player">⌄ Recolher</button><div class="p-tit"><b id="p-titulo"></b><span id="p-sub"></span></div></div>
+  <div class="p-cena">
+    <div id="palco" aria-label="Espaço 3D do Sdom: arraste para girar, pince para aproximar">
       <div id="carregando">carregando as coordenadas…</div>
       <div id="escala" aria-hidden="true"></div>
       <details class="menu" id="menu"><summary aria-label="Mais ações">⋯</summary>
@@ -163,55 +210,19 @@ button { min-height: 40px; }
         </div>
       </details>
     </div>
-  </section>
-  <section class="card" aria-live="polite">
-    <div class="estudo" id="c-estudo"></div>
-    <h1 id="c-titulo"></h1>
-    <div id="c-cond" class="segmentos" role="group" aria-label="Condição" hidden>
-      <button data-faixa="A">Folha fixa</button><button data-faixa="B">Profundidade local</button>
-    </div>
-    <p class="pergunta" id="c-pergunta"></p>
-    <p class="explic" id="c-explic"></p>
-    <p class="estado" id="c-estado"></p>
-    <div id="c-falha" hidden><span>Não foi possível carregar os dados deste teste.</span> <button id="c-tentar">Tentar de novo</button></div>
-  </section>
-  <section class="transporte" aria-label="Reprodução">
+  </div>
+  <div class="p-controles">
+    <div id="p-cond" class="segmentos" role="group" aria-label="Condição" hidden><button data-faixa="A">A · Folha fixa</button><button data-faixa="B">B · Profundidade local</button></div>
+    <p id="p-estado" class="estado" aria-live="polite"></p>
+    <div id="p-falha" hidden><span>Não foi possível carregar os dados.</span> <button id="p-tentar">Tentar de novo</button></div>
     <input id="barra" type="range" min="0" max="1" step="0.001" value="0" aria-label="Tempo do teste">
     <div class="tempos"><span id="t-dec">0:00</span><button id="play" class="play" aria-label="Reproduzir">▶</button><span id="t-dur">0:00</span></div>
-    <div class="vel-atual" id="vel-atual"></div>
-  </section>
+  </div>
   <details class="diario" id="diario-box" open>
     <summary>Diário do motor</summary>
-    <ol id="diario" aria-live="polite"></ol>
-    <details class="todos"><summary id="todos-titulo">Todos os acontecimentos</summary><ol id="diario-todos"></ol></details>
+    <ol id="diario-todos"></ol>
   </details>
-  <section class="lista" id="lista" aria-label="Testes da V19">
-    <h2>Testes da V19</h2>
-    <ol id="faixas"></ol>
-  </section>
-  <section class="sobre">
-    <details><summary>Legenda da cena</summary>
-      <div class="legenda">
-        <span><b>Fidelidade:</b> tempos e posições vêm dos registros do motor. Cores, curvas e brilho são desenho; a proporção física dos eixos é a do motor (uma camada de poucos cubos parece plana diante de uma faixa de 27,8 mm, e é).</span>
-        <span><b style="color:var(--nova)">Roxo</b> = nascendo ou crescendo (Uint candidata que nasce; ramo crescendo cubo a cubo; Upro do nervo crescendo) · neutro = já chegou e funciona · <b style="color:var(--acesso)">azul</b> = disparo · <b style="color:var(--excit)">verde</b> = incidência excitatória.</span>
-        <span><b>Upros:</b> traçado curvo só de desenho (o motor guarda comprimento e atraso); espessura mínima de ~1/10 do diâmetro desenhado da Uint.</span>
-        <span class="demo"><b>Demonstração do robô.</b> Sala, alto-falantes, ondas, microfone e fios mostram a Utrd completa da V0.18 num ambiente simulado. Não fazem parte do Sdom. O microfone está desenhado 3 mm para fora da faixa.</span>
-        <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (estrelas; cores provisórias).</span>
-      </div>
-    </details>
-    <details><summary>O que é cada coisa</summary>
-      <ul>
-        <li><b>Sdom:</b> o espaço onde as representações se constituem, em cubos de 20 µm; as incidências andam a 0,3 m/s (≈ 67 µs por cubo).</li>
-        <li><b>Utrd e pontos transdutivos:</b> a fronteira entre o som e o Sdom (V0.18). Cada ponto converte o sinal da sua banda e sensibilidade em <b>incidências</b>.</li>
-        <li><b>Ustr:</b> as glias. Registram, no seu território, as incidências que não integraram; duas na mesma janela de 0,3 ms são uma <b>coincidência</b>.</li>
-        <li><b>Uint:</b> unidade que integra. Nasce como candidata perto de um par que coincide; soma o que chega pelos ramos e <b>dispara</b> ao passar do limiar (1,5).</li>
-        <li><b>Upro e ramos:</b> a Upro é a aresta com várias cabeças; cada cabeça é um <b>ramo</b>. Cresce 1 cubo a cada ~12 coincidências (ramos) ou reacessos (nervo) e só funciona quando chega.</li>
-        <li><b>Cpro (a fibra):</b> o feixe das Upros de uma faixa.</li>
-      </ul>
-    </details>
-    <details><summary>Contagem do instante zero</summary><div id="contagem"></div></details>
-  </section>
-</main>
+</section>
 <script type="importmap">
 { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
@@ -761,6 +772,8 @@ const teste = await (async () => {
       nervo.material.uniforms.nova = { value: NOVA }; nervo.material.uniforms.feita = { value: FEITA };
       nervo.material.fragmentShader = "uniform vec3 nova, feita; " + nervo.material.fragmentShader;
       const ft = A(p + "f_t"), fu = A(p + "f_u"), nF = ft.length, gp = new Float32Array(nF * 3);
+      const pt = A(p + "p_t"), pu = A(p + "p_u"), tNovo = [], tReuso = [];
+      for (let i = 0; i < pt.length; i++) (pt[i] > ut[pu[i]] + 1e-9 ? tReuso : tNovo).push(pt[i]);
       for (let i = 0; i < nF; i++) gp.set(cen.subarray(3 * fu[i], 3 * fu[i] + 3), 3 * i);
       const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(gp, 3)); g.setAttribute("ft", new THREE.BufferAttribute(ft, 1));
       const mf = new THREE.ShaderMaterial({ uniforms: { ...COMUM, uT: { value: 0 }, minPx: { value: 3 }, ativa: { value: ACESSO } },
@@ -775,7 +788,7 @@ const teste = await (async () => {
       const chegou = Array.from({ length: nP }, (_, q) => tSeg[10 * q + 9]).filter(v => v < 1e8).sort((x, y) => x - y);
       const funcion = Array.from(rb).filter(v => v >= 0).sort((x, y) => x - y);
       const prim = new Float32Array(nU).fill(1e9); for (let i = 0; i < nF; i++) if (ft[i] < prim[fu[i]]) prim[fu[i]] = ft[i];
-      out[c] = { objs, u, ut, nU, fora, ramos, nervo, mf, st, ft, chegou, funcion, prim, rb };
+      out[c] = { objs, u, ut, nU, fora, ramos, nervo, mf, st, ft, chegou, funcion, prim, rb, tNovo, tReuso };
     }
     return out;
   }
@@ -788,16 +801,18 @@ const teste = await (async () => {
     const L = d.u.luz; let nu = 0, nfora = 0, nprim = 0;
     for (let i = 0; i < d.nU; i++) { if (d.ut[i] > t) { L[i] = -1; continue; } nu++; nfora += d.fora[i]; if (d.prim[i] <= t) nprim++; L[i] = Math.max(0, 1 - (t - d.ut[i]) / 1.5); }
     d.u.aLuz.needsUpdate = true;
-    return `Upros do nervo que chegaram ao núcleo ${fmt(ate(d.chegou, t))} de ${fmt(mj.n_pontos)} · Uints candidatas ${fmt(nu)}${cond === "B" ? ` (fora da folha ${fmt(nfora)})` : ""} · ramos que chegaram à Uint ${fmt(ate(d.funcion, t))} · Uints que já dispararam ${fmt(nprim)} · disparos ${fmt(ate(d.ft, t))}.`;
+    return `Upros do nervo que chegaram ao núcleo ${fmt(ate(d.chegou, t))} de ${fmt(mj.n_pontos)} · Uints candidatas ${fmt(nu)}${cond === "B" ? ` (fora da folha ${fmt(nfora)})` : ""} · pares que reutilizaram uma Uint ${fmt(ate(d.tReuso, t))} · ramos que chegaram à Uint ${fmt(ate(d.funcion, t))} · Uints que já dispararam ${fmt(nprim)} · disparos ${fmt(ate(d.ft, t))}.`;
   }
   function eventos(cond) {
     const d = D[cond], ev = [], B = 1;
     for (let b0 = 0; b0 < FIMT; b0 += B) {
-      const b1 = b0 + B; let f = 0, u = 0, uf = 0, r = 0, p1 = 0;
+      const b1 = b0 + B; let f = 0, u = 0, uf = 0, r = 0, p1 = 0, pn = 0, pr = 0;
+      for (const v of d.tNovo) if (v >= b0 && v < b1) pn++; for (const v of d.tReuso) if (v >= b0 && v < b1) pr++;
       for (const v of d.chegou) if (v >= b0 && v < b1) f++;
       for (let i = 0; i < d.nU; i++) { if (d.ut[i] >= b0 && d.ut[i] < b1) { u++; uf += d.fora[i]; } if (d.prim[i] >= b0 && d.prim[i] < b1) p1++; }
       for (const v of d.funcion) if (v >= b0 && v < b1) r++;
       const p = []; if (f) p.push(`${fmt(f)} Upros do nervo chegaram ao núcleo`); if (u) p.push(`<span style="color:var(--nova)">${fmt(u)} Uints candidatas nasceram</span>${cond === "B" && uf ? ` (${fmt(uf)} fora da folha)` : ""}`);
+      if (pr) p.push(`${fmt(pr)} pares reutilizaram uma Uint já existente (de ${fmt(pn + pr)} pares novos)`);
       if (r) p.push(`${fmt(r)} ramos chegaram à Uint`); if (p1) p.push(`<span style="color:var(--acesso)">${fmt(p1)} Uints dispararam pela primeira vez</span>`);
       if (p.length) ev.push({ t: b0, txt: `<b>${fmtT(b0)}–${fmtT(b1)}</b> (1 s) · ${p.join(" · ")}` });
     }
@@ -853,203 +868,265 @@ function aplicar(fr) {
   altos.luz[0] = nivel01(CAN[fr] / 255 * 90) * 0.6; altos.luz[1] = nivel01(CAN[NF + fr] / 255 * 90) * 0.6; altos.aLuz.needsUpdate = true;
 }
 function tamanho() {
-  const w = palco.clientWidth, h = palco.clientHeight, pr = render.getPixelRatio();
+  const w = palco.clientWidth, h = palco.clientHeight, pr = render.getPixelRatio(); if (!w || !h) return;
   render.setSize(w, h, false); composer.setPixelRatio(pr); composer.setSize(w, h);
   camera.aspect = w / h; camera.updateProjectionMatrix();
   COMUM.uPix.value = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) / (h * pr);
   COMUM.uMinU.value = 1.5 * pr;
   cena.traverse(o => { const m = o.material; if (m && m.userData && m.userData.min0 !== undefined && m.uniforms.minPx) m.uniforms.minPx.value = m.userData.min0 * pr; });   // mínimo em pixels de tela, também em telas densas
 }
-// ---------- player de testes (guia da Clara): uma faixa por vez, capa 3D, card da hipótese, transporte e diário ----------
+// ---------- catálogo de estudos, miniplayer e player expandido (guia da Clara, revisão de 28/11) ----------
 function fmtT(t) { const m = Math.floor(t / 60), s2 = t - 60 * m; return `${m}:${String(Math.floor(s2)).padStart(2, "0")}`; }
 const fmtMs = t => `${(t * 1000).toFixed(2).replace(".", ",")} ms`;
 const audio = document.getElementById("audio");
-let T = 0;                                // relógio da V0.18 (demonstração, piloto e lupa) e relógio visual
-// janela da lupa: 10 ms em torno do primeiro disparo registrado na janela de observação
+let T = 0;                                 // relógio da V0.18 (demonstração, piloto e lupa)
 const LUPA0 = obs ? Math.max(obs.t0, (obs.dados.ft.length ? Math.min(...obs.dados.ft) : obs.t0) - 0.004) : 0;
 function eventosPiloto() {
   if (!malha) return []; const { ut, rft, ft, fu } = malha.dados, ev = [], prim = new Map();
   for (let i = 0; i < ft.length; i++) if (!prim.has(fu[i]) || ft[i] < prim.get(fu[i])) prim.set(fu[i], ft[i]);
-  const P = [...prim.values()];
+  const P1 = [...prim.values()];
   for (let b0 = 0; b0 < 10; b0 += 0.5) { const a = b0 * 1000, b = a + 500;
-    const u = ut.filter(v => v >= a && v < b).length, r = rft.filter(v => v >= a && v < b).length, p1 = P.filter(v => v >= a && v < b).length, p = [];
+    const u = ut.filter(v => v >= a && v < b).length, r = rft.filter(v => v >= a && v < b).length, p1 = P1.filter(v => v >= a && v < b).length, p = [];
     if (u) p.push(`<span style="color:var(--nova)">${fmt(u)} Uints candidatas nasceram</span>`); if (r) p.push(`${fmt(r)} ramos chegaram à Uint`); if (p1) p.push(`<span style="color:var(--acesso)">${fmt(p1)} Uints dispararam pela primeira vez</span>`);
     if (p.length) ev.push({ t: b0, txt: `<b>${b0.toFixed(1).replace(".", ",")}–${(b0 + 0.5).toFixed(1).replace(".", ",")} s</b> (0,5 s) · ${p.join(" · ")}` }); }
   return ev;
 }
 function eventosLupa() {
   if (!obs) return []; const { ct, ru, ft, ftU } = obs.dados, ev = [], B = 0.0005;
-  for (let b0 = 0; b0 < 0.01; b0 += B) { const a = LUPA0 + b0, b = a + B; const us = new Set(); let n = 0;
+  for (let b0 = 0; b0 < 0.01 - 1e-9; b0 += B) { const a = LUPA0 + b0, b = a + B; const us = new Set(); let n = 0;
     for (let i = 0; i < ct.length; i++) if (ct[i] >= a && ct[i] < b) { n++; us.add(ru[i]); }
-    const f = []; for (let i = 0; i < ft.length; i++) if (ft[i] >= a && ft[i] < b) f.push(ftU[i]);
-    const p = []; if (n) p.push(`${n} incidências chegaram a ${us.size} Uint(s) pelos ramos`); if (f.length) p.push(`<span style="color:var(--acesso)">${f.length} disparo(s): a soma passou de 1,5</span>`);
+    let nf = 0; for (let i = 0; i < ft.length; i++) if (ft[i] >= a && ft[i] < b) nf++;
+    const p = []; if (n) p.push(`${n} incidências chegaram a ${us.size} Uint(s) pelos ramos`); if (nf) p.push(`<span style="color:var(--acesso)">${nf} disparo(s): a soma passou de 1,5</span>`);
     if (p.length) ev.push({ t: b0, txt: `<b>${fmtMs(b0)}–${fmtMs(b0 + B)}</b> (0,5 ms) · ${p.join(" · ")}` }); }
   return ev;
 }
+// faixas (o que o player toca)
 const FAM18 = ["demo", "piloto", "lupa"];
-const FAIXAS = [
-  { id: "principal", estudo: "Rodada principal", titulo: "Rodada principal (pra valer)", planejada: true, sub: "planejada · ainda sem dados",
-    pergunta: "A volta da obra percorre, em sua maioria, a malha já formada? E uma obra diferente generaliza, reutiliza e constitui novo no que é específico?",
-    explic: "Ainda não rodou: espera a supervisão do responsável." },
-  { id: "A", estudo: "Folha × profundidade · ouvido E, 0–90 s", titulo: "Folha fixa", cond: "A", dur: () => teste ? teste.FIMT : 90, vel: 1, vista: "nucleo",
-    pergunta: "Permitir profundidade muda quais Uints chegam a integrar?",
-    explic: "Condição A: a Uint candidata só pode nascer na folha, o primeiro plano de cubos atrás das pontas das Upros de entrada.", disponivel: () => !!teste },
-  { id: "B", estudo: "Folha × profundidade · ouvido E, 0–90 s", titulo: "Profundidade local", cond: "B", dur: () => teste ? teste.FIMT : 90, vel: 1, vista: "nucleo",
-    pergunta: "Permitir profundidade muda quais Uints chegam a integrar?",
-    explic: "Condição B: a Uint candidata pode nascer na folha ou mais para dentro da cabeça, na mesma caixa de busca (3 cubos em volta do ponto médio do par).", disponivel: () => !!teste },
-  { id: "ensaio", estudo: "Ensaio com o nervo · desenho planar", titulo: "4 gravações no mesmo Sdom", dur: () => sessoes ? sessoes.FIM : 0, vel: 10, vista: "nervo",
-    pergunta: "A volta da obra (outra gravação) percorre, em sua maioria, a malha que já existia?",
-    explic: "Alciatore e Baiocchi formam; Kolodin e Coleman voltam; 1 min de silêncio entre elas. Medido: 94–99% das passagens por ramos que já existiam (limiar: 2/3). Disparos individuais não entram nesta gravação.", disponivel: () => !!sessoes },
-  { id: "piloto", estudo: "Piloto do motor mínimo · sem nervo", titulo: "Piloto de 10 s", dur: () => 10, vel: 1, vista: "E",
-    pergunta: "Incidências que não integraram, coincidindo na mesma janela, fazem nascer Uints e ramos? Essas Uints disparam?",
-    explic: "Motor mínimo de 27/11, ainda sem nervo e com escolhas provisórias. Gymnopédie (Alciatore), 9–19 s.", disponivel: () => !!malha },
-  { id: "lupa", estudo: "Piloto do motor mínimo · janela de observação", titulo: "Incidências andando", dur: () => 0.01, vel: 0.001, vista: "detalhe",
-    pergunta: "A incidência desce pelo ramo no tempo do próprio ramo, e a Uint soma as chegadas até o limiar antes de disparar?",
-    explic: "10 ms do piloto (banda ~600 Hz), a 1/1.000×: cada fóton verde é uma chegada registrada; a Uint acende conforme a soma se aproxima de 1,5.", disponivel: () => !!obs },
-  { id: "demo", estudo: "Demonstração · não é teste", titulo: "Robô ouvindo", dur: () => 10, vel: 1, vista: "geral", audio: true,
-    pergunta: "Não é teste: mostra a Utrd completa (microfone + cóclea) da V0.18 recebendo a Gymnopédie e gerando incidências.",
-    explic: "Dados publicados da V0.18 (Alciatore, 9–19 s). Sala, ondas e fios são demonstração do robô, não unidades do Sdom." },
-];
+const FAIXAS = {
+  A: { estudo: "ab", sub: "A · Folha fixa", dur: () => teste.FIMT, vel: 1, vista: "nucleo" },
+  B: { estudo: "ab", sub: "B · Profundidade local", dur: () => teste.FIMT, vel: 1, vista: "nucleo" },
+  ensaio: { estudo: "ensaio", sub: "4 gravações · dois ouvidos", dur: () => sessoes.FIM, vel: 10, vista: "nervo" },
+  piloto: { estudo: "piloto", sub: "ouvido E · 9–19 s da Alciatore", dur: () => 10, vel: 1, vista: "E" },
+  lupa: { estudo: "lupa", sub: "10 ms a 1/1.000×", dur: () => 0.01, vel: 0.001, vista: "detalhe" },
+  demo: { estudo: "demo", sub: "Alciatore · 9–19 s", dur: () => 10, vel: 1, vista: "geral", audio: true },
+};
 const VELS = { A: [5, 1, 0.25, 0.05], B: [5, 1, 0.25, 0.05], ensaio: [60, 10, 1], piloto: [1, 0.25, 0.05], lupa: [0.01, 0.001, 0.0001], demo: [1, 0.25, 0.05] };
 const velTxt = v => v >= 1 ? `${v}×` : v === 0.25 ? "¼×" : `1/${fmt(Math.round(1 / v))}×`;
-const P = { f: null, t: 0, tocando: false, vel: 1, eventos: [], fim: false, carregando: false };
+// estudos (o catálogo). Selos: previsão registrada · observado · em aberto
+const S_PREV = `<span class="selo prev">previsão registrada</span>`, S_OBS = `<span class="selo obs">observado</span>`, S_AB = `<span class="selo aberto">em aberto</span>`;
+const mAB = teste ? teste.mj.condicoes : null;
+const ESTUDOS = [
+  { id: "principal", titulo: "Rodada principal (pra valer)", planejada: true,
+    pergunta: "A volta da obra percorre, em sua maioria, a malha já formada? E uma obra diferente reutiliza o genérico e constitui novo no específico?",
+    linha: "Gymnopédie ×4 (2 formam, 2 voltam) + Chaconne · dois ouvidos", disp: "planejada · sem dados ainda",
+    ficha: `<h3>Motivação</h3><p>É o teste da V19: transdução representacional fundamentada.</p>
+      <h3>Previsões</h3><ul><li>${S_PREV} Na volta (Kolodin e Coleman), pelo menos 2/3 das passagens de incidências por ramos que já existiam antes da apresentação.</li>
+      <li>${S_PREV} Chaconne: "Generaliza, abstrai, reutiliza. E constitui novo no que é específico." ${S_AB} A forma operacional ainda vai ser escrita.</li></ul>
+      <h3>Estado</h3><p>Espera a supervisão do responsável e o resultado da comparação folha × profundidade. Sem play até haver dados.</p>` },
+  { id: "ab", titulo: "Folha × profundidade", faixas: ["A", "B"],
+    pergunta: "Permitir que uma Uint se forme em profundidade muda quais parceiros chegam a integrar?",
+    linha: "Mesmo trecho da Alciatore · ouvido esquerdo · 90 s por condição", disp: "teste para observação · 1:30 por condição",
+    ficha: `<h3>Motivação</h3><p>No desenho planar, a malha ficou uma lâmina fina. A pergunta (parecer da Clara) é se a liberdade de nascer em profundidade muda quem converge e integra, quando a entrada é a mesma.</p>
+      <h3>O que muda</h3><p>Só onde a Uint candidata pode nascer. <b>A</b>: só na folha, o primeiro plano de cubos atrás das pontas das Upros de entrada. <b>B</b>: na folha ou mais para dentro da cabeça, na mesma caixa de busca (3 cubos em volta do ponto médio do par).</p>
+      <h3>O que se mantém</h3><p>A entrada, os territórios das Ustr (sem comunicação entre elas), a ocupação, o reuso de Uint, a pontuação e o desempate. O nervo de 790 cubos, o ganho de 0,0065 e a punição de 1/60. O estímulo e o estado inicial.</p>
+      <h3>O que procurar na cena</h3><p>Onde nasce uma Uint candidata (<b style="color:var(--nova)">roxo</b>), quando os ramos chegam a ela (ficam neutros) e se ela dispara (<b style="color:var(--acesso)">azul</b>). O diário separa os pares que criaram uma Uint nova dos que <b>reutilizaram</b> uma Uint já existente.</p>
+      <h3>Previsão</h3><p>${S_AB} Ainda não há previsão registrada (Paulo e Clara).</p>
+      <h3>O que este teste mostrou</h3><p>${S_OBS} Em B, ${mAB ? fmt(mAB.B.uints_fora_da_folha) : "—"} de ${mAB ? fmt(mAB.B.n_uints) : "—"} Uints nasceram fora da folha (até ${mAB ? mAB.B.profundidade_max : "—"} cubos). Pares que reutilizaram Uint: A ${mAB ? fmt(mAB.A.pares_que_reutilizaram_uint) : "—"} de ${mAB ? fmt(mAB.A.pares) : "—"}; B ${mAB ? fmt(mAB.B.pares_que_reutilizaram_uint) : "—"} de ${mAB ? fmt(mAB.B.pares) : "—"}. Disparos: A ${mAB ? fmt(mAB.A.n_disparos) : "—"}; B ${mAB ? fmt(mAB.B.n_disparos) : "—"}.</p>
+      <h3>O que os dados permitem dizer</h3><p>Só para este trecho, este ouvido e estas regras: em B, a profundidade foi usada, sobretudo pela regra de caminhos iguais (quanto mais fundo, menor a diferença entre os caminhos do par). As Uints ficaram menos compartilhadas e dispararam menos. Não diz nada sobre a reutilização na volta da obra, nem sobre genérico × específico.</p>
+      <p><code>preregistro-folha-x-profundidade.md</code></p>` },
+  { id: "ensaio", titulo: "Ensaio com o nervo · 4 gravações", faixas: ["ensaio"],
+    pergunta: "A volta da obra (outra gravação) percorre, em sua maioria, a malha que já existia?",
+    linha: "Alciatore → Baiocchi → Kolodin → Coleman · desenho planar · dois ouvidos", disp: () => sessoes ? `${fmtT(sessoes.FIM)} de Sdom contínuo` : "",
+    ficha: `<h3>O que acontece</h3><p>As Upros do nervo crescem 790 cubos com os reacessos dos seus pontos. Depois nascem Uints e ramos na zona de entrada. As 4 gravações passam no mesmo Sdom, com 1 min de silêncio entre elas.</p>
+      <h3>O que procurar na cena</h3><p>O nervo crescendo (roxo), a zona de entrada se enchendo e, nas voltas, o <b style="color:var(--acesso)">azul</b> do que já existia e foi usado. Disparos individuais não entram nesta gravação.</p>
+      <h3>O que foi medido</h3><p>${S_OBS} Passagens por ramos que já existiam: ouvido E 93,9% / 98,1% / 99,3%; ouvido D 94,5% / 97,9% / 99,2% (Baiocchi / Kolodin / Coleman).</p>
+      <h3>O que os dados permitem dizer</h3><p>O limiar de 2/3 foi decidido <b>depois</b> desta execução, então este não é o teste da previsão. O desenho planar tende a espelhar o espectro, e a separação entre genérico e específico ainda não foi medida.</p>
+      <p><code>ensaio-nervo-4-gravacoes.md</code></p>` },
+  { id: "piloto", titulo: "Piloto de 10 s", faixas: ["piloto"],
+    pergunta: "Incidências que não integraram, coincidindo na mesma janela, fazem nascer Uints e ramos? Essas Uints disparam?",
+    linha: "Motor mínimo de 27/11, ainda sem nervo · ouvido esquerdo", disp: "10 s",
+    ficha: `<h3>O que procurar na cena</h3><p>Uints candidatas nascendo (roxo) perto da faixa, ramos crescendo cubo a cubo até elas e os primeiros disparos (azul).</p>
+      <h3>O que os dados permitem dizer</h3><p>${S_OBS} O mecanismo funciona de ponta a ponta. Foi um piloto com escolhas provisórias, para medir a velocidade do motor: não é resultado da V19. <code>piloto-10s.md</code></p>` },
+  { id: "lupa", titulo: "Incidências andando", faixas: ["lupa"],
+    pergunta: "A incidência desce pelo ramo no tempo do próprio ramo, e a Uint soma as chegadas até o limiar antes de disparar?",
+    linha: "10 ms do piloto (banda ~600 Hz) · 1/1.000×", disp: "10 ms",
+    ficha: `<h3>O que procurar na cena</h3><p>Cada fóton verde é uma chegada registrada pelo motor, andando no tempo do ramo (0,07–0,5 ms). A Uint acende em verde conforme a soma se aproxima de 1,5 e solta um clarão azul ao disparar.</p>
+      <h3>Natureza</h3><p>Demonstração do mecanismo com os registros do piloto; não testa hipótese nova.</p>` },
+  { id: "demo", titulo: "Robô ouvindo", faixas: ["demo"],
+    pergunta: "Não é teste: a Utrd completa (microfone + cóclea) da V0.18 recebendo a Gymnopédie e gerando incidências.",
+    linha: "Alciatore, 9–19 s · dados publicados da V0.18 · com som", disp: "10 s",
+    ficha: `<h3>O que observar</h3><p>As ondas saindo dos alto-falantes, o sinal elétrico do microfone abrindo-se nas 64 bandas com o atraso de cada filtro, e os pontos transdutivos acendendo (verde) conforme a banda e a sensibilidade. Sala, ondas e fios são demonstração do robô, não unidades do Sdom.</p>` },
+];
+const P = { f: null, fid: null, t: 0, tocando: false, vel: 1, eventos: [], fim: false, carregando: false, cond: "A", aberto: false, usado: false };
 const el = id => document.getElementById(id);
-const barraEl = el("barra"), playEl = el("play");
-const fmtTempo = (f, t) => f.id === "lupa" ? fmtMs(t) : fmtT(t);
+const barraEl = el("barra"), playEl = el("play"), playerEl = el("player"), miniEl = el("mini");
+const fmtTempo = (fid, t) => fid === "lupa" ? fmtMs(t) : fmtT(t);
 function mostrarV18(v) { [ondas, altos, fios, mics].forEach(o => o.visible = v); }
-function esconderTudo() {
-  if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false);
-  if (sessoes) sessoes.mostrar(false); if (teste) teste.mostrar(false);
+function esconderTudo() { if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); if (sessoes) sessoes.mostrar(false); if (teste) teste.mostrar(false); }
+// catálogo
+function montarCatalogo() {
+  const cat = el("catalogo"); cat.innerHTML = "";
+  for (const e of ESTUDOS) {
+    if (e.id === "ab" && !teste) continue; if (e.id === "ensaio" && !sessoes) continue; if ((e.id === "piloto") && !malha) continue; if (e.id === "lupa" && !obs) continue;
+    const art = document.createElement("article"); art.className = "estudo" + (e.planejada ? " planejado" : ""); art.dataset.estudo = e.id;
+    const disp = typeof e.disp === "function" ? e.disp() : e.disp;
+    let acoes = "";
+    if (e.faixas) {
+      if (e.faixas.length > 1) acoes += `<div class="segmentos" role="group" aria-label="Condição">${e.faixas.map(c => `<button data-sel="${c}">${FAIXAS[c].sub}</button>`).join("")}</div><p class="explic-cond"></p>`;
+      acoes += `<button class="reproduzir">▶ Reproduzir</button>`;
+    }
+    art.innerHTML = `<h2>${e.titulo}</h2><p class="perg">${e.pergunta}</p><div class="linha-e">${e.linha}</div><div class="disp">${disp}</div>`
+      + `<details><summary>${e.planejada ? "Ver ficha ⌄" : "Explorar estudo ⌄"}</summary><div class="ficha">${e.ficha}${acoes}</div></details>`;
+    cat.appendChild(art);
+    if (e.faixas) {
+      const atualizarSel = () => { art.querySelectorAll("[data-sel]").forEach(b => b.setAttribute("aria-pressed", b.dataset.sel === P.cond));
+        const ex = art.querySelector(".explic-cond"); if (ex) ex.textContent = P.cond === "A" ? "A · Folha fixa: a Uint candidata só pode nascer na folha." : "B · Profundidade local: a Uint candidata pode nascer na folha ou mais para dentro da cabeça."; };
+      art.querySelectorAll("[data-sel]").forEach(b => b.onclick = () => { P.cond = b.dataset.sel; atualizarSel(); if (P.f && P.f.estudo === "ab") abrir(P.cond); });
+      atualizarSel();
+      art.querySelector(".reproduzir").onclick = () => {
+        const fid = e.faixas.length > 1 ? P.cond : e.faixas[0];
+        if (P.fid === fid) alternar(); else abrir(fid, { tocar: true });
+      };
+    }
+  }
+  estadoCatalogo();
 }
-async function abrir(id, { tocar = false } = {}) {
-  const f = FAIXAS.find(x => x.id === id); if (!f || f.planejada) return;
-  const mesmoEstudo = P.f && P.f.cond && f.cond;                       // A ↔ B: mesmo instante, câmera e estado de reprodução
-  const estavaTocando = P.tocando;
+function estadoCatalogo() {
+  document.querySelectorAll(".estudo").forEach(art => { const ativo = P.f && P.f.estudo === art.dataset.estudo; art.classList.toggle("tocando", !!ativo);
+    const b = art.querySelector(".reproduzir"); if (!b) return;
+    const meu = ativo && (art.dataset.estudo !== "ab" || P.fid === P.cond);
+    b.textContent = meu ? (P.tocando ? "❚❚ Pausar" : P.fim ? "↺ Repetir" : "▶ Continuar") : "▶ Reproduzir"; });
+}
+// abrir uma faixa (A ↔ B conserva instante, câmera e reprodução)
+async function abrir(fid, { tocar = false } = {}) {
+  const f = FAIXAS[fid]; if (!f) return;
+  const mesmoEstudo = P.f && P.f.estudo === "ab" && f.estudo === "ab", estavaTocando = P.tocando;
   if (!mesmoEstudo) { P.tocando = false; P.t = 0; P.vel = f.vel; audio.pause(); }
-  P.f = f; P.fim = false; P.carregando = true; montarCard(); montarLista(); montarVel();
-  el("c-falha").hidden = true; el("c-estado").textContent = "carregando os dados do teste…";
-  try {
-    if (f.cond) await teste.carregar(); else if (f.id === "ensaio") await sessoes.carregar();
-  } catch (e) { console.warn(e); P.carregando = false; el("c-estado").textContent = ""; el("c-falha").hidden = false; return; }
+  P.f = f; P.fid = fid; P.fim = false; P.carregando = true; P.usado = true;
+  if (f.estudo === "ab") P.cond = fid;
+  montarCabeca(); miniEl.hidden = false; document.body.classList.add("com-mini");
+  el("p-falha").hidden = true; el("p-estado").textContent = "carregando os dados do estudo…"; el("mini-sub").textContent = "carregando…";
+  try { if (f.estudo === "ab") await teste.carregar(); else if (fid === "ensaio") await sessoes.carregar(); }
+  catch (e) { console.warn(e); P.carregando = false; el("p-estado").textContent = ""; el("p-falha").hidden = false; el("mini-sub").textContent = "falha ao carregar · toque para tentar de novo"; return; }
   P.carregando = false;
-  esconderTudo(); pontos.luz.fill(0); pontos.aLuz.needsUpdate = true;
-  mostrarV18(FAM18.includes(f.id));
-  if (f.id === "piloto" || f.id === "lupa") malha.objs.forEach(o => o.visible = true);
-  if (f.id === "lupa") obs.objs.forEach(o => o.visible = true);
-  if (f.id === "ensaio") sessoes.mostrar(true);
+  esconderTudo(); pontos.luz.fill(0); pontos.aLuz.needsUpdate = true; mostrarV18(FAM18.includes(fid));
+  if (fid === "piloto" || fid === "lupa") malha.objs.forEach(o => o.visible = true);
+  if (fid === "lupa") obs.objs.forEach(o => o.visible = true);
+  if (fid === "ensaio") sessoes.mostrar(true);
   if (!mesmoEstudo) vista(f.vista);
-  P.eventos = f.cond ? teste.eventos(f.cond) : f.id === "ensaio" ? sessoes.eventos() : f.id === "piloto" ? eventosPiloto() : f.id === "lupa" ? eventosLupa() : [];
-  montarTodos(); barraEl.max = f.dur(); el("t-dur").textContent = fmtTempo(f, f.dur());
-  ir(P.t);
-  if (tocar || (mesmoEstudo && estavaTocando)) alternar(true);
+  P.eventos = f.estudo === "ab" ? teste.eventos(fid) : fid === "ensaio" ? sessoes.eventos() : fid === "piloto" ? eventosPiloto() : fid === "lupa" ? eventosLupa() : [];
+  montarDiario(); montarVel(); barraEl.max = f.dur(); el("t-dur").textContent = fmtTempo(fid, f.dur());
+  ir(P.t); alternar(tocar || (mesmoEstudo && estavaTocando));
+}
+function montarCabeca() {
+  const e = ESTUDOS.find(x => x.id === P.f.estudo);
+  el("p-titulo").textContent = e.titulo; el("p-sub").textContent = P.f.sub; el("mini-titulo").textContent = e.titulo;
+  el("p-cond").hidden = P.f.estudo !== "ab"; document.querySelectorAll("#p-cond [data-faixa]").forEach(b => b.setAttribute("aria-pressed", b.dataset.faixa === P.fid));
 }
 function alternar(forcar) {
   if (!P.f || P.carregando) return;
-  const quer = forcar === undefined ? !P.tocando : forcar;
+  const quer = forcar === undefined ? !P.tocando : !!forcar;
   if (quer && P.fim) { P.fim = false; ir(0); }
-  P.tocando = quer; playEl.textContent = quer ? "❚❚" : P.fim ? "↺" : "▶"; playEl.setAttribute("aria-label", quer ? "Pausar" : P.fim ? "Repetir" : "Reproduzir");
+  P.tocando = quer;
+  const ic = quer ? "❚❚" : P.fim ? "↺" : "▶", rot = quer ? "Pausar" : P.fim ? "Repetir" : "Reproduzir";
+  for (const b of [playEl, el("mini-play")]) { b.textContent = ic; b.setAttribute("aria-label", rot); }
   if (P.f.audio) { if (quer && P.vel === 1) { try { audio.currentTime = P.t; } catch (e) {} audio.play().catch(() => {}); } else audio.pause(); }
-  montarLista();
+  estadoCatalogo();
 }
 function ir(t) {
   const f = P.f; if (!f) return; P.t = Math.min(Math.max(t, 0), f.dur());
-  if (FAM18.includes(f.id)) { T = f.id === "lupa" ? LUPA0 + P.t : Math.min(P.t, DUR - 0.005); limparFotons(); if (f.audio && !audio.paused) try { audio.currentTime = P.t; } catch (e) {} }
+  if (FAM18.includes(P.fid)) { T = P.fid === "lupa" ? LUPA0 + P.t : Math.min(P.t, DUR - 0.005); limparFotons(); if (f.audio && !audio.paused) try { audio.currentTime = P.t; } catch (e) {} }
   desenhar(true);
 }
 let ultDes = -1, ultEst = 0;
 function desenhar(forcar) {
   const f = P.f; if (!f || P.carregando) return;
   let est = "";
-  if (f.cond) { if (forcar || Math.abs(P.t - ultDes) > 0.004) { est = teste.ir(P.t, f.cond); ultDes = P.t; } }
-  else if (f.id === "ensaio") { if (forcar || Math.abs(P.t - ultDes) > 0.049) { est = sessoes.ir(P.t); ultDes = P.t; } }
-  else if (f.id === "piloto" || f.id === "lupa") { const v = malha.atualizar(T); est = f.id === "piloto" ? `Até agora (ouvido E): Uints ${fmt(v.u)} · ramos funcionando ${fmt(v.r)} · disparos ${fmt(v.f)}.` : `Instante do motor: ${(T).toFixed(5).replace(".", ",")} s.`; }
+  if (f.estudo === "ab") { if (forcar || Math.abs(P.t - ultDes) > 0.004) { est = teste.ir(P.t, P.fid); ultDes = P.t; } }
+  else if (P.fid === "ensaio") { if (forcar || (P.aberto && Math.abs(P.t - ultDes) > 0.049)) { est = sessoes.ir(P.t); ultDes = P.t; } }
+  else if (P.fid === "piloto" || P.fid === "lupa") { const v = malha.atualizar(T); est = P.fid === "piloto" ? `Até agora (ouvido E): Uints ${fmt(v.u)} · ramos funcionando ${fmt(v.r)} · disparos ${fmt(v.f)}.` : `Instante do motor: ${T.toFixed(5).replace(".", ",")} s.`; }
   else est = "Demonstração: nenhuma constituição do motor aparece aqui.";
-  if (est && (forcar || performance.now() - ultEst > 250)) { el("c-estado").textContent = est; ultEst = performance.now(); }
-  barraEl.value = P.t; el("t-dec").textContent = fmtTempo(f, P.t);
-  montarDiario();
+  if (est && (forcar || performance.now() - ultEst > 250)) { el("p-estado").textContent = est; ultEst = performance.now(); }
+  barraEl.value = P.t; el("t-dec").textContent = fmtTempo(P.fid, P.t);
+  el("mini-sub").textContent = `${P.f.sub} · ${fmtTempo(P.fid, P.t)} / ${fmtTempo(P.fid, f.dur())}`;
+  el("mini-prog").firstElementChild.style.width = `${100 * P.t / Math.max(1e-9, f.dur())}%`;
+  marcarDiario();
 }
-// card, lista, velocidade, diário
-function montarCard() {
-  const f = P.f; el("c-estudo").textContent = f.estudo; el("c-titulo").textContent = f.titulo; el("c-pergunta").textContent = f.pergunta; el("c-explic").textContent = f.explic;
-  el("c-cond").hidden = !f.cond; document.querySelectorAll("#c-cond [data-faixa]").forEach(b => b.setAttribute("aria-pressed", b.dataset.faixa === f.id));
-  playEl.textContent = "▶"; playEl.setAttribute("aria-label", "Reproduzir");
+// diário: lista completa com rolagem própria; o atual em destaque, anterior e seguinte discretos; toque leva ao instante
+let diarioIdx = -2, toqueDiario = 0;
+function montarDiario() {
+  const ol = el("diario-todos"); ol.innerHTML = ""; diarioIdx = -2;
+  if (!P.eventos.length) { const li = document.createElement("li"); li.innerHTML = `<button disabled>${P.fid === "demo" ? "Demonstração: o motor não constitui nada aqui." : "Sem acontecimentos registrados."}</button>`; ol.appendChild(li); return; }
+  for (const e of P.eventos) { const li = document.createElement("li"), b = document.createElement("button"); b.innerHTML = e.txt; b.onclick = () => ir(e.t); li.appendChild(b); ol.appendChild(li); }
 }
-function montarLista() {
-  const ol = el("faixas"); ol.innerHTML = "";
-  for (const f of FAIXAS) {
-    if (f.disponivel && !f.disponivel()) continue;
-    const li = document.createElement("li"), ativa = P.f && P.f.id === f.id;
-    li.className = "faixa" + (ativa ? " ativa" : "") + (f.planejada ? " destaque" : "");
-    const dur = f.planejada ? "—" : fmtTempo(f, f.dur());
-    li.innerHTML = `<button class="fplay" ${f.planejada ? "disabled" : ""} aria-label="${f.planejada ? "Planejada, ainda sem dados" : (ativa && P.tocando ? "Pausar " : "Reproduzir ") + f.titulo}">${f.planejada ? "·" : ativa && P.tocando ? "❚❚" : "▶"}</button>`
-      + `<div><div class="ft">${f.titulo}${f.cond ? ` · ${f.cond}` : ""}</div><div class="fs">${f.planejada ? f.sub : f.estudo}${ativa ? (P.tocando ? " · tocando" : " · pausado") : ""}</div></div><div class="fd">${dur}</div>`;
-    if (!f.planejada) li.querySelector("button").onclick = () => { if (ativa) alternar(); else { abrir(f.id, { tocar: true }); window.scrollTo({ top: 0, behavior: "smooth" }); } };
-    ol.appendChild(li);
-  }
+el("diario-todos").addEventListener("touchstart", () => { toqueDiario = performance.now(); }, { passive: true });
+el("diario-todos").addEventListener("wheel", () => { toqueDiario = performance.now(); }, { passive: true });
+function marcarDiario() {
+  const ev = P.eventos; if (!ev.length) return;
+  let lo = 0, hi = ev.length; while (lo < hi) { const md = (lo + hi) >> 1; if (ev[md].t <= P.t) lo = md + 1; else hi = md; }
+  const i = lo - 1; if (i === diarioIdx) return; diarioIdx = i;
+  const lis = el("diario-todos").children;
+  for (let k = 0; k < lis.length; k++) lis[k].className = k === i ? "atual" : (k === i - 1 || k === i + 1) ? "vizinho" : "";
+  if (i >= 0 && P.aberto && performance.now() - toqueDiario > 2500) lis[i].scrollIntoView({ block: "nearest" });
 }
 function montarVel() {
   const box = el("m-vel"); box.innerHTML = "";
-  for (const v of VELS[P.f.id] || [1]) { const b = document.createElement("button"); b.textContent = velTxt(v); b.setAttribute("aria-pressed", v === P.vel);
+  for (const v of VELS[P.fid] || [1]) { const b = document.createElement("button"); b.textContent = velTxt(v); b.setAttribute("aria-pressed", v === P.vel);
     b.onclick = () => { P.vel = v; montarVel(); if (P.f.audio) alternar(P.tocando); }; box.appendChild(b); }
-  el("vel-atual").textContent = `velocidade ${velTxt(P.vel)} (mais ações em ⋯)`;
 }
-let diarioIdx = -2;
-function itemDiario(e, cls) { const li = document.createElement("li"); li.className = cls; const b = document.createElement("button"); b.innerHTML = e.txt; b.onclick = () => ir(e.t); li.appendChild(b); return li; }
-function montarDiario() {
-  const ev = P.eventos; let i = -1; { let lo = 0, hi = ev.length; while (lo < hi) { const md = (lo + hi) >> 1; if (ev[md].t <= P.t) lo = md + 1; else hi = md; } i = lo - 1; }
-  if (i === diarioIdx) return; diarioIdx = i;
-  const ol = el("diario"); ol.innerHTML = "";
-  if (!ev.length) { const li = document.createElement("li"); li.className = "atual"; li.innerHTML = `<button disabled>${P.f.id === "demo" ? "Demonstração: o motor não constitui nada aqui." : "Sem acontecimentos registrados."}</button>`; ol.appendChild(li); return; }
-  if (i - 1 >= 0) ol.appendChild(itemDiario(ev[i - 1], "ant"));
-  if (i >= 0) ol.appendChild(itemDiario(ev[i], "atual")); else { const li = document.createElement("li"); li.className = "atual"; li.innerHTML = `<button disabled>Antes do primeiro acontecimento.</button>`; ol.appendChild(li); }
-  if (i + 1 < ev.length) ol.appendChild(itemDiario(ev[i + 1], "seg"));
-}
-function montarTodos() {
-  const ol = el("diario-todos"); ol.innerHTML = ""; diarioIdx = -2;
-  el("todos-titulo").textContent = `Todos os acontecimentos (${fmt(P.eventos.length)}; agrupados por intervalo)`;
-  for (const e of P.eventos) ol.appendChild(itemDiario(e, ""));
-}
-// controles
+// expandir e recolher
+function expandir() { if (!P.usado) return; if (P.carregando === false && el("p-falha").hidden === false) abrir(P.fid); P.aberto = true; playerEl.hidden = false; document.body.style.overflow = "hidden"; tamanho(); desenhar(true); }
+function recolher() { P.aberto = false; playerEl.hidden = true; document.body.style.overflow = ""; }
+el("mini-abrir").onclick = expandir; el("mini-play").onclick = e => { e.stopPropagation(); alternar(); };
+el("recolher").onclick = recolher;
+{ let y0 = null; const alca = el("alca");
+  alca.addEventListener("touchstart", e => { y0 = e.touches[0].clientY; }, { passive: true });
+  alca.addEventListener("touchmove", e => { if (y0 !== null && e.touches[0].clientY - y0 > 70) { y0 = null; recolher(); } }, { passive: true });
+  alca.addEventListener("touchend", () => { y0 = null; }); }
+document.addEventListener("keydown", e => { if (e.target.closest("input, textarea")) return;
+  if (e.key === "Escape" && P.aberto) recolher();
+  else if (e.code === "Space" && P.usado) { e.preventDefault(); alternar(); }
+  else if (P.aberto && e.key === "ArrowRight") ir(P.t + P.f.dur() / 60); else if (P.aberto && e.key === "ArrowLeft") ir(P.t - P.f.dur() / 60); });
 playEl.onclick = () => alternar();
 barraEl.oninput = () => ir(+barraEl.value);
-document.querySelectorAll("#c-cond [data-faixa]").forEach(b => b.onclick = () => abrir(b.dataset.faixa));
-el("c-tentar").onclick = () => abrir(P.f.id);
+document.querySelectorAll("#p-cond [data-faixa]").forEach(b => b.onclick = () => { P.cond = b.dataset.faixa; abrir(P.cond); });
+el("p-tentar").onclick = () => abrir(P.fid);
 document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
-{
-  const cams = [["Pontos transdutivos", [pontos]], ["Ustr", [ustr]], ["Cubos", [grade]]];
+{ const cams = [["Pontos transdutivos", [pontos]], ["Ustr", [ustr]], ["Cubos", [grade]]];
   for (const [nome, objs] of cams) { const b = document.createElement("button"); b.textContent = nome; b.setAttribute("aria-pressed", "true");
-    b.onclick = () => { const v = !objs[0].visible; objs.forEach(o => o.visible = v); b.setAttribute("aria-pressed", v); }; el("m-cam").appendChild(b); }
-}
-el("foto").onclick = () => { composer.render(); const a = document.createElement("a"); a.href = render.domElement.toDataURL("image/png"); a.download = `sdom-v19-${P.f ? P.f.id : "cena"}-${P.t.toFixed(2)}s.png`; a.click(); };
-document.addEventListener("keydown", e => { if (e.target.closest("input, textarea")) return;
-  if (e.code === "Space") { e.preventDefault(); alternar(); } else if (e.key === "ArrowRight") ir(P.t + (P.f ? P.f.dur() / 60 : 1)); else if (e.key === "ArrowLeft") ir(P.t - (P.f ? P.f.dur() / 60 : 1)); });
+    b.onclick = () => { const v = !objs[0].visible; objs.forEach(o => o.visible = v); b.setAttribute("aria-pressed", v); }; el("m-cam").appendChild(b); } }
+el("foto").onclick = () => { composer.render(); const a = document.createElement("a"); a.href = render.domElement.toDataURL("image/png"); a.download = `sdom-v19-${P.fid || "cena"}-${P.t.toFixed(3)}.png`; a.click(); };
 
 const c0 = dados.contagem;
 el("contagem").innerHTML = `pontos transdutivos <b>${fmt(c0.pontos)}</b> · Ustr <b>${fmt(c0.ustr)}</b><br>instante zero: Uint ${c0.uint} · Upro ${c0.upro} · Cpro ${c0.cpro} · ramos ${c0.ramos} — nada representacional.`;
 const escalaEl = el("escala");
-new ResizeObserver(tamanho).observe(palco); tamanho();
-montarLista(); await abrir("demo");
+new ResizeObserver(() => { if (P.aberto) tamanho(); }).observe(palco);
+montarCatalogo(); vista("geral");
 
 const tmp = new THREE.Vector3(); let nq = 0, ultimoQ = performance.now();
 (function quadro() {
   requestAnimationFrame(quadro);
   const agora = performance.now(), dt = Math.min(0.1, (agora - ultimoQ) / 1000); ultimoQ = agora;
   const f = P.f;
-  if (f && P.tocando) {
+  if (f && P.tocando && !P.carregando) {                       // um único relógio: cena, progresso, diário e miniplayer
     if (f.audio && P.vel === 1 && !audio.paused && audio.currentTime > 0) P.t = audio.currentTime; else P.t += dt * P.vel;
-    if (P.t >= f.dur()) { P.t = f.dur(); P.tocando = false; P.fim = true; audio.pause(); playEl.textContent = "↺"; playEl.setAttribute("aria-label", "Repetir"); montarLista(); }
-    if (FAM18.includes(f.id)) T = f.id === "lupa" ? LUPA0 + P.t : Math.min(P.t, DUR - 0.005);
+    if (P.t >= f.dur()) { P.t = f.dur(); P.fim = true; alternar(false); audio.pause(); }
+    if (FAM18.includes(P.fid)) T = P.fid === "lupa" ? LUPA0 + P.t : Math.min(P.t, DUR - 0.005);
   }
+  if (f && !P.carregando) {
+    if (!P.aberto) { if (nq++ % 6 === 0) { el("mini-sub").textContent = `${f.sub} · ${fmtTempo(P.fid, P.t)} / ${fmtTempo(P.fid, f.dur())}`; el("mini-prog").firstElementChild.style.width = `${100 * P.t / Math.max(1e-9, f.dur())}%`; marcarDiario(); } return; }
+  }
+  if (!P.aberto) return;                                      // recolhido: sem renderizar a cena
   const dtv = f && P.tocando ? dt * P.vel : 0; Tv += dtv;
   ctrl.update();
   const dist = camera.position.distanceTo(ctrl.target);
   camera.near = dist / 400; camera.far = Math.max(dist * 4000, 6000); camera.updateProjectionMatrix();
   COMUM.uFoco.value = dist;
   grade.material.uniforms.alfa.value = Math.max(0, Math.min(1, (1.0 - dist) / 0.7)) * 0.55;
-  if (f && FAM18.includes(f.id)) {
+  if (f && FAM18.includes(P.fid)) {
     const fr = Math.min(NF - 1, Math.floor(T / FR));
     fios.material.uniforms.uT.value = T; fios.material.uniforms.uTv.value = Tv; moverOndas(); aplicar(fr);
-    if (f.id === "lupa") obs.atualizar(T);
+    if (P.fid === "lupa") obs.atualizar(T);
   }
   if (f) desenhar(false);
   composer.render();
@@ -1062,10 +1139,7 @@ const tmp = new THREE.Vector3(); let nq = 0, ultimoQ = performance.now();
     r.d.style.display = vis ? "" : "none";
     if (vis) { r.d.style.left = x + "px"; r.d.style.top = y + "px"; postos.push({ x, y, w: r.w }); }
   }
-  if (++nq % 10 === 0) {
-    const px = MM / (dist * COMUM.uPix.value) / render.getPixelRatio();
-    escalaEl.innerHTML = `1 cubo (20 µm) ≈ ${px < 1 ? "menos de 1" : fmt(Math.round(px))} px`;
-  }
+  if (++nq % 10 === 0) { const px = MM / (dist * COMUM.uPix.value) / render.getPixelRatio(); escalaEl.innerHTML = `1 cubo (20 µm) ≈ ${px < 1 ? "menos de 1" : fmt(Math.round(px))} px`; }
 })();
 </script>
 </body>
