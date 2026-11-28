@@ -1180,6 +1180,18 @@ const velTxt = v => v >= 1 ? `${v}×` : v === 0.25 ? "¼×" : `1/${fmt(Math.roun
 const S_PREV = `<span class="selo prev">previsão registrada</span>`, S_OBS = `<span class="selo obs">observado</span>`, S_AB = `<span class="selo aberto">em aberto</span>`;
 const mAB = teste ? teste.mj.condicoes : null;
 const ESTUDOS = [
+  // ordem: o estudo mais recente primeiro [R 28/11]
+  { id: "bracos", titulo: "Faixa × compacta · três braços", faixas: ["f790", "f263", "c263"],
+    pergunta: "Encurtar o nervo e reorganizar as chegadas em volume muda quais bandas chegam a coincidir e integrar?",
+    linha: "Alciatore, 0–60 s · ouvido esquerdo · regra B nos três braços", disp: "teste para observação · 1:00 por braço",
+    ficha: () => `<h3>Motivação</h3><p>Na faixa, as chegadas espelham o espectro: quase todos os pares possíveis num território são da mesma banda. A proposta de Paulo e Clara (<code>proposta-coordenadas-auditivas.md</code>) organiza a entrada como na cóclea e no núcleo: origens numa espiral aberta, chegadas numa meia-esfera compacta, territórios de Ustr em 3D.</p>
+      <h3>Os três braços</h3><p><b>Faixa 790</b>: a entrada planar, com o nervo de 790 cubos. <b>Faixa 263</b>: a mesma, com o nervo encurtado para o percurso comum de 263 cubos. <b>Compacta 263</b>: espiral, meia-esfera e grade de Ustr 3 × 3 × 3. Faixa 790 × faixa 263 mostra o efeito do encurtamento; faixa 263 × compacta 263, o da reorganização.</p>
+      <h3>O que se mantém</h3><p>A regra B (a Uint candidata nasce na superfície de entrada ou mais para dentro), a coincidência, o crescimento, o ganho de 0,0065 e a punição de 1/60. O estímulo e o ouvido.</p>
+      <h3>Declarado</h3><p>A densidade de Ustr difere entre os braços (faixa: 4 Upros por Ustr; compacta: ~3,2). Essa diferença faz parte do efeito conjunto [R 28/11].</p>
+      <h3>O desenho</h3><p>Cada Upro do nervo é uma curva cujo <b>comprimento desenhado é o comprimento de condução</b> do motor (790 ou 263 cubos); o caminho é desenho, porque o motor guarda comprimento e atraso, não trajeto. Na compacta, as origens ficam na espiral do instante zero; o motor não usa a posição da origem. Só aparecem as Ustr que o motor usa.</p>
+      <h3>Previsão</h3><p>${S_AB} Ainda não há previsão registrada (Paulo e Clara).</p>
+      <h3>O que foi medido</h3>${tabelaAfastamento()}
+      <p><code>auditoria-coordenadas.md</code> · <code>motor/sdom_c.py</code> · <code>motor/medida_afastamento.py</code></p>` },
   { id: "principal", titulo: "Rodada principal (pra valer)", planejada: true,
     pergunta: "A volta da obra percorre, em sua maioria, a malha já formada? E uma obra diferente reutiliza o genérico e constitui novo no específico?",
     linha: "Gymnopédie ×4 (2 formam, 2 voltam) + Chaconne · dois ouvidos", disp: "planejada · sem dados ainda",
@@ -1198,17 +1210,6 @@ const ESTUDOS = [
       <h3>O que este teste mostrou</h3><p>${S_OBS} Em B, ${mAB ? fmt(mAB.B.uints_fora_da_folha) : "—"} de ${mAB ? fmt(mAB.B.n_uints) : "—"} Uints nasceram fora da folha (até ${mAB ? mAB.B.profundidade_max : "—"} cubos). Pares que reutilizaram Uint: A ${mAB ? fmt(mAB.A.pares_que_reutilizaram_uint) : "—"} de ${mAB ? fmt(mAB.A.pares) : "—"}; B ${mAB ? fmt(mAB.B.pares_que_reutilizaram_uint) : "—"} de ${mAB ? fmt(mAB.B.pares) : "—"}. Disparos: A ${mAB ? fmt(mAB.A.n_disparos) : "—"}; B ${mAB ? fmt(mAB.B.n_disparos) : "—"}.</p>
       <h3>O que os dados permitem dizer</h3><p>Só para este trecho, este ouvido e estas regras: em B, a profundidade foi usada, sobretudo pela regra de caminhos iguais (quanto mais fundo, menor a diferença entre os caminhos do par). As Uints ficaram menos compartilhadas e dispararam menos. Não diz nada sobre a reutilização na volta da obra, nem sobre genérico × específico.</p>
       <p><code>preregistro-folha-x-profundidade.md</code></p>` },
-  { id: "bracos", titulo: "Faixa × compacta · três braços", faixas: ["f790", "f263", "c263"],
-    pergunta: "Encurtar o nervo e reorganizar as chegadas em volume muda quais bandas chegam a coincidir e integrar?",
-    linha: "Alciatore, 0–60 s · ouvido esquerdo · regra B nos três braços", disp: "teste para observação · 1:00 por braço",
-    ficha: () => `<h3>Motivação</h3><p>Na faixa, as chegadas espelham o espectro: quase todos os pares possíveis num território são da mesma banda. A proposta de Paulo e Clara (<code>proposta-coordenadas-auditivas.md</code>) organiza a entrada como na cóclea e no núcleo: origens numa espiral aberta, chegadas numa meia-esfera compacta, territórios de Ustr em 3D.</p>
-      <h3>Os três braços</h3><p><b>Faixa 790</b>: a entrada planar, com o nervo de 790 cubos. <b>Faixa 263</b>: a mesma, com o nervo encurtado para o percurso comum de 263 cubos. <b>Compacta 263</b>: espiral, meia-esfera e grade de Ustr 3 × 3 × 3. Faixa 790 × faixa 263 mostra o efeito do encurtamento; faixa 263 × compacta 263, o da reorganização.</p>
-      <h3>O que se mantém</h3><p>A regra B (a Uint candidata nasce na superfície de entrada ou mais para dentro), a coincidência, o crescimento, o ganho de 0,0065 e a punição de 1/60. O estímulo e o ouvido.</p>
-      <h3>Declarado</h3><p>A densidade de Ustr difere entre os braços (faixa: 4 Upros por Ustr; compacta: ~3,2). Essa diferença faz parte do efeito conjunto [R 28/11].</p>
-      <h3>O desenho</h3><p>Cada Upro do nervo é uma curva cujo <b>comprimento desenhado é o comprimento de condução</b> do motor (790 ou 263 cubos); o caminho é desenho, porque o motor guarda comprimento e atraso, não trajeto. Na compacta, as origens ficam na espiral do instante zero; o motor não usa a posição da origem. Só aparecem as Ustr que o motor usa.</p>
-      <h3>Previsão</h3><p>${S_AB} Ainda não há previsão registrada (Paulo e Clara).</p>
-      <h3>O que foi medido</h3>${tabelaAfastamento()}
-      <p><code>auditoria-coordenadas.md</code> · <code>motor/sdom_c.py</code> · <code>motor/medida_afastamento.py</code></p>` },
   { id: "ensaio", titulo: "Ensaio com o nervo · 4 gravações", faixas: ["ensaio"],
     pergunta: "A volta da obra (outra gravação) percorre, em sua maioria, a malha que já existia?",
     linha: "Alciatore → Baiocchi → Kolodin → Coleman · desenho planar · dois ouvidos", disp: () => sessoes ? `${fmtT(sessoes.FIM)} de Sdom contínuo` : "",
