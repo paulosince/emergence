@@ -137,6 +137,15 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
     <div class="grupo" role="group" aria-label="Apresentações"><span>Ensaio (Sdom contínuo) · ir para o fim de</span><span id="botoes-ap"></span></div>
   </div>
   <div id="painel-ap" class="legenda" hidden></div>
+  <div class="linha" id="linha-teste" hidden>
+    <button id="t-play">▶ Teste A × B (90 s)</button>
+    <div class="grupo" role="group" aria-label="Condição"><span>Condição</span><button data-cond="A" aria-pressed="true">A · folha fixa</button><button data-cond="B">B · profundidade local</button></div>
+    <input id="t-tempo" type="range" min="0" max="90" step="0.01" value="0" style="flex:1;min-width:160px;accent-color:var(--nova)" aria-label="Tempo do teste">
+    <div class="grupo"><button data-tp="-10">⏮ 10 s</button><button data-tp="-1">◀ 1 s</button><button data-tp="1">1 s ▶</button><button data-tp="10">10 s ⏭</button></div>
+    <div class="grupo" role="group" aria-label="Velocidade do teste"><span>Velocidade</span><button data-tv="5">5×</button><button data-tv="1" aria-pressed="true">1×</button><button data-tv="0.25">¼×</button><button data-tv="0.05">1/20×</button></div>
+    <span id="t-rot" style="font:500 .8rem var(--mono);color:var(--apagado)"></span>
+  </div>
+  <div id="painel-teste" class="legenda" hidden></div>
   <div id="obra">Gymnopédie n.º 1 (Satie), Robin Alciatore (Musopen, domínio público), de 9 a 19 s — os mesmos dados da página da V0.18.</div>
   <div class="legenda">
     <span class="demo"><b>Demonstração do robô.</b> A sala, os alto-falantes, as ondas, o microfone e os fios mostram o que é constitutivo do robô (a Utrd completa da V0.18: microfone + cóclea) num ambiente virtual simulado. Não fazem parte do Sdom e não mudam nada nele. A posição desenhada do microfone e o traçado dos fios são só desenho; o sinal que eles carregam é o da V0.18.</span>
@@ -145,6 +154,8 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
     <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (cores provisórias). As bolas ocupam 45% do cubo só para a distância entre elas aparecer: no modelo, as unidades não têm tamanho.</span>
     <span><b>Malha do piloto (ouvido esquerdo):</b> o que o motor mínimo constituiu nestes 10 s, a partir do instante zero. <b style="color:var(--nova)">Roxo</b> = nova constituição: a Uint nascendo e cada ramo crescendo cubo a cubo (1 cubo a cada ~12 coincidências do par), passo a passo como o motor registrou. <b style="color:var(--acesso)">Azul</b> = disparo de uma Uint (leitura minha: acesso a uma constituição já formada; a confirmar). Já formados, Uint e ramo ficam em cor neutra (provisória). O motor guarda o comprimento de cada ramo, não o traçado: o ramo-base aparece reto e a variante (mais longa) em arco, só para mostrar o excesso de comprimento. Piloto com escolhas provisórias (ver <code>piloto-10s.md</code>): não é resultado da V0.19.</span>
     <span><b>Upros e incidências andando:</b> os ramos são desenhados como tubos de 2 µm (processo central do axônio do nervo auditivo no modelo de Rattay et al. 2013), com espessura mínima na tela. Numa janela de observação do piloto (ouvido E, banda ~600 Hz, de 5 a 6 s), cada incidência que o motor registrou descendo um ramo aparece como um <b style="color:var(--excit)">fóton verde</b> andando da origem até a Uint, no tempo do próprio ramo (comprimento × 66,7 µs, de 0,07 a 0,5 ms). Por isso só dá para ver a 1/1.000× ou mais devagar: use "Ver incidências andando". A Uint <b style="color:var(--excit)">acende em verde</b> conforme a soma das chegadas se aproxima do limiar (1,5) e solta um <b style="color:var(--acesso)">clarão azul</b> quando dispara. Uint ≈ 1 cubo (corpos de ~18–25 µm); Ustr em estrela (astrócito), tamanho desenhado.</span>
+    <span><b>Teste A × B (90 s, ouvido E):</b> o mesmo começo da Alciatore em duas condições que só diferem em onde a Uint candidata pode nascer. <b>A</b>: só na folha, o primeiro plano de cubos atrás das pontas das Upros de entrada. <b>B</b>: na folha ou mais para dentro da cabeça. Mesma caixa de busca (3 cubos em volta do ponto médio do par), mesmas regras. Roxo = crescendo, cubo a cubo, como o motor registrou; as curvas são desenho. Pré-registro: <code>preregistro-folha-x-profundidade.md</code>. Teste para observação, não o "pra valer".</span>
+    <span><b>Espessura das Upros:</b> no mínimo ~1/10 do diâmetro desenhado da Uint (2 µm de perto; acompanha a Uint quando ela é ampliada para continuar visível de longe). Só desenho: não muda o motor.</span>
     <span><b style="color:var(--excit)">Ponto transdutivo aceso em verde</b>: a Utrd emitindo incidências. Sem Upro funcionando, a incidência para ali mesmo, sem integrar (registrada pela Ustr do território); com Upro, ela desce pelos ramos até as Uints.</span>
     <span>No desenho, o microfone está 3 mm para fora da faixa, para o fio aparecer (no motor, a faixa fica na posição do microfone).</span>
     <span>Reservadas para a criação (ainda não há): <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b> · <b style="color:var(--inib)">inibitória</b></span>
@@ -224,7 +235,7 @@ const ctrl = new OrbitControls(camera, render.domElement);
 ctrl.enableDamping = true; ctrl.minDistance = 0.03; ctrl.maxDistance = 4000; ctrl.zoomSpeed = 1.4;
 
 // Uniformes comuns: tamanho de um pixel no mundo (por unidade de profundidade), foco (distância da órbita) e cor de fundo (névoa).
-const COMUM = { uPix: { value: 0.001 }, uFoco: { value: 100 }, uFundo: { value: cor("--palco") } };
+const COMUM = { uPix: { value: 0.001 }, uFoco: { value: 100 }, uFundo: { value: cor("--palco") }, uMinU: { value: 1.5 }, uRU: { value: 0.01 } };
 const NEVOA = `float dd = max(0.0, -mv.z - uFoco) / (uFoco * 6.0); vFog = exp(-dd * dd);`;
 
 // (1) unidades como bolas: cartões que sempre olham para a câmera, sombreados como esferas; tamanho real no mundo,
@@ -261,10 +272,11 @@ function tubos(p0, p1, W, minPx, extra, fragCorpo, vertExtra) {
   let decl = ""; for (const [nome, arr, k] of extra) { g.setAttribute(nome, new THREE.InstancedBufferAttribute(arr, k)); decl += `attribute ${k === 1 ? "float" : "vec" + k} ${nome}; `; }
   g.instanceCount = n;
   const m = new THREE.ShaderMaterial({ uniforms: { ...COMUM, W: { value: W }, minPx: { value: minPx }, uT: { value: 0 } },
-    vertexShader: `attribute vec3 pa, pb; ${decl} uniform float W, minPx, uPix, uFoco, uT; varying float vFog; ${vertExtra.decl}
+    vertexShader: `attribute vec3 pa, pb; ${decl} uniform float W, minPx, uPix, uFoco, uT, uMinU, uRU; varying float vFog; ${vertExtra.decl}
       void main(){ vec4 a = modelViewMatrix * vec4(pa, 1.0), b = modelViewMatrix * vec4(pb, 1.0);
         vec2 sa = a.xy / -a.z, sb = b.xy / -b.z; vec2 d = sb - sa; float L = length(d); d = L > 1e-9 ? d / L : vec2(1.0, 0.0);
-        vec2 perp = vec2(-d.y, d.x); vec4 mv = mix(a, b, position.x); float w = max(W, minPx * (-mv.z) * uPix);
+        vec2 perp = vec2(-d.y, d.x); vec4 mv = mix(a, b, position.x); float px1 = (-mv.z) * uPix;
+        float w = max(max(W, 0.1 * max(2.0 * uRU, uMinU * px1)), minPx * px1);   // [R 28/11] Upro com diâmetro mínimo ≈ 1/10 do diâmetro desenhado da Uint
         mv.xy += perp * w * 0.5 * position.y; ${NEVOA} ${vertExtra.corpo} gl_Position = projectionMatrix * mv; }`,
     fragmentShader: `varying float vFog; ${vertExtra.decl.replace(/attribute[^;]*;/g, "")} void main(){ ${fragCorpo} }`,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
@@ -300,6 +312,7 @@ function centrosDe(lista) {
 const R_UN = 0.225 * MM;    // ponto transdutivo: diâmetro desenhado = 45% do cubo (ilustrativo)
 const R_UINT = 0.5 * MM;    // Uint: diâmetro ≈ 1 cubo (corpos de ~18–25 µm no núcleo coclear) [R 27/11: menor ou igual a 1 cubo, não muda o motor]
 const R_USTR = 0.42 * MM;   // Ustr: estrela (astrócito); tamanho desenhado, não medido
+COMUM.uRU.value = R_UINT;
 const pontos = bolas(centrosDe([O.E.pontos, O.D.pontos]), R_UN, 1.6, cor("--ponto"), cor("--excit"));
 const ustr = bolas(centrosDe([O.E.ustr, O.D.ustr, ...(O.E.ustr_entrada ? [O.E.ustr_entrada, O.D.ustr_entrada] : [])]), R_USTR, 1.6, cor("--ustr"), undefined, 1);   // Ustr na cóclea e na zona de entrada do núcleo
 cena.add(pontos, ustr);
@@ -693,6 +706,129 @@ const sessoes = await (async () => {
       if (tocandoE) { tE += dt * velE; if (tE >= FIM) { tE = FIM; tocandoE = false; playE.textContent = "▶ Gravação do ensaio"; } }
       if (Math.abs(tE - tDesenhado) > 0.049) { desenhar(tE); tDesenhado = tE; } } };
 })();
+// ---------- teste A × B (90 s, ouvido E): as "pontes" crescendo, passo a passo, como o motor registrou ----------
+// O traçado curvo é desenho (o motor guarda o comprimento em cubos e o atraso, não o caminho).
+const teste = await (async () => {
+  let mj; try { const r = await fetch(BASE + "teste-ab.json"); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }
+  const linhaT = document.getElementById("linha-teste"), painelT = document.getElementById("painel-teste"); linhaT.hidden = false;
+  const FIMT = mj.condicoes.A.dur, NERVO = mj.nervo;
+  const NOVA = cor("--nova"), FEITA = cor("--uint"), ACESSO = cor("--acesso");
+  let D = null, cond = "A", tT = 0, tocT = false, velT = 1, ativoT = false, ultT = performance.now(), tDes = -1, ultDia = -1e9, ultC = null;
+  const hash = (i, k) => { let x = Math.imul((i + 1) * 2654435761 + k * 40503, 2246822507) >>> 0; x ^= x >>> 15; x = Math.imul(x, 3266489909) >>> 0; x ^= x >>> 16; return (x >>> 0) / 4294967296 * 2 - 1; };
+  const C3 = (x, y, z) => [x * MM, z * MM, -y * MM];       // Sdom (x, y, z) → cena
+  // curva orgânica: Bézier cúbica com controles deslocados de lado (desvio determinístico por id; só desenho)
+  function curva(P0, P1, id, amp) {
+    const d = [P1[0] - P0[0], P1[1] - P0[1], P1[2] - P0[2]], L = Math.hypot(...d) || 1e-9;
+    let a = [d[1], -d[0], 0]; if (Math.hypot(...a) < 1e-9 * L) a = [0, d[2], -d[1]]; const na = Math.hypot(...a); a = a.map(v => v / na);
+    let b = [d[1] * a[2] - d[2] * a[1], d[2] * a[0] - d[0] * a[2], d[0] * a[1] - d[1] * a[0]]; const nb = Math.hypot(...b) || 1; b = b.map(v => v / nb);
+    const h = amp * L, c1 = [], c2 = [];
+    for (let j = 0; j < 3; j++) { c1.push(P0[j] + d[j] / 3 + (a[j] * hash(id, 1) + b[j] * hash(id, 2)) * h); c2.push(P0[j] + 2 * d[j] / 3 + (a[j] * hash(id, 3) + b[j] * hash(id, 4)) * h); }
+    return u => { const v = 1 - u, w0 = v * v * v, w1 = 3 * v * v * u, w2 = 3 * v * u * u, w3 = u * u * u;
+      return [0, 1, 2].map(j => w0 * P0[j] + w1 * c1[j] + w2 * c2[j] + w3 * P1[j]); };
+  }
+  async function carregar() {
+    const buf = await (await fetch(BASE + "teste-ab.bin")).arrayBuffer();
+    const T_ = { int16: Int16Array, uint8: Uint8Array, uint16: Uint16Array, int32: Int32Array, float32: Float32Array };
+    const A = n => new T_[mj[n].tipo](buf, mj[n].off, mj[n].n);
+    const Pt = centrosDe([O.E.pontos]), nP = Pt.length / 3, out = {};
+    for (const c of ["A", "B"]) {
+      const p = c + "_", m = mj.condicoes[c];
+      // Uints
+      const uxyz = A(p + "u_xyz"), ut = A(p + "u_t"), nU = ut.length, cen = new Float32Array(nU * 3);
+      for (let i = 0; i < nU; i++) cen.set(C3(uxyz[3 * i], uxyz[3 * i + 1], uxyz[3 * i + 2]), 3 * i);
+      const u = bolas(cen, R_UINT, 1.5, FEITA, NOVA); u.luz.fill(-1);
+      // ramos: um trecho por passo de crescimento (2 pedaços de curva por passo), aceso a partir do instante do passo
+      const rs = A(p + "r_src"), rd = A(p + "r_dst"), rl = A(p + "r_len"), rsem = A(p + "r_sem"), rb = A(p + "r_born");
+      const st = A(p + "s_t"), sr = A(p + "s_r"), sk = A(p + "s_k"), nS = st.length, SUBP = 2;
+      const pa = new Float32Array(nS * SUBP * 3), pb = new Float32Array(nS * SUBP * 3), tn = new Float32Array(nS * SUBP), tb = new Float32Array(nS * SUBP);
+      const cache = new Map();
+      for (let i = 0; i < nS; i++) {
+        const r = sr[i]; let f = cache.get(r);
+        if (!f) { const P0 = C3(rs[3 * r], rs[3 * r + 1], rs[3 * r + 2]), j = rd[r], P1 = [cen[3 * j], cen[3 * j + 1], cen[3 * j + 2]];
+          const reta = Math.hypot(P1[0] - P0[0], P1[1] - P0[1], P1[2] - P0[2]) / MM, exc = Math.max(0, rl[r] - Math.max(1, reta));
+          f = curva(P0, P1, r, 0.16 + 0.35 * exc / Math.max(1, rl[r])); cache.set(r, f); }
+        const L = Math.max(1, rl[r]), u0 = (sk[i] - 1) / L, u1 = sk[i] / L;
+        for (let q = 0; q < SUBP; q++) { const k = i * SUBP + q, a0 = f(u0 + (u1 - u0) * q / SUBP), a1 = f(u0 + (u1 - u0) * (q + 1) / SUBP);
+          pa.set(a0, 3 * k); pb.set(a1, 3 * k); tn[k] = st[i]; tb[k] = rb[r]; }
+      }
+      const ramos = tubos(pa, pb, W_UPRO, 0.6, [["tn", tn, 1], ["tb", tb, 1]],
+        `if (vA < 0.5) discard; vec3 k = vF > 0.5 ? feita * 0.45 : nova * (0.45 + 0.9 * vN); gl_FragColor = vec4(k * vFog, 1.0);`,
+        { decl: "varying float vA, vN, vF;", corpo: "float idade = uT - tn; vA = idade < 0.0 ? 0.0 : 1.0; vN = idade < 0.0 ? 0.0 : max(0.0, 1.0 - idade / 1.5); vF = (tb >= 0.0 && uT >= tb) ? 1.0 : 0.0;" });
+      ramos.material.uniforms.nova = { value: NOVA }; ramos.material.uniforms.feita = { value: FEITA };
+      ramos.material.fragmentShader = "uniform vec3 nova, feita; " + ramos.material.fragmentShader;
+      // Upros do nervo: 10 trechos por Upro; o trecho k acende quando o motor marcou (k + 1)/10 do crescimento
+      const np_ = A(p + "n_p"), nt = A(p + "n_t"), nfr = A(p + "n_fr"), tSeg = new Float32Array(nP * 10).fill(1e9);
+      for (let i = 0; i < np_.length; i++) { const k = nfr[i] - 1; if (k >= 0 && k < 10) tSeg[np_[i] * 10 + k] = Math.min(tSeg[np_[i] * 10 + k], nt[i]); }
+      const fa = new Float32Array(nP * 30), fb = new Float32Array(nP * 30), ftn = new Float32Array(nP * 10), fch = new Float32Array(nP * 10);
+      const dx = 1 * NERVO * MM;     // ouvido E: a Upro vai de x = −2.500 para dentro (x cresce)
+      for (let q = 0; q < nP; q++) {
+        const P0 = [Pt[3 * q], Pt[3 * q + 1], Pt[3 * q + 2]], P1 = [P0[0] + dx, P0[1], P0[2]], f = curva(P0, P1, 900000 + q, 0.012);
+        for (let k = 0; k < 10; k++) { fa.set(f(k / 10), 30 * q + 3 * k); fb.set(f((k + 1) / 10), 30 * q + 3 * k); ftn[10 * q + k] = tSeg[10 * q + k]; fch[10 * q + k] = tSeg[10 * q + 9]; }
+      }
+      const nervo = tubos(fa, fb, W_UPRO, 0.6, [["tn", ftn, 1], ["tc", fch, 1]],
+        `if (vA < 0.5) discard; vec3 k = vC > 0.5 ? feita * 0.05 : nova * (0.03 + 0.12 * vN); gl_FragColor = vec4(k * vFog, 1.0);`,
+        { decl: "varying float vA, vN, vC;", corpo: "float idade = uT - tn; vA = idade < 0.0 ? 0.0 : 1.0; vN = idade < 0.0 ? 0.0 : max(0.0, 1.0 - idade / 3.0); vC = uT >= tc ? 1.0 : 0.0;" });
+      nervo.material.uniforms.nova = { value: NOVA }; nervo.material.uniforms.feita = { value: FEITA };
+      nervo.material.fragmentShader = "uniform vec3 nova, feita; " + nervo.material.fragmentShader;
+      // disparos: clarão azul na Uint, no instante registrado
+      const ft = A(p + "f_t"), fu = A(p + "f_u"), nF = ft.length, gp = new Float32Array(nF * 3);
+      for (let i = 0; i < nF; i++) gp.set(cen.subarray(3 * fu[i], 3 * fu[i] + 3), 3 * i);
+      const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(gp, 3)); g.setAttribute("ft", new THREE.BufferAttribute(ft, 1));
+      const mf = new THREE.ShaderMaterial({ uniforms: { ...COMUM, uT: { value: 0 }, minPx: { value: 3 }, ativa: { value: ACESSO } },
+        vertexShader: `attribute float ft; uniform float uT, minPx, uPix, uFoco; varying float vL, vFog;
+          void main(){ float a = uT - ft; if (a < 0.0 || a > 0.12) { gl_PointSize = 0.0; gl_Position = vec4(2.0, 2.0, 2.0, 1.0); vL = 0.0; vFog = 0.0; return; }
+            vec4 mv = modelViewMatrix * vec4(position, 1.0); ${NEVOA} vL = 1.0 - a / 0.12; gl_PointSize = max(minPx, 0.03 / ((-mv.z) * uPix)); gl_Position = projectionMatrix * mv; }`,
+        fragmentShader: `uniform vec3 ativa; varying float vL, vFog; void main(){ vec2 c = gl_PointCoord * 2.0 - 1.0; float d2 = dot(c, c); if (d2 > 1.0) discard;
+            float a = exp(-d2 * 4.0); gl_FragColor = vec4(ativa * vL * a * 1.4 * vFog, 1.0); }`, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+      mf.userData.min0 = 3; const disp = new THREE.Points(g, mf); disp.frustumCulled = false;
+      const objs = [u, ramos, nervo, disp]; objs.forEach(o => { o.visible = false; cena.add(o); });
+      const fora = new Uint8Array(nU); for (let i = 0; i < nU; i++) fora[i] = Math.abs(uxyz[3 * i]) < Math.abs(m.xfolha) ? 1 : 0;
+      const chegou = Array.from({ length: nP }, (_, q) => tSeg[10 * q + 9]).filter(v => v < 1e8).sort((x, y) => x - y);
+      const funcion = Array.from(rb).filter(v => v >= 0).sort((x, y) => x - y);
+      out[c] = { objs, u, ut, nU, fora, ramos, nervo, mf, st, ft, chegou, funcion };
+    }
+    return out;
+  }
+  const ate = (arr, v) => { let lo = 0, hi = arr.length; while (lo < hi) { const md = (lo + hi) >> 1; if (arr[md] <= v) lo = md + 1; else hi = md; } return lo; };
+  function desenhar(t) {
+    if (!D) return; const d = D[cond];
+    for (const c of ["A", "B"]) D[c].objs.forEach(o => o.visible = c === cond);
+    d.ramos.material.uniforms.uT.value = t; d.nervo.material.uniforms.uT.value = t; d.mf.uniforms.uT.value = t;
+    const L = d.u.luz; let nu = 0, nfora = 0;
+    for (let i = 0; i < d.nU; i++) { if (d.ut[i] > t) { L[i] = -1; continue; } nu++; nfora += d.fora[i]; L[i] = Math.max(0, 1 - (t - d.ut[i]) / 1.5); }
+    d.u.aLuz.needsUpdate = true;
+    const v = { f: ate(d.chegou, t), u: nu, uf: nfora, s: ate(d.st, t), r: ate(d.funcion, t), d: ate(d.ft, t) }, m = mj.condicoes[cond];
+    rotT.textContent = `${t.toFixed(2).replace(".", ",")} s de ${FIMT.toFixed(0)} s · condição ${cond}`; barraT.value = t;
+    painelT.innerHTML = `<span><b>Teste A × B</b> (Alciatore, 0–${FIMT.toFixed(0)} s, ouvido E; <b>não é o "pra valer"</b>). Condição <b>${cond === "A" ? "A · folha fixa" : "B · profundidade local"}</b>: `
+      + `Upros do nervo que chegaram ao núcleo <b>${fmt(v.f)}</b> de ${fmt(mj.n_pontos)} · <b style="color:var(--nova)">Uints ${fmt(v.u)}</b>${cond === "B" ? ` (fora da folha: ${fmt(v.uf)})` : ""} · passos de crescimento dos ramos ${fmt(v.s)} · ramos que chegaram à Uint ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.d)}</span>.</span>`
+      + `<span><b style="color:var(--nova)">Roxo</b> = crescendo (a Upro do nervo, 1 cubo a cada ~12 reacessos do ponto; cada ramo, 1 cubo a cada ~12 coincidências do par, da margem da Upro até a Uint candidata). Neutro = já chegou e funciona. <b style="color:var(--acesso)">Azul</b> = disparo. As curvas são desenho: o motor guarda o comprimento (cubos) e o atraso, não o traçado.</span>`
+      + `<span>Ao fim dos ${FIMT.toFixed(0)} s, condição ${cond}: ${fmt(m.n_uints)} Uints · ${fmt(m.n_ramos)} ramos (com variantes) · ${fmt(m.n_disparos)} disparos · buscas sem cubo admissível ${fmt(m.sem_cubo)}`
+      + (cond === "B" ? ` · buscas que admitiram cubo fora da folha <b>${fmt(m.buscas_com_fora_admissivel)}</b> · escolhas fora da folha <b>${fmt(m.escolhas_fora)}</b> · Uints fora da folha que dispararam <b>${fmt(m.uints_fora_que_dispararam)}</b> · profundidade máxima ${m.profundidade_max} cubo(s) atrás da folha` : ``) + `.</span>`;
+    if (tocT && performance.now() - ultDia > 1500) {
+      if (ultC && ultC.c === cond) { const partes = [];
+        if (v.f > ultC.f) partes.push(`+${fmt(v.f - ultC.f)} Upros do nervo chegaram ao núcleo`);
+        if (v.u > ultC.u) partes.push(`<b style="color:var(--nova)">+${fmt(v.u - ultC.u)} Uints</b> nasceram${cond === "B" && v.uf > ultC.uf ? ` (${fmt(v.uf - ultC.uf)} fora da folha)` : ""}`);
+        if (v.r > ultC.r) partes.push(`+${fmt(v.r - ultC.r)} ramos chegaram à sua Uint`);
+        if (v.d > ultC.d) partes.push(`<span style="color:var(--acesso)">${fmt(v.d - ultC.d)} disparos</span>`);
+        if (partes.length) diario(`<b>${cond} · ${t.toFixed(1).replace(".", ",")} s</b> · ${partes.join(" · ")}`); }
+      ultC = { c: cond, ...v }; ultDia = performance.now(); }
+  }
+  const barraT = document.getElementById("t-tempo"), rotT = document.getElementById("t-rot"), playT = document.getElementById("t-play"); barraT.max = FIMT;
+  async function ligar() {
+    if (!D) { painelT.hidden = false; painelT.textContent = "carregando o teste…"; D = await carregar(); }
+    if (!ativoT) { ativoT = true; if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); pontos.luz.fill(0); vista("nucleo");
+      diario("<b>Teste A × B.</b> Mesmo começo, mesma entrada, mesmas regras; só muda onde a Uint candidata pode nascer: na folha (A) ou na folha e mais para dentro da cabeça (B)."); }
+  }
+  const irT = t => { tT = Math.min(Math.max(t, 0), FIMT); desenhar(tT); tDes = tT; };
+  playT.onclick = async () => { await ligar(); tocT = !tocT; playT.textContent = tocT ? "❚❚ Pausar teste" : "▶ Teste A × B (90 s)"; if (tocT && tT >= FIMT) irT(0); };
+  barraT.oninput = async () => { await ligar(); irT(+barraT.value); };
+  linhaT.querySelectorAll("[data-tp]").forEach(b => b.onclick = async () => { await ligar(); irT(tT + Number(b.dataset.tp)); });
+  linhaT.querySelectorAll("[data-tv]").forEach(b => b.onclick = () => { velT = +b.dataset.tv; linhaT.querySelectorAll("[data-tv]").forEach(x => x.setAttribute("aria-pressed", x === b)); });
+  linhaT.querySelectorAll("[data-cond]").forEach(b => b.onclick = async () => { await ligar(); cond = b.dataset.cond; linhaT.querySelectorAll("[data-cond]").forEach(x => x.setAttribute("aria-pressed", x === b)); ultC = null; irT(tT); });
+  return { quadro() { if (!ativoT) return; const agora = performance.now(), dt = Math.min(0.1, (agora - ultT) / 1000); ultT = agora;
+      if (tocT) { tT += dt * velT; if (tT >= FIMT) { tT = FIMT; tocT = false; playT.textContent = "▶ Teste A × B (90 s)"; } }
+      if (Math.abs(tT - tDes) > 0.004) { desenhar(tT); tDes = tT; } } };
+})();
 // ---------- rótulos (com prioridade: os de trás somem se sobrepõem os da frente) ----------
 const rotulos = [];
 function rotulo(texto, x, y, z, ate = Infinity, cls = "") {
@@ -711,7 +847,7 @@ rotulo("Utrd E", -meia, 2.4, 0, 400); rotulo("Utrd D", meia, 2.4, 0, 400);
 rotulo("microfone E", MIC.E.x - 1, -2.6, MIC.E.z, 60); rotulo("microfone D", MIC.D.x + 1, -2.6, MIC.D.z, 60);
 rotulo("fios do sinal elétrico", -meia - 0.4, -0.9, 3, 12); rotulo("fios do sinal elétrico", meia + 0.4, -0.9, 3, 12);
 rotulo("Ustr (1 cubo para dentro)", -meia + 0.02, 0.1, zBanda("E")(24) - 0.06, 0.6); rotulo("Ustr (1 cubo para dentro)", meia - 0.02, 0.1, zBanda("D")(24) - 0.06, 0.6);
-rotulo("sem malha inicial", 0, 3, 0, 400); rotulo("10 cm", 0, -2.5, 0, 400);
+rotulo("folha (teste A × B)", -1709 * MM, 0.34, 0, 1.2, "#b45cff"); rotulo("sem malha inicial", 0, 3, 0, 400); rotulo("10 cm", 0, -2.5, 0, 400);
 rotulo("alto-falante próximo · canal esquerdo", ALTO[0].x, 70, 0); rotulo("alto-falante distante · canal direito", ALTO[1].x, 70, 0);
 const linhaG = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-meia, 0, 0), new THREE.Vector3(meia, 0, 0)]);
 cena.add(new THREE.Line(linhaG, new THREE.LineDashedMaterial({ color: 0x1f3a40, dashSize: 2, gapSize: 2 })).computeLineDistances());
@@ -795,6 +931,7 @@ function tamanho() {
   render.setSize(w, h, false); composer.setPixelRatio(pr); composer.setSize(w, h);
   camera.aspect = w / h; camera.updateProjectionMatrix();
   COMUM.uPix.value = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) / (h * pr);
+  COMUM.uMinU.value = 1.5 * pr;
   cena.traverse(o => { const m = o.material; if (m && m.userData && m.userData.min0 !== undefined && m.uniforms.minPx) m.uniforms.minPx.value = m.userData.min0 * pr; });   // mínimo em pixels de tela, também em telas densas
 }
 new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
@@ -819,6 +956,7 @@ const tmp = new THREE.Vector3(); let nq = 0;
   fios.material.uniforms.uT.value = T; fios.material.uniforms.uTv.value = Tv;
   moverOndas(); aplicar(fr);
   if (sessoes) sessoes.quadro();
+  if (teste) teste.quadro();
   if (obs) obs.atualizar(T);
   if (malha) { const v = malha.atualizar(T); narrar(T, v); if (nq % 6 === 0) vivoEl.innerHTML = `piloto, ouvido E, até agora: <b style="color:var(--nova)">Uints ${fmt(v.u)}</b> · ramos funcionando ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.f)}</span>`; }
   composer.render();
