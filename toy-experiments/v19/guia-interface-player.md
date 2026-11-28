@@ -1,28 +1,23 @@
-# Interface de exploração da V19 — proposta para aprovação de Paulo
+# V19 — catálogo, miniplayer e exploração 3D
 
-Claudinha, reorganize a página como um álbum de testes. A referência é a experiência de escolher uma faixa, explorar a capa durante a reprodução e acompanhar a letra sincronizada. Aqui a capa é a cena 3D existente e a letra é o diário do motor.
+Revisão de design para Claudia, a partir da supervisão de Paulo em 28/11. Referência de interação: biblioteca, miniplayer e tela de reprodução do Apple Music no iPhone.
 
-## Composição no celular, de cima para baixo
+## 1. Escolher
 
-| Região | Conteúdo e comportamento |
-|---|---|
-| Cabeçalho | Voltar à lista de testes · V19 |
-| Capa | Cena 3D interativa em destaque. Giro e zoom funcionam durante a reprodução e a pausa. Ações de vista lateral e escala ficam no menu da cena. |
-| Card da hipótese | Título do teste, condição e pergunta científica. Para A/B, usar “Permitir profundidade muda quais Uints chegam a integrar?” e explicar em uma frase a condição selecionada. |
-| Transporte | Uma barra de tempo com tempo decorrido e duração. Um único botão central alterna reproduzir e pausar. |
-| Diário | Acontecimento atual destacado, anterior e seguinte discretos. Tocar em um acontecimento com horário registrado leva ao instante correspondente. O diário pode ser recolhido. |
-| Outros testes | Lista com título, duração e uma ação de play por card. A faixa ativa indica reprodução ou pausa. |
+A entrada é um catálogo rolável. Ao abrir pela primeira vez, mostrar as opções de estudo antes de carregar qualquer cena. Organizar rodada principal, testes e pré-testes, e demonstrações. Cada linha informa título, tipo, o que varia, estímulo ou trecho quando pertinente, duração e disponibilidade. Usar títulos compreensíveis sem abrir a ficha. Rodada planejada aparece com estado e sem ação de reprodução.
 
-No desktop, colocar capa e transporte à esquerda e diário à direita, com a lista abaixo. No celular, preservar a largura da cena e a rolagem vertical da página fora da cena.
+Tocar na linha expande a ficha no próprio catálogo. A ficha responde: qual é a pergunta, qual hipótese ou previsão está registrada, o que muda e o que é mantido, o que foi medido, qual o estímulo, ouvido e duração, e que conclusão o desenho permite. Distinguir previsão pendente de previsão registrada. Na demonstração “Robô ouvindo”, explicar o que se observa. Oferecer A/B apenas onde existem essas condições. O botão Reproduzir pertence à ficha expandida. Selecionar outro item para leitura preserva a reprodução em curso.
 
-## Faixas e estados
+## 2. Reproduzir enquanto se consulta o catálogo
 
-Mostrar Folha fixa e Profundidade local como duas faixas de um mesmo estudo, ambas com 1:30. Oferecer troca de condição no mesmo instante preservando câmera, zoom e estado de reprodução. Escolher outro estudo abre seu card e sua hipótese. Todos os botões operam o mesmo player e só uma faixa roda por vez. Quando a rodada principal tiver dados disponíveis, destacá-la acima dos pilotos. Até lá, identificá-la como planejada, sem play.
+Ao tocar em Reproduzir, iniciar o teste e apresentar um miniplayer fixo no rodapé, acima da área segura do iPhone. Mostrar título, condição pertinente, progresso e play/pausa. Reservar espaço sob a última linha do catálogo. O botão de pausa age diretamente. Tocar no restante da barra expande o player para cima, por cima do catálogo. Após a primeira reprodução, manter a barra disponível também durante a pausa.
 
-Ao carregar, mostrar o estado do carregamento. Em caso de falha, oferecer nova tentativa. Ao terminar, oferecer repetir. Velocidade, vistas e snapshot ficam em ações secundárias. Usar controles acessíveis por teclado, nomes de ação em português e alvos confortáveis no iPhone.
+## 3. Explorar
 
-## Fidelidade científica e revisão
+O player expandido ocupa a área visível da janela. A cena 3D ocupa a maior área, na posição da capa. Ancorar a cena e os controles de transporte dentro dessa camada. O diário sincronizado tem rolagem própria e pode ser recolhido. Em tela baixa, reduzir primeiro o espaço do diário. Arrastar dentro da cena gira a câmera. O gesto de recolher começa na alça do player, com botão equivalente. Vista lateral, escala, velocidade e snapshot ficam em ações secundárias. Em desktop, o diário pode ocupar a lateral.
 
-Usar tempos e posições exportados pelo motor. Distinguir nascimento de Uint candidata, chegada de ramo e primeiro disparo. Quando o diário agrupar eventos, rotular o intervalo e a contagem. Preservar a proporção física dos eixos, inclusive quando B parecer plana. Antes da aprovação visual, apresentar o mesmo instante em A e B e demonstrar no iPhone reprodução, pausa, rotação, troca de condição e salto pelo diário.
+Um único relógio controla cena, progresso, diário e miniplayer. Recolher restaura a posição de leitura do catálogo e a ficha aberta. Expandir novamente preserva instante, câmera, zoom e estado de reprodução. Ao alternar A/B dentro do estudo comparativo, conservar instante e câmera. Ao iniciar outro estudo, identificar a nova faixa e iniciar seu tempo. Mostrar carregamento e permitir nova tentativa em caso de falha.
 
-Estado: proposta de design da Clara para revisão de Paulo. Escopo: interface e reprodução dos registros existentes.
+## Revisão no iPhone
+
+Demonstrar o percurso completo: abrir catálogo → expandir uma ficha → ler a hipótese → dar play → abrir outra ficha enquanto o primeiro teste roda → expandir a minibarra → girar e aproximar a cena → rolar o diário mantendo a cena fixa → recolher e reabrir no mesmo instante se pausado. Verificar que tocar num evento leva ao tempo registrado e que o nascimento de uma Uint, a chegada do ramo e o disparo são distinguíveis quando registrados. Preservar a proporção física dos eixos.
