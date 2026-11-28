@@ -6,7 +6,7 @@
 <meta name="dados" content="visual/">
 <title>Sdom — borda em luz (V0.19)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
   /* Mesmo mundo visual da V0.18 ("Cóclea em luz"): fundo escuro, luzes. */
@@ -26,8 +26,10 @@
   --ustr: #a26b80;       /* Ustr: cor provisória (rosa-acinzentado), mantida pelo responsável em 27/11 */
   --grade: #2b3c3a;      /* arestas dos cubos (só de perto) */
   --uint: #cfd6d4;       /* Uint e ramo já formados: cor PROVISÓRIA (neutra), a confirmar */
-  --corpo: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --corpo: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --cartao: #0f171c;     /* cinza azulado, levemente mais claro que o fundo */
+  --neon: #39ff14;
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -146,20 +148,47 @@ body { display: block; }
   .diario { grid-column: 2; grid-row: 2 / 4; margin: 0 12px 12px 0; display: flex; flex-direction: column; min-height: 0; }
   #diario-todos { max-height: none; flex: 1; }
 }
+
+/* ---- ajustes de 28/11 (Paulo): cabeçalho fixo, cards, play redondo neon, fonte ---- */
+.topo.fixo { position: sticky; top: 0; z-index: 15; background: #04070ae6; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--linha); padding: calc(8px + env(safe-area-inset-top)) 16px 8px; display: flex; }
+.marca .word { font-size: 22px; letter-spacing: .26em; }
+.marca .emerg { font-size: 11px; font-weight: 600; letter-spacing: .2em; color: var(--apagado); align-self: center; margin-left: 2px; }
+.intro { padding: 14px 16px 2px; display: grid; gap: 6px; }
+.intro h1 { font-size: 1.2rem; font-weight: 700; margin: 0; letter-spacing: -.01em; }
+.intro .sub { font-size: .9rem; line-height: 1.5; margin: 0; }
+body, button, input { font-family: var(--corpo); }
+.estudo { background: var(--cartao); border: 1px solid #1c2a31; border-radius: 14px; padding: 14px 14px 12px; gap: 0; position: relative; }
+.estudo h2 { font-size: 1.05rem; font-weight: 700; letter-spacing: -.01em; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid #1c2a31; }
+.estudo .perg { font-weight: 400; font-size: .95rem; line-height: 1.5; color: var(--texto); margin: 0 0 8px; }
+.estudo .linha-e { font-size: .82rem; line-height: 1.45; }
+.estudo .disp { font: 500 .78rem var(--corpo); font-variant-numeric: tabular-nums; margin-top: 2px; }
+.estudo details { border-top: 0; margin-top: 8px; padding-top: 0; }
+.estudo details summary { font-weight: 500; padding-right: 64px; }
+.estudo.com-play { padding-bottom: 14px; }
+.play-neon { position: absolute; right: 12px; bottom: 12px; width: 52px; height: 52px; min-height: 0; padding: 0; border-radius: 50%; aspect-ratio: 1 / 1;
+  display: grid; place-items: center; background: var(--neon); border: 0; color: #04140a; font-size: 1.15rem; line-height: 1;
+  box-shadow: 0 0 14px #39ff1488, 0 0 2px #39ff14; }
+.play-neon:active { transform: scale(.96); }
+.estudo.tocando .play-neon { box-shadow: 0 0 20px #39ff14aa, 0 0 2px #39ff14; }
+.ficha { font-size: .9rem; font-weight: 400; padding-bottom: 60px; }
+.ficha h3 { font-weight: 600; }
+.ficha b { font-weight: 600; }
 </style>
 </head>
 <body>
-<header class="topo">
+<header class="topo fixo">
   <div class="marca"><svg class="mark" viewBox="0 0 64 32" aria-hidden="true">
       <defs><linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#39ff14"/><stop offset="1" stop-color="#e9fbe4"/></linearGradient></defs>
       <path d="M6 6 Q22 8 30 16 M6 26 Q22 24 30 16" fill="none" stroke="url(#cg)" stroke-width="2.2" stroke-linecap="round"/>
       <path d="M38 16 L58 16" fill="none" stroke="#e9fbe4" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="3 3"/>
       <circle cx="6" cy="6" r="3.6" fill="#8fa09b"/><circle cx="6" cy="26" r="3.6" fill="#8fa09b"/>
       <circle cx="34" cy="16" r="6" fill="#39ff14"/><circle cx="34" cy="16" r="2.4" fill="#04070a"/>
-    </svg><span class="word">CLEAR</span></div>
-  <h1>Sdom · estudos da V19 <span class="ver">EMERGENCE</span></h1>
-  <p class="sub">Cada card é um estudo. Abra a ficha para ler a pergunta, o que muda, o que procurar na cena e o que os dados permitem dizer. O play abre um miniplayer; toque nele para explorar a cena 3D.</p>
+    </svg><span class="word">CLEAR</span><span class="emerg">EMERGENCE</span></div>
 </header>
+<div class="intro">
+  <h1>Sdom · estudos da V19</h1>
+  <p class="sub">Cada card é um estudo. Abra a ficha para ler a pergunta, o que muda, o que procurar na cena e o que os dados permitem dizer. O play abre um miniplayer; toque nele para explorar a cena 3D.</p>
+</div>
 <audio id="audio" preload="auto" src="visual/v18-satie/audio.mp3"></audio>
 <main id="catalogo" aria-label="Estudos da V19"></main>
 <section class="sobre">
@@ -973,10 +1002,12 @@ function montarCatalogo() {
     let acoes = "";
     if (e.faixas) {
       if (e.faixas.length > 1) acoes += `<div class="segmentos" role="group" aria-label="Condição">${e.faixas.map(c => `<button data-sel="${c}">${FAIXAS[c].sub}</button>`).join("")}</div><p class="explic-cond"></p>`;
-      acoes += `<button class="reproduzir">▶ Reproduzir</button>`;
+
     }
+    if (e.faixas) art.classList.add("com-play");
     art.innerHTML = `<h2>${e.titulo}</h2><p class="perg">${e.pergunta}</p><div class="linha-e">${e.linha}</div><div class="disp">${disp}</div>`
-      + `<details><summary>${e.planejada ? "Ver ficha ⌄" : "Explorar estudo ⌄"}</summary><div class="ficha">${e.ficha}${acoes}</div></details>`;
+      + `<details><summary>${e.planejada ? "Ver ficha ⌄" : "Explorar estudo ⌄"}</summary><div class="ficha">${e.ficha}${acoes}</div></details>`
+      + (e.faixas ? `<button class="play-neon reproduzir" aria-label="Reproduzir ${e.titulo}">▶</button>` : "");
     cat.appendChild(art);
     if (e.faixas) {
       const atualizarSel = () => { art.querySelectorAll("[data-sel]").forEach(b => b.setAttribute("aria-pressed", b.dataset.sel === P.cond));
@@ -995,7 +1026,8 @@ function estadoCatalogo() {
   document.querySelectorAll(".estudo").forEach(art => { const ativo = P.f && P.f.estudo === art.dataset.estudo; art.classList.toggle("tocando", !!ativo);
     const b = art.querySelector(".reproduzir"); if (!b) return;
     const meu = ativo && (art.dataset.estudo !== "ab" || P.fid === P.cond);
-    b.textContent = meu ? (P.tocando ? "❚❚ Pausar" : P.fim ? "↺ Repetir" : "▶ Continuar") : "▶ Reproduzir"; });
+    b.textContent = meu ? (P.tocando ? "❚❚" : P.fim ? "↺" : "▶") : "▶";
+    b.setAttribute("aria-label", meu ? (P.tocando ? "Pausar" : P.fim ? "Repetir" : "Continuar") : "Reproduzir"); });
 }
 // abrir uma faixa (A ↔ B conserva instante, câmera e reprodução)
 async function abrir(fid, { tocar = false } = {}) {
