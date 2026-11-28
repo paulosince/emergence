@@ -109,7 +109,7 @@ body { display: block; }
 #reserva { height: 0; } body.com-mini #reserva { height: calc(76px + env(safe-area-inset-bottom)); }
 #mini { position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); z-index: 20; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px;
   background: #0d1417f2; border: 1px solid #2a3a3e; border-radius: 14px; padding: 8px 8px 8px 12px; box-shadow: 0 6px 24px #000a; overflow: hidden; }
-#mini[hidden] { display: none; }
+#mini[hidden] { display: none; } #b-braco[hidden], .pop-corpo button[hidden] { display: none; }
 #mini-prog { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #1a2428; } #mini-prog i { display: block; height: 100%; width: 0; background: var(--neon); }
 #mini-abrir { background: none; border: 0; text-align: left; display: grid; padding: 4px 0; min-height: 48px; }
 #mini-titulo { font-weight: 600; } #mini-sub { color: var(--apagado); font-size: .78rem; }
@@ -337,11 +337,15 @@ details.pop > summary.opc.redondo { display: grid; }
     <div class="baixo-am">
       <button id="b-log" class="opc redondo" aria-pressed="false" aria-label="Log do motor"><svg viewBox="0 0 24 24"><path d="M5 3.5h14a2.5 2.5 0 0 1 2.5 2.5v9a2.5 2.5 0 0 1-2.5 2.5h-6.2l-4.4 3.4a.9.9 0 0 1-1.4-.7v-2.7H5A2.5 2.5 0 0 1 2.5 15V6A2.5 2.5 0 0 1 5 3.5zm2 5h10v1.7H7zm0 3.3h7v1.7H7z"/></svg></button>
       <button id="b-prof" class="opc redondo" aria-pressed="false" aria-label="Profundidade local (B); desligado = folha fixa (A)" hidden><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="2.4" rx="1.2"/><rect x="6" y="10.8" width="12" height="2.4" rx="1.2" opacity=".75"/><rect x="9" y="16.6" width="6" height="2.4" rx="1.2" opacity=".5"/></svg></button>
+      <details class="pop" id="b-braco" hidden><summary class="opc redondo" aria-label="Braço"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="3.2" rx="1.6"/><rect x="3" y="10.4" width="18" height="3.2" rx="1.6" opacity=".75"/><circle cx="12" cy="18.6" r="2.6" opacity=".9"/></svg><span>Braço</span></summary>
+        <div class="pop-corpo botoes"><button data-braco="f790">Faixa 790</button><button data-braco="f263">Faixa 263</button><button data-braco="c263">Compacta 263</button></div>
+      </details>
       <details class="pop" id="vistas"><summary class="opc redondo" aria-label="Vistas"><svg viewBox="0 0 24 24"><path d="M12 5C6.5 5 2.7 9.3 1.6 11.4a1.3 1.3 0 0 0 0 1.2C2.7 14.7 6.5 19 12 19s9.3-4.3 10.4-6.4a1.3 1.3 0 0 0 0-1.2C21.3 9.3 17.5 5 12 5zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg><span>Vistas</span></summary>
         <div class="pop-corpo botoes">
           <button data-vista="geral">Geral</button><button data-vista="sala">Sala</button><button data-vista="cima">De cima</button>
           <button data-vista="E">Ouvido E</button><button data-vista="D">Ouvido D</button><button data-vista="nervo">Nervo E</button>
-          <button data-vista="nucleo">Núcleo E</button><button data-vista="detalhe">Dentro (cubos)</button></div>
+          <button data-vista="nucleo">Núcleo E</button><button data-vista="detalhe">Dentro (cubos)</button>
+          <button data-vista="b-entrada" hidden>Entrada do braço</button><button data-vista="b-nervo" hidden>Nervo do braço</button></div>
       </details>
     </div>
   </div>
@@ -944,6 +948,131 @@ const teste = await (async () => {
   return { FIMT, mj, async carregar() { if (!D) D = await carregar(); }, mostrar(v) { if (D) for (const c of ["A", "B"]) D[c].objs.forEach(o => o.visible = v); },
     ir: (t, cond) => desenhar(t, cond), eventos };
 })();
+// ---------- teste de 60 s dos três braços (faixa 790 · faixa 263 · compacta 263; regra B nos três; ouvido E) ----------
+// Nervo "orgânico" [R 28/11]: cada Upro do nervo é uma curva cujo comprimento desenhado é o comprimento de condução do motor
+// (790 ou 263 cubos). O caminho é desenho: o motor guarda comprimento e atraso, não trajeto. Na compacta, as origens ficam
+// na espiral do instante zero (o motor não usa a posição da origem). Só entram as Ustr que o motor usa (zona de entrada).
+const bracos = await (async () => {
+  let mj; try { const r = await fetch(BASE + "teste-c.json"); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }
+  const NOMES = Object.keys(mj.bracos || {}); if (!NOMES.length) return null;
+  const FIMT = Math.max(...NOMES.map(b => mj.bracos[b].dur));
+  const NOVA = cor("--nova"), FEITA = cor("--uint"), ACESSO = cor("--acesso");
+  const hash = (i, k) => { let x = Math.imul((i + 1) * 2654435761 + k * 40503, 2246822507) >>> 0; x ^= x >>> 15; x = Math.imul(x, 3266489909) >>> 0; x ^= x >>> 16; return (x >>> 0) / 4294967296 * 2 - 1; };
+  const C3 = (x, y, z) => [x * MM, z * MM, -y * MM];
+  const norm = v => { const n = Math.hypot(...v) || 1; return v.map(x => x / n); };
+  function curva(P0, P1, id, amp) {
+    const d = [P1[0] - P0[0], P1[1] - P0[1], P1[2] - P0[2]], L = Math.hypot(...d) || 1e-9;
+    let a = [d[1], -d[0], 0]; if (Math.hypot(...a) < 1e-9 * L) a = [0, d[2], -d[1]]; a = norm(a);
+    const b = norm([d[1] * a[2] - d[2] * a[1], d[2] * a[0] - d[0] * a[2], d[0] * a[1] - d[1] * a[0]]);
+    const k1 = norm([0, 1, 2].map(j => a[j] * hash(id, 1) + b[j] * hash(id, 2))), k2 = norm([0, 1, 2].map(j => a[j] * hash(id, 3) + b[j] * hash(id, 4)));
+    const h = amp * L, c1 = [0, 1, 2].map(j => P0[j] + d[j] / 3 + k1[j] * h), c2 = [0, 1, 2].map(j => P0[j] + 2 * d[j] / 3 + k2[j] * h);
+    return u => { const v = 1 - u, w0 = v * v * v, w1 = 3 * v * v * u, w2 = 3 * v * u * u, w3 = u * u * u; return [0, 1, 2].map(j => w0 * P0[j] + w1 * c1[j] + w2 * c2[j] + w3 * P1[j]); };
+  }
+  const compr = f => { let s = 0, q = f(0); for (let i = 1; i <= 24; i++) { const r = f(i / 24); s += Math.hypot(r[0] - q[0], r[1] - q[1], r[2] - q[2]); q = r; } return s; };
+  function curvaDeComprimento(P0, P1, id, alvo, amin) {   // amplitude tal que o comprimento desenhado ≈ alvo; nunca abaixo de amin
+    const f0 = curva(P0, P1, id, amin); if (compr(f0) >= alvo) return f0;
+    let lo = amin, hi = 1; while (compr(curva(P0, P1, id, hi)) < alvo && hi < 64) hi *= 2;
+    for (let it = 0; it < 16; it++) { const md = (lo + hi) / 2; if (compr(curva(P0, P1, id, md)) < alvo) lo = md; else hi = md; }
+    return curva(P0, P1, id, hi);
+  }
+  let buf = null; const D = {};
+  async function carregar(b) {
+    if (D[b]) return; if (!buf) buf = await (await fetch(BASE + "teste-c.bin")).arrayBuffer();
+    const T_ = { int16: Int16Array, uint8: Uint8Array, uint16: Uint16Array, int32: Int32Array, float32: Float32Array };
+    const p = b + "_", m = mj.bracos[b], A = n => new T_[mj[p + n].tipo](buf, mj[p + n].off, mj[p + n].n);
+    const ox = A("o_xyz"), cx = A("c_xyz"), nP = cx.length / 3, org = new Float32Array(nP * 3), che = new Float32Array(nP * 3);
+    for (let q = 0; q < nP; q++) { org.set(C3(ox[3 * q], ox[3 * q + 1], ox[3 * q + 2]), 3 * q); che.set(C3(cx[3 * q], cx[3 * q + 1], cx[3 * q + 2]), 3 * q); }
+    const origens = bolas(org, R_UN, 1.6, cor("--ponto"), cor("--excit"));
+    const gx = A("g_xyz"), nG = gx.length / 3, gc = new Float32Array(nG * 3);
+    for (let i = 0; i < nG; i++) gc.set(C3(gx[3 * i], gx[3 * i + 1], gx[3 * i + 2]), 3 * i);
+    const glias = bolas(gc, R_USTR, 1.6, cor("--ustr"), undefined, 1);
+    const uxyz = A("u_xyz"), ut = A("u_t"), nU = ut.length, cen = new Float32Array(nU * 3);
+    for (let i = 0; i < nU; i++) cen.set(C3(uxyz[3 * i], uxyz[3 * i + 1], uxyz[3 * i + 2]), 3 * i);
+    const u = bolas(cen, R_UINT, 1.5, FEITA, NOVA); u.luz.fill(-1);
+    const rs = A("r_src"), rd = A("r_dst"), rl = A("r_len"), rb = A("r_born");
+    const st = A("s_t"), sr = A("s_r"), sk = A("s_k"), nS = st.length, SUBP = 2;
+    const pa = new Float32Array(nS * SUBP * 3), pb = new Float32Array(nS * SUBP * 3), tn = new Float32Array(nS * SUBP), tb = new Float32Array(nS * SUBP), cache = new Map();
+    for (let i = 0; i < nS; i++) {
+      const r = sr[i]; let f = cache.get(r);
+      if (!f) { const P0 = C3(rs[3 * r], rs[3 * r + 1], rs[3 * r + 2]), j = rd[r], P1 = [cen[3 * j], cen[3 * j + 1], cen[3 * j + 2]];
+        const reta = Math.hypot(P1[0] - P0[0], P1[1] - P0[1], P1[2] - P0[2]) / MM, exc = Math.max(0, rl[r] - Math.max(1, reta));
+        f = curva(P0, P1, r, 0.16 + 0.35 * exc / Math.max(1, rl[r])); cache.set(r, f); }
+      const L = Math.max(1, rl[r]), u0 = (sk[i] - 1) / L, u1 = sk[i] / L;
+      for (let q = 0; q < SUBP; q++) { const k = i * SUBP + q; pa.set(f(u0 + (u1 - u0) * q / SUBP), 3 * k); pb.set(f(u0 + (u1 - u0) * (q + 1) / SUBP), 3 * k); tn[k] = st[i]; tb[k] = rb[r]; }
+    }
+    const ramos = tubos(pa, pb, W_UPRO, 0.6, [["tn", tn, 1], ["tb", tb, 1]],
+      `if (vA < 0.5) discard; vec3 k = vF > 0.5 ? feita * 0.45 : nova * (0.45 + 0.9 * vN); gl_FragColor = vec4(k * vFog, 1.0);`,
+      { decl: "varying float vA, vN, vF;", corpo: "float idade = uT - tn; vA = idade < 0.0 ? 0.0 : 1.0; vN = idade < 0.0 ? 0.0 : max(0.0, 1.0 - idade / 1.5); vF = (tb >= 0.0 && uT >= tb) ? 1.0 : 0.0;" });
+    ramos.material.uniforms.nova = { value: NOVA }; ramos.material.uniforms.feita = { value: FEITA };
+    ramos.material.fragmentShader = "uniform vec3 nova, feita; " + ramos.material.fragmentShader;
+    // nervo: 10 marcas de crescimento do motor por Upro; cada décimo desenhado com SUBN pedaços da curva
+    const np_ = A("n_p"), nt = A("n_t"), nfr = A("n_fr"), tSeg = new Float32Array(nP * 10).fill(1e9);
+    for (let i = 0; i < np_.length; i++) { const k = nfr[i] - 1; if (k >= 0 && k < 10) tSeg[np_[i] * 10 + k] = Math.min(tSeg[np_[i] * 10 + k], nt[i]); }
+    for (let q = 0; q < nP; q++) for (let k = 8; k >= 0; k--) tSeg[10 * q + k] = Math.min(tSeg[10 * q + k], tSeg[10 * q + k + 1]);
+    const SUBN = 2, nN = nP * 10 * SUBN, fa = new Float32Array(nN * 3), fb = new Float32Array(nN * 3), ftn = new Float32Array(nN), fch = new Float32Array(nN);
+    let excesso = 0;
+    for (let q = 0; q < nP; q++) {
+      const P0 = [org[3 * q], org[3 * q + 1], org[3 * q + 2]], P1 = [che[3 * q], che[3 * q + 1], che[3 * q + 2]];
+      const f = curvaDeComprimento(P0, P1, 900000 + q, m.nervo * MM, 0.04); excesso = Math.max(excesso, compr(f) / (m.nervo * MM) - 1);
+      for (let k = 0; k < 10; k++) for (let s = 0; s < SUBN; s++) { const i = (10 * q + k) * SUBN + s;
+        fa.set(f((k + s / SUBN) / 10), 3 * i); fb.set(f((k + (s + 1) / SUBN) / 10), 3 * i); ftn[i] = tSeg[10 * q + k]; fch[i] = tSeg[10 * q + 9]; }
+    }
+    const nervo = tubos(fa, fb, W_UPRO, 0.6, [["tn", ftn, 1], ["tc", fch, 1]],
+      `if (vA < 0.5) discard; vec3 k = vC > 0.5 ? feita * 0.05 : nova * (0.03 + 0.12 * vN); gl_FragColor = vec4(k * vFog, 1.0);`,
+      { decl: "varying float vA, vN, vC;", corpo: "float idade = uT - tn; vA = idade < 0.0 ? 0.0 : 1.0; vN = idade < 0.0 ? 0.0 : max(0.0, 1.0 - idade / 3.0); vC = uT >= tc ? 1.0 : 0.0;" });
+    nervo.material.uniforms.nova = { value: NOVA }; nervo.material.uniforms.feita = { value: FEITA };
+    nervo.material.fragmentShader = "uniform vec3 nova, feita; " + nervo.material.fragmentShader;
+    const ft = A("f_t"), fu = A("f_u"), nF = ft.length, gp = new Float32Array(nF * 3);
+    for (let i = 0; i < nF; i++) gp.set(cen.subarray(3 * fu[i], 3 * fu[i] + 3), 3 * i);
+    const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(gp, 3)); g.setAttribute("ft", new THREE.BufferAttribute(ft, 1));
+    const mf = new THREE.ShaderMaterial({ uniforms: { ...COMUM, uT: { value: 0 }, minPx: { value: 3 }, ativa: { value: ACESSO } },
+      vertexShader: `attribute float ft; uniform float uT, minPx, uPix, uFoco; varying float vL, vFog;
+        void main(){ float a = uT - ft; if (a < 0.0 || a > 0.12) { gl_PointSize = 0.0; gl_Position = vec4(2.0, 2.0, 2.0, 1.0); vL = 0.0; vFog = 0.0; return; }
+          vec4 mv = modelViewMatrix * vec4(position, 1.0); ${NEVOA} vL = 1.0 - a / 0.12; gl_PointSize = max(minPx, 0.03 / ((-mv.z) * uPix)); gl_Position = projectionMatrix * mv; }`,
+      fragmentShader: `uniform vec3 ativa; varying float vL, vFog; void main(){ vec2 c = gl_PointCoord * 2.0 - 1.0; float d2 = dot(c, c); if (d2 > 1.0) discard;
+          float a = exp(-d2 * 4.0); gl_FragColor = vec4(ativa * vL * a * 1.4 * vFog, 1.0); }`, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+    mf.userData.min0 = 3; const disp = new THREE.Points(g, mf); disp.frustumCulled = false;
+    const objs = [origens, glias, u, ramos, nervo, disp]; objs.forEach(o => { o.visible = false; cena.add(o); });
+    tamanho();
+    const dentro = new Uint8Array(nU); for (let i = 0; i < nU; i++) dentro[i] = uxyz[3 * i] > m.xlim ? 1 : 0;   // ouvido E: para dentro da cabeça = x maior
+    const pt = A("p_t"), pu = A("p_u"), tNovo = [], tReuso = [];
+    for (let i = 0; i < pt.length; i++) (pt[i] > ut[pu[i]] + 1e-9 ? tReuso : tNovo).push(pt[i]);
+    const chegou = Array.from({ length: nP }, (_, q) => tSeg[10 * q + 9]).filter(v => v < 1e8).sort((x, y) => x - y);
+    const funcion = Array.from(rb).filter(v => v >= 0).sort((x, y) => x - y);
+    const prim = new Float32Array(nU).fill(1e9); for (let i = 0; i < nF; i++) if (ft[i] < prim[fu[i]]) prim[fu[i]] = ft[i];
+    const caixa = (...listas) => { const lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9]; for (const L of listas) for (let i = 0; i < L.length; i += 3) for (let j = 0; j < 3; j++) { lo[j] = Math.min(lo[j], L[i + j]); hi[j] = Math.max(hi[j], L[i + j]); } return [lo, hi]; };
+    D[b] = { objs, origens, glias, u, ut, nU, dentro, ramos, nervo, mf, ft, chegou, funcion, prim, tNovo, tReuso, nP, excesso,
+             cx: { entrada: caixa(che, gc, cen), nervo: caixa(org, che) } };
+  }
+  const ate = (arr, v) => { let lo = 0, hi = arr.length; while (lo < hi) { const md = (lo + hi) >> 1; if (arr[md] <= v) lo = md + 1; else hi = md; } return lo; };
+  const onde = b => mj.bracos[b].modo === 1 ? "para dentro da face" : "para dentro da folha";
+  function desenhar(t, b) {
+    const d = D[b]; if (!d) return "";
+    d.ramos.material.uniforms.uT.value = t; d.nervo.material.uniforms.uT.value = t; d.mf.uniforms.uT.value = t;
+    const L = d.u.luz; let nu = 0, nd = 0, nprim = 0;
+    for (let i = 0; i < d.nU; i++) { if (d.ut[i] > t) { L[i] = -1; continue; } nu++; nd += d.dentro[i]; if (d.prim[i] <= t) nprim++; L[i] = Math.max(0, 1 - (t - d.ut[i]) / 1.5); }
+    d.u.aLuz.needsUpdate = true;
+    return `Upros do nervo prontas ${fmt(ate(d.chegou, t))} de ${fmt(d.nP)} (nervo de ${mj.bracos[b].nervo} cubos) · Uints candidatas ${fmt(nu)} (${onde(b)} ${fmt(nd)}) · pares que reutilizaram uma Uint ${fmt(ate(d.tReuso, t))} · ramos que chegaram à Uint ${fmt(ate(d.funcion, t))} · Uints que já dispararam ${fmt(nprim)} · disparos ${fmt(ate(d.ft, t))}.`;
+  }
+  function eventos(b) {
+    const d = D[b], ev = []; if (!d) return ev;
+    for (let b0 = 0; b0 < FIMT; b0 += 1) {
+      const b1 = b0 + 1; let f = 0, u = 0, ud = 0, r = 0, p1 = 0, pn = 0, pr = 0;
+      for (const v of d.tNovo) if (v >= b0 && v < b1) pn++; for (const v of d.tReuso) if (v >= b0 && v < b1) pr++;
+      for (const v of d.chegou) if (v >= b0 && v < b1) f++;
+      for (let i = 0; i < d.nU; i++) { if (d.ut[i] >= b0 && d.ut[i] < b1) { u++; ud += d.dentro[i]; } if (d.prim[i] >= b0 && d.prim[i] < b1) p1++; }
+      for (const v of d.funcion) if (v >= b0 && v < b1) r++;
+      const p = []; if (f) p.push(`${fmt(f)} Upros do nervo ficaram prontas`); if (u) p.push(`<span style="color:var(--nova)">${fmt(u)} Uints candidatas nasceram</span>${ud ? ` (${fmt(ud)} ${onde(b)})` : ""}`);
+      if (pr) p.push(`${fmt(pr)} pares reutilizaram uma Uint já existente (de ${fmt(pn + pr)} pares novos)`);
+      if (r) p.push(`${fmt(r)} ramos chegaram à Uint`); if (p1) p.push(`<span style="color:var(--acesso)">${fmt(p1)} Uints dispararam pela primeira vez</span>`);
+      if (p.length) ev.push({ t: b0, txt: `<b>${fmtT(b0)}–${fmtT(b1)}</b> (1 s) · ${p.join(" · ")}` });
+    }
+    return ev;
+  }
+  return { FIMT, mj, NOMES, D, carregar, ir: (t, b) => desenhar(t, b), eventos,
+    mostrar(b) { for (const k in D) D[k].objs.forEach(o => o.visible = k === b); },
+    caixa: (b, qual) => D[b] && D[b].cx[qual] };
+})();
 // ---------- rótulos (com prioridade: os de trás somem se sobrepõem os da frente) ----------
 const rotulos = [];
 function rotulo(texto, x, y, z, ate = Infinity, cls = "") {
@@ -980,6 +1109,12 @@ const VISTAS = {
   detalhe: [new THREE.Vector3(-meia + 0.32, 0.14, zb24 + 0.26), new THREE.Vector3(-meia + 0.03, 0, zb24)],
 };
 function vista(n) {
+  if (n.startsWith("b-")) {                                     // enquadra o braço aberto: zona de entrada ou nervo inteiro
+    const c = P.f && P.f.estudo === "bracos" && bracos ? bracos.caixa(BRACO[P.fid], n === "b-nervo" ? "nervo" : "entrada") : null; if (!c) return vista("geral");
+    const [lo, hi] = c, a = new THREE.Vector3((lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2);
+    const r = Math.max(0.05, 0.5 * Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2])), dir = new THREE.Vector3(0.62, 0.38, 0.69).normalize();
+    camera.position.copy(a).add(dir.multiplyScalar(r * 2.4 * Math.max(1, 1.2 / camera.aspect))); ctrl.target.copy(a); ctrl.update(); return;
+  }
   const [p, a] = VISTAS[n], k = n === "detalhe" ? 1 : (n === "E" || n === "D") ? Math.max(1, 1.0 / camera.aspect) : Math.max(1, 1.5 / camera.aspect);
   camera.position.copy(a).add(p.clone().sub(a).multiplyScalar(k)); ctrl.target.copy(a); ctrl.update();
 }
@@ -1028,12 +1163,18 @@ const FAM18 = ["demo", "piloto", "lupa"];
 const FAIXAS = {
   A: { estudo: "ab", sub: "A · Folha fixa", dur: () => teste.FIMT, vel: 1, vista: "nucleo" },
   B: { estudo: "ab", sub: "B · Profundidade local", dur: () => teste.FIMT, vel: 1, vista: "nucleo" },
+  f790: { estudo: "bracos", sub: "Faixa · nervo de 790 cubos", dur: () => bracos.FIMT, vel: 1, vista: "b-entrada",
+    explic: "Faixa 790: a entrada planar de sempre, com o nervo de 790 cubos." },
+  f263: { estudo: "bracos", sub: "Faixa · nervo de 263 cubos", dur: () => bracos.FIMT, vel: 1, vista: "b-entrada",
+    explic: "Faixa 263: a mesma faixa, com o nervo encurtado para o percurso comum de 263 cubos." },
+  c263: { estudo: "bracos", sub: "Compacta · nervo de 263 cubos", dur: () => bracos.FIMT, vel: 1, vista: "b-entrada",
+    explic: "Compacta 263: origens na espiral, chegadas na meia-esfera e territórios de Ustr em 3D (grade 3 × 3 × 3)." },
   ensaio: { estudo: "ensaio", sub: "4 gravações · dois ouvidos", dur: () => sessoes.FIM, vel: 10, vista: "nervo" },
   piloto: { estudo: "piloto", sub: "ouvido E · 9–19 s da Alciatore", dur: () => 10, vel: 1, vista: "E" },
   lupa: { estudo: "lupa", sub: "10 ms a 1/1.000×", dur: () => 0.01, vel: 0.001, vista: "detalhe" },
   demo: { estudo: "demo", sub: "Alciatore · 9–19 s", dur: () => 10, vel: 1, vista: "geral", audio: true },
 };
-const VELS = { A: [5, 1, 0.25, 0.05], B: [5, 1, 0.25, 0.05], ensaio: [60, 10, 1], piloto: [1, 0.25, 0.05], lupa: [0.01, 0.001, 0.0001], demo: [1, 0.25, 0.05] };
+const VELS = { A: [5, 1, 0.25, 0.05], B: [5, 1, 0.25, 0.05], f790: [5, 1, 0.25, 0.05], f263: [5, 1, 0.25, 0.05], c263: [5, 1, 0.25, 0.05], ensaio: [60, 10, 1], piloto: [1, 0.25, 0.05], lupa: [0.01, 0.001, 0.0001], demo: [1, 0.25, 0.05] };
 const velTxt = v => v >= 1 ? `${v}×` : v === 0.25 ? "¼×" : `1/${fmt(Math.round(1 / v))}×`;
 // estudos (o catálogo). Selos: previsão registrada · observado · em aberto
 const S_PREV = `<span class="selo prev">previsão registrada</span>`, S_OBS = `<span class="selo obs">observado</span>`, S_AB = `<span class="selo aberto">em aberto</span>`;
@@ -1057,6 +1198,17 @@ const ESTUDOS = [
       <h3>O que este teste mostrou</h3><p>${S_OBS} Em B, ${mAB ? fmt(mAB.B.uints_fora_da_folha) : "—"} de ${mAB ? fmt(mAB.B.n_uints) : "—"} Uints nasceram fora da folha (até ${mAB ? mAB.B.profundidade_max : "—"} cubos). Pares que reutilizaram Uint: A ${mAB ? fmt(mAB.A.pares_que_reutilizaram_uint) : "—"} de ${mAB ? fmt(mAB.A.pares) : "—"}; B ${mAB ? fmt(mAB.B.pares_que_reutilizaram_uint) : "—"} de ${mAB ? fmt(mAB.B.pares) : "—"}. Disparos: A ${mAB ? fmt(mAB.A.n_disparos) : "—"}; B ${mAB ? fmt(mAB.B.n_disparos) : "—"}.</p>
       <h3>O que os dados permitem dizer</h3><p>Só para este trecho, este ouvido e estas regras: em B, a profundidade foi usada, sobretudo pela regra de caminhos iguais (quanto mais fundo, menor a diferença entre os caminhos do par). As Uints ficaram menos compartilhadas e dispararam menos. Não diz nada sobre a reutilização na volta da obra, nem sobre genérico × específico.</p>
       <p><code>preregistro-folha-x-profundidade.md</code></p>` },
+  { id: "bracos", titulo: "Faixa × compacta · três braços", faixas: ["f790", "f263", "c263"],
+    pergunta: "Encurtar o nervo e reorganizar as chegadas em volume muda quais bandas chegam a coincidir e integrar?",
+    linha: "Alciatore, 0–60 s · ouvido esquerdo · regra B nos três braços", disp: "teste para observação · 1:00 por braço",
+    ficha: () => `<h3>Motivação</h3><p>Na faixa, as chegadas espelham o espectro: quase todos os pares possíveis num território são da mesma banda. A proposta de Paulo e Clara (<code>proposta-coordenadas-auditivas.md</code>) organiza a entrada como na cóclea e no núcleo: origens numa espiral aberta, chegadas numa meia-esfera compacta, territórios de Ustr em 3D.</p>
+      <h3>Os três braços</h3><p><b>Faixa 790</b>: a entrada planar, com o nervo de 790 cubos. <b>Faixa 263</b>: a mesma, com o nervo encurtado para o percurso comum de 263 cubos. <b>Compacta 263</b>: espiral, meia-esfera e grade de Ustr 3 × 3 × 3. Faixa 790 × faixa 263 mostra o efeito do encurtamento; faixa 263 × compacta 263, o da reorganização.</p>
+      <h3>O que se mantém</h3><p>A regra B (a Uint candidata nasce na superfície de entrada ou mais para dentro), a coincidência, o crescimento, o ganho de 0,0065 e a punição de 1/60. O estímulo e o ouvido.</p>
+      <h3>Declarado</h3><p>A densidade de Ustr difere entre os braços (faixa: 4 Upros por Ustr; compacta: ~3,2). Essa diferença faz parte do efeito conjunto [R 28/11].</p>
+      <h3>O desenho</h3><p>Cada Upro do nervo é uma curva cujo <b>comprimento desenhado é o comprimento de condução</b> do motor (790 ou 263 cubos); o caminho é desenho, porque o motor guarda comprimento e atraso, não trajeto. Na compacta, as origens ficam na espiral do instante zero; o motor não usa a posição da origem. Só aparecem as Ustr que o motor usa.</p>
+      <h3>Previsão</h3><p>${S_AB} Ainda não há previsão registrada (Paulo e Clara).</p>
+      <h3>O que foi medido</h3>${tabelaAfastamento()}
+      <p><code>auditoria-coordenadas.md</code> · <code>motor/sdom_c.py</code> · <code>motor/medida_afastamento.py</code></p>` },
   { id: "ensaio", titulo: "Ensaio com o nervo · 4 gravações", faixas: ["ensaio"],
     pergunta: "A volta da obra (outra gravação) percorre, em sua maioria, a malha que já existia?",
     linha: "Alciatore → Baiocchi → Kolodin → Coleman · desenho planar · dois ouvidos", disp: () => sessoes ? `${fmtT(sessoes.FIM)} de Sdom contínuo` : "",
@@ -1080,23 +1232,40 @@ const ESTUDOS = [
     linha: "Alciatore, 9–19 s · dados publicados da V0.18 · com som", disp: "10 s",
     ficha: `<h3>O que observar</h3><p>As ondas saindo dos alto-falantes, o sinal elétrico do microfone abrindo-se nas 64 bandas com o atraso de cada filtro, e os pontos transdutivos acendendo (verde) conforme a banda e a sensibilidade. Sala, ondas e fios são demonstração do robô, não unidades do Sdom.</p>` },
 ];
+function tabelaAfastamento() {
+  if (!bracos) return "";
+  const nomes = { faixa790: "Faixa 790", faixa263: "Faixa 263", compacta263: "Compacta 263" };
+  let h = `<p>${S_OBS} Pares entre chegadas que dividem um território, por afastamento entre bandas: disponíveis · com as duas Upros prontas · que coincidiram (até 60 s). Sem leitura ainda.</p>`;
+  for (const b of bracos.NOMES) { const m = bracos.mj.bracos[b];
+    h += `<p><b>${nomes[b] || b}</b> · Uints ${fmt(m.n_uints)} · disparos ${fmt(m.n_disparos)} · pares que reutilizaram Uint ${fmt(m.pares_que_reutilizaram_uint)} de ${fmt(m.pares)}<br>`
+      + m.afastamento.map(l => `${l.afastamento}: ${fmt(l.disponiveis)} · ${fmt(l.ambas_prontas)} · ${fmt(l.coincidiram)}`).join("<br>") + `</p>`; }
+  return h;
+}
 const ICON = {
   play: `<svg viewBox="0 0 24 24"><path d="M7 4.6v14.8a1.2 1.2 0 0 0 1.8 1l11.6-7.4a1.2 1.2 0 0 0 0-2L8.8 3.6A1.2 1.2 0 0 0 7 4.6z"/></svg>`,
   pausa: `<svg viewBox="0 0 24 24"><rect x="5.5" y="4" width="4.6" height="16" rx="1.3"/><rect x="13.9" y="4" width="4.6" height="16" rx="1.3"/></svg>`,
   repetir: `<svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 1-6.9 8.1 1.2 1.2 0 1 1 2.4-.4A4.6 4.6 0 1 0 12 7.4h-1.6l1.5 1.5a1.2 1.2 0 0 1-1.7 1.7L6.6 7.1a1.2 1.2 0 0 1 0-1.7l3.6-3.5a1.2 1.2 0 1 1 1.7 1.7L10.4 5z"/></svg>` };
-const P = { f: null, fid: null, t: 0, tocando: false, vel: 1, eventos: [], fim: false, carregando: false, cond: "A", aberto: false, usado: false };
+const P = { f: null, fid: null, t: 0, tocando: false, vel: 1, eventos: [], fim: false, carregando: false, sel: { ab: "A", bracos: "c263" }, aberto: false, usado: false };
+const MULTI = ["ab", "bracos"], BRACO = { f790: "faixa790", f263: "faixa263", c263: "compacta263" };
 const el = id => document.getElementById(id);
 const barraEl = el("barra"), playEl = el("play"), playerEl = el("player"), miniEl = el("mini"); playerEl.hidden = false;
 const fmtTempo = (fid, t) => fid === "lupa" ? fmtMs(t) : fmtT(t);
 function mostrarV18(v) { [ondas, altos, fios, mics].forEach(o => o.visible = v); }
-function esconderTudo() { if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); if (sessoes) sessoes.mostrar(false); if (teste) teste.mostrar(false); }
+function esconderTudo() { if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); if (sessoes) sessoes.mostrar(false); if (teste) teste.mostrar(false); if (bracos) bracos.mostrar(null); }
+// camadas (menu ⋯): no estudo dos três braços, os pontos transdutivos e as Ustr são os do braço (a faixa ou a espiral; só as Ustr que o motor usa)
+const CAM = { pontos: true, ustr: true, cubos: true };
+function camadas() {
+  const emB = !!(P.f && P.f.estudo === "bracos"), d = emB && bracos ? bracos.D[BRACO[P.fid]] : null;
+  pontos.visible = CAM.pontos && !emB; ustr.visible = CAM.ustr && !emB; grade.visible = CAM.cubos;
+  if (d) { d.origens.visible = CAM.pontos; d.glias.visible = CAM.ustr; }
+}
 // catálogo
 function montarCatalogo() {
   const cat = el("catalogo"); cat.innerHTML = "";
   for (const e of ESTUDOS) {
-    if (e.id === "ab" && !teste) continue; if (e.id === "ensaio" && !sessoes) continue; if ((e.id === "piloto") && !malha) continue; if (e.id === "lupa" && !obs) continue;
+    if (e.id === "ab" && !teste) continue; if (e.id === "bracos" && !bracos) continue; if (e.id === "ensaio" && !sessoes) continue; if ((e.id === "piloto") && !malha) continue; if (e.id === "lupa" && !obs) continue;
     const art = document.createElement("article"); art.className = "estudo" + (e.planejada ? " planejado" : ""); art.dataset.estudo = e.id;
-    const disp = typeof e.disp === "function" ? e.disp() : e.disp;
+    const disp = typeof e.disp === "function" ? e.disp() : e.disp, ficha = typeof e.ficha === "function" ? e.ficha() : e.ficha;
     let acoes = "";
     if (e.faixas) {
       if (e.faixas.length > 1) acoes += `<div class="segmentos" role="group" aria-label="Condição">${e.faixas.map(c => `<button data-sel="${c}">${FAIXAS[c].sub}</button>`).join("")}</div><p class="explic-cond"></p>`;
@@ -1104,16 +1273,17 @@ function montarCatalogo() {
     }
     if (e.faixas) art.classList.add("com-play");
     art.innerHTML = `<h2>${e.titulo}</h2><p class="perg">${e.pergunta}</p><div class="linha-e">${e.linha}</div><div class="disp">${disp}</div>`
-      + `<details><summary>${e.planejada ? "Ver ficha ⌄" : "Explorar estudo ⌄"}</summary><div class="ficha">${e.ficha}${acoes}</div></details>`
+      + `<details><summary>${e.planejada ? "Ver ficha ⌄" : "Explorar estudo ⌄"}</summary><div class="ficha">${ficha}${acoes}</div></details>`
       + (e.faixas ? `<button class="play-neon reproduzir" aria-label="Reproduzir ${e.titulo}">▶</button>` : "");
     cat.appendChild(art);
     if (e.faixas) {
-      const atualizarSel = () => { art.querySelectorAll("[data-sel]").forEach(b => b.setAttribute("aria-pressed", b.dataset.sel === P.cond));
-        const ex = art.querySelector(".explic-cond"); if (ex) ex.textContent = P.cond === "A" ? "A · Folha fixa: a Uint candidata só pode nascer na folha." : "B · Profundidade local: a Uint candidata pode nascer na folha ou mais para dentro da cabeça."; };
-      art.querySelectorAll("[data-sel]").forEach(b => b.onclick = () => { P.cond = b.dataset.sel; atualizarSel(); if (P.f && P.f.estudo === "ab") abrir(P.cond); });
+      const atualizarSel = () => { const sel = P.sel[e.id]; art.querySelectorAll("[data-sel]").forEach(b => b.setAttribute("aria-pressed", b.dataset.sel === sel));
+        const ex = art.querySelector(".explic-cond"); if (ex) ex.textContent = e.id === "ab" ? (sel === "A" ? "A · Folha fixa: a Uint candidata só pode nascer na folha." : "B · Profundidade local: a Uint candidata pode nascer na folha ou mais para dentro da cabeça.") : (FAIXAS[sel].explic || ""); };
+      art.atualizarSel = atualizarSel;
+      art.querySelectorAll("[data-sel]").forEach(b => b.onclick = () => { P.sel[e.id] = b.dataset.sel; atualizarSel(); if (P.f && P.f.estudo === e.id) abrir(b.dataset.sel); });
       atualizarSel();
       art.querySelector(".reproduzir").onclick = () => {
-        const fid = e.faixas.length > 1 ? P.cond : e.faixas[0];
+        const fid = e.faixas.length > 1 ? P.sel[e.id] : e.faixas[0];
         if (P.fid === fid) { alternar(); if (P.tocando) expandir(); } else { abrir(fid, { tocar: true }); expandir(); }
       };
     }
@@ -1123,28 +1293,30 @@ function montarCatalogo() {
 function estadoCatalogo() {
   document.querySelectorAll(".estudo").forEach(art => { const ativo = P.f && P.f.estudo === art.dataset.estudo; art.classList.toggle("tocando", !!ativo);
     const b = art.querySelector(".reproduzir"); if (!b) return;
-    const meu = ativo && (art.dataset.estudo !== "ab" || P.fid === P.cond);
+    const meu = ativo && (!(art.dataset.estudo in P.sel) || P.fid === P.sel[art.dataset.estudo]);
     b.textContent = meu ? (P.tocando ? "❚❚" : P.fim ? "↺" : "▶") : "▶";
     b.setAttribute("aria-label", meu ? (P.tocando ? "Pausar" : P.fim ? "Repetir" : "Continuar") : "Reproduzir"); });
 }
 // abrir uma faixa (A ↔ B conserva instante, câmera e reprodução)
 async function abrir(fid, { tocar = false } = {}) {
   const f = FAIXAS[fid]; if (!f) return;
-  const mesmoEstudo = P.f && P.f.estudo === "ab" && f.estudo === "ab", estavaTocando = P.tocando;
+  const mesmoEstudo = P.f && P.f.estudo === f.estudo && MULTI.includes(f.estudo), estavaTocando = P.tocando;
   if (!mesmoEstudo) { P.tocando = false; P.t = 0; P.vel = f.vel; audio.pause(); }
   P.f = f; P.fid = fid; P.fim = false; P.carregando = true; P.usado = true;
-  if (f.estudo === "ab") P.cond = fid;
+  if (MULTI.includes(f.estudo)) { P.sel[f.estudo] = fid; document.querySelectorAll(".estudo").forEach(a => a.atualizarSel && a.atualizarSel()); }
   montarCabeca(); miniEl.hidden = false; document.body.classList.add("com-mini");
   el("p-falha").hidden = true; el("p-estado").textContent = "carregando os dados do estudo…"; el("mini-sub").textContent = "carregando…";
-  try { if (f.estudo === "ab") await teste.carregar(); else if (fid === "ensaio") await sessoes.carregar(); }
+  try { if (f.estudo === "ab") await teste.carregar(); else if (f.estudo === "bracos") await bracos.carregar(BRACO[fid]); else if (fid === "ensaio") await sessoes.carregar(); }
   catch (e) { console.warn(e); P.carregando = false; el("p-estado").textContent = ""; el("p-falha").hidden = false; el("mini-sub").textContent = "falha ao carregar · toque para tentar de novo"; return; }
   P.carregando = false;
   esconderTudo(); pontos.luz.fill(0); pontos.aLuz.needsUpdate = true; mostrarV18(FAM18.includes(fid));
   if (fid === "piloto" || fid === "lupa") malha.objs.forEach(o => o.visible = true);
   if (fid === "lupa") obs.objs.forEach(o => o.visible = true);
   if (fid === "ensaio") sessoes.mostrar(true);
+  if (f.estudo === "bracos") bracos.mostrar(BRACO[fid]);
+  camadas();
   if (!mesmoEstudo) vista(f.vista);
-  P.eventos = f.estudo === "ab" ? teste.eventos(fid) : fid === "ensaio" ? sessoes.eventos() : fid === "piloto" ? eventosPiloto() : fid === "lupa" ? eventosLupa() : [];
+  P.eventos = f.estudo === "ab" ? teste.eventos(fid) : f.estudo === "bracos" ? bracos.eventos(BRACO[fid]) : fid === "ensaio" ? sessoes.eventos() : fid === "piloto" ? eventosPiloto() : fid === "lupa" ? eventosLupa() : [];
   montarDiario(); montarVel(); barraEl.max = f.dur();
   ir(P.t); alternar(tocar || (mesmoEstudo && estavaTocando));
 }
@@ -1152,6 +1324,8 @@ function montarCabeca() {
   const e = ESTUDOS.find(x => x.id === P.f.estudo);
   el("p-titulo").textContent = e.titulo; el("p-sub").textContent = P.f.sub; el("mini-titulo").textContent = e.titulo;
   el("b-prof").hidden = P.f.estudo !== "ab"; el("b-prof").setAttribute("aria-pressed", P.fid === "B");
+  el("b-braco").hidden = P.f.estudo !== "bracos"; document.querySelectorAll("[data-braco]").forEach(b => b.setAttribute("aria-pressed", b.dataset.braco === P.fid));
+  document.querySelectorAll("[data-vista^='b-']").forEach(b => b.hidden = P.f.estudo !== "bracos");
 }
 function alternar(forcar) {
   if (!P.f || P.carregando) return;
@@ -1173,6 +1347,7 @@ function desenhar(forcar) {
   const f = P.f; if (!f || P.carregando) return;
   let est = "";
   if (f.estudo === "ab") { if (forcar || Math.abs(P.t - ultDes) > 0.004) { est = teste.ir(P.t, P.fid); ultDes = P.t; } }
+  else if (f.estudo === "bracos") { if (forcar || Math.abs(P.t - ultDes) > 0.004) { est = bracos.ir(P.t, BRACO[P.fid]); ultDes = P.t; } }
   else if (P.fid === "ensaio") { if (forcar || (P.aberto && Math.abs(P.t - ultDes) > 0.049)) { est = sessoes.ir(P.t); ultDes = P.t; } }
   else if (P.fid === "piloto" || P.fid === "lupa") { const v = malha.atualizar(T); est = P.fid === "piloto" ? `Até agora (ouvido E): Uints ${fmt(v.u)} · ramos funcionando ${fmt(v.r)} · disparos ${fmt(v.f)}.` : `Instante do motor: ${T.toFixed(5).replace(".", ",")} s.`; }
   else est = "Demonstração: nenhuma constituição do motor aparece aqui.";
@@ -1216,7 +1391,8 @@ function recolher() { playerEl.classList.remove("aberto"); document.body.classLi
 function medirControles() { playerEl.style.setProperty("--hc", el("controles").offsetHeight + "px"); }
 new ResizeObserver(medirControles).observe(el("controles"));
 el("b-log").onclick = () => { const v = el("log").hidden; el("log").hidden = !v; el("b-log").setAttribute("aria-pressed", v); diarioIdx = -2; marcarDiario(); };
-el("b-prof").onclick = () => { if (!P.f || P.f.estudo !== "ab") return; P.cond = P.fid === "B" ? "A" : "B"; abrir(P.cond); };
+el("b-prof").onclick = () => { if (!P.f || P.f.estudo !== "ab") return; abrir(P.fid === "B" ? "A" : "B"); };
+document.querySelectorAll("[data-braco]").forEach(b => b.onclick = () => { el("b-braco").open = false; if (P.f && P.f.estudo === "bracos" && b.dataset.braco !== P.fid) abrir(b.dataset.braco); });
 el("mini-abrir").onclick = expandir; el("mini-play").onclick = e => { e.stopPropagation(); alternar(); };
 el("recolher").onclick = recolher;
 { let y0 = null; const alca = el("alca");
@@ -1241,9 +1417,9 @@ el("volta").onclick = () => pularEvento(-1); el("avanca").onclick = () => pularE
 playEl.innerHTML = ICON.play; el("mini-play").innerHTML = ICON.play;
 el("p-tentar").onclick = () => abrir(P.fid);
 document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => { vista(b.dataset.vista); el("vistas").open = false; });
-{ const cams = [["Pontos transdutivos", [pontos]], ["Ustr", [ustr]], ["Cubos", [grade]]];
-  for (const [nome, objs] of cams) { const b = document.createElement("button"); b.textContent = nome; b.setAttribute("aria-pressed", "true");
-    b.onclick = () => { const v = !objs[0].visible; objs.forEach(o => o.visible = v); b.setAttribute("aria-pressed", v); }; el("m-cam").appendChild(b); } }
+{ const cams = [["Pontos transdutivos", "pontos"], ["Ustr", "ustr"], ["Cubos", "cubos"]];
+  for (const [nome, k] of cams) { const b = document.createElement("button"); b.textContent = nome; b.setAttribute("aria-pressed", "true");
+    b.onclick = () => { CAM[k] = !CAM[k]; camadas(); b.setAttribute("aria-pressed", CAM[k]); }; el("m-cam").appendChild(b); } }
 el("foto").onclick = () => { composer.render(); const a = document.createElement("a"); a.href = render.domElement.toDataURL("image/png"); a.download = `sdom-v19-${P.fid || "cena"}-${P.t.toFixed(3)}.png`; a.click(); };
 
 const c0 = dados.contagem;
