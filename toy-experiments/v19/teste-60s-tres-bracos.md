@@ -69,14 +69,31 @@ Pares entre chegadas que dividem um território: **disponíveis** (geometria) ·
 
 Observação de método, sem leitura: nos três braços, **quase todo par com as duas Upros prontas coincidiu** (≥ 98%). Neste trecho, a contagem "coincidiram" acompanha "ambas prontas" e pode separar pouco os braços. Talvez seja melhor contar também as coincidências repetidas do mesmo par, ou o que acontece depois da Uint (ramos que chegam, disparos). Isso fica para Clara e Paulo.
 
-## 5. Visualização [R 28/11: "Todos 'orgânicos', se possível"]
+## 5. Visualização
 
-- **Nervo:** nos três braços, cada Upro do nervo é uma curva cujo **comprimento desenhado é o comprimento de condução** do motor.
-  - Na faixa, a curva é quase reta: a reta já tem 790 ou 263 cubos, e a curva mínima acrescenta menos de 1%.
-  - Na compacta, a reta vai de 20 a 204 cubos, e a curva se alonga até 263.
-  - O caminho é desenho: o motor guarda comprimento e atraso, não trajeto.
-  - O crescimento aparece em décimos, pelas marcas que o motor registra.
-- **Origens:** faixa nas faixas e espiral aberta na compacta. A espiral é geometria do instante zero (`coordenadas.espiral`); o motor não usa a posição da origem.
-- **Ustr:** só as que o motor usa (zona de entrada). As camadas do menu ⋯ valem para as do braço aberto.
-- **Página:** estudo "Faixa × compacta · três braços", com o botão "Braço" no player e as vistas "Entrada do braço" e "Nervo do braço".
-- A página foi conferida só por sintaxe (`node --check`), porque não há navegador neste ambiente. A curva do nervo foi conferida à parte, em node, com os dados exportados.
+### 5.1. Primeira versão [R 28/11: "Todos 'orgânicos', se possível"] (substituída)
+Curvas sorteadas com o comprimento de condução. Paulo observou (15:55) que as Upros passavam desordenadas pela espiral e que as Uints pareciam nascer dentro dela.
+
+### 5.2. Versão atual [R 28/11, 16:02]
+"Uma Cpro por banda, mas as Cpro também podem se unir para sair da cóclea" e "pode fazer dessa forma".
+
+- **Rota desenhada de cada Upro do nervo** (`coordenadas.rota`):
+  - origem;
+  - Cpro da banda (as Upros de uma banda se juntam no eixo da espiral, raio de 12 cubos [E]);
+  - nervo (as Cpro seguem juntas pela base, em ordem tonotópica, raio de 10 cubos [E]);
+  - leque até a chegada.
+  - A curva é suave (Catmull-Rom).
+  - Na faixa, cada Cpro corre reta até a zona de entrada, sem se unir às outras.
+- **O caminho é desenho.** No motor, o nervo é só comprimento de condução, igual para todas as Upros.
+  - Na compacta, o desenho mede 170–239 cubos, contra os 263 da condução.
+  - Nas faixas, o desenho tem 0–6% a mais que a condução.
+- **Geometria [R]:**
+  - espiral virada, com a base (agudos) voltada para o núcleo, como o nervo saindo pela base do modíolo (de memória, a conferir);
+  - face da meia-esfera a 50 cubos além da base;
+  - posições só deslocadas, então os resultados do motor são idênticos (conferido: compacta 263 rodada de novo, mesmas Uints, pares e disparos).
+- **Ustr:** só as que o motor usa. As camadas do menu ⋯ valem para as do braço aberto.
+- **Página:** estudo "Faixa × compacta · três braços", botão "Braço", vistas "Entrada do braço" e "Nervo do braço".
+- **Conferência:** só por sintaxe (`node --check`) e pelas curvas em node, com os dados exportados (sem valores inválidos). Não há navegador neste ambiente.
+
+### 5.3. Cuidado operacional
+O executor retoma do estado salvo (`dados/teste-c-<braço>-estado-esq.pkl`) se ele existir, **inclusive o estado final**. Ao mudar a geometria e rodar de novo, apague o estado antes. Aconteceu uma vez nesta sessão e foi refeito.

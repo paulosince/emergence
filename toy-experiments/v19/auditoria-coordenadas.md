@@ -122,6 +122,11 @@ Cruzei cada território com 9 ou mais chegadas com as bandas que ele recebe e co
 - **O que o motor faz hoje:** a Upro de entrada **não percorre cubos**. Ela cresce contando reacessos (12 por cubo) e, depois de pronta, a incidência chega com atraso de comprimento × 66,7 µs. Os 263 cubos são, portanto, **comprimento de condução**: 17,53 ms de atraso e 3.156 reacessos.
 - **Se for exigida uma trajetória discreta:** a regra de deslocamento do motor (a mesma dos ramos) avança 1 cubo por passo entre os 26 vizinhos, ou seja, a distância de Chebyshev. A maior distância mínima entre as pontas é de **158 passos**, abaixo de 263. Toda Upro é realizável, com até 105 passos de desvio.
 - **Distância euclidiana entre as pontas:** de 20,4 a 204,1 cubos (mediana 136,0).
+- **Atualização de 28/11 (tarde) [R]:** a espiral virou, com a base (agudos) voltada para o núcleo, e a face da meia-esfera passou para 50 cubos além da base da espiral (antes 120 cubos a partir do lado de fora). Com isso:
+  - a maior distância de Chebyshev passou a **172 passos** (realizável em 263);
+  - a distância euclidiana passou a **87,4–195,1 cubos** (mediana 150,5);
+  - territórios, ocupação e pares não mudam, porque a meia-esfera só se deslocou ao longo do eixo;
+  - o motor também não muda: o braço compacta 263, rodado de novo, deu as mesmas Uints, pares e disparos, só transladadas 30 cubos (ver `teste-60s-tres-bracos.md`).
 
 ## 6. Braços (mantidos) e o que eles avaliam
 

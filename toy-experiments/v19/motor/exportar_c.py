@@ -8,7 +8,8 @@ Lê dados/teste-c-<braco>-esq.npz e grava visual/teste-c.bin + visual/teste-c.js
 - chegada de cada Upro (ponta, de onde saem os ramos) e as marcas de crescimento do nervo (a cada ~1/10 e ao ficar pronta);
 - Ustr que o motor usa (zona de entrada) e o território de cada chegada;
 - Uints, ramos, passos de crescimento, pares (primeira coincidência) e disparos, como no exportar_ab.py;
-- a medida por afastamento entre bandas (medida_afastamento.py).
+- a medida por afastamento entre bandas (medida_afastamento.py);
+- pontos de controle do desenho de cada Upro do nervo (coordenadas.rota): origem -> Cpro da banda -> nervo -> leque.
 O traçado curvo da página é desenho: o motor guarda comprimento e atraso, não o caminho."""
 import json, pathlib
 import numpy as np
@@ -35,6 +36,9 @@ def main(pre="teste-c"):
             org = np.stack([d["px"], d["py"], d["pz"]], 1)
         poe(p + "o_xyz", org.astype(np.float32))
         pxe, pye, pze = d["pxe"], d["pye"], d["pze"]
+        # desenho do nervo [R 28/11]: origem -> Cpro da banda -> nervo (Cpro juntas, ordem tonotópica) -> leque até a chegada
+        ctl = co.rota(org.astype(float), np.stack([pxe, pye, pze], 1).astype(float), d["banda"].astype(np.int64), lado, int(d["modo"]) == 1)
+        poe(p + "n_ctl", ctl.astype(np.float32))
         poe(p + "c_xyz", np.stack([pxe, pye, pze], 1).astype(np.int16)); poe(p + "banda", d["banda"].astype(np.uint8))
         poe(p + "g_xyz", np.stack([d["ux"], d["uy"], d["uz"]], 1).astype(np.int16))
         ex, ey, ez = d["ex"], d["ey"], d["ez"]; nU = len(ex)

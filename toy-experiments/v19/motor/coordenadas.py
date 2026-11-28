@@ -25,7 +25,8 @@ R = 44                       # [E] raio da meia-esfera (cubos): ~8 cubos por pon
 GRADE_USTR = (3, 3, 3)       # [R 28/11] grade de Ustr 3 x 3 x 3 (passo ímpar: sem empates de plano), ~1 Ustr por 3,2 pontos; antes 3 x 4 x 3
 VOLTAS = 2.5                 # [E] voltas da espiral (cóclea humana tem ~2,5 voltas; de memória, a conferir)
 R_BASE, R_APICE, ALTURA = 1.0, 0.45, 100   # [E] raio relativo base/ápice (escalado para caber os cubos da faixa) e altura (cubos)
-D_FACE = 120                 # [E] distância (cubos) do plano da base da espiral até a face plana da meia-esfera, rumo ao centro
+D_FACE = 50                  # [R 28/11, "~50"] distância (cubos) do plano da base da espiral até a face plana da meia-esfera, rumo ao centro (antes 120 [E])
+RHO_MODIOLO, R_NERVO = 12, 10   # [E] desenho: raio do eixo da espiral onde as Upros de uma banda se juntam (Cpro) e raio do nervo
 
 def espiral(x, y, z, banda, lado):
     """Origem de cada ponto na espiral: posição ao longo da faixa (y, da base ao ápice) -> comprimento de arco; a coluna de
@@ -43,7 +44,8 @@ def espiral(x, y, z, banda, lado):
         lo, hi = (md, hi) if L[-1] < Ltot else (lo, md)
     L, r, h = comp((lo + hi) / 2)
     tt = np.interp(s, L, th); rr = np.interp(s, L, r) + (z - z.min() - 7.5); hh = np.interp(s, L, h)
-    ox = lado * (MEIA_DIST - hh); oy = rr * np.cos(tt); oz = rr * np.sin(tt)
+    ox = lado * (MEIA_DIST - ALTURA + hh)              # [R 28/11] base (agudos) voltada para o núcleo, ápice para fora (como o nervo saindo pela base do modíolo)
+    oy = rr * np.cos(tt); oz = rr * np.sin(tt)
     return np.stack([ox, oy, oz], 1), float(r[0]), float(r[-1])
 
 def _t_de_fracao(f):
@@ -80,7 +82,7 @@ def compacta(x, y, z, banda, lado, config="333"):
     N = len(x); nb = int(banda.max()) + 1; cnt = np.bincount(banda, minlength=nb)
     f = np.concatenate(([0], np.cumsum(cnt))) / N
     tb = _t_de_fracao(f)                                # limites das fatias
-    xf = lado * (MEIA_DIST - D_FACE)                    # face plana; n cresce para dentro (x -> 0)
+    xf = lado * (MEIA_DIST - ALTURA - D_FACE)           # face plana, D_FACE além da base da espiral; n cresce para dentro (x -> 0)
     U = grade_ustr(config)
     ocup = set(map(tuple, U))
     col = z - z.min()
@@ -115,3 +117,29 @@ def compacta(x, y, z, banda, lado, config="333"):
     xyz = np.stack([xf - lado * Nn, T, Vv], 1)                       # Sdom: x pelo eixo normal, y = t, z = v
     uxyz = np.stack([xf - lado * U[:, 1], U[:, 0], U[:, 2]], 1)
     return dict(xyz=xyz, t=T, n=Nn, v=Vv, fatias=tb, ustr=uxyz, U=U, terr=terr, xf=xf)
+
+
+def rota(org, che, banda, lado, compacta):
+    """Pontos de controle do DESENHO de cada Upro do nervo (o motor não tem trajeto; só o comprimento de condução):
+    origem -> Cpro da banda (as Upros de uma banda se juntam) -> nervo (as Cpro seguem juntas, em ordem tonotópica) ->
+    leque até a chegada. Compacta: a Cpro se forma no eixo da espiral (modíolo) e as Cpro saem juntas pela base, rumo à
+    face da meia-esfera. Faixa: cada Cpro corre reta da faixa até a zona de entrada, sem se unir às outras.
+    Devolve (N, 5, 3) em cubos."""
+    s_in = -lado; nb = int(banda.max()) + 1; N = len(org); C = np.zeros((N, 5, 3))
+    C[:, 0] = org; C[:, 4] = che
+    if compacta:
+        th = np.arctan2(org[:, 2], org[:, 1]); xb = lado * (MEIA_DIST - ALTURA)
+        cb = np.bincount(banda, np.cos(th), nb); sb = np.bincount(banda, np.sin(th), nb); tb = np.arctan2(sb, cb)
+        xm = np.bincount(banda, org[:, 0], nb) / np.bincount(banda, minlength=nb)
+        tm = np.bincount(banda, che[:, 1], nb) / np.bincount(banda, minlength=nb)     # t médio das chegadas da banda
+        lane = tm * R_NERVO / R
+        xf = lado * (MEIA_DIST - ALTURA - D_FACE)
+        C[:, 1] = np.stack([xm[banda], RHO_MODIOLO * np.cos(tb[banda]), RHO_MODIOLO * np.sin(tb[banda])], 1)
+        C[:, 2] = np.stack([np.full(N, xb + s_in * 2), lane[banda], np.zeros(N)], 1)
+        C[:, 3] = np.stack([np.full(N, xf - s_in * 6), lane[banda], np.zeros(N)], 1)
+    else:
+        ym = np.bincount(banda, org[:, 1], nb) / np.bincount(banda, minlength=nb); zm = org[:, 2].mean()
+        C[:, 1] = np.stack([org[:, 0] + s_in * 15, ym[banda], np.full(N, zm)], 1)
+        C[:, 3] = np.stack([che[:, 0] - s_in * 15, ym[banda], np.full(N, zm)], 1)
+        C[:, 2] = (C[:, 1] + C[:, 3]) / 2
+    return C
