@@ -46,7 +46,7 @@ Repositório `paulosince/emergence`, ramo `claude/v19`. Marcas: [R] responsável
 - **Na implementação, o espaço é guardado de forma esparsa.**
 
 ### 4.3 Criação (o que a Ustr faz na V0.19)
-- **Incidência que não integrou** [R 27/11; antes "fracasso"]: só se descreve **onde ela parou** (numa Uint sem integrar; sem ramo adiante; no ponto, com a fibra crescendo), nunca o porquê: de fora não dá para saber se chegou aonde tinha de chegar, se a dinâmica mudou, se falta convergência (e algo precisa ser criado) ou se é ruído.
+- **Incidência que não integrou** [R 27/11; antes "fracasso"]: só se descreve **onde ela parou** (numa Uint sem integrar; sem ramo adiante; no ponto, com a Upro crescendo), nunca o porquê: de fora não dá para saber se chegou aonde tinha de chegar, se a dinâmica mudou, se falta convergência (e algo precisa ser criado) ou se é ruído.
 - **Coincidência:** duas incidências que não integraram coincidem quando caem na **janela de integração da Uint** (0,3 ms rápida; 0,9 ms lenta). A Ustr compara só dentro dessa janela [R, 24/11].
 - **Onde nasce a Uint:** onde se encontram Upros cujas incidências não integraram e coincidiram. No mesmo ouvido, isso fica perto da faixa; entre os ouvidos, no caminho entre eles [R].
 - **Toda Upro nasce num ponto transdutivo** (as da borda) **ou numa Uint**, ligada a uma Uint candidata (exuberância da V0.17).

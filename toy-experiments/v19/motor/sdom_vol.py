@@ -1,7 +1,9 @@
-"""V0.19 — motor do Sdom com ENTRADA VOLUMÉTRICA (27/11): a fibra se bifurca e deixa uma terminação em cada território
-(ladrilho de Ustr) que atravessa no núcleo (ver nucleo.py). Emissores 0..NT-1 = terminações; Uints NT.. .
+"""V0.19 — motor do Sdom com ENTRADA VOLUMÉTRICA (27/11): a Upro do nervo se bifurca e é vista uma vez em cada território
+(ladrilho de Ustr) que atravessa no núcleo (ver nucleo.py). Emissores 0..NT-1 = pontos das Upros nos territórios ("terminações",
+nome descritivo não aprovado); Uints NT.. . Vocabulário [R 28/11]: Cpro = fibra (feixe de Upros); Upro = aresta com várias
+cabeças; ramo = cabeça.
 Diferenças em relação a sdom.py (planar, mantido como histórico): nervo humano (1.300 cubos); a emissão no ponto, depois
-que a fibra chegou, vira uma chegada em cada terminação (atraso do nervo + do ramo); territórios 3D (grade TG); a Ustr
+que a Upro chegou ao núcleo, vira uma chegada em cada ponto dela nos territórios (atraso do nervo + do trecho); territórios 3D (grade TG); a Ustr
 compara cada incidência que não integrou com as recentes do território (anel por território, mesma regra: só o último
 registro de cada membro, janela W); pares num dicionário (território, membro, membro); Uint candidata no cubo livre mais
 próximo do par em 3D (sem "lado de dentro"). Números do motor (ganho, punição) conferidos pelo método em 27/11 (escopo-v19.md).
@@ -36,7 +38,7 @@ import numpy as np
 from numba import njit
 
 CUBO_S = 0.02e-3 / 0.3            # s por cubo à velocidade basal (≈ 66,7 µs)
-# Nervo [R 27/11]: a fibra é a Upro que nasce no ponto transdutivo (a vaga) quando chega estímulo, e cresce até a zona de
+# Nervo [R 27/11; vocabulário corrigido em 28/11]: o nervo são as Upros que nascem nos pontos transdutivos (a vaga) quando chega estímulo, e cresce até a zona de
 # entrada do núcleo: 790 cubos (15,8 mm, comprimento medido no gato, Rattay et al. 2013), 1 cubo a cada ~12 reacessos do
 # ponto (a mesma regra de crescimento dos ramos). Velocidade basal (sem mielina; a Utad fica para a próxima versão): ~53 ms.
 NERVO = 1300                      # nervo humano ≈ 26 mm (escopo-v19.md, seção Números)
@@ -70,7 +72,7 @@ FRAC_PUN = 1.0 / 300.0
 MAXVAR = 8
 
 TX, TY, TZ = 8, 7, 8   # ladrilhos (iguais a nucleo.py)
-MAXM = 256         # membros por território (terminações + Uints)
+MAXM = 256         # membros por território (pontos de Upros + Uints)
 RING = 32          # chegadas guardadas por Uint
 RF = 128           # anel de incidências que não integraram, por território
 FORA = 3e-3        # tolerância de ordem: registros chegam fora de ordem por até ~2 ms (verificação depois dos ramos)
@@ -129,7 +131,7 @@ def simular(ev_t, ev_p, ev_m, lado, fptr, tatr, NT, ux, uy, uz, TG, g0, PG, fG,
             r_src, r_dst, r_len, r_atr, r_f, r_ok, r_part, r_sem, r_head, r_next, r_born, a_head, a_next,
             u_ring_t, u_ring_a, u_ring_r, u_ring_i, u_rn, u_refr, u_pend, u_last, u_q, u_s, u_qt, u_nin,
             integ, cont, ser, log_r, log_u, log_s, log_f, t_fim, W, ht, hk, ha, hb, hc, hw, glob, t_ini, ne0, npar0, nr0, obs, log_c, tr_cnt, log_t, r_ch):
-    """Processa um ouvido. Eventos da borda: índice do ponto (fibra). Emissores: terminações 0..NT-1; Uints NT.. .
+    """Processa um ouvido. Eventos da borda: índice do ponto transdutivo (= da sua Upro). Emissores: pontos das Upros nos territórios 0..NT-1; Uints NT.. .
     Devolve (n_emissores, n_pares, n_ramos)."""
     N = NT
     ne = ne0; npar = npar0; nr = nr0          # o Sdom continua de onde parou (não zera entre apresentações)
@@ -171,21 +173,21 @@ def simular(ev_t, ev_p, ev_m, lado, fptr, tatr, NT, ux, uy, uz, TG, g0, PG, fG,
             else:
                 integ[iid & MASK] = 0
                 cont[0] += 1
-                # ---- a fibra (Upro do ponto transdutivo): cresce com os reacessos; depois leva a incidência até a ponta ----
+                # ---- a Upro do ponto transdutivo: cresce com os reacessos; depois leva a incidência até a ponta ----
                 if tr_cnt[e] < TR_PASSOS:
                     tr_cnt[e] += 1
-                    cont[17] += 1              # incidência que expirou no próprio ponto (a fibra ainda não chegou ao núcleo)
+                    cont[17] += 1              # incidência que expirou no próprio ponto (a Upro ainda não chegou ao núcleo)
                     if tr_cnt[e] % MARCA == 0 and cont[18] < log_t.shape[0]:
                         log_t[cont[18], 0] = t; log_t[cont[18], 1] = e; log_t[cont[18], 2] = tr_cnt[e] / TR_PASSOS
                         cont[18] += 1
                     continue
-                cont[22] += 1                  # incidência que entrou na fibra (caminho percorrido)
-                for kt in range(fptr[e], fptr[e + 1]):      # bifurcação: uma chegada em cada terminação
+                cont[22] += 1                  # incidência que entrou na Upro do nervo (caminho percorrido)
+                for kt in range(fptr[e], fptr[e + 1]):      # bifurcação: uma chegada em cada ponto da Upro nos territórios
                     nh = _push(nh, ht, hk, ha, hb, hc, hw, t + TR_S + tatr[kt], 3, kt, 0, iid, m)
                 continue
             r = r_head[e]
             if r < 0:
-                # sem ramo adiante: a incidência parou aqui (na ponta da fibra, ou na Uint que a emitiu) sem integrar;
+                # sem ramo adiante: a incidência parou aqui (no ponto da Upro, ou na Uint que a emitiu) sem integrar;
                 # a Ustr do território registra (incidência que não integrou)
                 cont[20] += 1
                 fr_t = t; fr_e = e
@@ -458,4 +460,4 @@ def simular(ev_t, ev_p, ev_m, lado, fptr, tatr, NT, ux, uy, uz, TG, g0, PG, fG,
 CONTADORES = ["emissões", "incidências que não integraram", "incidências que integraram (desceram por ramo)", "coincidências", "comparações",
               "pares", "ramos que passaram a funcionar", "variantes criadas", "participações (promoções)", "punições",
               "coincidências em pares já integrados (sem novas candidatas)", "sem lugar (território cheio ou capacidade esgotada)",
-              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio", "passos de crescimento registrados", "chegadas na janela de observação", "parou no ponto (fibra ainda crescendo)", "marcas de crescimento das fibras", "parou numa Uint sem integrar", "parou sem ramo adiante (ponta da fibra ou Uint)", "desceu por ramos", "entrou na fibra"]
+              "disparos de Uint", "incidências de Uint sem id (capacidade)", "heap cheio", "passos de crescimento registrados", "chegadas na janela de observação", "parou no ponto (Upro ainda crescendo)", "marcas de crescimento das Upros do nervo", "parou numa Uint sem integrar", "parou sem ramo adiante (ponta da Upro ou Uint)", "desceu por ramos", "entrou na Upro do nervo"]

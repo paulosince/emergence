@@ -1,4 +1,7 @@
-"""V0.19 — motor mínimo do Sdom: formação das primeiras malhas a partir das incidências da borda da V0.18.
+"""[Vocabulário, 28/11: aqui "fibra" quer dizer cada Upro do nervo (sentido neurobiológico de axônio). No oficial, a
+fibra é o Cpro, o feixe das Upros de uma faixa. Os nomes dos contadores ficam como estão para ler os dados já gravados.]
+
+V0.19 — motor mínimo do Sdom: formação das primeiras malhas a partir das incidências da borda da V0.18.
 
 Escopo [R 24/11]: só a formação das primeiras malhas, sem processos posteriores (sem poda, sem Utad, sem troca de sinal,
 sem crescimento lento). Tudo excita. Determinístico [R 20/11; mantido em 27/11].

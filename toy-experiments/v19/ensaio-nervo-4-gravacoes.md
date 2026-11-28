@@ -2,7 +2,7 @@
 
 **Data:** 27/11/2026. **Sequência [R]:** Alciatore → Baiocchi → Kolodin → Coleman, completas, com 1 min de silêncio entre elas, no mesmo Sdom.
 **O que mudou em relação ao ensaio anterior [R]:**
-- a fibra do nervo é a Upro que nasce no ponto transdutivo e cresce 790 cubos (15,8 mm) até a zona de entrada do núcleo, 1 cubo a cada ~12 reacessos do ponto;
+- o nervo são as Upros que nascem nos pontos transdutivos (agrupadas no Cpro de cada faixa); cada uma cresce 790 cubos (15,8 mm) até a zona de entrada do núcleo, 1 cubo a cada ~12 reacessos do ponto;
 - a velocidade é a basal (~53 ms);
 - há Ustr na cóclea e na zona de entrada;
 - as Uints só nascem no núcleo.
@@ -12,7 +12,7 @@
 
 ## Por apresentação [M]
 
-| Ouvido | Apresentação | Fibras que chegaram ao núcleo (acumulado, de 21.731) | Uints novas | Ramos novos | Disparos | Disparos de Uints antigas | Uints antigas que dispararam | Participações de ramos antigos | Incidências que integraram | Expiraram no ponto (fibra crescendo) |
+| Ouvido | Apresentação | Upros do nervo que chegaram ao núcleo (acumulado, de 21.731) | Uints novas | Ramos novos | Disparos | Disparos de Uints antigas | Uints antigas que dispararam | Participações de ramos antigos | Incidências que integraram | Expiraram no ponto (Upro crescendo) |
 |---|---|---|---|---|---|---|---|---|---|---|
 | E | 1 Alciatore | 8.970 | 23.388 | 157.052 | 280.161 | — | — | — | 0,28% | 55,6% |
 | E | 2 Baiocchi | 11.256 | 13.072 | 120.536 | 1.235.647 | 89,6% | 11.384 de 23.388 | 87,5% | 1,09% | 5,0% |
@@ -24,11 +24,11 @@
 | D | 4 Coleman | 10.735 | 3.336 | 24.332 | 977.112 | 99,0% | 12.872 de 37.124 | 98,4% | 1,39% | 2,2% |
 
 ## Leitura [A] (a discutir; não é critério nem decisão)
-1. **Primeiro cresce o nervo; depois nasce a malha.** As primeiras fibras chegam ao núcleo por volta de 60 s da primeira gravação, e só então nascem Uints. Na primeira gravação, mais da metade das incidências expirou no próprio ponto.
-2. **Metade das fibras não chegou ao núcleo em ~13 min de música:** 12.319 de 21.731 no ouvido E e 10.735 no D. Os pontos pouco reacessados (colunas de baixa sensibilidade, bandas pouco usadas pela Gymnopédie) não completam os ~9.500 reacessos.
-3. **A criação continua por mais tempo do que no ensaio sem nervo:** 13 mil Uints novas na 2ª e 6,5 mil na 3ª, contra 6 mil e 2,6 mil antes. Fibras que chegam tarde abrem pares novos.
+1. **Primeiro cresce o nervo; depois nasce a malha.** As primeiras Upros chegam ao núcleo por volta de 60 s da primeira gravação, e só então nascem Uints. Na primeira gravação, mais da metade das incidências expirou no próprio ponto.
+2. **Metade das Upros não chegou ao núcleo em ~13 min de música:** 12.319 de 21.731 no ouvido E e 10.735 no D. Os pontos pouco reacessados (colunas de baixa sensibilidade, bandas pouco usadas pela Gymnopédie) não completam os ~9.500 reacessos.
+3. **A criação continua por mais tempo do que no ensaio sem nervo:** 13 mil Uints novas na 2ª e 6,5 mil na 3ª, contra 6 mil e 2,6 mil antes. Upros que chegam tarde abrem pares novos.
 4. **O que integra passa quase todo pela malha antiga:** ~89–91% na 2ª e ~99% na 3ª e na 4ª. Como no ensaio anterior, só ~1–2% das incidências integram.
-5. **O nervo não muda quem coincide com quem** (o atraso é igual para todas as fibras). O que muda é **quando** cada parte do Sdom começa a se formar: depende de quanto aquele ponto foi usado.
+5. **O nervo não muda quem coincide com quem** (o atraso é igual para todas as Upros). O que muda é **quando** cada parte do Sdom começa a se formar: depende de quanto aquele ponto foi usado.
 
 ## "Em sua maioria", medido pelas malhas percorridas [M, 27–28/11]
 

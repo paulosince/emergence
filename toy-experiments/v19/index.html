@@ -144,7 +144,7 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
     <span><b style="color:var(--eletrico)">sinal elétrico</b> (cor provisória): um fio do microfone até a base da faixa, que se abre em 64 fios, um por banda. Brilho = nível da banda no ouvido (V0.18), com o atraso real de cada filtro (≈0,5 ms no agudo a ≈16 ms no grave; dá para ver em 1/20×). Os pulsos só indicam o sentido. Os fios não são unidades do Sdom: desenham o caminho do sinal da V0.18.</span>
     <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (cores provisórias). As bolas ocupam 45% do cubo só para a distância entre elas aparecer: no modelo, as unidades não têm tamanho.</span>
     <span><b>Malha do piloto (ouvido esquerdo):</b> o que o motor mínimo constituiu nestes 10 s, a partir do instante zero. <b style="color:var(--nova)">Roxo</b> = nova constituição: a Uint nascendo e cada ramo crescendo cubo a cubo (1 cubo a cada ~12 coincidências do par), passo a passo como o motor registrou. <b style="color:var(--acesso)">Azul</b> = disparo de uma Uint (leitura minha: acesso a uma constituição já formada; a confirmar). Já formados, Uint e ramo ficam em cor neutra (provisória). O motor guarda o comprimento de cada ramo, não o traçado: o ramo-base aparece reto e a variante (mais longa) em arco, só para mostrar o excesso de comprimento. Piloto com escolhas provisórias (ver <code>piloto-10s.md</code>): não é resultado da V0.19.</span>
-    <span><b>Upros e incidências andando:</b> os ramos são desenhados como tubos de 2 µm (fibra central do nervo auditivo no modelo de Rattay et al. 2013), com espessura mínima na tela. Numa janela de observação do piloto (ouvido E, banda ~600 Hz, de 5 a 6 s), cada incidência que o motor registrou descendo um ramo aparece como um <b style="color:var(--excit)">fóton verde</b> andando da origem até a Uint, no tempo do próprio ramo (comprimento × 66,7 µs, de 0,07 a 0,5 ms). Por isso só dá para ver a 1/1.000× ou mais devagar: use "Ver incidências andando". A Uint <b style="color:var(--excit)">acende em verde</b> conforme a soma das chegadas se aproxima do limiar (1,5) e solta um <b style="color:var(--acesso)">clarão azul</b> quando dispara. Uint ≈ 1 cubo (corpos de ~18–25 µm); Ustr em estrela (astrócito), tamanho desenhado.</span>
+    <span><b>Upros e incidências andando:</b> os ramos são desenhados como tubos de 2 µm (processo central do axônio do nervo auditivo no modelo de Rattay et al. 2013), com espessura mínima na tela. Numa janela de observação do piloto (ouvido E, banda ~600 Hz, de 5 a 6 s), cada incidência que o motor registrou descendo um ramo aparece como um <b style="color:var(--excit)">fóton verde</b> andando da origem até a Uint, no tempo do próprio ramo (comprimento × 66,7 µs, de 0,07 a 0,5 ms). Por isso só dá para ver a 1/1.000× ou mais devagar: use "Ver incidências andando". A Uint <b style="color:var(--excit)">acende em verde</b> conforme a soma das chegadas se aproxima do limiar (1,5) e solta um <b style="color:var(--acesso)">clarão azul</b> quando dispara. Uint ≈ 1 cubo (corpos de ~18–25 µm); Ustr em estrela (astrócito), tamanho desenhado.</span>
     <span><b style="color:var(--excit)">Ponto transdutivo aceso em verde</b>: a Utrd emitindo incidências. Sem Upro funcionando, a incidência para ali mesmo, sem integrar (registrada pela Ustr do território); com Upro, ela desce pelos ramos até as Uints.</span>
     <span>No desenho, o microfone está 3 mm para fora da faixa, para o fio aparecer (no motor, a faixa fica na posição do microfone).</span>
     <span>Reservadas para a criação (ainda não há): <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b> · <b style="color:var(--inib)">inibitória</b></span>
@@ -157,7 +157,8 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
     <li><b>Utrd e pontos transdutivos</b> (bolinhas cinza na faixa): a fronteira entre o som e o Sdom. Cada ponto converte o sinal da sua banda e da sua sensibilidade em <b>incidências</b>. Vêm prontos da V0.18 (microfone + cóclea).</li>
     <li><b>Ustr</b> (estrelas rosadas): as glias. Cada uma cuida de um território de ~4 pontos e registra as <b>incidências que não integraram</b>. Quando duas delas, no território, caem na mesma janela de 0,3 ms, há uma <b>coincidência</b>.</li>
     <li><b>Uint</b> (bolas do tamanho de um cubo): unidade que integra. Nasce no cubo livre mais próximo de um par que coincide. Soma o que chega pelos ramos; se a soma passa do limiar (1,5), <b>dispara</b>.</li>
-    <li><b>Upro e ramos</b> (tubos): a Upro sai de um ponto transdutivo ou de uma Uint; seus ramos crescem 1 cubo a cada ~12 coincidências do par até chegar à Uint, e só então funcionam. Uma Upro jovem vale ~1/4,6 do limiar: a Uint só dispara quando ~5 ramos chegam juntos.</li>
+    <li><b>Upro e ramos</b> (tubos): a Upro é a aresta com várias cabeças; cada cabeça é um <b>ramo</b>. A Upro sai de um ponto transdutivo (no nervo, cresce até o núcleo com os reacessos do ponto) ou de uma Uint; seus ramos crescem 1 cubo a cada ~12 coincidências do par até chegar à Uint, e só então funcionam. Uma Upro jovem vale ~1/4,6 do limiar: a Uint só dispara quando ~5 ramos chegam juntos.</li>
+    <li><b>Cpro (a fibra):</b> o feixe das Upros de uma faixa. Passa a existir quando a faixa tem Upro.</li>
     <li><b>Cores:</b> <b style="color:var(--som)">amarelo</b> = som · <b style="color:var(--excit)">verde</b> = incidência excitatória · <b style="color:var(--nova)">roxo</b> = nova constituição · <b style="color:var(--acesso)">azul</b> = acesso (uso do que já existe) · <b style="color:var(--modif)">ciano</b> = modificação · <b style="color:var(--inib)">vermelho</b> = inibitória (ainda não há).</li>
   </ul>
 </details>
@@ -607,7 +608,7 @@ const sessoes = await (async () => {
       }
       const lr = tubos(pa, pb, W_UPRO, 1.4, [["corR", col, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`, { decl: "varying vec3 vK;", corpo: "vK = corR;" });
       lr.geometry.attributes.corR.setUsage(THREE.DynamicDrawUsage); cena.add(lr);
-      // fibras do nervo: do ponto transdutivo (cóclea) rumo à zona de entrada, crescendo com os reacessos
+      // Upros do nervo: do ponto transdutivo (cóclea) rumo à zona de entrada, crescendo com os reacessos
       const P = centrosDe([O[K].pontos]), nP = P.length / 3, fa = new Float32Array(P), fb = new Float32Array(P), fc = new Float32Array(nP * 3);
       const fib = tubos(fa, fb, W_UPRO, 0.7, [["corF", fc, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`, { decl: "varying vec3 vK;", corpo: "vK = corF;" });
       fib.geometry.attributes.pb.setUsage(THREE.DynamicDrawUsage); fib.geometry.attributes.corF.setUsage(THREE.DynamicDrawUsage); cena.add(fib);
@@ -623,12 +624,12 @@ const sessoes = await (async () => {
     const tot = { f: 0, u: 0, r: 0 };
     for (const o of ["esq", "dir"]) {
       const d = D[o];
-      // fibras
+      // Upros do nervo
       const fb = d.fib.geometry.attributes.pb.array, fc = d.fc, dx = -d.lado * NERVO * MM;
       for (let p = 0; p < d.nP; p++) {
         let fr = 0, recente = false; for (let k = d.ini[p]; k < d.ini[p + 1]; k++) { if (d.ft[k] <= t) { fr = d.ffr[k] / 100; recente = t - d.ft[k] < 8; } else break; }
         fb[3 * p] = d.P[3 * p] + dx * fr; fb[3 * p + 1] = d.P[3 * p + 1]; fb[3 * p + 2] = d.P[3 * p + 2];
-        const k = fr >= 1 ? FEITA : NOVA, v = fr <= 0 ? 0 : fr >= 1 ? 0.004 : recente ? 0.07 : 0.02;   // brilho baixo: são ~21 mil fibras somando luz
+        const k = fr >= 1 ? FEITA : NOVA, v = fr <= 0 ? 0 : fr >= 1 ? 0.004 : recente ? 0.07 : 0.02;   // brilho baixo: são ~21 mil Upros somando luz
         fc[3 * p] = k.r * v; fc[3 * p + 1] = k.g * v; fc[3 * p + 2] = k.b * v; if (fr >= 1) tot.f++;
       }
       d.fib.geometry.attributes.pb.needsUpdate = true; d.fib.geometry.attributes.corF.needsUpdate = true;
@@ -656,11 +657,11 @@ const sessoes = await (async () => {
     }
     rotE.textContent = `${fmtT(t)} de ${fmtT(FIM)} · ${a >= 0 ? (noAp ? `apresentação ${a + 1} (${aps[a].gravacao.replace("satie-gymnopedie1-", "")}, ${NOMES[a]})` : "silêncio entre apresentações") : "antes da primeira"}`;
     barraE.value = t;
-    painel.innerHTML = `<span><b>Gravação do ensaio</b> (os dois ouvidos, o mesmo Sdom do começo ao fim): fibras do nervo que já chegaram ao núcleo <b>${fmt(tot.f)}</b> de ${fmt(D.esq.nP + D.dir.nP)} · <b style="color:var(--nova)">Uints ${fmt(tot.u)}</b> · ramos funcionando ${fmt(tot.r)}. <b style="color:var(--nova)">Roxo</b> = acabou de nascer (fibra crescendo, Uint ou ramo novos); <b style="color:var(--acesso)">azul</b> = já existia e foi usado nesta apresentação; neutro = já existia. As fibras crescem da cóclea até a zona de entrada do núcleo (${(NERVO * MM).toFixed(1).replace(".", ",")} mm), 1 cubo a cada ~12 reacessos do ponto; as incidências que não integraram, as coincidências e as Uints acontecem lá.</span>`;
+    painel.innerHTML = `<span><b>Gravação do ensaio</b> (os dois ouvidos, o mesmo Sdom do começo ao fim): Upros do nervo que já chegaram ao núcleo <b>${fmt(tot.f)}</b> de ${fmt(D.esq.nP + D.dir.nP)} · <b style="color:var(--nova)">Uints ${fmt(tot.u)}</b> · ramos funcionando ${fmt(tot.r)}. <b style="color:var(--nova)">Roxo</b> = acabou de nascer (Upro do nervo crescendo, Uint ou ramo novos); <b style="color:var(--acesso)">azul</b> = já existia e foi usado nesta apresentação; neutro = já existia. As Upros do nervo (o Cpro de cada faixa é o feixe) crescem da cóclea até a zona de entrada do núcleo (${(NERVO * MM).toFixed(1).replace(".", ",")} mm), 1 cubo a cada ~12 reacessos do ponto; as incidências que não integraram, as coincidências e as Uints acontecem lá.</span>`;
     if (tocandoE && performance.now() - ultDiario > 1500 && D.ult) {
       const df = tot.f - D.ult.f, du = tot.u - D.ult.u, dr = tot.r - D.ult.r, partes = [];
-      if (df > 0) partes.push(`<b>+${fmt(df)} fibras chegaram</b> ao núcleo (cresceram 790 cubos com os reacessos dos seus pontos)`);
-      if (du > 0) partes.push(`<b style="color:var(--nova)">+${fmt(du)} Uints</b> nasceram na zona de entrada (pontas de fibras vizinhas cujas incidências não integraram juntas)`);
+      if (df > 0) partes.push(`<b>+${fmt(df)} Upros chegaram</b> ao núcleo (cresceram 790 cubos com os reacessos dos seus pontos)`);
+      if (du > 0) partes.push(`<b style="color:var(--nova)">+${fmt(du)} Uints</b> nasceram na zona de entrada (pontas de Upros vizinhas cujas incidências não integraram juntas)`);
       if (dr > 0) partes.push(`<b style="color:var(--nova)">+${fmt(dr)} ramos</b> chegaram à sua Uint`);
       if (partes.length) diario(`<b>${fmtT(t)}</b> · ${partes.join(" · ")}`);
       ultDiario = performance.now(); D.ult = tot;
@@ -679,7 +680,7 @@ const sessoes = await (async () => {
   async function ligar() {
     if (!D) { painel.hidden = false; painel.textContent = "carregando a gravação do ensaio…"; D = await carregar(); }
     if (!ativo) { ativo = true; if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); pontos.luz.fill(0); painel.hidden = false;
-      diario("<b>Gravação do ensaio.</b> As 4 gravações completas, em sequência, no mesmo Sdom: as fibras do nervo crescem, depois nascem as Uints e os ramos na zona de entrada do núcleo."); }
+      diario("<b>Gravação do ensaio.</b> As 4 gravações completas, em sequência, no mesmo Sdom: as Upros do nervo crescem, depois nascem as Uints e os ramos na zona de entrada do núcleo."); }
   }
   function irE(t) { tE = Math.min(Math.max(t, 0), FIM); desenhar(tE); }
   playE.onclick = async () => { await ligar(); tocandoE = !tocandoE; playE.textContent = tocandoE ? "❚❚ Pausar gravação" : "▶ Gravação do ensaio"; if (tocandoE && tE >= FIM) irE(0); };

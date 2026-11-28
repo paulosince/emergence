@@ -4,6 +4,13 @@
 **Marcas:** [R] responsável; [L] literatura; [A] proposta ou inferência do assistente; [M] medido.
 **Ramo:** `claude/v19`. Nada aqui foi validado como concluído: **as escolhas [A] esperam decisão do responsável**.
 
+> **Vocabulário (corrigido em 28/11, a pedido do responsável).** Vale o oficial ([nomenclature](../../docs/nomenclature.md); V0.17, 17/11; V0.18, 18/11):
+> - **Cpro** é a **fibra** de cada faixa: o feixe das Upros daquela faixa.
+> - **Upro** é o colateral, a aresta com várias cabeças ("Tiamat"). Nasce no ponto transdutivo.
+> - **Ramo** é cada cabeça da Upro, que chega a uma Uint. **O atraso é grande na Upro e pequeno no ramo** [R, 17/11].
+>
+> Neste registro, "fibra" e "axônio" só aparecem no sentido do modelo neurobiológico, ao citar a literatura. Uma Upro corresponde a um axônio do nervo. Nas mensagens de 27–28/11, o assistente usou "fibra" para cada Upro e criou "terminação", que não foi aprovado. O certo é: **o ponto da Upro em cada território**, de onde crescem os ramos até as Uints. As citações literais da seção 8 ficam como foram enviadas.
+
 ---
 
 ## 0. Para quem for ajudar: onde estamos, em uma página
@@ -11,8 +18,8 @@
 1. **A V0.19 rodou "pra valer" no desenho planar** (zona de entrada do núcleo como uma folha de um cubo de espessura). A previsão principal passou com folga: na volta da obra, **94–99% das passagens de incidências foram por ramos que já existiam** (limiar decidido: 2/3) (seção 5).
 2. **O responsável apontou o problema de forma:** "No cérebro, tudo é organizado em clusters. Volumes. Nada é plano." O assistente concordou que errou na tradução de "local" e no achatamento do núcleo (seções 1 e 2).
 3. **O responsável decidiu mudar para a entrada volumétrica e fechar o escopo**, com números humanos (interpolados quando não há número humano) (seção 4).
-4. **O motor volumétrico foi implementado e pilotado.** Ele é fiel à divergência do modelo neurobiológico (~14 terminações por fibra), mas custa **~95 s de máquina por segundo de som**. O planar custava ~6. A rodada completa levaria **~41 h** em 2 núcleos, com risco de memória (seção 7).
-5. **A questão em aberto (para discutir):** a divergência, na V0.19, gera cópias quase iguais da mesma malha. O ganho real do volume é o **território na escala da lâmina** (~48 fibras por Ustr, contra ~4 no planar). Há uma tensão com a regra das Ustr "~1 por 4 pontos" [R]. **A pergunta ao responsável** é se essa regra pode ser relida como **densidade no volume**, o que permitiria uma terminação por fibra com território de lâmina (seção 8).
+4. **O motor volumétrico foi implementado e pilotado.** Ele é fiel à divergência do modelo neurobiológico (cada Upro atravessa ~14 territórios), mas custa **~95 s de máquina por segundo de som**. O planar custava ~6. A rodada completa levaria **~41 h** em 2 núcleos, com risco de memória (seção 7).
+5. **A questão em aberto (para discutir):** a divergência, na V0.19, gera cópias quase iguais da mesma malha. O ganho real do volume é o **território na escala da lâmina** (cada Ustr vê ~48 Upros, contra ~4 pontos no planar). Há uma tensão com a regra das Ustr "~1 por 4 pontos" [R]. **A pergunta ao responsável** é se essa regra pode ser relida como **densidade no volume**, o que permitiria cada Upro ser vista por um só território, com território de lâmina (seção 8).
 
 **Arquivos de código novos:** `motor/nucleo.py` (geometria), `motor/sdom_vol.py` (motor) e `motor/sessoes_vol.py` (execução). `motor/medida_maioria.py` faz a medida. O motor planar (`sdom.py`, `sessoes.py`) fica intacto, como histórico.
 
@@ -24,7 +31,7 @@ O texto abaixo é o que foi enviado ao responsável em 27/11.
 
 **A pergunta do responsável:** "Apesar de constituirmos um espaço tridimensional, apesar do meu direcionamento de camadas em folhas no eixo yz interligadas no eixo x… porque ainda temos um plano?"
 
-**Medida [M] (ensaio com o nervo, ouvido E):** as 46.602 Uints ficam entre **1 e 10 cubos** atrás das pontas das fibras (20 a 200 µm), quase todas entre 1 e 7. A faixa tem 27,8 mm de comprimento, então a malha é uma lâmina fina.
+**Medida [M] (ensaio com o nervo, ouvido E):** as 46.602 Uints ficam entre **1 e 10 cubos** atrás das pontas das Upros (20 a 200 µm), quase todas entre 1 e 7. A faixa tem 27,8 mm de comprimento, então a malha é uma lâmina fina.
 
 **Os quatro motivos [A]**, todos vindos das regras e não do espaço:
 1. **A borda é uma folha.** O nervo a leva 790 cubos em x, preservando y e z. A zona de entrada vira outra folha, paralela.
@@ -54,8 +61,8 @@ O texto abaixo é o que foi enviado ao responsável em 27/11.
 **A pergunta do responsável:** "Quero que reflita se a cóclea planificada é um erro, se tem impacto, se não ser planificada faz diferença e se isso (aqui é o grande ponto) precisa ser mudado para uma arquitetura agnóstica de substrato."
 
 **Resposta [A]:**
-- **Para a arquitetura, não é um erro.** A cóclea é a Utrd (fronteira), não o Sdom. A geometria dela só chega ao Sdom por três caminhos: de onde partem as fibras, o comprimento das fibras (iguais para todas no motor) e a vizinhança (com o nervo, as coincidências acontecem no núcleo). Enrolar a faixa **não muda nenhum número do motor**. Confiança alta: é consequência direta das regras.
-- **No cérebro**, a espiral serve principalmente para caber no osso. Foi citada **de memória, sem conferir**, uma hipótese de ajuda na mecânica dos graves. O nervo reorganiza as fibras: preserva a **ordem**, não a forma.
+- **Para a arquitetura, não é um erro.** A cóclea é a Utrd (fronteira), não o Sdom. A geometria dela só chega ao Sdom por três caminhos: de onde partem as Upros, o comprimento das Upros (iguais para todas no motor) e a vizinhança (com o nervo, as coincidências acontecem no núcleo). Enrolar a faixa **não muda nenhum número do motor**. Confiança alta: é consequência direta das regras.
+- **No cérebro**, a espiral serve principalmente para caber no osso. Foi citada **de memória, sem conferir**, uma hipótese de ajuda na mecânica dos graves. O nervo reorganiza os axônios: preserva a **ordem**, não a forma.
 - **Para a arquitetura agnóstica de substrato:** a forma do receptor é detalhe de substrato. O que importa garantir é a **ordem das dimensões do transdutor** (tonotopia, retinotopia, somatotopia). **O que precisa mudar é a entrada no Sdom**, que não deve copiar a geometria da faixa.
 - **Regra geral proposta [A], a discutir:** *toda Utrd entra no Sdom por uma região com volume, organizada pelas dimensões do transdutor e com alcance na escala das lâminas.* É isso que torna possíveis a convergência, os grupos e o genérico compartilhado, que são propriedades do domínio, e não do receptor.
 
@@ -74,9 +81,9 @@ O texto abaixo é o que foi enviado ao responsável em 27/11.
 **Proposta enviada [A]** (as cinco partes):
 1. A cóclea continua plana, como simplificação declarada.
 2. A zona de entrada vira um núcleo com volume: cada banda vira uma lâmina de ~10 cubos.
-3. A fibra se bifurca ao chegar e deixa terminações ao longo do caminho.
+3. A Upro se bifurca ao chegar e passa por vários territórios ao longo do caminho (no texto enviado: "a fibra se bifurca e deixa terminações").
 4. As Ustr ladrilham o volume.
-5. A convergência surge onde terminações de fibras diferentes se cruzam.
+5. A convergência surge onde Upros diferentes se cruzam.
 
 ## 4. Decisões do responsável (27–28/11)
 
@@ -94,7 +101,7 @@ O texto abaixo é o que foi enviado ao responsável em 27/11.
 
 **A medida:** passagens de incidências por ramos (cada chegada por um ramo conta uma) que foram por ramos que já funcionavam antes daquela apresentação.
 
-| Ouvido | Apresentação | Passagens por ramos antigos | Integraram (das que desceram por ramos) | Pararam numa Uint sem integrar | Pararam sem ramo adiante | Pararam no ponto (fibra crescendo) |
+| Ouvido | Apresentação | Passagens por ramos antigos | Integraram (das que desceram por ramos) | Pararam numa Uint sem integrar | Pararam sem ramo adiante | Pararam no ponto (Upro crescendo) |
 |---|---|---|---|---|---|---|
 | E | 1 Alciatore | — (não havia malha) | 0,63% | 91.546.287 | 1.280.464 | 116.942.336 |
 | E | 2 Baiocchi | **93,9%** | 1,15% | 192.445.463 | 1.085.116 | 10.337.525 |
@@ -121,7 +128,7 @@ O texto abaixo é o que foi enviado ao responsável em 27/11.
 | Forma da janela de integração | 1 até 0,3 ms; 0,5 de 0,3 a 0,9 ms | mEPSCs de células em arbusto, octopus, estreladas T e tuberculoventrais: decaimento de **0,35–0,40 ms** (Gardner et al. 1999, *J Neurosci* 19:8721; resumo). O EPSP dura mais que a corrente | Mantida, com confiança baixa. Uma exponencial com τ ≈ 0,37 ms valeria ~0,44 aos 0,3 ms |
 | Janela de coincidência da Ustr | 0,3 ms | Deriva do pacote aprovado (componente rápida) | Mantida |
 | Busca da Uint candidata | até 3 cubos | Células em arbusto têm dendritos curtos, em forma de arbusto (Tolbert e Morest 1982; Wu e Oertel 1984; resumos). **Não foi achado o número** do campo dendrítico | Mantida em 3 cubos (60 µm), agora em 3D. Confiança baixa |
-| Uint já existente no cubo | reutiliza | Convergência de várias fibras numa célula (bulbos terminais; Spirou et al. 2023 mede razões de convergência, número não lido) | Mantida (um soma por cubo) |
+| Uint já existente no cubo | reutiliza | Convergência de vários axônios numa célula (bulbos terminais; Spirou et al. 2023 mede razões de convergência, número não lido) | Mantida (um soma por cubo) |
 | Teto de variantes por par | 8 | Sem base direta | Mantido, declarado |
 
 **No motor volumétrico** (`sdom_vol.py`) já estão o ganho e a punição propostos. O motor planar não foi alterado.
@@ -133,8 +140,8 @@ O texto abaixo é o que foi enviado ao responsável em 27/11.
 | Grandeza | Valor usado | Base | Confiança |
 |---|---|---|---|
 | Nervo coclear humano | **26 mm = 1.300 cubos** (~87 ms à velocidade basal; 15.600 reacessos para crescer) | Canal auditivo interno de "pouco menos de 1 cm" (Musiek, texto de divulgação) ou 10–17 mm (Bergström, citado em J Anat 2004; resumo). Trecho cisternal: 16,48 ± 1,78 mm (10 nervos, cadáver; Springer 2012, resumo). Um texto de divulgação dá ~22 mm | média-baixa (soma de partes de estudos diferentes) |
-| Fibras do nervo humano | ~33.700 (0–10 anos); o robô tem 21.731 (V0.18, não muda) | Makary et al. 2011, *JARO* 12:711 (resumo) | alta para o número humano |
-| Volume do núcleo coclear humano | ~29 mm³ (adultos de 25–36 mm³ por década) → escalado pelas fibras do robô: **18,7 mm³** | Sharma et al. 2014, estereologia, 41 núcleos (tabela do PDF). **Conflito:** só o VCN adulto deu 5,43 mm³ noutro estudo (1981, resumo) | baixa |
+| Axônios do nervo humano (no NB, "fibras") | ~33.700 (0–10 anos); o robô tem 21.731 pontos transdutivos, e portanto até 21.731 Upros (V0.18, não muda) | Makary et al. 2011, *JARO* 12:711 (resumo) | alta para o número humano |
+| Volume do núcleo coclear humano | ~29 mm³ (adultos de 25–36 mm³ por década) → escalado pelas Upros possíveis do robô: **18,7 mm³** | Sharma et al. 2014, estereologia, 41 núcleos (tabela do PDF). **Conflito:** só o VCN adulto deu 5,43 mm³ noutro estudo (1981, resumo) | baixa |
 | Núcleo coclear do gato | 21,2 mm³ (18,5–23,6) | Leake et al. 2008, *JARO* (trecho) | alta |
 | Divisão AVCN : PVCN : DCN | 43 : 20 : 36% | Hamster, sem as regiões granulares (PMC4470322, tabela). Proporção humana não encontrada; no humano, o DCN é "relativamente grande" (Moore e Osen 1979, resumo) | baixa |
 | Espessura da lâmina | **10 cubos (200 µm)** | Gato: 188–223 µm para ~1,6% da cóclea. Uma banda do robô = 1/64 ≈ 1,56% da faixa. Escala linear pelo volume, (18,7/21,2)^(1/3) ≈ 0,96 | baixa-média |
@@ -145,29 +152,36 @@ Pedido do responsável: interpolar do camundongo. **Não foi achada a espessura 
 
 ### 7.2 Geometria implementada [A] (`motor/nucleo.py`)
 - y = eixo tonotópico (64 lâminas de 10 cubos); x = sensibilidade (16 colunas da V0.18 espalhadas pela largura da lâmina); z = eixo dos ramos.
-- A fibra chega à zona de bifurcação (z = 0). O ramo ascendente atravessa o AVCN (z > 0); o descendente atravessa o PVCN e segue até o DCN (z < 0).
-- **Uma terminação em cada território (ladrilho) que o ramo atravessa.** Equivalência proposta: dentro de um território, várias terminações da mesma fibra são uma só para a Ustr. Resultado: **14 terminações por fibra, 304.234 por ouvido**.
-- O atraso de cada terminação é o do nervo mais o do ramo (|z| + desvio em x, em cubos, à velocidade basal).
-- A Uint candidata nasce no cubo livre mais próximo do par, **em 3D** (raio de 3 cubos), e as terminações não ocupam cubo. O território da Uint é o ladrilho que contém o cubo.
+- A Upro chega à zona de bifurcação (z = 0). O ramo ascendente atravessa o AVCN (z > 0); o descendente atravessa o PVCN e segue até o DCN (z < 0).
+- **A Upro é vista uma vez em cada território (ladrilho) que atravessa.** Equivalência proposta: dentro de um território, vários contatos da mesma Upro são um só para a Ustr. É desse ponto que crescem os ramos até as Uints. Resultado: **14 pontos por Upro, 304.234 por ouvido** (no código, "terminações"; nome descritivo, não aprovado).
+- O atraso de cada ponto é o da Upro no nervo mais o do trecho até o território (|z| + desvio em x, em cubos, à velocidade basal).
+- A Uint candidata nasce no cubo livre mais próximo do par, **em 3D** (raio de 3 cubos), e os pontos da Upro não ocupam cubo. O território da Uint é o ladrilho que contém o cubo.
 - A Ustr compara cada incidência que não integrou com as recentes do território (anel de 128 por território), com a mesma regra: só o último registro de cada membro, janela de 0,3 ms.
-- **Perdas declaradas [A]:** as lâminas são planas e paralelas (no cérebro, ondulam); as bordas entre subdivisões são retas; a proporção é do hamster; os 16% de fibras sem ramo ao DCN não estão no motor.
+- **Perdas declaradas [A]:** as lâminas são planas e paralelas (no cérebro, ondulam); as bordas entre subdivisões são retas; a proporção é do hamster; os 16% de axônios sem ramo ao DCN não estão no motor.
 
-**Membros por território [M]:** mediana 50 terminações, p95 95, máximo 180. No planar eram ~4 pontos. **Cada território vê ~48 fibras.**
+**Membros por território [M]:** mediana 50 pontos de Upro, p95 95, máximo 180. No planar eram ~4 pontos. **Cada território vê ~48 Upros.**
 
 ### 7.3 Piloto de custo [M]
-- **Condição:** ouvido D, Alciatore, até 15 s. Fibra encurtada **só para o ensaio de custo**: 600 reacessos para chegar ao núcleo (`V19_TRTESTE=600`, com outro cache), para que o núcleo ficasse ativo cedo. Os outros números são os da seção 6.
+- **Condição:** ouvido D, Alciatore, até 15 s. Upro do nervo encurtada **só para o ensaio de custo**: 600 reacessos para chegar ao núcleo (`V19_TRTESTE=600`, com outro cache), para que o núcleo ficasse ativo cedo. Os outros números são os da seção 6.
 - **Aos 10 s:** 104.764 Uints, 2.599.410 ramos e 2.837.037 disparos, em 310 s de máquina. **Aos 15 s:** 104.764 Uints, 2.904.975 ramos e 9.988.290 disparos, em 786 s.
 - **Custo:** ~60 s de máquina por segundo de som entre 5 e 10 s, e **~95 s/s entre 10 e 15 s**, com o núcleo cheio. O planar fazia ~5,7 s/s.
 - **Estimativa:** Gymnopédie ×4 (~13 min) + Chaconne (750 s) ≈ 26 min de som → ~41 h nos 2 núcleos da máquina, com os ouvidos em paralelo. Os ramos passariam a capacidade (4 milhões) e a memória (7 GB no total) ficaria em risco.
-- **Por que o custo explode [A]:** fibras vizinhas na cóclea correm lado a lado na lâmina. Em cada território atravessado, a fibra reencontra as mesmas vizinhas, e o motor monta ~14 vezes a mesma malha em lugares diferentes. Com ~48 fibras por território, os pares possíveis por território passam de ~6 para ~1.100.
+- **Por que o custo explode [A]:** Upros vizinhas na cóclea correm lado a lado na lâmina. Em cada território atravessado, a Upro reencontra as mesmas vizinhas, e o motor monta ~14 vezes a mesma malha em lugares diferentes. Com ~48 Upros por território, os pares possíveis por território passam de ~6 para ~1.100.
 
 ### 7.4 As opções levadas ao responsável
 1. **Volume completo, em etapas:** Gymnopédie ×4 primeiro (~21 h, dá a previsão principal), depois a Chaconne (~20 h), retomando do estado salvo.
-2. **Uma terminação por subdivisão** (3 por fibra): ~1/5 do custo. Perda: dentro de cada subdivisão, as terminações formam uma folha.
-3. **Divergência como perda declarada** (1 terminação por fibra): custo perto do planar. Pela regra atual das Ustr, o "local" volta a ~4 fibras.
+2. **Um território por subdivisão** (3 por Upro): ~1/5 do custo. Perda: dentro de cada subdivisão, os pontos das Upros formam uma folha.
+3. **Divergência como perda declarada** (1 território por Upro): custo perto do planar. Pela regra atual das Ustr, o "local" volta a ~4 Upros.
 4. **Outra máquina:** preparar para rodar com mais núcleos e memória.
 
 **Resposta [R]:** "Vamos discutir."
+
+### 7.5 Tensão com o modelo de 17/11 [A] (para decidir)
+No motor volumétrico, a Upro leva a incidência a pontos com até ~64 cubos de trecho além do nervo (~4 ms à velocidade basal). Pela regra [R, 17/11], **o atraso é grande na Upro e pequeno no ramo** (0 a ~0,2 ms). Por isso:
+- os trechos que atravessam a lâmina **não são ramos**, e sim parte da Upro;
+- a bifurcação do modelo neurobiológico (ascendente e descendente) talvez seja melhor lida como **dois colaterais**, ou seja, **duas Upros do mesmo axônio**, cada uma com as suas cabeças.
+
+A decisão é do responsável. Ela afeta o que conta como "um ramo" na medida e onde fica a divergência.
 
 ## 8. A resposta do assistente para a discussão (28/11) e a pergunta em aberto
 
@@ -182,9 +196,9 @@ Pedido do responsável: interpolar do camundongo. **Não foi achada a espessura 
 **Pergunta em aberto ao responsável:** a releitura da densidade das Ustr (por volume de tecido em vez de por ponto) é aceitável?
 
 **Observações para a discussão [A]:**
-- A regra [R] de 23/11 veio de Halassa et al. 2007 (córtex de camundongo): ~1 astrócito por ~4 **neurônios**. No núcleo coclear humano há ~91–212 mil neurônios para ~33,7 mil fibras, ou 3–6 neurônios por fibra. Ler a regra por neurônios, e não por pontos, também mudaria a densidade. Essa leitura é do assistente e ainda não foi conferida.
-- O desenho planar teve ~2,1 Uints por fibra (46 mil para 21,7 mil), perto da razão neurônio/fibra do núcleo humano. O piloto volumétrico chegou a ~4,8 Uints por fibra em 15 s, com fibras encurtadas.
-- Com uma terminação por fibra e território de lâmina, cada território veria ~48 fibras numa fatia do volume. O custo esperado é de algumas vezes o planar (estimativa, não medida).
+- A regra [R] de 23/11 veio de Halassa et al. 2007 (córtex de camundongo): ~1 astrócito por ~4 **neurônios**. No núcleo coclear humano há ~91–212 mil neurônios para ~33,7 mil axônios do nervo, ou 3–6 neurônios por axônio. Ler a regra por neurônios, e não por pontos, também mudaria a densidade. Essa leitura é do assistente e ainda não foi conferida.
+- O desenho planar teve ~2,1 Uints por Upro possível (46 mil para 21,7 mil), perto da razão neurônio/axônio do núcleo humano. O piloto volumétrico chegou a ~4,8 Uints por Upro em 15 s, com o nervo encurtado.
+- Com um território por Upro e território de lâmina, cada território veria ~48 Upros numa fatia do volume. O custo esperado é de algumas vezes o planar (estimativa, não medida).
 
 ## 9. O que falta para fechar o escopo e rodar pra valer
 

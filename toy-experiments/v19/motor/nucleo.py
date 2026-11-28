@@ -1,19 +1,22 @@
 """V0.19 — entrada volumétrica no Sdom (proposta de 27/11, adotada pelo responsável: "Vamos mudar e já fechar o escopo").
 
-Números humanos; onde não há número humano, interpolação declarada (ver escopo-v19.md, seção "Números"):
-- NERVO_H: fibra do nervo coclear humano ≈ 26 mm = 1.300 cubos (canal auditivo interno ~10 mm + trecho cisternal
+Números humanos; onde não há número humano, interpolação declarada (ver ../entrada-volumetrica-e-fechamento.md, seção 7.1):
+- NERVO_H: Upro do nervo (no NB, o axônio do nervo coclear humano) ≈ 26 mm = 1.300 cubos (canal auditivo interno ~10 mm + trecho cisternal
   16,5 ± 1,8 mm, medido em 10 nervos de cadáver). Confiança média-baixa (soma de partes medidas em estudos diferentes).
 - Volume do núcleo coclear humano ≈ 29 mm³ (estereologia, adultos, décadas 2–8: 25–36 mm³; Sharma et al. 2014),
-  escalado pelo número de fibras do robô (21.731 de ~33.700 no humano jovem; Makary et al. 2011): ≈ 18,7 mm³.
+  escalado pelo número de Upros possíveis do robô (21.731 pontos transdutivos, contra ~33.700 axônios no humano jovem; Makary et al. 2011): ≈ 18,7 mm³.
 - Divisão AVCN : PVCN : DCN = 43 : 20 : 36 % (hamster, sem regiões granulares; proporção humana não encontrada).
 - Lâmina de cada banda: 10 cubos (200 µm). Gato: 188–223 µm para um setor de ~400 µm da cóclea (~1,6% do comprimento;
   Leake et al. 2006); uma banda nossa é 1/64 ≈ 1,56% da faixa; escala pelo tamanho linear do núcleo (18,7 / 21,2 mm³ do gato)^(1/3) ≈ 0,96.
 - Ustr da zona de entrada: ~1 por 4 pontos [R 23/11] → ladrilhos de 8 × 7 × 8 cubos (x, y, z) ≈ 1 por 4,2 pontos.
 Geometria (simplificação agnóstica, perdas declaradas no escopo):
 - y = eixo tonotópico (64 lâminas de 10 cubos); x = sensibilidade (para dentro da cabeça); z = eixo dos ramos.
-- A fibra chega à zona de bifurcação (z = 0) e se divide: ramo ascendente atravessa o AVCN (z > 0); o descendente
-  atravessa o PVCN (z < 0) e segue até o DCN. Deixa uma terminação em cada território (ladrilho) que atravessa:
-  dentro de um território, várias terminações da mesma fibra são equivalentes para a Ustr (ela vê a incidência uma vez).
+- A Upro chega à zona de bifurcação (z = 0) e se divide: ramo ascendente atravessa o AVCN (z > 0); o descendente
+  atravessa o PVCN (z < 0) e segue até o DCN. A Upro é vista uma vez em cada território (ladrilho) que atravessa:
+  dentro de um território, vários contatos da mesma Upro equivalem a um só para a Ustr (ela vê a incidência uma vez).
+  Vocabulário [R 28/11]: Cpro = fibra (feixe das Upros de uma faixa); Upro = aresta com várias cabeças; ramo = cabeça.
+  No código, "terminação" (t*) = o ponto da Upro num território (nome descritivo, não aprovado). Tensão aberta:
+  os trechos até ~64 cubos (~4 ms) não são "ramos" (atraso pequeno no ramo [R 17/11]); ver o registro, 7.5.
 - Lâminas planas e paralelas (no cérebro ondulam); bordas retas entre subdivisões.
 """
 import numpy as np
@@ -31,7 +34,7 @@ def lados_subdivisoes():
     return [int(round(np.sqrt(v * f / (64 * LAM)))) for f in FRAC]
 
 def geometria(x, y, z, banda, lado, meia_dist=2500):
-    """Devolve as terminações das fibras: (fibra, tx, ty, tz, atraso_cubos, subdivisao), e a grade de Ustr."""
+    """Devolve os pontos das Upros nos territórios ("terminações"): (upro, tx, ty, tz, atraso_cubos, subdivisao), e a grade de Ustr."""
     aA, aP, aD = lados_subdivisoes()
     x0 = lado * (meia_dist - NERVO_H)            # zona de bifurcação (fim do nervo)
     zr = {0: (1, 1 + aA), 1: (-aP, 0), 2: (-aP - aD, -aP)}
