@@ -22,7 +22,7 @@ from scipy.spatial import cKDTree
 MEIA_DIST = 2500
 PERCURSO = 263               # [R, sugestão de Paulo: ~1/3 de 790] comprimento comum do percurso das Upros de entrada
 R = 44                       # [E] raio da meia-esfera (cubos): ~8 cubos por ponto de chegada
-GRADE_USTR = (3, 4, 3)       # [E] espaçamento da grade de Ustr em (t, n, v): ~1 Ustr por 4,4 pontos
+GRADE_USTR = (3, 3, 3)       # [R 28/11] grade de Ustr 3 x 3 x 3 (passo ímpar: sem empates de plano), ~1 Ustr por 3,2 pontos; antes 3 x 4 x 3
 VOLTAS = 2.5                 # [E] voltas da espiral (cóclea humana tem ~2,5 voltas; de memória, a conferir)
 R_BASE, R_APICE, ALTURA = 1.0, 0.45, 100   # [E] raio relativo base/ápice (escalado para caber os cubos da faixa) e altura (cubos)
 D_FACE = 120                 # [E] distância (cubos) do plano da base da espiral até a face plana da meia-esfera, rumo ao centro
@@ -54,12 +54,12 @@ def _t_de_fracao(f):
         md = (lo + hi) / 2; m = V(md) < f; lo = np.where(m, md, lo); hi = np.where(m, hi, md)
     return (lo + hi) / 2
 
-def grade_ustr(config="regular"):
+def grade_ustr(config="333"):
     """Centros das Ustr em coordenadas inteiras (t, n, v), passos 3 x 4 x 3, sem arredondamento (revisão de 28/11).
     t e v: ..., -3, 0, 3, ... (simétricos em torno do meio); n: 'regular' = 2, 6, 10, ... (primeira camada a 2 cubos da face
     plana, metade do passo); 'face' = 0, 4, 8, ... (uma camada de centros na própria face)."""
-    st, sn, sv = GRADE_USTR
-    n0 = 2 if config == "regular" else 0
+    st, sn, sv = (3, 4, 3) if config in ("regular", "face") else GRADE_USTR      # 'regular'/'face': a grade anterior, para comparação
+    n0 = {"regular": 2, "face": 0, "333": 1}[config]          # '333': passo ímpar em n, primeira camada em n = 1 (cobre n = 0, 1, 2)
     tt = np.arange(-(R // st) * st, R + 1, st); vv = np.arange(-(R // sv) * sv, R + 1, sv); nn = np.arange(n0, R + 1, sn)
     T_, N_, V_ = np.meshgrid(tt, nn, vv, indexing="ij")
     U = np.stack([T_.ravel(), N_.ravel(), V_.ravel()], 1)
@@ -75,7 +75,7 @@ def territorio(U, pts):
         k *= 2
     return np.where(emp, i, len(U) + 1).min(1)
 
-def compacta(x, y, z, banda, lado, config="regular"):
+def compacta(x, y, z, banda, lado, config="333"):
     """Chegadas na meia-esfera. Devolve (xyz inteiros no Sdom, t, n, v, fatias por banda, Ustr xyz, território por ponto)."""
     N = len(x); nb = int(banda.max()) + 1; cnt = np.bincount(banda, minlength=nb)
     f = np.concatenate(([0], np.cumsum(cnt))) / N

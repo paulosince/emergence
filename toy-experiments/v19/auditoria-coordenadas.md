@@ -1,4 +1,4 @@
-# V0.19 — Auditoria geométrica da entrada auditiva compacta, antes do som (revisão 1)
+# V0.19 — Auditoria geométrica da entrada auditiva compacta, antes do som (revisão 1 + decisão da grade)
 
 **De Claudia, para revisão de Paulo e Clara · 28/11/2026.** Responde a `proposta-coordenadas-auditivas.md` e às correções pedidas por Paulo (28/11, 14:37).
 **O que é:** só geometria, ou seja, oportunidades de encontro, não coincidências. Nenhum som foi apresentado, nenhum piloto rodou e o motor não foi alterado.
@@ -11,6 +11,39 @@
 - Autorizado: revisar as coordenadas e repetir a auditoria sem som.
 - **Não autorizados ainda:** alterar o motor e rodar o piloto de 10 s.
 - Os três braços ficam no desenho, todos com a regra B das Uints.
+
+## Decisão de Paulo (28/11, 14:52): grade 3 × 3 × 3, com mitigação [R]
+
+"Perfeito. Siga com 333 e a mitigação proposta."
+
+- **Grade adotada:** **3 × 3 × 3**, em coordenadas inteiras.
+  - Primeira camada em n = 1, de modo que cada camada cobre três planos (n = 0, 1, 2 na primeira).
+  - Resultado: **6.739 Ustr**, ~3,22 Upros por Ustr.
+  - Isso **revisa a regra de densidade** de ~1 Ustr por 4 pontos (23/11) para ~1 por 3,2, na entrada compacta.
+- **Efeitos medidos [M]** (comparação completa na seção 2b):
+  - territórios com 9 ou mais chegadas: 112 → **49** (o acaso daria ~40);
+  - junto à face: 51 → **1**;
+  - pares concentrados nos sobrecarregados: 11,1% → **6,5%**;
+  - empates exatos: 4.767 → 243 (não zero: sobram os empates em diagonal);
+  - pares possíveis: 45.198 → **33.794** (−25%), com a mesma proporção por afastamento;
+  - bandas comparáveis no território: 1,80 → 1,63;
+  - bandas a até 3 cubos: 3,89 (igual).
+- **Mitigação [R]:**
+  - a diferença de densidade entre os braços (faixa: 4 Upros por Ustr; compacta: ~3,2) fica **declarada como parte do efeito conjunto** no contraste faixa 263 × compacta 263;
+  - **se a Clara achar necessário**, um braço de controle posterior, com a faixa em territórios de mesma densidade (~3,2 por Ustr), separa o efeito do tamanho do território do efeito da organização das chegadas. Não entra agora.
+
+### 2b. Grade adotada × anteriores (ouvido E) [M]
+
+| | 3 × 3 × 3 (adotada) | 3 × 4 × 3 regular | 3 × 4 × 3 com camada na face |
+|---|---|---|---|
+| Ustr · Upros por Ustr | 6.739 · 3,22 | 4.955 · 4,39 | 5.324 · 4,08 |
+| Territórios vazios | 396 | 117 | 193 |
+| Ocupação máxima | 12 | 16 | 15 |
+| Com 9 ou mais chegadas (acaso daria) | 49 (~40) | 112 (~174) | 63 (~127) |
+| — junto à face · junto à curva | 1 · 4 | 51 · 16 | 1 · 9 |
+| Fração dos pares nos sobrecarregados | 6,5% | 11,1% | 7,3% |
+| Pares possíveis por afastamento 0 · 1 · 2 · 3 · 4 | 7.711 · 19.322 · 6.469 · 289 · 3 | 11.636 · 24.864 · 8.284 · 409 · 5 | 10.682 · 23.531 · 7.883 · 385 · 1 |
+| Bandas comparáveis no território · a até 3 cubos | 1,63 · 3,89 | 1,80 · 3,89 | 1,77 · 3,89 |
 
 ## 1. Correções feitas
 
@@ -82,7 +115,7 @@ Cruzei cada território com 9 ou mais chegadas com as bandas que ele recebe e co
    - o viés do desempate junto à face, que concentra ~11% dos pares possíveis em 2% dos territórios, com metade deles junto à face.
 
    A camada na face troca uma assimetria por outra (células da face pela metade e mais territórios vazios). Por isso não vejo ganho claro em adotá-la.
-3. **Opção, se vocês preferirem eliminar o viés sistemático:** um passo ímpar em n (3 × 3 × 3) tira todos os empates exatos da grade. Mas muda a contagem de Ustr para ~6.600 (~1 por 3,3 Upros). Por isso não aplico sem decisão.
+3. **Opção, se vocês preferirem eliminar o viés sistemático:** um passo ímpar em n (3 × 3 × 3). **Correção:** escrevi que ele tirava todos os empates exatos, mas ele tira os empates de plano e sobram 243 em diagonal. Muda a contagem para 6.739 Ustr (~1 por 3,2). **Adotada por Paulo; ver a decisão acima.**
 
 ## 5. Percurso: comprimento de condução, não trajetória [M]
 

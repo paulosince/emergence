@@ -69,14 +69,14 @@ def main():
     res = {}; mats = {}
     res["faixa"], ocf, _ = medir(terr_f, banda, faixa_xyz, nb, len(ub)); mats["Faixa (790 e 263)"] = np.array(res["faixa"]["pares"])
     geo = {}
-    for cfg in ("regular", "face"):
+    for cfg in ("333", "regular", "face"):
         g = co.compacta(x, y, z, banda, lado, cfg); geo[cfg] = g
         r, oc, cnt = medir(g["terr"], banda, g["xyz"], nb, len(g["U"]))
         r["sobrecarga"] = sobrecarga(oc, cnt, g["U"], co.R)
         r["grade"] = dict(config=cfg, primeira_camada_n=int(g["U"][:, 1].min()), passos=co.GRADE_USTR, n_ustr=int(len(g["U"])))
-        res["compacta_" + cfg] = r; mats[f"Compacta · grade {cfg}"] = np.array(r["pares"])
+        res["compacta_" + cfg] = r; mats[f"Compacta · {cfg.replace('333', '3×3×3').replace('regular', '3×4×3').replace('face', '3×4×3 face')}"] = np.array(r["pares"])
     # percurso: comprimento de condução × trajetória discreta realizável (regra do motor: passo de 1 cubo em 26 vizinhos)
-    g = geo["regular"]; orig, rb, ra = co.espiral(x, y, z, banda, lado)
+    g = geo["333"]; orig, rb, ra = co.espiral(x, y, z, banda, lado)
     eu = np.linalg.norm(orig - g["xyz"], axis=1); cheb = np.abs(np.round(orig) - g["xyz"]).max(1)
     res["percurso"] = dict(comprimento_comum=co.PERCURSO, reacessos_para_crescer=12 * co.PERCURSO, atraso_ms=round(co.PERCURSO * CUBO_S * 1e3, 2),
                            distancia_euclidiana_min_med_max=[round(float(eu.min()), 1), round(float(np.median(eu)), 1), round(float(eu.max()), 1)],
@@ -95,7 +95,7 @@ def main():
     fig.savefig(OUT / "matrizes.png", dpi=120, bbox_inches="tight", facecolor=fig.get_facecolor()); plt.close(fig)
     # distribuição das ocupações
     fig, a = plt.subplots(figsize=(8, 4), facecolor="#05080b"); a.set_facecolor("#05080b")
-    for nome, cor_ in (("faixa", "#8fa09b"), ("compacta_regular", "#39ff14"), ("compacta_face", "#3d7bff")):
+    for nome, cor_ in (("faixa", "#8fa09b"), ("compacta_333", "#39ff14"), ("compacta_regular", "#b45cff"), ("compacta_face", "#3d7bff")):
         d = res[nome]["resumo"]["distribuicao_ocupacao"]; ks = sorted(d); a.plot(ks, [d[k] for k in ks], "-o", ms=3, color=cor_, label=nome.replace("_", " · "))
     a.set_yscale("log"); a.set_xlabel("chegadas por território", color="#9fb0ab"); a.set_ylabel("territórios", color="#9fb0ab"); a.tick_params(colors="#9fb0ab")
     a.legend(facecolor="#0b1114", labelcolor="#e9fbe4"); a.set_title("Distribuição das ocupações", color="#e9fbe4")
@@ -113,7 +113,7 @@ def main():
     fig.suptitle("Auditoria antes do som · ouvido E · mesma escala · cor = banda (grave → agudo)", color="#e9fbe4")
     fig.savefig(OUT / "vista-lateral.png", dpi=120, bbox_inches="tight", facecolor=fig.get_facecolor()); plt.close(fig)
     out = {k: (v["resumo"] if isinstance(v, dict) and "resumo" in v else v) for k, v in res.items()}
-    for k in ("compacta_regular", "compacta_face"): out[k + "_sobrecarga"] = {kk: vv for kk, vv in res[k]["sobrecarga"].items() if kk != "territorios"}
+    for k in ("compacta_333", "compacta_regular", "compacta_face"): out[k + "_sobrecarga"] = {kk: vv for kk, vv in res[k]["sobrecarga"].items() if kk != "territorios"}
     print(json.dumps(out, ensure_ascii=False, indent=1))
 
 if __name__ == "__main__":
