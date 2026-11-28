@@ -60,7 +60,7 @@ Quando as oportunidades de entrada são as mesmas, a liberdade de constituir Uin
 - **Página:** mostra as duas condições lado a lado no tempo, com o mesmo tempo, os mesmos controles e a troca A/B.
 - **Lembrete [E] sobre o ritmo do crescimento:** a regra vigente é **1 cubo a cada ~12 coincidências do par** (ramos) e **1 cubo a cada ~12 reacessos do ponto** (Upro do nervo). É a escolha de 27/11, a partir da teoria do responsável de 1 por coincidência e de Kwon e Sabatini 2011. Um ramo de 20 cubos precisa de ~240 coincidências, não de 20. Se o responsável quiser 1 por 1, isso é uma mudança de decisão, a registrar antes do "pra valer".
 
-## 6. Em aberto, levantado pelo responsável [R, 28/11]
+## 6. Ustr na V0.19 e questão de passagem à V0.20 [R, 28/11]
 
 **Rede das glias:** "Glias formam redes. Não podem ser 'flutuantes'. Como elas se conectam?"
 
@@ -68,4 +68,6 @@ Quando as oportunidades de entrada são as mesmas, a liberdade de constituir Uin
   - **"Com relações":** territórios levemente sobrepostos, e nos cubos compartilhados cada Ustr vê os registros da vizinha (como as junções comunicantes).
   - **"Sem relações":** territórios exclusivos.
 - **Hoje:** o motor da V0.19 só roda **"sem relações"**. Nenhuma ligação física entre as Ustr foi modelada ou desenhada.
-- **A decidir (Paulo e Clara):** a forma da rede e se ela entra na V0.19 ou nesta comparação.
+- **Decisão para A e B.** Manter as Ustr com territórios exclusivos e sem comunicação entre si. Cada Ustr registra e compara incidências locais que expiraram sem integrar, permitindo a constituição de candidatas. A condução usa velocidade basal fixa, sem atuação da Utad. A comparação mantém constante a organização glial para isolar a liberdade espacial de constituição das Uints.
+- **Perda e limite de inferência.** Uma Ustr não pode usar o registro de uma vizinha. A fronteira pode impedir a comparação de incidências espacial e temporalmente próximas. Uma mudança de carga ou de história de outra Ustr também não pode atuar por essa via. A dinâmica de ajuste temporal por Utad fica fora do ensaio. Os resultados valem sob essas restrições. A necessidade de uma rede glial ou de uma Ustr como unidade separada continua por testar.
+- **Pauta de abertura da V0.20.** Paulo, Clara e Claudia retomarão a justificativa e as perdas acima. Distinguir observação comum na fronteira de comunicação efetiva entre Ustr. Formular qual operação em A poderia alterar B, qual grandeza atravessaria o contato e qual comparação distinguiria as hipóteses. A eventual classificação como Upro ou incidência permanece aberta.
