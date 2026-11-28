@@ -73,7 +73,7 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--excit); out
 .cartao { border: 1px solid var(--linha); border-radius: 8px; padding: 8px; display: grid; gap: 4px; align-content: start; }
 .cartao button { text-align: left; font-weight: 600; }
 .cartao p { margin: 0; color: var(--apagado); font-size: .78rem; line-height: 1.4; }
-.cartao.ativo { border-color: var(--nova); box-shadow: 0 0 10px #b45cff33 inset; }
+.cartao.ativo { border-color: var(--neon); }
 .titulo-testes { color: var(--apagado); font-size: .8rem; }
 details.vc { margin: 0; border-top: 0; padding-top: 0; font-size: .85rem; }
 details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .88rem; }
@@ -90,7 +90,7 @@ body { display: block; }
 @media (min-width: 760px) { #catalogo { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); align-items: start; } }
 .estudo { border: 1px solid var(--linha); border-radius: 12px; padding: 12px; display: grid; gap: 6px; background: #071014; }
 .estudo.planejado { border-color: #3d7bff66; }
-.estudo.tocando { border-color: var(--nova); box-shadow: 0 0 12px #b45cff33 inset; }
+
 .estudo h2 { margin: 0; font-size: 1.05rem; }
 .estudo .perg { margin: 0; font-weight: 600; line-height: 1.4; }
 .estudo .linha-e { color: var(--apagado); font-size: .82rem; }
@@ -104,13 +104,13 @@ body { display: block; }
 .selo.prev { color: #9fb3ff; border-color: #3d7bff88; } .selo.obs { color: var(--excit); border-color: #39ff1466; } .selo.aberto { color: var(--apagado); border-color: #2a3a3e; }
 .segmentos { display: inline-flex; border: 1px solid #2a3a3e; border-radius: 10px; overflow: hidden; width: fit-content; }
 .segmentos button { border: 0; border-radius: 0; min-height: 44px; }
-.reproduzir { min-height: 48px; font-weight: 700; border-color: var(--nova); }
+
 .sobre { padding: 0 12px; } .sobre details { margin: 6px 0 0; }
 #reserva { height: 0; } body.com-mini #reserva { height: calc(76px + env(safe-area-inset-bottom)); }
 #mini { position: fixed; left: 8px; right: 8px; bottom: calc(8px + env(safe-area-inset-bottom)); z-index: 20; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px;
   background: #0d1417f2; border: 1px solid #2a3a3e; border-radius: 14px; padding: 8px 8px 8px 12px; box-shadow: 0 6px 24px #000a; overflow: hidden; }
 #mini[hidden] { display: none; }
-#mini-prog { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #1a2428; } #mini-prog i { display: block; height: 100%; width: 0; background: var(--nova); }
+#mini-prog { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: #1a2428; } #mini-prog i { display: block; height: 100%; width: 0; background: var(--neon); }
 #mini-abrir { background: none; border: 0; text-align: left; display: grid; padding: 4px 0; min-height: 48px; }
 #mini-titulo { font-weight: 600; } #mini-sub { color: var(--apagado); font-size: .78rem; }
 .mini-play { width: 48px; height: 48px; border-radius: 50%; padding: 0; font-size: 1.1rem; }
@@ -131,14 +131,14 @@ body { display: block; }
 .botoes { display: flex; flex-wrap: wrap; gap: 6px; } button { min-height: 40px; }
 .p-controles { display: grid; gap: 6px; padding: 6px 12px 0; }
 .estado { margin: 0; color: var(--apagado); font-size: .8rem; line-height: 1.4; }
-#barra { width: 100%; accent-color: var(--nova); min-height: 30px; margin: 0; }
+#barra { width: 100%; accent-color: var(--neon); min-height: 30px; margin: 0; }
 .tempos { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; font: 500 .85rem var(--mono); font-variant-numeric: tabular-nums; }
 #t-dur { text-align: right; }
-.play { width: 60px; height: 60px; border-radius: 50%; font-size: 1.4rem; border-color: var(--nova); }
+
 .diario { margin: 0 12px 8px; border: 1px solid var(--linha); border-radius: 10px; padding: 6px 10px; font-size: .85rem; }
-#diario-todos { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 2px; max-height: 24vh; overflow: auto; overscroll-behavior: contain; }
+#diario-todos { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 2px; max-height: 18vh; overflow: auto; overscroll-behavior: contain; }
 #diario-todos li button { width: 100%; text-align: left; background: none; border: 0; padding: 6px 4px; font: .78rem/1.4 var(--mono); color: var(--apagado); min-height: 0; }
-#diario-todos li.atual button { color: var(--texto); background: #b45cff1a; border-left: 3px solid var(--nova); }
+#diario-todos li.atual button { color: var(--texto); background: #39ff1414; border-left: 3px solid var(--neon); }
 #diario-todos li.vizinho button { color: #aebdb8; }
 @media (max-height: 700px) { #diario-todos { max-height: 14vh; } }
 @media (max-height: 560px) { #diario-todos { max-height: 8vh; } }
@@ -175,6 +175,40 @@ body, button, input { font-family: var(--corpo); }
 .ficha b { font-weight: 600; }
 .estudo:not(.com-play) { background: #10181d; border: 1px dashed #26363f; box-shadow: none; opacity: .6; }
 .estudo:not(.com-play) h2, .estudo:not(.com-play) .perg { color: #a9b6b2; }
+
+/* ---- player no estilo do Apple Music (28/11): ícones brancos sem moldura; acento verde neon ---- */
+:root { --acento: var(--neon); }
+.icone { background: none; border: 0; color: var(--texto); padding: 0; display: grid; place-items: center; min-height: 0; box-shadow: none; }
+.icone svg { fill: currentColor; }
+#recolher { width: 44px; height: 44px; } #recolher svg { width: 26px; height: 26px; }
+.alca { grid-template-columns: auto 1fr auto; }
+.p-tit b { font-size: 1.05rem; } 
+#menu { position: relative; right: auto; top: auto; }
+#menu > summary { background: none; border: 0; width: 44px; height: 44px; } #menu > summary svg { width: 24px; height: 24px; fill: var(--texto); }
+#menu .menu-corpo { right: 0; top: 46px; z-index: 5; }
+#barra { -webkit-appearance: none; appearance: none; height: 22px; background: transparent; }
+#barra::-webkit-slider-runnable-track { height: 6px; border-radius: 3px; background: linear-gradient(90deg, var(--acento) var(--p, 0%), #ffffff2e var(--p, 0%)); }
+#barra::-moz-range-track { height: 6px; border-radius: 3px; background: #ffffff2e; } #barra::-moz-range-progress { height: 6px; border-radius: 3px; background: var(--acento); }
+#barra::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #fff; margin-top: -4px; box-shadow: 0 0 6px #0008; }
+#barra::-moz-range-thumb { width: 14px; height: 14px; border: 0; border-radius: 50%; background: #fff; }
+.tempos { grid-template-columns: 1fr auto 1fr; color: #ffffffa0; font: 500 .8rem var(--corpo); font-variant-numeric: tabular-nums; }
+#t-vel { font-size: .72rem; padding: 2px 8px; border-radius: 6px; background: #ffffff14; color: #ffffffb0; }
+.transporte-am { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; justify-items: center; padding: 4px 0 2px; }
+.icone.grande { width: 64px; height: 48px; } .icone.grande svg { width: 52px; height: 34px; }
+.icone.enorme { width: 72px; height: 72px; } .icone.enorme svg { width: 46px; height: 46px; }
+.icone:active { transform: scale(.92); opacity: .8; }
+.baixo-am { display: flex; justify-content: space-around; align-items: center; padding: 6px 0 4px; }
+.opc { background: none; border: 0; color: #ffffffa8; display: grid; justify-items: center; gap: 3px; font-size: .7rem; min-height: 0; padding: 6px 10px; border-radius: 14px; box-shadow: none; }
+.opc svg { width: 26px; height: 26px; fill: currentColor; }
+.opc[aria-pressed="true"] { color: #04140a; background: var(--acento); box-shadow: 0 0 12px #39ff1455; }
+details.pop { margin: 0; border: 0; padding: 0; position: relative; }
+details.pop > summary { list-style: none; cursor: pointer; } details.pop > summary::-webkit-details-marker { display: none; }
+details.pop[open] > summary { color: var(--acento); }
+.pop-corpo { position: absolute; bottom: 64px; right: 0; width: min(86vw, 320px); background: #0b1114f2; border: 1px solid #2a3a3e; border-radius: 12px; padding: 10px; z-index: 5; }
+#diario-todos li.atual button { background: #39ff1414; border-left-color: var(--acento); }
+#mini-prog i { background: var(--acento); }
+.mini-play { background: none; border: 0; color: var(--texto); } .mini-play svg { width: 26px; height: 26px; fill: currentColor; }
+.estudo.tocando { border-color: #39ff1488; box-shadow: 0 0 14px #39ff1422 inset, 0 2px 10px #0006; }
 </style>
 </head>
 <body>
@@ -224,30 +258,43 @@ body, button, input { font-family: var(--corpo); }
 </div>
 <!-- player expandido: cena fixa, transporte e diário -->
 <section id="player" aria-label="Player do estudo" hidden>
-  <div class="alca" id="alca"><span class="puxador" aria-hidden="true"></span><button id="recolher" aria-label="Recolher o player">⌄ Recolher</button><div class="p-tit"><b id="p-titulo"></b><span id="p-sub"></span></div></div>
+  <div class="alca" id="alca"><span class="puxador" aria-hidden="true"></span>
+    <button id="recolher" class="icone" aria-label="Recolher o player"><svg viewBox="0 0 24 24"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="p-tit"><b id="p-titulo"></b><span id="p-sub"></span></div>
+    <details class="menu" id="menu"><summary aria-label="Mais ações"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></summary>
+      <div class="menu-corpo">
+        <div class="menu-grupo"><span>Velocidade</span><div id="m-vel" class="botoes"></div></div>
+        <div class="menu-grupo"><span>Mostrar</span><div id="m-cam" class="botoes"></div></div>
+        <div class="menu-grupo"><button id="foto">Salvar imagem da cena</button></div>
+      </div>
+    </details>
+  </div>
   <div class="p-cena">
     <div id="palco" aria-label="Espaço 3D do Sdom: arraste para girar, pince para aproximar">
       <div id="carregando">carregando as coordenadas…</div>
       <div id="escala" aria-hidden="true"></div>
-      <details class="menu" id="menu"><summary aria-label="Mais ações">⋯</summary>
-        <div class="menu-corpo">
-          <div class="menu-grupo"><span>Velocidade</span><div id="m-vel" class="botoes"></div></div>
-          <div class="menu-grupo"><span>Vista</span><div class="botoes">
-            <button data-vista="geral">Geral</button><button data-vista="sala">Sala</button><button data-vista="cima">De cima</button>
-            <button data-vista="E">Ouvido E</button><button data-vista="D">Ouvido D</button><button data-vista="nervo">Nervo E</button>
-            <button data-vista="nucleo">Núcleo E</button><button data-vista="detalhe">Dentro (cubos)</button></div></div>
-          <div class="menu-grupo"><span>Mostrar</span><div id="m-cam" class="botoes"></div></div>
-          <div class="menu-grupo"><button id="foto">Salvar imagem da cena</button></div>
-        </div>
-      </details>
     </div>
   </div>
   <div class="p-controles">
-    <div id="p-cond" class="segmentos" role="group" aria-label="Condição" hidden><button data-faixa="A">A · Folha fixa</button><button data-faixa="B">B · Profundidade local</button></div>
     <p id="p-estado" class="estado" aria-live="polite"></p>
     <div id="p-falha" hidden><span>Não foi possível carregar os dados.</span> <button id="p-tentar">Tentar de novo</button></div>
     <input id="barra" type="range" min="0" max="1" step="0.001" value="0" aria-label="Tempo do teste">
-    <div class="tempos"><span id="t-dec">0:00</span><button id="play" class="play" aria-label="Reproduzir">▶</button><span id="t-dur">0:00</span></div>
+    <div class="tempos"><span id="t-dec">0:00</span><span id="t-vel"></span><span id="t-dur">0:00</span></div>
+    <div class="transporte-am">
+      <button id="volta" class="icone grande" aria-label="Acontecimento anterior"><svg viewBox="0 0 48 32"><path d="M22 6.2v19.6a1.3 1.3 0 0 1-2 1.1L4.6 17.1a1.3 1.3 0 0 1 0-2.2L20 5.1a1.3 1.3 0 0 1 2 1.1zM44 6.2v19.6a1.3 1.3 0 0 1-2 1.1L26.6 17.1a1.3 1.3 0 0 1 0-2.2L42 5.1a1.3 1.3 0 0 1 2 1.1z"/></svg></button>
+      <button id="play" class="icone enorme" aria-label="Reproduzir"></button>
+      <button id="avanca" class="icone grande" aria-label="Próximo acontecimento"><svg viewBox="0 0 48 32"><path d="M4 6.2v19.6a1.3 1.3 0 0 0 2 1.1l15.4-9.8a1.3 1.3 0 0 0 0-2.2L6 5.1a1.3 1.3 0 0 0-2 1.1zM26 6.2v19.6a1.3 1.3 0 0 0 2 1.1l15.4-9.8a1.3 1.3 0 0 0 0-2.2L28 5.1a1.3 1.3 0 0 0-2 1.1z"/></svg></button>
+    </div>
+    <div class="baixo-am">
+      <button data-faixa="A" class="opc" hidden><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="2.4" rx="1.2"/></svg><span>Folha fixa</span></button>
+      <button data-faixa="B" class="opc" hidden><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="2.4" rx="1.2"/><rect x="6" y="10.8" width="12" height="2.4" rx="1.2" opacity=".75"/><rect x="9" y="16.6" width="6" height="2.4" rx="1.2" opacity=".5"/></svg><span>Profundidade</span></button>
+      <details class="pop" id="vistas"><summary class="opc"><svg viewBox="0 0 24 24"><path d="M12 5C6.5 5 2.7 9.3 1.6 11.4a1.3 1.3 0 0 0 0 1.2C2.7 14.7 6.5 19 12 19s9.3-4.3 10.4-6.4a1.3 1.3 0 0 0 0-1.2C21.3 9.3 17.5 5 12 5zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg><span>Vistas</span></summary>
+        <div class="pop-corpo botoes">
+          <button data-vista="geral">Geral</button><button data-vista="sala">Sala</button><button data-vista="cima">De cima</button>
+          <button data-vista="E">Ouvido E</button><button data-vista="D">Ouvido D</button><button data-vista="nervo">Nervo E</button>
+          <button data-vista="nucleo">Núcleo E</button><button data-vista="detalhe">Dentro (cubos)</button></div>
+      </details>
+    </div>
   </div>
   <details class="diario" id="diario-box" open>
     <summary>Diário do motor</summary>
@@ -988,6 +1035,10 @@ const ESTUDOS = [
     linha: "Alciatore, 9–19 s · dados publicados da V0.18 · com som", disp: "10 s",
     ficha: `<h3>O que observar</h3><p>As ondas saindo dos alto-falantes, o sinal elétrico do microfone abrindo-se nas 64 bandas com o atraso de cada filtro, e os pontos transdutivos acendendo (verde) conforme a banda e a sensibilidade. Sala, ondas e fios são demonstração do robô, não unidades do Sdom.</p>` },
 ];
+const ICON = {
+  play: `<svg viewBox="0 0 24 24"><path d="M7 4.6v14.8a1.2 1.2 0 0 0 1.8 1l11.6-7.4a1.2 1.2 0 0 0 0-2L8.8 3.6A1.2 1.2 0 0 0 7 4.6z"/></svg>`,
+  pausa: `<svg viewBox="0 0 24 24"><rect x="5.5" y="4" width="4.6" height="16" rx="1.3"/><rect x="13.9" y="4" width="4.6" height="16" rx="1.3"/></svg>`,
+  repetir: `<svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 1-6.9 8.1 1.2 1.2 0 1 1 2.4-.4A4.6 4.6 0 1 0 12 7.4h-1.6l1.5 1.5a1.2 1.2 0 0 1-1.7 1.7L6.6 7.1a1.2 1.2 0 0 1 0-1.7l3.6-3.5a1.2 1.2 0 1 1 1.7 1.7L10.4 5z"/></svg>` };
 const P = { f: null, fid: null, t: 0, tocando: false, vel: 1, eventos: [], fim: false, carregando: false, cond: "A", aberto: false, usado: false };
 const el = id => document.getElementById(id);
 const barraEl = el("barra"), playEl = el("play"), playerEl = el("player"), miniEl = el("mini");
@@ -1018,7 +1069,7 @@ function montarCatalogo() {
       atualizarSel();
       art.querySelector(".reproduzir").onclick = () => {
         const fid = e.faixas.length > 1 ? P.cond : e.faixas[0];
-        if (P.fid === fid) alternar(); else abrir(fid, { tocar: true });
+        if (P.fid === fid) { alternar(); if (P.tocando) expandir(); } else { abrir(fid, { tocar: true }); expandir(); }
       };
     }
   }
@@ -1049,21 +1100,21 @@ async function abrir(fid, { tocar = false } = {}) {
   if (fid === "ensaio") sessoes.mostrar(true);
   if (!mesmoEstudo) vista(f.vista);
   P.eventos = f.estudo === "ab" ? teste.eventos(fid) : fid === "ensaio" ? sessoes.eventos() : fid === "piloto" ? eventosPiloto() : fid === "lupa" ? eventosLupa() : [];
-  montarDiario(); montarVel(); barraEl.max = f.dur(); el("t-dur").textContent = fmtTempo(fid, f.dur());
+  montarDiario(); montarVel(); barraEl.max = f.dur();
   ir(P.t); alternar(tocar || (mesmoEstudo && estavaTocando));
 }
 function montarCabeca() {
   const e = ESTUDOS.find(x => x.id === P.f.estudo);
   el("p-titulo").textContent = e.titulo; el("p-sub").textContent = P.f.sub; el("mini-titulo").textContent = e.titulo;
-  el("p-cond").hidden = P.f.estudo !== "ab"; document.querySelectorAll("#p-cond [data-faixa]").forEach(b => b.setAttribute("aria-pressed", b.dataset.faixa === P.fid));
+  document.querySelectorAll(".baixo-am [data-faixa]").forEach(b => { b.hidden = P.f.estudo !== "ab"; b.setAttribute("aria-pressed", b.dataset.faixa === P.fid); });
 }
 function alternar(forcar) {
   if (!P.f || P.carregando) return;
   const quer = forcar === undefined ? !P.tocando : !!forcar;
   if (quer && P.fim) { P.fim = false; ir(0); }
   P.tocando = quer;
-  const ic = quer ? "❚❚" : P.fim ? "↺" : "▶", rot = quer ? "Pausar" : P.fim ? "Repetir" : "Reproduzir";
-  for (const b of [playEl, el("mini-play")]) { b.textContent = ic; b.setAttribute("aria-label", rot); }
+  const ic = quer ? ICON.pausa : P.fim ? ICON.repetir : ICON.play, rot = quer ? "Pausar" : P.fim ? "Repetir" : "Reproduzir";
+  for (const b of [playEl, el("mini-play")]) { b.innerHTML = ic; b.setAttribute("aria-label", rot); }
   if (P.f.audio) { if (quer && P.vel === 1) { try { audio.currentTime = P.t; } catch (e) {} audio.play().catch(() => {}); } else audio.pause(); }
   estadoCatalogo();
 }
@@ -1081,7 +1132,8 @@ function desenhar(forcar) {
   else if (P.fid === "piloto" || P.fid === "lupa") { const v = malha.atualizar(T); est = P.fid === "piloto" ? `Até agora (ouvido E): Uints ${fmt(v.u)} · ramos funcionando ${fmt(v.r)} · disparos ${fmt(v.f)}.` : `Instante do motor: ${T.toFixed(5).replace(".", ",")} s.`; }
   else est = "Demonstração: nenhuma constituição do motor aparece aqui.";
   if (est && (forcar || performance.now() - ultEst > 250)) { el("p-estado").textContent = est; ultEst = performance.now(); }
-  barraEl.value = P.t; el("t-dec").textContent = fmtTempo(P.fid, P.t);
+  barraEl.value = P.t; barraEl.style.setProperty("--p", `${100 * P.t / Math.max(1e-9, f.dur())}%`); el("t-dec").textContent = fmtTempo(P.fid, P.t);
+  el("t-dur").textContent = "−" + fmtTempo(P.fid, Math.max(0, f.dur() - P.t));
   el("mini-sub").textContent = `${P.f.sub} · ${fmtTempo(P.fid, P.t)} / ${fmtTempo(P.fid, f.dur())}`;
   el("mini-prog").firstElementChild.style.width = `${100 * P.t / Math.max(1e-9, f.dur())}%`;
   marcarDiario();
@@ -1107,6 +1159,7 @@ function montarVel() {
   const box = el("m-vel"); box.innerHTML = "";
   for (const v of VELS[P.fid] || [1]) { const b = document.createElement("button"); b.textContent = velTxt(v); b.setAttribute("aria-pressed", v === P.vel);
     b.onclick = () => { P.vel = v; montarVel(); if (P.f.audio) alternar(P.tocando); }; box.appendChild(b); }
+  el("t-vel").textContent = velTxt(P.vel);
 }
 // expandir e recolher
 function expandir() { if (!P.usado) return; if (P.carregando === false && el("p-falha").hidden === false) abrir(P.fid); P.aberto = true; playerEl.hidden = false; document.body.style.overflow = "hidden"; tamanho(); desenhar(true); }
@@ -1123,9 +1176,18 @@ document.addEventListener("keydown", e => { if (e.target.closest("input, textare
   else if (P.aberto && e.key === "ArrowRight") ir(P.t + P.f.dur() / 60); else if (P.aberto && e.key === "ArrowLeft") ir(P.t - P.f.dur() / 60); });
 playEl.onclick = () => alternar();
 barraEl.oninput = () => ir(+barraEl.value);
-document.querySelectorAll("#p-cond [data-faixa]").forEach(b => b.onclick = () => { P.cond = b.dataset.faixa; abrir(P.cond); });
+document.querySelectorAll(".baixo-am [data-faixa]").forEach(b => b.onclick = () => { P.cond = b.dataset.faixa; abrir(P.cond); });
+function pularEvento(dir) {
+  if (!P.f) return; const ev = P.eventos, passo = P.f.dur() / 20;
+  if (!ev.length) return ir(P.t + dir * passo);
+  let lo = 0, hi = ev.length; while (lo < hi) { const md = (lo + hi) >> 1; if (ev[md].t <= P.t + 1e-9) lo = md + 1; else hi = md; } const i = lo - 1;
+  if (dir > 0) ir(i + 1 < ev.length ? ev[i + 1].t : P.f.dur());
+  else ir(i >= 0 && P.t - ev[i].t > P.f.dur() / 200 ? ev[i].t : i - 1 >= 0 ? ev[i - 1].t : 0);
+}
+el("volta").onclick = () => pularEvento(-1); el("avanca").onclick = () => pularEvento(1);
+playEl.innerHTML = ICON.play; el("mini-play").innerHTML = ICON.play;
 el("p-tentar").onclick = () => abrir(P.fid);
-document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
+document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => { vista(b.dataset.vista); el("vistas").open = false; });
 { const cams = [["Pontos transdutivos", [pontos]], ["Ustr", [ustr]], ["Cubos", [grade]]];
   for (const [nome, objs] of cams) { const b = document.createElement("button"); b.textContent = nome; b.setAttribute("aria-pressed", "true");
     b.onclick = () => { const v = !objs[0].visible; objs.forEach(o => o.visible = v); b.setAttribute("aria-pressed", v); }; el("m-cam").appendChild(b); } }
