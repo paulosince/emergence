@@ -223,6 +223,37 @@ button, input, summary { font-size: 15px; }
 #diario-todos li button { font: 400 17px/1.45 var(--corpo); font-variant-numeric: tabular-nums; }
 .tempos, #contagem, .estado, .estudo .disp { font-variant-numeric: tabular-nums; }
 .rotulo { font-size: 13px; }
+
+/* ---- tela "reproduzindo" (28/11): cena 3D em tela cheia; título e controles em vidro desfocado por cima; log como ícone ---- */
+#player { position: fixed; inset: 0; z-index: 30; display: block; padding: 0; background: var(--palco);
+  transform: translateY(100%); visibility: hidden; transition: transform .38s cubic-bezier(.2,.8,.2,1), visibility 0s linear .38s; }
+#player.aberto { transform: none; visibility: visible; transition: transform .38s cubic-bezier(.2,.8,.2,1), visibility 0s; }
+#player[hidden] { display: block; }
+#mini { transition: opacity .25s, transform .25s; } body.player-aberto #mini { opacity: 0; transform: translateY(20px); pointer-events: none; }
+.p-cena { position: absolute; inset: 0; }
+.p-cena #palco { position: absolute; inset: 0; margin: 0; border: 0; border-radius: 0; height: auto; min-height: 0; }
+.vidro { background: rgba(12, 18, 21, .52); -webkit-backdrop-filter: blur(22px) saturate(150%); backdrop-filter: blur(22px) saturate(150%); }
+.vidro-topo { background: linear-gradient(180deg, rgba(4,7,10,.72), rgba(4,7,10,.25)); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.alca { position: absolute; top: 0; left: 0; right: 0; z-index: 3; padding: calc(10px + env(safe-area-inset-top)) 10px 8px; }
+.puxador { top: calc(4px + env(safe-area-inset-top)); }
+#escala { position: absolute; left: 12px; top: calc(78px + env(safe-area-inset-top)); z-index: 2; pointer-events: none; text-shadow: 0 0 6px #000; }
+.p-controles { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; display: grid; gap: 4px; padding: 12px 18px calc(10px + env(safe-area-inset-bottom));
+  border-radius: 22px 22px 0 0; max-height: 40vh; box-shadow: 0 -1px 0 #ffffff14; }
+.transporte-am { padding: 0; } .icone.enorme { width: 64px; height: 64px; } .icone.enorme svg { width: 42px; height: 42px; }
+.icone.grande { height: 44px; } .icone.grande svg { width: 46px; height: 30px; }
+.baixo-am { padding: 2px 0 0; justify-content: space-around; }
+.opc.redondo { width: 48px; height: 48px; padding: 0; border-radius: 50%; display: grid; place-items: center; }
+.opc.redondo svg { width: 24px; height: 24px; }
+.opc.redondo[aria-pressed="true"] { color: #04140a; background: var(--acento); }
+details.pop > summary.opc.redondo { display: grid; }
+.pop-corpo { bottom: 58px; left: 50%; right: auto; transform: translateX(-50%); }
+.log-painel { position: absolute; left: 10px; right: 10px; top: calc(70px + env(safe-area-inset-top)); bottom: calc(var(--hc, 230px) + 10px); z-index: 2;
+  overflow: auto; overscroll-behavior: contain; padding: 12px 14px; border-radius: 18px;
+  background: rgba(10, 15, 18, .62); -webkit-backdrop-filter: blur(24px) saturate(150%); backdrop-filter: blur(24px) saturate(150%); }
+.log-painel h2 { margin: 0 0 6px; font-size: 17px; }
+.log-painel .estado { margin-bottom: 8px; }
+.log-painel #diario-todos { max-height: none; }
+@media (min-width: 900px) { .log-painel { left: auto; width: 400px; } .p-controles { left: 50%; right: auto; width: 560px; transform: translateX(-50%); border-radius: 22px; bottom: 16px; } }
 </style>
 </head>
 <body>
@@ -237,7 +268,7 @@ button, input, summary { font-size: 15px; }
 </header>
 <div class="intro">
   <h1>Sdom · estudos da V19</h1>
-  <p class="sub">Cada card é um estudo. Abra a ficha para ler a pergunta, o que muda, o que procurar na cena e o que os dados permitem dizer. O play abre um miniplayer; toque nele para explorar a cena 3D.</p>
+  <p class="sub">Cada card é um estudo. Abra a ficha para ler a pergunta, o que muda, o que procurar na cena e o que os dados permitem dizer. O play abre a cena 3D; recolha para voltar ao catálogo, com o estudo tocando na barra de baixo.</p>
 </div>
 <audio id="audio" preload="auto" src="visual/v18-satie/audio.mp3"></audio>
 <main id="catalogo" aria-label="Estudos da V19"></main>
@@ -271,8 +302,13 @@ button, input, summary { font-size: 15px; }
   <button id="mini-play" class="mini-play" aria-label="Reproduzir">▶</button>
 </div>
 <!-- player expandido: cena fixa, transporte e diário -->
-<section id="player" aria-label="Player do estudo" hidden>
-  <div class="alca" id="alca"><span class="puxador" aria-hidden="true"></span>
+<section id="player" aria-label="Player do estudo">
+  <div class="p-cena">
+    <div id="palco" aria-label="Espaço 3D do Sdom: arraste para girar, pince para aproximar">
+      <div id="carregando">carregando as coordenadas…</div>
+    </div>
+  </div>
+  <div class="alca vidro-topo" id="alca"><span class="puxador" aria-hidden="true"></span>
     <button id="recolher" class="icone" aria-label="Recolher o player"><svg viewBox="0 0 24 24"><path d="M5 9l7 7 7-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
     <div class="p-tit"><b id="p-titulo"></b><span id="p-sub"></span></div>
     <details class="menu" id="menu"><summary aria-label="Mais ações"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></summary>
@@ -283,14 +319,13 @@ button, input, summary { font-size: 15px; }
       </div>
     </details>
   </div>
-  <div class="p-cena">
-    <div id="palco" aria-label="Espaço 3D do Sdom: arraste para girar, pince para aproximar">
-      <div id="carregando">carregando as coordenadas…</div>
-      <div id="escala" aria-hidden="true"></div>
-    </div>
-  </div>
-  <div class="p-controles">
+  <div id="escala" aria-hidden="true"></div>
+  <section class="log-painel" id="log" aria-label="Log do motor" hidden>
+    <h2>Log do motor</h2>
     <p id="p-estado" class="estado" aria-live="polite"></p>
+    <ol id="diario-todos"></ol>
+  </section>
+  <div class="p-controles vidro" id="controles">
     <div id="p-falha" hidden><span>Não foi possível carregar os dados.</span> <button id="p-tentar">Tentar de novo</button></div>
     <input id="barra" type="range" min="0" max="1" step="0.001" value="0" aria-label="Tempo do teste">
     <div class="tempos"><span id="t-dec">0:00</span><span id="t-vel"></span><span id="t-dur">0:00</span></div>
@@ -300,9 +335,9 @@ button, input, summary { font-size: 15px; }
       <button id="avanca" class="icone grande" aria-label="Próximo acontecimento"><svg viewBox="0 0 48 32"><path d="M4 6.2v19.6a1.3 1.3 0 0 0 2 1.1l15.4-9.8a1.3 1.3 0 0 0 0-2.2L6 5.1a1.3 1.3 0 0 0-2 1.1zM26 6.2v19.6a1.3 1.3 0 0 0 2 1.1l15.4-9.8a1.3 1.3 0 0 0 0-2.2L28 5.1a1.3 1.3 0 0 0-2 1.1z"/></svg></button>
     </div>
     <div class="baixo-am">
-      <button data-faixa="A" class="opc" hidden><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="2.4" rx="1.2"/></svg><span>Folha fixa</span></button>
-      <button data-faixa="B" class="opc" hidden><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="2.4" rx="1.2"/><rect x="6" y="10.8" width="12" height="2.4" rx="1.2" opacity=".75"/><rect x="9" y="16.6" width="6" height="2.4" rx="1.2" opacity=".5"/></svg><span>Profundidade</span></button>
-      <details class="pop" id="vistas"><summary class="opc"><svg viewBox="0 0 24 24"><path d="M12 5C6.5 5 2.7 9.3 1.6 11.4a1.3 1.3 0 0 0 0 1.2C2.7 14.7 6.5 19 12 19s9.3-4.3 10.4-6.4a1.3 1.3 0 0 0 0-1.2C21.3 9.3 17.5 5 12 5zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg><span>Vistas</span></summary>
+      <button id="b-log" class="opc redondo" aria-pressed="false" aria-label="Log do motor"><svg viewBox="0 0 24 24"><path d="M5 3.5h14a2.5 2.5 0 0 1 2.5 2.5v9a2.5 2.5 0 0 1-2.5 2.5h-6.2l-4.4 3.4a.9.9 0 0 1-1.4-.7v-2.7H5A2.5 2.5 0 0 1 2.5 15V6A2.5 2.5 0 0 1 5 3.5zm2 5h10v1.7H7zm0 3.3h7v1.7H7z"/></svg></button>
+      <button id="b-prof" class="opc redondo" aria-pressed="false" aria-label="Profundidade local (B); desligado = folha fixa (A)" hidden><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="2.4" rx="1.2"/><rect x="6" y="10.8" width="12" height="2.4" rx="1.2" opacity=".75"/><rect x="9" y="16.6" width="6" height="2.4" rx="1.2" opacity=".5"/></svg></button>
+      <details class="pop" id="vistas"><summary class="opc redondo" aria-label="Vistas"><svg viewBox="0 0 24 24"><path d="M12 5C6.5 5 2.7 9.3 1.6 11.4a1.3 1.3 0 0 0 0 1.2C2.7 14.7 6.5 19 12 19s9.3-4.3 10.4-6.4a1.3 1.3 0 0 0 0-1.2C21.3 9.3 17.5 5 12 5zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg><span>Vistas</span></summary>
         <div class="pop-corpo botoes">
           <button data-vista="geral">Geral</button><button data-vista="sala">Sala</button><button data-vista="cima">De cima</button>
           <button data-vista="E">Ouvido E</button><button data-vista="D">Ouvido D</button><button data-vista="nervo">Nervo E</button>
@@ -310,10 +345,6 @@ button, input, summary { font-size: 15px; }
       </details>
     </div>
   </div>
-  <details class="diario" id="diario-box" open>
-    <summary>Diário do motor</summary>
-    <ol id="diario-todos"></ol>
-  </details>
 </section>
 <script type="importmap">
 { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
@@ -1021,7 +1052,7 @@ const ESTUDOS = [
     ficha: `<h3>Motivação</h3><p>No desenho planar, a malha ficou uma lâmina fina. A pergunta (parecer da Clara) é se a liberdade de nascer em profundidade muda quem converge e integra, quando a entrada é a mesma.</p>
       <h3>O que muda</h3><p>Só onde a Uint candidata pode nascer. <b>A</b>: só na folha, o primeiro plano de cubos atrás das pontas das Upros de entrada. <b>B</b>: na folha ou mais para dentro da cabeça, na mesma caixa de busca (3 cubos em volta do ponto médio do par).</p>
       <h3>O que se mantém</h3><p>A entrada, os territórios das Ustr (sem comunicação entre elas), a ocupação, o reuso de Uint, a pontuação e o desempate. O nervo de 790 cubos, o ganho de 0,0065 e a punição de 1/60. O estímulo e o estado inicial.</p>
-      <h3>O que procurar na cena</h3><p>Onde nasce uma Uint candidata (<b style="color:var(--nova)">roxo</b>), quando os ramos chegam a ela (ficam neutros) e se ela dispara (<b style="color:var(--acesso)">azul</b>). O diário separa os pares que criaram uma Uint nova dos que <b>reutilizaram</b> uma Uint já existente.</p>
+      <h3>O que procurar na cena</h3><p>Onde nasce uma Uint candidata (<b style="color:var(--nova)">roxo</b>), quando os ramos chegam a ela (ficam neutros) e se ela dispara (<b style="color:var(--acesso)">azul</b>). O log separa os pares que criaram uma Uint nova dos que <b>reutilizaram</b> uma Uint já existente.</p>
       <h3>Previsão</h3><p>${S_AB} Ainda não há previsão registrada (Paulo e Clara).</p>
       <h3>O que este teste mostrou</h3><p>${S_OBS} Em B, ${mAB ? fmt(mAB.B.uints_fora_da_folha) : "—"} de ${mAB ? fmt(mAB.B.n_uints) : "—"} Uints nasceram fora da folha (até ${mAB ? mAB.B.profundidade_max : "—"} cubos). Pares que reutilizaram Uint: A ${mAB ? fmt(mAB.A.pares_que_reutilizaram_uint) : "—"} de ${mAB ? fmt(mAB.A.pares) : "—"}; B ${mAB ? fmt(mAB.B.pares_que_reutilizaram_uint) : "—"} de ${mAB ? fmt(mAB.B.pares) : "—"}. Disparos: A ${mAB ? fmt(mAB.A.n_disparos) : "—"}; B ${mAB ? fmt(mAB.B.n_disparos) : "—"}.</p>
       <h3>O que os dados permitem dizer</h3><p>Só para este trecho, este ouvido e estas regras: em B, a profundidade foi usada, sobretudo pela regra de caminhos iguais (quanto mais fundo, menor a diferença entre os caminhos do par). As Uints ficaram menos compartilhadas e dispararam menos. Não diz nada sobre a reutilização na volta da obra, nem sobre genérico × específico.</p>
@@ -1055,7 +1086,7 @@ const ICON = {
   repetir: `<svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 1-6.9 8.1 1.2 1.2 0 1 1 2.4-.4A4.6 4.6 0 1 0 12 7.4h-1.6l1.5 1.5a1.2 1.2 0 0 1-1.7 1.7L6.6 7.1a1.2 1.2 0 0 1 0-1.7l3.6-3.5a1.2 1.2 0 1 1 1.7 1.7L10.4 5z"/></svg>` };
 const P = { f: null, fid: null, t: 0, tocando: false, vel: 1, eventos: [], fim: false, carregando: false, cond: "A", aberto: false, usado: false };
 const el = id => document.getElementById(id);
-const barraEl = el("barra"), playEl = el("play"), playerEl = el("player"), miniEl = el("mini");
+const barraEl = el("barra"), playEl = el("play"), playerEl = el("player"), miniEl = el("mini"); playerEl.hidden = false;
 const fmtTempo = (fid, t) => fid === "lupa" ? fmtMs(t) : fmtT(t);
 function mostrarV18(v) { [ondas, altos, fios, mics].forEach(o => o.visible = v); }
 function esconderTudo() { if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); if (sessoes) sessoes.mostrar(false); if (teste) teste.mostrar(false); }
@@ -1120,7 +1151,7 @@ async function abrir(fid, { tocar = false } = {}) {
 function montarCabeca() {
   const e = ESTUDOS.find(x => x.id === P.f.estudo);
   el("p-titulo").textContent = e.titulo; el("p-sub").textContent = P.f.sub; el("mini-titulo").textContent = e.titulo;
-  document.querySelectorAll(".baixo-am [data-faixa]").forEach(b => { b.hidden = P.f.estudo !== "ab"; b.setAttribute("aria-pressed", b.dataset.faixa === P.fid); });
+  el("b-prof").hidden = P.f.estudo !== "ab"; el("b-prof").setAttribute("aria-pressed", P.fid === "B");
 }
 function alternar(forcar) {
   if (!P.f || P.carregando) return;
@@ -1156,7 +1187,7 @@ function desenhar(forcar) {
 let diarioIdx = -2, toqueDiario = 0;
 function montarDiario() {
   const ol = el("diario-todos"); ol.innerHTML = ""; diarioIdx = -2;
-  if (!P.eventos.length) { const li = document.createElement("li"); li.innerHTML = `<button disabled>${P.fid === "demo" ? "Demonstração: o motor não constitui nada aqui." : "Sem acontecimentos registrados."}</button>`; ol.appendChild(li); return; }
+  if (!P.eventos.length) { const li = document.createElement("li"); li.innerHTML = `<button disabled>${P.fid === "demo" ? "Demonstração: o motor não constitui nada aqui." : "Sem acontecimentos registrados no log."}</button>`; ol.appendChild(li); return; }
   for (const e of P.eventos) { const li = document.createElement("li"), b = document.createElement("button"); b.innerHTML = e.txt; b.onclick = () => ir(e.t); li.appendChild(b); ol.appendChild(li); }
 }
 el("diario-todos").addEventListener("touchstart", () => { toqueDiario = performance.now(); }, { passive: true });
@@ -1167,7 +1198,7 @@ function marcarDiario() {
   const i = lo - 1; if (i === diarioIdx) return; diarioIdx = i;
   const lis = el("diario-todos").children;
   for (let k = 0; k < lis.length; k++) lis[k].className = k === i ? "atual" : (k === i - 1 || k === i + 1) ? "vizinho" : "";
-  if (i >= 0 && P.aberto && performance.now() - toqueDiario > 2500) lis[i].scrollIntoView({ block: "nearest" });
+  if (i >= 0 && P.aberto && !el("log").hidden && performance.now() - toqueDiario > 2500) lis[i].scrollIntoView({ block: "nearest" });
 }
 function montarVel() {
   const box = el("m-vel"); box.innerHTML = "";
@@ -1176,8 +1207,16 @@ function montarVel() {
   el("t-vel").textContent = velTxt(P.vel);
 }
 // expandir e recolher
-function expandir() { if (!P.usado) return; if (P.carregando === false && el("p-falha").hidden === false) abrir(P.fid); P.aberto = true; playerEl.hidden = false; document.body.style.overflow = "hidden"; tamanho(); desenhar(true); }
-function recolher() { P.aberto = false; playerEl.hidden = true; document.body.style.overflow = ""; }
+let recolhendo = null;
+function expandir() { if (!P.usado) return; if (P.carregando === false && el("p-falha").hidden === false) abrir(P.fid);
+  clearTimeout(recolhendo); P.aberto = true; playerEl.classList.add("aberto"); document.body.classList.add("player-aberto"); document.body.style.overflow = "hidden";
+  requestAnimationFrame(() => { tamanho(); medirControles(); desenhar(true); }); }
+function recolher() { playerEl.classList.remove("aberto"); document.body.classList.remove("player-aberto"); document.body.style.overflow = "";
+  recolhendo = setTimeout(() => { P.aberto = false; }, 400); }
+function medirControles() { playerEl.style.setProperty("--hc", el("controles").offsetHeight + "px"); }
+new ResizeObserver(medirControles).observe(el("controles"));
+el("b-log").onclick = () => { const v = el("log").hidden; el("log").hidden = !v; el("b-log").setAttribute("aria-pressed", v); diarioIdx = -2; marcarDiario(); };
+el("b-prof").onclick = () => { if (!P.f || P.f.estudo !== "ab") return; P.cond = P.fid === "B" ? "A" : "B"; abrir(P.cond); };
 el("mini-abrir").onclick = expandir; el("mini-play").onclick = e => { e.stopPropagation(); alternar(); };
 el("recolher").onclick = recolher;
 { let y0 = null; const alca = el("alca");
@@ -1190,7 +1229,7 @@ document.addEventListener("keydown", e => { if (e.target.closest("input, textare
   else if (P.aberto && e.key === "ArrowRight") ir(P.t + P.f.dur() / 60); else if (P.aberto && e.key === "ArrowLeft") ir(P.t - P.f.dur() / 60); });
 playEl.onclick = () => alternar();
 barraEl.oninput = () => ir(+barraEl.value);
-document.querySelectorAll(".baixo-am [data-faixa]").forEach(b => b.onclick = () => { P.cond = b.dataset.faixa; abrir(P.cond); });
+
 function pularEvento(dir) {
   if (!P.f) return; const ev = P.eventos, passo = P.f.dur() / 20;
   if (!ev.length) return ir(P.t + dir * passo);
