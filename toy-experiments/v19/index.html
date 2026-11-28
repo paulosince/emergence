@@ -209,6 +209,20 @@ details.pop[open] > summary { color: var(--acento); }
 #mini-prog i { background: var(--acento); }
 .mini-play { background: none; border: 0; color: var(--texto); } .mini-play svg { width: 26px; height: 26px; fill: currentColor; }
 .estudo.tocando { border-color: #39ff1488; box-shadow: 0 0 14px #39ff1422 inset, 0 2px 10px #0006; }
+
+/* ---- escala única de fontes (28/11): 22 título · 20 título de card/player · 17 texto · 15 secundário · 13 legenda (mínimo) ---- */
+html { -webkit-text-size-adjust: 100%; }
+body { font-size: 17px; line-height: 1.5; }
+button, input, summary { font-size: 15px; }
+.intro h1 { font-size: 22px; } .intro .sub { font-size: 15px; }
+.marca .emerg { font-size: 13px; }
+.estudo h2, .p-tit b { font-size: 20px; }
+.estudo .perg, .ficha, .estudo details summary, .sobre details summary, .diario > summary, #mini-titulo { font-size: 17px; }
+.estudo .linha-e, .estudo .disp, .explic-cond, .legenda span, .sobre li, #contagem, #mini-sub, .p-tit span, .estado, .tempos, .menu-corpo button, .pop-corpo button { font-size: 15px; }
+.ficha h3, .selo, #t-vel, .opc, .menu-grupo > span, #escala { font-size: 13px; }
+#diario-todos li button { font: 400 17px/1.45 var(--corpo); font-variant-numeric: tabular-nums; }
+.tempos, #contagem, .estado, .estudo .disp { font-variant-numeric: tabular-nums; }
+.rotulo { font-size: 13px; }
 </style>
 </head>
 <body>
@@ -903,8 +917,8 @@ const teste = await (async () => {
 const rotulos = [];
 function rotulo(texto, x, y, z, ate = Infinity, cls = "") {
   const d = document.createElement("div"); d.textContent = texto;
-  d.style.cssText = `position:absolute;font:500 .72rem var(--mono);color:${cls || "var(--apagado)"};text-shadow:0 0 6px #000;pointer-events:none;transform:translate(-50%,-50%);white-space:nowrap`;
-  palco.appendChild(d); const r = { d, v: new THREE.Vector3(x, y, z), ate, w: texto.length * 7 + 8 }; rotulos.push(r); return r;
+  d.style.cssText = `position:absolute;font:500 13px var(--corpo);color:${cls || "var(--apagado)"};text-shadow:0 0 6px #000;pointer-events:none;transform:translate(-50%,-50%);white-space:nowrap`;
+  palco.appendChild(d); const r = { d, v: new THREE.Vector3(x, y, z), ate, w: texto.length * 7.5 + 10 }; rotulos.push(r); return r;
 }
 {
   const FC = dados.bandas_fc_hz, marcas = [[0, "50 Hz · grave", 0], [63, "8 kHz · agudo", 0], [null, "1 kHz", 1000], [null, "200 Hz", 200], [null, "4 kHz", 4000]];
