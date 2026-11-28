@@ -338,7 +338,7 @@ details.pop > summary.opc.redondo { display: grid; }
       <button id="b-log" class="opc redondo" aria-pressed="false" aria-label="Log do motor"><svg viewBox="0 0 24 24"><path d="M5 3.5h14a2.5 2.5 0 0 1 2.5 2.5v9a2.5 2.5 0 0 1-2.5 2.5h-6.2l-4.4 3.4a.9.9 0 0 1-1.4-.7v-2.7H5A2.5 2.5 0 0 1 2.5 15V6A2.5 2.5 0 0 1 5 3.5zm2 5h10v1.7H7zm0 3.3h7v1.7H7z"/></svg></button>
       <button id="b-prof" class="opc redondo" aria-pressed="false" aria-label="Profundidade local (B); desligado = folha fixa (A)" hidden><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="2.4" rx="1.2"/><rect x="6" y="10.8" width="12" height="2.4" rx="1.2" opacity=".75"/><rect x="9" y="16.6" width="6" height="2.4" rx="1.2" opacity=".5"/></svg></button>
       <details class="pop" id="b-braco" hidden><summary class="opc redondo" aria-label="Braço"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="3.2" rx="1.6"/><rect x="3" y="10.4" width="18" height="3.2" rx="1.6" opacity=".75"/><circle cx="12" cy="18.6" r="2.6" opacity=".9"/></svg><span>Braço</span></summary>
-        <div class="pop-corpo botoes"><button data-braco="f790">Faixa 790</button><button data-braco="f263">Faixa 263</button><button data-braco="c263">Compacta 263</button></div>
+        <div class="pop-corpo botoes"><button data-braco="faixa790">Faixa 790</button><button data-braco="faixa263">Faixa 263</button><button data-braco="compacta263">Compacta 263</button></div>
       </details>
       <details class="pop" id="vistas"><summary class="opc redondo" aria-label="Vistas"><svg viewBox="0 0 24 24"><path d="M12 5C6.5 5 2.7 9.3 1.6 11.4a1.3 1.3 0 0 0 0 1.2C2.7 14.7 6.5 19 12 19s9.3-4.3 10.4-6.4a1.3 1.3 0 0 0 0-1.2C21.3 9.3 17.5 5 12 5zm0 11a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg><span>Vistas</span></summary>
         <div class="pop-corpo botoes">
@@ -953,10 +953,11 @@ const teste = await (async () => {
 // em ordem tonotópica) -> leque até a chegada (pontos de controle de coordenadas.rota). O caminho é desenho: no motor o nervo
 // é só comprimento de condução (790 ou 263 cubos), igual para todas. Na compacta, as origens ficam na espiral do instante zero
 // (base voltada para o núcleo). Só entram as Ustr que o motor usa (zona de entrada).
-const bracos = await (async () => {
-  let mj; try { const r = await fetch(BASE + "teste-c.json"); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }
+async function fabricaBracos(ARQ) {                    // um conjunto de braços exportado (teste-c: uma gravação; teste-d: duas)
+  let mj; try { const r = await fetch(BASE + ARQ + ".json", { cache: "no-cache" }); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }   // no-cache: o .json e o .bin precisam ser da mesma exportação
   const NOMES = Object.keys(mj.bracos || {}); if (!NOMES.length) return null;
-  const FIMT = Math.max(...NOMES.map(b => mj.bracos[b].dur));
+  const FIMT = mj.fim || Math.max(...NOMES.map(b => mj.bracos[b].dur)), APS = mj.apresentacoes || [];
+  const fase = t => { for (const a of APS) { if (t < a.inicio) return "silêncio"; if (t <= a.inicio + a.dur) return a.gravacao; } return APS.length ? "fim" : ""; };
   const NOVA = cor("--nova"), FEITA = cor("--uint"), ACESSO = cor("--acesso");
   const hash = (i, k) => { let x = Math.imul((i + 1) * 2654435761 + k * 40503, 2246822507) >>> 0; x ^= x >>> 15; x = Math.imul(x, 3266489909) >>> 0; x ^= x >>> 16; return (x >>> 0) / 4294967296 * 2 - 1; };
   const C3 = (x, y, z) => [x * MM, z * MM, -y * MM];
@@ -992,7 +993,10 @@ const bracos = await (async () => {
   }
   let buf = null; const D = {};
   async function carregar(b) {
-    if (D[b]) return; if (!buf) buf = await (await fetch(BASE + "teste-c.bin")).arrayBuffer();
+    if (D[b]) return;
+    for (const k of Object.keys(D)) { D[k].objs.forEach(o => { cena.remove(o); o.geometry.dispose(); o.material.dispose(); }); delete D[k]; }   // um braço por vez na memória (celular)
+    if (!buf) { const r = await fetch(BASE + ARQ + ".bin", { cache: "no-cache" }); if (!r.ok) throw new Error(`${ARQ}.bin: HTTP ${r.status}`); buf = await r.arrayBuffer(); }
+    if (!mj[b + "_n_ctl"]) throw new Error("dados de outra versão (recarregue a página)");
     const T_ = { int16: Int16Array, uint8: Uint8Array, uint16: Uint16Array, int32: Int32Array, float32: Float32Array };
     const p = b + "_", m = mj.bracos[b], A = n => new T_[mj[p + n].tipo](buf, mj[p + n].off, mj[p + n].n);
     const ox = A("o_xyz"), cx = A("c_xyz"), nP = cx.length / 3, org = new Float32Array(nP * 3), che = new Float32Array(nP * 3);
@@ -1066,7 +1070,7 @@ const bracos = await (async () => {
     const L = d.u.luz; let nu = 0, nd = 0, nprim = 0;
     for (let i = 0; i < d.nU; i++) { if (d.ut[i] > t) { L[i] = -1; continue; } nu++; nd += d.dentro[i]; if (d.prim[i] <= t) nprim++; L[i] = Math.max(0, 1 - (t - d.ut[i]) / 1.5); }
     d.u.aLuz.needsUpdate = true;
-    return `Upros do nervo prontas ${fmt(ate(d.chegou, t))} de ${fmt(d.nP)} (nervo de ${mj.bracos[b].nervo} cubos) · Uints candidatas ${fmt(nu)} (${onde(b)} ${fmt(nd)}) · pares que reutilizaram uma Uint ${fmt(ate(d.tReuso, t))} · ramos que chegaram à Uint ${fmt(ate(d.funcion, t))} · Uints que já dispararam ${fmt(nprim)} · disparos ${fmt(ate(d.ft, t))}.`;
+    return `${APS.length > 1 ? `${fase(t)} · ` : ""}Upros do nervo prontas ${fmt(ate(d.chegou, t))} de ${fmt(d.nP)} (nervo de ${mj.bracos[b].nervo} cubos) · Uints candidatas ${fmt(nu)} (${onde(b)} ${fmt(nd)}) · pares que reutilizaram uma Uint ${fmt(ate(d.tReuso, t))} · ramos que chegaram à Uint ${fmt(ate(d.funcion, t))} · Uints que já dispararam ${fmt(nprim)} · disparos ${fmt(ate(d.ft, t))}.`;
   }
   function eventos(b) {
     const d = D[b], ev = []; if (!d) return ev;
@@ -1083,10 +1087,12 @@ const bracos = await (async () => {
     }
     return ev;
   }
-  return { FIMT, mj, NOMES, D, carregar, ir: (t, b) => desenhar(t, b), eventos,
+  return { FIMT, mj, NOMES, D, carregar, ir: (t, b) => desenhar(t, b), eventos, APS,
     mostrar(b) { for (const k in D) D[k].objs.forEach(o => o.visible = k === b); },
+    liberar() { for (const k of Object.keys(D)) { D[k].objs.forEach(o => { cena.remove(o); o.geometry.dispose(); o.material.dispose(); }); delete D[k]; } buf = null; },
     caixa: (b, qual) => D[b] && D[b].cx[qual] };
-})();
+}
+const bracos = await fabricaBracos("teste-c"), duas = await fabricaBracos("teste-d"), MODB = { bracos, duas };
 // ---------- rótulos (com prioridade: os de trás somem se sobrepõem os da frente) ----------
 const rotulos = [];
 function rotulo(texto, x, y, z, ate = Infinity, cls = "") {
@@ -1124,7 +1130,7 @@ const VISTAS = {
 };
 function vista(n) {
   if (n.startsWith("b-")) {                                     // enquadra o braço aberto: zona de entrada ou nervo inteiro
-    const c = P.f && P.f.estudo === "bracos" && bracos ? bracos.caixa(BRACO[P.fid], n === "b-nervo" ? "nervo" : "entrada") : null; if (!c) return vista("geral");
+    const c = P.f && P.f.braco ? MODB[P.f.estudo].caixa(P.f.braco, n === "b-nervo" ? "nervo" : "entrada") : null; if (!c) return vista("geral");
     const [lo, hi] = c, a = new THREE.Vector3((lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, (lo[2] + hi[2]) / 2);
     const r = Math.max(0.05, 0.5 * Math.hypot(hi[0] - lo[0], hi[1] - lo[1], hi[2] - lo[2])), dir = new THREE.Vector3(0.62, 0.38, 0.69).normalize();
     camera.position.copy(a).add(dir.multiplyScalar(r * 2.4 * Math.max(1, 1.2 / camera.aspect))); ctrl.target.copy(a); ctrl.update(); return;
@@ -1177,18 +1183,24 @@ const FAM18 = ["demo", "piloto", "lupa"];
 const FAIXAS = {
   A: { estudo: "ab", sub: "A · Folha fixa", dur: () => teste.FIMT, vel: 1, vista: "nucleo" },
   B: { estudo: "ab", sub: "B · Profundidade local", dur: () => teste.FIMT, vel: 1, vista: "nucleo" },
-  f790: { estudo: "bracos", sub: "Faixa · nervo de 790 cubos", dur: () => bracos.FIMT, vel: 1, vista: "b-entrada",
+  d790: { estudo: "duas", braco: "faixa790", sub: "Faixa · nervo de 790 cubos", dur: () => duas.FIMT, vel: 1, vista: "b-entrada",
     explic: "Faixa 790: a entrada planar de sempre, com o nervo de 790 cubos." },
-  f263: { estudo: "bracos", sub: "Faixa · nervo de 263 cubos", dur: () => bracos.FIMT, vel: 1, vista: "b-entrada",
+  d263: { estudo: "duas", braco: "faixa263", sub: "Faixa · nervo de 263 cubos", dur: () => duas.FIMT, vel: 1, vista: "b-entrada",
     explic: "Faixa 263: a mesma faixa, com o nervo encurtado para o percurso comum de 263 cubos." },
-  c263: { estudo: "bracos", sub: "Compacta · nervo de 263 cubos", dur: () => bracos.FIMT, vel: 1, vista: "b-entrada",
+  dc263: { estudo: "duas", braco: "compacta263", sub: "Compacta · nervo de 263 cubos", dur: () => duas.FIMT, vel: 1, vista: "b-entrada",
+    explic: "Compacta 263: origens na espiral, chegadas na meia-esfera e territórios de Ustr em 3D (grade 3 × 3 × 3)." },
+  f790: { estudo: "bracos", braco: "faixa790", sub: "Faixa · nervo de 790 cubos", dur: () => bracos.FIMT, vel: 1, vista: "b-entrada",
+    explic: "Faixa 790: a entrada planar de sempre, com o nervo de 790 cubos." },
+  f263: { estudo: "bracos", braco: "faixa263", sub: "Faixa · nervo de 263 cubos", dur: () => bracos.FIMT, vel: 1, vista: "b-entrada",
+    explic: "Faixa 263: a mesma faixa, com o nervo encurtado para o percurso comum de 263 cubos." },
+  c263: { estudo: "bracos", braco: "compacta263", sub: "Compacta · nervo de 263 cubos", dur: () => bracos.FIMT, vel: 1, vista: "b-entrada",
     explic: "Compacta 263: origens na espiral, chegadas na meia-esfera e territórios de Ustr em 3D (grade 3 × 3 × 3)." },
   ensaio: { estudo: "ensaio", sub: "4 gravações · dois ouvidos", dur: () => sessoes.FIM, vel: 10, vista: "nervo" },
   piloto: { estudo: "piloto", sub: "ouvido E · 9–19 s da Alciatore", dur: () => 10, vel: 1, vista: "E" },
   lupa: { estudo: "lupa", sub: "10 ms a 1/1.000×", dur: () => 0.01, vel: 0.001, vista: "detalhe" },
   demo: { estudo: "demo", sub: "Alciatore · 9–19 s", dur: () => 10, vel: 1, vista: "geral", audio: true },
 };
-const VELS = { A: [5, 1, 0.25, 0.05], B: [5, 1, 0.25, 0.05], f790: [5, 1, 0.25, 0.05], f263: [5, 1, 0.25, 0.05], c263: [5, 1, 0.25, 0.05], ensaio: [60, 10, 1], piloto: [1, 0.25, 0.05], lupa: [0.01, 0.001, 0.0001], demo: [1, 0.25, 0.05] };
+const VELS = { A: [5, 1, 0.25, 0.05], B: [5, 1, 0.25, 0.05], f790: [5, 1, 0.25, 0.05], f263: [5, 1, 0.25, 0.05], c263: [5, 1, 0.25, 0.05], d790: [10, 5, 1, 0.25], d263: [10, 5, 1, 0.25], dc263: [10, 5, 1, 0.25], ensaio: [60, 10, 1], piloto: [1, 0.25, 0.05], lupa: [0.01, 0.001, 0.0001], demo: [1, 0.25, 0.05] };
 const velTxt = v => v >= 1 ? `${v}×` : v === 0.25 ? "¼×" : `1/${fmt(Math.round(1 / v))}×`;
 // estudos (o catálogo). Selos: previsão registrada · observado · em aberto
 const S_PREV = `<span class="selo prev">previsão registrada</span>`, S_OBS = `<span class="selo obs">observado</span>`, S_AB = `<span class="selo aberto">em aberto</span>`;
@@ -1202,6 +1214,14 @@ const ESTUDOS = [
       <h3>Previsões</h3><ul><li>${S_PREV} Na volta (Kolodin e Coleman), pelo menos 2/3 das passagens de incidências por ramos que já existiam antes da apresentação.</li>
       <li>${S_PREV} Chaconne: "Generaliza, abstrai, reutiliza. E constitui novo no que é específico." ${S_AB} A forma operacional ainda vai ser escrita.</li></ul>
       <h3>Estado</h3><p>Espera a supervisão do responsável e o resultado da comparação folha × profundidade. Sem play até haver dados.</p>` },
+  { id: "duas", titulo: "Duas gravações · três braços", faixas: ["d790", "d263", "dc263"],
+    pergunta: "Na segunda gravação da mesma obra, as incidências passam sobretudo por ramos que já existiam? E isso muda entre faixa e compacta?",
+    linha: "Gymnopédie: Alciatore e Baiocchi, 60 s cada, 1 min de silêncio · ouvido esquerdo · regra B · entrada contínua", disp: () => duas ? `teste para observação · ${fmtT(duas.FIMT)} por braço` : "",
+    ficha: () => `<h3>Motivação</h3><p>Ensaio do que a rodada principal vai medir: depois de uma gravação, uma <b>outra gravação da mesma obra</b> percorre, em sua maioria, a malha que já existia? Os três braços do teste de 60 s, agora com duas apresentações.</p>
+      <h3>O que muda em relação ao teste de 60 s</h3><p>Duas gravações em sequência (Alciatore, 1 min de silêncio, Baiocchi), no mesmo Sdom. A entrada é calculada de forma <b>contínua</b> [R 28/11]: o som de cada apresentação é lido de uma vez e a cóclea guarda o estado dos filtros entre os pedaços, de modo que o tamanho do pedaço não muda o resultado (conferido). A forma anterior continua disponível.</p>
+      <h3>Previsão</h3><p>${S_PREV} Para a rodada principal: na volta da obra, pelo menos 2/3 das passagens por ramos que já existiam. ${S_AB} Este teste é curto (60 s por gravação) e não é o teste da previsão.</p>
+      <h3>O que foi medido</h3>${tabelaAfastamento(duas)}
+      <p><code>teste-duas-gravacoes.md</code></p>` },
   { id: "bracos", titulo: "Faixa × compacta · três braços", faixas: ["f790", "f263", "c263"],
     pergunta: "Encurtar o nervo e reorganizar as chegadas em volume muda quais bandas chegam a coincidir e integrar?",
     linha: "Alciatore, 0–60 s · ouvido esquerdo · regra B nos três braços", disp: "teste para observação · 1:00 por braço",
@@ -1211,7 +1231,7 @@ const ESTUDOS = [
       <h3>Declarado</h3><p>A densidade de Ustr difere entre os braços (faixa: 4 Upros por Ustr; compacta: ~3,2). Essa diferença faz parte do efeito conjunto [R 28/11].</p>
       <h3>O desenho</h3><p>Cada Upro do nervo sai da origem, junta-se às da sua banda numa <b>Cpro</b> e segue com as outras Cpro, em ordem tonotópica, até se abrir em leque nas chegadas. Na compacta, as Cpro se formam no eixo da espiral e saem juntas pela base, voltada para o núcleo. <b>O caminho é desenho</b>: no motor, o nervo é só comprimento de condução (790 ou 263 cubos, igual para todas). Na compacta, o desenho mede 168–237 cubos; nas faixas, até ~2% a mais que a condução. O motor não usa a posição da origem. Só aparecem as Ustr que o motor usa.</p>
       <h3>Previsão</h3><p>${S_AB} Ainda não há previsão registrada (Paulo e Clara).</p>
-      <h3>O que foi medido</h3>${tabelaAfastamento()}
+      <h3>O que foi medido</h3>${tabelaAfastamento(bracos)}
       <p><code>auditoria-coordenadas.md</code> · <code>motor/sdom_c.py</code> · <code>motor/medida_afastamento.py</code></p>` },
   { id: "ab", titulo: "Folha × profundidade", faixas: ["A", "B"],
     pergunta: "Permitir que uma Uint se forme em profundidade muda quais parceiros chegam a integrar?",
@@ -1247,12 +1267,13 @@ const ESTUDOS = [
     linha: "Alciatore, 9–19 s · dados publicados da V0.18 · com som", disp: "10 s",
     ficha: `<h3>O que observar</h3><p>As ondas saindo dos alto-falantes, o sinal elétrico do microfone abrindo-se nas 64 bandas com o atraso de cada filtro, e os pontos transdutivos acendendo (verde) conforme a banda e a sensibilidade. Sala, ondas e fios são demonstração do robô, não unidades do Sdom.</p>` },
 ];
-function tabelaAfastamento() {
-  if (!bracos) return "";
+function tabelaAfastamento(mod) {
+  if (!mod) return "";
   const nomes = { faixa790: "Faixa 790", faixa263: "Faixa 263", compacta263: "Compacta 263" };
-  let h = `<p>${S_OBS} Pares entre chegadas que dividem um território, por afastamento entre bandas: disponíveis · com as duas Upros prontas · que coincidiram (até 60 s). Sem leitura ainda.</p>`;
-  for (const b of bracos.NOMES) { const m = bracos.mj.bracos[b];
+  let h = `<p>${S_OBS} Pares entre chegadas que dividem um território, por afastamento entre bandas: disponíveis · com as duas Upros prontas · que coincidiram (até o fim). Sem leitura ainda.</p>`;
+  for (const b of mod.NOMES) { const m = mod.mj.bracos[b];
     h += `<p><b>${nomes[b] || b}</b> · Uints ${fmt(m.n_uints)} · disparos ${fmt(m.n_disparos)} · pares que reutilizaram Uint ${fmt(m.pares_que_reutilizaram_uint)} de ${fmt(m.pares)}<br>`
+      + (m.passagens ? m.passagens.map(a => `${a.gravacao}: ${fmt(a.passagens)} passagens por ramos, ${(100 * a.fracao_por_ramos_antigos).toFixed(1).replace(".", ",")}% por ramos que já existiam antes dela`).join("<br>") + "<br>" : "")
       + m.afastamento.map(l => `${l.afastamento}: ${fmt(l.disponiveis)} · ${fmt(l.ambas_prontas)} · ${fmt(l.coincidiram)}`).join("<br>") + `</p>`; }
   return h;
 }
@@ -1260,17 +1281,17 @@ const ICON = {
   play: `<svg viewBox="0 0 24 24"><path d="M7 4.6v14.8a1.2 1.2 0 0 0 1.8 1l11.6-7.4a1.2 1.2 0 0 0 0-2L8.8 3.6A1.2 1.2 0 0 0 7 4.6z"/></svg>`,
   pausa: `<svg viewBox="0 0 24 24"><rect x="5.5" y="4" width="4.6" height="16" rx="1.3"/><rect x="13.9" y="4" width="4.6" height="16" rx="1.3"/></svg>`,
   repetir: `<svg viewBox="0 0 24 24"><path d="M12 5a7 7 0 1 1-6.9 8.1 1.2 1.2 0 1 1 2.4-.4A4.6 4.6 0 1 0 12 7.4h-1.6l1.5 1.5a1.2 1.2 0 0 1-1.7 1.7L6.6 7.1a1.2 1.2 0 0 1 0-1.7l3.6-3.5a1.2 1.2 0 1 1 1.7 1.7L10.4 5z"/></svg>` };
-const P = { f: null, fid: null, t: 0, tocando: false, vel: 1, eventos: [], fim: false, carregando: false, sel: { ab: "A", bracos: "c263" }, aberto: false, usado: false };
-const MULTI = ["ab", "bracos"], BRACO = { f790: "faixa790", f263: "faixa263", c263: "compacta263" };
+const P = { f: null, fid: null, t: 0, tocando: false, vel: 1, eventos: [], fim: false, carregando: false, sel: { ab: "A", bracos: "c263", duas: "dc263" }, aberto: false, usado: false };
+const MULTI = ["ab", "bracos", "duas"];
 const el = id => document.getElementById(id);
 const barraEl = el("barra"), playEl = el("play"), playerEl = el("player"), miniEl = el("mini"); playerEl.hidden = false;
 const fmtTempo = (fid, t) => fid === "lupa" ? fmtMs(t) : fmtT(t);
 function mostrarV18(v) { [ondas, altos, fios, mics].forEach(o => o.visible = v); }
-function esconderTudo() { if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); if (sessoes) sessoes.mostrar(false); if (teste) teste.mostrar(false); if (bracos) bracos.mostrar(null); }
+function esconderTudo() { if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); if (sessoes) sessoes.mostrar(false); if (teste) teste.mostrar(false); for (const m of Object.values(MODB)) if (m) m.mostrar(null); }
 // camadas (menu ⋯): no estudo dos três braços, os pontos transdutivos e as Ustr são os do braço (a faixa ou a espiral; só as Ustr que o motor usa)
 const CAM = { pontos: true, ustr: true, cubos: true };
 function camadas() {
-  const emB = !!(P.f && P.f.estudo === "bracos"), d = emB && bracos ? bracos.D[BRACO[P.fid]] : null;
+  const emB = !!(P.f && P.f.braco), d = emB ? MODB[P.f.estudo].D[P.f.braco] : null;
   pontos.visible = CAM.pontos && !emB; ustr.visible = CAM.ustr && !emB; grade.visible = CAM.cubos;
   if (d) { d.origens.visible = CAM.pontos; d.glias.visible = CAM.ustr; }
 }
@@ -1278,7 +1299,7 @@ function camadas() {
 function montarCatalogo() {
   const cat = el("catalogo"); cat.innerHTML = "";
   for (const e of ESTUDOS) {
-    if (e.id === "ab" && !teste) continue; if (e.id === "bracos" && !bracos) continue; if (e.id === "ensaio" && !sessoes) continue; if ((e.id === "piloto") && !malha) continue; if (e.id === "lupa" && !obs) continue;
+    if (e.id === "ab" && !teste) continue; if ((e.id === "bracos" || e.id === "duas") && !MODB[e.id]) continue; if (e.id === "ensaio" && !sessoes) continue; if ((e.id === "piloto") && !malha) continue; if (e.id === "lupa" && !obs) continue;
     const art = document.createElement("article"); art.className = "estudo" + (e.planejada ? " planejado" : ""); art.dataset.estudo = e.id;
     const disp = typeof e.disp === "function" ? e.disp() : e.disp, ficha = typeof e.ficha === "function" ? e.ficha() : e.ficha;
     let acoes = "";
@@ -1321,17 +1342,18 @@ async function abrir(fid, { tocar = false } = {}) {
   if (MULTI.includes(f.estudo)) { P.sel[f.estudo] = fid; document.querySelectorAll(".estudo").forEach(a => a.atualizarSel && a.atualizarSel()); }
   montarCabeca(); miniEl.hidden = false; document.body.classList.add("com-mini");
   el("p-falha").hidden = true; el("p-estado").textContent = "carregando os dados do estudo…"; el("mini-sub").textContent = "carregando…";
-  try { if (f.estudo === "ab") await teste.carregar(); else if (f.estudo === "bracos") await bracos.carregar(BRACO[fid]); else if (fid === "ensaio") await sessoes.carregar(); }
-  catch (e) { console.warn(e); P.carregando = false; el("p-estado").textContent = ""; el("p-falha").hidden = false; el("mini-sub").textContent = "falha ao carregar · toque para tentar de novo"; return; }
+  try { if (f.estudo === "ab") await teste.carregar(); else if (f.braco) { for (const [k, m] of Object.entries(MODB)) if (m && k !== f.estudo) m.liberar(); await MODB[f.estudo].carregar(f.braco); } else if (fid === "ensaio") await sessoes.carregar(); }
+  catch (e) { console.warn(e); P.carregando = false; el("p-estado").textContent = ""; el("p-falha").hidden = false;
+    el("p-falha").querySelector("span").textContent = `Não foi possível carregar os dados (${(e && e.message) || e}).`; el("mini-sub").textContent = "falha ao carregar · toque para tentar de novo"; return; }
   P.carregando = false;
   esconderTudo(); pontos.luz.fill(0); pontos.aLuz.needsUpdate = true; mostrarV18(FAM18.includes(fid));
   if (fid === "piloto" || fid === "lupa") malha.objs.forEach(o => o.visible = true);
   if (fid === "lupa") obs.objs.forEach(o => o.visible = true);
   if (fid === "ensaio") sessoes.mostrar(true);
-  if (f.estudo === "bracos") bracos.mostrar(BRACO[fid]);
+  if (f.braco) MODB[f.estudo].mostrar(f.braco);
   camadas();
   if (!mesmoEstudo) vista(f.vista);
-  P.eventos = f.estudo === "ab" ? teste.eventos(fid) : f.estudo === "bracos" ? bracos.eventos(BRACO[fid]) : fid === "ensaio" ? sessoes.eventos() : fid === "piloto" ? eventosPiloto() : fid === "lupa" ? eventosLupa() : [];
+  P.eventos = f.estudo === "ab" ? teste.eventos(fid) : f.braco ? MODB[f.estudo].eventos(f.braco) : fid === "ensaio" ? sessoes.eventos() : fid === "piloto" ? eventosPiloto() : fid === "lupa" ? eventosLupa() : [];
   montarDiario(); montarVel(); barraEl.max = f.dur();
   ir(P.t); alternar(tocar || (mesmoEstudo && estavaTocando));
 }
@@ -1339,8 +1361,8 @@ function montarCabeca() {
   const e = ESTUDOS.find(x => x.id === P.f.estudo);
   el("p-titulo").textContent = e.titulo; el("p-sub").textContent = P.f.sub; el("mini-titulo").textContent = e.titulo;
   el("b-prof").hidden = P.f.estudo !== "ab"; el("b-prof").setAttribute("aria-pressed", P.fid === "B");
-  el("b-braco").hidden = P.f.estudo !== "bracos"; document.querySelectorAll("[data-braco]").forEach(b => b.setAttribute("aria-pressed", b.dataset.braco === P.fid));
-  document.querySelectorAll("[data-vista^='b-']").forEach(b => b.hidden = P.f.estudo !== "bracos");
+  el("b-braco").hidden = !P.f.braco; document.querySelectorAll("[data-braco]").forEach(b => b.setAttribute("aria-pressed", b.dataset.braco === P.f.braco));
+  document.querySelectorAll("[data-vista^='b-']").forEach(b => b.hidden = !P.f.braco);
 }
 function alternar(forcar) {
   if (!P.f || P.carregando) return;
@@ -1362,7 +1384,7 @@ function desenhar(forcar) {
   const f = P.f; if (!f || P.carregando) return;
   let est = "";
   if (f.estudo === "ab") { if (forcar || Math.abs(P.t - ultDes) > 0.004) { est = teste.ir(P.t, P.fid); ultDes = P.t; } }
-  else if (f.estudo === "bracos") { if (forcar || Math.abs(P.t - ultDes) > 0.004) { est = bracos.ir(P.t, BRACO[P.fid]); ultDes = P.t; } }
+  else if (f.braco) { if (forcar || Math.abs(P.t - ultDes) > 0.004) { est = MODB[f.estudo].ir(P.t, f.braco); ultDes = P.t; } }
   else if (P.fid === "ensaio") { if (forcar || (P.aberto && Math.abs(P.t - ultDes) > 0.049)) { est = sessoes.ir(P.t); ultDes = P.t; } }
   else if (P.fid === "piloto" || P.fid === "lupa") { const v = malha.atualizar(T); est = P.fid === "piloto" ? `Até agora (ouvido E): Uints ${fmt(v.u)} · ramos funcionando ${fmt(v.r)} · disparos ${fmt(v.f)}.` : `Instante do motor: ${T.toFixed(5).replace(".", ",")} s.`; }
   else est = "Demonstração: nenhuma constituição do motor aparece aqui.";
@@ -1407,7 +1429,8 @@ function medirControles() { playerEl.style.setProperty("--hc", el("controles").o
 new ResizeObserver(medirControles).observe(el("controles"));
 el("b-log").onclick = () => { const v = el("log").hidden; el("log").hidden = !v; el("b-log").setAttribute("aria-pressed", v); diarioIdx = -2; marcarDiario(); };
 el("b-prof").onclick = () => { if (!P.f || P.f.estudo !== "ab") return; abrir(P.fid === "B" ? "A" : "B"); };
-document.querySelectorAll("[data-braco]").forEach(b => b.onclick = () => { el("b-braco").open = false; if (P.f && P.f.estudo === "bracos" && b.dataset.braco !== P.fid) abrir(b.dataset.braco); });
+document.querySelectorAll("[data-braco]").forEach(b => b.onclick = () => { el("b-braco").open = false; if (!P.f || !P.f.braco || b.dataset.braco === P.f.braco) return;
+  const fid = ESTUDOS.find(e => e.id === P.f.estudo).faixas.find(x => FAIXAS[x].braco === b.dataset.braco); if (fid) abrir(fid); });
 el("mini-abrir").onclick = expandir; el("mini-play").onclick = e => { e.stopPropagation(); alternar(); };
 el("recolher").onclick = recolher;
 { let y0 = null; const alca = el("alca");

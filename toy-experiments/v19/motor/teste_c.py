@@ -36,7 +36,9 @@ import cena, coclea, pontos, motor as m18
 
 DADOS = AQUI / "dados"; DADOS.mkdir(exist_ok=True)
 OBS0 = np.array([0, 0, 0, 0, 0, 0, 1e18, 1e18], float); LOGC0 = np.zeros((1, 4))   # sem janela de observação aqui
-BLOCO = float(os.environ.get("V19_BLOCO", "20")); AQUEC, SILENCIO = 0.5, 60.0          # [M 28/11] o bloco MUDA o resultado (a borda reaquece a cada bloco): ver teste-60s-tres-bracos.md, 2.1
+BORDA = os.environ.get("V19_BORDA", "blocos")       # [R 28/11] "continua": entrada calculada de uma vez por apresentação + cóclea com
+                                                    # continuidade exata (coclea.CocleaContinua, a mesma da bateria da V0.18); "blocos": a anterior
+BLOCO = float(os.environ.get("V19_BLOCO", "20")); AQUEC, SILENCIO = 0.5, 60.0          # [M 28/11] no modo "blocos", o bloco MUDA o resultado (a borda reaquece a cada bloco): ver teste-60s-tres-bracos.md, 2.1
 MAXU, MAXP, MAXR = int(os.environ.get("V19_MAXU", 200_000)), int(os.environ.get("V19_MAXP", 2_000_000)), int(os.environ.get("V19_MAXR", 6_000_000))
 
 def ganho(grav):
@@ -156,6 +158,11 @@ def main(braco, ouvido, gravs):
             B, ini, c0, ne0, nr0 = B0, ini0, c0_salvo, ne0_salvo, nr0_salvo
         else:
             B = m18.Borda(P, par); c0 = cont.copy(); ne0, nr0 = ne, nr; ini = 0.0
+        if BORDA == "continua" and not (ap == ap0 and B0 is not None):
+            # som da apresentação inteira (leitura, cabeça, microfone e nível do reflexo sem cortes); cóclea em pedaços com estado
+            mic_c, _, nivel_c = cena.microfones(0.0, dur, str(grav), cru=True); CC = coclea.CocleaContinua()
+        elif BORDA == "continua":
+            raise SystemExit("retomar no modo contínuo não está implementado: apague o estado salvo e rode de novo")
         while ini < dur - 1e-6:
             if time.time() - ult_salvo[0] > SALVAR_CADA:
                 salvar(ap, ini, B, c0, ne0, nr0); ult_salvo[0] = time.time()
@@ -164,12 +171,17 @@ def main(braco, ouvido, gravs):
                 salvar(ap, ini, B, c0, ne0, nr0)
                 print(f"{ouvido} pausa (estado salvo): apresentação {ap + 1}, {ini:.1f} s", file=log, flush=True)
                 sys.exit(3)
-            fim = min(ini + BLOCO, dur); a0 = max(0.0, ini - AQUEC)
-            mic, _, nivel = cena.microfones(a0, fim - a0, str(grav), cru=True)
-            aten = coclea.atenuacao_reflexo(nivel)
-            Dfull = coclea.comando(mic[ouvido], reflexo_db=aten)
-            w = int(round((ini - a0) * cena.FS)); n = int(round((fim - ini) * cena.FS))
-            D = Dfull[:, w:w + n]
+            fim = min(ini + BLOCO, dur)
+            if BORDA == "continua":
+                i0, i1 = int(round(ini * cena.FS)), min(int(round(fim * cena.FS)), len(nivel_c))
+                D = CC.processar(mic_c[ouvido][i0:i1], reflexo_db=coclea.atenuacao_reflexo(nivel_c[i0:i1]))
+            else:
+                a0 = max(0.0, ini - AQUEC)
+                mic, _, nivel = cena.microfones(a0, fim - a0, str(grav), cru=True)
+                aten = coclea.atenuacao_reflexo(nivel)
+                Dfull = coclea.comando(mic[ouvido], reflexo_db=aten)
+                w = int(round((ini - a0) * cena.FS)); n = int(round((fim - ini) * cena.FS))
+                D = Dfull[:, w:w + n]
             ev = B.rodar(D, ini, cap=int(os.environ.get("V19_CAP", 3_000_000)))
             T = np.concatenate([e[0] for e in ev]); F = np.concatenate([np.full(len(e[0]), b) for b, e in enumerate(ev)])
             K = np.concatenate([e[1] for e in ev]).astype(np.int64); M = np.concatenate([e[2] for e in ev]).astype(np.float64)

@@ -19,6 +19,18 @@ AQUI = pathlib.Path(__file__).resolve().parent
 BRACOS = ("faixa790", "faixa263", "compacta263")
 
 
+def passagens(d, todas):
+    """Como medida_maioria.py [R 27/11]: por apresentação, passagens de incidências por ramos (cada chegada por um ramo conta
+    uma) e a fração por ramos que já funcionavam antes daquela apresentação começar."""
+    born = d["r_born"]; nr = len(born); prev = np.zeros(nr, np.int64); out = []
+    for a, r in enumerate(todas):
+        c = np.zeros(nr, np.int64); x = d[f"ap{a + 1}_rch"]; c[:len(x)] = x; dc = c - prev; prev = c
+        antigos = (born >= 0) & (born < r["inicio"]); tot = int(dc.sum())
+        out.append(dict(gravacao=r["gravacao"].replace("satie-gymnopedie1-", "").capitalize(), passagens=tot,
+                        fracao_por_ramos_antigos=float(dc[antigos].sum() / max(1, tot))))
+    return out
+
+
 def main(pre="teste-c"):
     blob = bytearray(); meta = {"bracos": {}}
     def poe(nome, arr):
@@ -28,7 +40,7 @@ def main(pre="teste-c"):
         arq = AQUI / "dados" / f"{pre}-{b}-esq.npz"
         if not arq.exists():
             continue
-        d = np.load(arq); res = json.loads(str(d["resumo"]))[0]; N = int(d["N"]); lado = -1
+        d = np.load(arq); todas = json.loads(str(d["resumo"])); res = todas[0]; N = int(d["N"]); lado = -1
         p = b + "_"
         if int(d["modo"]) == 1:
             org, _, _ = co.espiral(d["px"], d["py"], d["pz"], d["banda"], lado)
@@ -61,10 +73,12 @@ def main(pre="teste-c"):
         meta["bracos"][b] = dict(nervo=int(d["nervo"]), modo=int(d["modo"]), xlim=xf, n_uints=int(nU), n_ramos=int(len(src)),
                                  n_passos=int(len(S)), n_disparos=int(len(F)), pares=int(len(pt)), pares_que_reutilizaram_uint=reuso,
                                  uints_para_dentro=int(fora.sum()), n_ustr=int(len(d["ux"])), dur=res["dur"],
-                                 afastamento=ma.medir(arq)["por_afastamento"])
+                                 afastamento=ma.medir(arq)["por_afastamento"], passagens=passagens(d, todas) if len(todas) > 1 else None)
+        meta["apresentacoes"] = [dict(gravacao=a["gravacao"].replace("satie-gymnopedie1-", "").capitalize(), inicio=a["inicio"], dur=a["dur"]) for a in todas]
+        meta["fim"] = todas[-1]["inicio"] + todas[-1]["dur"]
     meta.update(ouvido="esq", n_pontos=int(N), cubo_s=0.02e-3 / 0.3)
     vis = AQUI.parent / "visual"
-    (vis / "teste-c.bin").write_bytes(bytes(blob)); (vis / "teste-c.json").write_text(json.dumps(meta, ensure_ascii=False))
+    (vis / f"{pre}.bin").write_bytes(bytes(blob)); (vis / f"{pre}.json").write_text(json.dumps(meta, ensure_ascii=False))
     print(round(len(blob) / 1e6, 1), "MB", {b: {k: v for k, v in m.items() if k != "afastamento"} for b, m in meta["bracos"].items()})
 
 
