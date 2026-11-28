@@ -4,9 +4,18 @@ Revisão de design para Claudia, a partir da supervisão de Paulo em 28/11. Refe
 
 ## 1. Escolher
 
-A entrada é um catálogo rolável. Ao abrir pela primeira vez, mostrar as opções de estudo antes de carregar qualquer cena. Organizar rodada principal, testes e pré-testes, e demonstrações. Cada linha informa título, tipo, o que varia, estímulo ou trecho quando pertinente, duração e disponibilidade. Usar títulos compreensíveis sem abrir a ficha. Rodada planejada aparece com estado e sem ação de reprodução.
+A entrada é uma galeria rolável de cards de estudos, inspirada na biblioteca de álbuns. No iPhone, usar um card por linha para dar espaço à pergunta científica. Em telas largas, usar uma grade. O card fechado mostra título, pergunta em linguagem direta, comparação ou trecho observado, duração e disponibilidade. A rodada principal planejada tem ficha consultável. Demonstrações explicam o que observar.
 
-Tocar na linha expande a ficha no próprio catálogo. A ficha responde: qual é a pergunta, qual hipótese ou previsão está registrada, o que muda e o que é mantido, o que foi medido, qual o estímulo, ouvido e duração, e que conclusão o desenho permite. Distinguir previsão pendente de previsão registrada. Na demonstração “Robô ouvindo”, explicar o que se observa. Oferecer A/B apenas onde existem essas condições. O botão Reproduzir pertence à ficha expandida. Selecionar outro item para leitura preserva a reprodução em curso.
+Exemplo de card fechado:
+
+> **Folha × profundidade**  
+> Permitir que uma Uint se forme em profundidade muda quais parceiros chegam a integrar?  
+> Mesmo trecho de Alciatore · ouvido esquerdo · 90 s por condição  
+> **Explorar estudo ⌄**
+
+O toque expande a ficha no próprio catálogo. Apresentar a motivação, a hipótese ou pergunta exploratória, o que muda, o que se mantém igual, o que procurar na cena e que conclusão os dados permitem. Distinguir a previsão registrada de um resultado já observado. Para este piloto, orientar o olhar: acompanhe onde nasce uma Uint candidata, quando os ramos chegam e se ela dispara. Identificar quando o dado se refere a uma candidata reutilizada.
+
+Agrupar A e B em um card porque respondem à mesma pergunta. Na ficha aberta, oferecer a escolha “A · Folha fixa” ou “B · Profundidade local”, explicar a condição selecionada e mostrar um único botão Reproduzir. Estudos com perguntas próprias recebem cards próprios. O texto científico fica disponível antes do play e pode ser consultado durante outra reprodução.
 
 ## 2. Reproduzir enquanto se consulta o catálogo
 
