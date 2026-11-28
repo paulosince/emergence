@@ -150,10 +150,10 @@ body { display: block; }
 }
 
 /* ---- ajustes de 28/11 (Paulo): cabeçalho fixo, cards, play redondo neon, fonte ---- */
-.topo.fixo { position: sticky; top: 0; z-index: 15; background: #04070ae6; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--linha); padding: calc(8px + env(safe-area-inset-top)) 16px 8px; display: flex; }
+.topo.fixo { position: fixed; top: 0; left: 0; right: 0; z-index: 15; background: #04070ae6; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--linha); padding: calc(8px + env(safe-area-inset-top)) 16px 8px; display: flex; }
 .marca .word { font-size: 22px; letter-spacing: .26em; }
 .marca .emerg { font-size: 11px; font-weight: 600; letter-spacing: .2em; color: var(--apagado); align-self: center; margin-left: 2px; }
-.intro { padding: 14px 16px 2px; display: grid; gap: 6px; }
+.intro { padding: calc(62px + env(safe-area-inset-top)) 16px 2px; display: grid; gap: 6px; }
 .intro h1 { font-size: 1.2rem; font-weight: 700; margin: 0; letter-spacing: -.01em; }
 .intro .sub { font-size: .9rem; line-height: 1.5; margin: 0; }
 body, button, input { font-family: var(--corpo); }
