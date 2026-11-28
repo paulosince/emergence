@@ -949,9 +949,10 @@ const teste = await (async () => {
     ir: (t, cond) => desenhar(t, cond), eventos };
 })();
 // ---------- teste de 60 s dos três braços (faixa 790 · faixa 263 · compacta 263; regra B nos três; ouvido E) ----------
-// Nervo "orgânico" [R 28/11]: cada Upro do nervo é uma curva cujo comprimento desenhado é o comprimento de condução do motor
-// (790 ou 263 cubos). O caminho é desenho: o motor guarda comprimento e atraso, não trajeto. Na compacta, as origens ficam
-// na espiral do instante zero (o motor não usa a posição da origem). Só entram as Ustr que o motor usa (zona de entrada).
+// Nervo [R 28/11]: cada Upro do nervo é desenhada como curva suave pela rota origem -> Cpro da banda -> nervo (as Cpro juntas,
+// em ordem tonotópica) -> leque até a chegada (pontos de controle de coordenadas.rota). O caminho é desenho: no motor o nervo
+// é só comprimento de condução (790 ou 263 cubos), igual para todas. Na compacta, as origens ficam na espiral do instante zero
+// (base voltada para o núcleo). Só entram as Ustr que o motor usa (zona de entrada).
 const bracos = await (async () => {
   let mj; try { const r = await fetch(BASE + "teste-c.json"); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }
   const NOMES = Object.keys(mj.bracos || {}); if (!NOMES.length) return null;
@@ -969,6 +970,20 @@ const bracos = await (async () => {
     return u => { const v = 1 - u, w0 = v * v * v, w1 = 3 * v * v * u, w2 = 3 * v * u * u, w3 = u * u * u; return [0, 1, 2].map(j => w0 * P0[j] + w1 * c1[j] + w2 * c2[j] + w3 * P1[j]); };
   }
   const compr = f => { let s = 0, q = f(0); for (let i = 1; i <= 24; i++) { const r = f(i / 24); s += Math.hypot(r[0] - q[0], r[1] - q[1], r[2] - q[2]); q = r; } return s; };
+  function rotaSuave(C, q) {                              // Catmull-Rom centrípeta pelos 5 pontos; parâmetro = comprimento de arco
+    const P = []; for (let k = 0; k < 5; k++) P.push(C3(C[15 * q + 3 * k], C[15 * q + 3 * k + 1], C[15 * q + 3 * k + 2]));
+    const E = [P[0].map((v, j) => 2 * v - P[1][j]), ...P, P[4].map((v, j) => 2 * v - P[3][j])], pts = [];
+    for (let i = 1; i < E.length - 2; i++) {
+      const p0 = E[i - 1], p1 = E[i], p2 = E[i + 1], p3 = E[i + 2], d = (a, b) => Math.pow(Math.hypot(b[0] - a[0], b[1] - a[1], b[2] - a[2]) || 1e-9, 0.5);
+      const t1 = d(p0, p1), t2 = t1 + d(p1, p2), t3 = t2 + d(p2, p3);
+      for (let k = 0; k < 10; k++) { const t = t1 + (t2 - t1) * k / 10, L = (a, b, ta, tb) => a.map((v, j) => ((tb - t) * v + (t - ta) * b[j]) / (tb - ta));
+        const A1 = L(p0, p1, 0, t1), A2 = L(p1, p2, t1, t2), A3 = L(p2, p3, t2, t3), B1 = L(A1, A2, 0, t2), B2 = L(A2, A3, t1, t3); pts.push(L(B1, B2, t1, t2)); }
+    }
+    pts.push(P[4]); const ac = [0]; for (let i = 1; i < pts.length; i++) ac.push(ac[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1], pts[i][2] - pts[i - 1][2]));
+    const Lt = ac[ac.length - 1] || 1e-9;
+    return u => { const a = u * Lt; let lo = 0, hi = ac.length - 1; while (hi - lo > 1) { const md = (lo + hi) >> 1; if (ac[md] <= a) lo = md; else hi = md; }
+      const w = (a - ac[lo]) / Math.max(1e-12, ac[hi] - ac[lo]); return pts[lo].map((v, j) => v + (pts[hi][j] - v) * w); };
+  }
   function curvaDeComprimento(P0, P1, id, alvo, amin) {   // amplitude tal que o comprimento desenhado ≈ alvo; nunca abaixo de amin
     const f0 = curva(P0, P1, id, amin); if (compr(f0) >= alvo) return f0;
     let lo = amin, hi = 1; while (compr(curva(P0, P1, id, hi)) < alvo && hi < 64) hi *= 2;
@@ -1009,11 +1024,10 @@ const bracos = await (async () => {
     const np_ = A("n_p"), nt = A("n_t"), nfr = A("n_fr"), tSeg = new Float32Array(nP * 10).fill(1e9);
     for (let i = 0; i < np_.length; i++) { const k = nfr[i] - 1; if (k >= 0 && k < 10) tSeg[np_[i] * 10 + k] = Math.min(tSeg[np_[i] * 10 + k], nt[i]); }
     for (let q = 0; q < nP; q++) for (let k = 8; k >= 0; k--) tSeg[10 * q + k] = Math.min(tSeg[10 * q + k], tSeg[10 * q + k + 1]);
-    const SUBN = 2, nN = nP * 10 * SUBN, fa = new Float32Array(nN * 3), fb = new Float32Array(nN * 3), ftn = new Float32Array(nN), fch = new Float32Array(nN);
-    let excesso = 0;
+    const ctl = A("n_ctl"), SUBN = 3, nN = nP * 10 * SUBN, fa = new Float32Array(nN * 3), fb = new Float32Array(nN * 3), ftn = new Float32Array(nN), fch = new Float32Array(nN);
+    const excesso = 0;
     for (let q = 0; q < nP; q++) {
-      const P0 = [org[3 * q], org[3 * q + 1], org[3 * q + 2]], P1 = [che[3 * q], che[3 * q + 1], che[3 * q + 2]];
-      const f = curvaDeComprimento(P0, P1, 900000 + q, m.nervo * MM, 0.04); excesso = Math.max(excesso, compr(f) / (m.nervo * MM) - 1);
+      const f = rotaSuave(ctl, q);
       for (let k = 0; k < 10; k++) for (let s = 0; s < SUBN; s++) { const i = (10 * q + k) * SUBN + s;
         fa.set(f((k + s / SUBN) / 10), 3 * i); fb.set(f((k + (s + 1) / SUBN) / 10), 3 * i); ftn[i] = tSeg[10 * q + k]; fch[i] = tSeg[10 * q + 9]; }
     }
@@ -1195,7 +1209,7 @@ const ESTUDOS = [
       <h3>Os três braços</h3><p><b>Faixa 790</b>: a entrada planar, com o nervo de 790 cubos. <b>Faixa 263</b>: a mesma, com o nervo encurtado para o percurso comum de 263 cubos. <b>Compacta 263</b>: espiral, meia-esfera e grade de Ustr 3 × 3 × 3. Faixa 790 × faixa 263 mostra o efeito do encurtamento; faixa 263 × compacta 263, o da reorganização.</p>
       <h3>O que se mantém</h3><p>A regra B (a Uint candidata nasce na superfície de entrada ou mais para dentro), a coincidência, o crescimento, o ganho de 0,0065 e a punição de 1/60. O estímulo e o ouvido.</p>
       <h3>Declarado</h3><p>A densidade de Ustr difere entre os braços (faixa: 4 Upros por Ustr; compacta: ~3,2). Essa diferença faz parte do efeito conjunto [R 28/11].</p>
-      <h3>O desenho</h3><p>Cada Upro do nervo é uma curva cujo <b>comprimento desenhado é o comprimento de condução</b> do motor (790 ou 263 cubos); o caminho é desenho, porque o motor guarda comprimento e atraso, não trajeto. Na compacta, as origens ficam na espiral do instante zero; o motor não usa a posição da origem. Só aparecem as Ustr que o motor usa.</p>
+      <h3>O desenho</h3><p>Cada Upro do nervo sai da origem, junta-se às da sua banda numa <b>Cpro</b> e segue com as outras Cpro, em ordem tonotópica, até se abrir em leque nas chegadas. Na compacta, as Cpro se formam no eixo da espiral e saem juntas pela base, voltada para o núcleo. <b>O caminho é desenho</b>: no motor, o nervo é só comprimento de condução (790 ou 263 cubos, igual para todas). Na compacta, o desenho mede 168–237 cubos; nas faixas, até ~2% a mais que a condução. O motor não usa a posição da origem. Só aparecem as Ustr que o motor usa.</p>
       <h3>Previsão</h3><p>${S_AB} Ainda não há previsão registrada (Paulo e Clara).</p>
       <h3>O que foi medido</h3>${tabelaAfastamento()}
       <p><code>auditoria-coordenadas.md</code> · <code>motor/sdom_c.py</code> · <code>motor/medida_afastamento.py</code></p>` },
