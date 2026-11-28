@@ -29,3 +29,14 @@
 3. **A criação continua por mais tempo do que no ensaio sem nervo:** 13 mil Uints novas na 2ª e 6,5 mil na 3ª, contra 6 mil e 2,6 mil antes. Fibras que chegam tarde abrem pares novos.
 4. **O que integra passa quase todo pela malha antiga:** ~89–91% na 2ª e ~99% na 3ª e na 4ª. Como no ensaio anterior, só ~1–2% das incidências integram.
 5. **O nervo não muda quem coincide com quem** (o atraso é igual para todas as fibras). O que muda é **quando** cada parte do Sdom começa a se formar: depende de quanto aquele ponto foi usado.
+
+## "Em sua maioria", medido pelas malhas percorridas [M, 27–28/11]
+
+Rodado de novo, com a mesma malha (o motor é determinístico), só para contar as chegadas por ramo em cada apresentação (`motor/medida_maioria.py`). A medida é a fração das passagens de incidências por ramos que já funcionavam antes daquela apresentação.
+
+| Ouvido | Baiocchi | Kolodin | Coleman |
+|---|---|---|---|
+| E | 93,9% | 98,1% | 99,3% |
+| D | 94,5% | 97,9% | 99,2% |
+
+Com o limiar de 2/3 [R, 28/11], a volta passa com folga. As que não integraram pararam quase todas **numa Uint sem integrar**. Ressalva: o desenho planar tende a espelhar o espectro, e a separação entre genérico e específico ainda não foi medida. Tabela completa e o que veio depois (a entrada volumétrica) em `entrada-volumetrica-e-fechamento.md`.

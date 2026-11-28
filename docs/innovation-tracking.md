@@ -251,6 +251,13 @@
 - **O que seria nosso [A]:** nada novo como alegação; é uma restrição honesta que vem do modelo neurobiológico. Consequência metodológica: num domínio que nasce vazio, a primeira malha tende a espelhar a borda, e a medida de reutilização precisa separar o que vai além do espectro.
 - **O que falta para alegar:** a medida que separa o genérico (espectro) do específico; o resultado do teste.
 
+## 32. Entrada volumétrica no Sdom: a forma da entrada como propriedade do domínio (27–28/11/2026)
+- **Origem [R]:** "No cérebro, tudo é organizado em clusters. Volumes. Nada é plano." Decisão de mudar a entrada para um núcleo com volume e fechar o escopo da V0.19 com números humanos.
+- **O que existe [L]:** as fibras do nervo auditivo se bifurcam e formam lâminas de mesma frequência dentro de um volume (camundongo: Muniak et al. 2013; gato: lâminas de 188–223 µm, Leake et al. 2006). As terminações ficam em manchas paralelas às faixas de frequência (aves). Volumes do núcleo coclear: camundongo 0,611 mm³, gato 21,2 mm³, humano ~25–36 mm³ (Sharma et al. 2014). Plasticidade dependente do tempo de disparo: +48,4% e −18,0% em 60 pareamentos (Bi e Poo 1998).
+- **O que seria nosso [A]:** uma regra agnóstica de substrato: *toda Utrd entra no Sdom por uma região com volume, organizada pelas dimensões do transdutor (não pela forma do receptor) e com alcance na escala das lâminas.* E uma equivalência: várias terminações de uma fibra num mesmo território glial valem como uma só para a Ustr.
+- **Achado de custo [M]:** com a divergência (~14 terminações por fibra), cada território vê ~48 fibras e o motor fica ~15× mais caro. Na V0.19, as cópias são quase idênticas, porque há um só conjunto de números de Uint. A forma (uma terminação por fibra com território de lâmina, ou divergência completa) está em discussão.
+- **O que falta para alegar:** a decisão sobre a forma; a rodada pra valer; a medida que separa o genérico do específico; a comparação planar × volume. Registro: `toy-experiments/v19/entrada-volumetrica-e-fechamento.md`.
+
 ## Pendências de busca (antes de cada artigo)
 1. Revisão sistemática para o motor constitutivo (criação por coincidência com atraso como conteúdo).
 2. Neuromodulação espacial em redes que aprendem (difusão física como terceiro fator).
@@ -277,3 +284,9 @@
 - Pajevic, S., Basser, P. J., e Fields, R. D. (2014). Role of myelin plasticity in oscillations and synchrony of neuronal activity. *Neuroscience* 276, 135–147.
 - Pajevic, S., Plenz, D., Basser, P. J., e Fields, R. D. (2023). Oligodendrocyte-mediated myelin plasticity and its role in neural synchronization. *eLife* 12, e81982. doi:10.7554/eLife.81982.
 - Oberheim, N. A., Takano, T., Han, X., et al., e Nedergaard, M. (2009). Uniquely hominid features of adult human astrocytes. *J Neurosci* 29(10), 3276–3287. doi:10.1523/JNEUROSCI.4707-08.2009.
+- Bi, G.-q., e Poo, M.-m. (1998). Synaptic modifications in cultured hippocampal neurons: dependence on spike timing, synaptic strength, and postsynaptic cell type. *J Neurosci* 18(24), 10464–10472. doi:10.1523/JNEUROSCI.18-24-10464.1998 (texto integral).
+- Leake, P. A., Hradek, G. T., Chair, L., e Snyder, R. L. (2006). Neonatal deafness results in degraded topographic specificity of auditory nerve projections to the cochlear nucleus in cats. *J Comp Neurol* 497(1), 13–31 (trechos do texto integral).
+- Muniak, M. A., Rivas, A., Montey, K. L., et al., e Ryugo, D. K. (2013). 3D model of frequency representation in the cochlear nucleus of the CBA/J mouse. *J Comp Neurol* 521(7), 1510–1532 (resumo e trechos).
+- Sharma, S., Nag, T. C., Bhardwaj, D. N., Vanamail, P., e Roy, T. S. (2014). Changing population of neurons and glia in the human cochlear nucleus with progressive age: a stereological study. *J Anat Soc India* (tabela do PDF). doi:10.1016/j.jasi.2014.11.002.
+- Makary, C. A., Shin, J., Kujawa, S. G., Liberman, M. C., e Merchant, S. N. (2011). Age-related primary cochlear neuronal degeneration in human temporal bones. *JARO* 12(6), 711–717 (resumo).
+- Gardner, S. M., Trussell, L. O., e Oertel, D. (1999). Time course and permeation of synaptic AMPA receptors in cochlear nuclear neurons correlate with input. *J Neurosci* 19(20), 8721–8729 (resumo).

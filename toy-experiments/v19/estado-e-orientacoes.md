@@ -5,6 +5,8 @@
 
 Repositório `paulosince/emergence`, ramo `claude/v19`. Marcas: [R] responsável; [L] literatura; [A] proposta do assistente; [M] medido; [V17]/[V18] vem das versões anteriores.
 
+> **Atualização de 28/11 (ler primeiro):** o desenho planar rodou e passou na medida "em sua maioria" (94–99%, com limiar de 2/3 [R]). O responsável decidiu mudar a zona de entrada para um **núcleo com volume** e fechar o escopo. O motor volumétrico foi implementado, mas é ~15× mais caro. **A decisão sobre a forma do volume e a densidade das Ustr está em aberto.** Ver `entrada-volumetrica-e-fechamento.md` (seção 0, "Para quem for ajudar").
+
 ---
 
 ## 1. Objetivo e escopo
