@@ -67,6 +67,13 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--excit); out
 .legenda { color: var(--apagado); font-size: .8rem; display: grid; gap: 4px; max-width: 80ch; }
 .legenda .demo { color: var(--texto); border-left: 2px solid var(--eletrico); padding-left: 8px; }
 .legenda i { display: inline-block; width: .7em; height: .7em; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+.testes { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+.cartao { border: 1px solid var(--linha); border-radius: 8px; padding: 8px; display: grid; gap: 4px; align-content: start; }
+.cartao button { text-align: left; font-weight: 600; }
+.cartao p { margin: 0; color: var(--apagado); font-size: .78rem; line-height: 1.4; }
+.cartao.ativo { border-color: var(--nova); box-shadow: 0 0 10px #b45cff33 inset; }
+.titulo-testes { color: var(--apagado); font-size: .8rem; }
+details.vc { margin: 0; border-top: 0; padding-top: 0; font-size: .85rem; }
 details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top: 8px; font-size: .88rem; }
 summary { cursor: pointer; font-weight: 600; }
 details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
@@ -98,7 +105,15 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
 <div class="leitura"><div id="contagem" aria-live="polite"></div><div id="escala"></div></div>
 <div id="diario" aria-live="polite" aria-label="Diário do Sdom"></div>
 <div class="controles">
-  <div class="linha">
+  <div class="titulo-testes">O que ver · a V0.19 tem vários testes antes do "pra valer". Escolha um: a legenda diz o que ele testa.</div>
+  <div class="testes" role="group" aria-label="Testes da V0.19">
+    <div class="cartao" data-c="demo"><button data-teste="demo">▶ Robô ouvindo</button><p><b>Não é teste.</b> Demonstração da Utrd completa (microfone + cóclea) recebendo a Gymnopédie e gerando incidências, com os dados publicados da V0.18 (9–19 s).</p></div>
+    <div class="cartao" data-c="piloto"><button data-teste="piloto">▶ Piloto de 10 s</button><p><b>Testa:</b> se incidências que não integraram, coincidindo na mesma janela (0,3 ms), fazem nascer Uints e ramos, e se essas Uints chegam a disparar. Motor mínimo, ainda sem nervo, com escolhas provisórias (27/11). <code>piloto-10s.md</code></p></div>
+    <div class="cartao" data-c="lupa"><button data-teste="lupa">▶ Incidências andando</button><p><b>Testa:</b> se cada incidência desce pelo ramo no tempo do próprio ramo e se a Uint soma as chegadas até o limiar (1,5) antes de disparar. Janela do piloto (banda ~600 Hz, 5–6 s), a 1/10.000×.</p></div>
+    <div class="cartao" data-c="ensaio"><button data-teste="ensaio">▶ Ensaio com o nervo · 4 gravações</button><p><b>Testa:</b> se a volta da obra (outra gravação) percorre, em sua maioria, a malha que já existia. Desenho planar, Sdom contínuo, 1 min de silêncio entre gravações. Medido: 94–99% das passagens por ramos antigos (limiar: 2/3). <code>ensaio-nervo-4-gravacoes.md</code></p></div>
+    <div class="cartao" data-c="ab"><button data-teste="ab">▶ Folha × profundidade · 90 s</button><p><b>Testa:</b> se a liberdade de a Uint nascer mais para dentro da cabeça (B) muda quem converge e integra, com a mesma entrada e as mesmas regras da folha fixa (A). Ouvido E, 0–90 s. Para observação, não é o "pra valer". <code>preregistro-folha-x-profundidade.md</code></p></div>
+  </div>
+  <div class="linha" id="linha-demo">
     <button id="play" aria-label="Tocar">▶ Tocar</button>
     <input id="tempo" type="range" min="0" max="10" step="0.005" value="0" aria-label="Tempo">
     <span id="rotulo-tempo">9,000 s</span>
@@ -109,9 +124,10 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
       <button data-vel="0.05">1/20×</button>
       <button data-vel="0.001">1/1.000×</button>
       <button data-vel="0.0001">1/10.000×</button>
-      <button id="lupa">Ver incidências andando (5 s)</button>
+      <button id="lupa" hidden>Ver incidências andando (5 s)</button>
     </div>
   </div>
+  <details class="vc"><summary>Vistas e camadas</summary>
   <div class="linha">
     <div class="grupo" role="group" aria-label="Vistas"><span>Vista</span>
       <button data-vista="sala">Sala</button>
@@ -133,12 +149,13 @@ details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
       <button id="cam-malha" aria-pressed="true">Malha (piloto, ouvido E)</button>
     </div>
   </div>
+  </details>
   <div class="linha" id="linha-ap" hidden>
     <div class="grupo" role="group" aria-label="Apresentações"><span>Ensaio (Sdom contínuo) · ir para o fim de</span><span id="botoes-ap"></span></div>
   </div>
   <div id="painel-ap" class="legenda" hidden></div>
   <div class="linha" id="linha-teste" hidden>
-    <button id="t-play">▶ Teste A × B (90 s)</button>
+    <button id="t-play">▶ Tocar</button>
     <div class="grupo" role="group" aria-label="Condição"><span>Condição</span><button data-cond="A" aria-pressed="true">A · folha fixa</button><button data-cond="B">B · profundidade local</button></div>
     <input id="t-tempo" type="range" min="0" max="90" step="0.01" value="0" style="flex:1;min-width:160px;accent-color:var(--nova)" aria-label="Tempo do teste">
     <div class="grupo"><button data-tp="-10">⏮ 10 s</button><button data-tp="-1">◀ 1 s</button><button data-tp="1">1 s ▶</button><button data-tp="10">10 s ⏭</button></div>
@@ -690,8 +707,11 @@ const sessoes = await (async () => {
     `<span id="e-rot" class="num" style="font:500 .8rem var(--mono);color:var(--apagado)"></span>`;
   linha.after(ctl);
   const barraE = ctl.querySelector("#e-tempo"), rotE = ctl.querySelector("#e-rot"), playE = ctl.querySelector("#e-play");
+  const objsE = () => D ? ["esq", "dir"].flatMap(o => [D[o].u, D[o].lr, D[o].fib]) : [];
+  function desligar() { ativo = false; tocandoE = false; playE.textContent = "▶ Gravação do ensaio"; objsE().forEach(x => x.visible = false); }
   async function ligar() {
     if (!D) { painel.hidden = false; painel.textContent = "carregando a gravação do ensaio…"; D = await carregar(); }
+    objsE().forEach(x => x.visible = true);
     if (!ativo) { ativo = true; if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); pontos.luz.fill(0); painel.hidden = false;
       diario("<b>Gravação do ensaio.</b> As 4 gravações completas, em sequência, no mesmo Sdom: as Upros do nervo crescem, depois nascem as Uints e os ramos na zona de entrada do núcleo."); }
   }
@@ -702,7 +722,7 @@ const sessoes = await (async () => {
   ctl.querySelectorAll("[data-ev]").forEach(b => b.onclick = () => { velE = +b.dataset.ev; ctl.querySelectorAll("[data-ev]").forEach(x => x.setAttribute("aria-pressed", x === b)); });
   const rot = [["-1", "Instante zero"], ...aps.map((x, i) => [String(i), `${i + 1} · ${x.gravacao.replace("satie-gymnopedie1-", "")}`])];
   for (const [v, t] of rot) { const b = document.createElement("button"); b.dataset.ap = v; b.textContent = t; b.onclick = async () => { await ligar(); irE(+v < 0 ? 0 : aps[+v].inicio + aps[+v].dur); }; bots.appendChild(b); }
-  return { quadro() { if (!ativo) return; const agora = performance.now(), dt = Math.min(0.1, (agora - ultReal) / 1000); ultReal = agora;
+  return { ligar, desligar, linhas: [linha, ctl, painel], quadro() { if (!ativo) return; const agora = performance.now(), dt = Math.min(0.1, (agora - ultReal) / 1000); ultReal = agora;
       if (tocandoE) { tE += dt * velE; if (tE >= FIM) { tE = FIM; tocandoE = false; playE.textContent = "▶ Gravação do ensaio"; } }
       if (Math.abs(tE - tDesenhado) > 0.049) { desenhar(tE); tDesenhado = tE; } } };
 })();
@@ -820,13 +840,14 @@ const teste = await (async () => {
       diario("<b>Teste A × B.</b> Mesmo começo, mesma entrada, mesmas regras; só muda onde a Uint candidata pode nascer: na folha (A) ou na folha e mais para dentro da cabeça (B)."); }
   }
   const irT = t => { tT = Math.min(Math.max(t, 0), FIMT); desenhar(tT); tDes = tT; };
-  playT.onclick = async () => { await ligar(); tocT = !tocT; playT.textContent = tocT ? "❚❚ Pausar teste" : "▶ Teste A × B (90 s)"; if (tocT && tT >= FIMT) irT(0); };
+  function desligar() { ativoT = false; tocT = false; playT.textContent = "▶ Tocar"; if (D) for (const c of ["A", "B"]) D[c].objs.forEach(o => o.visible = false); }
+  playT.onclick = async () => { await ligar(); tocT = !tocT; playT.textContent = tocT ? "❚❚ Pausar" : "▶ Tocar"; if (tocT && tT >= FIMT) irT(0); };
   barraT.oninput = async () => { await ligar(); irT(+barraT.value); };
   linhaT.querySelectorAll("[data-tp]").forEach(b => b.onclick = async () => { await ligar(); irT(tT + Number(b.dataset.tp)); });
   linhaT.querySelectorAll("[data-tv]").forEach(b => b.onclick = () => { velT = +b.dataset.tv; linhaT.querySelectorAll("[data-tv]").forEach(x => x.setAttribute("aria-pressed", x === b)); });
   linhaT.querySelectorAll("[data-cond]").forEach(b => b.onclick = async () => { await ligar(); cond = b.dataset.cond; linhaT.querySelectorAll("[data-cond]").forEach(x => x.setAttribute("aria-pressed", x === b)); ultC = null; irT(tT); });
-  return { quadro() { if (!ativoT) return; const agora = performance.now(), dt = Math.min(0.1, (agora - ultT) / 1000); ultT = agora;
-      if (tocT) { tT += dt * velT; if (tT >= FIMT) { tT = FIMT; tocT = false; playT.textContent = "▶ Teste A × B (90 s)"; } }
+  return { ligar: async () => { await ligar(); irT(tT); }, desligar, linhas: [linhaT, painelT], quadro() { if (!ativoT) return; const agora = performance.now(), dt = Math.min(0.1, (agora - ultT) / 1000); ultT = agora;
+      if (tocT) { tT += dt * velT; if (tT >= FIMT) { tT = FIMT; tocT = false; playT.textContent = "▶ Tocar"; } }
       if (Math.abs(tT - tDes) > 0.004) { desenhar(tT); tDes = tT; } } };
 })();
 // ---------- rótulos (com prioridade: os de trás somem se sobrepõem os da frente) ----------
@@ -936,6 +957,30 @@ function tamanho() {
 }
 new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
 
+// ---------- cartões dos testes: um de cada vez, cada um com os seus controles ----------
+{
+  const linhaDemo = document.getElementById("linha-demo"), obraEl = document.getElementById("obra");
+  const extras = [...(sessoes ? sessoes.linhas : []), ...(teste ? teste.linhas : [])];
+  const pararDemo = () => { if (tocando) document.getElementById("play").click(); };
+  const verMalha = (m, o) => { if (malha) malha.objs.forEach(x => x.visible = m); if (obs) obs.objs.forEach(x => x.visible = o); };
+  const MODOS = {
+    demo: async () => { verMalha(false, false); linhaDemo.hidden = false; obraEl.hidden = false; vista("geral"); },
+    piloto: async () => { verMalha(true, false); linhaDemo.hidden = false; obraEl.hidden = false; irPara(0); vista("E"); },
+    lupa: async () => { verMalha(true, true); linhaDemo.hidden = false; obraEl.hidden = false; document.getElementById("lupa").click(); },
+    ensaio: async () => { pararDemo(); verMalha(false, false); if (sessoes) { sessoes.linhas.forEach(x => x.hidden = false); await sessoes.ligar(); vista("nervo"); } },
+    ab: async () => { pararDemo(); verMalha(false, false); if (teste) { teste.linhas.forEach(x => x.hidden = false); await teste.ligar(); } },
+  };
+  if (!sessoes) document.querySelector('[data-c="ensaio"]').hidden = true;
+  if (!teste) document.querySelector('[data-c="ab"]').hidden = true;
+  async function escolher(k) {
+    document.querySelectorAll(".cartao").forEach(c => c.classList.toggle("ativo", c.dataset.c === k));
+    linhaDemo.hidden = true; obraEl.hidden = true; extras.forEach(x => x.hidden = true);
+    if (sessoes && k !== "ensaio") sessoes.desligar(); if (teste && k !== "ab") teste.desligar();
+    await MODOS[k]();
+  }
+  document.querySelectorAll("[data-teste]").forEach(b => b.onclick = () => escolher(b.dataset.teste));
+  escolher("demo");
+}
 const tmp = new THREE.Vector3(); let nq = 0;
 (function quadro() {
   requestAnimationFrame(quadro);
@@ -958,7 +1003,8 @@ const tmp = new THREE.Vector3(); let nq = 0;
   if (sessoes) sessoes.quadro();
   if (teste) teste.quadro();
   if (obs) obs.atualizar(T);
-  if (malha) { const v = malha.atualizar(T); narrar(T, v); if (nq % 6 === 0) vivoEl.innerHTML = `piloto, ouvido E, até agora: <b style="color:var(--nova)">Uints ${fmt(v.u)}</b> · ramos funcionando ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.f)}</span>`; }
+  if (malha) { const vis = malha.objs[0].visible, v = malha.atualizar(T); if (vis) narrar(T, v);
+    if (nq % 6 === 0) vivoEl.innerHTML = vis ? `piloto, ouvido E, até agora: <b style="color:var(--nova)">Uints ${fmt(v.u)}</b> · ramos funcionando ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.f)}</span>` : ""; }
   composer.render();
   const w = palco.clientWidth, h = palco.clientHeight, postos = [];
   for (const r of rotulos) {
