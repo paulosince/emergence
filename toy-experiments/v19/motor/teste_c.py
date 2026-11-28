@@ -36,7 +36,7 @@ import cena, coclea, pontos, motor as m18
 
 DADOS = AQUI / "dados"; DADOS.mkdir(exist_ok=True)
 OBS0 = np.array([0, 0, 0, 0, 0, 0, 1e18, 1e18], float); LOGC0 = np.zeros((1, 4))   # sem janela de observação aqui
-BLOCO = float(os.environ.get("V19_BLOCO", "20")); AQUEC, SILENCIO = 0.5, 60.0          # bloco só muda a memória, não o resultado
+BLOCO = float(os.environ.get("V19_BLOCO", "20")); AQUEC, SILENCIO = 0.5, 60.0          # [M 28/11] o bloco MUDA o resultado (a borda reaquece a cada bloco): ver teste-60s-tres-bracos.md, 2.1
 MAXU, MAXP, MAXR = int(os.environ.get("V19_MAXU", 200_000)), int(os.environ.get("V19_MAXP", 2_000_000)), int(os.environ.get("V19_MAXR", 6_000_000))
 
 def ganho(grav):
