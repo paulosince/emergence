@@ -527,6 +527,22 @@ const TEXD = new Uint8Array(130 * NF), TOTAL = { E: new Float32Array(NF), D: new
 });
 const texNivel = new THREE.DataTexture(TEXD, 130, NF, THREE.RedFormat, THREE.UnsignedByteType);
 texNivel.unpackAlignment = 1; texNivel.magFilter = texNivel.minFilter = THREE.NearestFilter; texNivel.needsUpdate = true;
+// som de uma gravação inteira para os estudos dos braços (motor/som_visual.py): mesma forma e normalização da V0.18, quadros de 10 ms
+const SONS = {};
+async function carregarSom(nome) {
+  if (SONS[nome]) return SONS[nome];
+  const mj = await (await fetch(BASE + `som/${nome}.json`, { cache: "no-cache" })).json();
+  const r = await fetch(BASE + `som/${nome}.bin`, { cache: "no-cache" }); if (!r.ok) throw new Error(`som/${nome}.bin: HTTP ${r.status}`);
+  const buf = new Uint8Array(await r.arrayBuffer()), pega = k => buf.subarray(mj[k].off, mj[k].off + mj[k].n), nf = mj.quadros;
+  const tx = new Uint8Array(130 * nf), tot = { E: new Float32Array(nf), D: new Float32Array(nf) };
+  [["E", pega("som_esq")], ["D", pega("som_dir")]].forEach(([k, g], o) => { for (let f = 0; f < nf; f++) { let pw = 0;
+    for (let b = 0; b < 64; b++) { const v = g[f * 64 + b]; tx[f * 130 + o * 65 + b] = v; pw += Math.pow(10, v / 255 * mj.som_db_max / 10); }
+    const db = 10 * Math.log10(pw + 1e-9); tx[f * 130 + o * 65 + 64] = Math.max(0, Math.min(255, Math.round(db / 90 * 255))); tot[k][f] = nivel01(db); } });
+  const tex = new THREE.DataTexture(tx, 130, nf, THREE.RedFormat, THREE.UnsignedByteType);
+  tex.unpackAlignment = 1; tex.magFilter = tex.minFilter = THREE.NearestFilter; tex.needsUpdate = true;
+  return SONS[nome] = { NF: nf, FR: mj.quadro, G: pega("grade_esq"), CAN: pega("canais"), TOTAL: tot, P99: mj.verde_p99 || 255, tex };
+}
+const arqSom = g => `${g.toLowerCase()}-60`;
 
 // ---------- fios do sinal elétrico ----------
 // Um fio do microfone até a base da faixa; ali ele se abre em 64 fios (feixe 8 × 8 rente à borda de baixo da faixa, do lado de fora),
@@ -569,8 +585,8 @@ const fios = (() => {
   g.setAttribute("atraso", new THREE.Float32BufferAttribute(A, 1)); g.setAttribute("arco", new THREE.Float32BufferAttribute(ARC, 1));
   g.setAttribute("coluna", new THREE.Float32BufferAttribute(COL, 1)); g.setAttribute("raio", new THREE.Float32BufferAttribute(RAI, 1)); g.setIndex(IDX);
   const m = new THREE.ShaderMaterial({
-    uniforms: { ...COMUM, cor: { value: cor("--eletrico") }, tex: { value: texNivel }, uT: { value: 0 }, uTv: { value: 0 }, quadro: { value: FR }, nq: { value: NF }, minPx: { value: 1.2 } },
-    vertexShader: `attribute vec3 dir; attribute float atraso, arco, coluna, raio; uniform sampler2D tex; uniform float uT, uTv, quadro, nq, minPx, uPix, uFoco;
+    uniforms: { ...COMUM, cor: { value: cor("--eletrico") }, tex: { value: texNivel }, uT: { value: 0 }, uTv: { value: 0 }, quadro: { value: FR }, nq: { value: NF }, minPx: { value: 1.2 }, ativo: { value: 1 } },
+    vertexShader: `attribute vec3 dir; attribute float atraso, arco, coluna, raio; uniform sampler2D tex; uniform float uT, uTv, quadro, nq, minPx, uPix, uFoco, ativo;
       varying float vB, vFog;
       void main(){ vec4 c = modelViewMatrix * vec4(position, 1.0); float r = max(raio, 0.5 * minPx * (-c.z) * uPix);
         vec4 mv = modelViewMatrix * vec4(position + dir * r, 1.0);
@@ -578,13 +594,43 @@ const fios = (() => {
         float v = texture2D(tex, vec2((coluna + 0.5) / 130.0, (f + 0.5) / nq)).r;
         float lvl = pow(clamp((v * 90.0 - 15.0) / 60.0, 0.0, 1.0), 0.8);
         float ph = fract(arco / 0.8 - uTv * 5.0 / 0.8); float dash = exp(-pow((ph - 0.5) * 5.0, 2.0));
-        vB = lvl * (0.22 + 1.1 * dash); ${NEVOA} gl_Position = projectionMatrix * mv; }`,
+        vB = ativo * lvl * (0.22 + 1.1 * dash); ${NEVOA} gl_Position = projectionMatrix * mv; }`,
     fragmentShader: `uniform vec3 cor; varying float vB, vFog; void main(){ gl_FragColor = vec4(cor * (0.03 + 0.45 * vB) * vFog, 1.0); }`,
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
   m.userData.min0 = 1.2;
-  const o = new THREE.Mesh(g, m); o.frustumCulled = false; return o;
+  const o = new THREE.Mesh(g, m); o.frustumCulled = false; o.tubo = tubo; return o;
 })();
 cena.add(fios);
+// fios do ouvido E até uma espiral (entrada compacta): do microfone a um ponto no eixo, depois um fio por banda até o centro da banda
+function fiosEspiral(ancora) {                            // ancora: Float32Array 64 × 3 (cena), centro das origens de cada banda
+  const P = [], D = [], A = [], ARC = [], COL = [], RAI = [], IDX = [], R = 5, up = new THREE.Vector3(0, 1, 0), ax = new THREE.Vector3(1, 0, 0);
+  function tubo(pts, atr, col, raio, arc0) {
+    const base = P.length / 3; let arc = arc0;
+    for (let i = 0; i < pts.length; i++) {
+      const t = (i < pts.length - 1 ? pts[i + 1].clone().sub(pts[i]) : pts[i].clone().sub(pts[i - 1])).normalize();
+      const n = new THREE.Vector3().crossVectors(t, Math.abs(t.y) > 0.9 ? ax : up).normalize(), bb = new THREE.Vector3().crossVectors(t, n);
+      if (i > 0) arc += pts[i].distanceTo(pts[i - 1]);
+      for (let j = 0; j < R; j++) { const a = j / R * 2 * Math.PI, d = n.clone().multiplyScalar(Math.cos(a)).addScaledVector(bb, Math.sin(a));
+        P.push(pts[i].x, pts[i].y, pts[i].z); D.push(d.x, d.y, d.z); A.push(atr[i]); ARC.push(arc); COL.push(col); RAI.push(raio); }
+      if (i > 0) for (let j = 0; j < R; j++) { const a0 = base + (i - 1) * R + j, a1 = base + (i - 1) * R + (j + 1) % R, b0 = a0 + R, b1 = a1 + R; IDX.push(a0, b0, a1, a1, b0, b1); }
+    }
+    return arc;
+  }
+  let cx = 0; for (let b = 0; b < 64; b++) cx = Math.min(cx, ancora[3 * b]);
+  const m = MIC.E, p0 = new THREE.Vector3(cx - 0.6, 0, 0), ctl = new THREE.Vector3((m.x + p0.x) / 2, -0.5, m.z * 0.4), cab = [];
+  for (let i = 0; i <= 28; i++) { const t = i / 28; cab.push(new THREE.Vector3().copy(m).multiplyScalar((1 - t) ** 2).addScaledVector(ctl, 2 * t * (1 - t)).addScaledVector(p0, t * t)); }
+  const arcCab = tubo(cab, cab.map(() => 0), 64, 0.03, 0);
+  for (let b = 0; b < 64; b++) {
+    const q = new THREE.Vector3(ancora[3 * b], ancora[3 * b + 1], ancora[3 * b + 2]), c1 = new THREE.Vector3(p0.x + 0.3, q.y * 0.5, q.z * 0.5), pts = [], atr = [];
+    for (let s = 0; s <= 16; s++) { const t = s / 16; pts.push(new THREE.Vector3().copy(p0).multiplyScalar((1 - t) ** 2).addScaledVector(c1, 2 * t * (1 - t)).addScaledVector(q, t * t)); atr.push(TAU[b] * t); }
+    tubo(pts, atr, b, 0.0025, arcCab);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.Float32BufferAttribute(P, 3)); g.setAttribute("dir", new THREE.Float32BufferAttribute(D, 3));
+  g.setAttribute("atraso", new THREE.Float32BufferAttribute(A, 1)); g.setAttribute("arco", new THREE.Float32BufferAttribute(ARC, 1));
+  g.setAttribute("coluna", new THREE.Float32BufferAttribute(COL, 1)); g.setAttribute("raio", new THREE.Float32BufferAttribute(RAI, 1)); g.setIndex(IDX);
+  const o = new THREE.Mesh(g, fios.material); o.frustumCulled = false; o.visible = false; cena.add(o); return o;
+}
 
 // microfones (acendem com o nível total do ouvido) e alto-falantes (referência)
 const mics = bolas(new Float32Array([MIC.E.x, MIC.E.y, MIC.E.z, MIC.D.x, MIC.D.y, MIC.D.z]), 0.7, 3, new THREE.Color(0.55, 0.6, 0.62), cor("--eletrico"));
@@ -609,15 +655,16 @@ for (let i = 0; i < NW; i++) {
 }
 const ondas = particulas(NW, 0.3, 1.6, cor("--som")); cena.add(ondas);
 let Tv = 0;   // relógio visual (avança com a velocidade escolhida)
-function moverOndas() {
+function moverOndas(Tl = T, F = null) {                 // F: som de uma gravação inteira (estudos dos braços); null = V0.18
+  const nf = F ? F.NF : NF, fr_ = F ? F.FR : FR, can = F ? F.CAN : CAN;
   const P = ondas.pos, L = ondas.luz;
   for (let i = 0; i < NW; i++) {
     const c = i % 2, r = wR0[i] + ((wFase[i] + CV * Tv) % wSpan[i] + wSpan[i]) % wSpan[i];
     const x = ALTO[c].x + wDir[3 * i] * r, y = ALTO[c].y + wDir[3 * i + 1] * r, z = ALTO[c].z + wDir[3 * i + 2] * r;
     P[3 * i] = x; P[3 * i + 1] = y; P[3 * i + 2] = z;
     if (c === 0 ? x > micX[0] : x < micX[1]) { L[i] = 0; continue; }       // a onda para no plano do microfone
-    const f = Math.min(NF - 1, Math.max(0, Math.floor(T / FR - (r - dMic[c]) / CV / FR)));
-    L[i] = nivel01(CAN[c * NF + f] / 255 * 90) * wPeso[i];
+    const f = Math.min(nf - 1, Math.max(0, Math.floor(Tl / fr_ - (r - dMic[c]) / CV / fr_)));
+    L[i] = (F && F.silencio) ? 0 : nivel01(can[c * nf + f] / 255 * 90) * wPeso[i];
   }
   marcar(ondas);
 }
@@ -994,8 +1041,9 @@ async function fabricaBracos(ARQ) {                    // um conjunto de braços
   let buf = null; const D = {};
   async function carregar(b) {
     if (D[b]) return;
-    for (const k of Object.keys(D)) { D[k].objs.forEach(o => { cena.remove(o); o.geometry.dispose(); o.material.dispose(); }); delete D[k]; }   // um braço por vez na memória (celular)
-    if (!buf) { const r = await fetch(BASE + ARQ + ".bin", { cache: "no-cache" }); if (!r.ok) throw new Error(`${ARQ}.bin: HTTP ${r.status}`); buf = await r.arrayBuffer(); }
+    for (const k of Object.keys(D)) { D[k].objs.forEach(o => { cena.remove(o); o.geometry.dispose(); if (o.material !== fios.material) o.material.dispose(); }); delete D[k]; }   // um braço por vez na memória (celular)
+    { const r = await fetch(BASE + `${ARQ}-${b}.bin`, { cache: "no-cache" }); if (!r.ok) throw new Error(`${ARQ}-${b}.bin: HTTP ${r.status}`); buf = await r.arrayBuffer(); }   // um arquivo por braço
+    await Promise.all(APS.map(a => carregarSom(arqSom(a.gravacao))));
     if (!mj[b + "_n_ctl"]) throw new Error("dados de outra versão (recarregue a página)");
     const T_ = { int16: Int16Array, uint8: Uint8Array, uint16: Uint16Array, int32: Int32Array, float32: Float32Array };
     const p = b + "_", m = mj.bracos[b], A = n => new T_[mj[p + n].tipo](buf, mj[p + n].off, mj[p + n].n);
@@ -1005,6 +1053,11 @@ async function fabricaBracos(ARQ) {                    // um conjunto de braços
     const gx = A("g_xyz"), nG = gx.length / 3, gc = new Float32Array(nG * 3);
     for (let i = 0; i < nG; i++) gc.set(C3(gx[3 * i], gx[3 * i + 1], gx[3 * i + 2]), 3 * i);
     const glias = bolas(gc, R_USTR, 1.6, cor("--ustr"), undefined, 1);
+    let fe = null;                                            // compacta: fios do microfone até o centro de cada banda na espiral
+    if (m.modo === 1) { const bd = A("banda"), anc = new Float32Array(64 * 3), nb = new Float32Array(64);
+      for (let q = 0; q < nP; q++) { const b2 = bd[q]; anc[3 * b2] += org[3 * q]; anc[3 * b2 + 1] += org[3 * q + 1]; anc[3 * b2 + 2] += org[3 * q + 2]; nb[b2]++; }
+      for (let b2 = 0; b2 < 64; b2++) for (let j = 0; j < 3; j++) anc[3 * b2 + j] /= Math.max(1, nb[b2]);
+      fe = fiosEspiral(anc); }
     const uxyz = A("u_xyz"), ut = A("u_t"), nU = ut.length, cen = new Float32Array(nU * 3);
     for (let i = 0; i < nU; i++) cen.set(C3(uxyz[3 * i], uxyz[3 * i + 1], uxyz[3 * i + 2]), 3 * i);
     const u = bolas(cen, R_UINT, 1.5, FEITA, NOVA); u.luz.fill(-1);
@@ -1051,6 +1104,7 @@ async function fabricaBracos(ARQ) {                    // um conjunto de braços
           float a = exp(-d2 * 4.0); gl_FragColor = vec4(ativa * vL * a * 1.4 * vFog, 1.0); }`, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
     mf.userData.min0 = 3; const disp = new THREE.Points(g, mf); disp.frustumCulled = false;
     const objs = [origens, glias, u, ramos, nervo, disp]; objs.forEach(o => { o.visible = false; cena.add(o); });
+    if (fe) objs.push(fe);
     tamanho();
     const dentro = new Uint8Array(nU); for (let i = 0; i < nU; i++) dentro[i] = uxyz[3 * i] > m.xlim ? 1 : 0;   // ouvido E: para dentro da cabeça = x maior
     const pt = A("p_t"), pu = A("p_u"), tNovo = [], tReuso = [];
@@ -1059,7 +1113,7 @@ async function fabricaBracos(ARQ) {                    // um conjunto de braços
     const funcion = Array.from(rb).filter(v => v >= 0).sort((x, y) => x - y);
     const prim = new Float32Array(nU).fill(1e9); for (let i = 0; i < nF; i++) if (ft[i] < prim[fu[i]]) prim[fu[i]] = ft[i];
     const caixa = (...listas) => { const lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9]; for (const L of listas) for (let i = 0; i < L.length; i += 3) for (let j = 0; j < 3; j++) { lo[j] = Math.min(lo[j], L[i + j]); hi[j] = Math.max(hi[j], L[i + j]); } return [lo, hi]; };
-    D[b] = { objs, origens, glias, u, ut, nU, dentro, ramos, nervo, mf, ft, chegou, funcion, prim, tNovo, tReuso, nP, excesso,
+    D[b] = { objs, origens, glias, fe, u, ut, nU, dentro, ramos, nervo, mf, ft, chegou, funcion, prim, tNovo, tReuso, nP, excesso,
              cx: { entrada: caixa(che, gc, cen), nervo: caixa(org, che) } };
   }
   const ate = (arr, v) => { let lo = 0, hi = arr.length; while (lo < hi) { const md = (lo + hi) >> 1; if (arr[md] <= v) lo = md + 1; else hi = md; } return lo; };
@@ -1089,7 +1143,7 @@ async function fabricaBracos(ARQ) {                    // um conjunto de braços
   }
   return { FIMT, mj, NOMES, D, carregar, ir: (t, b) => desenhar(t, b), eventos, APS,
     mostrar(b) { for (const k in D) D[k].objs.forEach(o => o.visible = k === b); },
-    liberar() { for (const k of Object.keys(D)) { D[k].objs.forEach(o => { cena.remove(o); o.geometry.dispose(); o.material.dispose(); }); delete D[k]; } buf = null; },
+    liberar() { for (const k of Object.keys(D)) { D[k].objs.forEach(o => { cena.remove(o); o.geometry.dispose(); if (o.material !== fios.material) o.material.dispose(); }); delete D[k]; } buf = null; },
     caixa: (b, qual) => D[b] && D[b].cx[qual] };
 }
 const bracos = await fabricaBracos("teste-c"), duas = await fabricaBracos("teste-d"), MODB = { bracos, duas };
@@ -1137,6 +1191,21 @@ function vista(n) {
   }
   const [p, a] = VISTAS[n], k = n === "detalhe" ? 1 : (n === "E" || n === "D") ? Math.max(1, 1.0 / camera.aspect) : Math.max(1, 1.5 / camera.aspect);
   camera.position.copy(a).add(p.clone().sub(a).multiplyScalar(k)); ctrl.target.copy(a); ctrl.update();
+}
+// som nos estudos dos braços: a gravação da apresentação em curso (no silêncio entre elas, tudo apagado); a cóclea acesa é a do braço
+// (faixa ou espiral), com as incidências do ouvido E calculadas como a entrada do motor no modo contínuo
+function somBraco(t, f) {
+  const mod = MODB[f.estudo], d = mod.D[f.braco]; if (!d || !mod.APS.length) return;
+  let a = mod.APS.find(x => t >= x.inicio && t <= x.inicio + x.dur), sil = !a; if (!a) a = mod.APS.find(x => t < x.inicio) || mod.APS[mod.APS.length - 1];
+  const F = SONS[arqSom(a.gravacao)]; if (!F) return;
+  const tl = Math.max(0, t - a.inicio), fr = Math.min(F.NF - 1, Math.floor(tl / F.FR)), u = fios.material.uniforms;
+  u.tex.value = F.tex; u.quadro.value = F.FR; u.nq.value = F.NF; u.uT.value = tl; u.uTv.value = Tv; u.ativo.value = sil ? 0 : 1;
+  moverOndas(tl, { ...F, silencio: sil });
+  const L = d.origens.luz;
+  for (let i = 0; i < L.length; i++) { const g = sil ? 0 : F.G[fr * 64 * SUB + celula[i]]; L[i] = Math.max(Math.pow(Math.min(1, g / F.P99), 0.85), L[i] * 0.82); }
+  d.origens.aLuz.needsUpdate = true;
+  mics.luz[0] = 0.35 + (sil ? 0 : 0.65 * F.TOTAL.E[fr]); mics.luz[1] = 0.35 + (sil ? 0 : 0.65 * F.TOTAL.D[fr]); mics.aLuz.needsUpdate = true;
+  altos.luz[0] = sil ? 0 : nivel01(F.CAN[fr] / 255 * 90) * 0.6; altos.luz[1] = sil ? 0 : nivel01(F.CAN[F.NF + fr] / 255 * 90) * 0.6; altos.aLuz.needsUpdate = true;
 }
 function aplicar(fr) {
   const L = pontos.luz;
@@ -1346,7 +1415,8 @@ async function abrir(fid, { tocar = false } = {}) {
   catch (e) { console.warn(e); P.carregando = false; el("p-estado").textContent = ""; el("p-falha").hidden = false;
     el("p-falha").querySelector("span").textContent = `Não foi possível carregar os dados (${(e && e.message) || e}).`; el("mini-sub").textContent = "falha ao carregar · toque para tentar de novo"; return; }
   P.carregando = false;
-  esconderTudo(); pontos.luz.fill(0); pontos.aLuz.needsUpdate = true; mostrarV18(FAM18.includes(fid));
+  esconderTudo(); pontos.luz.fill(0); pontos.aLuz.needsUpdate = true; mostrarV18(FAM18.includes(fid) || !!f.braco);
+  if (f.braco) { const d = MODB[f.estudo].D[f.braco]; fios.visible = !d.fe; }   // compacta: fios até a espiral (do braço); faixas: os fios da V0.18
   if (fid === "piloto" || fid === "lupa") malha.objs.forEach(o => o.visible = true);
   if (fid === "lupa") obs.objs.forEach(o => o.visible = true);
   if (fid === "ensaio") sessoes.mostrar(true);
@@ -1486,8 +1556,9 @@ const tmp = new THREE.Vector3(); let nq = 0, ultimoQ = performance.now();
   camera.near = dist / 400; camera.far = Math.max(dist * 4000, 6000); camera.updateProjectionMatrix();
   COMUM.uFoco.value = dist;
   grade.material.uniforms.alfa.value = Math.max(0, Math.min(1, (1.0 - dist) / 0.7)) * 0.55;
+  if (f && f.braco) somBraco(P.t, f);
   if (f && FAM18.includes(P.fid)) {
-    const fr = Math.min(NF - 1, Math.floor(T / FR));
+    const fr = Math.min(NF - 1, Math.floor(T / FR)), uf = fios.material.uniforms; uf.tex.value = texNivel; uf.quadro.value = FR; uf.nq.value = NF; uf.ativo.value = 1;
     fios.material.uniforms.uT.value = T; fios.material.uniforms.uTv.value = Tv; moverOndas(); aplicar(fr);
     if (P.fid === "lupa") obs.atualizar(T);
   }

@@ -1,7 +1,7 @@
 """V0.19 — exporta o teste de 60 s dos três braços (faixa 790, faixa 263, compacta 263; ouvido E) para a página.
 Princípio do visualizador: só o que o motor registrou, mais a geometria dada no instante zero.
 
-Lê dados/teste-c-<braco>-esq.npz e grava visual/teste-c.bin + visual/teste-c.json. Por braço:
+Lê dados/<prefixo>-<braco>-esq.npz e grava visual/<prefixo>-<braco>.bin (um por braço) + visual/<prefixo>.json. Por braço:
 - origem de cada Upro do nervo (ponto transdutivo): na faixa, a própria faixa; na compacta, a espiral aberta
   (coordenadas.espiral). É geometria do instante zero: o motor não usa a posição da origem, porque o nervo é só um
   comprimento de condução (nervo cubos), sem trajeto;
@@ -32,8 +32,9 @@ def passagens(d, todas):
 
 
 def main(pre="teste-c"):
-    blob = bytearray(); meta = {"bracos": {}}
+    blobs = {}; meta = {"bracos": {}}
     def poe(nome, arr):
+        blob = blobs[nome.split("_")[0]]
         while len(blob) % 4: blob.append(0)
         meta[nome] = dict(off=len(blob), n=int(arr.size), tipo=str(arr.dtype)); blob.extend(np.ascontiguousarray(arr).tobytes())
     for b in BRACOS:
@@ -41,7 +42,7 @@ def main(pre="teste-c"):
         if not arq.exists():
             continue
         d = np.load(arq); todas = json.loads(str(d["resumo"])); res = todas[0]; N = int(d["N"]); lado = -1
-        p = b + "_"
+        p = b + "_"; blobs[b] = bytearray()
         if int(d["modo"]) == 1:
             org, _, _ = co.espiral(d["px"], d["py"], d["pz"], d["banda"], lado)
         else:
@@ -78,8 +79,9 @@ def main(pre="teste-c"):
         meta["fim"] = todas[-1]["inicio"] + todas[-1]["dur"]
     meta.update(ouvido="esq", n_pontos=int(N), cubo_s=0.02e-3 / 0.3)
     vis = AQUI.parent / "visual"
-    (vis / f"{pre}.bin").write_bytes(bytes(blob)); (vis / f"{pre}.json").write_text(json.dumps(meta, ensure_ascii=False))
-    print(round(len(blob) / 1e6, 1), "MB", {b: {k: v for k, v in m.items() if k != "afastamento"} for b, m in meta["bracos"].items()})
+    for b, blob in blobs.items(): (vis / f"{pre}-{b}.bin").write_bytes(bytes(blob))   # um arquivo por braço (o celular carrega só o aberto)
+    (vis / f"{pre}.json").write_text(json.dumps(meta, ensure_ascii=False))
+    print({b: round(len(x) / 1e6, 1) for b, x in blobs.items()}, "MB", {b: {k: v for k, v in m.items() if k != "afastamento"} for b, m in meta["bracos"].items()})
 
 
 if __name__ == "__main__":

@@ -156,6 +156,9 @@
 | **Nervo desenhado "orgânico" nos três braços [R]** | "Todos 'orgânicos', se possível." Curva com comprimento desenhado igual ao de condução (790 ou 263 cubos); o caminho é desenho. Origens da compacta na espiral do instante zero | 28/11 |
 | **Tamanho do bloco da borda (pendente)** | [M] Blocos de 5 s × 20 s dão resultados diferentes a partir da primeira fronteira (a borda reaquece a cada bloco). Antes da rodada "pra valer": fixar e declarar o bloco, ou tornar a borda contínua. Decisão de Paulo | 28/11 |
 | **Nervo desenhado por Cpro; espiral virada; face a 50 cubos [R]** | "Uma Cpro por banda, mas as Cpro também podem se unir para sair da cóclea"; "pode fazer dessa forma". Rota desenhada: origem → Cpro da banda → nervo (Cpro juntas) → leque. Base da espiral voltada para o núcleo; face a ~50 cubos além da base. Só desenho e posição: o motor dá os mesmos resultados (transladados) | 28/11 |
+| **Entrada contínua como opção [R]** | "Crie uma opção de cálculo contínuo e vejamos o que acontece, mas com opção de voltar para a anterior facilmente." `V19_BORDA=continua` (som lido de uma vez; cóclea com estado entre pedaços); `blocos` é o padrão. No contínuo, o tamanho do pedaço não muda o resultado [M] | 28/11 |
+| **Teste de duas gravações [R]** | "Não muda, os três"; "2 gravações da Gymnopédie, 60s cada"; "Mantém o silêncio". Alciatore e Baiocchi [E], entrada contínua. Registrado sem leitura em `teste-duas-gravacoes.md` | 28/11 |
+| **Som de volta na cena dos braços [R]** | "O microfone sumiu / E a fonte do som também… Não deveriam ter saído." Alto-falantes, ondas, microfones, fios e pontos acesos pelas incidências do ouvido E, na gravação inteira | 28/11 |
 
 ## Base da decisão sobre o determinismo [L]
 
