@@ -78,131 +78,140 @@ details { margin: 4px 16px 16px; border-top: 1px solid var(--linha); padding-top
 summary { cursor: pointer; font-weight: 600; }
 details ul { padding-left: 20px; max-width: 74ch; line-height: 1.45; }
 @media (max-width: 480px) { header { padding: 10px 12px 4px; } #palco { margin: 0 12px; } .leitura { margin: 6px 12px 0; } .controles { padding: 8px 12px; } details { margin: 4px 12px 12px; } }
+/* ---- player de testes (guia da Clara, 28/11) ---- */
+body { display: block; }
+.topo { display: flex; align-items: center; gap: 12px; padding: 10px 16px 6px; }
+.voltar { color: var(--texto); text-decoration: none; font-size: .95rem; padding: 8px 10px; border: 1px solid #2a3a3e; border-radius: 8px; min-height: 44px; display: inline-flex; align-items: center; }
+.marca { display: flex; align-items: center; gap: 8px; }
+.marca .word { font-size: 20px; letter-spacing: .28em; }
+#app { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 0 12px 24px; }
+.capa #palco { margin: 0; height: 58vh; min-height: 320px; flex: none; }
+#escala { position: absolute; left: 8px; bottom: 6px; pointer-events: none; }
+.menu { position: absolute; right: 8px; top: 8px; margin: 0; border: 0; padding: 0; font-size: .85rem; }
+.menu > summary { list-style: none; width: 44px; height: 44px; display: grid; place-items: center; background: #0d1417cc; border: 1px solid #2a3a3e; border-radius: 10px; font-size: 1.3rem; }
+.menu > summary::-webkit-details-marker { display: none; }
+.menu-corpo { position: absolute; right: 0; top: 50px; width: min(86vw, 340px); max-height: 60vh; overflow: auto; background: #0b1114f2; border: 1px solid #2a3a3e; border-radius: 10px; padding: 10px; display: grid; gap: 10px; }
+.menu-grupo > span { color: var(--apagado); font-size: .78rem; display: block; margin-bottom: 4px; }
+.botoes { display: flex; flex-wrap: wrap; gap: 6px; }
+button { min-height: 40px; }
+.card { border: 1px solid var(--linha); border-radius: 10px; padding: 10px 12px; display: grid; gap: 6px; }
+.card .estudo { color: var(--apagado); font-size: .78rem; letter-spacing: .04em; }
+.card h1 { font-size: 1.15rem; }
+.card p { margin: 0; }
+.pergunta { font-weight: 600; }
+.explic, .estado { color: var(--apagado); font-size: .88rem; line-height: 1.45; }
+.segmentos { display: inline-flex; border: 1px solid #2a3a3e; border-radius: 10px; overflow: hidden; width: fit-content; }
+.segmentos button { border: 0; border-radius: 0; min-height: 44px; }
+.transporte { display: grid; gap: 6px; }
+#barra { width: 100%; accent-color: var(--nova); min-height: 32px; }
+.tempos { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; font: 500 .85rem var(--mono); font-variant-numeric: tabular-nums; }
+#t-dur { text-align: right; }
+.play { width: 64px; height: 64px; border-radius: 50%; font-size: 1.5rem; border-color: var(--nova); }
+.vel-atual { color: var(--apagado); font-size: .78rem; text-align: center; }
+.diario #diario, #diario-todos { margin: 6px 0 0; max-height: none; border-left: 0; padding-left: 0; font: inherit; }
+.diario { margin: 0; border: 1px solid var(--linha); border-radius: 10px; padding: 8px 12px; }
+.diario ol { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 4px; }
+.diario li button { width: 100%; text-align: left; background: none; border: 0; padding: 6px 4px; font: .82rem/1.4 var(--mono); color: var(--apagado); }
+.diario li.atual button { color: var(--texto); background: #b45cff1a; border-left: 3px solid var(--nova); }
+.diario .todos { margin: 6px 0 0; border: 0; padding: 0; font-size: .8rem; }
+#diario-todos { max-height: 40vh !important; overflow: auto; }
+.lista { display: grid; gap: 6px; }
+.lista h2 { font-size: 1rem; margin: 6px 0 0; }
+#faixas { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.faixa { display: grid; grid-template-columns: 52px 1fr auto; gap: 10px; align-items: center; border: 1px solid var(--linha); border-radius: 10px; padding: 8px; }
+.faixa.ativa { border-color: var(--nova); box-shadow: 0 0 10px #b45cff33 inset; }
+.faixa.destaque { border-color: #3d7bff66; }
+.faixa .fplay { width: 48px; height: 48px; border-radius: 50%; padding: 0; font-size: 1.1rem; }
+.faixa .ft { font-weight: 600; }
+.faixa .fs { color: var(--apagado); font-size: .78rem; }
+.faixa .fd { font: 500 .8rem var(--mono); color: var(--apagado); }
+.sobre details { margin: 4px 0 0; }
+@media (min-width: 900px) {
+  #app { grid-template-columns: minmax(0, 1fr) 360px; grid-template-areas: "capa diario" "card diario" "transporte diario" "lista lista" "sobre sobre"; align-items: start; }
+  .capa { grid-area: capa; } .card { grid-area: card; } .transporte { grid-area: transporte; } .diario { grid-area: diario; } .lista { grid-area: lista; } .sobre { grid-area: sobre; }
+  .capa #palco { height: 62vh; }
+  #diario-todos { max-height: 70vh; }
+}
 </style>
 </head>
 <body>
-<header>
-  <div class="brand">
-    <svg class="mark" viewBox="0 0 64 32" aria-hidden="true">
+<header class="topo">
+  <a href="#lista" class="voltar" aria-label="Voltar à lista de testes">← Testes</a>
+  <div class="marca"><svg class="mark" viewBox="0 0 64 32" aria-hidden="true">
       <defs><linearGradient id="cg" x1="0" x2="1"><stop offset="0" stop-color="#39ff14"/><stop offset="1" stop-color="#e9fbe4"/></linearGradient></defs>
       <path d="M6 6 Q22 8 30 16 M6 26 Q22 24 30 16" fill="none" stroke="url(#cg)" stroke-width="2.2" stroke-linecap="round"/>
       <path d="M38 16 L58 16" fill="none" stroke="#e9fbe4" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="3 3"/>
       <circle cx="6" cy="6" r="3.6" fill="#8fa09b"/><circle cx="6" cy="26" r="3.6" fill="#8fa09b"/>
       <circle cx="34" cy="16" r="6" fill="#39ff14"/><circle cx="34" cy="16" r="2.4" fill="#04070a"/>
-    </svg>
-    <div>
-      <div class="word">CLEAR</div>
-      <div class="expand"><b>C</b>onsciousness as <b>L</b>ocal <b>E</b>ffective <b>A</b>ccess to <b>R</b>epresentations</div>
-    </div>
-  </div>
-  <h1>Sdom — a borda em luz <span class="ver">EMERGENCE · V0.19</span></h1>
-  <div class="sub">O espaço do Sdom (o domínio representacional) em 3D, com cada unidade na posição calculada pelo motor. Nas duas faixas, os pontos transdutivos (Utrd) recebem o som de cada ouvido; ao lado ficam as Ustr (glias). A partir do instante zero, sem nenhuma malha, o motor constitui Uints e Upros sozinho, a partir das incidências. Arraste para girar; pince ou role para entrar no Sdom até ver os cubos.</div>
+    </svg><span class="word">CLEAR</span><span class="ver">Sdom · EMERGENCE · V19</span></div>
 </header>
 <audio id="audio" preload="auto" src="visual/v18-satie/audio.mp3"></audio>
-<div id="palco" aria-label="Espaço 3D do Sdom">
-  <div id="carregando">carregando as coordenadas…</div>
-</div>
-<div class="leitura"><div id="contagem" aria-live="polite"></div><div id="escala"></div></div>
-<div id="diario" aria-live="polite" aria-label="Diário do Sdom"></div>
-<div class="controles">
-  <div class="titulo-testes">O que ver · a V0.19 tem vários testes antes do "pra valer". Escolha um: a legenda diz o que ele testa.</div>
-  <div class="testes" role="group" aria-label="Testes da V0.19">
-    <div class="cartao" data-c="demo"><button data-teste="demo">▶ Robô ouvindo</button><p><b>Não é teste.</b> Demonstração da Utrd completa (microfone + cóclea) recebendo a Gymnopédie e gerando incidências, com os dados publicados da V0.18 (9–19 s).</p></div>
-    <div class="cartao" data-c="piloto"><button data-teste="piloto">▶ Piloto de 10 s</button><p><b>Testa:</b> se incidências que não integraram, coincidindo na mesma janela (0,3 ms), fazem nascer Uints e ramos, e se essas Uints chegam a disparar. Motor mínimo, ainda sem nervo, com escolhas provisórias (27/11). <code>piloto-10s.md</code></p></div>
-    <div class="cartao" data-c="lupa"><button data-teste="lupa">▶ Incidências andando</button><p><b>Testa:</b> se cada incidência desce pelo ramo no tempo do próprio ramo e se a Uint soma as chegadas até o limiar (1,5) antes de disparar. Janela do piloto (banda ~600 Hz, 5–6 s), a 1/10.000×.</p></div>
-    <div class="cartao" data-c="ensaio"><button data-teste="ensaio">▶ Ensaio com o nervo · 4 gravações</button><p><b>Testa:</b> se a volta da obra (outra gravação) percorre, em sua maioria, a malha que já existia. Desenho planar, Sdom contínuo, 1 min de silêncio entre gravações. Medido: 94–99% das passagens por ramos antigos (limiar: 2/3). <code>ensaio-nervo-4-gravacoes.md</code></p></div>
-    <div class="cartao" data-c="ab"><button data-teste="ab">▶ Folha × profundidade · 90 s</button><p><b>Testa:</b> se a liberdade de a Uint nascer mais para dentro da cabeça (B) muda quem converge e integra, com a mesma entrada e as mesmas regras da folha fixa (A). Ouvido E, 0–90 s. Para observação, não é o "pra valer". <code>preregistro-folha-x-profundidade.md</code></p></div>
-  </div>
-  <div class="linha" id="linha-demo">
-    <button id="play" aria-label="Tocar">▶ Tocar</button>
-    <input id="tempo" type="range" min="0" max="10" step="0.005" value="0" aria-label="Tempo">
-    <span id="rotulo-tempo">9,000 s</span>
-    <div class="grupo" role="group" aria-label="Navegar"><button data-pulo="-1">⏮ 1 s</button><button data-pulo="-0.005">◀ 5 ms</button><button data-pulo="0.005">5 ms ▶</button><button data-pulo="1">1 s ⏭</button></div>
-    <div class="grupo" role="group" aria-label="Velocidade"><span>Velocidade</span>
-      <button data-vel="1" aria-pressed="true">1×</button>
-      <button data-vel="0.25">¼×</button>
-      <button data-vel="0.05">1/20×</button>
-      <button data-vel="0.001">1/1.000×</button>
-      <button data-vel="0.0001">1/10.000×</button>
-      <button id="lupa" hidden>Ver incidências andando (5 s)</button>
+<main id="app">
+  <section class="capa" aria-label="Cena 3D do Sdom">
+    <div id="palco" aria-label="Espaço 3D do Sdom: arraste para girar, pince ou role para aproximar">
+      <div id="carregando">carregando as coordenadas…</div>
+      <div id="escala" aria-hidden="true"></div>
+      <details class="menu" id="menu"><summary aria-label="Mais ações">⋯</summary>
+        <div class="menu-corpo">
+          <div class="menu-grupo"><span>Velocidade</span><div id="m-vel" class="botoes"></div></div>
+          <div class="menu-grupo"><span>Vista</span><div class="botoes">
+            <button data-vista="geral">Geral</button><button data-vista="sala">Sala</button><button data-vista="cima">De cima</button>
+            <button data-vista="E">Ouvido E</button><button data-vista="D">Ouvido D</button><button data-vista="nervo">Nervo E</button>
+            <button data-vista="nucleo">Núcleo E</button><button data-vista="detalhe">Dentro (cubos)</button></div></div>
+          <div class="menu-grupo"><span>Mostrar</span><div id="m-cam" class="botoes"></div></div>
+          <div class="menu-grupo"><button id="foto">Salvar imagem da cena</button></div>
+        </div>
+      </details>
     </div>
-  </div>
-  <details class="vc"><summary>Vistas e camadas</summary>
-  <div class="linha">
-    <div class="grupo" role="group" aria-label="Vistas"><span>Vista</span>
-      <button data-vista="sala">Sala</button>
-      <button data-vista="geral">Geral</button>
-      <button data-vista="cima">De cima</button>
-      <button data-vista="E">Ouvido E</button>
-      <button data-vista="D">Ouvido D</button>
-      <button data-vista="detalhe">Dentro (cubos)</button>
-      <button data-vista="nervo">Nervo E</button>
-      <button data-vista="nucleo">Núcleo E (zona de entrada)</button>
+  </section>
+  <section class="card" aria-live="polite">
+    <div class="estudo" id="c-estudo"></div>
+    <h1 id="c-titulo"></h1>
+    <div id="c-cond" class="segmentos" role="group" aria-label="Condição" hidden>
+      <button data-faixa="A">Folha fixa</button><button data-faixa="B">Profundidade local</button>
     </div>
-    <div class="grupo" role="group" aria-label="Camadas"><span>Mostrar</span>
-      <button id="cam-pontos" aria-pressed="true">Pontos transdutivos</button>
-      <button id="cam-ustr" aria-pressed="true">Ustr</button>
-      <button id="cam-som" aria-pressed="true">Som</button>
-      <button id="cam-fios" aria-pressed="true">Sinal elétrico</button>
-      <button id="cam-inc" aria-pressed="true">Incidências nas Upros</button>
-      <button id="cam-grade" aria-pressed="true">Cubos</button>
-      <button id="cam-malha" aria-pressed="true">Malha (piloto, ouvido E)</button>
-    </div>
-  </div>
+    <p class="pergunta" id="c-pergunta"></p>
+    <p class="explic" id="c-explic"></p>
+    <p class="estado" id="c-estado"></p>
+    <div id="c-falha" hidden><span>Não foi possível carregar os dados deste teste.</span> <button id="c-tentar">Tentar de novo</button></div>
+  </section>
+  <section class="transporte" aria-label="Reprodução">
+    <input id="barra" type="range" min="0" max="1" step="0.001" value="0" aria-label="Tempo do teste">
+    <div class="tempos"><span id="t-dec">0:00</span><button id="play" class="play" aria-label="Reproduzir">▶</button><span id="t-dur">0:00</span></div>
+    <div class="vel-atual" id="vel-atual"></div>
+  </section>
+  <details class="diario" id="diario-box" open>
+    <summary>Diário do motor</summary>
+    <ol id="diario" aria-live="polite"></ol>
+    <details class="todos"><summary id="todos-titulo">Todos os acontecimentos</summary><ol id="diario-todos"></ol></details>
   </details>
-  <div class="linha" id="linha-ap" hidden>
-    <div class="grupo" role="group" aria-label="Apresentações"><span>Ensaio (Sdom contínuo) · ir para o fim de</span><span id="botoes-ap"></span></div>
-  </div>
-  <div id="painel-ap" class="legenda" hidden></div>
-  <div class="linha" id="linha-teste" hidden>
-    <button id="t-play">▶ Tocar</button>
-    <div class="grupo" role="group" aria-label="Condição"><span>Condição</span><button data-cond="A" aria-pressed="true">A · folha fixa</button><button data-cond="B">B · profundidade local</button></div>
-    <input id="t-tempo" type="range" min="0" max="90" step="0.01" value="0" style="flex:1;min-width:160px;accent-color:var(--nova)" aria-label="Tempo do teste">
-    <div class="grupo"><button data-tp="-10">⏮ 10 s</button><button data-tp="-1">◀ 1 s</button><button data-tp="1">1 s ▶</button><button data-tp="10">10 s ⏭</button></div>
-    <div class="grupo" role="group" aria-label="Velocidade do teste"><span>Velocidade</span><button data-tv="5">5×</button><button data-tv="1" aria-pressed="true">1×</button><button data-tv="0.25">¼×</button><button data-tv="0.05">1/20×</button></div>
-    <span id="t-rot" style="font:500 .8rem var(--mono);color:var(--apagado)"></span>
-  </div>
-  <div id="painel-teste" class="legenda" hidden></div>
-  <div id="obra">Gymnopédie n.º 1 (Satie), Robin Alciatore (Musopen, domínio público), de 9 a 19 s — os mesmos dados da página da V0.18.</div>
-  <div class="legenda">
-    <span class="demo"><b>Demonstração do robô.</b> A sala, os alto-falantes, as ondas, o microfone e os fios mostram o que é constitutivo do robô (a Utrd completa da V0.18: microfone + cóclea) num ambiente virtual simulado. Não fazem parte do Sdom e não mudam nada nele. A posição desenhada do microfone e o traçado dos fios são só desenho; o sinal que eles carregam é o da V0.18.</span>
-    <span><b style="color:var(--som)">som</b>: ondas esféricas que se expandem a partir dos dois alto-falantes da sala da V0.18; o brilho de cada crista é o nível do canal no instante em que ela saiu. Param no microfone (a passagem em volta da cabeça não é desenhada). Velocidade ilustrativa.</span>
-    <span><b style="color:var(--eletrico)">sinal elétrico</b> (cor provisória): um fio do microfone até a base da faixa, que se abre em 64 fios, um por banda. Brilho = nível da banda no ouvido (V0.18), com o atraso real de cada filtro (≈0,5 ms no agudo a ≈16 ms no grave; dá para ver em 1/20×). Os pulsos só indicam o sentido. Os fios não são unidades do Sdom: desenham o caminho do sinal da V0.18.</span>
-    <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (cores provisórias). As bolas ocupam 45% do cubo só para a distância entre elas aparecer: no modelo, as unidades não têm tamanho.</span>
-    <span><b>Malha do piloto (ouvido esquerdo):</b> o que o motor mínimo constituiu nestes 10 s, a partir do instante zero. <b style="color:var(--nova)">Roxo</b> = nova constituição: a Uint nascendo e cada ramo crescendo cubo a cubo (1 cubo a cada ~12 coincidências do par), passo a passo como o motor registrou. <b style="color:var(--acesso)">Azul</b> = disparo de uma Uint (leitura minha: acesso a uma constituição já formada; a confirmar). Já formados, Uint e ramo ficam em cor neutra (provisória). O motor guarda o comprimento de cada ramo, não o traçado: o ramo-base aparece reto e a variante (mais longa) em arco, só para mostrar o excesso de comprimento. Piloto com escolhas provisórias (ver <code>piloto-10s.md</code>): não é resultado da V0.19.</span>
-    <span><b>Upros e incidências andando:</b> os ramos são desenhados como tubos de 2 µm (processo central do axônio do nervo auditivo no modelo de Rattay et al. 2013), com espessura mínima na tela. Numa janela de observação do piloto (ouvido E, banda ~600 Hz, de 5 a 6 s), cada incidência que o motor registrou descendo um ramo aparece como um <b style="color:var(--excit)">fóton verde</b> andando da origem até a Uint, no tempo do próprio ramo (comprimento × 66,7 µs, de 0,07 a 0,5 ms). Por isso só dá para ver a 1/1.000× ou mais devagar: use "Ver incidências andando". A Uint <b style="color:var(--excit)">acende em verde</b> conforme a soma das chegadas se aproxima do limiar (1,5) e solta um <b style="color:var(--acesso)">clarão azul</b> quando dispara. Uint ≈ 1 cubo (corpos de ~18–25 µm); Ustr em estrela (astrócito), tamanho desenhado.</span>
-    <span><b>Teste A × B (90 s, ouvido E):</b> o mesmo começo da Alciatore em duas condições que só diferem em onde a Uint candidata pode nascer. <b>A</b>: só na folha, o primeiro plano de cubos atrás das pontas das Upros de entrada. <b>B</b>: na folha ou mais para dentro da cabeça. Mesma caixa de busca (3 cubos em volta do ponto médio do par), mesmas regras. Roxo = crescendo, cubo a cubo, como o motor registrou; as curvas são desenho. Pré-registro: <code>preregistro-folha-x-profundidade.md</code>. Teste para observação, não o "pra valer".</span>
-    <span><b>Espessura das Upros:</b> no mínimo ~1/10 do diâmetro desenhado da Uint (2 µm de perto; acompanha a Uint quando ela é ampliada para continuar visível de longe). Só desenho: não muda o motor.</span>
-    <span><b style="color:var(--excit)">Ponto transdutivo aceso em verde</b>: a Utrd emitindo incidências. Sem Upro funcionando, a incidência para ali mesmo, sem integrar (registrada pela Ustr do território); com Upro, ela desce pelos ramos até as Uints.</span>
-    <span>No desenho, o microfone está 3 mm para fora da faixa, para o fio aparecer (no motor, a faixa fica na posição do microfone).</span>
-    <span>Reservadas para a criação (ainda não há): <b style="color:var(--nova)">nova constituição</b> · <b style="color:var(--acesso)">acesso</b> · <b style="color:var(--modif)">modificação</b> · <b style="color:var(--inib)">inibitória</b></span>
-  </div>
-</div>
-<details open>
-  <summary>O que é cada coisa</summary>
-  <ul>
-    <li><b>Sdom (domínio representacional):</b> o espaço onde as representações se constituem. É dividido em cubos de 20 µm; as incidências andam a 0,3 m/s (≈ 67 µs por cubo).</li>
-    <li><b>Utrd e pontos transdutivos</b> (bolinhas cinza na faixa): a fronteira entre o som e o Sdom. Cada ponto converte o sinal da sua banda e da sua sensibilidade em <b>incidências</b>. Vêm prontos da V0.18 (microfone + cóclea).</li>
-    <li><b>Ustr</b> (estrelas rosadas): as glias. Cada uma cuida de um território de ~4 pontos e registra as <b>incidências que não integraram</b>. Quando duas delas, no território, caem na mesma janela de 0,3 ms, há uma <b>coincidência</b>.</li>
-    <li><b>Uint</b> (bolas do tamanho de um cubo): unidade que integra. Nasce no cubo livre mais próximo de um par que coincide. Soma o que chega pelos ramos; se a soma passa do limiar (1,5), <b>dispara</b>.</li>
-    <li><b>Upro e ramos</b> (tubos): a Upro é a aresta com várias cabeças; cada cabeça é um <b>ramo</b>. A Upro sai de um ponto transdutivo (no nervo, cresce até o núcleo com os reacessos do ponto) ou de uma Uint; seus ramos crescem 1 cubo a cada ~12 coincidências do par até chegar à Uint, e só então funcionam. Uma Upro jovem vale ~1/4,6 do limiar: a Uint só dispara quando ~5 ramos chegam juntos.</li>
-    <li><b>Cpro (a fibra):</b> o feixe das Upros de uma faixa. Passa a existir quando a faixa tem Upro.</li>
-    <li><b>Cores:</b> <b style="color:var(--som)">amarelo</b> = som · <b style="color:var(--excit)">verde</b> = incidência excitatória · <b style="color:var(--nova)">roxo</b> = nova constituição · <b style="color:var(--acesso)">azul</b> = acesso (uso do que já existe) · <b style="color:var(--modif)">ciano</b> = modificação · <b style="color:var(--inib)">vermelho</b> = inibitória (ainda não há).</li>
-  </ul>
-</details>
-<details>
-  <summary>O que esta página mostra</summary>
-  <ul>
-    <li><b>Dado:</b> as Utrd (microfone + cóclea, V0.18). Cada faixa tem 21.731 pontos transdutivos, um por cubo de 20 µm. Ao longo da faixa ficam as 64 bandas em ordem de frequência; na largura, a ordem de sensibilidade.</li>
-    <li>A faixa é reta (desenrolada), como no motor. A espiral da cóclea não é desenhada (decisão do responsável, 27/11).</li>
-    <li>As faixas ficam a 10 cm uma da outra, nas posições dos microfones do robô.</li>
-    <li><b>Ustr:</b> uma para cada bloco de 2 × 2 pontos vizinhos, um cubo para dentro. De perto, a grade dos cubos aparece: as bolas são menores que o cubo, então dá para ver a distância entre elas.</li>
-    <li><b>Criado:</b> nada ainda. A contagem confere que não há Uint, Upro, Cpro nem ramos no instante zero (erro que encerrou a V0.17).</li>
-    <li>A largura da faixa (16 cubos) é uma coluna de sensibilidade da V0.18 por linha de cubos (confirmada em 27/11).</li>
-    <li><b>Reprodução:</b> são os dados já publicados da V0.18 (mesma gravação e trecho), copiados para <code>v19/visual/v18-satie/</code>: atividade de cada coluna de sensibilidade de cada banda e o nível de cada banda no ouvido, em quadros de 5 ms. O nível de cada canal da gravação (ondas) vem do próprio arquivo de áudio. Nada da V0.18 é recalculado.</li>
-    <li>A página só exibe: não alimenta o motor.</li>
-  </ul>
-</details>
+  <section class="lista" id="lista" aria-label="Testes da V19">
+    <h2>Testes da V19</h2>
+    <ol id="faixas"></ol>
+  </section>
+  <section class="sobre">
+    <details><summary>Legenda da cena</summary>
+      <div class="legenda">
+        <span><b>Fidelidade:</b> tempos e posições vêm dos registros do motor. Cores, curvas e brilho são desenho; a proporção física dos eixos é a do motor (uma camada de poucos cubos parece plana diante de uma faixa de 27,8 mm, e é).</span>
+        <span><b style="color:var(--nova)">Roxo</b> = nascendo ou crescendo (Uint candidata que nasce; ramo crescendo cubo a cubo; Upro do nervo crescendo) · neutro = já chegou e funciona · <b style="color:var(--acesso)">azul</b> = disparo · <b style="color:var(--excit)">verde</b> = incidência excitatória.</span>
+        <span><b>Upros:</b> traçado curvo só de desenho (o motor guarda comprimento e atraso); espessura mínima de ~1/10 do diâmetro desenhado da Uint.</span>
+        <span class="demo"><b>Demonstração do robô.</b> Sala, alto-falantes, ondas, microfone e fios mostram a Utrd completa da V0.18 num ambiente simulado. Não fazem parte do Sdom. O microfone está desenhado 3 mm para fora da faixa.</span>
+        <span><i style="background:var(--ponto)"></i>ponto transdutivo (Utrd) · <i style="background:var(--ustr)"></i>Ustr (estrelas; cores provisórias).</span>
+      </div>
+    </details>
+    <details><summary>O que é cada coisa</summary>
+      <ul>
+        <li><b>Sdom:</b> o espaço onde as representações se constituem, em cubos de 20 µm; as incidências andam a 0,3 m/s (≈ 67 µs por cubo).</li>
+        <li><b>Utrd e pontos transdutivos:</b> a fronteira entre o som e o Sdom (V0.18). Cada ponto converte o sinal da sua banda e sensibilidade em <b>incidências</b>.</li>
+        <li><b>Ustr:</b> as glias. Registram, no seu território, as incidências que não integraram; duas na mesma janela de 0,3 ms são uma <b>coincidência</b>.</li>
+        <li><b>Uint:</b> unidade que integra. Nasce como candidata perto de um par que coincide; soma o que chega pelos ramos e <b>dispara</b> ao passar do limiar (1,5).</li>
+        <li><b>Upro e ramos:</b> a Upro é a aresta com várias cabeças; cada cabeça é um <b>ramo</b>. Cresce 1 cubo a cada ~12 coincidências (ramos) ou reacessos (nervo) e só funciona quando chega.</li>
+        <li><b>Cpro (a fibra):</b> o feixe das Upros de uma faixa.</li>
+      </ul>
+    </details>
+    <details><summary>Contagem do instante zero</summary><div id="contagem"></div></details>
+  </section>
+</main>
 <script type="importmap">
 { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/" } }
@@ -542,7 +551,7 @@ const malha = await (async () => {
     cena.add(disp);
     const ate = (arr, v) => { let lo = 0, hi = arr.length; while (lo < hi) { const m = (lo + hi) >> 1; if (arr[m] <= v) lo = m + 1; else hi = m; } return lo; };
     const ft_ord = Array.from(ft).sort((a, b) => a - b);
-    return { uints, ramos, disp, objs: [uints, ramos, disp], atualizar(T) {
+    return { uints, ramos, disp, objs: [uints, ramos, disp], dados: { ut, rft, ft, fu }, atualizar(T) {
         const ms = T * 1000, L = uints.luz;
         for (let i = 0; i < nU; i++) L[i] = ut[i] > ms ? -1 : Math.max(0, 1 - (ms - ut[i]) / 600);
         uints.aLuz.needsUpdate = true; mat.uniforms.uT.value = T;
@@ -592,7 +601,7 @@ const obs = await (async () => {
       for (let i = lo; i < n && ct[i] <= b && out.length < 6; i++) out.push({ u: ru[cr[i]], v: cv[i] + ca[i], atr: Math.round(atr[cr[i]] * 1e6) });
       for (let i = 0; i < ft.length; i++) if (ft[i] > a && ft[i] <= b) out.unshift({ f: true, u: ftU[i] });
       return out; }
-    return { objs: [fot, enche], t0: mj.t0, t1: mj.t1, eventos, atualizar(T) {
+    return { objs: [fot, enche], t0: mj.t0, t1: mj.t1, eventos, dados: { ct, ru: Array.from(cr, r => ru[r]), ft, ftU }, atualizar(T) {
         m.uniforms.uT.value = T;
         for (let k = 0; k < nU; k++) {
           const L = porU[k]; let lo = 0, hi = L.length; while (lo < hi) { const md = (lo + hi) >> 1; if (ct[L[md]] <= T) lo = md + 1; else hi = md; }
@@ -603,15 +612,13 @@ const obs = await (async () => {
       } };
   } catch (e) { console.warn("sem janela de observação", e); return null; }
 })();
-// ---------- ensaio com as gravações completas: gravação da constituição (play, pausa, avançar, retroceder) ----------
+// ---------- ensaio com as 4 gravações (planar, com o nervo): estado do Sdom em cada instante, só dos registros ----------
 const sessoes = await (async () => {
   let mj; try { const r = await fetch(BASE + "sessoes.json"); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }
-  const linha = document.getElementById("linha-ap"), bots = document.getElementById("botoes-ap"), painel = document.getElementById("painel-ap");
-  linha.hidden = false;
   const aps = mj.ouvidos.esq.apresentacoes, NOMES = ["forma", "forma", "volta", "volta"], NERVO = mj.ouvidos.esq.nervo || 0;
   const FIM = aps[aps.length - 1].inicio + aps[aps.length - 1].dur;
-  let D = null, tE = 0, tocandoE = false, velE = 10, ativo = false, ultReal = performance.now(), tDesenhado = -1, ultDiario = -1e9;
-  const NOVA = cor("--nova"), ACESSO = cor("--acesso"), FEITA = cor("--uint"), EXC = cor("--excit");
+  const NOVA = cor("--nova"), ACESSO = cor("--acesso"), FEITA = cor("--uint");
+  let D = null;
   function bolasCor(centros, raio, minPx) {
     const o = bolas(centros, raio, minPx, new THREE.Color(1, 1, 1), new THREE.Color(1, 1, 1));
     const c = new Float32Array(centros.length); const at = new THREE.InstancedBufferAttribute(c, 3); at.setUsage(THREE.DynamicDrawUsage); o.geometry.setAttribute("corI", at); o.cor = c; o.aCor = at;
@@ -638,113 +645,79 @@ const sessoes = await (async () => {
       }
       const lr = tubos(pa, pb, W_UPRO, 1.4, [["corR", col, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`, { decl: "varying vec3 vK;", corpo: "vK = corR;" });
       lr.geometry.attributes.corR.setUsage(THREE.DynamicDrawUsage); cena.add(lr);
-      // Upros do nervo: do ponto transdutivo (cóclea) rumo à zona de entrada, crescendo com os reacessos
       const P = centrosDe([O[K].pontos]), nP = P.length / 3, fa = new Float32Array(P), fb = new Float32Array(P), fc = new Float32Array(nP * 3);
       const fib = tubos(fa, fb, W_UPRO, 0.7, [["corF", fc, 3]], `if (vK.r + vK.g + vK.b < 0.001) discard; gl_FragColor = vec4(vK * vFog, 1.0);`, { decl: "varying vec3 vK;", corpo: "vK = corF;" });
       fib.geometry.attributes.pb.setUsage(THREE.DynamicDrawUsage); fib.geometry.attributes.corF.setUsage(THREE.DynamicDrawUsage); cena.add(fib);
       const fp = A(o + "_f_p"), ft = A(o + "_f_t"), ffr = A(o + "_f_fr"), ini = new Int32Array(nP + 1);
       for (let i = 0; i < fp.length; i++) ini[fp[i] + 1]++; for (let i = 0; i < nP; i++) ini[i + 1] += ini[i];
-      out[o] = { lado, u, lr, fib, col, fc, P, nU, nR, nP, ini, ft, ffr, u_t: A(o + "_u_t"), r_t: A(o + "_r_t"), u_ap: A(o + "_u_ap"), u_f: A(o + "_u_fires"), r_ap: A(o + "_r_ap"), r_uso: A(o + "_r_uso") };
+      const chegou = []; for (let i = 0; i < fp.length; i++) if (ffr[i] >= 100) chegou.push(ft[i]);
+      out[o] = { lado, u, lr, fib, col, fc, P, nU, nR, nP, ini, ft, ffr, chegou, u_t: A(o + "_u_t"), r_t: A(o + "_r_t"), u_ap: A(o + "_u_ap"), u_f: A(o + "_u_fires"), r_ap: A(o + "_r_ap"), r_uso: A(o + "_r_uso") };
     }
     return out;
   }
   const apDe = t => { let a = -1; aps.forEach((x, i) => { if (t >= x.inicio) a = i; }); return a; };
   function desenhar(t) {
-    if (!D) return; const a = apDe(t), noAp = a >= 0 && t <= aps[a].inicio + aps[a].dur;
-    const tot = { f: 0, u: 0, r: 0 };
+    const a = apDe(t), noAp = a >= 0 && t <= aps[a].inicio + aps[a].dur, tot = { f: 0, u: 0, r: 0 };
     for (const o of ["esq", "dir"]) {
-      const d = D[o];
-      // Upros do nervo
-      const fb = d.fib.geometry.attributes.pb.array, fc = d.fc, dx = -d.lado * NERVO * MM;
+      const d = D[o], fb = d.fib.geometry.attributes.pb.array, fc = d.fc, dx = -d.lado * NERVO * MM;
       for (let p = 0; p < d.nP; p++) {
         let fr = 0, recente = false; for (let k = d.ini[p]; k < d.ini[p + 1]; k++) { if (d.ft[k] <= t) { fr = d.ffr[k] / 100; recente = t - d.ft[k] < 8; } else break; }
         fb[3 * p] = d.P[3 * p] + dx * fr; fb[3 * p + 1] = d.P[3 * p + 1]; fb[3 * p + 2] = d.P[3 * p + 2];
-        const k = fr >= 1 ? FEITA : NOVA, v = fr <= 0 ? 0 : fr >= 1 ? 0.004 : recente ? 0.07 : 0.02;   // brilho baixo: são ~21 mil Upros somando luz
+        const k = fr >= 1 ? FEITA : NOVA, v = fr <= 0 ? 0 : fr >= 1 ? 0.004 : recente ? 0.07 : 0.02;
         fc[3 * p] = k.r * v; fc[3 * p + 1] = k.g * v; fc[3 * p + 2] = k.b * v; if (fr >= 1) tot.f++;
       }
       d.fib.geometry.attributes.pb.needsUpdate = true; d.fib.geometry.attributes.corF.needsUpdate = true;
-      // Uints
       const L = d.u.luz, C = d.u.cor;
       for (let i = 0; i < d.nU; i++) {
         if (d.u_t[i] > t) { L[i] = -1; continue; } tot.u++;
         let k = FEITA, v = 0.25;
-        if (t - d.u_t[i] < 5) { k = NOVA; v = 1; }
-        else if (noAp && d.u_ap[i] < a && d.u_f[a * d.nU + i] > 0) { k = ACESSO; v = 0.75; }
+        if (t - d.u_t[i] < 5) { k = NOVA; v = 1; } else if (noAp && d.u_ap[i] < a && d.u_f[a * d.nU + i] > 0) { k = ACESSO; v = 0.75; }
         L[i] = v; C[3 * i] = k.r; C[3 * i + 1] = k.g; C[3 * i + 2] = k.b;
       }
       d.u.aLuz.needsUpdate = true; d.u.aCor.needsUpdate = true;
-      // ramos
       const col = d.col;
       for (let i = 0; i < d.nR; i++) {
         let k = null, v = 0;
-        if (d.r_t[i] <= t) { tot.r++;
-          if (t - d.r_t[i] < 5) { k = NOVA; v = 0.9; }
-          else if (noAp && d.r_ap[i] < a && ((d.r_uso[i] >> a) & 1)) { k = ACESSO; v = 0.6; }
-          else { k = FEITA; v = 0.12; } }
+        if (d.r_t[i] <= t) { tot.r++; if (t - d.r_t[i] < 5) { k = NOVA; v = 0.9; } else if (noAp && d.r_ap[i] < a && ((d.r_uso[i] >> a) & 1)) { k = ACESSO; v = 0.6; } else { k = FEITA; v = 0.12; } }
         col[3 * i] = k ? k.r * v : 0; col[3 * i + 1] = k ? k.g * v : 0; col[3 * i + 2] = k ? k.b * v : 0;
       }
       d.lr.geometry.attributes.corR.needsUpdate = true;
     }
-    rotE.textContent = `${fmtT(t)} de ${fmtT(FIM)} · ${a >= 0 ? (noAp ? `apresentação ${a + 1} (${aps[a].gravacao.replace("satie-gymnopedie1-", "")}, ${NOMES[a]})` : "silêncio entre apresentações") : "antes da primeira"}`;
-    barraE.value = t;
-    painel.innerHTML = `<span><b>Gravação do ensaio</b> (os dois ouvidos, o mesmo Sdom do começo ao fim): Upros do nervo que já chegaram ao núcleo <b>${fmt(tot.f)}</b> de ${fmt(D.esq.nP + D.dir.nP)} · <b style="color:var(--nova)">Uints ${fmt(tot.u)}</b> · ramos funcionando ${fmt(tot.r)}. <b style="color:var(--nova)">Roxo</b> = acabou de nascer (Upro do nervo crescendo, Uint ou ramo novos); <b style="color:var(--acesso)">azul</b> = já existia e foi usado nesta apresentação; neutro = já existia. As Upros do nervo (o Cpro de cada faixa é o feixe) crescem da cóclea até a zona de entrada do núcleo (${(NERVO * MM).toFixed(1).replace(".", ",")} mm), 1 cubo a cada ~12 reacessos do ponto; as incidências que não integraram, as coincidências e as Uints acontecem lá.</span>`;
-    if (tocandoE && performance.now() - ultDiario > 1500 && D.ult) {
-      const df = tot.f - D.ult.f, du = tot.u - D.ult.u, dr = tot.r - D.ult.r, partes = [];
-      if (df > 0) partes.push(`<b>+${fmt(df)} Upros chegaram</b> ao núcleo (cresceram 790 cubos com os reacessos dos seus pontos)`);
-      if (du > 0) partes.push(`<b style="color:var(--nova)">+${fmt(du)} Uints</b> nasceram na zona de entrada (pontas de Upros vizinhas cujas incidências não integraram juntas)`);
-      if (dr > 0) partes.push(`<b style="color:var(--nova)">+${fmt(dr)} ramos</b> chegaram à sua Uint`);
-      if (partes.length) diario(`<b>${fmtT(t)}</b> · ${partes.join(" · ")}`);
-      ultDiario = performance.now(); D.ult = tot;
+    const nome = a >= 0 ? (noAp ? `apresentação ${a + 1} (${aps[a].gravacao.replace("satie-gymnopedie1-", "")}, ${NOMES[a]})` : "silêncio entre apresentações") : "antes da primeira apresentação";
+    return `${nome} · Upros do nervo que chegaram ao núcleo ${fmt(tot.f)} de ${fmt(D.esq.nP + D.dir.nP)} · Uints ${fmt(tot.u)} · ramos funcionando ${fmt(tot.r)} (os dois ouvidos). Azul = já existia e foi usado nesta apresentação.`;
+  }
+  function eventos() {
+    const ev = [], B = 10;
+    aps.forEach((x, i) => { ev.push({ t: x.inicio, txt: `<b>Início da apresentação ${i + 1}</b> · ${x.gravacao.replace("satie-gymnopedie1-", "")} (${NOMES[i]})` }); });
+    const nb = Math.ceil(FIM / B) + 1, cf = new Int32Array(nb), cu = new Int32Array(nb), cr = new Int32Array(nb), bin = v => Math.min(nb - 1, Math.max(0, Math.floor(v / B)));
+    for (const o of ["esq", "dir"]) { const d = D[o]; for (const v of d.chegou) cf[bin(v)]++; for (let i = 0; i < d.nU; i++) cu[bin(d.u_t[i])]++; for (let i = 0; i < d.nR; i++) cr[bin(d.r_t[i])]++; }
+    for (let k = 0; k < nb; k++) {
+      const b0 = k * B, b1 = b0 + B, f = cf[k], u = cu[k], r = cr[k];
+      const p = []; if (f) p.push(`${fmt(f)} Upros do nervo chegaram ao núcleo`); if (u) p.push(`<span style="color:var(--nova)">${fmt(u)} Uints candidatas nasceram</span>`); if (r) p.push(`${fmt(r)} ramos chegaram à Uint`);
+      if (p.length) ev.push({ t: b0, txt: `<b>${fmtT(b0)}–${fmtT(b1)}</b> (${B} s) · ${p.join(" · ")}` });
     }
-    if (!D.ult) D.ult = tot;
+    return ev.sort((x, y) => x.t - y.t);
   }
-  const fmtT = t => { const m = Math.floor(t / 60), s2 = t - 60 * m; return `${m}:${s2.toFixed(1).padStart(4, "0").replace(".", ",")}`; };
-  // controles da gravação
-  const ctl = document.createElement("div"); ctl.className = "linha"; ctl.innerHTML =
-    `<button id="e-play">▶ Gravação do ensaio</button><input id="e-tempo" type="range" min="0" max="${FIM}" step="0.1" value="0" style="flex:1;min-width:160px;accent-color:var(--nova)" aria-label="Tempo do ensaio">` +
-    `<div class="grupo"><button data-ep="-30">⏮ 30 s</button><button data-ep="-5">◀ 5 s</button><button data-ep="5">5 s ▶</button><button data-ep="30">30 s ⏭</button></div>` +
-    `<div class="grupo" role="group" aria-label="Velocidade do ensaio"><span>Velocidade</span><button data-ev="1">1×</button><button data-ev="10" aria-pressed="true">10×</button><button data-ev="60">60×</button></div>` +
-    `<span id="e-rot" class="num" style="font:500 .8rem var(--mono);color:var(--apagado)"></span>`;
-  linha.after(ctl);
-  const barraE = ctl.querySelector("#e-tempo"), rotE = ctl.querySelector("#e-rot"), playE = ctl.querySelector("#e-play");
-  const objsE = () => D ? ["esq", "dir"].flatMap(o => [D[o].u, D[o].lr, D[o].fib]) : [];
-  function desligar() { ativo = false; tocandoE = false; playE.textContent = "▶ Gravação do ensaio"; objsE().forEach(x => x.visible = false); }
-  async function ligar() {
-    if (!D) { painel.hidden = false; painel.textContent = "carregando a gravação do ensaio…"; D = await carregar(); }
-    objsE().forEach(x => x.visible = true);
-    if (!ativo) { ativo = true; if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); pontos.luz.fill(0); painel.hidden = false;
-      diario("<b>Gravação do ensaio.</b> As 4 gravações completas, em sequência, no mesmo Sdom: as Upros do nervo crescem, depois nascem as Uints e os ramos na zona de entrada do núcleo."); }
-  }
-  function irE(t) { tE = Math.min(Math.max(t, 0), FIM); desenhar(tE); }
-  playE.onclick = async () => { await ligar(); tocandoE = !tocandoE; playE.textContent = tocandoE ? "❚❚ Pausar gravação" : "▶ Gravação do ensaio"; if (tocandoE && tE >= FIM) irE(0); };
-  barraE.oninput = async () => { await ligar(); irE(+barraE.value); };
-  ctl.querySelectorAll("[data-ep]").forEach(b => b.onclick = async () => { await ligar(); irE(tE + Number(b.dataset.ep)); });
-  ctl.querySelectorAll("[data-ev]").forEach(b => b.onclick = () => { velE = +b.dataset.ev; ctl.querySelectorAll("[data-ev]").forEach(x => x.setAttribute("aria-pressed", x === b)); });
-  const rot = [["-1", "Instante zero"], ...aps.map((x, i) => [String(i), `${i + 1} · ${x.gravacao.replace("satie-gymnopedie1-", "")}`])];
-  for (const [v, t] of rot) { const b = document.createElement("button"); b.dataset.ap = v; b.textContent = t; b.onclick = async () => { await ligar(); irE(+v < 0 ? 0 : aps[+v].inicio + aps[+v].dur); }; bots.appendChild(b); }
-  return { ligar, desligar, linhas: [linha, ctl, painel], quadro() { if (!ativo) return; const agora = performance.now(), dt = Math.min(0.1, (agora - ultReal) / 1000); ultReal = agora;
-      if (tocandoE) { tE += dt * velE; if (tE >= FIM) { tE = FIM; tocandoE = false; playE.textContent = "▶ Gravação do ensaio"; } }
-      if (Math.abs(tE - tDesenhado) > 0.049) { desenhar(tE); tDesenhado = tE; } } };
+  return { FIM, async carregar() { if (!D) D = await carregar(); }, mostrar(v) { if (D) for (const o of ["esq", "dir"]) [D[o].u, D[o].lr, D[o].fib].forEach(x => x.visible = v); },
+    ir: t => desenhar(t), eventos };
 })();
+
 // ---------- teste A × B (90 s, ouvido E): as "pontes" crescendo, passo a passo, como o motor registrou ----------
 // O traçado curvo é desenho (o motor guarda o comprimento em cubos e o atraso, não o caminho).
 const teste = await (async () => {
   let mj; try { const r = await fetch(BASE + "teste-ab.json"); if (!r.ok) return null; mj = await r.json(); } catch (e) { return null; }
-  const linhaT = document.getElementById("linha-teste"), painelT = document.getElementById("painel-teste"); linhaT.hidden = false;
   const FIMT = mj.condicoes.A.dur, NERVO = mj.nervo;
   const NOVA = cor("--nova"), FEITA = cor("--uint"), ACESSO = cor("--acesso");
-  let D = null, cond = "A", tT = 0, tocT = false, velT = 1, ativoT = false, ultT = performance.now(), tDes = -1, ultDia = -1e9, ultC = null;
+  let D = null;
   const hash = (i, k) => { let x = Math.imul((i + 1) * 2654435761 + k * 40503, 2246822507) >>> 0; x ^= x >>> 15; x = Math.imul(x, 3266489909) >>> 0; x ^= x >>> 16; return (x >>> 0) / 4294967296 * 2 - 1; };
-  const C3 = (x, y, z) => [x * MM, z * MM, -y * MM];       // Sdom (x, y, z) → cena
-  // curva orgânica: Bézier cúbica com controles deslocados de lado (desvio determinístico por id; só desenho)
+  const C3 = (x, y, z) => [x * MM, z * MM, -y * MM];
   function curva(P0, P1, id, amp) {
     const d = [P1[0] - P0[0], P1[1] - P0[1], P1[2] - P0[2]], L = Math.hypot(...d) || 1e-9;
     let a = [d[1], -d[0], 0]; if (Math.hypot(...a) < 1e-9 * L) a = [0, d[2], -d[1]]; const na = Math.hypot(...a); a = a.map(v => v / na);
     let b = [d[1] * a[2] - d[2] * a[1], d[2] * a[0] - d[0] * a[2], d[0] * a[1] - d[1] * a[0]]; const nb = Math.hypot(...b) || 1; b = b.map(v => v / nb);
     const h = amp * L, c1 = [], c2 = [];
     for (let j = 0; j < 3; j++) { c1.push(P0[j] + d[j] / 3 + (a[j] * hash(id, 1) + b[j] * hash(id, 2)) * h); c2.push(P0[j] + 2 * d[j] / 3 + (a[j] * hash(id, 3) + b[j] * hash(id, 4)) * h); }
-    return u => { const v = 1 - u, w0 = v * v * v, w1 = 3 * v * v * u, w2 = 3 * v * u * u, w3 = u * u * u;
-      return [0, 1, 2].map(j => w0 * P0[j] + w1 * c1[j] + w2 * c2[j] + w3 * P1[j]); };
+    return u => { const v = 1 - u, w0 = v * v * v, w1 = 3 * v * v * u, w2 = 3 * v * u * u, w3 = u * u * u; return [0, 1, 2].map(j => w0 * P0[j] + w1 * c1[j] + w2 * c2[j] + w3 * P1[j]); };
   }
   async function carregar() {
     const buf = await (await fetch(BASE + "teste-ab.bin")).arrayBuffer();
@@ -753,12 +726,10 @@ const teste = await (async () => {
     const Pt = centrosDe([O.E.pontos]), nP = Pt.length / 3, out = {};
     for (const c of ["A", "B"]) {
       const p = c + "_", m = mj.condicoes[c];
-      // Uints
       const uxyz = A(p + "u_xyz"), ut = A(p + "u_t"), nU = ut.length, cen = new Float32Array(nU * 3);
       for (let i = 0; i < nU; i++) cen.set(C3(uxyz[3 * i], uxyz[3 * i + 1], uxyz[3 * i + 2]), 3 * i);
       const u = bolas(cen, R_UINT, 1.5, FEITA, NOVA); u.luz.fill(-1);
-      // ramos: um trecho por passo de crescimento (2 pedaços de curva por passo), aceso a partir do instante do passo
-      const rs = A(p + "r_src"), rd = A(p + "r_dst"), rl = A(p + "r_len"), rsem = A(p + "r_sem"), rb = A(p + "r_born");
+      const rs = A(p + "r_src"), rd = A(p + "r_dst"), rl = A(p + "r_len"), rb = A(p + "r_born");
       const st = A(p + "s_t"), sr = A(p + "s_r"), sk = A(p + "s_k"), nS = st.length, SUBP = 2;
       const pa = new Float32Array(nS * SUBP * 3), pb = new Float32Array(nS * SUBP * 3), tn = new Float32Array(nS * SUBP), tb = new Float32Array(nS * SUBP);
       const cache = new Map();
@@ -776,11 +747,10 @@ const teste = await (async () => {
         { decl: "varying float vA, vN, vF;", corpo: "float idade = uT - tn; vA = idade < 0.0 ? 0.0 : 1.0; vN = idade < 0.0 ? 0.0 : max(0.0, 1.0 - idade / 1.5); vF = (tb >= 0.0 && uT >= tb) ? 1.0 : 0.0;" });
       ramos.material.uniforms.nova = { value: NOVA }; ramos.material.uniforms.feita = { value: FEITA };
       ramos.material.fragmentShader = "uniform vec3 nova, feita; " + ramos.material.fragmentShader;
-      // Upros do nervo: 10 trechos por Upro; o trecho k acende quando o motor marcou (k + 1)/10 do crescimento
       const np_ = A(p + "n_p"), nt = A(p + "n_t"), nfr = A(p + "n_fr"), tSeg = new Float32Array(nP * 10).fill(1e9);
       for (let i = 0; i < np_.length; i++) { const k = nfr[i] - 1; if (k >= 0 && k < 10) tSeg[np_[i] * 10 + k] = Math.min(tSeg[np_[i] * 10 + k], nt[i]); }
       const fa = new Float32Array(nP * 30), fb = new Float32Array(nP * 30), ftn = new Float32Array(nP * 10), fch = new Float32Array(nP * 10);
-      const dx = 1 * NERVO * MM;     // ouvido E: a Upro vai de x = −2.500 para dentro (x cresce)
+      const dx = NERVO * MM;
       for (let q = 0; q < nP; q++) {
         const P0 = [Pt[3 * q], Pt[3 * q + 1], Pt[3 * q + 2]], P1 = [P0[0] + dx, P0[1], P0[2]], f = curva(P0, P1, 900000 + q, 0.012);
         for (let k = 0; k < 10; k++) { fa.set(f(k / 10), 30 * q + 3 * k); fb.set(f((k + 1) / 10), 30 * q + 3 * k); ftn[10 * q + k] = tSeg[10 * q + k]; fch[10 * q + k] = tSeg[10 * q + 9]; }
@@ -790,7 +760,6 @@ const teste = await (async () => {
         { decl: "varying float vA, vN, vC;", corpo: "float idade = uT - tn; vA = idade < 0.0 ? 0.0 : 1.0; vN = idade < 0.0 ? 0.0 : max(0.0, 1.0 - idade / 3.0); vC = uT >= tc ? 1.0 : 0.0;" });
       nervo.material.uniforms.nova = { value: NOVA }; nervo.material.uniforms.feita = { value: FEITA };
       nervo.material.fragmentShader = "uniform vec3 nova, feita; " + nervo.material.fragmentShader;
-      // disparos: clarão azul na Uint, no instante registrado
       const ft = A(p + "f_t"), fu = A(p + "f_u"), nF = ft.length, gp = new Float32Array(nF * 3);
       for (let i = 0; i < nF; i++) gp.set(cen.subarray(3 * fu[i], 3 * fu[i] + 3), 3 * i);
       const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(gp, 3)); g.setAttribute("ft", new THREE.BufferAttribute(ft, 1));
@@ -805,50 +774,37 @@ const teste = await (async () => {
       const fora = new Uint8Array(nU); for (let i = 0; i < nU; i++) fora[i] = Math.abs(uxyz[3 * i]) < Math.abs(m.xfolha) ? 1 : 0;
       const chegou = Array.from({ length: nP }, (_, q) => tSeg[10 * q + 9]).filter(v => v < 1e8).sort((x, y) => x - y);
       const funcion = Array.from(rb).filter(v => v >= 0).sort((x, y) => x - y);
-      out[c] = { objs, u, ut, nU, fora, ramos, nervo, mf, st, ft, chegou, funcion };
+      const prim = new Float32Array(nU).fill(1e9); for (let i = 0; i < nF; i++) if (ft[i] < prim[fu[i]]) prim[fu[i]] = ft[i];
+      out[c] = { objs, u, ut, nU, fora, ramos, nervo, mf, st, ft, chegou, funcion, prim, rb };
     }
     return out;
   }
   const ate = (arr, v) => { let lo = 0, hi = arr.length; while (lo < hi) { const md = (lo + hi) >> 1; if (arr[md] <= v) lo = md + 1; else hi = md; } return lo; };
-  function desenhar(t) {
-    if (!D) return; const d = D[cond];
+  let ultimo = null;
+  function desenhar(t, cond) {
+    const d = D[cond];
     for (const c of ["A", "B"]) D[c].objs.forEach(o => o.visible = c === cond);
     d.ramos.material.uniforms.uT.value = t; d.nervo.material.uniforms.uT.value = t; d.mf.uniforms.uT.value = t;
-    const L = d.u.luz; let nu = 0, nfora = 0;
-    for (let i = 0; i < d.nU; i++) { if (d.ut[i] > t) { L[i] = -1; continue; } nu++; nfora += d.fora[i]; L[i] = Math.max(0, 1 - (t - d.ut[i]) / 1.5); }
+    const L = d.u.luz; let nu = 0, nfora = 0, nprim = 0;
+    for (let i = 0; i < d.nU; i++) { if (d.ut[i] > t) { L[i] = -1; continue; } nu++; nfora += d.fora[i]; if (d.prim[i] <= t) nprim++; L[i] = Math.max(0, 1 - (t - d.ut[i]) / 1.5); }
     d.u.aLuz.needsUpdate = true;
-    const v = { f: ate(d.chegou, t), u: nu, uf: nfora, s: ate(d.st, t), r: ate(d.funcion, t), d: ate(d.ft, t) }, m = mj.condicoes[cond];
-    rotT.textContent = `${t.toFixed(2).replace(".", ",")} s de ${FIMT.toFixed(0)} s · condição ${cond}`; barraT.value = t;
-    painelT.innerHTML = `<span><b>Teste A × B</b> (Alciatore, 0–${FIMT.toFixed(0)} s, ouvido E; <b>não é o "pra valer"</b>). Condição <b>${cond === "A" ? "A · folha fixa" : "B · profundidade local"}</b>: `
-      + `Upros do nervo que chegaram ao núcleo <b>${fmt(v.f)}</b> de ${fmt(mj.n_pontos)} · <b style="color:var(--nova)">Uints ${fmt(v.u)}</b>${cond === "B" ? ` (fora da folha: ${fmt(v.uf)})` : ""} · passos de crescimento dos ramos ${fmt(v.s)} · ramos que chegaram à Uint ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.d)}</span>.</span>`
-      + `<span><b style="color:var(--nova)">Roxo</b> = crescendo (a Upro do nervo, 1 cubo a cada ~12 reacessos do ponto; cada ramo, 1 cubo a cada ~12 coincidências do par, da margem da Upro até a Uint candidata). Neutro = já chegou e funciona. <b style="color:var(--acesso)">Azul</b> = disparo. As curvas são desenho: o motor guarda o comprimento (cubos) e o atraso, não o traçado.</span>`
-      + `<span>Ao fim dos ${FIMT.toFixed(0)} s, condição ${cond}: ${fmt(m.n_uints)} Uints · ${fmt(m.n_ramos)} ramos (com variantes) · ${fmt(m.n_disparos)} disparos · buscas sem cubo admissível ${fmt(m.sem_cubo)}`
-      + (cond === "B" ? ` · buscas que admitiram cubo fora da folha <b>${fmt(m.buscas_com_fora_admissivel)}</b> · escolhas fora da folha <b>${fmt(m.escolhas_fora)}</b> · Uints fora da folha que dispararam <b>${fmt(m.uints_fora_que_dispararam)}</b> · profundidade máxima ${m.profundidade_max} cubo(s) atrás da folha` : ``) + `.</span>`;
-    if (tocT && performance.now() - ultDia > 1500) {
-      if (ultC && ultC.c === cond) { const partes = [];
-        if (v.f > ultC.f) partes.push(`+${fmt(v.f - ultC.f)} Upros do nervo chegaram ao núcleo`);
-        if (v.u > ultC.u) partes.push(`<b style="color:var(--nova)">+${fmt(v.u - ultC.u)} Uints</b> nasceram${cond === "B" && v.uf > ultC.uf ? ` (${fmt(v.uf - ultC.uf)} fora da folha)` : ""}`);
-        if (v.r > ultC.r) partes.push(`+${fmt(v.r - ultC.r)} ramos chegaram à sua Uint`);
-        if (v.d > ultC.d) partes.push(`<span style="color:var(--acesso)">${fmt(v.d - ultC.d)} disparos</span>`);
-        if (partes.length) diario(`<b>${cond} · ${t.toFixed(1).replace(".", ",")} s</b> · ${partes.join(" · ")}`); }
-      ultC = { c: cond, ...v }; ultDia = performance.now(); }
+    return `Upros do nervo que chegaram ao núcleo ${fmt(ate(d.chegou, t))} de ${fmt(mj.n_pontos)} · Uints candidatas ${fmt(nu)}${cond === "B" ? ` (fora da folha ${fmt(nfora)})` : ""} · ramos que chegaram à Uint ${fmt(ate(d.funcion, t))} · Uints que já dispararam ${fmt(nprim)} · disparos ${fmt(ate(d.ft, t))}.`;
   }
-  const barraT = document.getElementById("t-tempo"), rotT = document.getElementById("t-rot"), playT = document.getElementById("t-play"); barraT.max = FIMT;
-  async function ligar() {
-    if (!D) { painelT.hidden = false; painelT.textContent = "carregando o teste…"; D = await carregar(); }
-    if (!ativoT) { ativoT = true; if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false); pontos.luz.fill(0); vista("nucleo");
-      diario("<b>Teste A × B.</b> Mesmo começo, mesma entrada, mesmas regras; só muda onde a Uint candidata pode nascer: na folha (A) ou na folha e mais para dentro da cabeça (B)."); }
+  function eventos(cond) {
+    const d = D[cond], ev = [], B = 1;
+    for (let b0 = 0; b0 < FIMT; b0 += B) {
+      const b1 = b0 + B; let f = 0, u = 0, uf = 0, r = 0, p1 = 0;
+      for (const v of d.chegou) if (v >= b0 && v < b1) f++;
+      for (let i = 0; i < d.nU; i++) { if (d.ut[i] >= b0 && d.ut[i] < b1) { u++; uf += d.fora[i]; } if (d.prim[i] >= b0 && d.prim[i] < b1) p1++; }
+      for (const v of d.funcion) if (v >= b0 && v < b1) r++;
+      const p = []; if (f) p.push(`${fmt(f)} Upros do nervo chegaram ao núcleo`); if (u) p.push(`<span style="color:var(--nova)">${fmt(u)} Uints candidatas nasceram</span>${cond === "B" && uf ? ` (${fmt(uf)} fora da folha)` : ""}`);
+      if (r) p.push(`${fmt(r)} ramos chegaram à Uint`); if (p1) p.push(`<span style="color:var(--acesso)">${fmt(p1)} Uints dispararam pela primeira vez</span>`);
+      if (p.length) ev.push({ t: b0, txt: `<b>${fmtT(b0)}–${fmtT(b1)}</b> (1 s) · ${p.join(" · ")}` });
+    }
+    return ev;
   }
-  const irT = t => { tT = Math.min(Math.max(t, 0), FIMT); desenhar(tT); tDes = tT; };
-  function desligar() { ativoT = false; tocT = false; playT.textContent = "▶ Tocar"; if (D) for (const c of ["A", "B"]) D[c].objs.forEach(o => o.visible = false); }
-  playT.onclick = async () => { await ligar(); tocT = !tocT; playT.textContent = tocT ? "❚❚ Pausar" : "▶ Tocar"; if (tocT && tT >= FIMT) irT(0); };
-  barraT.oninput = async () => { await ligar(); irT(+barraT.value); };
-  linhaT.querySelectorAll("[data-tp]").forEach(b => b.onclick = async () => { await ligar(); irT(tT + Number(b.dataset.tp)); });
-  linhaT.querySelectorAll("[data-tv]").forEach(b => b.onclick = () => { velT = +b.dataset.tv; linhaT.querySelectorAll("[data-tv]").forEach(x => x.setAttribute("aria-pressed", x === b)); });
-  linhaT.querySelectorAll("[data-cond]").forEach(b => b.onclick = async () => { await ligar(); cond = b.dataset.cond; linhaT.querySelectorAll("[data-cond]").forEach(x => x.setAttribute("aria-pressed", x === b)); ultC = null; irT(tT); });
-  return { ligar: async () => { await ligar(); irT(tT); }, desligar, linhas: [linhaT, painelT], quadro() { if (!ativoT) return; const agora = performance.now(), dt = Math.min(0.1, (agora - ultT) / 1000); ultT = agora;
-      if (tocT) { tT += dt * velT; if (tT >= FIMT) { tT = FIMT; tocT = false; playT.textContent = "▶ Tocar"; } }
-      if (Math.abs(tT - tDes) > 0.004) { desenhar(tT); tDes = tT; } } };
+  return { FIMT, mj, async carregar() { if (!D) D = await carregar(); }, mostrar(v) { if (D) for (const c of ["A", "B"]) D[c].objs.forEach(o => o.visible = v); },
+    ir: (t, cond) => desenhar(t, cond), eventos };
 })();
 // ---------- rótulos (com prioridade: os de trás somem se sobrepõem os da frente) ----------
 const rotulos = [];
@@ -873,14 +829,6 @@ rotulo("alto-falante próximo · canal esquerdo", ALTO[0].x, 70, 0); rotulo("alt
 const linhaG = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(-meia, 0, 0), new THREE.Vector3(meia, 0, 0)]);
 cena.add(new THREE.Line(linhaG, new THREE.LineDashedMaterial({ color: 0x1f3a40, dashSize: 2, gapSize: 2 })).computeLineDistances());
 
-const c0 = dados.contagem;
-document.getElementById("contagem").innerHTML =
-  `pontos transdutivos <b>${fmt(c0.pontos)}</b> · Ustr <b>${fmt(c0.ustr)}</b><br>` +
-  `<span class="zero">instante zero: Uint ${c0.uint} · Upro ${c0.upro} · Cpro ${c0.cpro} · ramos ${c0.ramos}</span><br>` +
-  `<span class="ok">conferência do instante zero: nada representacional</span><br><span id="vivo"></span>`;
-const escalaEl = document.getElementById("escala"), vivoEl = document.getElementById("vivo");
-const escalaFixa = `faixa ${O.E.comprimento_cubos} × ${LARG} cubos (${(O.E.comprimento_cubos * MM).toFixed(1)} × ${(LARG * MM).toFixed(2)} mm)`;
-
 // ---------- vistas ----------
 const zb24 = zBanda("E")(24);
 const VISTAS = {
@@ -897,55 +845,12 @@ function vista(n) {
   const [p, a] = VISTAS[n], k = n === "detalhe" ? 1 : (n === "E" || n === "D") ? Math.max(1, 1.0 / camera.aspect) : Math.max(1, 1.5 / camera.aspect);
   camera.position.copy(a).add(p.clone().sub(a).multiplyScalar(k)); ctrl.target.copy(a); ctrl.update();
 }
-document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
-const camadas = { "cam-pontos": [pontos], "cam-ustr": [ustr], "cam-som": [ondas, altos], "cam-fios": [fios, mics], "cam-inc": obs ? [obs.objs[0]] : [], "cam-grade": [grade], "cam-malha": malha ? malha.objs : [] };
-for (const [id, objs] of Object.entries(camadas)) {
-  const b = document.getElementById(id); if (!objs.length) { b.hidden = true; continue; }
-  b.onclick = () => { const v = !objs[0].visible; objs.forEach(o => o.visible = v); b.setAttribute("aria-pressed", v); };
-}
-
-
-// ---------- diário do Sdom: o que o motor está fazendo, em palavras (só a partir dos registros) ----------
-const diarioEl = document.getElementById("diario"); let dUlt = null, dReal = 0, dObs = 0;
-function diario(txt) { const d = document.createElement("div"); d.innerHTML = txt; diarioEl.prepend(d); while (diarioEl.childElementCount > 40) diarioEl.lastChild.remove(); }
-diario("<b>Instante zero.</b> Só existem as Utrd (pontos transdutivos) e as Ustr (glias). Nenhuma Uint, nenhuma Upro: o Sdom nasce vazio.");
-function narrar(T, v) {
-  const ts = (meta.ini + T).toFixed(vel <= 0.001 ? 6 : 3).replace(".", ",") + " s";
-  if (obs && T >= obs.t0 && T <= obs.t1 && vel <= 0.001) {           // lupa do tempo: cada chegada na janela
-    const ev = obs.eventos(dObs, T); dObs = T;
-    for (const e of ev.slice(0, 6)) diario(e.f ? `<b>${ts}</b> · Uint ${e.u} <b style="color:var(--acesso)">disparou</b>: a soma passou do limiar (1,5); ela emite pela própria Upro e entra em refratariedade (0,5 ms).`
-      : `<b>${ts}</b> · incidência chegou à Uint ${e.u} pelo ramo (${e.atr} µs de viagem) · soma ${e.v.toFixed(2).replace(".", ",")} de 1,5`);
-    return;
-  }
-  if (!v || performance.now() - dReal < 700) return; dReal = performance.now();
-  if (dUlt && T >= dUlt.T) {
-    const du = v.u - dUlt.u, dr = v.r - dUlt.r, df = v.f - dUlt.f, partes = [];
-    if (du > 0) partes.push(`<b style="color:var(--nova)">+${fmt(du)} Uints nasceram</b> (pares de pontos vizinhos cujas incidências não integraram, na mesma janela de 0,3 ms)`);
-    if (dr > 0) partes.push(`<b style="color:var(--nova)">+${fmt(dr)} ramos chegaram</b> à sua Uint e passaram a funcionar (cada um cresceu 1 cubo a cada ~12 coincidências)`);
-    if (df > 0) partes.push(`<b style="color:var(--acesso)">${fmt(df)} disparos</b> (Uints onde ~5 ramos chegaram juntos)`);
-    if (partes.length) diario(`<b>${ts}</b> · ${partes.join(" · ")}`);
-  }
-  dUlt = { T, ...v };
-}
-// ---------- reprodução ----------
-const audio = document.getElementById("audio"), barra = document.getElementById("tempo"), rot = document.getElementById("rotulo-tempo");
-let T = 0, tocando = false, vel = 1, ultimo = performance.now();
-barra.max = DUR - 0.005;
-function irPara(t) { dUlt = null; dObs = Math.min(Math.max(t, 0), DUR - 0.005); T = Math.min(Math.max(t, 0), DUR - 0.005); barra.value = T; limparFotons(); if (!audio.paused) try { audio.currentTime = T; } catch (e) {} }
-barra.oninput = () => irPara(+barra.value);
-function sincronizar() { if (tocando && vel === 1) { try { audio.currentTime = T; } catch (e) {} audio.play().catch(() => {}); } else audio.pause(); }
-document.getElementById("play").onclick = e => { tocando = !tocando; e.currentTarget.textContent = tocando ? "❚❚ Pausar" : "▶ Tocar"; if (tocando && T >= DUR - 0.01) irPara(0); sincronizar(); };
-document.querySelectorAll("[data-pulo]").forEach(b => b.onclick = () => irPara(T + Number(b.dataset.pulo)));
-document.getElementById("lupa").onclick = () => { irPara(5.0); vista("detalhe"); vel = 0.0001; document.querySelectorAll("[data-vel]").forEach(x => x.setAttribute("aria-pressed", x.dataset.vel === "0.0001")); if (!tocando) document.getElementById("play").click(); sincronizar(); };
-document.querySelectorAll("[data-vel]").forEach(b => b.onclick = () => { vel = +b.dataset.vel; document.querySelectorAll("[data-vel]").forEach(x => x.setAttribute("aria-pressed", x === b)); sincronizar(); });
-
 function aplicar(fr) {
   const L = pontos.luz;
   for (let i = 0; i < L.length; i++) { const g = (i < nE ? G.E : G.D)[fr * 64 * SUB + celula[i]]; L[i] = Math.max(Math.pow(Math.min(1, g / P99), 0.85), L[i] * 0.82); }
   pontos.aLuz.needsUpdate = true;
   mics.luz[0] = 0.35 + 0.65 * TOTAL.E[fr]; mics.luz[1] = 0.35 + 0.65 * TOTAL.D[fr]; mics.aLuz.needsUpdate = true;
   altos.luz[0] = nivel01(CAN[fr] / 255 * 90) * 0.6; altos.luz[1] = nivel01(CAN[NF + fr] / 255 * 90) * 0.6; altos.aLuz.needsUpdate = true;
-  rot.textContent = (meta.ini + T).toFixed(3).replace(".", ",") + " s";
 }
 function tamanho() {
   const w = palco.clientWidth, h = palco.clientHeight, pr = render.getPixelRatio();
@@ -955,56 +860,198 @@ function tamanho() {
   COMUM.uMinU.value = 1.5 * pr;
   cena.traverse(o => { const m = o.material; if (m && m.userData && m.userData.min0 !== undefined && m.uniforms.minPx) m.uniforms.minPx.value = m.userData.min0 * pr; });   // mínimo em pixels de tela, também em telas densas
 }
-new ResizeObserver(tamanho).observe(palco); tamanho(); vista("geral");
-
-// ---------- cartões dos testes: um de cada vez, cada um com os seus controles ----------
-{
-  const linhaDemo = document.getElementById("linha-demo"), obraEl = document.getElementById("obra");
-  const extras = [...(sessoes ? sessoes.linhas : []), ...(teste ? teste.linhas : [])];
-  const pararDemo = () => { if (tocando) document.getElementById("play").click(); };
-  const verMalha = (m, o) => { if (malha) malha.objs.forEach(x => x.visible = m); if (obs) obs.objs.forEach(x => x.visible = o); };
-  const MODOS = {
-    demo: async () => { verMalha(false, false); linhaDemo.hidden = false; obraEl.hidden = false; vista("geral"); },
-    piloto: async () => { verMalha(true, false); linhaDemo.hidden = false; obraEl.hidden = false; irPara(0); vista("E"); },
-    lupa: async () => { verMalha(true, true); linhaDemo.hidden = false; obraEl.hidden = false; document.getElementById("lupa").click(); },
-    ensaio: async () => { pararDemo(); verMalha(false, false); if (sessoes) { sessoes.linhas.forEach(x => x.hidden = false); await sessoes.ligar(); vista("nervo"); } },
-    ab: async () => { pararDemo(); verMalha(false, false); if (teste) { teste.linhas.forEach(x => x.hidden = false); await teste.ligar(); } },
-  };
-  if (!sessoes) document.querySelector('[data-c="ensaio"]').hidden = true;
-  if (!teste) document.querySelector('[data-c="ab"]').hidden = true;
-  async function escolher(k) {
-    document.querySelectorAll(".cartao").forEach(c => c.classList.toggle("ativo", c.dataset.c === k));
-    linhaDemo.hidden = true; obraEl.hidden = true; extras.forEach(x => x.hidden = true);
-    if (sessoes && k !== "ensaio") sessoes.desligar(); if (teste && k !== "ab") teste.desligar();
-    await MODOS[k]();
-  }
-  document.querySelectorAll("[data-teste]").forEach(b => b.onclick = () => escolher(b.dataset.teste));
-  escolher("demo");
+// ---------- player de testes (guia da Clara): uma faixa por vez, capa 3D, card da hipótese, transporte e diário ----------
+function fmtT(t) { const m = Math.floor(t / 60), s2 = t - 60 * m; return `${m}:${String(Math.floor(s2)).padStart(2, "0")}`; }
+const fmtMs = t => `${(t * 1000).toFixed(2).replace(".", ",")} ms`;
+const audio = document.getElementById("audio");
+let T = 0;                                // relógio da V0.18 (demonstração, piloto e lupa) e relógio visual
+// janela da lupa: 10 ms em torno do primeiro disparo registrado na janela de observação
+const LUPA0 = obs ? Math.max(obs.t0, (obs.dados.ft.length ? Math.min(...obs.dados.ft) : obs.t0) - 0.004) : 0;
+function eventosPiloto() {
+  if (!malha) return []; const { ut, rft, ft, fu } = malha.dados, ev = [], prim = new Map();
+  for (let i = 0; i < ft.length; i++) if (!prim.has(fu[i]) || ft[i] < prim.get(fu[i])) prim.set(fu[i], ft[i]);
+  const P = [...prim.values()];
+  for (let b0 = 0; b0 < 10; b0 += 0.5) { const a = b0 * 1000, b = a + 500;
+    const u = ut.filter(v => v >= a && v < b).length, r = rft.filter(v => v >= a && v < b).length, p1 = P.filter(v => v >= a && v < b).length, p = [];
+    if (u) p.push(`<span style="color:var(--nova)">${fmt(u)} Uints candidatas nasceram</span>`); if (r) p.push(`${fmt(r)} ramos chegaram à Uint`); if (p1) p.push(`<span style="color:var(--acesso)">${fmt(p1)} Uints dispararam pela primeira vez</span>`);
+    if (p.length) ev.push({ t: b0, txt: `<b>${b0.toFixed(1).replace(".", ",")}–${(b0 + 0.5).toFixed(1).replace(".", ",")} s</b> (0,5 s) · ${p.join(" · ")}` }); }
+  return ev;
 }
-const tmp = new THREE.Vector3(); let nq = 0;
+function eventosLupa() {
+  if (!obs) return []; const { ct, ru, ft, ftU } = obs.dados, ev = [], B = 0.0005;
+  for (let b0 = 0; b0 < 0.01; b0 += B) { const a = LUPA0 + b0, b = a + B; const us = new Set(); let n = 0;
+    for (let i = 0; i < ct.length; i++) if (ct[i] >= a && ct[i] < b) { n++; us.add(ru[i]); }
+    const f = []; for (let i = 0; i < ft.length; i++) if (ft[i] >= a && ft[i] < b) f.push(ftU[i]);
+    const p = []; if (n) p.push(`${n} incidências chegaram a ${us.size} Uint(s) pelos ramos`); if (f.length) p.push(`<span style="color:var(--acesso)">${f.length} disparo(s): a soma passou de 1,5</span>`);
+    if (p.length) ev.push({ t: b0, txt: `<b>${fmtMs(b0)}–${fmtMs(b0 + B)}</b> (0,5 ms) · ${p.join(" · ")}` }); }
+  return ev;
+}
+const FAM18 = ["demo", "piloto", "lupa"];
+const FAIXAS = [
+  { id: "principal", estudo: "Rodada principal", titulo: "Rodada principal (pra valer)", planejada: true, sub: "planejada · ainda sem dados",
+    pergunta: "A volta da obra percorre, em sua maioria, a malha já formada? E uma obra diferente generaliza, reutiliza e constitui novo no que é específico?",
+    explic: "Ainda não rodou: espera a supervisão do responsável." },
+  { id: "A", estudo: "Folha × profundidade · ouvido E, 0–90 s", titulo: "Folha fixa", cond: "A", dur: () => teste ? teste.FIMT : 90, vel: 1, vista: "nucleo",
+    pergunta: "Permitir profundidade muda quais Uints chegam a integrar?",
+    explic: "Condição A: a Uint candidata só pode nascer na folha, o primeiro plano de cubos atrás das pontas das Upros de entrada.", disponivel: () => !!teste },
+  { id: "B", estudo: "Folha × profundidade · ouvido E, 0–90 s", titulo: "Profundidade local", cond: "B", dur: () => teste ? teste.FIMT : 90, vel: 1, vista: "nucleo",
+    pergunta: "Permitir profundidade muda quais Uints chegam a integrar?",
+    explic: "Condição B: a Uint candidata pode nascer na folha ou mais para dentro da cabeça, na mesma caixa de busca (3 cubos em volta do ponto médio do par).", disponivel: () => !!teste },
+  { id: "ensaio", estudo: "Ensaio com o nervo · desenho planar", titulo: "4 gravações no mesmo Sdom", dur: () => sessoes ? sessoes.FIM : 0, vel: 10, vista: "nervo",
+    pergunta: "A volta da obra (outra gravação) percorre, em sua maioria, a malha que já existia?",
+    explic: "Alciatore e Baiocchi formam; Kolodin e Coleman voltam; 1 min de silêncio entre elas. Medido: 94–99% das passagens por ramos que já existiam (limiar: 2/3). Disparos individuais não entram nesta gravação.", disponivel: () => !!sessoes },
+  { id: "piloto", estudo: "Piloto do motor mínimo · sem nervo", titulo: "Piloto de 10 s", dur: () => 10, vel: 1, vista: "E",
+    pergunta: "Incidências que não integraram, coincidindo na mesma janela, fazem nascer Uints e ramos? Essas Uints disparam?",
+    explic: "Motor mínimo de 27/11, ainda sem nervo e com escolhas provisórias. Gymnopédie (Alciatore), 9–19 s.", disponivel: () => !!malha },
+  { id: "lupa", estudo: "Piloto do motor mínimo · janela de observação", titulo: "Incidências andando", dur: () => 0.01, vel: 0.001, vista: "detalhe",
+    pergunta: "A incidência desce pelo ramo no tempo do próprio ramo, e a Uint soma as chegadas até o limiar antes de disparar?",
+    explic: "10 ms do piloto (banda ~600 Hz), a 1/1.000×: cada fóton verde é uma chegada registrada; a Uint acende conforme a soma se aproxima de 1,5.", disponivel: () => !!obs },
+  { id: "demo", estudo: "Demonstração · não é teste", titulo: "Robô ouvindo", dur: () => 10, vel: 1, vista: "geral", audio: true,
+    pergunta: "Não é teste: mostra a Utrd completa (microfone + cóclea) da V0.18 recebendo a Gymnopédie e gerando incidências.",
+    explic: "Dados publicados da V0.18 (Alciatore, 9–19 s). Sala, ondas e fios são demonstração do robô, não unidades do Sdom." },
+];
+const VELS = { A: [5, 1, 0.25, 0.05], B: [5, 1, 0.25, 0.05], ensaio: [60, 10, 1], piloto: [1, 0.25, 0.05], lupa: [0.01, 0.001, 0.0001], demo: [1, 0.25, 0.05] };
+const velTxt = v => v >= 1 ? `${v}×` : v === 0.25 ? "¼×" : `1/${fmt(Math.round(1 / v))}×`;
+const P = { f: null, t: 0, tocando: false, vel: 1, eventos: [], fim: false, carregando: false };
+const el = id => document.getElementById(id);
+const barraEl = el("barra"), playEl = el("play");
+const fmtTempo = (f, t) => f.id === "lupa" ? fmtMs(t) : fmtT(t);
+function mostrarV18(v) { [ondas, altos, fios, mics].forEach(o => o.visible = v); }
+function esconderTudo() {
+  if (malha) malha.objs.forEach(o => o.visible = false); if (obs) obs.objs.forEach(o => o.visible = false);
+  if (sessoes) sessoes.mostrar(false); if (teste) teste.mostrar(false);
+}
+async function abrir(id, { tocar = false } = {}) {
+  const f = FAIXAS.find(x => x.id === id); if (!f || f.planejada) return;
+  const mesmoEstudo = P.f && P.f.cond && f.cond;                       // A ↔ B: mesmo instante, câmera e estado de reprodução
+  const estavaTocando = P.tocando;
+  if (!mesmoEstudo) { P.tocando = false; P.t = 0; P.vel = f.vel; audio.pause(); }
+  P.f = f; P.fim = false; P.carregando = true; montarCard(); montarLista(); montarVel();
+  el("c-falha").hidden = true; el("c-estado").textContent = "carregando os dados do teste…";
+  try {
+    if (f.cond) await teste.carregar(); else if (f.id === "ensaio") await sessoes.carregar();
+  } catch (e) { console.warn(e); P.carregando = false; el("c-estado").textContent = ""; el("c-falha").hidden = false; return; }
+  P.carregando = false;
+  esconderTudo(); pontos.luz.fill(0); pontos.aLuz.needsUpdate = true;
+  mostrarV18(FAM18.includes(f.id));
+  if (f.id === "piloto" || f.id === "lupa") malha.objs.forEach(o => o.visible = true);
+  if (f.id === "lupa") obs.objs.forEach(o => o.visible = true);
+  if (f.id === "ensaio") sessoes.mostrar(true);
+  if (!mesmoEstudo) vista(f.vista);
+  P.eventos = f.cond ? teste.eventos(f.cond) : f.id === "ensaio" ? sessoes.eventos() : f.id === "piloto" ? eventosPiloto() : f.id === "lupa" ? eventosLupa() : [];
+  montarTodos(); barraEl.max = f.dur(); el("t-dur").textContent = fmtTempo(f, f.dur());
+  ir(P.t);
+  if (tocar || (mesmoEstudo && estavaTocando)) alternar(true);
+}
+function alternar(forcar) {
+  if (!P.f || P.carregando) return;
+  const quer = forcar === undefined ? !P.tocando : forcar;
+  if (quer && P.fim) { P.fim = false; ir(0); }
+  P.tocando = quer; playEl.textContent = quer ? "❚❚" : P.fim ? "↺" : "▶"; playEl.setAttribute("aria-label", quer ? "Pausar" : P.fim ? "Repetir" : "Reproduzir");
+  if (P.f.audio) { if (quer && P.vel === 1) { try { audio.currentTime = P.t; } catch (e) {} audio.play().catch(() => {}); } else audio.pause(); }
+  montarLista();
+}
+function ir(t) {
+  const f = P.f; if (!f) return; P.t = Math.min(Math.max(t, 0), f.dur());
+  if (FAM18.includes(f.id)) { T = f.id === "lupa" ? LUPA0 + P.t : Math.min(P.t, DUR - 0.005); limparFotons(); if (f.audio && !audio.paused) try { audio.currentTime = P.t; } catch (e) {} }
+  desenhar(true);
+}
+let ultDes = -1, ultEst = 0;
+function desenhar(forcar) {
+  const f = P.f; if (!f || P.carregando) return;
+  let est = "";
+  if (f.cond) { if (forcar || Math.abs(P.t - ultDes) > 0.004) { est = teste.ir(P.t, f.cond); ultDes = P.t; } }
+  else if (f.id === "ensaio") { if (forcar || Math.abs(P.t - ultDes) > 0.049) { est = sessoes.ir(P.t); ultDes = P.t; } }
+  else if (f.id === "piloto" || f.id === "lupa") { const v = malha.atualizar(T); est = f.id === "piloto" ? `Até agora (ouvido E): Uints ${fmt(v.u)} · ramos funcionando ${fmt(v.r)} · disparos ${fmt(v.f)}.` : `Instante do motor: ${(T).toFixed(5).replace(".", ",")} s.`; }
+  else est = "Demonstração: nenhuma constituição do motor aparece aqui.";
+  if (est && (forcar || performance.now() - ultEst > 250)) { el("c-estado").textContent = est; ultEst = performance.now(); }
+  barraEl.value = P.t; el("t-dec").textContent = fmtTempo(f, P.t);
+  montarDiario();
+}
+// card, lista, velocidade, diário
+function montarCard() {
+  const f = P.f; el("c-estudo").textContent = f.estudo; el("c-titulo").textContent = f.titulo; el("c-pergunta").textContent = f.pergunta; el("c-explic").textContent = f.explic;
+  el("c-cond").hidden = !f.cond; document.querySelectorAll("#c-cond [data-faixa]").forEach(b => b.setAttribute("aria-pressed", b.dataset.faixa === f.id));
+  playEl.textContent = "▶"; playEl.setAttribute("aria-label", "Reproduzir");
+}
+function montarLista() {
+  const ol = el("faixas"); ol.innerHTML = "";
+  for (const f of FAIXAS) {
+    if (f.disponivel && !f.disponivel()) continue;
+    const li = document.createElement("li"), ativa = P.f && P.f.id === f.id;
+    li.className = "faixa" + (ativa ? " ativa" : "") + (f.planejada ? " destaque" : "");
+    const dur = f.planejada ? "—" : fmtTempo(f, f.dur());
+    li.innerHTML = `<button class="fplay" ${f.planejada ? "disabled" : ""} aria-label="${f.planejada ? "Planejada, ainda sem dados" : (ativa && P.tocando ? "Pausar " : "Reproduzir ") + f.titulo}">${f.planejada ? "·" : ativa && P.tocando ? "❚❚" : "▶"}</button>`
+      + `<div><div class="ft">${f.titulo}${f.cond ? ` · ${f.cond}` : ""}</div><div class="fs">${f.planejada ? f.sub : f.estudo}${ativa ? (P.tocando ? " · tocando" : " · pausado") : ""}</div></div><div class="fd">${dur}</div>`;
+    if (!f.planejada) li.querySelector("button").onclick = () => { if (ativa) alternar(); else { abrir(f.id, { tocar: true }); window.scrollTo({ top: 0, behavior: "smooth" }); } };
+    ol.appendChild(li);
+  }
+}
+function montarVel() {
+  const box = el("m-vel"); box.innerHTML = "";
+  for (const v of VELS[P.f.id] || [1]) { const b = document.createElement("button"); b.textContent = velTxt(v); b.setAttribute("aria-pressed", v === P.vel);
+    b.onclick = () => { P.vel = v; montarVel(); if (P.f.audio) alternar(P.tocando); }; box.appendChild(b); }
+  el("vel-atual").textContent = `velocidade ${velTxt(P.vel)} (mais ações em ⋯)`;
+}
+let diarioIdx = -2;
+function itemDiario(e, cls) { const li = document.createElement("li"); li.className = cls; const b = document.createElement("button"); b.innerHTML = e.txt; b.onclick = () => ir(e.t); li.appendChild(b); return li; }
+function montarDiario() {
+  const ev = P.eventos; let i = -1; { let lo = 0, hi = ev.length; while (lo < hi) { const md = (lo + hi) >> 1; if (ev[md].t <= P.t) lo = md + 1; else hi = md; } i = lo - 1; }
+  if (i === diarioIdx) return; diarioIdx = i;
+  const ol = el("diario"); ol.innerHTML = "";
+  if (!ev.length) { const li = document.createElement("li"); li.className = "atual"; li.innerHTML = `<button disabled>${P.f.id === "demo" ? "Demonstração: o motor não constitui nada aqui." : "Sem acontecimentos registrados."}</button>`; ol.appendChild(li); return; }
+  if (i - 1 >= 0) ol.appendChild(itemDiario(ev[i - 1], "ant"));
+  if (i >= 0) ol.appendChild(itemDiario(ev[i], "atual")); else { const li = document.createElement("li"); li.className = "atual"; li.innerHTML = `<button disabled>Antes do primeiro acontecimento.</button>`; ol.appendChild(li); }
+  if (i + 1 < ev.length) ol.appendChild(itemDiario(ev[i + 1], "seg"));
+}
+function montarTodos() {
+  const ol = el("diario-todos"); ol.innerHTML = ""; diarioIdx = -2;
+  el("todos-titulo").textContent = `Todos os acontecimentos (${fmt(P.eventos.length)}; agrupados por intervalo)`;
+  for (const e of P.eventos) ol.appendChild(itemDiario(e, ""));
+}
+// controles
+playEl.onclick = () => alternar();
+barraEl.oninput = () => ir(+barraEl.value);
+document.querySelectorAll("#c-cond [data-faixa]").forEach(b => b.onclick = () => abrir(b.dataset.faixa));
+el("c-tentar").onclick = () => abrir(P.f.id);
+document.querySelectorAll("[data-vista]").forEach(b => b.onclick = () => vista(b.dataset.vista));
+{
+  const cams = [["Pontos transdutivos", [pontos]], ["Ustr", [ustr]], ["Cubos", [grade]]];
+  for (const [nome, objs] of cams) { const b = document.createElement("button"); b.textContent = nome; b.setAttribute("aria-pressed", "true");
+    b.onclick = () => { const v = !objs[0].visible; objs.forEach(o => o.visible = v); b.setAttribute("aria-pressed", v); }; el("m-cam").appendChild(b); }
+}
+el("foto").onclick = () => { composer.render(); const a = document.createElement("a"); a.href = render.domElement.toDataURL("image/png"); a.download = `sdom-v19-${P.f ? P.f.id : "cena"}-${P.t.toFixed(2)}s.png`; a.click(); };
+document.addEventListener("keydown", e => { if (e.target.closest("input, textarea")) return;
+  if (e.code === "Space") { e.preventDefault(); alternar(); } else if (e.key === "ArrowRight") ir(P.t + (P.f ? P.f.dur() / 60 : 1)); else if (e.key === "ArrowLeft") ir(P.t - (P.f ? P.f.dur() / 60 : 1)); });
+
+const c0 = dados.contagem;
+el("contagem").innerHTML = `pontos transdutivos <b>${fmt(c0.pontos)}</b> · Ustr <b>${fmt(c0.ustr)}</b><br>instante zero: Uint ${c0.uint} · Upro ${c0.upro} · Cpro ${c0.cpro} · ramos ${c0.ramos} — nada representacional.`;
+const escalaEl = el("escala");
+new ResizeObserver(tamanho).observe(palco); tamanho();
+montarLista(); await abrir("demo");
+
+const tmp = new THREE.Vector3(); let nq = 0, ultimoQ = performance.now();
 (function quadro() {
   requestAnimationFrame(quadro);
-  const agora = performance.now(), dt = Math.min(0.1, (agora - ultimo) / 1000); ultimo = agora;
-  const dtv = tocando ? dt * vel : 0;
-  if (tocando) {
-    if (vel === 1 && !audio.paused && audio.currentTime > 0) T = audio.currentTime; else T += dtv;
-    if (T >= DUR - 0.005) { T = DUR - 0.005; tocando = false; document.getElementById("play").textContent = "▶ Tocar"; audio.pause(); }
-    barra.value = T;
+  const agora = performance.now(), dt = Math.min(0.1, (agora - ultimoQ) / 1000); ultimoQ = agora;
+  const f = P.f;
+  if (f && P.tocando) {
+    if (f.audio && P.vel === 1 && !audio.paused && audio.currentTime > 0) P.t = audio.currentTime; else P.t += dt * P.vel;
+    if (P.t >= f.dur()) { P.t = f.dur(); P.tocando = false; P.fim = true; audio.pause(); playEl.textContent = "↺"; playEl.setAttribute("aria-label", "Repetir"); montarLista(); }
+    if (FAM18.includes(f.id)) T = f.id === "lupa" ? LUPA0 + P.t : Math.min(P.t, DUR - 0.005);
   }
-  Tv += dtv;
-  const fr = Math.min(NF - 1, Math.floor(T / FR));
+  const dtv = f && P.tocando ? dt * P.vel : 0; Tv += dtv;
   ctrl.update();
   const dist = camera.position.distanceTo(ctrl.target);
   camera.near = dist / 400; camera.far = Math.max(dist * 4000, 6000); camera.updateProjectionMatrix();
   COMUM.uFoco.value = dist;
   grade.material.uniforms.alfa.value = Math.max(0, Math.min(1, (1.0 - dist) / 0.7)) * 0.55;
-  fios.material.uniforms.uT.value = T; fios.material.uniforms.uTv.value = Tv;
-  moverOndas(); aplicar(fr);
-  if (sessoes) sessoes.quadro();
-  if (teste) teste.quadro();
-  if (obs) obs.atualizar(T);
-  if (malha) { const vis = malha.objs[0].visible, v = malha.atualizar(T); if (vis) narrar(T, v);
-    if (nq % 6 === 0) vivoEl.innerHTML = vis ? `piloto, ouvido E, até agora: <b style="color:var(--nova)">Uints ${fmt(v.u)}</b> · ramos funcionando ${fmt(v.r)} · <span style="color:var(--acesso)">disparos ${fmt(v.f)}</span>` : ""; }
+  if (f && FAM18.includes(f.id)) {
+    const fr = Math.min(NF - 1, Math.floor(T / FR));
+    fios.material.uniforms.uT.value = T; fios.material.uniforms.uTv.value = Tv; moverOndas(); aplicar(fr);
+    if (f.id === "lupa") obs.atualizar(T);
+  }
+  if (f) desenhar(false);
   composer.render();
   const w = palco.clientWidth, h = palco.clientHeight, postos = [];
   for (const r of rotulos) {
@@ -1017,7 +1064,7 @@ const tmp = new THREE.Vector3(); let nq = 0;
   }
   if (++nq % 10 === 0) {
     const px = MM / (dist * COMUM.uPix.value) / render.getPixelRatio();
-    escalaEl.innerHTML = `1 cubo (20 µm) ≈ ${px < 1 ? "menos de 1" : fmt(Math.round(px))} px na tela<br>${escalaFixa}`;
+    escalaEl.innerHTML = `1 cubo (20 µm) ≈ ${px < 1 ? "menos de 1" : fmt(Math.round(px))} px`;
   }
 })();
 </script>
