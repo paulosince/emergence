@@ -1,90 +1,115 @@
-# V0.19 — Auditoria geométrica da entrada auditiva compacta, antes do som
+# V0.19 — Auditoria geométrica da entrada auditiva compacta, antes do som (revisão 1)
 
-**De Claudia, para revisão de Paulo e Clara · 28/11/2026.** Responde a `proposta-coordenadas-auditivas.md`. Aqui só há geometria: oportunidades de encontro, não coincidências. Nenhum som foi apresentado e nenhum piloto foi rodado.
-**Código:** `motor/coordenadas.py` (coordenadas) e `motor/auditoria_coordenadas.py` (auditoria). Dados completos, com as matrizes 64 × 64, em `visual/auditoria/auditoria.json`. Figuras em `visual/auditoria/`.
-**Marcas:** [R] responsável · [C] Clara · [E] escolha de engenharia da Claudia, a revisar · [M] medido.
+**De Claudia, para revisão de Paulo e Clara · 28/11/2026.** Responde a `proposta-coordenadas-auditivas.md` e às correções pedidas por Paulo (28/11, 14:37).
+**O que é:** só geometria, ou seja, oportunidades de encontro, não coincidências. Nenhum som foi apresentado, nenhum piloto rodou e o motor não foi alterado.
+**Código:** `motor/coordenadas.py` e `motor/auditoria_coordenadas.py`. Dados completos, com as matrizes 64 × 64, a lista dos territórios sobrecarregados e as tabelas por banda, em `visual/auditoria/auditoria.json`.
+**Marcas:** [R] responsável · [C] Clara · [E] escolha de engenharia da Claudia · [M] medido.
 
-## 1. Parametrização em cubos (ouvido E; o D é o espelho em x, com os mesmos identificadores de banda)
+## 0. Decisões de Paulo nesta etapa [R]
 
-| Item | Valor | Marca |
-|---|---|---|
-| Espiral da Utrd (origem) | 2,5 voltas; raio da base ~121 cubos, raio do ápice ~55 cubos (escalados para caber os 1.388 cubos da faixa); altura de 100 cubos, rumo ao centro da cabeça; base = extremo agudo, ápice = graves; a largura da faixa (16 colunas de sensibilidade) fica na direção radial | [E]. A base aguda vem da cóclea. As 2,5 voltas são de memória, a conferir |
-| Meia-esfera (chegada) | raio de **44 cubos** (0,88 mm). Face plana em x = −2.380, 120 cubos para dentro do plano da base da espiral. A cúpula aponta para o centro da cabeça | [E] |
-| Eixo normal (n) | perpendicular à face plana, para dentro | [C] |
-| Eixo tonotópico (t) | tangente à face plana (y), atravessa o volume de ponta a ponta. Graves num extremo, agudos no outro, intermediárias no meio do volume | [C] |
-| "Meio da faixa" | centro da sequência das 64 bandas (ordem da V0.18), não uma frequência em Hz | [C, E] |
-| Cortes de frequência | **pela capacidade**: cada banda recebe um trecho de t com volume proporcional ao seu número de pontos. Espessuras de 1,03 a 5,35 cubos (finas no meio, grossas nas pontas) | [E] |
-| Dentro de cada corte (meio disco) | posição fina na banda → ângulo; sensibilidade → raio (uniforme em área); a espessura do corte é percorrida em sequência quase uniforme. Cada ponto ocupa o cubo livre do corte mais próximo do seu alvo. Um ponto de chegada por Upro | [E] |
-| Densidade de chegada | 178.409 cubos de volume para 21.731 pontos: ~8,2 cubos por ponto | [E] |
-| Ustr | grade regular de 3 × 4 × 3 cubos (t, n, v) dentro do volume: **4.958 Ustr**, ~4,4 Upros por Ustr. Territórios exclusivos (centro mais próximo; empate = menor índice), sem comunicação entre Ustr | [R] para a densidade (~1 por 4) e para a exclusividade; [E] para a grade |
-| Percurso | **comprimento comum de 263 cubos** para todas as Upros de entrada: atraso de 17,53 ms para todas (dispersão zero) e 3.156 reacessos para completar o crescimento | [R] para ~1/3 de 790; [E] para "comum" |
-| O percurso cabe? | distância entre as pontas de cada Upro: 20,5 a 204,1 cubos (mediana 135,4). **Todas abaixo de 263** | [M] |
+- Meia-esfera de raio **44 cubos** e percurso comum de **263 cubos**, como parâmetros provisórios.
+- Autorizado: revisar as coordenadas e repetir a auditoria sem som.
+- **Não autorizados ainda:** alterar o motor e rodar o piloto de 10 s.
+- Os três braços ficam no desenho, todos com a regra B das Uints.
 
-**Se o percurso fosse a distância entre as pontas** (alternativa), os atrasos iriam de 1,37 a 13,56 ms, uma dispersão de ~12 ms. É muito maior que a janela de coincidência de 0,3 ms, e mudaria por si só quem pode coincidir. Por isso a proposta é o comprimento comum.
+## 1. Correções feitas
 
-## 2. Vistas em escala comum
+1. **Grade de Ustr em coordenadas inteiras**, sem arredondamento.
+   - Passos de 3 × 4 × 3 (t, n, v). Em t e v, os centros caem em …, −3, 0, 3, …, simétricos em torno do meio.
+   - Na versão anterior, `np.round` de meios cubos gerava intervalos alternados de 2 e 4 cubos, como Paulo apontou.
+2. **Desempate entre todas as Ustr empatadas.** Quando há empate na distância, vale o menor índice entre todas as empatadas. Antes, só duas eram consideradas.
+   - Efeito colateral a declarar: o passo 4 em n é par. Por isso, os planos n = 4, 8, 12… ficam a igual distância de duas camadas, e o desempate por índice os entrega sempre à camada de **menor n** (mais perto da face).
+3. **Correção de uma afirmação minha errada.** Eu tinha escrito que quase todos os territórios sobrecarregados ficavam na ponta grave. Generalizei a partir dos seis primeiros da lista, e Paulo tinha razão em desconfiar. Na grade corrigida, **só 8 dos 112** recebem a banda 0 (seção 3).
 
-![Vista lateral](visual/auditoria/vista-lateral.png)
+## 2. Configurações avaliadas [M]
 
-![Compacta em 3D](visual/auditoria/compacta-3d.png)
-
-Os destinos são **potenciais**: nenhuma Upro cresceu ainda.
-
-## 3. Oportunidades de encontro: faixa × compacta [M]
-
-A faixa é a mesma a 790 e a 263 cubos. A matriz é idêntica nas duas; só mudam o atraso e o tempo de crescimento.
-
-| | Faixa | Compacta |
-|---|---|---|
-| Territórios com Upro | 5.552 (todos) | 4.843 de 4.958 (115 vazios, nas bordas) |
-| Upros por território (mediana · máximo) | 4 · 4 | 4 · 14 |
-| Pares possíveis | 31.988 | 45.468 |
-| — da mesma banda | 31.318 (**98%**) | 11.704 (26%) |
-| — de bandas vizinhas | 670 (2%) | 24.782 (55%) |
-| — de bandas a 2 ou mais de distância | **0** | 8.982 (20%) |
-| Maior afastamento entre bandas num mesmo território | 1 | 4 |
-| Bandas sem parceiro | 0 | 0 |
-| Parceiros por Upro (mediana) | 3 | 4 |
-| Distância ao vizinho mais próximo (mediana) | 1 cubo | 1 cubo |
-| Bandas distintas a até 3 cubos (média) | 0,23 | 3,88 |
-
-![Matrizes](visual/auditoria/matrizes.png)
-
-**Leitura [E], para discutir:**
-1. Na faixa, quase todas as oportunidades são **dentro da mesma banda**. A matriz é uma diagonal fina.
-2. Na compacta, a matriz vira uma **faixa larga**: cada banda pode encontrar até ~4 bandas de distância. Nenhum extremo virou vizinho do outro: o grave mais distante que encontra o agudo continua longe, e o afastamento máximo é 4.
-3. **O centro tem mais direções, mas não mais proximidade.** A distância ao vizinho mais próximo é a mesma no meio e nas pontas (~1 cubo). Mas, a até 3 cubos, as bandas do meio (20–43) veem em média 4,2 bandas distintas, e as das pontas (0–3 e 60–63) veem 2,0. Como a Clara previu, as duas coisas foram medidas separadamente.
-
-### Por banda (amostra; a tabela completa está no JSON)
-
-| Banda | Pontos | Ustr acessíveis (faixa · compacta) | Parceiros por Upro (faixa · compacta) | Bandas parceiras (faixa · compacta) | Bandas a até 3 cubos (compacta) |
-|---|---|---|---|---|---|
-| 0 (ponta grave) | 231 | 63 · 62 | 2,97 · **5,75** | 2 · 2 | 0,44 |
-| 1 | 224 | 64 · 105 | 2,92 · 4,29 | 3 · 4 | 2,0 |
-| 15 | 376 | 96 · 237 | 2,94 · 4,20 | 1 · 6 | 3,89 |
-| 31 (meio) | 427 | 112 · 238 | 2,95 · 4,13 | 2 · 6 | 4,61 |
-| 32 (meio) | 426 | 112 · 328 | 2,99 · 4,49 | 2 · 7 | 4,61 |
-| 48 | 325 | 85 · 259 | 2,98 · 4,07 | 2 · 9 | 4,38 |
-| 62 | 216 | 64 · 120 | 2,82 · 3,31 | 3 · 4 | 2,03 |
-| 63 (ponta aguda) | 208 | 56 · 73 | 2,92 · **4,97** | 2 · 3 | 0,57 |
-
-**Achado: concentração nas bordas [M].** 110 territórios (2%) têm 9 ou mais Upros, quase todos na **ponta grave (banda 0)**, junto à face plana. A grade de Ustr não chega até a superfície curva nem até a face plana: as células da borda ficam maiores e recolhem mais pontos. Por isso a banda 0 tem 5,75 parceiros por Upro, mas só 2 bandas parceiras. **Antes de um piloto, convém corrigir a regra de borda.** Por exemplo, uma grade deslocada para encostar na face plana, ou Ustr extras na casca. A escolha é para decidir.
-
-## 4. Braços propostos para o contraste (para decisão de Paulo)
-
-| Braço | Entrada | Percurso | Regra das Uints |
+| | Faixa (790 e 263) | Compacta · grade regular | Compacta · grade com camada na face |
 |---|---|---|---|
-| Controle histórico | faixa | 790 cubos | **B** (na superfície de entrada ou para dentro), o "B" do teste de 90 s |
-| Encurtamento | faixa | 263 cubos | B |
-| Reorganização | meia-esfera | 263 cubos (comum) | B (na face plana ou para dentro) |
+| Primeira camada de centros | — | n = 2 (meio passo da face) | n = 0 (na face) |
+| Ustr | 5.552 | **4.955** (~4,39 Upros por Ustr) | 5.324 (~4,08) |
+| Territórios vazios | 0 | 117 | 193 |
+| Ocupação (mediana · máximo) | 4 · 4 | 4 · 16 | 4 · 15 |
+| Territórios com 9 ou mais chegadas | 0 | **112** | 63 |
+| Pares possíveis | 31.988 | 45.198 | 42.482 |
+| — mesma banda (afastamento 0) | 31.318 (98%) | 11.636 (26%) | 10.682 (25%) |
+| — afastamento 1 | 670 (2%) | 24.864 (55%) | 23.531 (55%) |
+| — afastamento 2 | 0 | 8.284 (18%) | 7.883 (19%) |
+| — afastamento 3 | 0 | 409 | 385 |
+| — afastamento 4 | 0 | 5 | 1 |
+| Afastamento máximo | 1 | 4 | 4 |
+| **Bandas comparáveis no território da mesma Ustr** (média por chegada) | 0,04 | **1,80** | 1,77 |
+| **Bandas a até 3 cubos** (média por chegada) | 0,23 | **3,89** | 3,89 |
 
-Estímulo, estado inicial, plasticidade (ganho de 0,0065; punição de 1/60) e regra territorial ficam iguais nos três braços.
+As duas medidas em negrito respondem a perguntas diferentes, e ficam separadas como pedido:
+- **bandas comparáveis no território:** com quem a Ustr pode de fato comparar uma incidência que não integrou;
+- **bandas a até 3 cubos:** quem está perto no espaço, comparável ou não.
 
-Com o percurso comum, o atraso entre as Upros não muda de um braço para outro. Mas o encurtamento muda **quando** as Upros ficam prontas (3.156 reacessos em vez de 9.480). Faixa a 263 contra meia-esfera a 263 isola a reorganização da entrada. Faixa a 790 contra faixa a 263 isola o encurtamento.
+A diferença entre elas (1,8 × 3,9) mostra que **metade da vizinhança espacial cai em territórios vizinhos**. Ela fica próxima, mas não é comparável.
 
-## 5. O que falta decidir antes de um piloto
+![Matrizes na mesma escala](visual/auditoria/matrizes.png)
 
-1. Os números da seção 1, principalmente o raio de 44, a grade de Ustr e o percurso comum.
-2. A regra de borda das Ustr (o achado de concentração).
-3. Os braços e a regra das Uints comum (B).
-4. **Engenharia que vem depois** da autorização: o motor ainda usa territórios por bloco (y, z) da faixa. Para a meia-esfera, preciso trocar para territórios 3D (centro mais próximo) e para a mesma caixa de busca da Uint, com o filtro "na face ou para dentro".
+![Distribuição das ocupações](visual/auditoria/ocupacoes.png)
+
+## 3. Onde está a sobrecarga [M]
+
+Cruzei cada território com 9 ou mais chegadas com as bandas que ele recebe e com a distância do seu centro à face plana e à superfície curva.
+
+| | Grade regular | Grade com camada na face |
+|---|---|---|
+| Territórios sobrecarregados | 112 | 63 |
+| — com centro a até 2 cubos da face plana | **51** | 1 |
+| — a até 2 cubos da superfície curva (fora da face) | 8 | 9 |
+| — no interior | 53 | 53 |
+| — que recebem a banda 0 | 8 (todos só com a banda 0) | 4 |
+| — que recebem a banda 63 | 5 | 3 |
+| **Fração dos pares possíveis concentrada neles** | **11,1%** (4.998 pares) | 7,3% (3.099) |
+| Esperado se as chegadas caíssem ao acaso (Poisson, mesma média) | ~174 | ~127 |
+| Ocupação média das camadas mais próximas da face | 4,74 (n = 2) e 4,81 (n = 6), contra 4,39 no geral | **2,86** (n = 0), contra 4,08 no geral |
+
+**Leitura [E]:**
+1. **A maior parte da sobrecarga não é efeito de borda.** Os 53 territórios do interior aparecem nas duas grades. E o total observado fica **abaixo** do que daria uma distribuição ao acaso. As chegadas seguem a ordem das bandas, não a grade das Ustr, então a ocupação flutua de 0 a 16 em torno de 4. É a cauda natural, não um defeito localizado.
+2. **Há uma parte sistemática junto à face na grade regular**: 51 dos 112, e as duas primeiras camadas ~8–10% acima da média. Duas causas:
+   - o desempate entrega os planos empatados (n = 4, 8, …) à camada mais próxima da face;
+   - o plano n = 0 conta como um plano inteiro de cubos.
+3. **A camada na face** elimina a sobrecarga junto à face (1 em vez de 51) e baixa a concentração de pares de 11,1% para 7,3%. Em troca, as células da face ficam pela metade (2,86 chegadas em média), sobram 193 territórios vazios e o número de Ustr muda (5.324).
+4. **Junto à superfície curva** persistem só 8–9 territórios. Pelo critério de Paulo, isso **não justifica** Ustr extras na casca.
+
+## 4. Recomendação de borda [E]
+
+1. **Não acrescentar Ustr na casca curva.** A concentração junto a ela é pequena (8–9 territórios).
+2. **Manter a grade regular (primeira camada em n = 2)** e declarar duas coisas:
+   - a cauda de ocupação, que é flutuação esperada e menor que ao acaso;
+   - o viés do desempate junto à face, que concentra ~11% dos pares possíveis em 2% dos territórios, com metade deles junto à face.
+
+   A camada na face troca uma assimetria por outra (células da face pela metade e mais territórios vazios). Por isso não vejo ganho claro em adotá-la.
+3. **Opção, se vocês preferirem eliminar o viés sistemático:** um passo ímpar em n (3 × 3 × 3) tira todos os empates exatos da grade. Mas muda a contagem de Ustr para ~6.600 (~1 por 3,3 Upros). Por isso não aplico sem decisão.
+
+## 5. Percurso: comprimento de condução, não trajetória [M]
+
+- **O que o motor faz hoje:** a Upro de entrada **não percorre cubos**. Ela cresce contando reacessos (12 por cubo) e, depois de pronta, a incidência chega com atraso de comprimento × 66,7 µs. Os 263 cubos são, portanto, **comprimento de condução**: 17,53 ms de atraso e 3.156 reacessos.
+- **Se for exigida uma trajetória discreta:** a regra de deslocamento do motor (a mesma dos ramos) avança 1 cubo por passo entre os 26 vizinhos, ou seja, a distância de Chebyshev. A maior distância mínima entre as pontas é de **158 passos**, abaixo de 263. Toda Upro é realizável, com até 105 passos de desvio.
+- **Distância euclidiana entre as pontas:** de 20,4 a 204,1 cubos (mediana 136,0).
+
+## 6. Braços (mantidos) e o que eles avaliam
+
+| Braço | Entrada | Percurso | Regra das Uints | Avalia |
+|---|---|---|---|---|
+| Controle histórico | faixa | 790 | B | — |
+| Encurtamento | faixa | 263 | B | 790 × 263: o encurtamento, inclusive o momento em que as Upros completam o crescimento (9.480 → 3.156 reacessos) |
+| Reorganização | meia-esfera | 263 (comum) | B (na face plana ou para dentro) | faixa 263 × compacta 263: a reorganização **conjunta** das chegadas e dos territórios das Ustr |
+
+O contraste A × B (folha fixa × profundidade local) continua documentado em `preregistro-folha-x-profundidade.md`, como a pergunta sobre permitir profundidade às Uints.
+
+## 7. Previsto para o futuro piloto (registro por afastamento entre bandas)
+
+Para cada afastamento (0, 1, 2, …), o piloto registraria três contagens:
+1. **pares disponíveis:** a geometria desta auditoria;
+2. **pares com as duas Upros prontas**, no instante de cada apresentação. O motor já registra quando cada Upro do nervo completa o crescimento;
+3. **pares que efetivamente coincidiram**, pela primeira coincidência de cada par. O motor já guarda os dois membros e o instante (`p_t`).
+
+As três contagens saem por afastamento, como na tabela da seção 2. A implementação fica para depois da autorização.
+
+## 8. Para decidir
+
+1. A recomendação de borda da seção 4: grade regular, sem casca, viés declarado; ou a opção do passo ímpar.
+2. Se a configuração está pronta para entrar no motor. A engenharia seguinte, ainda não feita, é trocar os territórios por bloco (y, z) por territórios 3D (centro mais próximo), aplicar a regra B na meia-esfera e acrescentar o registro da seção 7.

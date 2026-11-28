@@ -12,8 +12,8 @@ Três conjuntos de coordenadas por ouvido:
    sequência quase uniforme. Cada ponto ocupa o cubo livre da fatia mais próximo do seu alvo (preenche a fatia inteira,
    sem amontoar nas pontas).
    Um ponto de chegada por Upro.
-3. TERRITÓRIOS: centros das Ustr numa grade regular (3 x 4 x 3 cubos em t, n, v) dentro do volume; cada chegada pertence
-   à Ustr de centro mais próximo (empate: menor índice). Territórios exclusivos, sem comunicação entre Ustr [R].
+3. TERRITÓRIOS: centros das Ustr numa grade regular de coordenadas inteiras (passos 3 x 4 x 3 em t, n, v) dentro do volume;
+   cada chegada pertence à Ustr de centro mais próximo (empate: menor índice entre todas as empatadas). Territórios exclusivos, sem comunicação entre Ustr [R].
 Percurso: comprimento comum de PERCURSO cubos para todas as Upros (atrasos iguais, como no histórico).
 """
 import numpy as np
@@ -54,17 +54,34 @@ def _t_de_fracao(f):
         md = (lo + hi) / 2; m = V(md) < f; lo = np.where(m, md, lo); hi = np.where(m, hi, md)
     return (lo + hi) / 2
 
-def compacta(x, y, z, banda, lado):
+def grade_ustr(config="regular"):
+    """Centros das Ustr em coordenadas inteiras (t, n, v), passos 3 x 4 x 3, sem arredondamento (revisão de 28/11).
+    t e v: ..., -3, 0, 3, ... (simétricos em torno do meio); n: 'regular' = 2, 6, 10, ... (primeira camada a 2 cubos da face
+    plana, metade do passo); 'face' = 0, 4, 8, ... (uma camada de centros na própria face)."""
+    st, sn, sv = GRADE_USTR
+    n0 = 2 if config == "regular" else 0
+    tt = np.arange(-(R // st) * st, R + 1, st); vv = np.arange(-(R // sv) * sv, R + 1, sv); nn = np.arange(n0, R + 1, sn)
+    T_, N_, V_ = np.meshgrid(tt, nn, vv, indexing="ij")
+    U = np.stack([T_.ravel(), N_.ravel(), V_.ravel()], 1)
+    return U[(U ** 2).sum(1) <= R * R]
+
+def territorio(U, pts):
+    """Ustr de centro mais próximo; empate na distância: o menor índice entre TODAS as empatadas."""
+    arv = cKDTree(U.astype(float)); k = 8
+    while True:
+        d, i = arv.query(pts.astype(float), k=min(k, len(U)))
+        dm = d[:, :1]; emp = np.isclose(d, dm, rtol=0, atol=1e-9)
+        if not emp[:, -1].any() or k >= len(U): break
+        k *= 2
+    return np.where(emp, i, len(U) + 1).min(1)
+
+def compacta(x, y, z, banda, lado, config="regular"):
     """Chegadas na meia-esfera. Devolve (xyz inteiros no Sdom, t, n, v, fatias por banda, Ustr xyz, território por ponto)."""
     N = len(x); nb = int(banda.max()) + 1; cnt = np.bincount(banda, minlength=nb)
     f = np.concatenate(([0], np.cumsum(cnt))) / N
     tb = _t_de_fracao(f)                                # limites das fatias
     xf = lado * (MEIA_DIST - D_FACE)                    # face plana; n cresce para dentro (x -> 0)
-    # Ustr: grade regular dentro do volume
-    st, sn, sv = GRADE_USTR
-    ut, un, uv = np.meshgrid(np.arange(-R + st / 2, R, st), np.arange(sn / 2, R, sn), np.arange(-R + sv / 2, R, sv), indexing="ij")
-    ut, un, uv = ut.ravel(), un.ravel(), uv.ravel(); m = ut ** 2 + un ** 2 + uv ** 2 <= R ** 2
-    U = np.round(np.stack([ut[m], un[m], uv[m]], 1)).astype(int); U = np.unique(U, axis=0)
+    U = grade_ustr(config)
     ocup = set(map(tuple, U))
     col = z - z.min()
     T = np.zeros(N, int); Nn = np.zeros(N, int); Vv = np.zeros(N, int)
@@ -94,8 +111,7 @@ def compacta(x, y, z, banda, lado):
                 if len(ok): q = ok[0]; break
                 k *= 4
             livre[q] = False; T[pnt], Nn[pnt], Vv[pnt] = cand[q].astype(int); ocup.add(tuple(cand[q].astype(int)))
-    d2, i2 = cKDTree(U.astype(float)).query(np.stack([T, Nn, Vv], 1).astype(float), k=2)
-    terr = np.where(np.isclose(d2[:, 0], d2[:, 1]), np.minimum(i2[:, 0], i2[:, 1]), i2[:, 0])   # empate: menor índice
+    terr = territorio(U, np.stack([T, Nn, Vv], 1))
     xyz = np.stack([xf - lado * Nn, T, Vv], 1)                       # Sdom: x pelo eixo normal, y = t, z = v
     uxyz = np.stack([xf - lado * U[:, 1], U[:, 0], U[:, 2]], 1)
-    return dict(xyz=xyz, t=T, n=Nn, v=Vv, fatias=tb, ustr=uxyz, terr=terr, xf=xf)
+    return dict(xyz=xyz, t=T, n=Nn, v=Vv, fatias=tb, ustr=uxyz, U=U, terr=terr, xf=xf)
